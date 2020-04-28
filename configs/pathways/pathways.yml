@@ -1,0 +1,118 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+admission_radiology_order_results_discharge:
+  percentage_of_patients: 0.1
+  persons:
+    main_patient:
+      age:
+        from: 10
+        to: 60
+      first_name: "MRI order and results"
+  pathway:
+    - admission:
+        loc: Non-renal
+      parameters:
+        delay_message:
+          from: 1s
+          to: 60m
+    - delay:
+        from: 60m
+        to: 300m
+    - order:
+        order_profile: MRI Ankle Lt
+        order_id: mri
+      parameters:
+        delay_message:
+          from: 1s
+          to: 10m
+    - delay:
+        from: 60m
+        to: 300m
+    - result:
+        order_profile: MRI Ankle Lt
+        order_id: mri
+        order_status: A
+        results_status: P
+      parameters:
+        delay_message:
+          from: 1s
+          to: 60m
+    - delay:
+        from: 10m
+        to: 30m
+    - result:
+        order_profile: MRI Ankle Lt
+        order_id: mri
+        order_status: A
+        results_status: P
+      parameters:
+        delay_message:
+          from: 1s
+          to: 60m
+    - delay:
+        from: 10m
+        to: 30m
+    - result:
+        order_profile: MRI Ankle Lt
+        order_id: mri
+        order_status: CM
+        results_status: F
+      parameters:
+        delay_message:
+          from: 1s
+          to: 60m
+    - delay:
+        from: 10m
+        to: 300m
+    - discharge: {}
+      parameters:
+        delay_message:
+          from: 1s
+          to: 60m
+
+admission_random_document_discharge:
+  percentage_of_patients: 0.1
+  pathway:
+  - admission:
+      loc: Renal
+  - document: {}
+  - discharge: {}
+
+one_random_document:
+  percentage_of_patients: 0.1
+  pathway:
+  - document:
+      num_content_lines:
+        from: 10
+        to: 80
+
+pathway_with_vital_signs_and_random_result:
+  pathway:
+  - admission:
+      loc: Non-renal
+  - result:
+      order_profile: RANDOM
+  # The following generates Results every 2h starting from 1h and ending at 48h.
+  # From and To are absolute times from the beginning of the pathway (where time is 0).
+  - autogenerate:
+      result:
+        order_profile: Vital Signs
+      from: 1h
+      to: 48h
+      every: 2h
+  - delay:
+      from: 50h
+      to: 50h
+  - discharge: {}

@@ -1,0 +1,177 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+#
+# Allergies.
+#
+allergy:
+  # Reference:
+  # http://hl7-definition.caristix.com:9010/HL7%20v2.3.1/segment/Default.aspx?version=HL7%20v2.3.1&table=0127
+  types:
+    - "DA"
+    - "FA"
+    - "MA"
+    - "MC"
+  # Reference:
+  # http://hl7-definition.caristix.com:9010/HL7%20v2.3.1/segment/Default.aspx?version=HL7%20v2.3.1&table=0128
+  severities:
+    - "SV"
+    - "MO"
+    - "MI"
+  # SNOMED International coding system. Reference:
+  # http://hl7-definition.caristix.com:9010/Default.aspx?version=HL7%20v2.5.1&table=0396
+  coding_system: "SNM3"
+
+#
+# Diagnoses.
+#
+diagnosis:
+  # Reference:
+  # http://hl7-definition.caristix.com:9010/HL7%20v2.3.1/segment/Default.aspx?version=HL7%20v2.3.1&table=0052
+  types:
+    - "A"
+    - "W"
+    - "F"
+  # SNOMED International coding system. Reference:
+  # http://hl7-definition.caristix.com:9010/Default.aspx?version=HL7%20v2.5.1&table=0396
+  coding_system: "SNM3"
+
+#
+# Document type.
+#
+document:
+  # Reference:
+  # https://hl7-definition.caristix.com/v2/HL7v2.3.1/Tables/0270
+  types:
+  - "AR"
+  - "CD"
+  - "CN"
+  - "DI"
+  - "DS"
+  - "ED"
+  - "HP"
+  - "OP"
+  - "PC"
+  - "PH"
+  - "PN"
+  - "PN"
+  - "SP"
+  - "TS"
+
+#
+# Procedures.
+#
+procedure:
+  # Reference:
+  # http://hl7-definition.caristix.com:9010/HL7%20v2.3.1/segment/Default.aspx?version=HL7%20v2.3.1&table=0230
+  types:
+    - "A"
+    - "P"
+    - "I"
+    - "D"
+  # SNOMED International coding system. Reference:
+  # http://hl7-definition.caristix.com:9010/Default.aspx?version=HL7%20v2.5.1&table=0396
+  coding_system: "SNM3"
+
+#
+# Order Control.
+#
+# Reference:
+# http://hl7-definition.caristix.com:9010/HL7%20v2.3.1/Default.aspx?version=HL7+v2.3.1&table=0119
+order_control:
+  new: "NW"
+  ok: "OK"
+  with_observations: "RE"
+
+#
+# Result status.
+#
+# Reference:
+# http://hl7-definition.caristix.com:9010/HL7%20v2.3.1/Default.aspx?version=HL7%20v2.5.1&table=0123
+result_status:
+  final: "F"
+  corrected: "C"
+
+#
+# Document status
+#
+# Reference
+# https://hl7-definition.caristix.com/v2/HL7v2.5.1/Tables/0271
+document_status:
+  authenticated: "AU"
+
+#
+# Order status.
+#
+# Reference:
+# http://hl7-definition.caristix.com:9010/HL7%20v2.3.1/Default.aspx?version=HL7%20v2.5.1&table=0038
+order_status:
+  completed: "CM"
+  in_process: "IP"
+
+#
+# Patient Class.
+#
+# Reference:
+# http://hl7-definition.caristix.com:9010/Default.aspx?version=HL7%20v2.5.1&table=0004
+patient_class:
+  outpatient: "O"
+  inpatient: "I"
+
+#
+# Patient Account Status.
+#
+# There are no recommended values in HL7; these are user defined.
+patient_account_status:
+  arrived: "ARRIVED"
+  cancelled: "CANCELLED"
+  finished: "FINISHED"
+  planned: "PLANNED"
+
+#
+# Gender.
+#
+# Reference:
+# http://hl7-definition.caristix.com:9010/HL7%20v2.3.1/segment/PID?version=HL7%20v2.3.1&table=0001
+gender:
+  male: "M"
+  female: "F"
+
+#
+# Abnormal Flags.
+#
+# Reference:
+# http://hl7-definition.caristix.com:9010/HL7%20v2.2/table/Default.aspx?version=HL7+v2.2&table=0078
+abnormal_flags:
+  below_low_normal: "L"
+  above_high_normal: "H"
+
+primary_facility:
+  organization_name: "FAMILY PRACTICE"
+  id_number: "12345"
+
+#
+# Hospital Service (PV1.10 - Hospital Service).
+#
+# Reference:
+# http://hl7-definition.caristix.com:9010/HL7%20v2.3.1/segment/PV1?version=HL7%20v2.5.1&table=0069
+#
+# The hospital service value can be overridden by the doctor's specialty.
+hospital_service: "MED"
+
+#
+# Coding System.
+#
+# WinPath is the UK's leading Laboratory Information Management System.
+coding_system: "WinPath"

@@ -1,0 +1,1006 @@
+# SNOMED CT procedure codes.
+# Source: https://www.hl7.org/fhir/valueset-procedure-code.html
+# This value set includes codes from http://snomed.info/sct coding system, where concept is-a 71388002 (Procedure).
+# NOTE:
+# This value set has >1000 codes in it. Only a selection (1000 codes) of the whole set of codes is published in
+# https://www.hl7.org/fhir/valueset-procedure-code.html, and only those codes are included here.
+104001,"Excision of lesion of patella",1
+115006,"Fit removable orthodontic appliance",1
+119000,"Thoracoscopic partial lobectomy of lung",1
+121005,"Retrobulbar injection of therapeutic agent",1
+128004,"Hand microscope examination of skin",1
+133000,"Percutaneous implantation of neurostimulator electrodes into neuromuscular component",1
+135007,"Arthrotomy of wrist joint with exploration and biopsy",1
+142007,"Excision of tumor from shoulder area, deep, intramuscular",1
+146005,"Repair of nonunion of metatarsal with bone graft",1
+153001,"Cystourethroscopy with resection of ureterocele",1
+160007,"Removal of foreign body of tendon and/or tendon sheath",1
+166001,"Behavioral therapy",1
+170009,"Special potency disk identification, vancomycin test",1
+174000,"Harrison-Richardson operation on vagina",1
+176003,"Anastomosis of rectum",1
+189009,"Excision of lesion of artery",1
+197002,"Mold to yeast conversion test",1
+230009,"Miller operation, urethrovesical suspension",1
+243009,"Replacement of cerebral ventricular tube",1
+245002,"Division of nerve ganglion",1
+262007,"Percutaneous aspiration of renal pelvis",1
+267001,"Anal fistulectomy, multiple",1
+285008,"Incision and drainage of vulva",1
+294002,"Excisional biopsy of joint structure of spine",1
+295001,"Nonexcisional destruction of cyst of ciliary body",1
+306005,"US kidneys",1
+316002,"Partial dacryocystectomy",1
+334003,"Panorex examination of mandible",1
+342002,"Amobarbital interview",1
+346004,"Periodontal scaling and root planing, per quadrant",1
+348003,"Radionuclide dynamic function study",1
+351005,"Urinary undiversion of ureteral anastomosis",1
+352003,"Reagent RBC, preparation antibody sensitized pool",1
+353008,"IV/irrigation monitoring",1
+374009,"Costosternoplasty for pectus excavatum repair",1
+388008,"Blepharorrhaphy",1
+389000,"Tobramycin level",1
+401004,"Distal subtotal pancreatectomy",1
+406009,"Fulguration of stomach lesion",1
+417005,"Hospital re-admission",1
+435001,"Pulmonary inhalation study",1
+445004,"Repair of malunion of tibia",1
+456004,"Total abdominal colectomy with ileostomy",1
+459006,"Closed condylotomy of mandible",1
+463004,"Closed reduction of coxofemoral joint dislocation with splint",1
+468008,"Glutathione measurement",1
+474008,"Esophagoenteric anastomosis, intrathoracic",1
+489004,"Ferritin level",1
+493005,"Urobilinogen measurement, 48-hour, feces",1
+494004,"Excision of lesion of tonsil",1
+497006,"Replacement of cochlear prosthesis, multiple channels",1
+503003,"Corneal gluing",1
+531007,"Open pulmonary valve commissurotomy with inflow occlusion",1
+533005,"Repair of vesicocolic fistula",1
+535003,"Closure of ureterovesicovaginal fistula",1
+540006,"Antibody to single and double stranded DNA measurement",1
+543008,"Choledochostomy with transduodenal sphincteroplasty",1
+545001,"Operative procedure on lower leg",1
+549007,"Incision of intracranial vein",1
+550007,"Excision of lesion of adenoids",1
+559008,"Excision of varicose vein",1
+570001,"Vaccination for arthropod-borne viral encephalitis",1
+574005,"Benzodiazepine measurement",1
+603006,"Synchondrotomy",1
+617002,"Bone graft of mandible",1
+618007,"Frontal sinusectomy",1
+625000,"Removal of supernumerary digit",1
+628003,"Steinman test",1
+629006,"Lysis of adhesions of urethra",1
+633004,"Chart review by physician",1
+637003,"Lysis of adhesions of nose",1
+642006,"Cerebral thermography",1
+645008,"Diagnostic procedure on vitreous",1
+647000,"Excision of cervix by electroconization",1
+657004,"Operation on bursa",1
+665001,"Partial meniscectomy of temporomandibular joint",1
+670008,"Electrosurgical epilation of eyebrow",1
+671007,"Transplantation of testis",1
+673005,"Indirect examination of larynx",1
+674004,"Abduction test",1
+676002,"Peritoneal dialysis including cannulation",1
+680007,"Radiation physics consultation",1
+687005,"Albumin/Globulin ratio",1
+695009,"Destructive procedure of lesion on skin of trunk",1
+697001,"Hepatitis A virus antibody measurement",1
+710006,"Thromboendarterectomy with graft of mesenteric artery",1
+712003,"Closed chest suction",1
+721002,"Medical procedure on periurethral tissue",1
+722009,"Fine needle biopsy of thymus",1
+726007,"Pathology consultation, comprehensive, records and specimen with report",1
+730005,"Incision of subcutaneous tissue",1
+741007,"Operation on prostate",1
+746002,"Chiropractic adjustment of coccyx subluxation",1
+753006,"Manipulation of ankle AND foot",1
+754000,"Total urethrectomy",1
+759005,"Intracerebral electroencephalogram",1
+762008,"Computerized axial tomography of cervical spine with contrast",1
+764009,"Arthrodesis of interphalangeal joint of great toe",1
+767002,"White blood cell count - observation",1
+789003,"Cranial decompression, subtemporal, supratentorial",1
+791006,"Dressing and fixation procedure",1
+807005,"Excision of brain",1
+814007,"Electrophoresis measurement",1
+817000,"Excision of cyst of spleen",1
+831000,"Drawer test",1
+851001,"Root canal therapy, molar, excluding final restoration",1
+853003,"Fecal fat measurement, 72-hour collection",1
+867007,"Hypoglossofacial anastomosis",1
+870006,"Carbamazepine measurement",1
+879007,"Special blood coagulation test, explain by report",1
+881009,"Separation of ciliary body",1
+893000,"Tumor antigen measurement",1
+897004,"Radical maxillary antrotomy",1
+910002,"MHPG measurement, urine",1
+911003,"Removal of subarachnoid-ureteral shunt",1
+913000,"Chiropractic patient education",1
+926001,"Embolectomy with catheter of radial artery by arm incision",1
+935008,"Excision of bulbourethral gland",1
+941001,"Endoscopy of pituitary gland",1
+945005,"Excision of tibia and fibula for graft",1
+948007,"Phlebectomy of intracranial varicose vein",1
+951000,"Ultrasonic guidance for endomyocardial biopsy",1
+956005,"Anesthesia for procedure on thoracic esophagus",1
+967006,"Drug treatment education",1
+969009,"Incision and exploration of larynx",1
+971009,"Prosthetic construction and fitting",1
+1001000,"Cauterization of Bartholin's gland",1
+1008006,"Operation on nerve ganglion",1
+1019009,"Removal of corneal epithelium",1
+1021004,"Repair of scrotum",1
+1029002,"Fetoscopy",1
+1032004,"Enucleation of parotid gland cyst",1
+1035002,"Minimum bactericidal concentration test, microdilution method",1
+1036001,"Insertion of intravascular device in common iliac vein, complete",1
+1041009,"Debridement of open fracture of phalanges of foot",1
+1042002,"Paternity testing",1
+1043007,"Doppler color flow velocity mapping",1
+1044001,"Diagnostic ultrasound of abdomen and retroperitoneum",1
+1048003,"Capillary blood sampling",1
+1054002,"Sphincterotomy of papilla of Vater",1
+1071001,"Proximal splenorenal anastomosis",1
+1084005,"Excision of perinephric cyst",1
+1093006,"Excision of abdominal varicose vein",1
+1103000,"Transcrural mobilization of stapes",1
+1104006,"Triad knee repair",1
+1115001,"Decortication",1
+1119007,"Closed reduction of dislocation of foot and toe",1
+1121002,"Kinetic activities for range of motion",1
+1127003,"Interstitial radium application",1
+1133007,"Removal of intact mammary implant, bilateral",1
+1163003,"Ureteroenterostomy",1
+1176009,"Incision of inguinal region",1
+1181000,"Excision of tendon for graft",1
+1186005,"Anesthesia for procedure on bony pelvis",1
+1198000,"Excisional biopsy of bone of scapula",1
+1209007,"Arthroscopic repair lateral meniscus",1
+1225002,"Upper arm X-ray",1
+1227005,"Incision of subvalvular tissue for discrete subvalvular aortic stenosis",1
+1235008,"Muscle transfer",1
+1237000,"Application of cast, sugar tong",1
+1238005,"Epiphyseal arrest by stapling of distal radius",1
+1251000,"Incisional biopsy of testis",1
+1253002,"Refusion of spine",1
+1258006,"Excision of meniscus of wrist",1
+1266002,"Closure of tympanic membrane perforation",1
+1267006,"Electrocoagulation of lesion of vagina",1
+1278003,"Open reduction of closed shoulder dislocation with fracture of greater tuberosity",1
+1279006,"Repair of cardiac pacemaker pocket in skin AND/OR subcutaneous tissue",1
+1292009,"MRI of bladder",1
+1299000,"Excision of appendiceal stump",1
+1315009,"Reconstruction of eyebrow",1
+1316005,"Upper partial denture, cast metal base without resin saddles, including any conventional clasps, rests and teeth",1
+1324000,"Cerebrospinal fluid immunoglobulin G ratio and immunoglobulin G index",1
+1327007,"Procedure on Meckel diverticulum",1
+1328002,"Ilioiliac shunt",1
+1329005,"Division of congenital web of larynx",1
+1337002,"Colosigmoidostomy",1
+1339004,"Manual evacuation of feces",1
+1347004,"Medical procedure on palate",1
+1352009,"Anterior spinal rhizotomy",1
+1358008,"Anti-human globulin test, enzyme technique, titer",1
+1366004,"Breathing treatment",1
+1385001,"Echography, scan B-mode for foetal age determination",1
+1390003,"Laparoscopic sigmoid colectomy",1
+1398005,"Direct thrombectomy of iliac vein by leg incision",1
+1399002,"Incision and exploration of ureter",1
+1407007,"Application of long leg cast, brace type",1
+1410000,"Anesthesia for tympanotomy",1
+1411001,"Operation on papillary muscle of heart",1
+1413003,"Penetrating keratoplasty with homograft",1
+1414009,"Angiography of arteriovenous shunt",1
+1417002,"Operation on face",1
+1431002,"pexy",1
+1440003,"Repair with resection-recession",1
+1449002,"Removal of hair",1
+1453000,"Biofeedback, galvanic skin response",1
+1455007,"Cerclage",1
+1457004,"Truncal vagotomy with pyloroplasty and gastrostomy",1
+1494008,"Osmolarity measurement",1
+1500007,"Bilateral epididymovasostomy",1
+1501006,"Altemeier operation, perineal rectal pull-through",1
+1505002,"Hospital admission for isolation",1
+1529009,"Aspiration of soft tissue",1
+1533002,"Ureteroplication",1
+1550000,"Amikacin level",1
+1555005,"Brief group psychotherapy",1
+1559004,"Interleukin (IL)-2 assay",1
+1576000,"Repair of intestinouterine fistula",1
+1577009,"Implantation of cardiac single-chamber device replacement, rate-responsive",1
+1578004,"Reconstruction of ossicles with stapedectomy",1
+1583007,"Tractotomy of mesencephalon",1
+1585000,"Lengthening of gastrocnemius muscle",1
+1596008,"Anesthesia for total elbow replacement",1
+1597004,"Skeletal X-ray of ankle and foot",1
+1602006,"Social service interview with planning",1
+1614003,"Bilateral repair of inguinal hernia, direct",1
+1615002,"Reline upper partial denture, chairside",1
+1616001,"Galactosylceramide beta-galactosidase measurement, leukocytes",1
+1636000,"Injection of sclerosing agent in varicose vein",1
+1638004,"Cineplasty with cineplastic prosthesis of extremity",1
+1640009,"History and physical examination, insurance",1
+1645004,"Transduodenal sphincterotomy",1
+1651009,"Excision of tendon sheath",1
+1653007,"Internal fixation of bone without fracture reduction",1
+1669000,"Making occupied bed",1
+1677001,"Haagensen test",1
+1678006,"Endoscopic procedure of nerve",1
+1680000,"Secondary chemoprophylaxis",1
+1683003,"Direct closure of laceration of conjunctiva",1
+1689004,"Local excision of ovary",1
+1691007,"Drainage of abscess of tonsil",1
+1699009,"Special dosimetry",1
+1702002,"Labial veneer, resin laminate, laboratory",1
+1704001,"Correction of tibial pseudoarthrosis",1
+1709006,"Breast reconstruction, bilateral, with bilateral pedicle transverse rectus abdominis myocutaneous flaps",1
+1712009,"Immunoglobulin typing, immunoglobulin G",1
+1713004,"Hypothermia, total body, induction and maintenance",1
+1730002,"Suture of skin wound of hindfoot",1
+1746005,"Buckling of sclera using implant",1
+1747001,"Replacement of skeletal muscle stimulator",1
+1753001,"Resection of uveal tissue",1
+1757000,"Arthroscopy of wrist with partial synovectomy",1
+1759002,"Assessment of nutritional status",1
+1770009,"Mitral valvotomy",1
+1774000,"Nasopharyngeal rehabilitation",1
+1775004,"Submaxillary incision with drainage",1
+1784004,"Fecal stercobilin, qualitative",1
+1787006,"Ultrasonic guidance for pericardiocentesis",1
+1788001,"Blood unit collection for directed donation, donor",1
+1801001,"Endoscopic biopsy of duodenum",1
+1805005,"Take-down of stoma",1
+1811008,"Aspiration of bursa of hand",1
+1813006,"Cryotherapy of genital warts",1
+1820004,"Ethanol measurement, breath",1
+1830008,"Open reduction of open sacral fracture",1
+1836002,"Excision of diverticulum of ventricle of heart",1
+1844002,"Plication of ligament",1
+1854003,"Incision of nose",1
+1859008,"Hand tendon foreign body removed",1
+1861004,"Anesthesia for closed procedure on humerus and elbow",1
+1862006,"Thoracic phlebectomy",1
+1866009,"Bilateral total nephrectomy",1
+1868005,"FB - Removal of foreign body from brain",1
+1870001,"Insertion of halo device of skull with synchronous skeletal traction",1
+1871002,"Repair of aneurysm of coronary artery",1
+1872009,"Suture of male perineum",1
+1876007,"Recession of prognathic jaw",1
+1879000,"Fluorescent antigen measurement",1
+1889001,"Patient transfer, in-hospital, unit-to-unit",1
+1906007,"Insertion of prosthesis or prosthetic device of arm, bioelectric or cineplastic",1
+1907003,"Bifurcation of bone",1
+1917008,"Patient discharge, deceased, medicolegal case",1
+1924009,"Hepaticotomy with drainage",1
+1950008,"Drainage of nasal septal abscess",1
+1958001,"Grafting of bone of thumb with transfer of skin flap",1
+1966005,"Central block anesthesia",1
+1983001,"Total urethrectomy including cystostomy in female",1
+1995001,"Stripping of cerebral meninges",1
+1999007,"Psychologic test",1
+2002009,"Construction of subcutaneous tunnel without esophageal anastomosis",1
+2021001,"Internal fixation of radius and ulna without fracture reduction",1
+2051007,"Red cell iron utilization study",1
+2054004,"Barbiturates measurement, quantitative and qualitative",1
+2067001,"Implantation of electromagnetic hearing aid",1
+2069003,"Dental subperiosteal implant",1
+2078009,"Puncture of bursa of hand",1
+2079001,"Reimplantation of anomalous pulmonary artery",1
+2080003,"Angiectomy with anastomosis of lower limb artery",1
+2098004,"Open reduction of open mandibular fracture with external fixation",1
+2115003,"Dental prophylaxis, children",1
+2119009,"Repair of blood vessel",1
+2127000,"Reduction of closed sacral fracture",1
+2137005,"Excision of pericardial tumor",1
+2153008,"Cardiac catheterization education",1
+2161003,"Operation on vulva",1
+2164006,"Injection of aorta",1
+2166008,"Bicuspidization of aortic valve",1
+2171001,"Excision of tonsil tags",1
+2178007,"Ureterocentesis",1
+2181002,"Operation for bone injury of tarsals and metatarsals",1
+2188008,"Suture of tendon to skeletal attachment",1
+2193006,"Repair of ruptured aneurysm with graft of celiac artery",1
+2196003,"Gas liquid chromatography, electron capture type",1
+2199005,"Excision of lesion of cul-de-sac",1
+2214008,"Curette test of skin",1
+2220009,"Complement component assay",1
+2225004,"Sensititer system test",1
+2234009,"Proctosigmoidopexy",1
+2238007,"Stone operation, anoplasty",1
+2242005,"Reconstruction of eyelid",1
+2244006,"Arthroscopy of wrist with internal fixation for instability",1
+2250001,"Resection of ascending aorta with anastomosis",1
+2252009,"Hospital admission, urgent, 48 hours",1
+2266004,"Venography of adrenal, bilateral",1
+2267008,"Replacement of tracheostomy tube",1
+2270007,"Correction of cleft hand",1
+2276001,"Exploration of popliteal artery",1
+2278000,"Urinalysis, automated",1
+2279008,"Antibody detection, red blood cell, enzyme, 1 stage technique, including anti-human globulin",1
+2290003,"Microbial culture, anaerobic, initial isolation",1
+2315006,"Brain meninges operation",1
+2318008,"Anesthesia for cast procedure on forearm, wrist or hand",1
+2321005,"Delivery by Ritgen maneuver",1
+2322003,"Suture of recent wound of eyelid, direct closure, full-thickness",1
+2337004,"Adductor tenotomy",1
+2344008,"Complicated cystorrhaphy",1
+2347001,"Diagnostic model construction",1
+2364003,"Radical resection of tumor of soft tissue of wrist area",1
+2371008,"Tympanoplasty type II with graft against incus or malleus",1
+2373006,"Buffy coat smear evaluation",1
+2382000,"Application of breast pump",1
+2386002,"Closed reduction of dislocation of patella",1
+2393003,"Ligation of vein of lower limb",1
+2406000,"Chart periodontal pocket",1
+2407009,"Excision of mediastinal tumor",1
+2408004,"Hexosaminidase A and total hexosaminidase measurement, serum",1
+2409007,"Replantation of toe",1
+2425002,"Epstein-Barr virus serologic test",1
+2442008,"Incision of lacrimal canaliculus",1
+2448007,"Cell count of synovial fluid with differential count",1
+2455009,"Revision of lumbosubarachnoid shunt",1
+2457001,"Blind rehabilitation",1
+2458006,"Educational therapy",1
+2459003,"Destructive procedure of artery of upper extremity",1
+2461007,"Tennis elbow test",1
+2474001,"Repair of malunion of metatarsal bones",1
+2475000,"Twenty-four hour collection of urine",1
+2480009,"Debridement of skin, subcutaneous tissue, muscle and bone",1
+2486003,"Destructive procedure of breast",1
+2488002,"Provision of contact lens",1
+2494005,"Nurse to nurse communication",1
+2498008,"Rebase of upper partial denture",1
+2507007,"5' Nucleotidase measurement",1
+2508002,"Retrograde urography with kidney-ureter-bladder",1
+2514009,"Manual reduction of closed supracondylar fracture of humerus with traction",1
+2517002,"Stroke rehabilitation",1
+2530001,"Chiropractic visit",1
+2531002,"Mononuclear cell function assay",1
+2535006,"Removal of pulp - complete",1
+2536007,"Injection of medication in anterior chamber of eye",1
+2547000,"Excision of keloid",1
+2552005,"Incision of cerebral subarachnoid space",1
+2564002,"Creation of lumbar shunt including laminectomy",1
+2566000,"Osteoplasty of radius",1
+2567009,"Resection of rib by transaxillary approach",1
+2580007,"Transplant of hair follicles to scalp",1
+2598006,"Open heart surgery",1
+2601001,"Removal of bone flap of skull",1
+2607002,"Operation of supporting structures of uterus",1
+2613006,"Implantation of joint prosthesis of hand",1
+2614000,"Removal of ligature from fallopian tube",1
+2616003,"Repair of bifid digit of hand",1
+2619005,"Psychiatric interpretation to family or parents of patient",1
+2629003,"Intracranial/cerebral perfusion pressure monitoring",1
+2632000,"Incision and drainage of infected bursa of upper arm",1
+2642003,"Prefabricated post and core in addition to crown",1
+2643008,"Ligation of varicose vein of head and neck",1
+2644002,"Cauterization of liver",1
+2645001,"Intelligence test/WB1",1
+2646000,"Incision and exploration of vas deferens",1
+2658000,"Social service interview of patient",1
+2659008,"Suture of ligament of lower extremity",1
+2668005,"Recementation of space maintainer",1
+2670001,"Diagnostic procedure on cornea",1
+2673004,"Incision and drainage of masticator space by extraoral approach",1
+2677003,"Stripping",1
+2690005,"MRI of pelvis",1
+2693007,"Stool fat, quantitative measurement",1
+2696004,"Hepatic venography with hemodynamic evaluation",1
+2697008,"Stripping and ligation of great saphenous vein",1
+2716009,"Dermal-fat-fascia graft",1
+2722000,"Interleukin-3 assay",1
+2731000,"Serologic test for influenza virus A",1
+2732007,"Recession of tendon of hand",1
+2737001,"Exploratory craniotomy, infratentorial",1
+2742009,"Destruction of Bartholin's gland",1
+2743004,"Operative endoscopy of ileum",1
+2745006,"Epiplopexy",1
+2752008,"Incudopexy",1
+2780005,"Osteoplasty of facial bones",1
+2794006,"Cauterization of navel",1
+2802005,"Manual dilation and stretching",1
+2811005,"Cineradiography of pharynx",1
+2813008,"Nephroureterocystectomy",1
+2837008,"Transposition of ulnar nerve at elbow",1
+2842000,"Gas chromatography measurement",1
+2843005,"Revision of urinary conduit",1
+2847006,"Cervical myelography",1
+2851008,"Arthrotomy for synovectomy of sternoclavicular joint",1
+2854000,"Bursectomy of hand",1
+2857007,"Pinealectomy",1
+2866006,"Obliteration of lymphatic structure",1
+2875008,"Implantation of joint prosthesis of elbow",1
+2876009,"Hospital admission, type unclassified, explain by report",1
+2885009,"Intradermal allergen test",1
+2891006,"Arthroscopy of elbow with partial synovectomy",1
+2898000,"Deoxyribonucleic acid analysis, antenatal, blood",1
+2903001,"Diagnostic procedure on anterior chamber of eye",1
+2908005,"Cryotherapy to hemorrhoid",1
+2914003,"Anterior sclerotomy",1
+2915002,"Suture of capsule of ankle",1
+2933008,"Pneumogynecography",1
+2945004,"Suprapubic diverticulectomy of urinary bladder",1
+2947007,"Therapeutic compound measurement",1
+2960001,"Closure of fistula of uterine cervix",1
+2968008,"Craniectomy with treatment of penetrating wound of brain",1
+2970004,"Metacarpal lengthening and transfer of local flap",1
+2971000,"Closure of acquired urethrovaginal fistula",1
+2977001,"Thrombectomy of lower limb vein",1
+3001009,"Total lobectomy with bronchoplasty",1
+3010001,"Removal of silastic tubes from ear",1
+3016007,"Removal of Crutchfield tongs from skull",1
+3025001,"Calcitonin measurement",1
+3026000,"Tibiotalar arthrodesis",1
+3029007,"Peripheral nervous system disease rehabilitation",1
+3041000,"Repair of stomach",1
+3047001,"Kowa fundus photography",1
+3060007,"Forequarter amputation, right",1
+3061006,"Complete excision of nail AND nail matrix",1
+3063009,"Gastroscopy through artificial stoma",1
+3075004,"Nonoperative removal of prosthesis of bile duct",1
+3078002,"Embolectomy with catheter of renal artery by abdominal incision",1
+3083005,"Removal of device from thorax",1
+3088001,"Anesthesia for endoscopic procedure on upper extremity",1
+3090000,"Aneurysmectomy with graft replacement of lower limb artery",1
+3112006,"Restraint removal",1
+3116009,"Clotting screening",1
+3130004,"Monitoring of cardiac output by electrocardiogram",1
+3133002,"Patient discharge, deceased, autopsy",1
+3137001,"Replacement",1
+3143004,"Visual field examination and evaluation, intermediate",1
+3162001,"Gadolinium measurement",1
+3164000,"Open reduction of closed mandibular fracture with interdental fixation",1
+3165004,"Irrigation of muscle of hand",1
+3166003,"Closure of fistula of salivary gland",1
+3177009,"Internal obstetrical version",1
+3183007,"Closure of colostomy",1
+3186004,"Excision of Skene gland",1
+3190002,"Epilation by forceps",1
+3204007,"Destructive procedure of nerve",1
+3241008,"Correction of chordee with mobilization of urethra",1
+3249005,"Surgical construction of filtration bleb",1
+3251009,"Mayo operation, herniorrhaphy",1
+3256004,"Cervical lymphangiogram",1
+3257008,"Empty and measure peritoneal dialysis fluid",1
+3258003,"Cerebral arteriography",1
+3268008,"Transplantation of tissue of pelvic region",1
+3270004,"Implantation of neurostimulator in spine",1
+3278006,"Lysis of adhesions of bursa of hand",1
+3287002,"Cholecystogastrostomy",1
+3320000,"Abt - autologous blood transfusion",1
+3324009,"Laser beam photocoagulation",1
+3326006,"Excision of exostosis of head of fifth metatarsal",1
+3328007,"Incision of vein of head and neck",1
+3333006,"Application of short arm splint, forearm to hand, static",1
+3338002,"Open reduction of open radial shaft fracture",1
+3352000,"PTH - Parathyroid hormone level",1
+3357006,"Iron kinetics",1
+3360004,"Biliary anastomosis",1
+3390006,"Verification procedure",1
+3399007,"Reduction of torsion of omentum",1
+3407002,"Creation of lesion of spinal cord by percutaneous method",1
+3413006,"Blood cell morphology",1
+3418002,"Chondrectomy of spine",1
+3432000,"Preventive dental service",1
+3443008,"Pulp capping",1
+3448004,"Fixation of contralateral testis",1
+3450007,"Lymphocytes, T & B cell evaluation",1
+3457005,"Referral procedure",1
+3479000,"Removal of heart assist system with replacement",1
+3498003,"Total excision of pituitary gland by transsphenoidal approach",1
+3499006,"Aspiration of vitreous with replacement",1
+3509001,"Streptococcus vaccination",1
+3512003,"Angiography of arteries of extremity",1
+3515001,"Replacement of electronic heart device, pulse generator",1
+3517009,"Removal of foreign body of pelvis from subcutaneous tissue",1
+3518004,"Aversive psychotherapy",1
+3527003,"Antibody measurement",1
+3546002,"CVG - Coronary vein graft",1
+3559005,"Insertion of ureteral stent with ureterotomy",1
+3562008,"Rodney Smith operation, radical subtotal pancreatectomy",1
+3564009,"Removal of foreign body from fallopian tube",1
+3575008,"Repair of fascia with graft of fascia",1
+3580004,"Removal of calculus of pharynx",1
+3605001,"Reduction of ciliary body",1
+3607009,"Transplantation of mesenteric tissue",1
+3620007,"Red cell survival study with hepatic sequestration",1
+3625002,"Anesthesia for brachial arteriograms, retrograde",1
+3651000,"Morphometric analysis, nerve",1
+3654008,"Excision of lingula",1
+3659003,"Incision of inner ear",1
+3664004,"Closure of scleral fistula",1
+3666002,"Repair of peripheral nerve by suturing",1
+3669009,"Fitting of prosthesis or prosthetic device of upper arm",1
+3673007,"Leadbetter urethral reconstruction",1
+3683006,"Selenium measurement, urine",1
+3686003,"Zancolli operation for tendon transfer of biceps",1
+3688002,"Anesthesia for lens surgery",1
+3690001,"Shunt of left subclavian to descending aorta by Blalock-Park operation",1
+3691002,"Wedge osteotomy of tarsals and metatarsals",1
+3697003,"Tissue processing technique, routine, embed, cut and stain, per autopsy",1
+3700004,"Erysophake extraction of lens",1
+3701000,"Removal of foreign body of hip from subcutaneous tissue",1
+3713005,"Release for de Quervain tenosynovitis of hand",1
+3717006,"Dilute Russell viper venom time",1
+3734003,"SSG - Split skin graft",1
+3735002,"Coproporphyrin III measurement",1
+3740005,"Removal of foreign body of canthus by incision",1
+3748003,"Biopsy of perirenal tissue",1
+3749006,"Reduction of closed ischial fracture",1
+3758004,"Thrombectomy with catheter of subclavian artery by neck incision",1
+3770000,"Ward urine dip stick testing",1
+3778007,"Scrotum manipulation",1
+3780001,"Routine patient disposition, no follow-up planned",1
+3784005,"Delayed hypersensitivity skin test for streptokinase-streptodornase",1
+3786007,"Excision of lesion of pharynx",1
+3787003,"Ultrasonic guidance for needle biopsy",1
+3794000,"Pregnanetriol measurement",1
+3796003,"Excision of redundant mucosa from jejunostomy",1
+3799005,"Radiography of adenoids",1
+3802001,"Topical application of tooth medicament - desensitizing agent",1
+3819004,"Embolization of thoracic artery",1
+3826004,"Blepharotomy with drainage of abscess of eyelid",1
+3828003,"Open biopsy of vertebral body of thoracic region",1
+3831002,"Chiropractic application of ice",1
+3843001,"Removal of foreign body from fascia",1
+3858009,"Echography of thyroid, A-mode",1
+3861005,"Aneurysmectomy with anastomosis of lower limb artery",1
+3862003,"Total vital capacity measurement",1
+3864002,"Excisional biopsy of scrotum",1
+3880007,"Excision of lesion of fibula",1
+3881006,"Incision and drainage of submental space by extraoral approach",1
+3887005,"Wart ligation",1
+3889008,"Suture of lip",1
+3891000,"Comprehensive orthodontic treatment, permanent dentition, for class I malocclusion",1
+3895009,"Dressing",1
+3907006,"Incision and drainage of retroperitoneal abscess",1
+3911000,"Transplantation of muscle",1
+3915009,"Excision of artery of thorax and abdomen",1
+3917001,"Excisional biopsy of phalanges of foot",1
+3918006,"Plastic repair with lengthening",1
+3926003,"Lactate measurement",1
+3929005,"Patient transfer, in-hospital, bed-to-bed",1
+3936006,"Making Foster bed",1
+3938007,"Cerclage for retinal reattachment",1
+3942005,"Cystopexy",1
+3955006,"Antibody elution from red blood cells",1
+3957003,"Arteriectomy of thoracoabdominal aorta",1
+3963007,"Operation on submaxillary gland",1
+3967008,"Fluorescence polarization immunoassay",1
+3968003,"Excision of spinal facet joint",1
+3969006,"Removal of osteocartilagenous loose body from joint structures",1
+3971006,"Duchenne muscular dystrophy carrier detection",1
+3980006,"Partial excision of esophagus",1
+3981005,"Carrier detection, molecular genetics",1
+3985001,"Anesthesia for procedure on arteries of lower leg with bypass graft",1
+3991004,"MRI of pelvis, prostate and bladder",1
+3998005,"Bone imaging of limited area",1
+4007002,"Anti-human globulin test, indirect, titer, non-gamma",1
+4008007,"Phlebography of neck",1
+4010009,"Oophorectomy of remaining ovary with tube",1
+4027001,"Implantation of electronic stimulator into phrenic nerve",1
+4034004,"Closed reduction of facial fracture, except mandible",1
+4035003,"Restoration, resin, two surfaces, posterior, permanent",1
+4036002,"Arthroscopy of elbow with extensive debridement",1
+4037006,"Removal of vascular graft or prosthesis",1
+4044002,"Construction of permanent colostomy",1
+4045001,"Drainage of cerebral ventricle by incision",1
+4052004,"Percutaneous aspiration of spinal cord cyst",1
+4064007,"Specimen aliquoting",1
+4068005,"Removal of ventricular reservoir with synchronous replacement",1
+4083000,"Fitting of prosthesis or prosthetic device of lower arm",1
+4084006,"Repair of tendon of hand by graft or implant of muscle",1
+4090005,"Replacement of transvenous atrial and ventricular pacemaker electrode leads",1
+4094001,"Reduction of retroversion of uterus by suppository",1
+4101004,"Revision of spinal pleurothecal shunt",1
+4102006,"Root canal therapy, anterior, excluding final restoration",1
+4114003,"Parenteral chemotherapy for malignant neoplasm",1
+4116001,"Construction of window",1
+4119008,"Intracranial phlebectomy with anastomosis",1
+4131005,"Implantation into pelvic region",1
+4134002,"Operative block anesthesia",1
+4139007,"Posterior spinal cordotomy",1
+4143006,"Injection into anterior chamber of eye",1
+4149005,"Bone histomorphometry, aluminum stain",1
+4154001,"Incision and drainage of penis",1
+4165006,"Delayed hypersensitivity skin test for staphage lysate",1
+4176005,"Fothergill repair",1
+4192000,"Toxicology testing for organophosphate insecticide",1
+4213001,"Implantation of Ommaya reservoir",1
+4214007,"Intracardiac injection for cardiac resuscitation",1
+4226002,"Excision of lesion of thoracic vein",1
+4252008,"Aneurysmectomy with graft replacement by interposition",1
+4263006,"Biopsy of soft tissue of elbow area, superficial",1
+4266003,"Patient referral for drug addiction rehabilitation",1
+4285000,"Insertion of bone growth stimulator into femur",1
+4293000,"Reduction of intussusception by laparotomy",1
+4304000,"Excision of cusp of tricuspid valve",1
+4319004,"Rebase of complete lower denture",1
+4321009,"Bilateral leg arteriogram",1
+4323007,"Destruction of lesion of sclera",1
+4331002,"Anesthesia for hernia repair in lower abdomen",1
+4333004,"Incision and drainage of perisplenic space",1
+4336007,"Lloyd-Davies operation, abdominoperineal resection",1
+4337003,"Homogentisic acid measurement",1
+4339000,"Repair of nasolabial fistula",1
+4341004,"Complete submucous resection of turbinate",1
+4344007,"Cryopexy",1
+4348005,"Musculoplasty of hand",1
+4350002,"Removal of implant of cornea",1
+4363008,"Endoscopic brush biopsy of trachea",1
+4365001,"Surgical repair",1
+4380007,"Transposition of vulvar tissue",1
+4387005,"Valvuloplasty of pulmonary valve in total repair of tetralogy of Fallot",1
+4388000,"Repair of splenocolic fistula",1
+4407008,"Slitting of lacrimal canaliculus for passage of tube",1
+4411002,"Removal of device from female genital tract",1
+4420006,"Incision and drainage of parapharyngeal abscess by external approach",1
+4424002,"Making orthopedic bed",1
+4436008,"Methylatable chemotaxis protein (MCP) receptor measurement",1
+4438009,"Venography of vena cava",1
+4443002,"Decortication of ovary",1
+4447001,"Autopsy, gross and microscopic examination, stillborn or newborn without central nervous system",1
+4449003,"Manipulation of spinal meninges",1
+4450003,"Application of Kirschner wire",1
+4455008,"Open reduction of open elbow dislocation",1
+4457000,"Insertion of mold into vagina",1
+4466001,"Exploration of upper limb artery",1
+4467005,"Excision of tumor of ankle area, deep, intramuscular",1
+4475004,"Cyanide level",1
+4487006,"Norepinephrine measurement, supine",1
+4489009,"Neurolysis of trigeminal nerve",1
+4496006,"Mouthcare procedure",1
+4503005,"Removal of foreign body of sclera without use of magnet",1
+4504004,"Potter obstetrical version with extraction",1
+4505003,"Tenolysis of flexor tendon of forearm",1
+4507006,"Decompression fasciotomy of wrist, flexor and extensor compartment",1
+4511000,"Restoration, inlay, composite/resin, one surface, laboratory processed",1
+4516005,"Iridencleisis and iridotasis",1
+4520009,"Anastomosis of esophagus, antesternal or antethoracic, with insertion of prosthesis",1
+4525004,"Seen by casualty - service",1
+4533003,"Ligation of artery of lower limb",1
+4535005,"Incision of pelvirectal tissue",1
+4539004,"Excision of cyst of bronchus",1
+4542005,"Closed reduction of fracture of foot",1
+4544006,"Excision of subcutaneous tumor of extremities",1
+4558008,"Anterior resection of rectum",1
+4563007,"Hospital admission, transfer from other hospital or health care facility",1
+4570007,"Chemopallidectomy",1
+4579008,"Creation of ventriculoatrial shunt",1
+4581005,"Coreoplasty",1
+4585001,"Decompression of tendon of hand",1
+4587009,"Epiphysiodesis of distal radius",1
+4589007,"Care relating to reproduction and pregnancy",1
+4593001,"Cauterization of sclera with iridectomy",1
+4594007,"Coproporphyrin isomers, series I & III, urine",1
+4613005,"Radioimmunoassay",1
+4625008,"Apical pulse taking",1
+4626009,"Take-down of arterial anastomosis",1
+4636001,"Denker operation for radical maxillary antrotomy",1
+4640005,"Ligation of fallopian tubes by abdominal approach",1
+4642002,"Removal of inflatable penile prosthesis, with pump, reservoir and cylinders",1
+4660002,"Diagnostic procedure on phalanges of foot",1
+4670000,"Catheterization of bronchus",1
+4671001,"Excision of lesion from sphenoid sinus",1
+4672008,"Medical procedure on the nervous system",1
+4691008,"Identification of rotavirus antigen in feces",1
+4692001,"Transplantation of artery of upper extremity",1
+4694000,"Percutaneous biopsy of muscle",1
+4699005,"Alpha naphthyl butyrate stain method, blood or bone marrow",1
+4701005,"Colony forming unit-granulocyte-monocyte-erythroid-megakaryocyte assay",1
+4707009,"Partial excision of calcaneus",1
+4712005,"Removal of Gardner Wells tongs from skull",1
+4713000,"Endoscopy and photography",1
+4719001,"Psychologic cognitive testing and assessment",1
+4727005,"Lipoprotein electrophoresis",1
+4734007,"Irrigation of wound catheter of integument",1
+4737000,"Mycobacteria culture",1
+4756005,"Cryotherapy of subcutaneous tissue",1
+4758006,"Incudostapediopexy",1
+4764004,"Jet ventilation procedure",1
+4765003,"Insertion of ocular implant following or secondary to enucleation",1
+4770005,"Colporrhaphy for repair of urethrocele",1
+4772002,"Reduction of torsion of spermatic cord",1
+4784000,"Operation on sublingual gland",1
+4804005,"Microbial identification test",1
+4811009,"Reconstruction of diaphragm",1
+4815000,"Antibody identification, red blood cell antibody panel, enzyme, 2 stage technique including anti-human globulin",1
+4820000,"Incision of labial frenum",1
+4827002,"Shower hydrotherapy",1
+4829004,"Excision of small intestine for interposition",1
+4847005,"Anesthesia for cesarean section",1
+4849008,"Ovarian biopsy",1
+4862007,"Revision of anastomosis of large intestine",1
+4877004,"Extracapsular extraction of lens with iridectomy",1
+4891005,"Proctostomy",1
+4895001,"Construction of sigmoid bladder",1
+4902005,"Ethchlorvynol measurement",1
+4903000,"Serum protein electrophoresis",1
+4904006,"Dilation of anal sphincter under nonlocal anesthesia",1
+4914002,"Treatment planning for teletherapy",1
+4929000,"Local perfusion of kidney",1
+4930005,"Repair of thoracogastric fistula",1
+4934001,"Salpingography",1
+4957007,"Cervical spinal fusion for pseudoarthrosis",1
+4966006,"Extracorporeal perfusion",1
+4970003,"Venography",1
+4974007,"Liver operation",1
+4976009,"Anesthesia for endoscopic procedure on lower extremity",1
+4987001,"Osteoplasty of cranium with flap of bone",1
+4992004,"Cardiac catheterization, left heart, retrograde, percutaneous",1
+4993009,"Ischemic limb exercise with electromyography and lactic acid determination",1
+5016005,"Pontic, resin with high noble metal",1
+5019003,"Direct laryngoscopy with biopsy",1
+5021008,"Aldosterone measurement, standing, normal salt diet",1
+5022001,"Lysergic acid diethylamide measurement",1
+5025004,"Semen analysis, presence and motility of sperm",1
+5032008,"Labial veneer, porcelain laminate, laboratory",1
+5034009,"Graft to hair-bearing skin",1
+5048009,"External cephalic version with tocolysis",1
+5055006,"Uniscept system test",1
+5057003,"Radical orbitomaxillectomy",1
+5065000,"Reduction of closed traumatic hip dislocation with anesthesia",1
+5091004,"Peripheral vascular disease study",1
+5105000,"Endoscopy of renal pelvis",1
+5110001,"Ultrasound peripheral imaging, real time scan",1
+5113004,"FT4 - Free thyroxine level",1
+5119000,"Epiglottidectomy",1
+5121005,"Wedge osteotomy of pelvic bone",1
+5123008,"Anesthesia for procedure on pericardium with pump oxygenator",1
+5130002,"Needling of lens for cataract",1
+5131003,"Radiography of chest wall",1
+5135007,"Diagnostic procedure on scapula",1
+5147001,"Excision of lesion of ankle joint",1
+5151004,"Manual reduction of rectal hemorrhoids",1
+5154007,"Communication enhancement: speech deficit",1
+5161006,"Specialty clinic admission",1
+5162004,"Excision of pressure ulcer",1
+5165002,"Division of thoracic artery",1
+5176003,"Thromboendarterectomy with graft of renal artery",1
+5182000,"Total body perfusion",1
+5184004,"Osteotomy of shaft of femur with fixation",1
+5186002,"Arthrotomy for synovectomy of glenohumeral joint",1
+5190000,"Cell fusion",1
+5191001,"Surgical treatment of missed miscarriage of second trimester",1
+5212002,"Excision of lesion of lacrimal gland by frontal approach",1
+5216004,"Three dimensional ultrasound imaging of heart",1
+5233006,"Lateral fasciotomy",1
+5243009,"Suture of adenoid fossa",1
+5245002,"Transplantation of peripheral vein",1
+5246001,"Breakpoint cluster region analysis",1
+5264008,"Total bile acids measurement",1
+5267001,"Adrenal artery ligation",1
+5270002,"Bilateral destruction of fallopian tubes",1
+5273000,"Manual reduction of closed fracture of proximal end of ulna",1
+5282006,"Operation on oropharynx",1
+5290006,"Incision and drainage of Ludwig angina",1
+5298004,"Incision and drainage of deep hematoma of thigh region",1
+5304008,"DXT - Radiotherapy",1
+5316002,"Closed osteotomy of mandibular ramus",1
+5317006,"Radical amputation of penis with bilateral pelvic lymphadenectomy",1
+5326009,"Administration of dermatologic formulation",1
+5328005,"Shortening of Achilles tendon",1
+5337005,"Trocar biopsy",1
+5338000,"Nicotine measurement",1
+5342002,"Prophylactic treatment of tibia with methyl methacrylate",1
+5348003,"Repair of endocardial cushion defect",1
+5357009,"Leukocyte poor blood preparation",1
+5373003,"Stress breaker",1
+5384005,"Excision of part of frontal cortex",1
+5391008,"Artificial voice rehabilitation",1
+5393006,"Exploration of parathyroid with mediastinal exploration by sternal split approach",1
+5402006,"Manipulation of thoracic artery",1
+5407000,"Injection of fallopian tube",1
+5415002,"Destruction of lesion of liver",1
+5419008,"Lysis of adhesions of tendon of hand",1
+5422005,"Amylase measurement, peritoneal fluid",1
+5429001,"Diagnostic procedure on nipple",1
+5431005,"Percutaneous transluminal angioplasty",1
+5433008,"Skeletal X-ray of lower limb",1
+5446003,"Excision of cervical rib for outlet compression syndrome with sympathectomy",1
+5447007,"Transfusion",1
+5452002,"Core needle biopsy of thymus",1
+5456004,"Graft of lymphatic structure",1
+5457008,"Serologic test for Rickettsia conorii",1
+5460001,"Removal of prosthesis from fallopian tube",1
+5479003,"Select picture audiometry",1
+5482008,"Serologic test for Blastomyces",1
+5486006,"Delayed suture of tendon of hand",1
+5489004,"Diagnostic procedure on radius",1
+5506006,"Incision and exploration of abdominal wall",1
+5517007,"Restoration, inlay, porcelain/ceramic, per tooth, in addition to inlay",1
+5521000,"Open reduction of fracture of phalanges of foot",1
+5536002,"Arthrodesis of carpometacarpal joint of digits, other than thumb",1
+5545001,"Repair of carotid body",1
+5551006,"Direct laryngoscopy with arytenoidectomy with operating microscope",1
+5556001,"Manually assisted spontaneous delivery",1
+5570001,"Arthrotomy for infection with exploration and drainage of carpometacarpal joint",1
+5571002,"Excision of lesion of aorta with end-to-end anastomosis",1
+5572009,"Incision of kidney pelvis",1
+5586008,"Aminolevulinic acid dehydratase measurement",1
+5608002,"Excretion measurement",1
+5616006,"Osteoplasty of tibia",1
+5621009,"Excision of malignant lesion of skin of extremities",1
+5632009,"Open biopsy of bronchus",1
+5636007,"Fistulectomy of bone",1
+5638008,"Carbohydrate measurement",1
+5648005,"Surgical repair and revision of shunt",1
+5651003,"Arylsulfatase A measurement",1
+5663008,"Phlebectomy of varicose vein of head and neck",1
+5669007,"Portable electroencephalogram awake and asleep with stimulation",1
+5671007,"Magnet extraction of foreign body from ciliary body",1
+5687005,"Removal of foreign body from ovary",1
+5690004,"Incision of seminal vesicle",1
+5694008,"Crisis intervention with follow-up",1
+5721002,"Repair of eyebrow",1
+5722009,"Surgical reanastomosis of colon",1
+5726007,"Removal of epicardial electrodes",1
+5728008,"Anoscopy for removal of foreign body",1
+5731009,"Hemosiderin, quantitative measurement",1
+5733007,"Fluorescent identification of anti-nuclear antibody",1
+5738003,"Biopsy of cul-de-sac",1
+5745003,"Excision ampulla of Vater with reimplantation of common duct",1
+5760000,"Osteoplasty of radius and ulna, shortening",1
+5771004,"Blepharotomy",1
+5777000,"Flexorplasty of elbow",1
+5781000,"Operation on nasal septum",1
+5785009,"Forensic autopsy",1
+5787001,"Elevation of bone fragments of orbit of skull with debridement",1
+5789003,"Lysis of adhesions of intestines",1
+5796001,"Excision of external thrombotic hemorrhoid",1
+5806001,"Revision of tracheostomy scar",1
+5807005,"Fenestration of inner ear, initial",1
+5809008,"Selective vagotomy with pyloroplasty and gastrostomy",1
+5812006,"Laboratory reporting, fax",1
+5818005,"Flocculation test",1
+5821007,"Ligation, division and complete stripping of long and short saphenous veins",1
+5823005,"Diagnostic radiography, left",1
+5832007,"Partial ostectomy of thorax, ribs or sternum",1
+5845006,"Emulsification procedure",1
+5846007,"Diagnostic radiography of toes",1
+5857002,"Complement mediated cytotoxicity assay",1
+5865004,"Open reduction of dislocation of toe",1
+5870006,"Tertiary closure of abdominal wall",1
+5880005,"Clinical examination",1
+5892005,"Mastoid antrotomy",1
+5894006,"Methyl red test",1
+5897004,"Removal of Scribner shunt",1
+5902003,"History and physical examination, complete",1
+5925002,"Incision and drainage of hematoma of wrist",1
+5930003,"Cardiac monitor removal",1
+5947002,"Consultation for hearing and/or speech problem",1
+5961007,"Division of blood vessels of cornea",1
+5966002,"Removal of foreign body from elbow area, deep",1
+5971009,"Incision and drainage of axilla",1
+5983006,"Repair of spermatic cord",1
+5986003,"Non-sensitized spontaneous sheep erythrocyte binding, E-rosette",1
+5992009,"Midtarsal arthrodesis, multiple",1
+5995006,"Gas liquid chromatography, flame photometric type",1
+5997003,"Drainage of cerebral subarachnoid space by aspiration",1
+5998008,"Radical dissection of groin",1
+6005008,"Transplantation of vitreous by anterior approach",1
+6007000,"Magnetic resonance imaging of chest",1
+6019008,"Endoscopy of large intestine",1
+6025007,"Laparoscopic appendectomy",1
+6026008,"Removal of coronary artery obstruction by percutaneous transluminal balloon with thrombolytic agent",1
+6029001,"Augmentation of outflow tract of pulmonary valve",1
+6035001,"Chart abstracting",1
+6063004,"Kanamycin measurement",1
+6069000,"Panniculotomy",1
+6082008,"Perforation of footplate",1
+6092000,"Aspiration of nasal sinus by puncture",1
+6100001,"Fenestration of stapes footplate with vein graft",1
+6108008,"Subdural tap through fontanel, infant, initial",1
+6119006,"Local destruction of lesion of bony palate",1
+6125005,"Change of gastrostomy tube",1
+6126006,"Fitzgerald factor assay",1
+6127002,"Diagnostic radiography of abdomen, oblique standard",1
+6130009,"Surgical exposure of impacted or unerupted tooth to aid eruption",1
+6133006,"Lymphokine assay",1
+6143009,"Diabetic education",1
+6146001,"Repair of heart septum with prosthesis",1
+6148000,"Chondrectomy of semilunar cartilage of knee",1
+6157006,"Endoscopic retrograde cholangiopancreatography with biopsy",1
+6159009,"Galactose measurement",1
+6161000,"Excision of lesion of capsule of toes",1
+6164008,"Osteoclasis of clavicle",1
+6166005,"Nephropyeloureterostomy",1
+6177004,"Southern blot assay",1
+6187000,"Repair of aneurysm with graft of common femoral artery",1
+6188005,"Arthrotomy of knee",1
+6189002,"Excision of aberrant tissue of breast",1
+6190006,"Colopexy",1
+6195001,"Transurethral drainage of prostatic abscess",1
+6198004,"Repair of fracture with Sofield type procedure",1
+6200005,"Excision of lesion of female perineum",1
+6205000,"Fluorescent antigen, titer",1
+6213004,"Prescribing corneoscleral contact lens",1
+6221005,"Suture of colon",1
+6225001,"Antibody detection, RBC, enzyme, 2 stage technique, including anti-human globulin",1
+6226000,"Visual rehabilitation, eye motion defect",1
+6227009,"Relationship psychotherapy",1
+6231003,"Graft of palate",1
+6238009,"Diagnostic radiography of sacroiliac joints",1
+6240004,"Operative procedure on knee",1
+6255008,"Resection of abdominal artery with replacement",1
+6271008,"Echography, immersion B-scan",1
+6274000,"Excision of aural glomus tumor, extended, extratemporal",1
+6286002,"Destructive procedure on ovaries and fallopian tubes",1
+6289009,"White blood cell histogram evaluation",1
+6295005,"Sequestrectomy of pelvic bone",1
+6307005,"Keratophakia",1
+6309008,"Fecal fat differential, quantitative",1
+6319002,"Beta lactamase, chromogenic cephalosporin susceptibility test",1
+6337001,"Ligation of aortic arch",1
+6339003,"Conditioning play audiometry",1
+6343004,"Forensic bite mark comparison technique",1
+6353003,"Mitsuda reaction to lepromin",1
+6354009,"Sedimentation rate, Westergren",1
+6355005,"Removal of internal fixation device of radius",1
+6358007,"Capsulorrhaphy of joint",1
+6361008,"Anesthesia for popliteal thromboendarterectomy",1
+6363006,"Dilation of lacrimal punctum with irrigation",1
+6370006,"Chemosurgery of stomach lesion",1
+6384001,"Removal of device from digestive system",1
+6385000,"Exploration of disc space",1
+6388003,"TdT stain",1
+6396008,"Galactokinase measurement",1
+6397004,"Muscular strength development exercise",1
+6399001,"Division of arteriovenous fistula with ligation",1
+6402000,"Excision of common bile duct",1
+6403005,"Lengthening of muscle of hand",1
+6419003,"Excision of tumor from elbow area, deep, subfascial",1
+6429005,"Heteroautogenous transplantation",1
+6433003,"Closed heart valvotomy of mitral valve",1
+6434009,"Seminal fluid detection",1
+6438007,"Exploration of ciliary body",1
+6439004,"Destruction of lesion of peripheral nerve",1
+6443000,"Pontic, porcelain fused to predominantly base metal",1
+6444006,"Enlargement of eye socket",1
+6465000,"Arthrotomy of glenohumeral joint for infection with drainage",1
+6466004,"Administration of Rh immune globulin",1
+6470007,"Laparoamnioscopy",1
+6473009,"Suture of old obstetrical laceration of uterus",1
+6480006,"Urinary bladder residual urine study",1
+6486000,"Curettage of sclera",1
+6487009,"Hand tendon pulley reconstruction with tendon prosthesis",1
+6491004,"Protein S, free assay",1
+6499002,"Tsuge operation on finger for macrodactyly repair",1
+6502003,"Complete lower denture",1
+6506000,"Placing a patient on a bedpan",1
+6519001,"Operation on multiple extraocular muscles with temporary detachment from globe",1
+6521006,"Polytomography",1
+6527005,"Uchida fimbriectomy with tubal ligation by endoscopy",1
+6535008,"Excision of cyst of hand",1
+6536009,"Implantation of tricuspid valve with tissue graft",1
+6543003,"Complicated catheterization of bladder",1
+6547002,"Repair with closure of non-surgical wound",1
+6555009,"Insertion of infusion pump beneath skin",1
+6556005,"Reticulin antibody measurement",1
+6562000,"Destruction of lesion of tongue",1
+6563005,"Transposition of muscle of hand",1
+6567006,"Pulmonary valve commissurotomy by transvenous balloon method",1
+6568001,"Diagnostic procedure on eyelid",1
+6585004,"Closed reduction of fracture of tarsal or metatarsal",1
+6589005,"Antibody titration, high protein",1
+6601003,"Removal of foreign body from skin of axilla",1
+6614002,"Antibody to single stranded DNA measurement",1
+6615001,"Electroretinography with medical evaluation",1
+6622009,"Add clasp to existing partial denture",1
+6634001,"Destruction of hemorrhoids, internal",1
+6639006,"Replacement of obstructed valve in shunt system",1
+6650009,"Radionuclide lacrimal flow study",1
+6656003,"Acoustic stimulation test",1
+6657007,"Maintenance drug therapy for mental disorder",1
+6658002,"Removal of foreign body from alveolus",1
+6661001,"King-Steelquist hindquarter operation",1
+6665005,"Restoration, crown, porcelain fused to noble metal",1
+6668007,"Fibrinogen assay, quantitative",1
+6670003,"Closure of external fistula of trachea",1

@@ -1,0 +1,21 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+InvalidNhsNum:
+  segments:
+  - "MSH|^~\\&|SIMHOSP|SFAC|RAPP|RFAC|%s||ADT^A01|%s|T|2.3|||AL||44|ASCII"
+  - "EVN|A01|20180709162444|||216865551019^ZZZDOCTOR^Foo^Bar Baz^^^^^DRNBR^PRSNL^^^ORGDR^|"
+  - "PID||20180709162444249^^^^MRN|20180709162444249^^^^MRN~2278322867^^^NHSNMBR||FN20180709162444^Invalid NHS^^^MR^^CURRENT||19610306|M|||1L20180709162444^2L20180709162444^3L20180709162444^^09162444^C20180709162444^HOME^^|||||||||||P||||||||"
+  - "PD1|||^^E83039|G9601039^Subel^Barry||||0||||"
+  - "PV1|1|INPATIENT|ED^ED^Chair 06^Simulated Hospital^^BED^^1^||||123^dr. J Smith|||||||||||INPATIENT|2018070916244445^^^^visitid|||||||||||||||||||||||||20180403000000||||||||"

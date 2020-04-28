@@ -1,0 +1,1004 @@
+# SNOMED CT condition codes.
+# Source: https://www.hl7.org/fhir/valueset-condition-code.html
+# This value set includes codes from http://snomed.info/sct coding system, where concept is-a 404684003 (Clinical finding).
+109006,"Anxiety disorder of childhood OR adolescence",1
+122003,"Choroidal hemorrhage",1
+127009,"Spontaneous abortion with laceration of cervix",1
+129007,"Homoiothermia",1
+134006,"Decreased hair growth",1
+140004,"Chronic pharyngitis",1
+144008,"Normal peripheral vision",1
+147001,"Superficial foreign body of scrotum without major open wound but with infection",1
+150003,"Abnormal bladder continence",1
+151004,"Meningitis due to gonococcus",1
+162004,"Severe manic bipolar I disorder without psychotic features",1
+165002,"Accident-prone",1
+168000,"Typhlolithiasis",1
+171008,"Injury of ascending right colon without open wound into abdominal cavity",1
+172001,"Endometritis following molar AND/OR ectopic pregnancy",1
+175004,"Supraorbital neuralgia",1
+177007,"Poisoning by sawfly larvae",1
+179005,"Apraxia of dressing",1
+181007,"Hemorrhagic bronchopneumonia",1
+183005,"Autoimmune pancytopenia",1
+184004,"Withdrawal arrhythmia",1
+188001,"Intercostal artery injury",1
+192008,"Congenital syphilitic hepatomegaly",1
+193003,"Benign hypertensive renal disease",1
+195005,"Illegal abortion with endometritis",1
+198007,"Disease due to Filoviridae",1
+199004,"Decreased lactation",1
+208008,"Neurocutaneous melanosis sequence",1
+216004,"Delusion of persecution",1
+219006,"Alcohol user",1
+222008,"Acute epiglottitis with obstruction",1
+223003,"Tumor of body of uterus affecting pregnancy",1
+228007,"Lucio phenomenon",1
+241006,"Motor simple partial status",1
+242004,"Noninfectious jejunitis",1
+253005,"Sycosis",1
+257006,"Acne rosacea, erythematous telangiectatic type",1
+258001,"Pseudoknuckle pad",1
+264008,"Blind hypertensive eye",1
+276008,"Oxytocin poisoning",1
+279001,"Senile myocarditis",1
+281004,"Alcoholic dementia",1
+282006,"Acute myocardial infarction of basal-lateral wall",1
+290006,"Melnick-Fraser syndrome",1
+292003,"EEG finding",1
+297009,"Acute myringitis",1
+299007,"Paraffinoma of skin",1
+303002,"Apoplectic pancreatitis",1
+308006,"Pearly penile papules",1
+310008,"Penile boil",1
+313005,"Déjà vu",1
+317006,"Reactive hypoglycemia",1
+320003,"Cervical dilatation, 1cm",1
+324007,"Plaster ulcer",1
+330007,"Occipital headache",1
+335002,"Pylorospasm",1
+341009,"ABO incompatibility reaction",1
+349006,"Absent tendon reflex",1
+355001,"Hemorrhagic shock",1
+357009,"Closed fracture trapezoid",1
+358004,"Smallpox vaccine poisoning",1
+359007,"Kernicterus due to isoimmunization",1
+360002,"Acute radiation disease",1
+364006,"Acute left-sided heart failure",1
+366008,"Hidromeiosis",1
+368009,"Heart valve disorder",1
+369001,"Normal jugular venous pressure",1
+378007,"Morquio syndrome",1
+382009,"Legal history finding relating to child",1
+383004,"Finding of passive range of hip extension",1
+385006,"Secondary peripheral neuropathy",1
+387003,"Melanuria",1
+398002,"Left axis deviation greater than -90 degrees by EKG",1
+407000,"Congenital hepatomegaly",1
+408005,"Tooth chattering",1
+409002,"Food allergy diet",1
+426008,"Superficial injury of ankle without infection",1
+431005,"Hypertrophy of scrotum",1
+437009,"Abnormal composition of urine",1
+440009,"Persistent hyperphenylalaninemia",1
+442001,"Secondary hypopituitarism",1
+443006,"Cystocele affecting pregnancy",1
+447007,"Coach in sports activity accident",1
+450005,"Ulcerative stomatitis",1
+452002,"Blister of groin without infection",1
+460001,"Squamous metaplasia of prostate gland",1
+467003,"Old laceration of pelvic floor muscle",1
+470004,"Vitreous touch syndrome",1
+479003,"Graves' disease with pretibial myxedema AND with thyrotoxic crisis",1
+486006,"Acute vascular insufficiency",1
+488007,"Fibroid myocarditis",1
+490008,"Upper respiratory tract hypersensitivity reaction",1
+496002,"Closed traumatic dislocation of third cervical vertebra",1
+504009,"Androgen-dependent hirsutism",1
+517007,"Foreign body in hypopharynx",1
+518002,"Multiple aggregation",1
+520004,"Congenital bent nose",1
+527001,"Spontaneous fetal evolution, Roederer's method",1
+536002,"Glissonian cirrhosis",1
+539009,"Conjunctival argyrosis",1
+547009,"Hypersecretion of calcitonin",1
+548004,"13p partial trisomy syndrome",1
+554003,"2p partial trisomy syndrome",1
+555002,"Dicentra species poisoning",1
+563001,"Nystagmus",1
+568005,"Habit disorder",1
+586008,"Contact dermatitis due to primrose",1
+590005,"Congenital aneurysm of anterior communicating artery",1
+596004,"Premenstrual dysphoric disorder",1
+599006,"Persistent pneumothorax",1
+600009,"Pyromania",1
+602001,"Ross river fever",1
+607007,"Decreased vital capacity",1
+610000,"Spastic aphonia",1
+613003,"FRAXA - Fragile X syndrome",1
+615005,"Obstruction due to foreign body accidentally left in operative wound AND/OR body cavity during a procedure",1
+616006,"Sensorimotor disorder of eyelid",1
+626004,"Hypercortisolism due to nonpituitary tumor",1
+631002,"Transfusion reaction due to minor incompatibility",1
+634005,"Saddle boil",1
+640003,"Injury of pneumogastric nerve",1
+643001,"Hypertrophy of lip",1
+646009,"Idiopathic cyst of anterior chamber",1
+649002,"Open fracture of distal end of ulna",1
+651003,"Root work",1
+652005,"Gangrenous tonsillitis",1
+655007,"Abnormal fetal heart beat noted before labor in liveborn infant",1
+658009,"Injury of colon without open wound into abdominal cavity",1
+663008,"Pulmonary embolism following molar AND/OR ectopic pregnancy",1
+664002,"Delayed ovulation",1
+666000,"Poisoning by antivaricose drug AND/OR sclerosing agent",1
+675003,"Torsion of intestine",1
+682004,"Thrombosis complicating pregnancy AND/OR puerperium",1
+685002,"Acquired telangiectasia of small AND/OR large intestines",1
+701003,"Adult osteochondritis of spine",1
+703000,"Congenital adhesion of tongue",1
+714002,"Abrasion AND/OR friction burn of toe with infection",1
+715001,"Nontraumatic rupture of urethra",1
+718004,"Acute bronchiolitis with obstruction",1
+733007,"Superficial foreign body of groin without major open wound but with infection",1
+734001,"Opocephalus",1
+736004,"Abscess of hip",1
+750009,"Schistosoma mansoni infection",1
+755004,"Postgastrectomy phytobezoar",1
+756003,"Chronic rheumatic myopericarditis",1
+758002,"Cyst of uterus",1
+775008,"Open wound of head with complication",1
+776009,"Partial arterial retinal occlusion",1
+781000,"Cestrum diurnum poisoning",1
+786005,"Clinical stage I B",1
+787001,"Rheumatic mitral stenosis with regurgitation",1
+788006,"Disease-related diet",1
+792004,"CJD - Creutzfeldt-Jakob disease",1
+799008,"Sigmoid colon ulcer",1
+801006,"Insect bite, nonvenomous, of foot, infected",1
+805002,"Pneumoconiosis due to silica",1
+811004,"Flail motion",1
+813001,"Ankle instability",1
+815008,"Episcleritis",1
+816009,"Genetic recombination",1
+818005,"Third degree burn of multiple sites of lower limb",1
+825003,"Superficial injury of axilla with infection",1
+827006,"Late congenital syphilis, latent (+ sero., - C.S.F., 2 years OR more)",1
+832007,"Moderate major depression",1
+834008,"Chair-seated facing coital position",1
+841002,"Congenital absence of skull bone",1
+842009,"Consanguinity",1
+843004,"Poliomyelomalacia",1
+844005,"Finding relating to behavior",1
+845006,"Inferior mesenteric artery injury",1
+849000,"Total cataract",1
+857002,"Erythema simplex",1
+862001,"Anemia due to chlorate",1
+865004,"Hyperalimentation formula for ileus",1
+871005,"Contracted pelvis",1
+874002,"Therapeutic diuresis",1
+875001,"Chalcosis of eye",1
+888003,"Foetal or neonatal effect of maternal blood loss",1
+890002,"Deep third degree burn of elbow",1
+899001,"Axis I diagnosis",1
+903008,"Chorioretinal infarction",1
+904002,"Pinard's sign",1
+908004,"Superficial injury of interscapular region without infection",1
+919001,"Pseudohomosexual state",1
+928000,"Musculoskeletal disorder",1
+931004,"Gestation period, 9 weeks",1
+932006,"Flat affect",1
+934007,"Thalassemia intermedia",1
+943003,"Congenital retinal aneurysm",1
+954008,"Renon-Delille syndrome",1
+961007,"Erythema nodosum, acute form",1
+962000,"Disability evaluation, disability 6%",1
+964004,"Open wound of pharynx without complication",1
+965003,"Toxic amblyopia",1
+975000,"Anorectal agenesis",1
+978003,"Chronic infantile eczema",1
+981008,"Hemorrhagic proctitis",1
+984000,"Perirectal cellulitis",1
+987007,"Cellulitis of temple region",1
+991002,"Wide QRS complex",1
+998008,"Chagas' disease with heart involvement",1
+1003002,"Religious discrimination",1
+1020003,"Disease due to Nairovirus",1
+1023001,"Apneic",1
+1027000,"Biliary esophagitis",1
+1031006,"Open wound of trachea without complication",1
+1033009,"Thoracic arthritis",1
+1034003,"Mesenteric-portal fistula",1
+1038000,"Disacchariduria",1
+1045000,"Colonospasm",1
+1046004,"Ureteritis glandularis",1
+1051005,"Hyperplasia of islet alpha cells with gastrin excess",1
+1055001,"Stenosis of precerebral artery",1
+1059007,"Opisthorchiasis",1
+1070000,"Facial myokymia",1
+1073003,"Xeroderma pigmentosum group B",1
+1074009,"Glucocorticoid-responsive primary hyperaldosteronism",1
+1077002,"Septal infarction by EKG",1
+1079004,"Macular retinal cyst",1
+1085006,"Vulval candidiasis",1
+1089000,"Congenital sepsis",1
+1102005,"Intraerythrocytic parasitosis by Nuttallia",1
+1107004,"Early latent syphilis, positive serology, negative cerebrospinal fluid, with relapse after treatment",1
+1108009,"Female pattern alopecia",1
+1111005,"Normal sebaceous gland activity",1
+1112003,"Degenerative disorder of eyelid",1
+1116000,"Chronic aggressive type B viral hepatitis",1
+1124005,"Postpartum period, 6 days",1
+1125006,"Septicemia during labor",1
+1126007,"Knee locking",1
+1131009,"Congenital valvular insufficiency",1
+1134001,"Muehrcke lines",1
+1135000,"Solar retinitis",1
+1139006,"Confrontation (visual) test",1
+1140008,"Thermal hypesthesia",1
+1141007,"Circumoral paresthesia",1
+1145003,"DSD - Developmental speech disorder",1
+1150009,"Congenital microcheilia",1
+1151008,"Constricted visual field",1
+1152001,"Skin reaction negative",1
+1155004,"Myocardial hypertrophy, determined by electrocardiogram",1
+1156003,"Cavitary prostatitis",1
+1168007,"Allotype",1
+1184008,"Glasgow coma scale, 10",1
+1192004,"Familial amyloid neuropathy, Finnish type",1
+1194003,"Disease condition determination, well controlled",1
+1196001,"Chronic bipolar II disorder, most recent episode major depressive",1
+1197005,"Carbuncle of heel",1
+1201005,"Benign essential hypertension",1
+1203008,"Deep third degree burn of forehead AND/OR cheek with loss of body part",1
+1207009,"Optic disc glaucomatous atrophy",1
+1208004,"Gastroptosis",1
+1212005,"Juvenile dermatomyositis",1
+1214006,"Infection by Strongyloides",1
+1230003,"No diagnosis on Axis 1",1
+1232006,"Congenital articular rigidity with myopathy",1
+1239002,"Congenital anteversion of femoral neck",1
+1240000,"Lying prone",1
+1259003,"Schistosis",1
+1261007,"Multiple fractures of ribs",1
+1264004,"Injury of descending left colon without open wound into abdominal cavity",1
+1271009,"Knuckle pads, leuconychia and deafness",1
+1280009,"Isologous chimera",1
+1282001,"Laryngeal perichondritis",1
+1283006,"Visual acuity less than .02 (1/60, count fingers 1 meter) or visual field less than 5 degrees, but better than 5.",1
+1284000,"Abnormal jaw closure",1
+1286003,"Vitamin K deficiency coagulation disorder",1
+1287007,"Congenital absence of bile duct",1
+1297003,"Infection by Cladosporium carrionii",1
+1308001,"Complication of reimplant",1
+1310004,"Impaired glucose tolerance associated with genetic syndrome",1
+1317001,"Injury of ovary without open wound into abdominal cavity",1
+1318006,"Post-translational genetic protein processing",1
+1323006,"Kanamycin poisoning",1
+1332008,"Conjugated visual deviation",1
+1335005,"Peyronies disease",1
+1343000,"DTA - Deep transverse arrest",1
+1345007,"Hang nail",1
+1351002,"Iliac artery injury",1
+1356007,"Calculus of common duct with obstruction",1
+1361009,"Leucocoria",1
+1363007,"Fetal or neonatal effect of chronic maternal respiratory disease",1
+1367008,"Injury of superior mesenteric artery",1
+1370007,"Open fracture of metacarpal bone(s)",1
+1372004,"Unicornate uterus",1
+1376001,"Obsessive compulsive personality disorder",1
+1378000,"Supination-eversion injury of ankle",1
+1380006,"Agoraphobia without history of panic disorder with limited symptom attacks",1
+1383008,"Hallucinogen induced mood disorder",1
+1384002,"Diffuse cholesteatosis of middle ear",1
+1386000,"Intracranial hemorrhage",1
+1387009,"Solanum nigrum poisoning",1
+1388004,"Metabolic alkalosis",1
+1393001,"Lenz-Majewski dysplasia",1
+1395008,"Complication of ultrasound therapy",1
+1402001,"Frightened",1
+1412008,"Anterior subcapsular polar cataract",1
+1415005,"Inflammation of lymphatics",1
+1418007,"Hypoplastic chondrodystrophy",1
+1419004,"Injury of prostate without open wound into abdominal cavity",1
+1426004,"Necrotizing glomerulonephritis",1
+1427008,"Intraspinal abscess",1
+1430001,"Intracranial hemorrhage following injury without open intracranial wound AND with prolonged loss of consciousness (more than 24 hours) without return to pre-existing level",1
+1447000,"Icthyoparasitism",1
+1469007,"Miscarriage with urinary tract infection",1
+1474004,"Hypertensive heart AND renal disease complicating AND/OR reason for care during childbirth",1
+1475003,"Herpes labialis",1
+1478001,"Obliteration of lymphatic vessel",1
+1479009,"20q partial trisomy syndrome",1
+1482004,"Chalazion",1
+1486001,"Orbital congestion",1
+1488000,"PONV - Postoperative nausea and vomiting",1
+1489008,"External hordeolum",1
+1492007,"Congenital anomaly of large intestine",1
+1493002,"Acute endophthalmitis",1
+1499003,"Bipolar I disorder, single manic episode with postpartum onset",1
+1512006,"Congenital stricture of bile duct",1
+1515008,"Gorham disease",1
+1518005,"Splenitis",1
+1519002,"Congenital phlebectasia",1
+1521007,"Blister of buttock without infection",1
+1523005,"Clinical stage IV B",1
+1525003,"Blister of foot without infection",1
+1531000,"Nitrofuran derivative poisoning",1
+1532007,"Viral pharyngitis",1
+1534008,"Palsy of conjugate gaze",1
+1538006,"Central nervous system malformation in foetus affecting obstetrical care",1
+1539003,"Nodular tendinous disease of finger",1
+1542009,"Omphalocele with obstruction",1
+1544005,"Open dislocation of knee",1
+1551001,"Osteomyelitis of femur",1
+1556006,"Clark melanoma level 4",1
+1563006,"Protein S deficiency",1
+1567007,"Chronic gastric ulcer without hemorrhage, without perforation AND without obstruction",1
+1588003,"Heterosexual precocious puberty",1
+1592005,"Failed attempted termination of pregnancy with uremia",1
+1593000,"Infantile hemiplegia",1
+1606009,"Infection caused by Macracanthorhynchus hirudinaceus",1
+1608005,"Increased capillary permeability",1
+1639007,"Abnormality of organs AND/OR soft tissues of pelvis affecting pregnancy",1
+1647007,"Primaquine poisoning",1
+1648002,"Lymphocytic pseudotumor of lung",1
+1654001,"Steroid-induced glaucoma",1
+1657008,"Toxic effect of phosdrin",1
+1658003,"Closed fracture clavicle, lateral end",1
+1663004,"Tumor grade G2",1
+1667003,"Early fontanel closure",1
+1670004,"Cerebral hemiparesis",1
+1671000,"Sago spleen",1
+1674008,"Meesman's epithelial corneal dystrophy",1
+1679003,"Arthritis associated with another disorder",1
+1682008,"Transitory amino acid metabolic disorder",1
+1685005,"Rat-bite fever",1
+1686006,"Sedative, hypnotic AND/OR anxiolytic-induced anxiety disorder",1
+1694004,"Accessory lobe of lung",1
+1698001,"Ulcer of bile duct",1
+1703007,"Increased leg circumference",1
+1705000,"Closed fracture of base of neck of femur",1
+1708003,"Open dislocation of clavicle",1
+1714005,"Photokeratitis",1
+1717003,"Guttate hypomelanosis",1
+1723008,"Urethral stricture due to schistosomiasis",1
+1724002,"Infection caused by Crenosoma",1
+1734006,"Fracture of vertebral column with spinal cord injury",1
+1735007,"Thrill",1
+1739001,"Occipital fracture",1
+1742007,"Female hypererotism",1
+1744008,"Connation of teeth",1
+1748006,"Thrombophlebitis of deep femoral vein",1
+1755008,"Healed coronary",1
+1761006,"Biliary cirrhosis",1
+1763009,"Stromal keratitis",1
+1767005,"Fisher syndrome",1
+1769008,"Thoracodidymus",1
+1771008,"Insulin biosynthesis defect",1
+1776003,"RTA - Renal tubular acidosis",1
+1777007,"Increased molecular dissociation",1
+1778002,"Malocclusion due to abnormal swallowing",1
+1779005,"OFD II - Orofacial-digital syndrome II",1
+1794009,"Idiopathic corneal edema",1
+1816003,"Panic disorder with agoraphobia, severe agoraphobic avoidance AND mild panic attacks",1
+1821000,"Chemoreceptor apnea",1
+1822007,"Impaired glucose tolerance associated with pancreatic disease",1
+1824008,"Allergic gastritis",1
+1826005,"Granuloma of lip",1
+1828006,"Infestation caused by Gasterophilus hemorrhoidalis",1
+1829003,"Microcephalus",1
+1833005,"Phacoanaphylactic endophthalmitis",1
+1835003,"Necrosis of pancreas",1
+1837006,"Orciprenaline poisoning",1
+1845001,"Paraparesis",1
+1847009,"Endophthalmitis",1
+1848004,"Poisoning caused by gaseous anesthetic",1
+1852004,"Traumatic injury of sixth cranial nerve",1
+1855002,"Developmental academic disorder",1
+1856001,"Accessory nose",1
+1857005,"Congenital rubella syndrome",1
+1858000,"Infection caused by Stilesia globipunctata",1
+1860003,"Fluid volume disorder",1
+1865008,"Impaired intestinal protein absorption",1
+1869002,"Rupture of iris sphincter",1
+1881003,"Increased nutritional requirement",1
+1892002,"Star figure at the macula",1
+1896004,"Ectopic breast tissue",1
+1897008,"Amsinckia species poisoning",1
+1899006,"Autosomal hereditary disorder",1
+1903004,"Infestation caused by Psorergates ovis",1
+1908008,"von Willebrand disease, type IIC",1
+1909000,"Impairment level: better eye: severe impairment: lesser eye: near-total impairment",1
+1922008,"Congenital absence of urethra",1
+1926006,"Osteopetrosis",1
+1938002,"Emotional AND/OR mental disease in mother complicating pregnancy, childbirth AND/OR puerperium",1
+1939005,"Abnormal vascular flow",1
+1943009,"Left-right confusion",1
+1953005,"Congenital deficiency of pigment of skin",1
+1954004,"Dilated cardiomyopathy secondary to toxic reaction",1
+1955003,"Preauricular pit",1
+1959009,"Encephalartos species poisoning",1
+1961000,"Chronic polyarticular juvenile rheumatoid arthritis",1
+1963002,"PNH - Paroxysmal nocturnal hemoglobinuria",1
+1965009,"Normal skin pH",1
+1967001,"Congenital absence of forearm only",1
+1973000,"Sedative, hypnotic AND/OR anxiolytic-induced psychotic disorder with delusions",1
+1977004,"Oxymetholone poisoning",1
+1979001,"Focal choroiditis",1
+1980003,"Seromucinous otitis media",1
+1981004,"Urhidrosis",1
+1988005,"Late effect of injury to nerve roots, spinal plexus AND/OR other nerves of trunk",1
+1989002,"Burn of vagina AND/OR uterus",1
+2004005,"Normotensive",1
+2012002,"Fracture of lunate",1
+2024009,"Dilated cardiomyopathy secondary to metazoal myocarditis",1
+2028007,"Erythema induratum",1
+2032001,"Cerebral edema",1
+2036003,"Acquired factor VII deficiency disease",1
+2040007,"Neurogenic thoracic outlet syndrome",1
+2041006,"Eunuchoid gigantism",1
+2043009,"Alcoholic gastritis",1
+2053005,"Late effect of injury to blood vessels of thorax, abdomen AND/OR pelvis",1
+2055003,"Recurrent erosion syndrome",1
+2058001,"Bilateral loss of labyrinthine reactivity",1
+2061000,"Conductive hearing loss of combined sites",1
+2065009,"Autosomal dominant optic atrophy",1
+2066005,"Gastric ulcer with hemorrhage AND perforation but without obstruction",1
+2070002,"Burning sensation in eye",1
+2073000,"Delusions",1
+2087000,"Pulmonary nocardiosis",1
+2089002,"Pagets disease of bone",1
+2091005,"Pharyngeal diverticulitis",1
+2094002,"Carbon disulfide causing toxic effect",1
+2102007,"Deep corneal vascularization",1
+2103002,"Reflex sympathetic dystrophy of upper extremity",1
+2107001,"Anisomelia",1
+2109003,"Isolated somatotropin deficiency",1
+2114004,"Infection caused by Cysticercus pisiformis",1
+2116002,"Intramembranous bone formation",1
+2120003,"Weak cry",1
+2121004,"Ethopropazine poisoning",1
+2128005,"Disorder of adenoid",1
+2129002,"Edema of pharynx",1
+2132004,"Meconium in amniotic fluid noted before labor in liveborn infant",1
+2134003,"Diffuse pain",1
+2136001,"Open wound of jaw with complication",1
+2138000,"LSP - Left sacroposterior position",1
+2145000,"Anal intercourse",1
+2149006,"Decreased hormone production",1
+2158004,"Infection caused by Contracaecum",1
+2167004,"Retinal hemangioblastomatosis",1
+2169001,"Thoracic radiculitis",1
+2170000,"Gallop rhythm",1
+2176006,"Halogen acne",1
+2177002,"PHN - Post-herpetic neuralgia",1
+2186007,"Compensated metabolic alkalosis",1
+2198002,"Visceral epilepsy",1
+2202000,"Open posterior dislocation of distal end of femur",1
+2204004,"Acquired deformity of pinna",1
+2213002,"Congenital anomaly of vena cava",1
+2216005,"Nocturnal emission",1
+2217001,"Superficial injury of perineum without infection",1
+2219003,"Disability evaluation, disability 100%",1
+2224000,"Selenium poisoning",1
+2228002,"Scintillating scotoma",1
+2229005,"Chimera",1
+2231001,"Nerve plexus disorder",1
+2237002,"Painful breathing -pleurodynia",1
+2239004,"Previous pregnancies 6",1
+2241003,"X-linked absence of thyroxine-binding globulin",1
+2243000,"Hypercalcemia due to hyperthyroidism",1
+2245007,"Foreign body in nasopharynx",1
+2251002,"Primary hypotony of eye",1
+2256007,"Monovular twins",1
+2261009,"Obstetrical pulmonary fat embolism",1
+2268003,"Victim of homosexual aggression",1
+2284002,"Pulsating exophthalmos",1
+2295008,"Closed fracture of upper end of forearm",1
+2296009,"Iron dextran toxicity",1
+2298005,"Focal facial dermal dysplasia",1
+2301009,"Psychosomatic factor in physical condition, psychological component of unknown degree",1
+2303007,"Inguinal hernia with gangrene",1
+2304001,"Intervertebral discitis",1
+2307008,"Peripancreatic fat necrosis",1
+2308003,"Silent alleles",1
+2312009,"Reactive attachment disorder of infancy OR early childhood, inhibited type",1
+2314005,"Unprotected intercourse",1
+2326000,"Marriage annulment",1
+2339001,"Sexual overexposure",1
+2341000,"Infection caused by Moniliformis",1
+2351004,"Genetic transduction",1
+2355008,"Rud syndrome",1
+2359002,"Hyper-beta-alaninemia",1
+2365002,"Simple chronic pharyngitis",1
+2366001,"Late effect of dislocation",1
+2367005,"Acute hemorrhagic gastritis",1
+2374000,"Monofascicular block",1
+2385003,"Cellulitis of pectoral region",1
+2388001,"Normal variation in translucency",1
+2390000,"Acute gonococcal vulvovaginitis",1
+2391001,"Achondrogenesis",1
+2396006,"Malignant pyoderma",1
+2398007,"Quinidine toxicity by electrocardiogram",1
+2403008,"Dependence syndrome",1
+2415007,"Lumbosacral root lesion",1
+2418009,"Polyester fume causing toxic effect",1
+2419001,"Open wound of forehead with complication",1
+2420007,"Third degree burn of multiple sites of upper limb",1
+2432006,"Cerebrospinal fluid circulation disorder",1
+2435008,"Ascaridiasis",1
+2437000,"Placenta circumvallata",1
+2438005,"Iniencephaly",1
+2439002,"Purulent endocarditis",1
+2443003,"Hydrogen sulfide poisoning",1
+2452007,"Fetal rotation",1
+2463005,"Acquired heterochromia of iris",1
+2469009,"Onychomalacia",1
+2470005,"Brain damage",1
+2471009,"Intra-abdominal abscess postprocedure",1
+2472002,"Passes no urine",1
+2473007,"Intermittent vertical squint",1
+2477008,"Superficial phlebitis",1
+2492009,"Disorder of nutrition",1
+2495006,"Congenital cerebral arteriovenous aneurysm",1
+2496007,"Acalculia",1
+2506003,"Early onset dysthymia",1
+2513003,"Tinea capitis caused by Trichophyton",1
+2518007,"Cryptogenic sexual precocity",1
+2521009,"Bone conduction better than air",1
+2523007,"Salmonella pneumonia",1
+2526004,"Noninflammatory disorder of the female genital organs",1
+2528003,"Viremia",1
+2532009,"Choroidal rupture",1
+2534005,"Congenital absence of vena cava",1
+2538008,"Ketosis",1
+2541004,"Compulsive buying",1
+2554006,"Acute purulent pericarditis",1
+2556008,"Disease of supporting structures of teeth",1
+2560006,"Complex syndactyly of fingers",1
+2562003,"Athanasia trifurcata poisoning",1
+2576002,"Trachoma",1
+2581006,"Clasp knife rigidity",1
+2582004,"Deep third degree burn of multiple sites of lower limb",1
+2583009,"Filigreed network of venous valves",1
+2584003,"Cerebral degeneration in childhood",1
+2585002,"Pneumococcal pleurisy",1
+2589008,"Acute dacryoadenitis",1
+2591000,"Crush injury of shoulder region",1
+2593002,"Dubowitz syndrome",1
+2602008,"Hemarthrosis of shoulder",1
+2606006,"Boil of perineum",1
+2615004,"Graafian follicle cyst",1
+2618002,"Chronic recurrent major depressive disorder",1
+2622007,"Infected ulcer of skin",1
+2624008,"Prepubertal periodontitis",1
+2625009,"Senter syndrome",1
+2630008,"Open wound of finger without complication",1
+2634004,"Decreased blood erythrocyte volume",1
+2638001,"Hypercalcemia caused by a drug",1
+2640006,"Clinical stage 4",1
+2651006,"Closed traumatic dislocation of elbow joint",1
+2655002,"Invalidism",1
+2657005,"Overflow proteinuria",1
+2663001,"Palpatory proteinuria",1
+2665008,"Coordinate convulsion",1
+2683000,"Nonvenomous insect bite of axilla without infection",1
+2689001,"Dominant dystrophic epidermolysis bullosa with absence of skin",1
+2694001,"Myelophthisic anemia",1
+2704003,"Acute disease",1
+2707005,"Necrotizing enterocolitis",1
+2713001,"Closed pneumothorax",1
+2724004,"Auditory recruitment",1
+2725003,"Previous abnormality of glucose tolerance",1
+2733002,"Heel pain",1
+2736005,"Honeycomb atrophy of face",1
+2740001,"Gouty proteinuria",1
+2749000,"Congenital deformity of hip",1
+2751001,"Fibrocalculous pancreatic diabetes",1
+2761008,"Decreased stool caliber",1
+2764000,"Joint crackle",1
+2770006,"Fetal or neonatal effect of antibiotic transmitted via placenta and/or breast milk",1
+2772003,"Epidermolysis bullosa acquisita",1
+2775001,"Intra-articular loose body",1
+2776000,"Organic brain syndrome",1
+2781009,"Miscarriage complicated by delayed and/or excessive hemorrhage",1
+2782002,"Temporomandibular dysplasia",1
+2783007,"Gastrojejunal ulcer without hemorrhage AND without perforation",1
+2786004,"Epithelial ovarian tumor, International Federation of Gynecology and Obstetrics stage III",1
+2790002,"Impairment level: one eye: total impairment: other eye: not specified",1
+2805007,"Phosmet poisoning",1
+2806008,"Impaired psychomotor development",1
+2807004,"Chronic gastrojejunal ulcer with perforation",1
+2808009,"Infection caused by Prosthenorchis elegans",1
+2815001,"Sexual pyromania",1
+2816000,"Dilated cardiomyopathy secondary to myotonic dystrophy",1
+2818004,"Congenital vascular anomaly of eye",1
+2819007,"Magnesium sulfate poisoning",1
+2825006,"Abrasion and/or friction burn of gum without infection",1
+2828008,"Congenital stenosis of nares",1
+2829000,"Uhl disease",1
+2831009,"Pyloric antral vascular ectasia",1
+2835000,"Hemolytic anemia due to cardiac trauma",1
+2836004,"Butane causing toxic effect",1
+2838003,"Piblokto",1
+2840008,"Open fracture of vault of skull with cerebral laceration AND/OR contusion",1
+2850009,"Infection caused by Schistosoma incognitum",1
+2853006,"Macular keratitis",1
+2856003,"Vitamin A-responsive dermatosis",1
+2858002,"Postpartum sepsis",1
+2884008,"Spherophakia-brachymorphia syndrome",1
+2893009,"Anomaly of chromosome pair 10",1
+2897005,"Immune thrombocytopenia",1
+2899008,"Thought blocking",1
+2900003,"Fibromuscular dysplasia of renal artery",1
+2901004,"Altered blood passed per rectum",1
+2902006,"Decreased lymphocyte life span",1
+2904007,"Male infertility",1
+2910007,"Discharge from penis",1
+2912004,"Cystic-bullous disease of the lung",1
+2917005,"Transient hypothyroidism",1
+2918000,"Infection caused by Bacteroides",1
+2919008,"Nausea, vomiting and diarrhea",1
+2929001,"Arterial occlusion",1
+2935001,"Antiasthmatic poisoning",1
+2940009,"Intrabasal vesicular dermatitis",1
+2946003,"Osmotic diarrhea",1
+2951009,"Atopic cataract",1
+2955000,"Chronic ulcerative pulpitis",1
+2965006,"Nevoid congenital alopecia",1
+2967003,"Non-comitant strabismus",1
+2972007,"Occlusion of anterior spinal artery",1
+2973002,"Pelvic organ injury without open wound into abdominal cavity",1
+2978006,"Aneurysm of conjunctiva",1
+2981001,"Pulsatile mass of abdomen",1
+2989004,"Complication following molar AND/OR ectopic pregnancy",1
+2990008,"Lymphocytic leukemoid reaction",1
+2992000,"Pigmentary pallidal degeneration",1
+2994004,"Brain fag",1
+2999009,"Injury of ear region",1
+3002002,"Thyroid hemorrhage",1
+3004001,"Congenital dilatation of esophagus",1
+3006004,"Altered consciousness",1
+3009006,"Solanum malacoxylon poisoning",1
+3013004,"Open wound of ear drum without complication",1
+3014005,"Autoeczematization",1
+3018008,"Penetration of eyeball with magnetic foreign body",1
+3019000,"Closed anterior dislocation of elbow",1
+3021005,"Normal gastric acidity",1
+3023008,"Acute peptic ulcer without hemorrhage, without perforation AND without obstruction",1
+3032005,"Nonvenomous insect bite of cheek without infection",1
+3033000,"Bone AND/OR joint disorder of pelvis in mother complicating pregnancy, childbirth AND/OR puerperium",1
+3038009,"Acute lymphangitis of umbilicus",1
+3044008,"Vitreous prolapse",1
+3053001,"Poisoning caused by nitroglycerin",1
+3059002,"Acute lymphangitis of thigh",1
+3067005,"Weak C phenotype",1
+3071008,"Widow",1
+3072001,"Hormone-induced hypopituitarism",1
+3073006,"Ruvalcaba syndrome",1
+3084004,"Nonvenomous insect bite of gum without infection",1
+3089009,"Disability evaluation, impairment, class 7",1
+3094009,"Vomiting in infants AND/OR children",1
+3095005,"Induced malaria",1
+3097002,"Superficial injury of lip with infection",1
+3098007,"Ventricular septal rupture",1
+3105002,"Intron",1
+3109008,"Secondary dysthymia early onset",1
+3110003,"AOM - Acute otitis media",1
+3119002,"Brain stem laceration with open intracranial wound AND loss of consciousness",1
+3129009,"Infarction of ovary",1
+3135009,"OE - Otitis externa",1
+3140001,"Citrullinemia, subacute type",1
+3144005,"Staphylococcal pleurisy",1
+3158007,"Panic disorder with agoraphobia, agoraphobic avoidance in partial remission AND panic attacks in partial remission",1
+3160009,"Infertility of cervical origin",1
+3163006,"Acute adenoviral follicular conjunctivitis",1
+3168002,"Thrombophlebitis of intracranial venous sinus",1
+3185000,"Mood-congruent delusion",1
+3199001,"Sprain of shoulder joint",1
+3200003,"Sacrocoxalgia",1
+3208005,"Open wound of ossicles without complication",1
+3214003,"Invasive pulmonary aspergillosis",1
+3217005,"Open dislocation of sixth cervical vertebra",1
+3218000,"Mycotic disease",1
+3219008,"Disease type AND/OR category unknown",1
+3228009,"Closed fracture of the radial shaft",1
+3229001,"Tracheal ulcer",1
+3230006,"Illegal termination of pregnancy with afibrinogenemia",1
+3238004,"Pericarditis",1
+3239007,"Lymphocyte disorder",1
+3253007,"Dyschromia",1
+3254001,"Infection caused by Strongyloides westeri",1
+3259006,"Homeria species poisoning",1
+3261002,"Migratory osteolysis",1
+3263004,"Verumontanitis",1
+3272007,"Stomatocytosis",1
+3274008,"Flat chest",1
+3275009,"Behcet syndrome, vascular type",1
+3276005,"Toad poisoning",1
+3277001,"Terminal mood insomnia",1
+3282008,"Arc eye",1
+3283003,"Feeling of sand or foreign body in eye",1
+3286006,"Patient status determination, greatly improved",1
+3289004,"Anisometropia",1
+3291007,"Closed fracture of two ribs",1
+3298001,"Amnestic syndrome",1
+3303004,"Disease caused by Arenavirus",1
+3304005,"Bronchial compression",1
+3305006,"Disorder of lymphatic vessel",1
+3308008,"Atrophic-hyperplastic gastritis",1
+3310005,"Foreign body granuloma of skin",1
+3321001,"Renal abscess",1
+3323003,"Leukoplakia of penis",1
+3327002,"Acquired jerk nystagmus",1
+3331008,"Open fracture of neck of metacarpal bone",1
+3344003,"Toxic labyrinthitis",1
+3345002,"Idiopathic osteoporosis",1
+3355003,"Anti-common cold drug poisoning",1
+3358001,"Lichen ruber moniliformis",1
+3368006,"Dull chest pain",1
+3376008,"Pseudoptyalism",1
+3381004,"Open fracture of astragalus",1
+3387000,"Auditory discrimination aphasia",1
+3391005,"Negative for tumor cells",1
+3393008,"Phlebitis following infusion, perfusion AND/OR transfusion",1
+3398004,"Cadmium poisoning",1
+3401001,"Cercopithecus herpesvirus 1 disease",1
+3415004,"Cyanosis",1
+3419005,"Faucial diphtheria",1
+3421000,"Open blow-out fracture orbit",1
+3424008,"Heart rate fast",1
+3426005,"Retained magnetic intraocular foreign body",1
+3427001,"Nonglucosuric melituria",1
+3434004,"Myotonia",1
+3439009,"Severe combined immunodeficiency (SCID) due to absent peripheral T cell maturation",1
+3441005,"Disorder of sebaceous gland",1
+3446000,"Open fracture of T7-T12 level with spinal cord injury",1
+3449007,"Finger agnosia",1
+3456001,"Chronic progressive non-hereditary chorea",1
+3458000,"Myositis ossificans associated with dermato / polymyositis",1
+3461004,"Deep third degree burn of thumb",1
+3464007,"Infection caused by Oesophagostomum dentatum",1
+3468005,"Neonatal infective mastitis",1
+3469002,"Partial thickness burn of thumb",1
+3472009,"Spondylolisthesis, grade 4",1
+3474005,"Glycine max poisoning",1
+3480002,"Burn of wrist",1
+3482005,"Postoperative esophagitis",1
+3483000,"Chronic peptic ulcer with perforation",1
+3487004,"Pulmonary candidiasis",1
+3500002,"Open wound of ossicles with complication",1
+3502005,"Cervical lymphadenitis",1
+3503000,"Gender identity disorder of adolescence, previously asexual",1
+3505007,"Nonallopathic lesion of the arm",1
+3506008,"Stenosis of retinal artery",1
+3507004,"Abscess of thigh",1
+3511005,"Infectious thyroiditis",1
+3514002,"Peribronchial fibrosis of lung",1
+3519007,"Disorder of synovium",1
+3528008,"Restricted carbohydrate fat controlled diet",1
+3529000,"Infection caused by Sanguinicola",1
+3530005,"Bipolar 1 disorder, single manic episode, full remission",1
+3531009,"Intrapsychic conflict",1
+3533007,"Acute palmoplantar pustular psoriasis",1
+3539006,"Enteromenia",1
+3542000,"Laceration extending into parenchyma of spleen with open wound into abdominal cavity",1
+3544004,"Hair-splitting",1
+3545003,"Diastolic dysfunction",1
+3548001,"Brachial plexus disorder",1
+3549009,"Pancreatic acinar atrophy",1
+3558002,"Mesenteric infarction",1
+3560000,"Bilateral recurrent inguinal hernia",1
+3570003,"Increased blood erythrocyte volume",1
+3571004,"Megaloblastic anemia due to pancreatic insufficiency",1
+3577000,"Lattice retinal degeneration",1
+3585009,"Blinking",1
+3586005,"Psychogenic fugue",1
+3589003,"Syphilitic pericarditis",1
+3590007,"Enteroenteric fistula",1
+3591006,"Metabolic acidosis, normal anion gap, bicarbonate losses",1
+3598000,"Partial recent retinal detachment with single defect",1
+3611003,"Demeton poisoning",1
+3633001,"Abscess of hand",1
+3634007,"Legal termination of pregnancy complicated by metabolic disorder",1
+3639002,"Glossoptosis",1
+3640000,"Late effect of traumatic amputation",1
+3641001,"Infection caused by Coenurosis serialis",1
+3642008,"Steryl-sulfate sulfohydrolase deficiency",1
+3644009,"Macerated skin",1
+3649004,"Contusion, multiple sites of trunk",1
+3650004,"Congenital absence of liver,total",1
+3652007,"Overproduction of growth hormone",1
+3657001,"Osteospermum species poisoning",1
+3660008,"Lethal glossopharyngeal defect",1
+3662000,"Rolling hiatus hernia",1
+3677008,"Academic problem",1
+3680009,"Monocephalus tripus dibrachius",1
+3681008,"Thrombophlebitis of torcular Herophili",1
+3696007,"Functional dyspepsia",1
+3699000,"Transverse deficiency of arm",1
+3703002,"Ischiatic hernia with gangrene",1
+3704008,"Diffuse endocapillary proliferative glomerulonephritis",1
+3705009,"Congenital malformation of anterior chamber of eye",1
+3712000,"Degenerated eye",1
+3716002,"Thyroid goiter",1
+3720003,"Abnormal presence of hemoglobin",1
+3723001,"Joint inflammation",1
+3733009,"Congenital eventration of right crus of diaphragm",1
+3736001,"Open wound of thumbnail with tendon involvement",1
+3738000,"VH - Viral hepatitis",1
+3744001,"Hyperlipoproteinemia",1
+3745000,"Sleep rhythm problem",1
+3747008,"EC - Ejection click",1
+3750006,"Arteriospasm",1
+3751005,"Contusion of labium",1
+3752003,"Infection by Trichuris",1
+3754002,"Dysplasia of vagina",1
+3755001,"PRP - Pityriasis rubra pilaris",1
+3756000,"Static ataxia",1
+3759007,"Injury of heart with open wound into thorax",1
+3760002,"Familial multiple factor deficiency syndrome, type V",1
+3762005,"Bilateral recurrent femoral hernia with gangrene",1
+3763000,"Expected bereavement due to life event",1
+3783004,"Enamel pearls",1
+3797007,"Periodontal cyst",1
+3798002,"Premature birth of identical twins, both stillborn",1
+3815005,"Crohn disease of rectum",1
+3820005,"Inner ear conductive hearing loss",1
+3827008,"Aneurysm of artery of neck",1
+3830001,"Subcutaneous emphysema",1
+3841004,"Blister of cheek with infection",1
+3845008,"Duplication of intestine",1
+3855007,"Disorder of pancreas",1
+3859001,"Late effect of open wound of extremities without tendon injury",1
+3873005,"Failed attempted termination of pregnancy with acute necrosis of liver",1
+3885002,"ABO isoimmunization in pregnancy",1
+3886001,"Congenital fecaliths",1
+3899003,"Neutropenic typhlitis",1
+3900008,"Mixed sensory-motor polyneuropathy",1
+3902000,"Non dose-related drug-induced neutropenia",1
+3903005,"Closed traumatic pneumothorax",1
+3908001,"Infestation caused by Haematopinus",1
+3909009,"Coeur en sabot",1
+3913002,"Injury of gastrointestinal tract with open wound into abdominal cavity",1
+3914008,"Mental disorder in childhood",1
+3928002,"Zika virus disease",1
+3939004,"Bacterial colony density, transparent",1
+3944006,"X-linked placental steryl-sulfatase deficiency",1
+3947004,"High oxygen affinity hemoglobin polycythemia",1
+3950001,"Birth",1
+3951002,"Proctitis",1
+3972004,"Idiopathic insomnia",1
+3975002,"Deep third degree burn of lower limb",1
+3978000,"AIHA - Warm autoimmune hemolytic anemia",1
+3987009,"Congenital absence of trachea",1
+3993001,"Infection caused by Muellerius",1
+3999002,"Acute pyelitis without renal medullary necrosis",1
+4003003,"Alphavirus disease",1
+4004009,"Monster with cranial anomalies",1
+4006006,"Foetal tachycardia affecting management of mother",1
+4009004,"Lower urinary tract infection",1
+4016003,"Empyema of mastoid",1
+4017007,"Increased stratum corneum adhesiveness",1
+4022007,"Vulvitis circumscripta plasmacellularis",1
+4026005,"Interstitial mastitis associated with childbirth",1
+4030008,"Le Dantec virus disease",1
+4038001,"Myrotheciotoxicosis",1
+4039009,"Multiple vitamin deficiency disease",1
+4040006,"Hassall-Henle bodies",1
+4041005,"Congenital anomaly of macula",1
+4046000,"Degenerative spondylolisthesis",1
+4062006,"Lumbosacral plexus lesion",1
+4063001,"Achillodynia",1
+4069002,"Anoxic brain damage during AND/OR resulting from a procedure",1
+4070001,"Palinphrasia",1
+4075006,"Peganum harmala poisoning",1
+4082005,"Syphilitic myocarditis",1
+4088009,"Acquired hydrocephalus",1
+4089001,"Meningococcemia",1
+4092002,"Nonallopathic lesion of costovertebral region",1
+4103001,"Complex partial seizure",1
+4106009,"Rotator cuff rupture",1
+4107000,"Infertile male syndrome",1
+4113009,"Arrested hydrocephalus",1
+4120002,"Bronchiolitis",1
+4124006,"Insect bite, nonvenomous, of vagina, infected",1
+4127004,"Prostatic obstruction",1
+4129001,"Argyll-Robertson pupil",1
+4135001,"11p partial monosomy syndrome",1
+4136000,"Macrodactylia of toes",1
+4142001,"Muscular asthenopia",1
+4152002,"Acquired hypoprothrombinemia",1
+4160001,"Congenital anomaly of upper respiratory system",1
+4168008,"Tibial plateau chondromalacia",1
+4170004,"Ehlers-Danlos syndrome, procollagen proteinase resistant",1
+4174008,"Tripartite placenta",1
+4175009,"Infestation by Estrus",1
+4178006,"Partial recent retinal detachment with multiple defects",1
+4181001,"Normal peak expiratory flow rate",1
+4183003,"Charcot-Marie-Tooth disease, type IC",1
+4184009,"Congenital malformation of the endocrine glands",1
+4191007,"Scaphoid head",1
+4195003,"Duplication of anus",1
+4197006,"Disability evaluation, impairment, class 5",1
+4199009,"18p partial trisomy syndrome",1
+4208000,"Closed multiple fractures of both lower limbs",1
+4210003,"OH - Ocular hypertension",1
+4223005,"Parkinsonism caused by drug",1
+4224004,"Complication of infusion",1
+4225003,"Nasal tuberculosis",1
+4229009,"Phthisical eye",1
+4232007,"Chronic vulvitis",1
+4237001,"Suppurative pulpitis",1
+4240001,"Rupture of aorta",1
+4241002,"Listeria infection",1
+4242009,"18q partial monosomy syndrome",1
+4244005,"Urticaria neonatorum",1
+4248008,"Synovitis AND/OR tenosynovitis associated with another disease",1
+4249000,"Poor peripheral circulation",1
+4251001,"Internal eye sign",1
+4260009,"Sacral spinal cord injury without bone injury",1
+4262001,"Phlebitis of superior sagittal sinus",1
+4264000,"Chronic pericoronitis",1
+4269005,"Chronic gastrojejunal ulcer without hemorrhage AND without perforation",1
+4273008,"Closed posterior dislocation of elbow",1
+4275001,"Conjugate gaze spasm",1
+4278004,"Superficial foreign body of axilla without major open wound but with infection",1
+4283007,"Mirizzi syndrome",1
+4287008,"Chordee of penis",1
+4294006,"Isosexual precocious puberty",1
+4300009,"Deep third degree burn of forearm",1
+4301008,"Autoimmune state",1
+4306003,"Cluster B personality disorder",1
+4307007,"Pregestational diabetes mellitus AND/OR impaired glucose tolerance, modified White class F",1
+4308002,"RSIS - Repetitive strain injury syndrome",1
+4310000,"Third degree burn of wrist AND/OR hand",1
+4313003,"Acardiacus anceps",1
+4316006,"Myometritis",1
+4320005,"Factor V deficiency",1
+4324001,"Subacute cystitis",1
+4325000,"11q partial monosomy syndrome",1
+4332009,"Subarachnoid hemorrhage following injury without open intracranial wound AND with concussion",1
+4338008,"Arnold nerve reflex cough syndrome",1
+4340003,"Acrodermatitis chronica atrophicans",1
+4349002,"Open fracture of multiple sites of metacarpus",1
+4354006,"Open dislocation of scapula",1
+4356008,"Gingival soft tissue recession",1
+4359001,"Early congenital syphilis",1
+4364002,"Structure of associations",1
+4367009,"Hoover sign",1
+4373005,"Clubbing of nail",1
+4374004,"TV - Congenital tricuspid valve abnormality",1
+4381006,"Verbal paraphasia",1
+4386001,"Bronchospasm",1
+4390004,"Chronic lithium nephrotoxicity",1
+4397001,"Partial congenital duodenal obstruction",1
+4399003,"Acute hemorrhagic pancreatitis",1
+4403007,"Exclamation point hair",1
+4406004,"Congenital anomaly of male genital system",1
+4409006,"Combined methylmalonic acidemia and homocystinuria due to defects in adenosylcobalamin and methylcobalamin synthesis",1
+4410001,"Retroperitoneal hernia with obstruction",1
+4412009,"Digital nerve injury",1
+4414005,"Infection caused by Setaria",1
+4416007,"Heerfordt syndrome",1
+4418008,"Gangrenous ergotism",1
+4426000,"Ten previous induced terminations of pregnancy",1
+4434006,"BS - Bloom syndrome",1
+4439001,"Axenfeld-Schurenberg syndrome",1
+4441000,"Severe bipolar disorder with psychotic features",1
+4445009,"TB - Urogenital tuberculosis",1
+4448006,"Allergic headache",1
+4451004,"Illegal termination of pregnancy with renal tubular necrosis",1
+4461006,"Complication of administrative procedure",1
+4463009,"Indiana-Maryland type amyloid polyneuropathy",1
+4464003,"Rocio virus disease",1
+4465002,"Spherophakia",1
+4468000,"Oppenheim gait",1
+4470009,"Blanching of skin",1
+4473006,"Migraine with aura",1
+4477007,"Juvenile myopathy AND lactate acidosis",1
+4478002,"Multiple fractures of upper AND lower limbs",1
+4481007,"Abnormal gastric secretion regulation",1
+4483005,"Syphilitic punched out ulcer",1
+160245001,"No current problems or disability",1

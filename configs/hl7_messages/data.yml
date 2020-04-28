@@ -1,0 +1,135 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+#
+# Allergies.
+#
+allergy:
+  # Taken from https://www.nhs.uk/conditions/allergies/symptoms/
+  reactions:
+    - "Sneezing"
+    - "Itchy nose"
+    - "Runny nose"
+    - "Blocked nose"
+    - "Itchy, red, watering eyes"
+    - "Wheezing"
+    - "Chest tightness"
+    - "Shortness of breath"
+    - "Cough"
+    - "Raised, itchy, red rash"
+    - "Swollen lips"
+    - "Swollen tongue"
+    - "Swollen eyes"
+    - "Swollen face"
+    - "Tummy pain"
+    - "Feeling sick"
+    - "Vomiting"
+    - "Diarrhoea"
+    - "Dry, red and cracked skin"
+  # percentage and maximum_allergies are taken from
+  # https://www.allergyuk.org/information-and-advice/statistics
+  percentage: 20
+  maximum_allergies: 3
+
+#
+# Patient names.
+#
+patient_name:
+  degrees:
+    - "B.A."
+    - "B.F.A."
+    - "B.M."
+    - "B.S."
+    - "B.S.E.E."
+    - "D.A."
+    - "D.B.A."
+    - "D.D.S."
+    - "D.M.L."
+    - "D.Min."
+    - "Ed.D."
+    - "Ed.M."
+    - "J.D."
+    - "M.A."
+    - "M.B.A."
+    - "M.F.A."
+    - "M.D."
+    - "M.M."
+    - "M.P.A."
+    - "M.Phil."
+    - "M.S.A."
+    - "M.S.E.E."
+    - "M.S.L.I.S."
+    - "M.S.P.T."
+    - "M.Th."
+    - "Ph.D."
+    - "R.N."
+    - "S.T.M."
+    - "Th.D."
+  # This is an arbitrary percentage.
+  degree_percentage: 5
+  suffixes:
+    - "Sr"
+    - "Snr"
+    - "Jr"
+    - "Jnr"
+    - "II"
+    - "III"
+    - "Ph.D."
+    - "B.Sc"
+    - "M.A."
+    - "CCNA"
+    - "O.B.E"
+    - "CPA"
+    - "DDS"
+    - "Esq"
+    - "JD"
+    - "LLD"
+    - "MD"
+    - "Ret"
+    - "RN"
+    - "DO"
+  # This is an arbitrary percentage.
+  suffix_percentage: 10
+  female_prefixes:
+    - "Mrs"
+    - "Ms"
+    - "Miss"
+  male_prefixes:
+    - "Mr"
+  # In 1911 only 37% babies were given middle name, these days - 80%:
+  # http://www.dailymail.co.uk/news/article-2515376/Middle-names-booming-80-children-given-parents-chosen-honour-lost-relatives.html
+  # Assume an average of 55%.
+  middlename_percentage: 55
+
+#
+# Patient addresses.
+#
+address:
+  # Subset of London post towns from: https://en.wikipedia.org/wiki/List_of_areas_of_London
+  cities:
+    - "London"
+    - "Croydon"
+    - "Ilford"
+    - "Wembley"
+    - "Westerham"
+  streets:
+    - "Road"
+    - "Street"
+    - "Lane"
+    - "Avenue"
+    - "Place"
+    - "Square"
+  country: "GBR"
+  types:
+    - "HOME"

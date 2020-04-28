@@ -1,0 +1,49 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+pathway_1:
+  percentage_of_patients: 1 # Arbitrary, for testing.
+  persons:
+    main_patient:
+      address:
+        all_random: true
+  pathway:
+    - result:
+        order_profile: 24 HR URINE ELECTROLYTES
+        results:
+          - test_name: Urine Creatinine
+            value: 500.00
+            unit: UMOLL
+            reference_range: 145 - 550
+          - test_name: Urine Potassium
+            value: normal value
+      parameters:
+        delay_message:
+          from: 5m
+          to: 10m
+
+pathway_autogenerate:
+  pathway:
+    - admission:
+        loc: Renal
+    - delay:
+        from: 0s
+        to: 2s
+    - discharge: {}
+    - autogenerate:
+        result:
+          order_profile: Vital Signs
+        from: -1s
+        to: 1s
+        every: 1s

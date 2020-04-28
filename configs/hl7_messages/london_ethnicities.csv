@@ -1,0 +1,23 @@
+# In HL7, ethnicities are represented as Coded Elements (type CE).
+# The format of this file is:
+# ID of the CE, Text of the CE, Frequency represented as int.
+# The frequencies and ethnicities have been derived from https://en.wikipedia.org/wiki/Ethnic_groups_in_London
+# The IDs have been made up from the ethnicity description.
+WE,White: English/Welsh/Scottish/Northern Irish/British,449
+WI,White: Irish,22
+WG,White: Gypsy or Irish Traveller,1
+WO,White: Other White,126
+MC,Mixed/multiple ethnic group: White and Black Caribbean,15
+MB,Mixed/multiple ethnic group: White and Black African,8
+MA,Mixed/multiple ethnic group: White and Asian,12
+MO,Mixed/multiple ethnic group: Other Mixed,15
+AI,Asian/Asian British: Indian,66
+AP,Asian/Asian British: Pakistani,27
+AB,Asian/Asian British: Bangladeshi,27
+AC,Asian/Asian British: Chinese,15
+AO,Asian/Asian British: Other Asian,49
+BA,Black/African/Caribbean/Black British: African,70
+BC,Black/African/Caribbean/Black British: Caribbean,42
+BO,Black/African/Caribbean/Black British: Other Black,21
+OA,Other ethnic group: Arab,13
+OE,Other ethnic group: Any other ethnic group,21

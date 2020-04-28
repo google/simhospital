@@ -1,0 +1,187 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# This file contains useful example JSON pathways for common operations.
+# All pathways in this file have a percentage_of_patients of 0, which means that
+# they are not picked when Simulated Hospital is running.
+
+{
+  "simple_admission_json": {
+    "percentage_of_patients": 0,
+    "pathway": [
+      {
+        "admission": {
+          "loc": "Renal"
+        }
+      }
+    ]
+  },
+  "discharge_at_timestamp_json": {
+    "percentage_of_patients": 0,
+    "pathway": [
+      {
+        "admission": {
+          "loc": "Renal"
+        }
+      },
+      {
+        "discharge": {
+          "discharge_time": "2019-06-06T00:00:00.000Z"
+        }
+      }
+    ]
+  },
+  "death_at_timestamp_json": {
+    "percentage_of_patients": 0,
+    "pathway": [
+      {
+        "admission": {
+          "loc": "Renal"
+        },
+        "parameters": {
+          "status": {
+            "time_of_death": "2019-06-06T00:00:00.000Z"
+          }
+        }
+      }
+    ]
+  },
+  "birth_at_timestamp_json": {
+    "percentage_of_patients": 0,
+    "persons": {
+      "main_patient": {
+        "date_of_birth": "2019-06-06T00:00:00.000Z"
+      }
+    },
+    "pathway": [
+      {
+        "admission": {
+          "loc": "Renal"
+        }
+      }
+    ]
+  },
+  # merge_json illustrates a patient arriving unconscious to a hospital, and a merge message
+  # that merges such patient with an existing patient afterwards.
+  "merge_json": {
+    "percentage_of_patients": 0,
+    "persons": {
+      "main_patient": {
+        "first_name": "Main Patient"
+      },
+      "unconscious_patient": {
+        "first_name": "Unconscious"
+      }
+    },
+    "pathway": [
+      {
+        "use_patient": {
+          "patient": "unconscious_patient"
+        }
+      },
+      {
+        "admission": {
+          "loc": "Renal"
+        }
+      },
+      {
+        "delay": {
+          "from": "1h",
+          "to": "1h"
+        }
+      },
+      {
+        "use_patient": {
+          "patient": "main_patient"
+        }
+      },
+      {
+        "merge": {
+          "children": [
+            "unconscious_patient"
+          ],
+          "parent": "main_patient"
+        }
+      },
+      {
+        "delay": {
+          "from": "2h",
+          "to": "2h"
+        }
+      },
+      {
+        "discharge": {}
+      }
+    ]
+  },
+  "discharged_deceased_json": {
+    "percentage_of_patients": 0,
+    "persons": {
+      "main_patient": {
+        "first_name": "To-be-deceased Patient"
+      }
+    },
+    "pathway": [
+      {
+        "admission": {
+          "loc": "Renal"
+        }
+      },
+      {
+        "delay": {
+          "from": "30s",
+          "to": "30s"
+        }
+      },
+      {
+        "discharge": {},
+        "parameters": {
+          "status": {
+            "death_indicator": "DECEASED",
+            "time_since_death": "0m"
+          }
+        }
+      }
+    ]
+  },
+  # admit_patient_with_mrn_and_all_demographics_json admits a patient with a fixed MRN
+  # and fixed demographics First Name, Last Name, Date of Birth and Postcode.
+  # All those fields are the important fields for patient matching, so this pathway here
+  # can be used to create a patient in which to test patient matching cases.
+  "admit_patient_with_mrn_and_all_demographics_json": {
+    "percentage_of_patients": 0,
+    "persons": {
+      "main_patient": {
+        "mrn": "291847192817319",
+        "first_name": "Elizabeth",
+        "surname": "Smith",
+        "age": {
+          "from": 20,
+          "to": 20,
+          "day_of_year": 142
+        },
+        "address": {
+          "postcode": "SW1 4DN"
+        }
+      }
+    },
+    "pathway": [
+      {
+        "admission": {
+          "loc": "Renal"
+        }
+      }
+    ]
+  }
+}

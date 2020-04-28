@@ -1,0 +1,145 @@
+Epidemiological investigation report
+Public health Risk assessment report
+Inter-agency communication document Event
+CYBB gene full and NCF1 gene c.75_76delGT analysis in Blood or Tissue by Molecular genetics method
+Palliative care Telehealth Note
+Adolescent medicine Telehealth Note
+Neonatal perinatal medicine Telehealth Note
+Allergy and immunology Telehealth Note
+Developmental-behavioral pediatrics Telehealth Note
+Gynecology Telehealth Note
+Nephrology Telehealth Note
+Orthopaedic surgery Telehealth Note
+Physical therapy Reevaluation note
+Dentistry Resident Note
+Optometry Resident Note
+Psychology Intern Note
+Anesthesia records
+Chemotherapy records
+Consult note
+Physician Discharge summary
+Provider-unspecifed, History and physical note
+Laboratory report
+Medical records
+Surgical operation note
+Physician procedure note
+Progress note
+Occupational therapy Progress note
+Physical therapy Progress note
+Podiatry Progress note
+Psychology Progress note
+Speech-language pathology Progress note
+Chiropractic Records total Encounter
+Physical therapy Records total Encounter
+Physician Records total Encounter
+Podiatry Records total Encounter
+Psychology Records total Encounter
+Social service Records total Encounter
+Speech therapy Records total Encounter
+Occupational therapy Records total Encounter
+EEG study
+EKG Study
+US Pelvis Fetus for pregnancy
+Pathology study
+Psychiatry study
+Surgical pathology study
+Temperature charts
+Nurse Notes
+Nursery records
+Emergency department Progress note
+Labor and delivery records
+Psychiatric service attachment
+Attending Progress note
+Occupational therapy Initial evaluation note
+Physical therapy Initial evaluation note
+Physician Initial evaluation note
+Podiatry Initial evaluation note
+Psychology Initial evaluation note
+Social worker Initial evaluation note
+Speech-language pathology Initial evaluation note
+Arthroscopy study
+Autopsy report
+Bronchoscopy study
+Cardiac catheterization study
+Colonoscopy Study
+Diagnostic imaging study
+Electromyogram study
+Electrophysiology study
+Endoscopy study
+Exercise stress test study
+Flexible sigmoidoscopy study
+Holter monitor study
+MR Spine study
+Spirometry study
+Transfer summary note
+Consultant Initial evaluation note
+Psychology visit note
+Plan of care note
+Alcohol and/or substance abuse service attachment
+Cardiac service attachment
+Medical social services attachment
+Occupational therapy service attachment
+Cardiac stress study Procedure
+Hospital consultations Document
+Discharge summary
+Physical therapy service attachment
+Respiratory therapy service attachment
+Skilled nursing service attachment
+Multi-specialty program Social worker Note
+Mental health Social worker Note
+XR Humerus Views
+Physician Emergency department Note
+Consultant Progress note
+Procedure note
+Speech-language pathology Note
+Dentistry Initial evaluation note
+Physician, Operation note
+Discharge note
+Nurse practitioner Progress note
+MR Joint
+Dentistry Procedure note
+Occupational therapy Note
+Physical therapy Note
+Chiropractic medicine Progress note
+Chiropractic medicine Initial evaluation note
+XR Hand Views
+Dentist Operation note
+XR Spine Views
+US Liver
+Audiology study
+Physician Transfer note
+Podiatry Operation note
+Podiatry Procedure note
+Dentistry Progress note
+Dentistry Note
+Nurse practitioner Initial evaluation note
+Nurse Discharge assessment
+Nurse Progress note
+Physician History and physical note
+Psychiatry Progress note
+Psychiatry Note
+Perimetry study
+Tonometry study
+Visual acuity study
+Heterophoria study
+Polysomnography (sleep) study
+Psychiatry Initial evaluation note
+Initial evaluation note
+Nurse Transfer note
+Social worker Note
+Attending Initial evaluation note
+Attending Discharge summary
+Social worker Progress note
+Speech therapy service attachment
+CT Chest WO contrast
+Eye ultrasound study
+Dialysis records
+Neonatal intensive care records
+Critical care records
+Perioperative records
+Nurse Initial evaluation note
+Nystagmogram study
+Nerve conduction study
+Peritoneoscopy study
+Colposcopy study
+Dentistry Discharge summary

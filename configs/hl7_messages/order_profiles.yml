@@ -1,0 +1,291 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# List of order profiles.
+# This list is a mixture of:
+# - DiagnosticReport Examples sourced from https://www.hl7.org/fhir/diagnosticreport-examples.html
+# - Hand-crafted list of order profiles, based on the clinical expertise in-house.
+# Please note that the codes are completely synthetic, as no reliable source is available.
+#
+# Source: https://www.hl7.org/fhir/diagnosticreport-example-lipids.html
+LIPID:
+  test_types:
+    Cholesterol:
+      id: tt-0001-01
+      ref_range: '[ < 4.5]'
+      unit: 'mmol/L'
+      value: '6.3'
+      value_type: NM
+    Triglyceride:
+      id: tt-0001-02
+      ref_range: '[ < 2.0]'
+      unit: 'mmol/L'
+      value: '1.3'
+      value_type: NM
+    HDL Cholesterol:
+      id: tt-0001-03
+      ref_range: '[ > 1.5]'
+      unit: 'mmol/L'
+      value: '1.3'
+      value_type: NM
+    LDL Chol. (calc):
+      id: tt-0001-04
+      ref_range: '[ < 3.0]'
+      unit: 'mmol/L'
+      value: '4.2'
+      value_type: NM
+  universal_service_id: us-0001
+# Source: https://www.hl7.org/fhir/diagnosticreport-example.html
+COMPLETE BLOOD COUNT:
+  test_types:
+    Haemoglobin:
+      id: tt-0002-01
+      ref_range: '[ 135 - 180 ]'
+      unit: 'g/L'
+      value: '176'
+      value_type: NM
+    Red Cell Count:
+      id: tt-0002-02
+      ref_range: '[ 4.2 - 6.0 ]'
+      unit: 'x10*12/L'
+      value: '5.9'
+      value_type: NM
+    Haematocrit:
+      id: tt-0002-03
+      ref_range: '[ 0.38 - 0.52 ]'
+      unit: ''
+      value: '0.55'
+      value_type: NM
+    Mean Cell Volume:
+      id: tt-0002-04
+      ref_range: '[ 80 - 98 ]'
+      unit: 'fL'
+      value: '99'
+      value_type: NM
+    Mean Cell Haemoglobin:
+      id: tt-0002-05
+      ref_range: '[ 27 - 35 ]'
+      unit: 'pg'
+      value: '36'
+      value_type: NM
+    Platelet Count:
+      id: tt-0002-06
+      ref_range: '[ 150 - 450 ]'
+      unit: 'x10*9/L'
+      value: '444'
+      value_type: NM
+    White Cell Count:
+      id: tt-0002-07
+      ref_range: '[ 4.0 - 11.0 ]'
+      unit: 'x10*9/L'
+      value: '4.6'
+      value_type: NM
+    Neutrophils per:
+      id: tt-0002-08
+      ref_range: ''
+      unit: 'PERCENT'
+      value: '20'
+      value_type: NM
+    Neutrophils:
+      id: tt-0002-09
+      ref_range: '[ 2.0 - 7.5 ]'
+      unit: 'x10*9/L'
+      value: '0.9'
+      value_type: NM
+    Lymphocytes per:
+      id: tt-0002-10
+      ref_range: ''
+      unit: 'PERCENT'
+      value: '20'
+      value_type: NM
+    Lymphocytes:
+      id: tt-0002-11
+      ref_range: '[ 1.1 - 4.0 ]'
+      unit: 'x10*9/L'
+      value: '0.9'
+      value_type: NM
+    Monocytes per:
+      id: tt-0002-12
+      ref_range: ''
+      unit: 'PERCENT'
+      value: '20'
+      value_type: NM
+    Monocytes:
+      id: tt-0002-13
+      ref_range: '[ 0.2 - 1.0 ]'
+      unit: 'x10*9/L'
+      value: '0.9'
+      value_type: NM
+    Eosinophils per:
+      id: tt-0002-14
+      ref_range: ''
+      unit: 'PERCENT'
+      value: '20'
+      value_type: NM
+    Eosinophils:
+      id: tt-0002-15
+      ref_range: '[ 0.04 - 0.40 ]'
+      unit: 'x10*9/L'
+      value: '0.92'
+      value_type: NM
+    Basophils per:
+      id: tt-0002-16
+      ref_range: ''
+      unit: 'PERCENT'
+      value: '20'
+      value_type: NM
+    Basophils:
+      id: tt-0002-17
+      ref_range: '[ < 0.21 ]'
+      unit: 'x10*9/L'
+      value: '0.92'
+      value_type: NM
+  universal_service_id: us-0002
+# Hand-crafted Urea and electrolytes profile.
+UREA AND ELECTROLYTES:
+  test_types:
+    Creatinine:
+      id: tt-0003-01
+      ref_range: 49 - 92
+      unit: UMOLL
+      value: '382'
+      value_type: NM
+    Potassium:
+      id: tt-0003-02
+      ref_range: 3.5 - 5.3
+      unit: MMOLL
+      value: '3.6'
+      value_type: NM
+    Sodium:
+      id: tt-0003-03
+      ref_range: 133 - 146
+      unit: MMOLL
+      value: '140'
+      value_type: NM
+    Urea:
+      id: tt-0003-04
+      ref_range: 2.5 - 7.8
+      unit: MMOLL
+      value: '19'
+      value_type: NM
+    eGFR (MDRD):
+      id: tt-0003-05
+      ref_range: '[ ]'
+      unit: MLMIN
+      value: <15
+      value_type: NM
+  universal_service_id: us-0003
+# Hand-crafted radiology order profile.
+MRI Ankle Lt:
+  test_types:
+    MANKL:
+      id: tt-0004-01
+      ref_range: ''
+      unit: ''
+      value: 'MANKL value'
+      value_type: TX
+    MRI Ankle Lt:
+      id: tt-0004-02
+      ref_range: ''
+      unit: '""'
+      value: 'MRI Ankle Lt value'
+      value_type: FT
+  universal_service_id: us-0004
+# Hand-crafted Vital Signs.
+Vital Signs:
+  test_types:
+    AVPU:
+      id: tt-0005-01
+      coding_system: LOINC
+      value: Alert
+      value_type: TX
+    BowelMovement:
+      id: tt-0005-02
+      coding_system: WelchAllyn
+      value: 'Yes'
+      value_type: TX
+    InsOxy:
+      id: tt-0005-03
+      coding_system: WelchAllyn
+      ref_range: 20-40
+      unit: MDC_DIM_PERCENT
+      value: 28
+    MDC_PRESS_BLD_NONINV_DIA:
+      id: tt-0005-04
+      coding_system: MDC
+      ref_range: 40-100
+      unit: MDC_DIM_MMHG
+      value: 52
+      value_type: NM
+    MDC_PRESS_BLD_NONINV_SYS:
+      id: tt-0005-05
+      coding_system: MDC
+      ref_range: 70-190
+      unit: MDC_DIM_MMHG
+      value: 100
+      value_type: NM
+    MDC_PULS_OXIM_SAT_O2:
+      id: tt-0005-06
+      coding_system: MDC
+      ref_range: 30-100
+      unit: MDC_DIM_PERCENT
+      value: 1
+      value_type: NM
+    MDC_PULS_RATE_NON_INV:
+      id: tt-0005-07
+      coding_system: MDC
+      ref_range: 50-200
+      unit: MDC_DIM_BEAT_PER_MIN
+      value: 119
+      value_type: NM
+    MDC_RESP_RATE:
+      id: tt-0005-08
+      coding_system: MDC
+      ref_range: 10-50
+    MDC_TEMP:
+      id: tt-0005-09
+      coding_system: MDC
+      ref_range: 36-38
+      unit: MDC_DIM_DEGC
+      value: 37.5
+      value_type: NM
+    OxyL:
+      id: tt-0005-10
+      coding_system: WelchAllyn
+      ref_range: 1-15
+      unit: MDC_DIM_X_L_PER_MIN
+      value: 5
+    OxygenDev:
+      id: tt-0005-11
+      coding_system: WelchAllyn
+      value: Venturi
+      value_type: TX
+    PAIN LEVEL:
+      id: tt-0005-12
+      coding_system: L
+      ref_range: 1-10
+      unit: /10
+      value: 8
+      value_type: NM
+    TemperatureSite:
+      id: tt-0005-13
+      coding_system: WelchAllyn
+      value: Axillary
+      value_type: TX
+    UrineOutput:
+      id: tt-0005-14
+      coding_system: WelchAllyn
+      value: 'Yes'
+      value_type: TX
+  universal_service_id: us-0005

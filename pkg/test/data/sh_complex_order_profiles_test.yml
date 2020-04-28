@@ -1,0 +1,92 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+UREA AND ELECTROLYTES:
+  test_types:
+    Creatinine:
+      id: lpdc-2012
+      ref_range: 49 - 92
+      unit: UMOLL
+      value: '70'
+      value_type: NM
+    Potassium:
+      id: lpdc-2804
+      ref_range: 3.5 - 5.1
+      unit: MMOLL
+      value: '3.6'
+      value_type: NM
+  universal_service_id: lpdc-3969
+
+17-OH Prog:
+  universal_service_id: OHPROG
+  test_types:
+    17-Hydroxy Progesterone:
+      id: OHPROG
+      value_type: TX
+      value: See note
+      unit: NMOLL
+      ref_range: <=9.6^^<=9.6
+
+17-OH Prog CE:
+  universal_service_id: OHPROG
+  test_types:
+    17-Hydroxy Progesterone:
+      id: OHPROG
+      value_type: CE
+      value: See note
+
+ACETYCHOLINE RECEPTOR AB:
+  universal_service_id: lpdc-1578
+  test_types:
+    Acetylcholine Receptor Ab:
+      id: lpdc-1578
+      value_type: NM
+      value: <0.2
+      unit: NMOLL
+      ref_range: 0 - 0.45
+
+ACh Receptor Ab:
+  universal_service_id: ACR
+  test_types:
+    Acetylcholine Receptor Antibody:
+      id: ACR
+      value_type: NM
+      value: 0.20
+      unit: nmol/L^nmol/L
+      ref_range: "-"
+
+17-OH PROGESTERONE GC-MS:
+  universal_service_id: HPGB
+  test_types:
+    17OH Progesterone (GC-MS):
+      id: HPGB
+      value_type: NM
+      value: 1.0
+      unit: NMOLL
+
+1HR DDAVP-HAEM A:
+  test_types:
+    1 Hour F8 Chromogenic:
+      id: 1H8C
+      ref_range: '-'
+      unit: IUDL
+      value: Form.
+      value_type: TX
+    1 Hour Factor 8:
+      id: 1HF8
+      ref_range: '-'
+      unit: IUDL
+      value: Body.
+      value_type: TX
+  universal_service_id: 1HG8

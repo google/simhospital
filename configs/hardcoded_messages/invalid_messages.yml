@@ -1,0 +1,41 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# This file contains messages to demonstrate how to use the hardcoded messages feature.
+# Hardcoded messages can be used to test robustness of the system processing invalid messages or messages that trigger specific situations.
+
+# InvalidNhsNum message represents an ADT^A01 admission message, which contains an invalid NHS number in the PID segment.
+InvalidNhsNum:
+  segments:
+  - "MSH|^~\\&|SIMHOSP|SFAC|RAPP|RFAC|%s||ADT^A01|%s|T|2.3|||AL||44|ASCII"
+  - "EVN|A01|20180709162444|||216865551019^ZZZDOCTOR^Foo^Bar Baz^^^^^DRNBR^PRSNL^^^ORGDR^|"
+  - "PID||20180709162444249^^^^MRN|20180709162444249^^^^MRN~2278322867^^^NHSNMBR||FN20180709162444^Invalid NHS^^^MR^^CURRENT||19610306|M|||1L20180709162444^2L20180709162444^3L20180709162444^^09162444^C20180709162444^HOME^^|||||||||||P||||||||"
+  - "PD1|||^^E83039|G9601039^Subel^Barry||||0||||"
+  - "PV1|1|INPATIENT|ED^ED^Chair 06^Simulated Hospital^^BED^^1^||||123^dr. J Smith|||||||||||INPATIENT|2018070916244445^^^^visitid|||||||||||||||||||||||||20180403000000||||||||"
+
+# InvalidOru_MissingPlacerAndFiller represents the ORU^R01 observation message with missing Placer and Filler numbers in the OBR segment.
+# This message contains the keyword "PID_SEGMENT_PLACEHOLDER" instead of a PID segment.
+# When Simulated Hospital sends this message in a patient pathway, it replaces the "PID_SEGMENT_PLACEHOLDER" keyword with the PID segment of the patient.
+InvalidOru_MissingPlacerAndFiller:
+  segments:
+  - "MSH|^~\\&|SIMHOSP|SFAC|RAPP|RFAC|%s||ORU^R01|%s|T|2.3|||AL||44|ASCII"
+  - "PID_SEGMENT_PLACEHOLDER"
+  - "PV1|1|INPATIENT|ED^ED^Chair 06^Simulated Hospital^^BED^^2^||||123^dr. J Smith|||161||||19||||INPATIENT|2018070916325657^^^^visitid|||||||||||||||||||||||||20180403000000||||||||"
+  - "ORC|RE||||||||20180709163256||||||20180709163256||||"
+  - "OBR|1|||us-0003^UREA AND ELECTROLYTES||20180709163256|20180709163256|||||||||456^DR. J.G. BLACK|||||306360202|20180709163256||1|f||1^^^20180709163256^^r|^||"
+  - "OBX|1|NM|tt-0003-01^Creatinine^||126|UMOLL|49-92|HH|||F|||||"
+  - "OBX|2|NM|tt-0003-03^Sodium^||10|MMOLL|135 - 145|LL|||F|||||"
+  - "OBX|3|NM|tt-0003-02^Potassium^||3.75|MMOLL|3.5 - 5.3||||F|||||"
+  - "OBX|4|NM|tt-0003-05^eGFR (MDRD)^||None|MLMIN|[ ]|None|||F|||||"
+  - "OBX|5|NM|tt-0003-04^Urea^||7.97|MMOLL|2.5 - 7.8||||F|||||"

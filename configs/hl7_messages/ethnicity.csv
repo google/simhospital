@@ -1,0 +1,23 @@
+# In HL7, ethnicities are represented as Coded Elements (type CE).
+# The format of this file is:
+# ID of the CE, Text of the CE, Frequency represented as int.
+# The frequencies have been derived from https://en.wikipedia.org/wiki/Ethnic_groups_in_London
+A,White - British,449
+B,White - Irish,22
+C,White - Other,127
+D,Mixed - White and Black Caribbean,15
+E,Mixed - White and Black African,8
+F,Mixed - White and Asian,12
+G,Mixed - Other,15
+H,Asian or Asian British - Indian,66
+J,Asian or Asian British - Pakistani,27
+K,Asian or Asian British - Bangladeshi,27
+L,Asian or Asian British - Other,49
+M,Black or Black British - Caribbean,42
+N,Black or Black British - African,70
+P,Black or Black British - Other,21
+R,Other - Chinese,15
+S,Any other ethnic group,34
+Z,Not stated,1
+# This "nil,nil" row is interpreted as an absent ethnicity.
+nil,nil,2

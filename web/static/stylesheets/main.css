@@ -1,0 +1,75 @@
+/**
+ * Copyright 2020 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import url('https://fonts.googleapis.com/css?family=Titillium+Web');
+
+h1 {
+  font-size: 50px;
+}
+
+h2 {
+  display: inline;
+}
+
+body {
+  color: #306775;
+  font-family: 'Titillium Web', sans-serif;
+}
+
+.card {
+  display: inline-block;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  margin-left: 10px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  border-radius: 4px;
+  width: 80%;
+  padding: 20px;
+}
+
+.section-title,
+.section-space {
+  display: block;
+  width: 50%;
+  margin: 10px;
+}
+
+.section-info {
+  display: inline-block;
+  vertical-align: top;
+  color: #306775;
+  margin-top: 30px;
+}
+
+.info-icon {
+  display: inline-block;
+  vertical-align: top;
+  font-size: 2em;
+  margin-top: 5px;
+  margin-right: 10px;
+  color: #3067753d;
+}
+
+.info-text {
+  display: inline-block;
+}
+
+.cmd {
+  display: block;
+  color: black;
+  font-family: 'Courier New', sans-serif;
+}

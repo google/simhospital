@@ -1,0 +1,347 @@
+// Copyright 2020 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package notes
+
+import (
+	"encoding/base64"
+	"io/ioutil"
+	"math"
+	"math/rand"
+	"os"
+	"path/filepath"
+	"strings"
+	"testing"
+
+	"github.com/google/simhospital/pkg/config"
+	"github.com/google/simhospital/pkg/generator/text"
+	"github.com/google/simhospital/pkg/pathway"
+	"github.com/google/simhospital/pkg/test/testwrite"
+)
+
+var (
+	noteTypes = []string{"ED Depart Summary", "Gynaecology & Maternity", "Surgery Inpatients"}
+	nouns     = []string{"one", "two", "three", "four", "five"}
+)
+
+const testNumSentences = 15
+
+func TestRandom(t *testing.T) {
+	rand.Seed(1)
+	nc, fc, cleanup := testSetup(t)
+	defer cleanup()
+	g := &Generator{
+		textGenerator: &text.Generator{Nouns: nouns},
+		config:        nc,
+		types:         noteTypes,
+		numSentences:  testNumSentences,
+	}
+	testCases := []struct {
+		name                   string
+		notePathway            *pathway.ClinicalNote
+		wantRandomID           bool
+		wantEncoding           string
+		wantRandomDocumentType bool
+		wantExplicitContent    bool
+	}{
+		{
+			name: "pdf, id is non-explicit, base64 encoding",
+			notePathway: &pathway.ClinicalNote{
+				ContentType: "pdf",
+			},
+			wantRandomID:           true,
+			wantEncoding:           "base64",
+			wantRandomDocumentType: true,
+		}, {
+			name: "rtf, id is non-explicit, no encoding",
+			notePathway: &pathway.ClinicalNote{
+				ContentType: "rtf",
+			},
+			wantRandomDocumentType: true,
+			wantRandomID:           true,
+		}, {
+			name: "jpg, id is explicit, base64 encoding",
+			notePathway: &pathway.ClinicalNote{
+				ContentType: "jpg",
+				DocumentID:  "some-id",
+			},
+			wantRandomDocumentType: true,
+			wantEncoding:           "base64",
+		}, {
+			name: "pdf, id is explicit, base64 encoding",
+			notePathway: &pathway.ClinicalNote{
+				ContentType: "pdf",
+				DocumentID:  "some-id",
+			},
+			wantRandomDocumentType: true,
+			wantEncoding:           "base64",
+		}, {
+			name: "txt, document type explicitly given",
+			notePathway: &pathway.ClinicalNote{
+				ContentType:  "txt",
+				DocumentType: "ED",
+				DocumentID:   "some-id",
+			},
+		}, {
+			name: "txt, explicit content given",
+			notePathway: &pathway.ClinicalNote{
+				ContentType:     "txt",
+				DocumentContent: "short content",
+			},
+			wantExplicitContent:    true,
+			wantRandomDocumentType: true,
+			wantRandomID:           true,
+		},
+	}
+	for _, tt := range testCases {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := g.RandomDocumentForClinicalNote(tt.notePathway)
+			if err != nil {
+				t.Fatalf("g.RandomDocumentForClinicalNote(%v) failed with error %v", tt.notePathway, err)
+			}
+			if got == nil {
+				t.Fatalf("g.RandomDocumentForClinicalNote(%v)=<nil>, want *message.ClinicalNote{...} instance", tt.notePathway)
+			}
+			if gotRandomID := strings.HasPrefix(got.DocumentID, "random-"); tt.wantRandomID != gotRandomID {
+				t.Errorf("g.RandomDocumentForClinicalNote(%v) got DocumentID=%s, is random? %t, want random? %t",
+					tt.notePathway, got.DocumentID, gotRandomID, tt.wantRandomID)
+			}
+			if tt.wantEncoding != got.DocumentEncoding {
+				t.Errorf("g.RandomDocumentForClinicalNote(%v) got DocumentEncoding=%s, want %s",
+					tt.notePathway, got.DocumentEncoding, tt.wantEncoding)
+			}
+			if tt.wantRandomDocumentType {
+				if !contains(got.DocumentType, g.types) {
+					t.Errorf("g.RandomDocumentForClinicalNote(%v) got DocumentType=%s, want one of %v",
+						tt.notePathway, got.DocumentType, g.types)
+				}
+			} else if got.DocumentType != tt.notePathway.DocumentType {
+				t.Errorf("g.RandomDocumentForClinicalNote(%v) got DocumentType=%s, want %s",
+					tt.notePathway, got.DocumentType, tt.notePathway.DocumentType)
+			}
+			if tt.notePathway.ContentType != "txt" && !contains(got.DocumentContent, fc[tt.notePathway.ContentType]) {
+				t.Errorf("g.RandomDocumentForClinicalNote(%v) got DocumentContent=%s, want one of %v",
+					tt.notePathway, got.DocumentContent, fc[tt.notePathway.ContentType])
+			}
+			if got, want := got.DocumentContent, tt.notePathway.DocumentContent; tt.wantExplicitContent && got != want {
+				t.Errorf("g.RandomDocumentForClinicalNote(%v) got DocumentContent=%s, want %s",
+					tt.notePathway, got, want)
+			}
+			if tt.notePathway.ContentType != "txt" || tt.wantExplicitContent {
+				return
+			}
+			sentences := strings.Split(got.DocumentContent, ".")
+			if got, want := len(sentences), testNumSentences; got != want {
+				t.Errorf("len(g.RandomDocumentForClinicalNote(%v)) got len(DocumentContent)=%v, want %v", tt.notePathway, got, want)
+			}
+		})
+	}
+}
+
+func TestRandomNotesForResult(t *testing.T) {
+	rand.Seed(1)
+	g := Generator{textGenerator: &text.Generator{Nouns: nouns}}
+	runs := float64(1000)
+	runsWithNotes := float64(0)
+	noteLenDistr := map[int]int{}
+	for i := 0; i < int(runs); i++ {
+		notes := g.RandomNotesForResult()
+		l := len(notes)
+		if l > 2 {
+			// This check is repeated later, but here we print the notes which is useful to know what went wrong.
+			t.Errorf("len(notes)=%d, want no more than 2. Notes: %v", l, notes)
+		}
+		noteLenDistr[l]++
+		if len(notes) > 0 {
+			runsWithNotes++
+		}
+	}
+	// Check that all Notes have 0, 1 or 2 sentences with 0.4, 0.5 and 0.1 probability respectively.
+	wantNoteLenDistr := map[int]int{
+		0: int(runs * 0.4),
+		1: int(runs * 0.5),
+		2: int(runs * 0.1),
+	}
+	// Allow an error of 5% of the number of runs.
+	delta := runs / 20
+	for k, v := range noteLenDistr {
+		want, ok := wantNoteLenDistr[k]
+		if !ok {
+			t.Errorf("len(notes) got %v, want length to be in %v", k, wantNoteLenDistr)
+		}
+		if math.Abs(float64(v)-float64(want)) >= delta {
+			t.Errorf("noteLenDistr[%v] = %v, want within %v of %v", k, v, delta, want)
+		}
+	}
+}
+
+func TestRandomInvalidContentTypeError(t *testing.T) {
+	nc, _, cleanup := testSetup(t)
+	defer cleanup()
+	g := &Generator{
+		textGenerator: &text.Generator{Nouns: nouns},
+		config:        nc,
+		types:         noteTypes,
+		numSentences:  testNumSentences,
+	}
+	for _, tt := range []struct {
+		name    string
+		pathway *pathway.ClinicalNote
+	}{{
+		name:    "ContentType not supported",
+		pathway: &pathway.ClinicalNote{ContentType: "doc"},
+	}, {
+		name:    "Empty ContentType",
+		pathway: &pathway.ClinicalNote{},
+	}, {
+		name: "Explicit content for pdf",
+		pathway: &pathway.ClinicalNote{
+			ContentType:     "pdf",
+			DocumentContent: "some content",
+		},
+	}} {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := g.RandomDocumentForClinicalNote(tt.pathway)
+			if err == nil {
+				t.Errorf("g.RandomDocumentForClinicalNote(%q) = %v, %v; want <nil>, error", tt.pathway, got, err)
+			}
+		})
+	}
+}
+
+func TestRandomUniformDistribution(t *testing.T) {
+	rand.Seed(1)
+	nc, fc, cleanup := testSetup(t)
+	defer cleanup()
+	g := &Generator{
+		textGenerator: &text.Generator{Nouns: nouns},
+		config:        nc,
+		types:         noteTypes,
+	}
+	arbitraryClinicalNotes := []*pathway.ClinicalNote{{
+		ContentType: "jpg",
+	}, {
+		ContentType: "rtf",
+	}, {
+		ContentType: "pdf",
+	}}
+	runs := float64(1000)
+	contentDistr := map[string]int{}
+	typesDistr := map[string]int{}
+	for _, acn := range arbitraryClinicalNotes {
+		for i := 0; i < int(runs); i++ {
+			n, err := g.RandomDocumentForClinicalNote(acn)
+			if err != nil {
+				t.Fatalf("g.RandomDocumentForClinicalNote(%v) failed with %v", acn, err)
+			}
+			contentDistr[n.DocumentContent]++
+			typesDistr[n.DocumentType]++
+		}
+	}
+	// Each ContentType in arbitraryClinicalNotes is run 1000 times.
+	// For uniform distribution we expect each available note to have selected
+	// equally, eg: If there are 5 sample notes for an extension, each of them
+	// to have selected roughly 1000 / 5 = 200 times.
+	wantContentDistr := map[string]int{}
+	for _, v := range fc {
+		numOfNotes := float64(len(v))
+		for _, content := range v {
+			wantContentDistr[content] = int(runs / numOfNotes)
+		}
+	}
+	// Allow an error of 5% of the number of runs.
+	delta := 0.05 * runs
+	for k, v := range contentDistr {
+		want, ok := wantContentDistr[k]
+		if !ok {
+			t.Errorf("content in generated note is %s, want content to be in %v", k, wantContentDistr)
+		}
+		if math.Abs(float64(v)-float64(want)) >= delta {
+			t.Errorf("contentDistr[%s]=%d want within %v of %d", k, v, delta, want)
+		}
+	}
+	// Check all DocumentTypes are selected uniformly.
+	// Expected probability is total number of runs divided by number of noteTypes.
+	wantP := int(runs * float64(len(arbitraryClinicalNotes)) / float64(len(noteTypes)))
+	wantTypesDistr := map[string]int{}
+	for _, noteType := range noteTypes {
+		wantTypesDistr[noteType] = wantP
+	}
+	// Allow an error of 5% of total number of runs.
+	delta = 0.05 * runs * float64(len(arbitraryClinicalNotes))
+	for k, v := range typesDistr {
+		want, ok := wantTypesDistr[k]
+		if !ok {
+			t.Errorf("DocumentType in generated note is %s, want DocumentType to be in %v", k, wantTypesDistr)
+		}
+		if math.Abs(float64(v)-float64(want)) >= delta {
+			t.Errorf("typesDistr[%v] = %d, want within %v of %d", k, v, delta, want)
+		}
+	}
+}
+
+func testSetup(t *testing.T) (map[string][]config.ClinicalNote, map[string][]string, func()) {
+	t.Helper()
+	mainDir, err := ioutil.TempDir("", "notes")
+	if err != nil {
+		t.Fatalf(`ioutil.TempDir("", "notes") failed with %v`, err)
+	}
+	fileContents := make(map[string][]string)
+	for _, n := range []struct {
+		content  string
+		filename string
+	}{{
+		content:  "new content",
+		filename: "test2.rtf",
+	}, {
+		content:  "some rtf content",
+		filename: "test1.rtf",
+	}, {
+		content:  "some jpg content",
+		filename: "test1.jpg",
+	}, {
+		content:  "some more jpg content",
+		filename: "test2.jpg",
+	}, {
+		content:  "long pdf content",
+		filename: "test1.pdf",
+	}, {
+		content:  "short pdf content",
+		filename: "test2.pdf",
+	}} {
+		contentBytes := []byte(n.content)
+		split := strings.Split(n.filename, ".")
+		if ext := split[len(split)-1]; ext == "jpg" || ext == "pdf" || ext == "png" {
+			fileContents[ext] = append(fileContents[ext], base64.StdEncoding.EncodeToString(contentBytes))
+		} else {
+			fileContents[ext] = append(fileContents[ext], n.content)
+		}
+		tempfn := filepath.Join(mainDir, n.filename)
+		testwrite.BytesToFileWithName(t, contentBytes, tempfn)
+	}
+	nc, err := config.LoadNotesConfig(mainDir)
+	if err != nil {
+		t.Fatalf("config.LoadNotesConfig(%s) failed with error %v", mainDir, err)
+	}
+	return nc, fileContents, func() { os.RemoveAll(mainDir) }
+}
+
+func contains(str string, strs []string) bool {
+	for _, s := range strs {
+		if s == str {
+			return true
+		}
+	}
+	return false
+}

@@ -1,0 +1,2108 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# This file contains Acute Kidney Injury (AKI) scenarios.
+# AKI is estimated to affect 13-18% of people admitted to hospital. It can affect both adults and children.
+# [source: https://www.nhs.uk/conditions/acute-kidney-injury/]
+# Setting percentage_of_patients to 0.714 for each AKI scenario below, which for 21 scenarios sums up to 14.9%.
+
+# Note: if more AKI scenarios are added, this percentage needs to be calibrated accordingly to still reflect
+# ~15% of patents affected by AKI.
+# Note: some AKI scenarios below may be more likely than others, but this is currently not reflected in the
+# percentage distribution.
+
+# Scenarios 1 to 21 implement KDIGO Guidelines.
+
+# AKI scenario 1: High creatinine with no previous samples in last 364 days
+# Expected Output: Creatinine High ?AKI ?CKD
+aki_scenario_1:
+  percentage_of_patients: 0.714
+  persons:
+    main_patient:
+      age:
+        from: 20
+        to: 20
+      gender: M
+      first_name: "AKI Scenario 1"
+  historical_data:
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 126.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -8783h
+  pathway:
+    - admission:
+        loc: Renal
+    - delay:
+        from: 0m
+        to: 1m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 254.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+# AKI scenario 2: Change of >26 in <48hrs
+# Expected Output: AKI Warning Stage 1
+aki_scenario_2:
+  percentage_of_patients: 0.714
+  persons:
+    main_patient:
+      age:
+        from: 35
+        to: 35
+      gender: F
+      first_name: "AKI Scenario 2"
+  historical_data:
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 126.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -47h
+  pathway:
+    - admission:
+        loc: Renal
+    - delay:
+        from: 0m
+        to: 1m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 153.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+# AKI scenario 3: Change of >26 in >48hrs with less than 50% increment
+# Expected Output: no comment appended
+aki_scenario_3:
+  percentage_of_patients: 0.714
+  persons:
+    main_patient:
+      age:
+        from: 54
+        to: 54
+      gender: M
+      first_name: "AKI Scenario 3"
+  historical_data:
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 126.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -48h
+  pathway:
+    - admission:
+        loc: Renal
+    - delay:
+        from: 0m
+        to: 2m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 153.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+# AKI scenario 4: 50-100% increase within 7 days
+# Expected Output: AKI Warning Stage 1
+aki_scenario_4:
+  percentage_of_patients: 0.714
+  persons:
+    main_patient:
+      age:
+        from: 43
+        to: 43
+      gender: F
+      first_name: "AKI Scenario 4"
+  historical_data:
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 126.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -167h
+  pathway:
+    - admission:
+        loc: Renal
+    - delay:
+        from: 0m
+        to: 2m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 190.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+# AKI scenario 5: 50-100% increase using lowest value from several in last 7
+# days
+# Expected Output: AKI Warning Stage 1
+aki_scenario_5:
+  percentage_of_patients: 0.714
+  persons:
+    main_patient:
+      age:
+        from: 23
+        to: 23
+      gender: M
+      first_name: "AKI Scenario 5"
+  historical_data:
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 103.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -167h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 83.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -135h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 95.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -118h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 121.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -95h
+  pathway:
+    - admission:
+        loc: Renal
+    - delay:
+        from: 0m
+        to: 2m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 156.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+# AKI scenario 6: 100-200% increase using lowest value from several in last
+# 7 days
+# Expected Output: AKI Warning Stage 2
+aki_scenario_6:
+  percentage_of_patients: 0.714
+  persons:
+    main_patient:
+      age:
+        from: 31
+        to: 31
+      gender: F
+      first_name: "AKI Scenario 6"
+  historical_data:
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 98.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -167h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 83.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -135h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 95.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -118h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 85.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -95h
+  pathway:
+    - admission:
+        loc: Renal
+    - delay:
+        from: 0m
+        to: 2m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 167.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+# AKI scenario 7: >200% increase using lowest value from several in last
+# 7 days
+# Expected Output: AKI Warning Stage 3
+aki_scenario_7:
+  percentage_of_patients: 0.714
+  persons:
+    main_patient:
+      age:
+        from: 37
+        to: 37
+      gender: M
+      first_name: "AKI Scenario 7"
+  historical_data:
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 98.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -167h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 83.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -135h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 95.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -118h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 85.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -95h
+  pathway:
+    - admission:
+        loc: Renal
+    - delay:
+        from: 0m
+        to: 2m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 250.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+# AKI scenario 8: >50% increase AND value >354, using lowest value from
+# several in last 7 days
+# Expected Output: AKI Warning Stage 3
+aki_scenario_8:
+  percentage_of_patients: 0.714
+  persons:
+    main_patient:
+      age:
+        from: 49
+        to: 49
+      gender: F
+      first_name: "AKI Scenario 8"
+  historical_data:
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 142.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -167h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 131.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -135h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 154.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -118h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 144.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -95h
+  pathway:
+    - admission:
+        loc: Renal
+    - delay:
+        from: 0m
+        to: 2m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 369.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+# AKI scenario 9: <50% increase using median from days 8-364
+# Expected Output: no comment appended
+aki_scenario_9:
+  percentage_of_patients: 0.714
+  persons:
+    main_patient:
+      age:
+        from: 54
+        to: 54
+      gender: M
+      first_name: "AKI Scenario 9"
+  historical_data:
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 108.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -5583h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 112.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -4103h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 103.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -3039h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 83.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -2830h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 95.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -1463h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 121.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -215h
+  pathway:
+    - admission:
+        loc: Renal
+    - delay:
+        from: 0m
+        to: 2m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 157.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+# AKI scenario 10: 50-100% increase using median from days 8-364
+# Expected Output: AKI Warning Stage 1
+aki_scenario_10:
+  percentage_of_patients: 0.714
+  persons:
+    main_patient:
+      age:
+        from: 65
+        to: 65
+      gender: F
+      first_name: "AKI Scenario 10"
+  historical_data:
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 108.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -5583h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 112.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -4103h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 103.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -3039h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 83.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -2830h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 95.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -1463h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 121.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -215h
+  pathway:
+    - admission:
+        loc: Renal
+    - delay:
+        from: 0m
+        to: 2m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 177.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+# AKI scenario 11: 50-100% increase using median from days 8-364
+# Additional blood tests >364 days present - if these are incorrectly
+# included to calculate baseline then stage 2 will be reported
+#
+# Additional blood tests >364 days present - if these are incorrectly
+# included to calculate baseline then stage 2 will be reported
+#
+# Expected Output: AKI Warning Stage 1
+aki_scenario_11:
+  percentage_of_patients: 0.714
+  persons:
+    main_patient:
+      age:
+        from: 45
+        to: 45
+      gender: M
+      first_name: "AKI Scenario 11"
+  historical_data:
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 52.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -11182h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 49.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -11087h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 51.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -11055h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 45.00
+            unit: UMOLL
+            abnormal_flag: LOW
+      parameters:
+        time_from_now: -10271h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 45.00
+            unit: UMOLL
+            abnormal_flag: LOW
+      parameters:
+        time_from_now: -10239h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 50.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -10222h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 50.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -10415h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 108.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -5583h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 112.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -4103h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 103.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -3039h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 83.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -2830h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 95.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -1463h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 121.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -215h
+  pathway:
+    - admission:
+        loc: Renal
+    - delay:
+        from: 0m
+        to: 2m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 177.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+# AKI scenario 12: 100-200% increase using median from days 8-364
+# Expected Output: AKI Warning Stage 2
+aki_scenario_12:
+  percentage_of_patients: 0.714
+  persons:
+    main_patient:
+      age:
+        from: 70
+        to: 70
+      gender: M
+      first_name: "AKI Scenario 12"
+  historical_data:
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 72.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -5590h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 86.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -3039h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 95.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -2830h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 77.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -1463h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 76.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -215h
+  pathway:
+    - admission:
+        loc: Renal
+    - delay:
+        from: 0m
+        to: 2m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 229.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+# AKI scenario 13: >200% increase using median from days 8-364
+# Expected Output: AKI Warning Stage 3
+aki_scenario_13:
+  percentage_of_patients: 0.714
+  persons:
+    main_patient:
+      age:
+        from: 29
+        to: 29
+      gender: F
+      first_name: "AKI Scenario 13"
+  historical_data:
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 70.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -5634h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 72.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -5590h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 67.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -4098h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 86.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -3039h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 95.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -2830h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 77.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -1463h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 76.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -215h
+  pathway:
+    - admission:
+        loc: Renal
+    - delay:
+        from: 0m
+        to: 2m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 230.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+# AKI scenario 14: >50% increase AND value >354, using median from days 8-364
+# Expected Output: AKI Warning Stage 3
+aki_scenario_14:
+  percentage_of_patients: 0.714
+  persons:
+    main_patient:
+      age:
+        from: 46
+        to: 46
+      gender: M
+      first_name: "AKI Scenario 14"
+  historical_data:
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 243.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -5590h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 223.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -4098h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 217.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -3039h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 231.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -2830h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 198.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -1463h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 221.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -215h
+  pathway:
+    - admission:
+        loc: Renal
+    - delay:
+        from: 0m
+        to: 2m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 369.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+# AKI scenario 15: Change of >26 within 48hrs AND value >354
+# Expected Output: AKI Warning Stage 1
+aki_scenario_15:
+  percentage_of_patients: 0.714
+  persons:
+    main_patient:
+      age:
+        from: 53
+        to: 53
+      gender: F
+      first_name: "AKI Scenario 15"
+  historical_data:
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 189.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -5590h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 231.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -4098h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 264.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -3039h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 340.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -2830h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 332.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -1463h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 341.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -47h
+  pathway:
+    - admission:
+        loc: Renal
+    - delay:
+        from: 0m
+        to: 2m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 369.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+# AKI scenario 16: <50% increase using median from days 8-364
+# Expected Output: no comment appended
+aki_scenario_16:
+  percentage_of_patients: 0.714
+  persons:
+    main_patient:
+      age:
+        from: 35
+        to: 35
+      gender: M
+      first_name: "AKI Scenario 16"
+  historical_data:
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 243.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -5590h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 223.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -4098h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 217.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -3039h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 231.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -2830h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 198.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -1463h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 221.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -215h
+  pathway:
+    - admission:
+        loc: Renal
+    - delay:
+        from: 0m
+        to: 2m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 326.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+# AKI scenario 17: <50% increase using median from days 8-364
+# Expected Output: no comment appended
+aki_scenario_17:
+  percentage_of_patients: 0.714
+  persons:
+    main_patient:
+      age:
+        from: 63
+        to: 63
+      gender: F
+      first_name: "AKI Scenario 17"
+  historical_data:
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 72.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -5590h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 67.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -4098h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 86.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -3039h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 95.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -2830h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 77.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -1463h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 76.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -215h
+  pathway:
+    - admission:
+        loc: Renal
+    - delay:
+        from: 0m
+        to: 2m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 114.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+# AKI scenario 18: >200% increase using median from days 8-364, using only
+# one value to calculate median
+# Expected Output: AKI Warning Stage 3
+aki_scenario_18:
+  percentage_of_patients: 0.714
+  persons:
+    main_patient:
+      age:
+        from: 81
+        to: 81
+      gender: M
+      first_name: "AKI Scenario 18"
+  historical_data:
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 76.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -935h
+  pathway:
+    - admission:
+        loc: Renal
+    - delay:
+        from: 0m
+        to: 2m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 230.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+# AKI scenario 19: 100-200% increase using median from days 8-364, one
+# previous result contains default code for not reporting creatinine
+#
+# Please check what code your system uses and input this to make sure the
+# algorithm still runs.
+#
+# Please also check that a value of zero isn't imputed as a default (if
+# this happens the AKI warning stage will change to 3)
+#
+# Expected Output: AKI Warning Stage 2
+aki_scenario_19:
+  percentage_of_patients: 0.714
+  persons:
+    main_patient:
+      age:
+        from: 81
+        to: 81
+      gender: M
+      first_name: "AKI Scenario 19"
+  historical_data:
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 95.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -1463h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: EMPTY # Do not report Creatinine (using Code)
+            unit: UMOLL
+      parameters:
+        time_from_now: -215h
+  pathway:
+    - admission:
+        loc: Renal
+    - delay:
+        from: 0m
+        to: 2m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 280.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+# AKI scenario 20: >200% increase, using lowest value in last 7 days from
+# a range that includes a value below lower end of detection range
+#
+# If the value of <15 is selected, a null value may be returned for the
+# AKI warning stage result as a non-numerical number can't be used for
+# calculations
+#
+# Expected Output: AKI Warning Stage 3
+aki_scenario_20:
+  percentage_of_patients: 0.714
+  persons:
+    main_patient:
+      age:
+        from: 98
+        to: 98
+      gender: F
+      first_name: "AKI Scenario 20"
+  historical_data:
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 40
+            unit: UMOLL
+            abnormal_flag: LOW
+      parameters:
+        time_from_now: -135h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: <15
+            unit: UMOLL
+            abnormal_flag: LOW
+      parameters:
+        time_from_now: -118h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 50
+            unit: UMOLL
+      parameters:
+        time_from_now: -95h
+  pathway:
+    - admission:
+        loc: Renal
+    - delay:
+        from: 0m
+        to: 2m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 161.00
+            abnormal_flag: HIGH
+            unit: UMOLL
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+# AKI scenario 21 (paediatric): High creatinine >3x upper limit of
+# reference range with >50% increase from median over days 8-364
+#
+# Expected Output: AKI Warning Stage 3
+aki_scenario_21:
+  percentage_of_patients: 0.714
+  persons:
+    main_patient:
+      age:
+        from: 17
+        to: 17
+      gender: F
+      first_name: "AKI Scenario 21"
+  historical_data:
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 208
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -1511h
+  pathway:
+    - admission:
+        loc: Renal
+    - delay:
+        from: 0m
+        to: 2m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 315.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+# Scenarios below are additional scenarios, that include complications, patient merges and deceased patients.
+# Since theirs real probabilities are unknown, setting percentage_of_patients to small number,
+# ie: 0.1, so that they do occasionally happen, keeping the total percentage to AKI scenarios within 13-18%.
+
+# AKI scenario for death update.
+# The sequence of events has been copied from AKI Scenario 20, which expects AKI Warning Stage 3.
+aki_scenario_deceased:
+  percentage_of_patients: 0.1
+  persons:
+    main_patient:
+      age:
+        from: 24
+        to: 30
+      gender: F
+      first_name: "AKI Scenario Deceased"
+  historical_data:
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 40
+            unit: UMOLL
+            abnormal_flag: LOW
+      parameters:
+        time_from_now: -135h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: <15
+            unit: UMOLL
+            abnormal_flag: LOW
+      parameters:
+        time_from_now: -118h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 50
+            unit: UMOLL
+      parameters:
+        time_from_now: -95h
+  pathway:
+    - admission:
+        loc: Renal
+      parameters:
+        status:
+          death_indicator: DECEASED
+          time_since_death: 3m
+    - delay:
+        from: 0m
+        to: 2m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 315.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+# Same as AKI Scenario 2, but does a merge before the last result.
+aki_scenario_with_merge:
+  percentage_of_patients: 0.1
+  persons:
+    main_patient:
+      first_name: "Lilly Aki with Merge"
+    unconscious_patient:
+      first_name: "Unconscious"
+  historical_data:
+    - use_patient:
+        patient: main_patient
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 126.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -47h
+  pathway:
+    - use_patient:
+        patient: unconscious_patient
+    - admission:
+        loc: Renal
+    - delay:
+        from: 1m
+        to: 2m
+    - use_patient:
+        patient: main_patient
+    - merge:
+        children: [unconscious_patient]
+        parent: main_patient
+    - delay:
+        from: 1m
+        to: 2m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 153.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+# Similar to AKI Scenario 2, but includes Complications (Uraemia) and merge.
+aki_scenario_with_merge_and_complications:
+  percentage_of_patients: 0.1
+  persons:
+    main_patient:
+      first_name: "James Aki with Merge and Complications"
+    unconscious_patient:
+      first_name: "Unconscious"
+  historical_data:
+    - use_patient:
+        patient: main_patient
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 126.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -47h
+  pathway:
+    - use_patient:
+        patient: unconscious_patient
+    - admission:
+        loc: Renal
+    - delay:
+        from: 1m
+        to: 2m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Urea
+            value: 100.00
+            unit: MMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 1m
+        to: 2m
+    - use_patient:
+        patient: main_patient
+    - admission:
+        loc: Renal
+    - merge:
+        children: [unconscious_patient]
+        parent: main_patient
+    - delay:
+        from: 1m
+        to: 2m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 153.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+aki_scenario_with_merge_aki_3_then_aki_2:
+  percentage_of_patients: 0.001
+  persons:
+    main_patient:
+      age:
+        from: 37
+        to: 37
+      gender: M
+      first_name: "AKI Scenario Level 3"
+    other_patient:
+      age:
+        from: 37
+        to: 37
+      gender: M
+      first_name: "AKI Scenario Level 2"
+  historical_data:
+    - use_patient:
+        patient: main_patient
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 98.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -167h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 83.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -135h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 95.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -118h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 85.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -95h
+    - use_patient:
+        patient: other_patient
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 98.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -167h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 83.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -135h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 95.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -118h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 85.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -95h
+  pathway:
+    - use_patient:
+        patient: main_patient
+    - admission:
+        loc: Renal
+    - delay:
+        from: 0m
+        to: 2m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 250.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - discharge: {}
+    - use_patient:
+        patient: other_patient
+    - admission:
+        loc: Renal
+    - merge:
+        children: [main_patient]
+        parent: other_patient
+    - delay:
+        from: 1m
+        to: 2m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 167.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+# Same as AKI Scenario 2, but has complications.
+aki_scenario_with_complications:
+  percentage_of_patients: 0.1
+  persons:
+    main_patient:
+      age:
+        from: 35
+        to: 35
+      gender: F
+      first_name: "AKI Scenario 2 with complications"
+  historical_data:
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 126.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -47h
+  pathway:
+    - admission:
+        loc: Renal
+    - delay:
+        from: 0m
+        to: 1m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 153.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+          - test_name: Urea
+            value: 100.00
+            unit: MMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+# Same as AKI Scenario 2, but has high potassium.
+aki_scenario_with_high_potassium:
+  percentage_of_patients: 0.1
+  persons:
+    main_patient:
+      age:
+        from: 35
+        to: 35
+      gender: F
+      first_name: "AKI Scenario 2 with high K"
+  historical_data:
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 126.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -47h
+  pathway:
+    - admission:
+        loc: Renal
+    - delay:
+        from: 0m
+        to: 1m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 153.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+          - test_name: Potassium
+            value: 8.0
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+# Same as AKI Scenario 2, but has uraemia.
+aki_scenario_with_uraemia:
+  percentage_of_patients: 0.1
+  persons:
+    main_patient:
+      first_name: "AKI Scenario 2 with Uraemia"
+  historical_data:
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 126.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -47h
+  pathway:
+    - admission:
+        loc: Renal
+    - delay:
+        from: 0m
+        to: 1m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Urea
+            value: 100.00
+            unit: MMOLL
+            abnormal_flag: HIGH
+          - test_name: Creatinine
+            value: 153.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+# Same as AKI Scenario 2, but has low bicarbonate.
+aki_scenario_with_low_bicarbonate:
+  percentage_of_patients: 0.1
+  persons:
+    main_patient:
+      age:
+        from: 35
+        to: 35
+      gender: F
+      first_name: "AKI Scenario 2 with Low Bicarbonate"
+  historical_data:
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 126.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -47h
+  pathway:
+    - admission:
+        loc: Renal
+    - delay:
+        from: 0m
+        to: 1m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 153.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - result:
+        order_profile: BICARBONATE
+        results:
+          - test_name: Bicarbonate
+            value: 10
+            unit: MMOLL
+            abnormal_flag: LOW
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+# Same as AKI Scenario 2, but has hypocalcaemia.
+aki_scenario_with_hypocalcaemia:
+  percentage_of_patients: 0.1
+  persons:
+    main_patient:
+      age:
+        from: 35
+        to: 35
+      gender: F
+      first_name: "AKI Scenario 2 with Hypocalcaemia"
+  historical_data:
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 126.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -47h
+  pathway:
+    - admission:
+        loc: Renal
+    - delay:
+        from: 0m
+        to: 1m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 153.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - result:
+        order_profile: BONE PROFILE
+        results:
+          - test_name: Calcium
+            value: 1.2
+            unit: MMOLL
+            abnormal_flag: LOW
+          - test_name: Corrected Calcium
+            value: 1.3
+            unit: MMOLL
+            abnormal_flag: LOW
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+# Same as AKI Scenario 2, but has hyperphosphataemia.
+aki_scenario_with_hyperphosphataemia:
+  percentage_of_patients: 0.1
+  persons:
+    main_patient:
+      age:
+        from: 35
+        to: 35
+      gender: F
+      first_name: "AKI Scenario 2 with Hyperphosphataemia"
+  historical_data:
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 126.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -47h
+  pathway:
+    - admission:
+        loc: Renal
+    - delay:
+        from: 0m
+        to: 1m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 153.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - result:
+        order_profile: BONE PROFILE
+        results:
+          - test_name: Phosphate
+            value: 4
+            unit: MMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+# The explicit_merge_before_aki_result pathway simulates the following:
+# 1. Patient has a Creatinine result from 2 days ago.
+# 2. Patient arrives unconscious and creates a new record.
+# 3. Both patients get merged.
+# 4. A Creatinine result arrives for the unconscious patient.
+# The Creatinine values that generate the alert are based on aki_scenario_2.
+# HL7 processing systems should be able to match both Creatinine results and
+# generate an AKI alert.
+explicit_merge_before_aki_result:
+  percentage_of_patients: 0.1
+  persons:
+    main_patient:
+      first_name: "Explicit merge one"
+    unconscious_patient:
+      first_name: "Explicit merge two"
+  historical_data:
+  - use_patient:
+      patient: main_patient
+  - result:
+      order_profile: UREA AND ELECTROLYTES
+      results:
+      - test_name: Creatinine
+        value: 126.00
+        unit: UMOLL
+        abnormal_flag: HIGH
+    parameters:
+      time_from_now: -47h
+  pathway:
+  - use_patient:
+      patient: unconscious_patient
+  - admission:
+      loc: Renal
+  - delay:
+      from: 30s
+      to: 30s
+  - use_patient:
+      patient: main_patient
+  - merge:
+      children: [unconscious_patient]
+      parent: main_patient
+  - use_patient:
+      patient: unconscious_patient
+  - result:
+      order_profile: UREA AND ELECTROLYTES
+      results:
+      - test_name: Creatinine
+        value: 153.00
+        unit: UMOLL
+        abnormal_flag: HIGH
+  - delay:
+      from: 2h
+      to: 2h
+  - discharge: {}
+
+# The explicit_merge_after_aki_result pathway simulates the following:
+# 1. Patient has a Creatinine result from 2 days ago.
+# 2. Patient arrives unconscious and creates a new record.
+# 3. A Creatinine result arrives for the unconscious patient.
+# 4. Both patients get merged.
+# The Creatinine values that generate the alert are based on aki_scenario_2.
+# HL7 processing systems should be able to match both Creatinine results after
+# the merge message and generate an AKI alert.
+explicit_merge_after_aki_result:
+  percentage_of_patients: 0.1
+  persons:
+    main_patient:
+      first_name: "Main Patient"
+    unconscious_patient:
+      first_name: "Unconscious"
+  historical_data:
+  - use_patient:
+      patient: main_patient
+  - result:
+      order_profile: UREA AND ELECTROLYTES
+      results:
+      - test_name: Creatinine
+        value: 126.00
+        unit: UMOLL
+        abnormal_flag: HIGH
+    parameters:
+      time_from_now: -47h
+  pathway:
+  - use_patient:
+      patient: unconscious_patient
+  - admission:
+      loc: Renal
+  - delay:
+      from: 30s
+      to: 30s
+  - result:
+      order_profile: UREA AND ELECTROLYTES
+      results:
+      - test_name: Creatinine
+        value: 153.00
+        unit: UMOLL
+        abnormal_flag: HIGH
+  - use_patient:
+      patient: main_patient
+  - merge:
+      children: [unconscious_patient]
+      parent: main_patient
+  - delay:
+      from: 2h
+      to: 2h
+  - discharge: {}

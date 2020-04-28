@@ -1,0 +1,192 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Pathways in this file are expected to result in multiple alerts for patient(s).
+
+# Expected Output: AKI Warning Stage 1, AKI Warning Stage 2, AKI Warning Stage 3
+aki_multiple_alerts:
+  percentage_of_patients: 0
+  persons:
+    main_patient:
+      age:
+        from: 23
+        to: 23
+      gender: M
+      first_name: "AKI Multiple Alerts"
+  historical_data:
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 103.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -167h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 83.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -135h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 95.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -118h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 121.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -95h
+  pathway:
+    - admission:
+        loc: Renal
+    - delay:
+        from: 0m
+        to: 2m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 156.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 0m
+        to: 2m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 167.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 0m
+        to: 2m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 250.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}
+
+# Expected Output: AKI Warning Stage 1 for unconscious_patient
+# AKI Warning Stage 2, AKI Warning Stage 3 for main_patient
+# Does a merge before second result in pathway
+aki_multiple_alerts_with_merge:
+  percentage_of_patients: 0
+  persons:
+    main_patient:
+      first_name: "AKI Multiple Alerts with Merge"
+    unconscious_patient:
+      first_name: "Unconscious"
+  historical_data:
+    - use_patient:
+        patient: unconscious_patient
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 103.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -167h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 83.00
+            unit: UMOLL
+      parameters:
+        time_from_now: -135h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 95.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -118h
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 121.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -95h
+  pathway:
+    - use_patient:
+        patient: unconscious_patient
+    - admission:
+        loc: Renal
+    - delay:
+        from: 0m
+        to: 2m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 156.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 0m
+        to: 2m
+    - use_patient:
+        patient: main_patient
+    - merge:
+        children: [unconscious_patient]
+        parent: main_patient
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 167.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 0m
+        to: 2m
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 250.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - delay:
+        from: 30m
+        to: 60m
+    - discharge: {}

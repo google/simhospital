@@ -1,0 +1,10 @@
+# Columns: PatientClass, PatientType, Frequency (int)
+# This distribution is arbitrary.
+# Patient Class is taken from:
+# http://hl7-definition.caristix.com:9010/Default.aspx?version=HL7%20v2.5.1&table=0004
+# Patient type is set to match the patient class, as the only table we could find
+# (http://hl7-definition.caristix.com:9010/Default.aspx?version=HL7%20v2.2&table=0018) does not
+# contain labels.
+E,E,10
+O,O,40
+R,R,50

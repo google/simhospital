@@ -1,0 +1,11 @@
+# SNOMED CT Allergy/Adverse Event Type Value Set.
+# Source:  https://phinvads.cdc.gov/vads/ViewValueSet.action?id=7AFDBFB5-A277-DE11-9B52-0015173D1785
+419199007,"Allergy to substance (disorder)",1
+416098002,"Drug allergy (disorder)",1
+59037007,"Drug intolerance (disorder)",1
+414285001,"Food allergy (disorder)",1
+235719002,"Food intolerance (disorder)",1
+420134006,"Propensity to adverse reactions (disorder)",1
+419511003,"Propensity to adverse reactions to drug (disorder)",1
+418471000,"Propensity to adverse reactions to food (disorder)",1
+418038007,"Propensity to adverse reactions to substance (disorder)",1
