@@ -128,7 +128,6 @@ docker_push(
     name = "simhospital_image_push",
     image = ":simhospital_container_image",
     registry = "gcr.io",
-    # TODO: The repository will change.
-    repository = "lastomato-test/simhospital",
+    repository = "<your_repository_here>/simhospital",
     tag = "latest",
 )
