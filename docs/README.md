@@ -8,6 +8,8 @@
 hospital patient data in
 [HL7v2 format](https://www.hl7.org/implement/standards/product_brief.cfm?product_id=185).
 
+![Simulated Hospital Logo](./images/simhospital_small.png)
+
 Disclaimer: This is not an officially supported Google product.
 
 ## Overview
