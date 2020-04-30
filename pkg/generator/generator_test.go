@@ -1116,12 +1116,12 @@ func TestOrderWithClinicalNote(t *testing.T) {
 		DocumentTitle: wantTitle,
 	}
 
-	got, err := g.OrderWithClinicalNote(pw, eventTime)
+	got, err := g.OrderWithClinicalNote(nil, pw, eventTime)
 	if err != nil {
-		t.Fatalf("g.OrderWithClinicalNote(%+v, %v) failed with %v", pw, eventTime, err)
+		t.Fatalf("g.OrderWithClinicalNote(nil, %+v, %v) failed with %v", pw, eventTime, err)
 	}
 	if got == nil {
-		t.Errorf("g.OrderWithClinicalNote(%+v, %v) = %v, want not nil value", pw, eventTime, got)
+		t.Errorf("g.OrderWithClinicalNote(nil, %+v, %v) = %v, want not nil value", pw, eventTime, got)
 	}
 }
 

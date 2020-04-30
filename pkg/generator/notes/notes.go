@@ -23,6 +23,7 @@ import (
 	"math/rand"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/pkg/errors"
 	"github.com/google/simhospital/pkg/config"
@@ -60,47 +61,68 @@ func NewGenerator(d *config.Data, t *text.Generator) *Generator {
 	}
 }
 
-// RandomDocumentForClinicalNote generates a ClinicalNote from the given pathway event.
-// If the content type is a txt, random text is generated as the content.
-// Otherwise a random file matching the content type is read from the list of sample files as the content.
-func (g *Generator) RandomDocumentForClinicalNote(np *pathway.ClinicalNote) (*message.ClinicalNote, error) {
-	note := &message.ClinicalNote{
-		DocumentType: g.documentType(np.DocumentType),
-		ContentType:  np.ContentType,
-		DocumentID:   g.id(np.DocumentID),
-	}
-
-	if np.DocumentContent != "" {
-		if np.ContentType != txt {
-			return nil, fmt.Errorf("cannot give explicit content for ContentType %q, only ContentType %q is supported",
-				np.ContentType, txt)
+// RandomDocumentForClinicalNote generates or updates a ClinicalNote document from the given pathway event.
+// If note is nil, it generates a new ClinicalNote object. If note is not nil, it updates it. If the content type is a txt,
+// random text is generated as the content. Otherwise a random file matching the content type is read from the list of sample files as the content.
+// If there is an existing note, the document type and title are only updated if a new type or title is specified in the pathway.
+func (g *Generator) RandomDocumentForClinicalNote(np *pathway.ClinicalNote, note *message.ClinicalNote, eventTime time.Time) (*message.ClinicalNote, error) {
+	if note == nil {
+		note = &message.ClinicalNote{
+			DocumentID: g.id(np.DocumentID),
+			DateTime:   message.NewValidTime(eventTime),
 		}
-		note.DocumentContent = np.DocumentContent
-		return note, nil
 	}
 
-	switch np.ContentType {
+	if note.DocumentType == "" || np.DocumentType != "" {
+		note.DocumentType = g.documentType(np.DocumentType)
+	}
+	if np.DocumentTitle != "" {
+		note.DocumentTitle = np.DocumentTitle
+	}
+
+	documentContent, encoding, err := g.contentAndEncoding(np.ContentType, np.DocumentContent)
+	if err != nil {
+		return nil, err
+	}
+
+	note.Contents = append(note.Contents, &message.ClinicalNoteContent{
+		ContentType:         np.ContentType,
+		DocumentContent:     documentContent,
+		DocumentEncoding:    encoding,
+		ObservationDateTime: message.NewValidTime(eventTime),
+	})
+	return note, nil
+}
+
+func (g *Generator) contentAndEncoding(contentType string, documentContent string) (string, string, error) {
+	if documentContent != "" {
+		if contentType != txt {
+			return "", "", fmt.Errorf("cannot give explicit content for ContentType %q, only ContentType %q is supported",
+				contentType, txt)
+		}
+		return documentContent, "", nil
+	}
+
+	switch contentType {
 	case txt:
 		sentences := g.textGenerator.RandomSentences(g.numSentences)
-		note.DocumentContent = strings.Join(sentences, ". ")
+		return strings.Join(sentences, ". "), "", nil
 	// pdf, jpg and png document contents can contain delimiters used in HL7 messages eg, pipes.
 	// So these files are encoded in base64 to make sure the HL7 messages are parsable.
 	case pdf, jpg, png:
-		content, err := g.note(np.ContentType)
+		content, err := g.note(contentType)
 		if err != nil {
-			return nil, errors.Wrapf(err, "generate note for ContentType %q", np.ContentType)
+			return "", "", errors.Wrapf(err, "generate note for ContentType %q", contentType)
 		}
-		note.DocumentContent = base64.StdEncoding.EncodeToString(content)
-		note.DocumentEncoding = "base64"
+		return base64.StdEncoding.EncodeToString(content), "base64", nil
 	// rtf, xhtml etc
 	default:
-		content, err := g.note(np.ContentType)
+		content, err := g.note(contentType)
 		if err != nil {
-			return nil, errors.Wrapf(err, "generate note for ContentType %q", np.ContentType)
+			return "", "", errors.Wrapf(err, "generate note for ContentType %q", contentType)
 		}
-		note.DocumentContent = string(content)
+		return string(content), "", nil
 	}
-	return note, nil
 }
 
 // RandomNotesForResult generates between 0 to 2 notes, with the following probabilities:

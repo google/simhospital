@@ -254,8 +254,8 @@ func (g Generator) NewOrder(o *pathway.Order, eventTime time.Time) *message.Orde
 }
 
 // OrderWithClinicalNote creates an order with a Clinical Note based on the pathway.
-func (g Generator) OrderWithClinicalNote(n *pathway.ClinicalNote, eventTime time.Time) (*message.Order, error) {
-	return g.orderGenerator.OrderWithClinicalNote(n, eventTime)
+func (g Generator) OrderWithClinicalNote(o *message.Order, n *pathway.ClinicalNote, eventTime time.Time) (*message.Order, error) {
+	return g.orderGenerator.OrderWithClinicalNote(o, n, eventTime)
 }
 
 // SetResults sets results on an existing Order based on the results information from the pathway.

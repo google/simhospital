@@ -142,16 +142,25 @@ type Result struct {
 	ClinicalNote *ClinicalNote
 }
 
+// ClinicalNoteContent contains data used to generate an OBX segment in a ClinicalNote HL7 message.
+type ClinicalNoteContent struct {
+	// ObservationDateTime can be different from the DateTime field in ClinicalNote struct.
+	// ObservationDateTime is set when the corresponding content is generated whereas ClinicalNote.DateTime is set when the ClinicalNote is generated.
+	ObservationDateTime NullTime
+	ContentType         string
+	DocumentEncoding    string
+	DocumentContent     string
+}
+
 // ClinicalNote represents a Clinical Note.
 // A clinical note is a document with information about a patient. Even if "document" could be more accurate,
 // we prefer to keep the term that clinicians use.
 type ClinicalNote struct {
-	DateTime         NullTime
-	DocumentType     string
-	ContentType      string
-	DocumentID       string
-	DocumentContent  string
-	DocumentEncoding string
+	DateTime      NullTime
+	DocumentTitle string
+	DocumentType  string
+	DocumentID    string
+	Contents      []*ClinicalNoteContent
 }
 
 // Document represents a generic document.
@@ -530,7 +539,7 @@ var templates = map[string]*template.Template{
 		ceNoteTemplate: ceNoteTmpl,
 		noteTemplate:   stOBXNoteVal,
 		doctorTemplate: doctorTmpl,
-		OBX:            `OBX|{{.ID}}|{{.ValueType}}|{{template "CENoteTmpl" .ClinicalNote}}||{{template "NoteTmpl" .ClinicalNote}}|||||||||{{HL7_date .ObservationDateTime}}||{{template "DoctorTmpl" .OrderingProvider}}`,
+		OBX:            `OBX|{{.ID}}|{{.ValueType}}|{{template "CENoteTmpl" .ClinicalNote}}||{{template "NoteTmpl" .Content}}|||||||||{{HL7_date .ObservationDateTime}}||{{template "DoctorTmpl" .OrderingProvider}}`,
 	}),
 	OBXForMDM: mustParseTemplates(OBX, map[string]string{
 		ceTemplate: ceTmpl,
@@ -707,6 +716,26 @@ func segmentsORU(h *HeaderInfo, p *PatientInfo, o *Order, msgTime time.Time, msg
 	}
 	segments = append(segments, obr)
 
+	if o.DiagnosticServID == DiagnosticServIDMDOC {
+		return clinicalNotesOBX(o, segments)
+	}
+	return resultsOBX(o, segments)
+}
+
+func clinicalNotesOBX(o *Order, segments []string) ([]string, error) {
+	for _, result := range o.Results {
+		for id := range result.ClinicalNote.Contents {
+			obx, err := BuildOBXForClinicalNote(id+1, id, result, o)
+			if err != nil {
+				return nil, errors.Wrap(err, "cannot build OBX segment")
+			}
+			segments = append(segments, obx)
+		}
+	}
+	return segments, nil
+}
+
+func resultsOBX(o *Order, segments []string) ([]string, error) {
 	for id, result := range o.Results {
 		// We increment by 1 so that the first OBX has a SetID of 1 - that's how segment numbers starts.
 		// We use the number of previous result for the same order so that the SetIDs of OBX segments
@@ -1958,20 +1987,24 @@ func BuildOBR(o *Order) (string, error) {
 
 // BuildOBX builds and returns a HL7 OBX segment.
 func BuildOBX(id int, r *Result, o *Order) (string, error) {
-	// If this order is sending a ClinicalNote, use the appropriate OBX template.
-	var key string
-	if o.DiagnosticServID == DiagnosticServIDMDOC {
-		key = OBXClinicalNote
-	} else {
-		key = OBX
-	}
-	return executeTemplate(templates[key], struct {
+	return executeTemplate(templates[OBX], struct {
 		*Result
 		ID                  int
 		ObservationDateTime NullTime
+		OrderingProvider    *Doctor
+	}{r, id, r.ObservationDateTime, o.OrderingProvider})
+}
+
+// BuildOBXForClinicalNote build and returns a HL7 OBX segment for a Clinical Note.
+func BuildOBXForClinicalNote(id, contentIndex int, r *Result, o *Order) (string, error) {
+	return executeTemplate(templates[OBXClinicalNote], struct {
+		*Result
+		ID                  int
+		Content             *ClinicalNoteContent
+		ObservationDateTime NullTime
 		DiagnosticServID    string
 		OrderingProvider    *Doctor
-	}{r, id, r.ObservationDateTime, o.DiagnosticServID, o.OrderingProvider})
+	}{r, id, r.ClinicalNote.Contents[contentIndex], r.ObservationDateTime, o.DiagnosticServID, o.OrderingProvider})
 }
 
 // BuildOBXForMDM builds and returns a HL7 OBX segment for MDMT02 type for an MDM message.

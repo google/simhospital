@@ -325,7 +325,7 @@ func TestBuildOBX(t *testing.T) {
 			o.Results[0].ObservationDateTime = NewValidTime(time.Date(2018, 1, 26, 15, 45, 23, 0, time.UTC))
 			return o
 		},
-		want: "OBX|2|NM|lpdc-2011^Creatinine^WinPath^^||700|UML|39.00 - 308.00|HIGH|||F|||20180126154523||",
+		want: "OBX|1|NM|lpdc-2011^Creatinine^WinPath^^||700|UML|39.00 - 308.00|HIGH|||F|||20180126154523||",
 	}, {
 		name: "Escape Unit",
 		setup: func() *Order {
@@ -334,7 +334,7 @@ func TestBuildOBX(t *testing.T) {
 			o.Results[0].ObservationDateTime = NewValidTime(time.Date(2018, 1, 26, 15, 45, 23, 0, time.UTC))
 			return o
 		},
-		want: "OBX|2|NM|lpdc-2011^Creatinine^WinPath^^||700|10\\S\\9 g/L|39.00 - 308.00|HIGH|||F|||20180126154523||",
+		want: "OBX|1|NM|lpdc-2011^Creatinine^WinPath^^||700|10\\S\\9 g/L|39.00 - 308.00|HIGH|||F|||20180126154523||",
 	}, {
 		name: "Escape Reference Range",
 		setup: func() *Order {
@@ -343,7 +343,7 @@ func TestBuildOBX(t *testing.T) {
 			o.Results[0].ObservationDateTime = NewValidTime(time.Date(2018, 1, 26, 15, 45, 23, 0, time.UTC))
 			return o
 		},
-		want: "OBX|2|NM|lpdc-2011^Creatinine^WinPath^^||700|UML|39.00 \\S\\ 308.00|HIGH|||F|||20180126154523||",
+		want: "OBX|1|NM|lpdc-2011^Creatinine^WinPath^^||700|UML|39.00 \\S\\ 308.00|HIGH|||F|||20180126154523||",
 	}, {
 		name: "Escape TestName",
 		setup: func() *Order {
@@ -356,7 +356,7 @@ func TestBuildOBX(t *testing.T) {
 			}
 			return o
 		},
-		want: "OBX|2|NM|Urea \\T\\ Electrolytes^Creatinine \\T\\ Glucose^& not escaped^^Some text with \\T\\||700|UML|39.00 - 308.00|HIGH|||F|||||",
+		want: "OBX|1|NM|Urea \\T\\ Electrolytes^Creatinine \\T\\ Glucose^& not escaped^^Some text with \\T\\||700|UML|39.00 - 308.00|HIGH|||F|||||",
 	}, {
 		name: "Replace New Line",
 		setup: func() *Order {
@@ -374,32 +374,53 @@ func TestBuildOBX(t *testing.T) {
 			}}
 			return o
 		},
-		want: "OBX|2|TX|lpdc-2011^Creatinine^WinPath^^||This is the result.~And this is second line.||||||F|||20180126154523||",
-	}, {
+		want: "OBX|1|TX|lpdc-2011^Creatinine^WinPath^^||This is the result.~And this is second line.||||||F|||20180126154523||",
+	}}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			o := tc.setup()
+			got, err := BuildOBX(1, o.Results[0], o)
+			if err != nil {
+				t.Fatalf("BuildOBX(%v,%v,%v) failed with %v", 1, o.Results[0], o, err)
+			}
+			if got != tc.want {
+				t.Errorf("BuildOBX(%v,%v,%v)=%v, want %v", 1, o.Results[0], o, got, tc.want)
+			}
+		})
+	}
+}
+
+func TestBuildOBXForClinicalNote(t *testing.T) {
+	tests := []struct {
+		name  string
+		setup func() *Order
+		want  string
+	}{{
 		name: "Clinical Note",
 		setup: func() *Order {
 			orderTime := time.Date(2018, 1, 26, 15, 24, 21, 0, time.UTC)
 			return orderWithClinicalNote(orderTime, "some-content")
 		},
-		want: "OBX|2||ECG^ECG||^^PNG^BASE64^some-content|||||||||20180126152421||216865551019^Osman^Arthur^^^Dr^^^DRNBR^PRSNL^^^ORGDR",
+		want: "OBX|1||ECG^ECG||^^PNG^BASE64^some-content|||||||||20180126152421||216865551019^Osman^Arthur^^^Dr^^^DRNBR^PRSNL^^^ORGDR",
 	}, {
 		name: "clinical note with an rtf file",
 		setup: func() *Order {
 			orderTime := time.Date(2018, 1, 26, 15, 24, 21, 0, time.UTC)
 			return orderWithClinicalNote(orderTime, `{\rtf1\ansi{\fonttbl\f0\fswiss Helvetica;}\f0\pard\nThis is some {\b bold} text.\par\n}`)
 		},
-		want: `OBX|2||ECG^ECG||^^PNG^BASE64^{\E\rtf1\E\ansi{\E\fonttbl\E\f0\E\fswiss Helvetica;}\E\f0\E\pard\.br\This is some {\E\b bold} text.\E\par\.br\}|||||||||20180126152421||216865551019^Osman^Arthur^^^Dr^^^DRNBR^PRSNL^^^ORGDR`,
+		want: `OBX|1||ECG^ECG||^^PNG^BASE64^{\E\rtf1\E\ansi{\E\fonttbl\E\f0\E\fswiss Helvetica;}\E\f0\E\pard\.br\This is some {\E\b bold} text.\E\par\.br\}|||||||||20180126152421||216865551019^Osman^Arthur^^^Dr^^^DRNBR^PRSNL^^^ORGDR`,
 	}}
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
 			o := tc.setup()
-			got, err := BuildOBX(2, o.Results[0], o)
+			got, err := BuildOBXForClinicalNote(1, 0, o.Results[0], o)
 			if err != nil {
-				t.Fatalf("BuildOBX(%v,%v,%v) failed with %v", 2, o.Results[0], o, err)
+				t.Fatalf("BuildOBXForClinicalNote(%d, %d, %v, %v) failed with %v", 1, 0, o.Results[0], o, err)
 			}
 			if got != tc.want {
-				t.Errorf("BuildOBX(%v,%v,%v)=%v, want %v", 2, o.Results[0], o, got, tc.want)
+				t.Errorf("BuildOBXForClinicalNote(%d, %d, %v, %v)=%v, want %v", 1, 0, o.Results[0], o, got, tc.want)
 			}
 		})
 	}
@@ -2558,7 +2579,7 @@ func TestBuildResultORU(t *testing.T) {
 		f:                BuildResultORUR01,
 		numNotes:         0,
 		wantTriggerEvent: "R01",
-		wantOBXSetIDs:    []string{"1"},
+		wantOBXSetIDs:    []string{"1", "2"},
 	}, {
 		name:             "ORU^R32",
 		order:            testOrderWithResult(eventTime),
@@ -3231,12 +3252,17 @@ func orderWithClinicalNote(now time.Time, content string) *Order {
 		Results: []*Result{{
 			ObservationDateTime: NewValidTime(now),
 			ClinicalNote: &ClinicalNote{
-				DateTime:         NewValidTime(now),
-				DocumentType:     "ECG",
-				ContentType:      "PNG",
-				DocumentID:       "document_id",
-				DocumentContent:  content,
-				DocumentEncoding: "BASE64",
+				DateTime:     NewValidTime(now),
+				DocumentType: "ECG",
+				DocumentID:   "document_id",
+				Contents: []*ClinicalNoteContent{{
+					ContentType:      "PNG",
+					DocumentContent:  content,
+					DocumentEncoding: "BASE64",
+				}, {
+					ContentType:     "rtf",
+					DocumentContent: content,
+				}},
 			},
 		}},
 	}

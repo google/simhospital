@@ -16,6 +16,7 @@ package notes
 
 import (
 	"encoding/base64"
+	"fmt"
 	"io/ioutil"
 	"math"
 	"math/rand"
@@ -23,24 +24,40 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 
+	"github.com/google/go-cmp/cmp"
 	"github.com/google/simhospital/pkg/config"
 	"github.com/google/simhospital/pkg/generator/text"
+	"github.com/google/simhospital/pkg/message"
 	"github.com/google/simhospital/pkg/pathway"
 	"github.com/google/simhospital/pkg/test/testwrite"
 )
 
 var (
-	noteTypes = []string{"ED Depart Summary", "Gynaecology & Maternity", "Surgery Inpatients"}
-	nouns     = []string{"one", "two", "three", "four", "five"}
+	noteTypes   = []string{"ED Depart Summary", "Gynaecology & Maternity", "Surgery Inpatients"}
+	nouns       = []string{"one", "two", "three", "four", "five"}
+	defaultDate = time.Date(2019, 1, 20, 0, 0, 0, 0, time.UTC)
 )
 
 const testNumSentences = 15
 
-func TestRandom(t *testing.T) {
+type wantContent struct {
+	wantEncoding            string
+	wantExplicitContent     bool
+	wantObservationDateTime message.NullTime
+}
+
+type tuple struct {
+	pathway          *pathway.ClinicalNote
+	contents         []*wantContent
+	wantDocumentType string
+	eventDateTime    time.Time
+}
+
+func TestRandomDocumentForClinicalNote(t *testing.T) {
 	rand.Seed(1)
-	nc, fc, cleanup := testSetup(t)
-	defer cleanup()
+	nc, fc := testSetup(t)
 	g := &Generator{
 		textGenerator: &text.Generator{Nouns: nouns},
 		config:        nc,
@@ -48,102 +65,239 @@ func TestRandom(t *testing.T) {
 		numSentences:  testNumSentences,
 	}
 	testCases := []struct {
-		name                   string
-		notePathway            *pathway.ClinicalNote
-		wantRandomID           bool
-		wantEncoding           string
-		wantRandomDocumentType bool
-		wantExplicitContent    bool
+		name         string
+		wantRandomID bool
+		wantDateTime message.NullTime
+		tuples       []*tuple
 	}{
 		{
 			name: "pdf, id is non-explicit, base64 encoding",
-			notePathway: &pathway.ClinicalNote{
-				ContentType: "pdf",
-			},
-			wantRandomID:           true,
-			wantEncoding:           "base64",
-			wantRandomDocumentType: true,
+			tuples: []*tuple{{
+				pathway: &pathway.ClinicalNote{
+					ContentType: "pdf",
+				},
+				contents: []*wantContent{{
+					wantEncoding:            "base64",
+					wantObservationDateTime: message.NewValidTime(defaultDate),
+				}},
+				eventDateTime: defaultDate,
+			}},
+			wantRandomID: true,
+			wantDateTime: message.NewValidTime(defaultDate),
 		}, {
 			name: "rtf, id is non-explicit, no encoding",
-			notePathway: &pathway.ClinicalNote{
-				ContentType: "rtf",
-			},
-			wantRandomDocumentType: true,
-			wantRandomID:           true,
+			tuples: []*tuple{{
+				pathway: &pathway.ClinicalNote{
+					ContentType: "rtf",
+				},
+				contents: []*wantContent{{
+					wantObservationDateTime: message.NewValidTime(defaultDate),
+				}},
+				eventDateTime: defaultDate,
+			}},
+			wantRandomID: true,
+			wantDateTime: message.NewValidTime(defaultDate),
 		}, {
 			name: "jpg, id is explicit, base64 encoding",
-			notePathway: &pathway.ClinicalNote{
-				ContentType: "jpg",
-				DocumentID:  "some-id",
-			},
-			wantRandomDocumentType: true,
-			wantEncoding:           "base64",
+			tuples: []*tuple{{
+				pathway: &pathway.ClinicalNote{
+					ContentType: "jpg",
+					DocumentID:  "some-id",
+				},
+				contents: []*wantContent{{
+					wantEncoding:            "base64",
+					wantObservationDateTime: message.NewValidTime(defaultDate),
+				}},
+				eventDateTime: defaultDate,
+			}},
+			wantDateTime: message.NewValidTime(defaultDate),
 		}, {
 			name: "pdf, id is explicit, base64 encoding",
-			notePathway: &pathway.ClinicalNote{
-				ContentType: "pdf",
-				DocumentID:  "some-id",
-			},
-			wantRandomDocumentType: true,
-			wantEncoding:           "base64",
+			tuples: []*tuple{{
+				pathway: &pathway.ClinicalNote{
+					ContentType: "pdf",
+					DocumentID:  "some-id",
+				},
+				contents: []*wantContent{{
+					wantEncoding:            "base64",
+					wantObservationDateTime: message.NewValidTime(defaultDate),
+				}},
+				eventDateTime: defaultDate,
+			}},
+			wantDateTime: message.NewValidTime(defaultDate),
 		}, {
 			name: "txt, document type explicitly given",
-			notePathway: &pathway.ClinicalNote{
-				ContentType:  "txt",
-				DocumentType: "ED",
-				DocumentID:   "some-id",
-			},
+			tuples: []*tuple{{
+				pathway: &pathway.ClinicalNote{
+					ContentType:  "txt",
+					DocumentType: "ED",
+					DocumentID:   "some-id",
+				},
+				contents: []*wantContent{{
+					wantObservationDateTime: message.NewValidTime(defaultDate),
+				}},
+				wantDocumentType: "ED",
+				eventDateTime:    defaultDate,
+			}},
+			wantDateTime: message.NewValidTime(defaultDate),
 		}, {
 			name: "txt, explicit content given",
-			notePathway: &pathway.ClinicalNote{
-				ContentType:     "txt",
-				DocumentContent: "short content",
-			},
-			wantExplicitContent:    true,
-			wantRandomDocumentType: true,
-			wantRandomID:           true,
+			tuples: []*tuple{{
+				pathway: &pathway.ClinicalNote{
+					ContentType:     "txt",
+					DocumentContent: "short content",
+				},
+				contents: []*wantContent{{
+					wantExplicitContent:     true,
+					wantObservationDateTime: message.NewValidTime(defaultDate),
+				}},
+				eventDateTime: defaultDate,
+			}},
+			wantRandomID: true,
+			wantDateTime: message.NewValidTime(defaultDate),
+		}, {
+			name: "two pathways with same id, request a pdf, and then a text addendum with given content",
+			tuples: []*tuple{{
+				pathway: &pathway.ClinicalNote{
+					ContentType: "pdf",
+					DocumentID:  "some-id",
+				},
+				contents: []*wantContent{{
+					wantEncoding:            "base64",
+					wantObservationDateTime: message.NewValidTime(defaultDate),
+				}},
+				eventDateTime: defaultDate,
+			}, {
+				pathway: &pathway.ClinicalNote{
+					ContentType:     "txt",
+					DocumentContent: "new content on addendum",
+					DocumentID:      "some-id",
+				},
+				contents: []*wantContent{{
+					wantEncoding:            "base64",
+					wantObservationDateTime: message.NewValidTime(defaultDate),
+				}, {
+					wantExplicitContent:     true,
+					wantObservationDateTime: message.NewValidTime(time.Date(2019, 1, 21, 0, 0, 0, 0, time.UTC)),
+				}},
+				eventDateTime: time.Date(2019, 1, 21, 0, 0, 0, 0, time.UTC),
+			}},
+			wantDateTime: message.NewValidTime(defaultDate),
+		}, {
+			name: "two pathways with same id, request a txt, and then a txt addendum with new title and type",
+			tuples: []*tuple{{
+				pathway: &pathway.ClinicalNote{
+					ContentType:   "txt",
+					DocumentID:    "some-id",
+					DocumentType:  "type",
+					DocumentTitle: "title",
+				},
+				contents: []*wantContent{{
+					wantObservationDateTime: message.NewValidTime(defaultDate),
+				}},
+				wantDocumentType: "type",
+				eventDateTime:    defaultDate,
+			}, {
+				pathway: &pathway.ClinicalNote{
+					ContentType:   "txt",
+					DocumentID:    "some-id",
+					DocumentType:  "new-type",
+					DocumentTitle: "new-title",
+				},
+				contents: []*wantContent{{
+					wantObservationDateTime: message.NewValidTime(defaultDate),
+				}, {
+					wantObservationDateTime: message.NewValidTime(time.Date(2019, 1, 21, 0, 0, 0, 0, time.UTC)),
+				}},
+				wantDocumentType: "new-type",
+				eventDateTime:    time.Date(2019, 1, 21, 0, 0, 0, 0, time.UTC),
+			}},
+			wantDateTime: message.NewValidTime(defaultDate),
+		}, {
+			name: "two pathways with same id, request a txt with a type and title, and then a txt addendum with empty title and type",
+			tuples: []*tuple{{
+				pathway: &pathway.ClinicalNote{
+					ContentType:   "txt",
+					DocumentID:    "some-id",
+					DocumentTitle: "title",
+				},
+				contents: []*wantContent{{
+					wantObservationDateTime: message.NewValidTime(defaultDate),
+				}},
+				eventDateTime: defaultDate,
+			}, {
+				pathway: &pathway.ClinicalNote{
+					ContentType: "txt",
+					DocumentID:  "some-id",
+				},
+				contents: []*wantContent{{
+					wantObservationDateTime: message.NewValidTime(defaultDate),
+				}, {
+					wantObservationDateTime: message.NewValidTime(time.Date(2019, 1, 21, 0, 0, 0, 0, time.UTC)),
+				}},
+				eventDateTime: time.Date(2019, 1, 21, 0, 0, 0, 0, time.UTC),
+			}},
+			wantDateTime: message.NewValidTime(defaultDate),
 		},
 	}
 	for _, tt := range testCases {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := g.RandomDocumentForClinicalNote(tt.notePathway)
-			if err != nil {
-				t.Fatalf("g.RandomDocumentForClinicalNote(%v) failed with error %v", tt.notePathway, err)
-			}
-			if got == nil {
-				t.Fatalf("g.RandomDocumentForClinicalNote(%v)=<nil>, want *message.ClinicalNote{...} instance", tt.notePathway)
-			}
-			if gotRandomID := strings.HasPrefix(got.DocumentID, "random-"); tt.wantRandomID != gotRandomID {
-				t.Errorf("g.RandomDocumentForClinicalNote(%v) got DocumentID=%s, is random? %t, want random? %t",
-					tt.notePathway, got.DocumentID, gotRandomID, tt.wantRandomID)
-			}
-			if tt.wantEncoding != got.DocumentEncoding {
-				t.Errorf("g.RandomDocumentForClinicalNote(%v) got DocumentEncoding=%s, want %s",
-					tt.notePathway, got.DocumentEncoding, tt.wantEncoding)
-			}
-			if tt.wantRandomDocumentType {
-				if !contains(got.DocumentType, g.types) {
-					t.Errorf("g.RandomDocumentForClinicalNote(%v) got DocumentType=%s, want one of %v",
-						tt.notePathway, got.DocumentType, g.types)
-				}
-			} else if got.DocumentType != tt.notePathway.DocumentType {
-				t.Errorf("g.RandomDocumentForClinicalNote(%v) got DocumentType=%s, want %s",
-					tt.notePathway, got.DocumentType, tt.notePathway.DocumentType)
-			}
-			if tt.notePathway.ContentType != "txt" && !contains(got.DocumentContent, fc[tt.notePathway.ContentType]) {
-				t.Errorf("g.RandomDocumentForClinicalNote(%v) got DocumentContent=%s, want one of %v",
-					tt.notePathway, got.DocumentContent, fc[tt.notePathway.ContentType])
-			}
-			if got, want := got.DocumentContent, tt.notePathway.DocumentContent; tt.wantExplicitContent && got != want {
-				t.Errorf("g.RandomDocumentForClinicalNote(%v) got DocumentContent=%s, want %s",
-					tt.notePathway, got, want)
-			}
-			if tt.notePathway.ContentType != "txt" || tt.wantExplicitContent {
-				return
-			}
-			sentences := strings.Split(got.DocumentContent, ".")
-			if got, want := len(sentences), testNumSentences; got != want {
-				t.Errorf("len(g.RandomDocumentForClinicalNote(%v)) got len(DocumentContent)=%v, want %v", tt.notePathway, got, want)
+			var (
+				got *message.ClinicalNote
+				err error
+			)
+			for index, tuple := range tt.tuples {
+				t.Run(fmt.Sprintf("pair index: %d", index), func(t *testing.T) {
+					got, err = g.RandomDocumentForClinicalNote(tuple.pathway, got, tuple.eventDateTime)
+					if err != nil {
+						t.Fatalf("g.RandomDocumentForClinicalNote(%v) failed with error %v", tuple.pathway, err)
+					}
+					if got == nil {
+						t.Fatalf("g.RandomDocumentForClinicalNote(%v)=<nil>, want *message.ClinicalNote{...} instance", tuple.pathway)
+					}
+					if gotRandomID := strings.HasPrefix(got.DocumentID, "random-"); tt.wantRandomID != gotRandomID {
+						t.Errorf("g.RandomDocumentForClinicalNote(%v) got DocumentID=%s, is random? %t, want random? %t",
+							tuple.pathway, got.DocumentID, gotRandomID, tt.wantRandomID)
+					}
+					if tuple.wantDocumentType == "" {
+						if !contains(got.DocumentType, g.types) {
+							t.Errorf("g.RandomDocumentForClinicalNote(%v) got DocumentType=%s, want one of %v",
+								tuple.pathway, got.DocumentType, g.types)
+						}
+					} else if got, want := got.DocumentType, tuple.wantDocumentType; got != want {
+						t.Errorf("g.RandomDocumentForClinicalNote(%v) got DocumentType=%s, want %s",
+							tuple.pathway, got, want)
+					}
+					if diff := cmp.Diff(tt.wantDateTime, got.DateTime); diff != "" {
+						t.Errorf("g.RandomDocumentForClinicalNote(%v).DateTime mismatch (-want, +got)=\n%s", tuple.pathway, diff)
+					}
+					for contentIndex, content := range tuple.contents {
+						if got, want := content.wantEncoding, got.Contents[contentIndex].DocumentEncoding; got != want {
+							t.Errorf("content index: %d; g.RandomDocumentForClinicalNote(%v) got DocumentEncoding=%s, want %s",
+								contentIndex, tuple.pathway, got, want)
+						}
+						if tuple.pathway.ContentType != "txt" && !contains(got.Contents[contentIndex].DocumentContent, fc[tuple.pathway.ContentType]) {
+							t.Errorf("content index: %d; g.RandomDocumentForClinicalNote(%v) got DocumentContent=%s, want one of %v",
+								contentIndex, tuple.pathway, got.Contents[index].DocumentContent, fc[tuple.pathway.ContentType])
+						}
+						if got, want := got.Contents[contentIndex].DocumentContent, tuple.pathway.DocumentContent; content.wantExplicitContent && got != want {
+							t.Errorf("content index: %d; g.RandomDocumentForClinicalNote(%v) got DocumentContent=%s, want %s",
+								contentIndex, tuple.pathway, got, want)
+						}
+						if diff := cmp.Diff(content.wantObservationDateTime, got.Contents[contentIndex].ObservationDateTime); diff != "" {
+							t.Errorf("content index: %d; g.RandomDocumentForClinicalNote(%v) got ObservationDateTime mismatch (-want, +got)=\n%s",
+								contentIndex, tuple.pathway, diff)
+						}
+						if got.Contents[0].ContentType != "txt" || content.wantExplicitContent {
+							return
+						}
+						sentences := strings.Split(got.Contents[index].DocumentContent, ".")
+						if got, want := len(sentences), testNumSentences; got != want {
+							t.Errorf("content index: %d; len(g.RandomDocumentForClinicalNote(%v)) got len(DocumentContent)=%v, want %v",
+								contentIndex, tuple.pathway, got, want)
+						}
+					}
+				})
 			}
 		})
 	}
@@ -187,8 +341,7 @@ func TestRandomNotesForResult(t *testing.T) {
 }
 
 func TestRandomInvalidContentTypeError(t *testing.T) {
-	nc, _, cleanup := testSetup(t)
-	defer cleanup()
+	nc, _ := testSetup(t)
 	g := &Generator{
 		textGenerator: &text.Generator{Nouns: nouns},
 		config:        nc,
@@ -212,7 +365,7 @@ func TestRandomInvalidContentTypeError(t *testing.T) {
 		},
 	}} {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := g.RandomDocumentForClinicalNote(tt.pathway)
+			got, err := g.RandomDocumentForClinicalNote(tt.pathway, nil, time.Time{})
 			if err == nil {
 				t.Errorf("g.RandomDocumentForClinicalNote(%q) = %v, %v; want <nil>, error", tt.pathway, got, err)
 			}
@@ -222,8 +375,7 @@ func TestRandomInvalidContentTypeError(t *testing.T) {
 
 func TestRandomUniformDistribution(t *testing.T) {
 	rand.Seed(1)
-	nc, fc, cleanup := testSetup(t)
-	defer cleanup()
+	nc, fc := testSetup(t)
 	g := &Generator{
 		textGenerator: &text.Generator{Nouns: nouns},
 		config:        nc,
@@ -241,11 +393,11 @@ func TestRandomUniformDistribution(t *testing.T) {
 	typesDistr := map[string]int{}
 	for _, acn := range arbitraryClinicalNotes {
 		for i := 0; i < int(runs); i++ {
-			n, err := g.RandomDocumentForClinicalNote(acn)
+			n, err := g.RandomDocumentForClinicalNote(acn, nil, time.Time{})
 			if err != nil {
 				t.Fatalf("g.RandomDocumentForClinicalNote(%v) failed with %v", acn, err)
 			}
-			contentDistr[n.DocumentContent]++
+			contentDistr[n.Contents[0].DocumentContent]++
 			typesDistr[n.DocumentType]++
 		}
 	}
@@ -291,7 +443,7 @@ func TestRandomUniformDistribution(t *testing.T) {
 	}
 }
 
-func testSetup(t *testing.T) (map[string][]config.ClinicalNote, map[string][]string, func()) {
+func testSetup(t *testing.T) (map[string][]config.ClinicalNote, map[string][]string) {
 	t.Helper()
 	mainDir, err := ioutil.TempDir("", "notes")
 	if err != nil {
@@ -334,7 +486,8 @@ func testSetup(t *testing.T) (map[string][]config.ClinicalNote, map[string][]str
 	if err != nil {
 		t.Fatalf("config.LoadNotesConfig(%s) failed with error %v", mainDir, err)
 	}
-	return nc, fileContents, func() { os.RemoveAll(mainDir) }
+	t.Cleanup(func() { os.RemoveAll(mainDir) })
+	return nc, fileContents
 }
 
 func contains(str string, strs []string) bool {

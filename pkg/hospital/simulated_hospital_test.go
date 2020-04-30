@@ -3935,6 +3935,7 @@ func TestPathwayClinicalNote(t *testing.T) {
 		name                  string
 		steps                 []*pathway.ClinicalNote
 		wantFillerOrderNumber []*hl7.CE
+		wantObservationValues [][]string
 	}{{
 		name: "single ClinicalNote step",
 		steps: []*pathway.ClinicalNote{{
@@ -3944,6 +3945,7 @@ func TestPathwayClinicalNote(t *testing.T) {
 			DocumentContent: "content",
 		}},
 		wantFillerOrderNumber: []*hl7.CE{{Identifier: hl7.NewST("type"), Text: hl7.NewST("type")}},
+		wantObservationValues: [][]string{{"^^txt^^content"}},
 	}, {
 		name: "two ClinicalNote step",
 		steps: []*pathway.ClinicalNote{{
@@ -3963,6 +3965,27 @@ func TestPathwayClinicalNote(t *testing.T) {
 			{Identifier: hl7.NewST("new-type"), Text: hl7.NewST("new-type"), AlternateText: hl7.NewST("title")},
 			{Identifier: hl7.NewST("second-type"), Text: hl7.NewST("second-type"), AlternateText: hl7.NewST("new-title")},
 		},
+		wantObservationValues: [][]string{{"^^txt^^new-content"}, {"^^txt^^second-content"}},
+	}, {
+		name: "one clinical note followed by an addendum",
+		steps: []*pathway.ClinicalNote{{
+			ContentType:     "txt",
+			DocumentTitle:   "title",
+			DocumentID:      "id",
+			DocumentType:    "type",
+			DocumentContent: "content",
+		}, {
+			ContentType:     "txt",
+			DocumentTitle:   "new-title",
+			DocumentID:      "id",
+			DocumentType:    "new-type",
+			DocumentContent: "new-content",
+		}},
+		wantFillerOrderNumber: []*hl7.CE{
+			{Identifier: hl7.NewST("type"), Text: hl7.NewST("type"), AlternateText: hl7.NewST("title")},
+			{Identifier: hl7.NewST("new-type"), Text: hl7.NewST("new-type"), AlternateText: hl7.NewST("new-title")},
+		},
+		wantObservationValues: [][]string{{"^^txt^^content"}, {"^^txt^^content", "^^txt^^new-content"}},
 	}} {
 		t.Run(tt.name, func(t *testing.T) {
 			now := time.Date(2018, 2, 12, 0, 0, 0, 0, time.UTC)
@@ -4005,15 +4028,16 @@ func TestPathwayClinicalNote(t *testing.T) {
 						t.Errorf("obr.UniversalServiceIdentifier mismatch (-want, +got):\n%s", diff)
 					}
 					obxs := testhl7.AllOBX(t, m)
-					if got, want := len(obxs), 1; got != want {
+					if got, want := len(obxs), len(tt.wantObservationValues[index]); got != want {
 						t.Fatalf("len(obxs)=%d want %d", got, want)
 					}
-					obx := obxs[0]
-					if obx.ResponsibleObserver == nil {
-						t.Error("obx.ResponsibleObserver=<nil>, want something")
-					}
-					if got, want := string(obx.ObservationValue[0]), fmt.Sprintf("^^%s^^%s", step.ContentType, step.DocumentContent); got != want {
-						t.Errorf("obx.ObservationValue=%q want %q", got, want)
+					for obxIndex, obx := range obxs {
+						if obx.ResponsibleObserver == nil {
+							t.Errorf("obx index: %d; obx.ResponsibleObserver=<nil>, want something", obxIndex)
+						}
+						if got, want := string(obx.ObservationValue[0]), tt.wantObservationValues[index][obxIndex]; got != want {
+							t.Errorf("obx index: %d; obx.ObservationValue=%q want %q", obxIndex, got, want)
+						}
 					}
 				})
 			}

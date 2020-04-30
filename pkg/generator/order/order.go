@@ -37,7 +37,7 @@ type NotesGenerator interface {
 	// RandomNotesForResult generates textual notes for a Result, to be set in NTE segments related to the result.
 	RandomNotesForResult() []string
 	// RandomDocumentForClinicalNote generates a document that contains a clinical note.
-	RandomDocumentForClinicalNote(*pathway.ClinicalNote) (*message.ClinicalNote, error)
+	RandomDocumentForClinicalNote(*pathway.ClinicalNote, *message.ClinicalNote, time.Time) (*message.ClinicalNote, error)
 }
 
 // Generator is a generator of orders and results.
@@ -66,28 +66,40 @@ func (g Generator) NewOrder(o *pathway.Order, eventTime time.Time) *message.Orde
 	}
 }
 
-// OrderWithClinicalNote creates an order with a Clinical Note. This order will contain a single result with
-// the Clinical Note generated based on the pathway. The DiagnosticServID section is set to DiagnosticServIDMDOC, which indicates that
-// the corresponding HL7 is a Clinical Note.
-func (g Generator) OrderWithClinicalNote(n *pathway.ClinicalNote, eventTime time.Time) (*message.Order, error) {
-	note, err := g.NoteGenerator.RandomDocumentForClinicalNote(n)
+// OrderWithClinicalNote updates an order with a Clinical Note. If the supplied order is nil, a new order is created.
+// This order will contain a single result with the Clinical Note generated/updated based on the pathway.
+// The DiagnosticServID section is set to DiagnosticServIDMDOC, which indicates that the corresponding HL7 is a Clinical Note.
+func (g Generator) OrderWithClinicalNote(order *message.Order, n *pathway.ClinicalNote, eventTime time.Time) (*message.Order, error) {
+	var existingNote *message.ClinicalNote
+	if order != nil {
+		if len(order.Results) != 1 {
+			return nil, errors.New("No results found in the provided order; expected 1")
+		}
+		if order.Results[0].ClinicalNote == nil {
+			return nil, errors.New("Order is not a Clinical Note order")
+		}
+		existingNote = order.Results[0].ClinicalNote
+	}
+
+	note, err := g.NoteGenerator.RandomDocumentForClinicalNote(n, existingNote, eventTime)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to generate a random note")
 	}
-	note.DateTime = message.NewValidTime(eventTime)
 
-	o := &message.Order{
-		// Order.OrderProfile gets rendered to the Universal Service Identifier field of an OBR segment (OBR.4) as
-		// OrderProfile.ID^OrderProfile.Text^OrderProfile.CodingSystem. In clinical notes this field is used to send the
-		// DocumentType, which is rendered as  DocumentType^DocumentType^^^DocumentTitle.
-		OrderProfile:     &message.CodedElement{ID: note.DocumentType, Text: note.DocumentType, AlternateText: n.DocumentTitle},
-		ResultsStatus:    g.MessageConfig.DocumentStatus.Authenticated,
-		OrderingProvider: g.Doctors.GetRandomDoctor(),
-		DiagnosticServID: message.DiagnosticServIDMDOC,
+	if order == nil {
+		order = &message.Order{
+			ResultsStatus:    g.MessageConfig.DocumentStatus.Authenticated,
+			OrderingProvider: g.Doctors.GetRandomDoctor(),
+			DiagnosticServID: message.DiagnosticServIDMDOC,
+		}
 	}
 
-	o.Results = []*message.Result{{ClinicalNote: note}}
-	return o, nil
+	// Order.OrderProfile gets rendered to the Universal Service Identifier field of an OBR segment (OBR.4) as
+	// OrderProfile.ID^OrderProfile.Text^OrderProfile.CodingSystem. In clinical notes this field is used to send the
+	// DocumentType, which is rendered as  DocumentType^DocumentType^^^DocumentTitle.
+	order.OrderProfile = &message.CodedElement{ID: note.DocumentType, Text: note.DocumentType, AlternateText: note.DocumentTitle}
+	order.Results = []*message.Result{{ClinicalNote: note}}
+	return order, nil
 }
 
 // SetResults sets results on an existing Order.

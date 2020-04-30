@@ -150,10 +150,13 @@ func (h *Hospital) processClinicalNote(e *state.Event, logLocal *logging.Simulat
 	patient := h.patients.Get(e.PatientMRN)
 	patientInfo := patient.PatientInfo
 	h.setAdmissionDetailsIfMissing(patientInfo, e.EventTime)
-	o, err := h.generator.OrderWithClinicalNote(e.Step.ClinicalNote, e.EventTime)
+
+	o := patient.GetOrder(e.Step.ClinicalNote.DocumentID)
+	o, err := h.generator.OrderWithClinicalNote(o, e.Step.ClinicalNote, e.EventTime)
 	if err != nil {
 		return errors.Wrap(err, "cannot generate a Clinical Note")
 	}
+	patient.AddOrder(e.Step.ClinicalNote.DocumentID, o)
 	msg, err := message.BuildResultORUR01(msgHeader, patientInfo, o, e.MessageTime)
 	if err != nil {
 		return errors.Wrapf(err, "cannot build ORU^R01 message")

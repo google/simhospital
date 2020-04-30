@@ -933,6 +933,31 @@ The following event will generate an `ORU^R01` message with a document of type
     document_type: "Discharge notes"
 ```
 
+If an `document_id` is specified, an addendum can be sent on top of the existing note.
+The following sends a clinical note with a pdf.
+
+```yaml
+- clinical_note:
+    document_id: my-id
+    content_type: pdf
+    document_type: "Discharge notes"
+    document_title: "Patient Overview"
+```
+
+Using the same `document_id = my-id` to send another clinical note will append a new
+document to the existing document. Specifying a new `document_title` and
+`document_type` in the new pathway will override the previous values. The
+following adds a new OBX to the previous message with the new document content
+and updates the `document_title` and `document_type`.
+
+```yaml
+- clinical_note:
+    document_id: my-id
+    content_type: txt
+    document_type: "Updated Discharge notes"
+    document_title: "Updated Patient Overview"
+```
+
 ### Hardcoded message
 
 A `hardcoded_message` event sends a pre-loaded message from the folder

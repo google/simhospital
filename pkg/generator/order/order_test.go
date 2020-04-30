@@ -130,36 +130,77 @@ func TestOrderWithClinicalNote(t *testing.T) {
 		t.Fatalf("LoadDoctors(%s) failed with %v", tmpDoctors, err)
 	}
 
+	wantTitle := "document-title"
+	wantClinicalNoteContent := &message.ClinicalNoteContent{
+		DocumentContent:     "rtf-content",
+		ContentType:         "rtf",
+		ObservationDateTime: message.NewValidTime(eventTime),
+	}
+	addendum := &message.ClinicalNoteContent{
+		DocumentContent:     "pdf-content",
+		ContentType:         "pdf",
+		ObservationDateTime: message.NewValidTime(eventTime),
+	}
 	wantClinicalNote := &message.ClinicalNote{
-		DocumentType:    "document-type",
-		ContentType:     "rtf",
-		DocumentID:      "doc-id",
-		DocumentContent: "rtf-content",
+		DocumentType:  "document-type",
+		DocumentID:    "doc-id",
+		DocumentTitle: wantTitle,
+		DateTime:      message.NewValidTime(eventTime),
+		Contents:      []*message.ClinicalNoteContent{wantClinicalNoteContent},
 	}
 
-	wantTitle := "document-title"
 	cn := &pathway.ClinicalNote{
-		ContentType:   wantClinicalNote.ContentType,
+		ContentType:   wantClinicalNote.Contents[0].ContentType,
 		DocumentID:    wantClinicalNote.DocumentID,
 		DocumentTitle: wantTitle,
 	}
 
 	cases := []struct {
 		name                string
+		notePathway         *pathway.ClinicalNote
+		existingOrder       *message.Order
 		notesGeneratorError error
+		wantClinicalNote    *message.ClinicalNote
 		want                *message.Order
 		wantErr             bool
 	}{
 		{
-			name: "success",
+			name:             "new clinical note success",
+			notePathway:      cn,
+			wantClinicalNote: wantClinicalNote,
 			want: &message.Order{
 				Results: []*message.Result{{
 					ClinicalNote: &message.ClinicalNote{
-						DateTime:        message.NewValidTime(eventTime),
-						ContentType:     wantClinicalNote.ContentType,
-						DocumentType:    wantClinicalNote.DocumentType,
-						DocumentContent: wantClinicalNote.DocumentContent,
-						DocumentID:      wantClinicalNote.DocumentID,
+						DateTime:      message.NewValidTime(eventTime),
+						Contents:      []*message.ClinicalNoteContent{wantClinicalNoteContent},
+						DocumentType:  wantClinicalNote.DocumentType,
+						DocumentID:    wantClinicalNote.DocumentID,
+						DocumentTitle: wantClinicalNote.DocumentTitle,
+					},
+				}},
+				OrderProfile: &message.CodedElement{
+					ID:            wantClinicalNote.DocumentType,
+					Text:          wantClinicalNote.DocumentType,
+					AlternateText: wantClinicalNote.DocumentTitle,
+				},
+				ResultsStatus:    "AUTHVRF",
+				DiagnosticServID: "MDOC",
+				OrderingProvider: singleDoctor,
+			},
+		}, {
+			name: "update clinical note success",
+			notePathway: &pathway.ClinicalNote{
+				DocumentType:  "new-type",
+				DocumentTitle: "new-title",
+				DocumentID:    wantClinicalNote.DocumentID,
+			},
+			existingOrder: &message.Order{
+				Results: []*message.Result{{
+					ClinicalNote: &message.ClinicalNote{
+						DateTime:     message.NewValidTime(eventTime),
+						Contents:     []*message.ClinicalNoteContent{wantClinicalNoteContent},
+						DocumentType: wantClinicalNote.DocumentType,
+						DocumentID:   wantClinicalNote.DocumentID,
 					},
 				}},
 				OrderProfile: &message.CodedElement{
@@ -171,6 +212,42 @@ func TestOrderWithClinicalNote(t *testing.T) {
 				DiagnosticServID: "MDOC",
 				OrderingProvider: singleDoctor,
 			},
+			wantClinicalNote: &message.ClinicalNote{
+				DateTime:      message.NewValidTime(eventTime),
+				Contents:      []*message.ClinicalNoteContent{wantClinicalNoteContent, addendum},
+				DocumentType:  "new-type",
+				DocumentTitle: "new-title",
+				DocumentID:    wantClinicalNote.DocumentID,
+			},
+			want: &message.Order{
+				Results: []*message.Result{{
+					ClinicalNote: &message.ClinicalNote{
+						DateTime:      message.NewValidTime(eventTime),
+						Contents:      []*message.ClinicalNoteContent{wantClinicalNoteContent, addendum},
+						DocumentID:    wantClinicalNote.DocumentID,
+						DocumentType:  "new-type",
+						DocumentTitle: "new-title",
+					},
+				}},
+				OrderProfile: &message.CodedElement{
+					ID:            "new-type",
+					Text:          "new-type",
+					AlternateText: "new-title",
+				},
+				ResultsStatus:    "AUTHVRF",
+				DiagnosticServID: "MDOC",
+				OrderingProvider: singleDoctor,
+			},
+		}, {
+			name:          "order with 0 results passed to method",
+			existingOrder: &message.Order{},
+			wantErr:       true,
+		}, {
+			name: "wrong order passed to the method",
+			existingOrder: &message.Order{
+				Results: []*message.Result{{Value: "1"}},
+			},
+			wantErr: true,
 		}, {
 			name:                "failure",
 			notesGeneratorError: errors.New("cannot generate notes"),
@@ -181,7 +258,7 @@ func TestOrderWithClinicalNote(t *testing.T) {
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
 			ng := &fakeNoteGenerator{
-				wantClinicalNote: wantClinicalNote,
+				wantClinicalNote: tc.wantClinicalNote,
 				wantErr:          tc.notesGeneratorError,
 			}
 
@@ -195,12 +272,12 @@ func TestOrderWithClinicalNote(t *testing.T) {
 				Doctors:               d,
 			}
 
-			got, err := g.OrderWithClinicalNote(cn, eventTime)
+			got, err := g.OrderWithClinicalNote(tc.existingOrder, cn, eventTime)
 			if gotErr := err != nil; gotErr != tc.wantErr {
-				t.Fatalf("g.OrderWithClinicalNote(%+v, %v) got err %v, want ?err=%t", cn, eventTime, err, tc.wantErr)
+				t.Fatalf("g.OrderWithClinicalNote(%v, %+v, %v) got err %v, want ?err=%t", tc.existingOrder, cn, eventTime, err, tc.wantErr)
 			}
 			if diff := cmp.Diff(tc.want, got); diff != "" {
-				t.Errorf("g.OrderWithClinicalNote(%+v, %v) diff: (-want, +got):\n%s", cn, eventTime, diff)
+				t.Errorf("g.OrderWithClinicalNote(%v, %+v, %v) diff: (-want, +got):\n%s", tc.existingOrder, cn, eventTime, diff)
 			}
 		})
 	}
@@ -1465,7 +1542,7 @@ func (ng *fakeNoteGenerator) RandomNotesForResult() []string {
 	return ng.wantNotes
 }
 
-func (ng *fakeNoteGenerator) RandomDocumentForClinicalNote(*pathway.ClinicalNote) (*message.ClinicalNote, error) {
+func (ng *fakeNoteGenerator) RandomDocumentForClinicalNote(*pathway.ClinicalNote, *message.ClinicalNote, time.Time) (*message.ClinicalNote, error) {
 	return ng.wantClinicalNote, ng.wantErr
 }
 
