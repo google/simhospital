@@ -39,7 +39,7 @@ arguments to point to it:
 docker run --rm -it -p 8000:8000 -v ABSOLUTE_PATH_TO_LOCAL_ALLERGIES_FILE:/configs/allergies.csv $IMAGE health/simulator --allergies_file=configs/allergies.csv
 ```
 
-See [the commane line arguments](arguments.md).
+See [the command line arguments](arguments.md).
 
 ## Run your own instance of Simulated Hospital
 
