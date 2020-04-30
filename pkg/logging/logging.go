@@ -30,7 +30,9 @@ var shBaseLogger = logrus.New()
 
 func init() {
 	shBaseLogger.Formatter = WithSource(&logrus.TextFormatter{
-		TimestampFormat: time.RFC3339Nano,
+		TimestampFormat: time.RFC3339,
+		FullTimestamp:   true,
+		ForceColors:     true,
 	})
 }
 
