@@ -52,17 +52,18 @@ func getCaller() string {
 	found := runtime.Callers(5, programCounters)
 	frames := runtime.CallersFrames(programCounters[0:found])
 	for frame, more := frames.Next(); more; frame, more = frames.Next() {
-		fnName := frame.Function
-		if strings.HasPrefix(fnName, "google3/third_party/golang/logrus") ||
-			strings.HasPrefix(fnName, "google3/third_party/simulated_hospital/pkg/logging/logging.") {
+		file := frame.File
+		// Skip the external logging library.
+		if strings.Contains(file, "logrus") {
 			continue
 		}
-		// We're now out of all logging code so this is our caller.
-		file := frame.File
-		index := strings.LastIndex(file, "/go/src/")
+		// Skip up to basePackagePrefix (if present), to make the resulting path more compact.
+		// This should now report the path at a package level, e.g.: pkg/logging/formatter.go
+		index := strings.LastIndex(file, basePackagePrefix)
 		if index != -1 {
-			file = file[index+8:]
+			file = file[index+len(basePackagePrefix):]
 		}
+		fnName := frame.Function
 		index = strings.LastIndex(fnName, "/")
 		if index != -1 {
 			fnName = fnName[index+1:]
