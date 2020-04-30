@@ -19,11 +19,27 @@ IMAGE=gcr.io/lastomato-test/simhospital
 docker pull $IMAGE
 ```
 
-Run it:
+Run it with the default values:
 
 ```shell
 docker run --rm -it -p 8000:8000 $IMAGE health/simulator
 ```
+
+If you want to load your own configuration files instead of the default ones,
+you need to mount the files in the default locations, for instance:
+
+```shell
+docker run --rm -it -p 8000:8000 -v ABSOLUTE_PATH_TO_LOCAL_ALLERGIES_FILE:/configs/hl7_messages/allergies.csv $IMAGE health/simulator
+```
+
+Alternatively, you can copy the file somewhere else, and use the command line
+arguments to point to it:
+
+```shell
+docker run --rm -it -p 8000:8000 -v ABSOLUTE_PATH_TO_LOCAL_ALLERGIES_FILE:/configs/allergies.csv $IMAGE health/simulator --allergies_file=configs/allergies.csv
+```
+
+See [the commane line arguments](arguments.md).
 
 ## Run your own instance of Simulated Hospital
 

@@ -84,8 +84,28 @@ docker run --rm -it -p 8000:8000 bazel:simhospital_container_image health/simula
 ## Data configuration
 
 Data configuration arguments allow you to use your own custom clinical,
-administrative, and demographic sample data. Append these arguments to your
-launch command:
+administrative, and demographic sample data.
+
+If you use a prebuilt Docker image and you want to load your own configuration
+files instead of the default ones, you need to inject the files into the
+container using Docker volumes.
+
+For instance, run the following command to modify the allergies that are loaded
+by default, by copying a local file with allergies to the default path for the
+allergies configuration file:
+
+```shell
+docker run --rm -it -p 8000:8000 -v ABSOLUTE_PATH_TO_LOCAL_ALLERGIES_FILE:/configs/hl7_messages/allergies.csv $IMAGE health/simulator
+```
+
+Alternatively, you can copy the file somewhere else, and use the command line
+arguments to point to it:
+
+```shell
+docker run --rm -it -p 8000:8000 -v ABSOLUTE_PATH_TO_LOCAL_ALLERGIES_FILE:/configs/allergies.csv $IMAGE health/simulator --allergies_file=configs/allergies.csv
+```
+
+Append these arguments to your launch command:
 
 `-allergies_file` (string)
 :   Path to a CSV file containing allergies and how often they occur. Simulated
