@@ -26,7 +26,6 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"gopkg.in/yaml.v2"
 	"github.com/google/simhospital/pkg/clock"
 	"github.com/google/simhospital/pkg/constants"
 	"github.com/google/simhospital/pkg/logging"
@@ -1382,28 +1381,4 @@ func (p *Pathway) getCopy() Pathway {
 	}
 
 	return copied
-}
-
-// ToYmlString converts a Pathway struct to a formatted YML string.
-// Sample Formatted String:
-// persons: null
-// consultant: null
-// pathway:
-// - admission:
-// 		loc: Dummy Location
-// - delay:
-// 		from: 1s
-// 		to: 5s
-// - discharge:
-// 		note: ""
-// 	parameters:
-// 		status:
-// 			time_of_death: 2019-06-13T16:45:29.230362848Z
-// - delay:
-// 		from: 1s
-// 		to: 5s
-func (p *Pathway) ToYmlString() (string, error) {
-	yml, err := yaml.Marshal(p)
-
-	return string(yml), err
 }

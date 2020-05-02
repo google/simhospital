@@ -20,8 +20,6 @@ import (
 	"time"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/google/go-cmp/cmp/cmpopts"
-	"gopkg.in/yaml.v2"
 	"github.com/google/simhospital/pkg/constants"
 	"github.com/google/simhospital/pkg/orderprofile"
 	"github.com/google/simhospital/pkg/test/testclock"
@@ -623,31 +621,5 @@ func TestInitCalledMultipleTimes(t *testing.T) {
 	}
 	if got, want := mc, 2; got != want {
 		t.Errorf("[%+v].MessageCount()=%d, want %d", pathway, got, want)
-	}
-}
-
-func TestToYmlString(t *testing.T) {
-	pathway := Pathway{
-		Persons: &Persons{
-			"main": Person{FirstName: "James"},
-		},
-		Pathway: []Step{
-			{Admission: &Admission{}},
-			{Discharge: &Discharge{}},
-		},
-	}
-
-	got, err := pathway.ToYmlString()
-	if err != nil {
-		t.Fatalf("[%+v].ToYmlString() failed with %v", pathway, err)
-	}
-
-	var parsed Pathway
-	if err = yaml.UnmarshalStrict([]byte(got), &parsed); err != nil {
-		t.Fatalf("yaml.UnmarshalStrict(%s, %v) failed with %v", got, parsed, err)
-	}
-
-	if diff := cmp.Diff(pathway, parsed, cmpopts.IgnoreUnexported(Pathway{}, Step{})); diff != "" {
-		t.Errorf("yaml.UnmarshalStrict(%s, %v) got diff (-want, +got):\n%s", got, parsed, diff)
 	}
 }
