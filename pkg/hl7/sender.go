@@ -32,7 +32,9 @@ type Sender interface {
 }
 
 // stdoutSender sends HL7 messages to the standard output.
-type stdoutSender struct{}
+type stdoutSender struct {
+	count int
+}
 
 // NewStdoutSender returns a sender that sends HL7 messages to the standard output.
 func NewStdoutSender() Sender {
@@ -43,11 +45,13 @@ func NewStdoutSender() Sender {
 func (s *stdoutSender) Send(message []byte) error {
 	fmt.Print(string(bytes.Replace(message, []byte(SegmentTerminatorStr), []byte("\n"), -1)))
 	fmt.Print("\n")
+	s.count++
 	return nil
 }
 
-// Close is no-op.
+// Close prints the number of messages that have been sent.
 func (s *stdoutSender) Close() error {
+	log.Infof("Messages successfully sent by the stdoutSender: %d", s.count)
 	return nil
 }
 
@@ -60,6 +64,7 @@ type mllpSender struct {
 	address             string
 	mllpKeepAlive       bool
 	mllpKeepAlivePeriod time.Duration
+	count               int
 }
 
 // NewMLLPSender returns a sender that sends HL7 messages via the MLLP protocol.
@@ -132,12 +137,15 @@ func (s *mllpSender) Send(message []byte) error {
 	if _, err = ParseMessage(ack); err != nil {
 		return errors.Wrap(err, "ack message cannot be parsed")
 	}
+	s.count++
 	return nil
 }
 
 // Close closes the underlying TCP connection.
 // It should be called, when the mllpSender is not needed anymore or at the program exit.
+// Close prints the number of messages that have been sent.
 func (s *mllpSender) Close() error {
+	log.Infof("Messages successfully sent by the mllpSender: %d", s.count)
 	if err := s.conn.Close(); err != nil {
 		return errors.Wrap(err, "closing mllp sender connection")
 	}
@@ -146,7 +154,8 @@ func (s *mllpSender) Close() error {
 
 // fileSender sends HL7 messages to a file.
 type fileSender struct {
-	file *os.File
+	file  *os.File
+	count int
 }
 
 // NewFileSender creates a sender that sends HL7 messages to a file.
@@ -166,12 +175,15 @@ func (s *fileSender) Send(message []byte) error {
 	if _, err := s.file.Write(append(message, []byte("\n\n")...)); err != nil {
 		return errors.Wrap(err, "cannot write a message")
 	}
+	s.count++
 	return nil
 }
 
 // Close closes the underlying file.
 // It should be called, when the mllpSender is not needed anymore or at the program exit.
+// Close prints the number of messages that have been sent.
 func (s *fileSender) Close() error {
+	log.Infof("Messages successfully sent by the fileSender: %d", s.count)
 	if err := s.file.Close(); err != nil {
 		return errors.Wrap(err, "closing file sender")
 	}
