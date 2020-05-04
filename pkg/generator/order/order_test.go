@@ -113,13 +113,13 @@ func TestNewOrder(t *testing.T) {
 }
 
 func TestOrderWithClinicalNote(t *testing.T) {
-	hl7Config, err := config.LoadHL7Config(test.MessageConfig)
+	hl7Config, err := config.LoadHL7Config(test.MessageConfigTest)
 	if err != nil {
-		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfig, err)
+		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
-	op, err := orderprofile.Load(test.OrderProfilesConfig, hl7Config)
+	op, err := orderprofile.Load(test.OrderProfilesConfigTest, hl7Config)
 	if err != nil {
-		t.Fatalf("orderprofile.Load(%s, %+v) failed with %v", test.OrderProfilesConfig, hl7Config, err)
+		t.Fatalf("orderprofile.Load(%s, %+v) failed with %v", test.OrderProfilesConfigTest, hl7Config, err)
 	}
 
 	// Loading single doctor to eliminate randomness.
@@ -696,7 +696,7 @@ func TestSetResultsAbnormalFlag(t *testing.T) {
 }
 
 func TestSetResultsSetValueType(t *testing.T) {
-	g, hl7Config := testGeneratorWithOrderProfile(t, test.ComplexOrderProfilesConfig)
+	g, hl7Config := testGeneratorWithOrderProfile(t, test.ComplexOrderProfilesConfigTest)
 
 	cases := []struct {
 		name     string
@@ -977,7 +977,7 @@ func TestSetResultsRandomValue(t *testing.T) {
 }
 
 func TestSetResultsWithCompexOrderProfiles(t *testing.T) {
-	g, hl7Config := testGeneratorWithOrderProfile(t, test.ComplexOrderProfilesConfig)
+	g, hl7Config := testGeneratorWithOrderProfile(t, test.ComplexOrderProfilesConfigTest)
 
 	cases := []struct {
 		name          string
@@ -1459,22 +1459,22 @@ func TestSetResultsOverrideNotes(t *testing.T) {
 
 func testGenerator(t *testing.T) (*Generator, *config.HL7Config) {
 	t.Helper()
-	return testGeneratorWithOrderProfile(t, test.OrderProfilesConfig)
+	return testGeneratorWithOrderProfile(t, test.OrderProfilesConfigTest)
 }
 
 func testGeneratorWithOrderProfile(t *testing.T, orderProfileConfig string) (*Generator, *config.HL7Config) {
 	t.Helper()
-	hl7Config, err := config.LoadHL7Config(test.MessageConfig)
+	hl7Config, err := config.LoadHL7Config(test.MessageConfigTest)
 	if err != nil {
-		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfig, err)
+		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
 	op, err := orderprofile.Load(orderProfileConfig, hl7Config)
 	if err != nil {
 		t.Fatalf("orderprofile.Load(%s, %+v) failed with %v", orderProfileConfig, hl7Config, err)
 	}
-	d, err := doctor.LoadDoctors(test.DoctorsConfig)
+	d, err := doctor.LoadDoctors(test.DoctorsConfigTest)
 	if err != nil {
-		t.Fatalf("LoadDoctors(%s) failed with %v", test.DoctorsConfig, err)
+		t.Fatalf("LoadDoctors(%s) failed with %v", test.DoctorsConfigTest, err)
 	}
 	ng := &fakeNoteGenerator{}
 

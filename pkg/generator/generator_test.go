@@ -53,26 +53,26 @@ var (
 
 func TestNewGeneratorPublicMessageConfiguration(t *testing.T) {
 	// If some files are not parsable or accessible, things will crash.
-	c, err := config.LoadHL7Config(test.PublicMessageConfig)
+	c, err := config.LoadHL7Config(test.MessageConfigProd)
 	if err != nil {
-		t.Fatalf("LoadHL7Config(%s) failed with %v", test.PublicMessageConfig, err)
+		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigProd, err)
 	}
-	h, err := config.LoadHeaderConfig(test.PublicHeaderConfig)
+	h, err := config.LoadHeaderConfig(test.HeaderConfigProd)
 	if err != nil {
-		t.Fatalf("LoadHeaderConfig(%s) failed with %v", test.PublicHeaderConfig, err)
+		t.Fatalf("LoadHeaderConfig(%s) failed with %v", test.HeaderConfigProd, err)
 	}
 	f := test.DataFiles[test.Prod]
 	dc, err := config.LoadData(f, c)
 	if err != nil {
 		t.Fatalf("LoadData(%+v, %+v) failed with %v", f, c, err)
 	}
-	d, err := doctor.LoadDoctors(test.PublicDoctorsConfig)
+	d, err := doctor.LoadDoctors(test.DoctorsConfigProd)
 	if err != nil {
-		t.Fatalf("LoadDoctors(%s) failed with %v", test.PublicDoctorsConfig, err)
+		t.Fatalf("LoadDoctors(%s) failed with %v", test.DoctorsConfigProd, err)
 	}
-	op, err := orderprofile.Load(test.PublicOrderProfilesConfig, c)
+	op, err := orderprofile.Load(test.OrderProfilesConfigProd, c)
 	if err != nil {
-		t.Fatalf("orderprofile.Load(%s, %+v) failed with %v", test.PublicOrderProfilesConfig, c, err)
+		t.Fatalf("orderprofile.Load(%s, %+v) failed with %v", test.OrderProfilesConfigProd, c, err)
 	}
 	NewGenerator(
 		Config{
@@ -1127,9 +1127,9 @@ func TestOrderWithClinicalNote(t *testing.T) {
 
 func TestSetResults(t *testing.T) {
 	eventTime := time.Date(2018, 2, 12, 1, 25, 0, 0, time.UTC)
-	hl7Config, err := config.LoadHL7Config(test.MessageConfig)
+	hl7Config, err := config.LoadHL7Config(test.MessageConfigTest)
 	if err != nil {
-		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfig, err)
+		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
 	g := testGenerator(t, Config{HL7Config: hl7Config})
 
@@ -1157,9 +1157,9 @@ func TestSetResults(t *testing.T) {
 }
 
 func TestNewDocument(t *testing.T) {
-	hl7Config, err := config.LoadHL7Config(test.MessageConfig)
+	hl7Config, err := config.LoadHL7Config(test.MessageConfigTest)
 	if err != nil {
-		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfig, err)
+		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
 	g := testGenerator(t, Config{HL7Config: hl7Config})
 	if got := g.NewDocument(defaultDate, &pathway.Document{}); got == nil {
@@ -1177,9 +1177,9 @@ RECURRING,RECURRING,5
 `))
 	defer os.Remove(fPatientClass)
 
-	hl7Config, err := config.LoadHL7Config(test.MessageConfig)
+	hl7Config, err := config.LoadHL7Config(test.MessageConfigTest)
 	if err != nil {
-		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfig, err)
+		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
 	f := test.DataFiles[test.Test]
 	f.PatientClass = fPatientClass
@@ -1241,9 +1241,9 @@ func TestNewHeader(t *testing.T) {
 }
 
 func TestGeneratorResetPatientInfo(t *testing.T) {
-	hl7Config, err := config.LoadHL7Config(test.MessageConfig)
+	hl7Config, err := config.LoadHL7Config(test.MessageConfigTest)
 	if err != nil {
-		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfig, err)
+		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
 	g := testGenerator(t, Config{HL7Config: hl7Config})
 
@@ -1315,16 +1315,16 @@ func testGenerator(t *testing.T, cfg Config) *Generator {
 func populateConfig(t *testing.T, now time.Time, cfg Config) Config {
 	t.Helper()
 	if cfg.HL7Config == nil {
-		c, err := config.LoadHL7Config(test.MessageConfig)
+		c, err := config.LoadHL7Config(test.MessageConfigTest)
 		if err != nil {
-			t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfig, err)
+			t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 		}
 		cfg.HL7Config = c
 	}
 	if cfg.Header == nil {
-		h, err := config.LoadHeaderConfig(test.HeaderConfig)
+		h, err := config.LoadHeaderConfig(test.HeaderConfigTest)
 		if err != nil {
-			t.Fatalf("LoadHeaderConfig(%s) failed with %v", test.HeaderConfig, err)
+			t.Fatalf("LoadHeaderConfig(%s) failed with %v", test.HeaderConfigTest, err)
 		}
 		cfg.Header = h
 	}
@@ -1337,16 +1337,16 @@ func populateConfig(t *testing.T, now time.Time, cfg Config) Config {
 		cfg.Data = dataCFG
 	}
 	if cfg.Doctors == nil {
-		d, err := doctor.LoadDoctors(test.DoctorsConfig)
+		d, err := doctor.LoadDoctors(test.DoctorsConfigTest)
 		if err != nil {
-			t.Fatalf("LoadDoctors(%s) failed with %v", test.DoctorsConfig, err)
+			t.Fatalf("LoadDoctors(%s) failed with %v", test.DoctorsConfigTest, err)
 		}
 		cfg.Doctors = d
 	}
 	if cfg.OrderProfiles == nil {
-		op, err := orderprofile.Load(test.OrderProfilesConfig, cfg.HL7Config)
+		op, err := orderprofile.Load(test.OrderProfilesConfigTest, cfg.HL7Config)
 		if err != nil {
-			t.Fatalf("orderprofile.Load(%s, %+v) failed with %v", test.OrderProfilesConfig, cfg.HL7Config, err)
+			t.Fatalf("orderprofile.Load(%s, %+v) failed with %v", test.OrderProfilesConfigTest, cfg.HL7Config, err)
 		}
 		cfg.OrderProfiles = op
 	}

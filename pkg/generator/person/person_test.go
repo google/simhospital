@@ -575,9 +575,9 @@ func (f *fakeAddressGenerator) Random() *message.Address {
 func simpleMaleGenerator(t *testing.T, date time.Time) *Generator {
 	t.Helper()
 
-	hl7Config, err := config.LoadHL7Config(test.MessageConfig)
+	hl7Config, err := config.LoadHL7Config(test.MessageConfigTest)
 	if err != nil {
-		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfig, err)
+		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
 	hl7Config.Gender = config.Gender{
 		Male:   maleGender,
@@ -639,9 +639,9 @@ patient_name:
 
 func testGenerator(t *testing.T, date time.Time) (*Generator, *config.HL7Config, *config.Data) {
 	t.Helper()
-	hl7Config, err := config.LoadHL7Config(test.MessageConfig)
+	hl7Config, err := config.LoadHL7Config(test.MessageConfigTest)
 	if err != nil {
-		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfig, err)
+		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
 	dataF := test.DataFiles[test.Test]
 	dataCFG, err := config.LoadData(dataF, hl7Config)
@@ -661,9 +661,9 @@ func testGenerator(t *testing.T, date time.Time) (*Generator, *config.HL7Config,
 
 func testGeneratorWithCustomHL7Gender(t *testing.T, date time.Time) (*Generator, *config.HL7Config, *config.Data) {
 	t.Helper()
-	hl7Config, err := config.LoadHL7Config(test.MessageConfig)
+	hl7Config, err := config.LoadHL7Config(test.MessageConfigTest)
 	if err != nil {
-		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfig, err)
+		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
 	hl7Config.Gender.Male = "HL7_M"
 	hl7Config.Gender.Female = "HL7_F"

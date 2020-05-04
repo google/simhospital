@@ -38,9 +38,9 @@ func TestAllergyGenerator_RandomNoItems(t *testing.T) {
 	fName := testwrite.BytesToFile(t, []byte(``))
 	defer os.Remove(fName)
 
-	configHL7, err := config.LoadHL7Config(test.MessageConfig)
+	configHL7, err := config.LoadHL7Config(test.MessageConfigTest)
 	if err != nil {
-		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfig, err)
+		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
 	f := test.DataFiles[test.Test]
 	f.Allergies = fName
@@ -66,9 +66,9 @@ T78.1,Allergy4,23
 
 	codeToDesc := map[string]string{"J30.1": "Allergy1", "J45.0": "Allergy2", "J23.1": "Allergy3", "T78.1": "Allergy4"}
 
-	configHL7, err := config.LoadHL7Config(test.MessageConfig)
+	configHL7, err := config.LoadHL7Config(test.MessageConfigTest)
 	if err != nil {
-		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfig, err)
+		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
 	f := test.DataFiles[test.Test]
 	f.Allergies = fName

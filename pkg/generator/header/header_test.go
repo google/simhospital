@@ -39,9 +39,9 @@ func TestMain(m *testing.M) {
 }
 
 func TestMessageControlIDsAreIncremental(t *testing.T) {
-	headerCFG, err := config.LoadHeaderConfig(test.HeaderConfig)
+	headerCFG, err := config.LoadHeaderConfig(test.HeaderConfigTest)
 	if err != nil {
-		t.Fatalf("LoadHeaderConfig(%s) failed with %v", test.HeaderConfig, err)
+		t.Fatalf("LoadHeaderConfig(%s) failed with %v", test.HeaderConfigTest, err)
 	}
 	g := &Generator{Header: headerCFG, MsgCtrlGen: &MessageControlGenerator{}}
 
@@ -77,7 +77,7 @@ oru:
 
 	headerCFG, err := config.LoadHeaderConfig(headerFile)
 	if err != nil {
-		t.Fatalf("LoadHeaderConfig(%s) failed with %v", test.HeaderConfig, err)
+		t.Fatalf("LoadHeaderConfig(%s) failed with %v", test.HeaderConfigTest, err)
 	}
 	tests := []struct {
 		name string

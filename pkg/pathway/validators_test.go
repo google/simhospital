@@ -838,9 +838,9 @@ func TestPathwayValidPathway(t *testing.T) {
 	usePatientSecond := Step{UsePatient: &UsePatient{Patient: PatientID("second")}}
 	twoPersonsOneInvalid := &Persons{"first": {Gender: "invalid"}, "second": {}}
 
-	doctors, err := doctor.LoadDoctors(test.DoctorsConfig)
+	doctors, err := doctor.LoadDoctors(test.DoctorsConfigTest)
 	if err != nil {
-		t.Fatalf("LoadDoctors(%s) failed with %v", test.DoctorsConfig, err)
+		t.Fatalf("LoadDoctors(%s) failed with %v", test.DoctorsConfigTest, err)
 	}
 
 	id1 := "id-1"

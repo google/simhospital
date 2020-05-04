@@ -52,9 +52,9 @@ P04.1,Procedure4,1
 	f.Diagnoses = diagnosisFilename
 	f.Procedures = procedureFilename
 
-	c, err := config.LoadHL7Config(test.MessageConfig)
+	c, err := config.LoadHL7Config(test.MessageConfigTest)
 	if err != nil {
-		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfig, err)
+		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
 	data, err := config.LoadData(f, c)
 	if err != nil {
@@ -186,9 +186,9 @@ func TestDiagOrProcGenerator_Random_EmptyFile_NoDate(t *testing.T) {
 	f.Diagnoses = emptyFilename
 	f.Procedures = emptyFilename
 
-	c, err := config.LoadHL7Config(test.MessageConfig)
+	c, err := config.LoadHL7Config(test.MessageConfigTest)
 	if err != nil {
-		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfig, err)
+		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
 	data, err := config.LoadData(f, c)
 	if err != nil {

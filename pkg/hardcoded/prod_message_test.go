@@ -22,8 +22,8 @@ import (
 )
 
 func TestValidateProdConfig(t *testing.T) {
-	_, err := NewManager(test.ProdHardcodedMessagesConfigDir, &header.MessageControlGenerator{})
+	_, err := NewManager(test.HardcodedMessagesDirProd, &header.MessageControlGenerator{})
 	if err != nil {
-		t.Fatalf("NewManager(path=%s) failed with %v", test.ProdHardcodedMessagesConfigDir, err)
+		t.Fatalf("NewManager(path=%s) failed with %v", test.HardcodedMessagesDirProd, err)
 	}
 }

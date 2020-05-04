@@ -36,9 +36,9 @@ func TestMain(m *testing.M) {
 }
 
 func TestConvertorPathwayToHL7(t *testing.T) {
-	hl7Config, err := config.LoadHL7Config(test.MessageConfig)
+	hl7Config, err := config.LoadHL7Config(test.MessageConfigTest)
 	if err != nil {
-		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfig, err)
+		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
 
 	wantMapping := map[pathway.Gender]string{
@@ -58,9 +58,9 @@ func TestConvertorPathwayToHL7(t *testing.T) {
 }
 
 func TestConvertorInternalToHL7(t *testing.T) {
-	hl7Config, err := config.LoadHL7Config(test.MessageConfig)
+	hl7Config, err := config.LoadHL7Config(test.MessageConfigTest)
 	if err != nil {
-		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfig, err)
+		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
 
 	wantMapping := map[Internal]string{
@@ -80,9 +80,9 @@ func TestConvertorInternalToHL7(t *testing.T) {
 }
 
 func TestConvertorHL7ToInternal(t *testing.T) {
-	hl7Config, err := config.LoadHL7Config(test.MessageConfig)
+	hl7Config, err := config.LoadHL7Config(test.MessageConfigTest)
 	if err != nil {
-		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfig, err)
+		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
 
 	wantMapping := map[string]Internal{

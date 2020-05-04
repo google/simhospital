@@ -25,9 +25,9 @@ import (
 )
 
 func TestEthnicityGenerator(t *testing.T) {
-	hl7Config, err := config.LoadHL7Config(test.MessageConfig)
+	hl7Config, err := config.LoadHL7Config(test.MessageConfigTest)
 	if err != nil {
-		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfig, err)
+		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
 	ethnicity := `
 White,White,1

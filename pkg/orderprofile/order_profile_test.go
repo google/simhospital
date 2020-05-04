@@ -501,9 +501,9 @@ func TestGenerate(t *testing.T) {
 
 func TestGenerateRandom(t *testing.T) {
 	hl7Config := loadHL7Config(t)
-	orderProfiles, err := Load(test.ComplexOrderProfilesConfig, hl7Config)
+	orderProfiles, err := Load(test.ComplexOrderProfilesConfigTest, hl7Config)
 	if err != nil {
-		t.Fatalf("Load(%s, %+v) failed with %v", test.ComplexOrderProfilesConfig, hl7Config, err)
+		t.Fatalf("Load(%s, %+v) failed with %v", test.ComplexOrderProfilesConfigTest, hl7Config, err)
 	}
 	input := constants.RandomString
 	allOrderProfiles := []string{

@@ -27,29 +27,29 @@ import (
 )
 
 func TestValidateProdPathways(t *testing.T) {
-	hl7Config, err := config.LoadHL7Config(test.PublicMessageConfig)
+	hl7Config, err := config.LoadHL7Config(test.MessageConfigProd)
 	if err != nil {
-		t.Fatalf("LoadHL7Config(%s) failed with %v", test.PublicMessageConfig, err)
+		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigProd, err)
 	}
-	d, err := doctor.LoadDoctors(test.PublicDoctorsConfig)
+	d, err := doctor.LoadDoctors(test.DoctorsConfigProd)
 	if err != nil {
-		t.Fatalf("LoadDoctors(%s) failed with %v", test.PublicDoctorsConfig, err)
+		t.Fatalf("LoadDoctors(%s) failed with %v", test.DoctorsConfigProd, err)
 	}
-	op, err := orderprofile.Load(test.PublicOrderProfilesConfig, hl7Config)
+	op, err := orderprofile.Load(test.OrderProfilesConfigProd, hl7Config)
 	if err != nil {
-		t.Fatalf("orderprofile.Load(%s, %+v) failed with %v", test.PublicOrderProfilesConfig, hl7Config, err)
+		t.Fatalf("orderprofile.Load(%s, %+v) failed with %v", test.OrderProfilesConfigProd, hl7Config, err)
 	}
-	lm, err := location.NewManager(test.PublicLocationsConfig)
+	lm, err := location.NewManager(test.LocationsConfigProd)
 	if err != nil {
-		t.Fatalf("location.NewManager(%s) failed with %v", test.PublicLocationsConfig, err)
+		t.Fatalf("location.NewManager(%s) failed with %v", test.LocationsConfigProd, err)
 	}
 	p := &Parser{Clock: testclock.New(time.Now()), OrderProfiles: op, Doctors: d, LocationManager: lm}
-	pathways, err := p.ParsePathways(test.ProdPathwaysDir)
+	pathways, err := p.ParsePathways(test.PathwaysDirProd)
 	if err != nil {
-		t.Fatalf("ParsePathways(%s) failed with %v", test.ProdPathwaysDir, err)
+		t.Fatalf("ParsePathways(%s) failed with %v", test.PathwaysDirProd, err)
 	}
 
 	if len(pathways) == 0 {
-		t.Fatalf("ParsePathways(%s) got empty pathways, want non empty", test.ProdPathwaysDir)
+		t.Fatalf("ParsePathways(%s) got empty pathways, want non empty", test.PathwaysDirProd)
 	}
 }

@@ -24,9 +24,9 @@ import (
 )
 
 func TestToHL7(t *testing.T) {
-	c, err := config.LoadHL7Config(test.PublicMessageConfig)
+	c, err := config.LoadHL7Config(test.MessageConfigProd)
 	if err != nil {
-		t.Fatalf("LoadHL7Config(%s) failed with %v", test.PublicMessageConfig, err)
+		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigProd, err)
 	}
 	convertor := NewAbnormalFlagConvertor(c)
 
