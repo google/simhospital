@@ -44,12 +44,12 @@ func TestValidateProdPathways(t *testing.T) {
 		t.Fatalf("location.NewManager(%s) failed with %v", test.PublicLocationsConfig, err)
 	}
 	p := &Parser{Clock: testclock.New(time.Now()), OrderProfiles: op, Doctors: d, LocationManager: lm}
-	pathways, err := p.ParsePathways(test.ProdPathwaysDir, nil, nil)
+	pathways, err := p.ParsePathways(test.ProdPathwaysDir)
 	if err != nil {
-		t.Fatalf("ParsePathways(%s, %v, %v) failed with %v", test.ProdPathwaysDir, nil, nil, err)
+		t.Fatalf("ParsePathways(%s) failed with %v", test.ProdPathwaysDir, err)
 	}
 
 	if len(pathways) == 0 {
-		t.Fatalf("ParsePathways(%s, %v, %v) got empty pathways, want non empty", test.ProdPathwaysDir, nil, nil)
+		t.Fatalf("ParsePathways(%s) got empty pathways, want non empty", test.ProdPathwaysDir)
 	}
 }

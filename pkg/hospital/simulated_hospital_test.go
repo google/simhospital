@@ -3678,9 +3678,9 @@ func hospitalWithPatientSyncer(t *testing.T, cfg Config, pathways map[string]pat
 
 func hospitalWithTime(t *testing.T, cfg Config, pathways map[string]pathway.Pathway, now time.Time) *testhospital.Hospital {
 	t.Helper()
-	pm, err := pathway.NewDistributionManager(pathways)
+	pm, err := pathway.NewDistributionManager(pathways, nil, nil)
 	if err != nil {
-		t.Fatalf("pathway.NewDistributionManager() failed with %v", err)
+		t.Fatalf("pathway.NewDistributionManager(%v,%v,%v) failed with %v", pathways, nil, nil, err)
 	}
 	cfg.PathwayManager = pm
 	cfg.LocationManager = locationManager(t, testLoc, testLocAE)

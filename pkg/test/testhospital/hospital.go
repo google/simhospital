@@ -121,13 +121,13 @@ func WithTime(t *testing.T, cfg Config, now time.Time) *Hospital {
 	var pathways map[string]pathway.Pathway
 	if cfg.PathwayManager == nil {
 		var err error
-		pathways, err = pathwayP.ParsePathways(cfg.PathwaysDir, nil, nil)
+		pathways, err = pathwayP.ParsePathways(cfg.PathwaysDir)
 		if err != nil {
-			t.Fatalf("ParsePathways(%s, %v, %v) failed with %v", cfg.PathwaysDir, nil, nil, err)
+			t.Fatalf("ParsePathways(%s) failed with %v", cfg.PathwaysDir, err)
 		}
-		pathwayManager, err := pathway.NewDistributionManager(pathways)
+		pathwayManager, err := pathway.NewDistributionManager(pathways, nil, nil)
 		if err != nil {
-			t.Fatalf("pathway.NewDistributionManager() failed with %v", err)
+			t.Fatalf("pathway.NewDistributionManager(%v,%v,%v) failed with %v", pathways, nil, nil, err)
 		}
 		cfg.PathwayManager = pathwayManager
 	}

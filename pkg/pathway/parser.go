@@ -18,8 +18,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"path"
-	"regexp"
-	"strings"
 
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v2"
@@ -46,8 +44,6 @@ type Parser struct {
 }
 
 // ParsePathways parses all pathways defined in the pathwaysDir.
-// If include slice contains any elements, then only pathways that match any regex in include slice are included.
-// If exclude slice contains any elements, then pathways that match any regex in exclude slice are excluded.
 // Returns a map of pathway name to pathway structure.
 // ParsePathways expects all pathways in the directory to be well formed and valid, and it will return an error
 // if that is not the case. An error is also returned if the given regular expressions are invalid, or if there
@@ -55,7 +51,7 @@ type Parser struct {
 // All pathways are initialised, but are not necessarily runnable yet. Ensure that Runnable() is called
 // before the pathway is ran.
 // Pathways can be specified in YAML or JSON.
-func (p *Parser) ParsePathways(pathwaysDir string, includeStr []string, excludeStr []string) (map[string]Pathway, error) {
+func (p *Parser) ParsePathways(pathwaysDir string) (map[string]Pathway, error) {
 	logLocal := log.WithField("pathway_dir", pathwaysDir)
 	logLocal.Info("Parsing pathways from directory")
 	files, err := ioutil.ReadDir(pathwaysDir)
@@ -63,14 +59,6 @@ func (p *Parser) ParsePathways(pathwaysDir string, includeStr []string, excludeS
 		return nil, errors.Wrapf(err, "Failed to read pathways files from %s", pathwaysDir)
 	}
 
-	include, err := toRegexps(includeStr)
-	if err != nil {
-		return nil, errors.Wrapf(err, "Failed to convert %v to regexps", include)
-	}
-	exclude, err := toRegexps(excludeStr)
-	if err != nil {
-		return nil, errors.Wrapf(err, "Failed to convert %v to regexps", exclude)
-	}
 	validPathways := map[string]Pathway{}
 	redeclaredPathways := make(map[string]bool, 0)
 	for _, file := range files {
@@ -89,14 +77,7 @@ func (p *Parser) ParsePathways(pathwaysDir string, includeStr []string, excludeS
 				redeclaredPathways[pathwayName] = true
 				continue
 			}
-			if len(include) > 0 && !matches(pathwayName, include) {
-				logLocal.Debug("Pathway skipped")
-				continue
-			}
-			if matches(pathwayName, exclude) {
-				logLocal.Debug("Pathway skipped")
-				continue
-			}
+
 			logLocal.Debug("Adding pathway")
 			validPathways[pathwayName] = pathway
 		}
@@ -179,35 +160,4 @@ func (p *Parser) parse(fileName string) (map[string]Pathway, error) {
 	}
 
 	return pathways, nil
-}
-
-func toRegexps(strings []string) ([]*regexp.Regexp, error) {
-	regexps := make([]*regexp.Regexp, len(strings))
-	for i, s := range strings {
-		r, err := regexp.Compile(wrapRegexp(s))
-		if err != nil {
-			return nil, errors.Wrapf(err, "Failed to compile regexp %s", s)
-		}
-		regexps[i] = r
-	}
-	return regexps, nil
-}
-
-func matches(s string, regex []*regexp.Regexp) bool {
-	for _, r := range regex {
-		if r.MatchString(s) {
-			return true
-		}
-	}
-	return false
-}
-
-func wrapRegexp(s string) string {
-	if !strings.HasPrefix(s, "^") {
-		s = fmt.Sprintf("^%s", s)
-	}
-	if !strings.HasSuffix(s, "$") {
-		s = fmt.Sprintf("%s$", s)
-	}
-	return s
 }

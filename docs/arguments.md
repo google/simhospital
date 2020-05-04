@@ -357,6 +357,9 @@ sends.
 `-pathway_names` (string)
 :   Comma-separated list of pathway names, or regular expressions that match
     pathway names, for pathways to run. If not set, all pathways are included.
+    This argument controls the pathways that Simulated Hospital starts
+    automatically. All pathways from `-pathways_dir` can be started from the
+    [dashboard](./dashboard.md).
 
 `-pathways_dir` (string)
 :   Path to a directory containing YAML or JSON files with definitions of
@@ -372,7 +375,10 @@ sends.
 `-exclude_pathway_names` (string)
 :   Comma-separated list of pathway names, or regular expressions that match
     pathway names, for the pathways to exclude from running. Pathways that match
-    both `-pathway_names` and `-exclude_pathway_names` are excluded.
+    both `-pathway_names` and `-exclude_pathway_names` are excluded. This
+    argument controls the pathways that Simulated Hospital starts automatically.
+    All pathways from `-pathways_dir` can be started from the
+    [dashboard](./dashboard.md).
 
 You can also configure what pathways run or not with the
 [`percentage_of_patients` section](./write-pathways#percentage-of-patients) in

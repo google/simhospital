@@ -17,10 +17,11 @@ package pathway
 import (
 	"fmt"
 	"math"
+	"regexp"
 	"sort"
+	"strings"
 
 	"github.com/pkg/errors"
-
 	"github.com/google/simhospital/pkg/sample"
 )
 
@@ -38,8 +39,6 @@ type DistributionManager struct {
 	pathways map[string]Pathway
 	// distribution is the distribution of pathways.
 	distribution *sample.DiscreteDistribution
-	// basic is a list of the names of pathways with at least one step and exactly one person.
-	basic []string
 	// pathwayNames is a list of the names of all pathways this manager contains.
 	pathwayNames []string
 }
@@ -66,8 +65,13 @@ func (m DistributionManager) GetPathway(pathwayName string) (*Pathway, error) {
 
 // NextPathway returns the next pathway to run.
 // This is chosen based on the expected frequency for each pathway in the original pathway list.
+// If there are no eligible pathways (e.g. all pathways are disabled), NextPathway returns an error.
 func (m DistributionManager) NextPathway() (*Pathway, error) {
-	nextPathwayName := m.distribution.Random().(string)
+	r := m.distribution.Random()
+	if r == nil {
+		return nil, errors.New("all pathways are disabled")
+	}
+	nextPathwayName := r.(string)
 	return m.GetPathway(nextPathwayName)
 }
 
@@ -78,35 +82,50 @@ func (m DistributionManager) AllPathwayNames() []string {
 
 // NewDistributionManager creates a new DistributionManager with the given pathway map.
 // All pathways are initialised.
-func NewDistributionManager(pathways map[string]Pathway) (DistributionManager, error) {
-	m := DistributionManager{
-		pathways: pathways,
-		basic:    []string{},
+// If includeStr contains any elements, then only pathways that match any regex in includeStr are eligible
+// to be returned by NextPathway.
+// Pathways that match any regex in excludeStr are never returned by NextPathway.
+func NewDistributionManager(pathways map[string]Pathway, includeStr []string, excludeStr []string) (DistributionManager, error) {
+	include, err := toRegexps(includeStr)
+	if err != nil {
+		return DistributionManager{}, errors.Wrapf(err, "Failed to convert %v to regexps", include)
 	}
-	for k, v := range m.pathways {
+	exclude, err := toRegexps(excludeStr)
+	if err != nil {
+		return DistributionManager{}, errors.Wrapf(err, "Failed to convert %v to regexps", exclude)
+	}
+
+	m := DistributionManager{
+		pathways: map[string]Pathway{},
+	}
+	for k, v := range pathways {
 		v.Init(k)
-		if len(v.Pathway) > 0 && v.Persons.HasOnePerson() {
-			m.basic = append(m.basic, k)
-		}
 		m.pathways[k] = v
 		m.pathwayNames = append(m.pathwayNames, k)
 	}
 
-	m.distribution = &sample.DiscreteDistribution{WeightedValues: calculateDistribution(m.pathways)}
-	printPathwayStats(m.pathways)
+	distr, percentages := calculateDistribution(m.pathways, include, exclude)
+	m.distribution = &sample.DiscreteDistribution{WeightedValues: distr}
+	printPathwayStats(m.pathways, percentages)
 	return m, nil
 }
 
-func calculateDistribution(pathways map[string]Pathway) []sample.WeightedValue {
+func calculateDistribution(pathways map[string]Pathway, include []*regexp.Regexp, exclude []*regexp.Regexp) ([]sample.WeightedValue, map[string]float64) {
+	percentages := map[string]float64{}
 	var weighted []sample.WeightedValue
 	accPercentage := 0.0
 	// We'll later share the remaining percentage budget among the pathways without an explicit one.
 	var noPercentage []string
 	for k, v := range pathways {
-		if v.Percentage == nil {
+		switch {
+		case len(include) > 0 && !matches(k, include) || matches(k, exclude):
+			log.WithField("pathway_name", k).Debug("Pathway disabled")
+			percentages[k] = 0
+		case v.Percentage == nil:
 			noPercentage = append(noPercentage, k)
-		} else if *v.Percentage > 0 {
+		case *v.Percentage > 0:
 			accPercentage, weighted = addPercentage(v.Percentage.Float(), accPercentage, k, weighted)
+			percentages[k] = v.Percentage.Float()
 		}
 	}
 
@@ -118,11 +137,12 @@ func calculateDistribution(pathways map[string]Pathway) []sample.WeightedValue {
 		log.Infof("Setting pathway frequency %v%% for %d pathways without explicit percentage_of_patients: %v", perPathway, len(noPercentage), noPercentage)
 		for _, k := range noPercentage {
 			accPercentage, weighted = addPercentage(perPathway, accPercentage, k, weighted)
+			percentages[k] = perPathway
 		}
 	}
 	log.Infof("Accumulated percentage_of_patients is %.3f. The closer to 100, "+
 		"the closer the actual distribution will be to the pathways' percentage_of_patients", accPercentage)
-	return weighted
+	return weighted, percentages
 }
 
 func addPercentage(f, acc float64, name string, weighted []sample.WeightedValue) (float64, []sample.WeightedValue) {
@@ -145,14 +165,10 @@ func calculateBudgetPerPathway(remaining float64, n int) float64 {
 	return round(perPathway)
 }
 
-func printPathwayStats(pathways map[string]Pathway) {
+func printPathwayStats(pathways map[string]Pathway, percentage map[string]float64) {
 	var names []string
-	disabled := map[string]bool{}
-	for name, p := range pathways {
+	for name := range pathways {
 		names = append(names, name)
-		if p.Percentage != nil && *p.Percentage == 0 {
-			disabled[name] = true
-		}
 	}
 
 	sort.Strings(names)
@@ -160,9 +176,40 @@ func printPathwayStats(pathways map[string]Pathway) {
 	log.Infof("Loaded %d pathways:", len(pathways))
 	for _, name := range names {
 		suffix := ""
-		if disabled[name] {
-			suffix = " (percentage set to 0; this pathway will not be run)"
+		if percentage[name] == 0 {
+			suffix = "(percentage set to 0; this pathway will not be run)"
 		}
-		log.Infof(" - %s%s", name, suffix)
+		log.Infof(" - %s, percentage=%v %s", name, percentage[name], suffix)
 	}
+}
+
+func toRegexps(strings []string) ([]*regexp.Regexp, error) {
+	regexps := make([]*regexp.Regexp, len(strings))
+	for i, s := range strings {
+		r, err := regexp.Compile(wrapRegexp(s))
+		if err != nil {
+			return nil, errors.Wrapf(err, "Failed to compile regexp %s", s)
+		}
+		regexps[i] = r
+	}
+	return regexps, nil
+}
+
+func matches(s string, regex []*regexp.Regexp) bool {
+	for _, r := range regex {
+		if r.MatchString(s) {
+			return true
+		}
+	}
+	return false
+}
+
+func wrapRegexp(s string) string {
+	if !strings.HasPrefix(s, "^") {
+		s = fmt.Sprintf("^%s", s)
+	}
+	if !strings.HasSuffix(s, "$") {
+		s = fmt.Sprintf("%s$", s)
+	}
+	return s
 }

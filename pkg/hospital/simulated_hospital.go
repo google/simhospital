@@ -338,11 +338,11 @@ func hl7Sender(paths SenderPaths) (hl7.Sender, error) {
 }
 
 func pathwayManager(p *pathway.Parser, paths PathwayPaths) (pathway.Manager, error) {
-	pathways, err := p.ParsePathways(paths.Dir, paths.Names, paths.ExcludeNames)
+	pathways, err := p.ParsePathways(paths.Dir)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to parse pathways for Distribution Pathway Manager")
 	}
-	m, err := pathway.NewDistributionManager(pathways)
+	m, err := pathway.NewDistributionManager(pathways, paths.Names, paths.ExcludeNames)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to create new Distribution Pathway Manager")
 	}

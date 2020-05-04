@@ -53,127 +53,6 @@ func newDefaultParser(t *testing.T, now time.Time) *Parser {
 	}
 }
 
-func TestParsePathways_WithFilters(t *testing.T) {
-	mainDir, err := ioutil.TempDir("", "pathways")
-	if err != nil {
-		t.Fatalf("ioutil.TempDir() failed with %v", err)
-	}
-	defer os.RemoveAll(mainDir)
-
-	p1 := []byte(`
-pathway1:
-  persons:
-    main_patient:
-      gender: F
-  pathway:
-    - discharge: {}
-`)
-	tmp1 := filepath.Join(mainDir, "pathway1")
-	testwrite.BytesToFileWithName(t, p1, tmp1)
-	defer os.Remove(tmp1)
-	p2 := []byte(`
-pathway2:
-  persons:
-    main_patient:
-      gender: F
-  pathway:
-    - discharge: {}
-`)
-	tmp2 := filepath.Join(mainDir, "pathway2")
-	testwrite.BytesToFileWithName(t, p2, tmp2)
-	defer os.Remove(tmp2)
-
-	tests := []struct {
-		name    string
-		include []string
-		exclude []string
-		want    []string
-		wantErr bool
-	}{{
-		name: "Empty includes all",
-		want: []string{"pathway1", "pathway2"},
-	}, {
-		name:    "Explicit includes all",
-		include: []string{"pathway1", "pathway2"},
-		want:    []string{"pathway1", "pathway2"},
-	}, {
-		name:    "Include one only",
-		include: []string{"pathway1"},
-		want:    []string{"pathway1"},
-	}, {
-		name:    "Include with regex",
-		include: []string{"pathway.*"},
-		want:    []string{"pathway1", "pathway2"},
-	}, {
-		name:    "Include with match-all regex",
-		include: []string{".*"},
-		want:    []string{"pathway1", "pathway2"},
-	}, {
-		name:    "Include with full match-all regex",
-		include: []string{"^.*$"},
-		want:    []string{"pathway1", "pathway2"},
-	}, {
-		name:    "Exclude with regex",
-		exclude: []string{"pathway.*"},
-		wantErr: true,
-	}, {
-		name:    "Exclude with match-all regex",
-		exclude: []string{".*"},
-		wantErr: true,
-	}, {
-		name:    "Exclude with full match-all regex",
-		exclude: []string{"^.*$"},
-		wantErr: true,
-	}, {
-		name:    "Exclude one",
-		exclude: []string{"pathway1"},
-		want:    []string{"pathway2"},
-	}, {
-		name:    "Exclude all",
-		exclude: []string{"pathway1", "pathway2"},
-		wantErr: true,
-	}, {
-		name:    "Exclude doesn't match any",
-		exclude: []string{"doesn't match any"},
-		want:    []string{"pathway1", "pathway2"},
-	}, {
-		name:    "Exclude and include excludes",
-		include: []string{"pathway1", "pathway2"},
-		exclude: []string{"pathway1"},
-		want:    []string{"pathway2"},
-	}, {
-		name:    "Invalid exclude regex",
-		exclude: []string{"[0-9]++"},
-		wantErr: true,
-	}, {
-		name:    "Invalid include regex",
-		include: []string{"[0-9]++"},
-		wantErr: true,
-	}}
-
-	for _, tc := range tests {
-		t.Run(tc.name, func(t *testing.T) {
-			p := newDefaultParser(t, time.Now())
-			got, err := p.ParsePathways(mainDir, tc.include, tc.exclude)
-			gotErr := err != nil
-			if gotErr != tc.wantErr {
-				t.Errorf("ParsePathways(%s,%v,%v) got err=%v; want error? %t", mainDir, tc.include, tc.exclude, err, tc.wantErr)
-			}
-			if gotErr || tc.wantErr {
-				return
-			}
-
-			gotNames := make([]string, 0, len(got))
-			for n := range got {
-				gotNames = append(gotNames, n)
-			}
-			if diff := cmp.Diff(tc.want, gotNames, cmpopts.SortSlices(func(x, y string) bool { return strings.Compare(x, y) > 0 })); diff != "" {
-				t.Errorf("ParsePathways(%s,%v,%v) got diff (-want, +got):\n%s", mainDir, tc.include, tc.exclude, diff)
-			}
-		})
-	}
-}
-
 func TestParsePathways_Valid(t *testing.T) {
 	p1 := []byte(`
 pathway1:
@@ -394,13 +273,13 @@ pathway2:
 
 			p := newDefaultParser(t, time.Now())
 
-			pathways, err := p.ParsePathways(mainDir, nil, nil)
+			pathways, err := p.ParsePathways(mainDir)
 			if (err != nil) != tc.wantErr {
-				t.Errorf("ParsePathways(%s,%v,%v) got err=%v; want error? %t", mainDir, nil, nil, err, tc.wantErr)
+				t.Errorf("ParsePathways(%s) got err=%v; want error? %t", mainDir, err, tc.wantErr)
 			}
 
 			if got := len(pathways); got != tc.wantPathways {
-				t.Errorf("ParsePathways(%s,%v,%v) got %d pathways, want %d", mainDir, nil, nil, got, tc.wantPathways)
+				t.Errorf("ParsePathways(%s) got %d pathways, want %d", mainDir, got, tc.wantPathways)
 			}
 		})
 	}
@@ -482,17 +361,17 @@ test_pathway:
 			mainDir := writePathwayToDir(t, tc.pathwayDefinition)
 			defer os.RemoveAll(mainDir)
 
-			_, err := p.ParsePathways(mainDir, nil, nil)
+			_, err := p.ParsePathways(mainDir)
 			gotErr := err != nil
 			if gotErr != tc.wantErr {
-				t.Errorf("ParsePathways(%s, %v, %v) got err %v, want err? %t", string(tc.pathwayDefinition), nil, nil, err, tc.wantErr)
+				t.Errorf("ParsePathways(%s) got err %v, want err? %t", string(tc.pathwayDefinition), err, tc.wantErr)
 			}
 			if !gotErr || !tc.wantErr {
 				return
 			}
 
 			if !strings.Contains(err.Error(), tc.wantErrContains) {
-				t.Errorf("ParsePathways(%s, %v, %v) got err %v, want err to contain %q", string(tc.pathwayDefinition), nil, nil, err, tc.wantErrContains)
+				t.Errorf("ParsePathways(%s) got err %v, want err to contain %q", string(tc.pathwayDefinition), err, tc.wantErrContains)
 			}
 		})
 	}
@@ -1649,15 +1528,15 @@ pathway_autogenerate:
 	defer os.RemoveAll(mainDir)
 
 	p := newDefaultParser(t, time.Now())
-	pathways, err := p.ParsePathways(mainDir, nil, nil)
+	pathways, err := p.ParsePathways(mainDir)
 	if err != nil {
-		t.Fatalf("ParsePathways(%s, %v, %v) failed with %v", string(pathwayDefinition), nil, nil, err)
+		t.Fatalf("ParsePathways(%s failed with %v", string(pathwayDefinition), err)
 	}
 
 	pathwayName := "pathway_autogenerate"
 	pathway, ok := pathways[pathwayName]
 	if !ok {
-		t.Fatalf("ParsePathways(%s, %v, %v)=%+v, want %q to exist", string(pathwayDefinition), nil, nil, pathways, pathwayName)
+		t.Fatalf("ParsePathways(%s)=%+v, want %q to exist", string(pathwayDefinition), pathways, pathwayName)
 	}
 
 	oneSecondAgo := -1 * time.Second
@@ -1811,9 +1690,9 @@ random_pathway:
 	defer os.RemoveAll(mainDir)
 
 	p := newDefaultParser(t, time.Now())
-	pathways, err := p.ParsePathways(mainDir, nil, nil)
+	pathways, err := p.ParsePathways(mainDir)
 	if err != nil {
-		t.Fatalf("ParsePathways(%s, %v, %v) failed with %v", string(pathwayDefinition), nil, nil, err)
+		t.Fatalf("ParsePathways(%s) failed with %v", string(pathwayDefinition), err)
 	}
 
 	wantOriginal := Pathway{
@@ -1836,10 +1715,10 @@ random_pathway:
 
 	gotOriginal, ok := pathways[defaultPathwayName]
 	if !ok {
-		t.Fatalf("ParsePathways(%s, %v, %v)=%+v, want %q to exist", string(pathwayDefinition), nil, nil, pathways, defaultPathwayName)
+		t.Fatalf("ParsePathways(%s)=%+v, want %q to exist", string(pathwayDefinition), pathways, defaultPathwayName)
 	}
 	if diff := cmp.Diff(wantOriginal, gotOriginal, cmpopts.IgnoreUnexported(Pathway{}, Step{})); diff != "" {
-		t.Errorf("ParsePathways(%s, %v, %v)[%s] got diff (-want, +got):\n%s", string(pathwayDefinition), nil, nil, defaultPathwayName, diff)
+		t.Errorf("ParsePathways(%s)[%s] got diff (-want, +got):\n%s", string(pathwayDefinition), defaultPathwayName, diff)
 	}
 
 	got, err := gotOriginal.Runnable()
@@ -1851,7 +1730,7 @@ random_pathway:
 	}
 
 	if diff := cmp.Diff(wantOriginal, gotOriginal, cmpopts.IgnoreUnexported(Pathway{}, Step{})); diff != "" {
-		t.Errorf("ParsePathways(%s, %v, %v)[%s] got diff (-want, +got):\n%s", string(pathwayDefinition), nil, nil, defaultPathwayName, diff)
+		t.Errorf("ParsePathways(%s)[%s] got diff (-want, +got):\n%s", string(pathwayDefinition), defaultPathwayName, diff)
 	}
 }
 
@@ -1906,9 +1785,9 @@ func parsePathwayDefinition(t *testing.T, pathwayDefinition []byte) map[parseFun
 	defer os.RemoveAll(mainDir)
 
 	p := newDefaultParser(t, time.Now())
-	pathways, err := p.ParsePathways(mainDir, nil, nil)
+	pathways, err := p.ParsePathways(mainDir)
 	if err != nil {
-		t.Fatalf("ParsePathways(%s, %v, %v) failed with %v", string(pathwayDefinition), nil, nil, err)
+		t.Fatalf("ParsePathways(%s) failed with %v", string(pathwayDefinition), err)
 	}
 
 	pathway := pathways[defaultPathwayName]

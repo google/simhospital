@@ -133,9 +133,9 @@ func TestServeHTTP_AllProdPathwaysCanBeStartedByName(t *testing.T) {
 	}
 	// Get all of the pathways from the config files.
 	p := &pathway.Parser{Clock: testclock.New(time.Now()), OrderProfiles: op, Doctors: d, LocationManager: lm}
-	pathways, err := p.ParsePathways(test.ProdPathwaysDir, nil, nil)
+	pathways, err := p.ParsePathways(test.ProdPathwaysDir)
 	if err != nil {
-		t.Fatalf("ParsePathways(%s, %v, %v) failed with %v", test.ProdPathwaysDir, nil, nil, err)
+		t.Fatalf("ParsePathways(%s) failed with %v", test.ProdPathwaysDir, err)
 	}
 
 	// Start each one by name.
@@ -170,9 +170,9 @@ func TestServeHTTP_AllProdPathwaysCanBeStartedWithMRNAndPatientName(t *testing.T
 	}
 	// Get all of the pathways from the config files.
 	p := &pathway.Parser{Clock: testclock.New(time.Now()), OrderProfiles: op, Doctors: d, LocationManager: lm}
-	pathways, err := p.ParsePathways(test.ProdPathwaysDir, nil, nil)
+	pathways, err := p.ParsePathways(test.ProdPathwaysDir)
 	if err != nil {
-		t.Fatalf("ParsePathways(%s, %v, %v) failed with %v", test.ProdPathwaysDir, nil, nil, err)
+		t.Fatalf("ParsePathways(%s) failed with %v", test.ProdPathwaysDir, err)
 	}
 
 	tests := []struct {
@@ -691,9 +691,9 @@ type pathwayStarter struct {
 
 func newTestPathwayStarter(t *testing.T, pathways map[string]pathway.Pathway, cfg hospital.Config) *pathwayStarter {
 	t.Helper()
-	pathwayManager, err := pathway.NewDistributionManager(pathways)
+	pathwayManager, err := pathway.NewDistributionManager(pathways, nil, nil)
 	if err != nil {
-		t.Fatalf("pathway.NewDistributionManager() failed with %v", err)
+		t.Fatalf("pathway.NewDistributionManager(%v,%v,%v) failed with %v", pathways, nil, nil, err)
 	}
 
 	cfg.PathwayManager = pathwayManager

@@ -78,10 +78,11 @@ var (
 	outputFile            = flag.String("output_file", "messages.out", "File path to write messages if -output=file")
 
 	// Flags that control how pathways run.
-	pathwaysDir         = flag.String("pathways_dir", "configs/pathways", "Path to a directory with YAML files with definitions of pathways")
-	pathwayNames        = flag.String("pathway_names", "", "Comma-separated list of pathway names, or regular expressions that match pathway names, for pathways to run. If empty, all pathways are included")
+	pathwaysDir  = flag.String("pathways_dir", "configs/pathways", "Path to a directory with YAML files with definitions of pathways")
+	pathwayNames = flag.String("pathway_names", "", "Comma-separated list of pathway names, or regular expressions that match pathway names, for pathways to run. If empty, all pathways are included. "+
+		"Pathways that are not included here can still be run from the dashboard.")
 	excludePathwayNames = flag.String("exclude_pathway_names", "", "Comma-separated list of pathway names, or regular expressions that match pathway names, for the pathways to exclude from running. "+
-		"Pathways that match both -pathway_names and -exclude_pathway_names are excluded")
+		"Pathways that match both -pathway_names and -exclude_pathway_names are excluded. Excluded pathways can still be run from the dashboard.")
 	pathwaysPerHour = flag.Float64("pathways_per_hour", 1, "Number of pathways that should start per hour")
 
 	// Flags that control the dashboard.
