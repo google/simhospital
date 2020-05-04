@@ -21,8 +21,7 @@ Append arguments to your launch command to change the following:
 *   [Tool-setup](#tool-setup) arguments to configure the app and messages.
 
 You can list all the command-line arguments by appending the `help` argument and
-running Simulated Hospital. Remember to separate the first argument with two
-hyphens. For example:
+running Simulated Hospital. For example:
 
 ```shell
 $ bazel run //:simhospital_container_image && \
