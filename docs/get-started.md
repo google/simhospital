@@ -8,14 +8,24 @@ You can download and run the code of Simulated Hospital. The advantage of
 running Simulated Hospital this way is that you can modify the source code and
 customize the tool.
 
-Prerequisites: install [bazel](https://bazel.build/).
+Prerequisites: install [bazel](https://bazel.build/) and
+[git](https://git-scm.com/downloads).
 
 ### Download
 
-Download the code into a local folder.
+Download the code into a `simhospital` local folder.
 
-TODO: replace this first section with the open source version, i.e.,
-how to download the code from github.
+```shell
+git clone https://github.com/google/simhospital.git
+```
+
+`cd` into the new folder and create a local variable for the path. This will
+make the next steps easier.
+
+```shell
+cd simhospital
+LOCAL_DIR=$(pwd)
+```
 
 Make sure that the code builds and that the tests run:
 
@@ -29,9 +39,11 @@ bazel test //...
 Run Simulated Hospital with the default arguments. From `${LOCAL_DIR}`:
 
 ```shell
-bazel run //cmd/simulator:simulator \
+bazel run //cmd/simulator:simulator -- \
   --local_path=${LOCAL_DIR}
 ```
+
+Stop the simulator with Ctrl-C.
 
 You need to set the `local_path` argument when running with `bazel run` so that
 Simulated Hospital knows where to find the default configuration files.
