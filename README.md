@@ -51,14 +51,14 @@ defined with words that are common in clinical settings such as "admission",
 
 ## Next steps
 
-*   Get started by [installing & running SH](./docs/get-started).
+*   Get started by [installing & running SH](./docs/get-started.md).
 
-*   [Write pathways](./docs/write-pathways) to create patients with specific
+*   [Write pathways](./docs/write-pathways.md) to create patients with specific
     conditions, for instance, a patient with appendicitis that has sets of Vital
     Signs taken periodically.
 
 *   Change the default behavior of Simulated Hospital using
-    [command-line arguments](./docs/arguments), including:
+    [command-line arguments](./docs/arguments.md), including:
 
     *   What pathways Simulated Hospital runs and their distribution, i.e., what
         pathways should run more frequently than others.
@@ -73,12 +73,13 @@ defined with words that are common in clinical settings such as "admission",
         pre-existing allergies.
 
 *   Control a running instance Simulated Hospital using its
-    [Dashboard](./docs/dashboard) [(screenshot)](./docs/images/control-panel.png). Using
-    the dashboard, you can do the following:
+    [Dashboard](./docs/dashboard.md) [(screenshot)](./docs/images/control-panel.png).
+    Using the dashboard, you can do the following:
 
     *   Change the message-sending rate of a self-running simulation.
     *   Start an ad-hoc pathway or send an HL7v2 message.
 
-*   [Extend Simulated Hospital](./docs/extend-sh) with advanced functionality using
-    source code. For instance, you can change the format of the identifiers that
-    Simulated Hospital generates, or create your own behavior for some events.
+*   [Extend Simulated Hospital](./docs/extend-sh.md) with advanced functionality
+    using source code. For instance, you can change the format of the
+    identifiers that Simulated Hospital generates, or create your own behavior
+    for some events.

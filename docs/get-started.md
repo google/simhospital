@@ -64,7 +64,7 @@ bazel run //cmd/simulator:simulator -- \
 
 See the full list of [command line arguments](./arguments.md).
 
-### Run with Docker
+### Create Docker image
 
 You can also run Simulated Hospital in Docker. The Docker image already has all
 the paths configured, so you do not need any extra flags.
@@ -98,13 +98,9 @@ From `${LOCAL_DIR}`:
     bazel                               simhospital_container_image   b5693797e910        50 years ago        174MB
     ```
 
-1.  Run the image in Docker:
+See [Run in Docker](#run-in-docker) for how to run the image in Docker.
 
-    ```shell
-    docker run --rm -it -p 8000:8000 bazel:simhospital_container_image health/simulator
-    ```
-
-### Publish your own Docker image of Simulated Hospital
+### Publish Docker image
 
 You can create your own Docker image of Simulated Hospital and upload it to your
 container registry.
@@ -121,9 +117,55 @@ From `${LOCAL_DIR}`:
     bazel run //:simhospital_image_push
     ```
 
-1.  If you want to run it, follow the steps in
-    [Run the latest version of Simulated Hospital](#run-the-latest-version-of-simulated-hospital)
-    replacing the `$IMAGE` variable with "my-cool-repo/simhospital".
+1.  You can then download it with:
+
+    ```shell
+    docker pull gcr.io/my-cool-repo/simhospital
+    ```
+
+### Run in Docker
+
+Docker Simulated Hospital images already have all the paths configured, so you
+do not need any extra flags.
+
+1.  Get a Simulated Hospital Docker image. You can either
+    [create a Docker image from your local code](#create-docker-image), or
+    download an image from a registry (see
+    [Publish Docker image](#publish-docker-image) for how to push and pull your
+    image to/from a registry).
+
+1.  Create a variable to make the next steps easier:
+
+    ```shell
+    # If you downloaded the Docker image from a registry
+    # (replace <my-cool-repo> with your registry):
+    IMAGE=gcr.io/my-cool-repo/simhospital
+    # If you created the image yourself:
+    IMAGE=bazel:simhospital_container_image
+    ```
+
+1.  Run the image:
+
+    ```shell
+    docker run --rm -it -p 8000:8000 $IMAGE health/simulator
+    ```
+
+If you want to load your own configuration files instead of the default ones,
+you need to mount the files in the default locations, for instance:
+
+```shell
+docker run --rm -it -p 8000:8000 -v ABSOLUTE_PATH_TO_LOCAL_ALLERGIES_FILE:/configs/hl7_messages/allergies.csv $IMAGE health/simulator
+```
+
+Alternatively, you can copy the file somewhere else, and use the command line
+arguments to point to it:
+
+```shell
+docker run --rm -it -p 8000:8000 -v ABSOLUTE_PATH_TO_LOCAL_ALLERGIES_FILE:/configs/allergies.csv $IMAGE health/simulator --allergies_file=configs/allergies.csv
+```
+
+See [the command line arguments](./arguments.md) for more configuration files
+that you can use.
 
 ## Troubleshooting
 

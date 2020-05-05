@@ -182,7 +182,7 @@ Append these arguments to your launch command:
     All fields are required.
 
     Pathways can refer to either doctors pre-defined in this file or to
-    [new doctors](./write-pathways#consultant).
+    [new doctors](./write-pathways.md#consultant).
 
 `-ethnicity_file` (string)
 :   Path to a CSV file containing the ethnicities and how often they occur.
@@ -238,7 +238,7 @@ Append these arguments to your launch command:
     the _"PID\_SEGMENT\_PLACEHOLDER"_ keyword with the PID segment of the
     patient.
 
-    See also the [`hardcoded_message`](./write-pathways#hardcoded-message)
+    See also the [`hardcoded_message`](./write-pathways.md#hardcoded-message)
     pathway step.
 
 `-local_path` (string)
@@ -319,8 +319,8 @@ Append these arguments to your launch command:
     [etc.]
     ```
 
-    See [Order Profiles](./write-pathways#order-profiles) for how to use order
-    profiles when writing pathways.
+    See [Order Profiles](./write-pathways.md#order-profiles) for how to use
+    order profiles when writing pathways.
 
 `-patient_class_file` (string)
 :   Path to a CSV file containing the list of patient classes and types and how
@@ -380,8 +380,8 @@ sends.
     [dashboard](./dashboard.md).
 
 You can also configure what pathways run or not with the
-[`percentage_of_patients` section](./write-pathways#percentage-of-patients) in
-the pathway's YAML definition.
+[`percentage_of_patients` section](./write-pathways.md#percentage-of-patients)
+in the pathway's YAML definition.
 
 ## Tool setup
 
@@ -480,7 +480,7 @@ your launch command:
 
     If you need to handle many patients at the same time and you want your
     patients to be available for future pathways, consider implementing an
-    [Item Syncer](./extend-sh#item-syncers).
+    [Item Syncer](./extend-s.mdh#item-syncers).
 
 Here's an example that shows values for these arguments:
 

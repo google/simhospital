@@ -19,4 +19,4 @@ more, visit the [Prometheus documentation site](https://prometheus.io/docs/).
 If you're running more than one instance of Simulated Hospital, you can change
 the TCP port that serves metrics. Set the port with the `metrics_listen_address`
 command-line argument when you launch Simulated Hospital. To learn more, visit
-[Command-line arguments](./arguments#runtime).
+[Command-line arguments](./arguments.md#runtime).

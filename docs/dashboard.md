@@ -22,7 +22,7 @@ IP address of the other computer.
 
 To change the TCP port or URL path, launch Simulated Hospital with the
 `dashboard_address` and `dashboard_uri`
-[command-line arguments](./arguments#dashboard).
+[command-line arguments](./arguments.md#dashboard).
 
 ## Simulation rate
 
@@ -40,7 +40,7 @@ generating and sending new HL7 messages until the pathway complete—even if you
 set the rate to zero.
 
 The initial value at startup is determined by the
-[`pathways_per_hour`](./arguments#pathways) argument.
+[`pathways_per_hour`](./arguments.md#pathways) argument.
 
 ### Set the rate programmatically
 
@@ -57,13 +57,13 @@ $ curl -XPOST http://localhost:8000/simulated-hospital/pathwayRate -d 'value=200
 You might want to run a pathway immediately to demonstrate a feature or test
 during development. You can run a pathway by entering one of the following:
 
-*   The name of a [pre-loaded pathway](./#pre-loaded-pathways). For example,
+*   The name of a [pre-loaded pathway](#pre-loaded-pathways). For example,
     `aki_scenario_1`. Either, append a colon and MRN if you want to update an
     existing patient, or, append a colon with first and last names to override
     the name included in the pathway.
 *   The source of a pathway in YAML or JSON format. Simulated Hospital validates
     your data before running. To learn more, read
-    [Write pathways](./write-pathways).
+    [Write pathways](./write-pathways.md).
 
 Here are some examples:
 

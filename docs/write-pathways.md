@@ -11,7 +11,7 @@ Simulated Hospital generates patients that follow pathways. Pathway definitions
 can be written in YAML or JSON format.
 
 At startup, Simulated Hospital loads pathways from the directory specified by
-the [`pathways_dir`](./arguments#pathways) command-line argument. All files
+the [`pathways_dir`](./arguments.md#pathways) command-line argument. All files
 inside that directory are read and loaded. Each file can contain one or more
 pathways. All pathways defined in a single file must use the same format (either
 YAML or JSON, but not a combination of both). All pathways need to be valid
@@ -50,8 +50,8 @@ This data is used to construct PID segments.
 The `persons` section is optional. If the persons section is not set, the data
 about the patient is generated randomly. This applies to individual fields too:
 if a pathway only specifies a subset of fields, the rest of them will be
-generated randomly. The [how to configure data](./arguments#configure-data) page
-explains how data about persons is generated and how you can change it.
+generated randomly. The [how to configure data](./arguments.md#configure-data)
+page explains how data about persons is generated and how you can change it.
 
 See an example of a `persons` section with a single patient `main_patient` that
 sets the MRN, first name, surname, age and postcode:
@@ -97,8 +97,8 @@ Remember that if a field is not specified, it is generated randomly.
     Simulated Hospital generates valid NHS numbers only, but there is no
     validation when the NHS number is specified directly in a pathway.
 *   `mrn`: Medical Record Number (MRN). By default this is a random 32-bit
-    integer. See [how to extend Simulated Hospital](./extend-sh) to learn how to
-    configure this.
+    integer. See [how to extend Simulated Hospital](./extend-sh.md) to learn how
+    to configure this.
 *   `age`: the age of the patient in years. You can specify a range using the
     `from` and `to` attributes, and the specific day in a year the person was
     born in the `day_of_year` attribute.
@@ -151,7 +151,7 @@ past diagnoses and procedures are generally done by other clinicians.
 
 The `consultant` section is optional. If the consultant section is not set, the
 consultant is randomly chosen from the set of doctors defined in the
-[`doctors_file` argument]./arguments#data-configuration]. To use an existing
+[`doctors_file` argument]./arguments.md#data-configuration]. To use an existing
 predefined doctor, set the `id` field only, for example:
 
 ```yaml
@@ -176,7 +176,7 @@ consultant:
 This new doctor will be added to the pool of doctors, and pathways can now refer
 to it by the `id` only in the current run of Simulated Hospital. Simulated
 Hospital sets the specialty from the `hospital_service` field specified in the
-[HL7 message configuration file](./arguments#data-configuration).
+[HL7 message configuration file](./arguments.md#data-configuration).
 
 ### Percentage of patients
 
@@ -613,7 +613,7 @@ An `order` event has the following optional fields:
 *   `order_status`: the status of the order to set in the _"OBR.5 - Order
     Status"_. If not specified, Simulated Hospital uses the
     `order_status.in_process` value from the
-    [HL7 config](./arguments#hl7-config).
+    [HL7 config](./arguments.md#hl7-config).
 
 At least one of `order_id` or `order_profile` needs to be present.
 
@@ -916,7 +916,7 @@ of `txt`, `rtf`, `pdf`, `jpg` and `png`. If `content_type` is `txt`, the field
 The following event will generate an `ORU^R01` message with an embedded `pdf`
 document. The content will be one of the predefined pdf documents from the
 directory linked by the argument
-[`--sample_notes_directory`](./arguments#configure-data)).
+[`--sample_notes_directory`](./arguments.md#configure-data)).
 
 ```yaml
 - clinical_note:
@@ -962,9 +962,9 @@ and updates the `document_title` and `document_type`.
 
 A `hardcoded_message` event sends a pre-loaded message from the folder
 configured by the
-[`hardcoded_messages_dir` argument](./arguments#data-configuration). This step
-requires a `regex` field with a comma separated list of regular expressions that
-match one or more message names from the pre-loaded set.
+[`hardcoded_messages_dir` argument](./arguments.md#data-configuration). This
+step requires a `regex` field with a comma separated list of regular expressions
+that match one or more message names from the pre-loaded set.
 
 When Simulated Hospital runs a `hardcoded_message` step, it matches the names of
 the pre-loaded messages with the regular expression. If the regular expression
@@ -984,7 +984,7 @@ Use the special regular expression `.*` to match any pre-loaded hardcoded
 message.
 
 Pre-loaded hardcoded messages must have a specific format, see
-[Data configuration](./arguments#data-configuration). When Simulated Hospital
+[Data configuration](./arguments.md#data-configuration). When Simulated Hospital
 sends a message, it sets the following values:
 
 *   _"MSH.7 - Date/Time Of Message"_: The current timestamp.
@@ -1000,7 +1000,7 @@ Hospital.
 
 Generic events do not have a default behavior. Developers need to pair all
 generic events with matching
-[Override Event Processors](./extend-sh#custom-event-and-message-processors).
+[Override Event Processors](./extend-sh.md#custom-event-and-message-processors).
 Generic events without matching processors will fail to run.
 
 Use the `parameters.custom` field to pass custom parameters to the events. Use
@@ -1008,7 +1008,7 @@ the `name` field to distinguish between different types of generic events.
 
 The following example uses two generic events. The interpretation and the
 behavior in each event is up to the developer to define, and is sent with event
-processors (see [example](./extend-sh#example-generic-events)). For instance,
+processors (see [example](./extend-sh.md#example-generic-events)). For instance,
 the first generic event could add a medication to the patient's record, and the
 second one a diagnosis.
 
@@ -1505,7 +1505,7 @@ event types for which a location needs to be specified (e.g., an `admission`
 event) need to refer to an existing location from that configuration file.
 
 A pathway that refers to an unknown location fails validation. See
-(./configure-data#locations) for more information.
+[configure locations](./configure-data.md#locations) for more information.
 
 ## Appendix
 

@@ -158,8 +158,8 @@ h, err := hospital.NewHospital(hospital.Config{
 
 ### Example: Generic events
 
-[Generic events](./write-pathways#generic) allow to inject custom behavior for
-situations that do not fit the supported event types in Simulated Hospital.
+[Generic events](./write-pathways.md#generic) allow to inject custom behavior
+for situations that do not fit the supported event types in Simulated Hospital.
 Every generic step requires a matching Override Event Processor.
 
 Generic events have a `name` field that can be used to distinguish between
