@@ -2,45 +2,6 @@
 
 [TOC]
 
-## Run the latest version of Simulated Hospital
-
-TODO: The address for the registry needs to change.
-
-The Simulated Hospital team publishes Docker images regularly in an
-[external registry](http://gcr.io/lastomato-test/simhospital) that you can
-download and run.
-
-Prerequisites: install [docker](https://www.docker.com/).
-
-Download the latest Simulated Hospital public image:
-
-```shell
-IMAGE=gcr.io/lastomato-test/simhospital
-docker pull $IMAGE
-```
-
-Run it with the default values:
-
-```shell
-docker run --rm -it -p 8000:8000 $IMAGE health/simulator
-```
-
-If you want to load your own configuration files instead of the default ones,
-you need to mount the files in the default locations, for instance:
-
-```shell
-docker run --rm -it -p 8000:8000 -v ABSOLUTE_PATH_TO_LOCAL_ALLERGIES_FILE:/configs/hl7_messages/allergies.csv $IMAGE health/simulator
-```
-
-Alternatively, you can copy the file somewhere else, and use the command line
-arguments to point to it:
-
-```shell
-docker run --rm -it -p 8000:8000 -v ABSOLUTE_PATH_TO_LOCAL_ALLERGIES_FILE:/configs/allergies.csv $IMAGE health/simulator --allergies_file=configs/allergies.csv
-```
-
-See [the command line arguments](arguments.md).
-
 ## Run your own instance of Simulated Hospital
 
 You can download and run the code of Simulated Hospital. The advantage of
@@ -55,15 +16,6 @@ Download the code into a local folder.
 
 TODO: replace this first section with the open source version, i.e.,
 how to download the code from github.
-
-From a CITC client:
-
-```shell
-LOCAL_DIR=<absolute path to your target local dir, e.g. /tmp/simulated_hospital>
-alias copybara='/google/data/ro/teams/copybara/copybara'
-copybara third_party/simulated_hospital/copy.bara.sky folder_to_folder ../ --folder-dir ${LOCAL_DIR}
-cd ${LOCAL_DIR}
-```
 
 Make sure that the code builds and that the tests run:
 
