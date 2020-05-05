@@ -50,7 +50,7 @@ Simulated Hospital knows where to find the default configuration files.
 Alternatively, you can set the value of all of the
 [data configuration arguments](./arguments.md#data-configuration). The
 `local_path` argument is not needed if you
-[run Simulated Hospital in Docker](#run-with-docker).
+[run Simulated Hospital in Docker](#run-in-docker).
 
 Add other command line arguments to customize the behaviour. For instance, store
 the generated HL7v2 messages in a file instead of printing them on screen:
@@ -66,8 +66,8 @@ See the full list of [command line arguments](./arguments.md).
 
 ### Create Docker image
 
-You can also run Simulated Hospital in Docker. The Docker image already has all
-the paths configured, so you do not need any extra flags.
+You can create a Simulated Hospital image to run in Docker. The Docker image
+already has all the paths configured, so you do not need any extra flags.
 
 Prerequisites: install [docker](https://www.docker.com/).
 
@@ -123,10 +123,9 @@ From `${LOCAL_DIR}`:
     docker pull gcr.io/my-cool-repo/simhospital
     ```
 
-### Run in Docker
+## Run in Docker
 
-Docker Simulated Hospital images already have all the paths configured, so you
-do not need any extra flags.
+Follow these steps to run Simulated Hospital in a Docker container:
 
 1.  Get a Simulated Hospital Docker image. You can either
     [create a Docker image from your local code](#create-docker-image), or
@@ -134,15 +133,20 @@ do not need any extra flags.
     [Publish Docker image](#publish-docker-image) for how to push and pull your
     image to/from a registry).
 
-1.  Create a variable to make the next steps easier:
+1.  Create a variable to make the next steps easier.
 
-    ```shell
-    # If you downloaded the Docker image from a registry
-    # (replace <my-cool-repo> with your registry):
-    IMAGE=gcr.io/my-cool-repo/simhospital
-    # If you created the image yourself:
-    IMAGE=bazel:simhospital_container_image
-    ```
+    *   If you downloaded the Docker image from a registry (replace
+        <my-cool-repo> with your registry):
+
+        ```shell
+        IMAGE=gcr.io/my-cool-repo/simhospital
+        ```
+
+    *   If you created the image with bazel:
+
+        ```shell
+        IMAGE=bazel:simhospital_container_image
+        ```
 
 1.  Run the image:
 
