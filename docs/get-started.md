@@ -1,6 +1,6 @@
 # Get started
 
-[TOC]
+
 
 ## Run your own instance of Simulated Hospital
 

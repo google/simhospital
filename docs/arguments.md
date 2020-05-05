@@ -2,7 +2,7 @@
 
 
 
-[TOC]
+
 
 Command-line arguments (shortened here to _arguments_) change the default
 behavior of Simulated Hospital. This means you can do the following:

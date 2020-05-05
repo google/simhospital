@@ -1,6 +1,6 @@
 # Write pathways
 
-[TOC]
+
 
 This page explains how to write pathways to be run by Simulated Hospital.
 

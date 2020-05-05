@@ -1,6 +1,6 @@
 # Dashboard
 
-[TOC]
+
 
 Simulated Hospital includes a built-in web app (called **Dashboard**) to manage
 running instances. This document explains how you can manage Simulated Hospital

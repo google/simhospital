@@ -1,6 +1,6 @@
 # Monitor Simulated Hospital
 
-[TOC]
+
 
 You can use [Prometheus](https://prometheus.io/) to browse and monitor metrics
 from Simulated Hospital. Prometheus sends HTTP requests to pull data from

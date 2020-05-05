@@ -1,6 +1,6 @@
 # Extend Simulated Hospital
 
-[TOC]
+
 
 This page explains how you can write source code to extend the functionality of
 Simulated Hospital. You will need to import the hospital library and create your
