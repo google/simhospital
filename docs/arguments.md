@@ -24,8 +24,7 @@ You can list all the command-line arguments by appending the `help` argument and
 running Simulated Hospital. For example:
 
 ```shell
-$ bazel run //:simhospital_container_image && \
-docker run --rm -it -p 8000:8000 bazel:simhospital_container_image health/simulator \
+$ docker run --rm -it -p 8000:8000 bazel:simhospital_container_image health/simulator \
 --help
 ```
 
@@ -39,23 +38,23 @@ to the console. Add these arguments to your launch command:
 :   Where the generated HL7 messages go once they're generated. You can use the
     following values:
 
-    *   `stdout`: Print the messages to the console.
-    *   `mllp`: Send the messages over an
-        [mllp connection](https://www.hl7.org/implement/standards/product_brief.cfm?product_id=55).
-    *   `file`: Store the messages in a file.
+*   `stdout`: Print the messages to the console.
+*   `mllp`: Send the messages over an
+    [mllp connection](https://www.hl7.org/implement/standards/product_brief.cfm?product_id=55).
+*   `file`: Store the messages in a file.
 
-    If not set, Simulated Hospital uses _"stdout"_.
+If not set, Simulated Hospital uses _"stdout"_.
 
 `-output_file` (string)
 :   File path to write messages to if `-output=file`. If not set, Simulated
     Hospital uses _"messages.out"_.
 
-    You can use docker to access the output file and copy it to a local folder,
-    for example:
+You can use `docker` to access the output file and copy it to a local folder,
+for example:
 
-    ```shell
-      docker cp simulated_hospital:/health/messages.out .
-    ```
+```shell
+  docker cp simulated_hospital:/health/messages.out .
+```
 
 `-mllp_destination` (string)
 :   Host:Port to which MLLP messages will be sent; only relevant if
@@ -74,10 +73,9 @@ to the console. Add these arguments to your launch command:
 Here's an example that sets values for these arguments:
 
 ```shell
-$ bazel run //:simhospital_container_image && \
-docker run --rm -it -p 8000:8000 bazel:simhospital_container_image health/simulator \
---hl7_timezone Europe/Paris -header_config_file configs/hospital-1/header.yml \
--hl7_config_file configs/hospital-1/hl7.yml
+$ docker run --rm -it -p 8000:8000 bazel:simhospital_container_image health/simulator \
+-output mllp \
+-mllp_destination 127.0.0.1:6661
 ```
 
 ## Data configuration
@@ -101,7 +99,7 @@ Alternatively, you can copy the file somewhere else, and use the command line
 arguments to point to it:
 
 ```shell
-docker run --rm -it -p 8000:8000 -v ABSOLUTE_PATH_TO_LOCAL_ALLERGIES_FILE:/configs/allergies.csv $IMAGE health/simulator --allergies_file=configs/allergies.csv
+docker run --rm -it -p 8000:8000 -v ABSOLUTE_PATH_TO_LOCAL_ALLERGIES_FILE:/configs/allergies.csv $IMAGE health/simulator -allergies_file=configs/allergies.csv
 ```
 
 Append these arguments to your launch command:
@@ -111,14 +109,14 @@ Append these arguments to your launch command:
     Hospital generates random allergies for the patients from these values. If
     not set, Simulated Hospital uses _"configs/hl7\_messages/allergies.csv"_.
 
-    The columns in the file denote the code, description and relative rate, in
-    this order. The following file declares two allergies; "Allergy to nuts"
-    with a rate of 2 will be used twice as much as "Allergy to penicillin":
+The columns in the file denote the code, description and relative rate, in this
+order. The following file declares two allergies; "Allergy to nuts" with a rate
+of 2 will be used twice as much as "Allergy to penicillin":
 
-    ```txt
-        419199007,"Allergy to penicillin",1
-        416098002,"Allergy to nuts",2
-    ```
+```txt
+    419199007,"Allergy to penicillin",1
+    416098002,"Allergy to nuts",2
+```
 
 `-boys_names` (string)
 :   Path to a CSV file containing historical boys names. Simulated Hospital
@@ -126,20 +124,20 @@ Append these arguments to your launch command:
     set, Simulated Hospital uses
     _"configs/hl7\_messages/third\_party/historicname\_tcm77-254032-boys.csv"_.
 
-    The format of the file is as follows:
+The format of the file is as follows:
 
-    ```csv
-    # This is a comment. Lines starting with "#" are ignored.
-    RANK,1904,1914,1924
-    1,WILLIAM,JOHN,JOHN
-    2,JOHN,WILLIAM,WILLIAM
-    ```
+```csv
+# This is a comment. Lines starting with "#" are ignored.
+RANK,1904,1914,1924
+1,WILLIAM,JOHN,JOHN
+2,JOHN,WILLIAM,WILLIAM
+```
 
-    The first line must be a line that starts with RANK followed by comma
-    separated years in chronological order. The rest of the lines contain the
-    rank number followed by the names with that rank per given year. In the
-    example above the first most popular name in 1904 was William, and the 2nd
-    most popular name was John.
+The first line must be a line that starts with RANK followed by comma separated
+years in chronological order. The rest of the lines contain the rank number
+followed by the names with that rank per given year. In the example above the
+first most popular name in 1904 was William, and the 2nd most popular name was
+John.
 
 `-clinical_note_types_file` (string)
 :   Path to a text file containing the types of Clinical Notes, with one type
@@ -152,9 +150,9 @@ Append these arguments to your launch command:
     fields that are not relevant to the use of the HL7 standard. If not set,
     Simulated Hospital uses _"configs/hl7\_messages/data.yml"_.
 
-    See the package `config` for the format.
+See the package `config` for the format.
 
-    TODO: Write documentation instead of referring to the package.
+TODO: Write documentation instead of referring to the package.
 
 `-diagnoses_file` (string)
 :   Path to a CSV file containing the diagnoses and how often they occur.
@@ -162,42 +160,42 @@ Append these arguments to your launch command:
     values. If not set, Simulated Hospital uses
     _"configs/hl7\_messages/diagnoses.csv"_.
 
-    See `allergies_file` for the format.
+See `allergies_file` for the format.
 
 `-doctors_file` (string)
 :   Path to a YAML file containing the doctors. Simulated Hospital assigns
     doctors to patients from these values. If not set, Simulated Hospital uses
     _"configs/hl7\_messages/doctors.yml"_.
 
-    Example of a doctor in the file:
+Example of a doctor in the file:
 
-    ```
-    - id: "C002"
-      surname: "Smith"
-      firstname: "Elizabeth"
-      prefix: "Dr"
-      specialty: "SUR"
-    ```
+```
+- id: "C002"
+  surname: "Smith"
+  firstname: "Elizabeth"
+  prefix: "Dr"
+  specialty: "SUR"
+```
 
-    All fields are required.
+All fields are required.
 
-    Pathways can refer to either doctors pre-defined in this file or to
-    [new doctors](./write-pathways.md#consultant).
+Pathways can refer to either doctors pre-defined in this file or to
+[new doctors](./write-pathways.md#consultant).
 
 `-ethnicity_file` (string)
 :   Path to a CSV file containing the ethnicities and how often they occur.
     Simulated Hospital generates ethnicities for patients from these values. If
     not set, Simulated Hospital uses _"configs/hl7\_messages/ethnicity.csv"_.
 
-    See `allergies_file` for the format. Add a row with `nil,nil,X` to specify
-    the proportion of patients with no ethnicity.
+See `allergies_file` for the format. Add a row with `nil,nil,X` to specify the
+proportion of patients with no ethnicity.
 
 `-girls_names` (string)
 :   Path to a CSV file containing historical girls names. If not set, Simulated
     Hospital uses
     _"configs/hl7\_messages/third\_party/historicname\_tcm77-254032-girls.csv"_.
 
-    See `-boys_names` for the format.
+See `-boys_names` for the format.
 
 `-hardcoded_messages_dir` (string)
 :   Path to a directory containing YAML files with hardcoded messages.
@@ -206,40 +204,38 @@ Append these arguments to your launch command:
     Hospital pre-loads the hardcoded messages from the specified directory. If
     not set, Simulated Hospital uses _"configs/hardcoded\_messages"_.
 
-    The hardcoded messages contain a name and a list of segments, see example:
+The hardcoded messages contain a name and a list of segments, see example:
 
-    ```yaml
-    InvalidMessageWithInvalidNHSNumber:
-      segments:
-      - "MSH|^~\\&|SIMHOSP|SFAC|RAPP|RFAC|%s||ADT^A01|%s|T|2.3|||AL||44|ASCII"
-      - "PID||20180709162444249^^^^MRN|20180709162444249^^^^MRN~2278322867^^^NHSNMBR||FN20180709162444^Invalid NHS^^^MR^^CURRENT||19610306|M|"
-    ```
+```yaml
+InvalidMessageWithInvalidNHSNumber:
+  segments:
+  - "MSH|^~\\&|SIMHOSP|SFAC|RAPP|RFAC|%s||ADT^A01|%s|T|2.3|||AL||44|ASCII"
+  - "PID||20180709162444249^^^^MRN|20180709162444249^^^^MRN~2278322867^^^NHSNMBR||FN20180709162444^Invalid NHS^^^MR^^CURRENT||19610306|M|"
+```
 
-    Set "%s" in the _"MSH.7 - Date/Time Of Message"_ and _"MSH-10 Message
-    Control ID"_. When Simulated Hospital sends this message, it replaces the
-    placeholders with the current time and a unique identifier for the message,
-    respectively.
+Set "%s" in the _"MSH.7 - Date/Time Of Message"_ and _"MSH-10 Message Control
+ID"_. When Simulated Hospital sends this message, it replaces the placeholders
+with the current time and a unique identifier for the message, respectively.
 
-    Optionally, use the keyword _"PID\_SEGMENT\_PLACEHOLDER"_ instead of the PID
-    segment, for example:
+Optionally, use the keyword _"PID\_SEGMENT\_PLACEHOLDER"_ instead of the PID
+segment, for example:
 
-    ```yaml
-    InvalidOru_MissingPlacerAndFiller:
-      segments:
-      - "MSH|^~\\&|SIMHOSP|SFAC|RAPP|RFAC|%s||ORU^R01|%s|T|2.3|||AL||44|ASCII"
-      - "PID_SEGMENT_PLACEHOLDER"
-      - "PV1|1|INPATIENT|ED^ED^Chair 06^Simulated Hospital^^BED^^2^||||123^dr. J Smith|||161||||19||||INPATIENT|2018070916325657^^^^visitid|||||||||||||||||||||||||20180403000000||||||||"
-      - "ORC|RE||||||||20180709163256||||||20180709163256||||"
-      - "OBR|1|||us-0003^UREA AND ELECTROLYTES||20180709163256|20180709163256|||||||||456^DR. J.G. BLACK|||||306360202|20180709163256||1|f||1^^^20180709163256^^r|^||"
-      - "OBX|1|NM|tt-0003-01^Creatinine^||126|UMOLL|49-92|HH|||F|||||"
-    ```
+```yaml
+InvalidOru_MissingPlacerAndFiller:
+  segments:
+  - "MSH|^~\\&|SIMHOSP|SFAC|RAPP|RFAC|%s||ORU^R01|%s|T|2.3|||AL||44|ASCII"
+  - "PID_SEGMENT_PLACEHOLDER"
+  - "PV1|1|INPATIENT|ED^ED^Chair 06^Simulated Hospital^^BED^^2^||||123^dr. J Smith|||161||||19||||INPATIENT|2018070916325657^^^^visitid|||||||||||||||||||||||||20180403000000||||||||"
+  - "ORC|RE||||||||20180709163256||||||20180709163256||||"
+  - "OBR|1|||us-0003^UREA AND ELECTROLYTES||20180709163256|20180709163256|||||||||456^DR. J.G. BLACK|||||306360202|20180709163256||1|f||1^^^20180709163256^^r|^||"
+  - "OBX|1|NM|tt-0003-01^Creatinine^||126|UMOLL|49-92|HH|||F|||||"
+```
 
-    When Simulated Hospital sends this message in a patient pathway, it replaces
-    the _"PID\_SEGMENT\_PLACEHOLDER"_ keyword with the PID segment of the
-    patient.
+When Simulated Hospital sends this message in a patient pathway, it replaces the
+_"PID\_SEGMENT\_PLACEHOLDER"_ keyword with the PID segment of the patient.
 
-    See also the [`hardcoded_message`](./write-pathways.md#hardcoded-message)
-    pathway step.
+See also the [`hardcoded_message`](./write-pathways.md#hardcoded-message)
+pathway step.
 
 `-local_path` (string)
 :   Absolute path to the directory where Simulated Hospital is located. This
@@ -252,29 +248,29 @@ Append these arguments to your launch command:
     not present in the file, the pathway will be considered invalid. If not set,
     Simulated Hospital uses _"configs/hl7\_messages/locations.yml"_.
 
-    The location `ED` corresponds to the _Accident & Emergency_ location and is
-    required. This is the default location where patients are admitted if
-    there's no previous admission information. If the file does not contain an
-    `ED` location, Simulated Hospital fails to start.
+The location `ED` corresponds to the _Accident & Emergency_ location and is
+required. This is the default location where patients are admitted if there's no
+previous admission information. If the file does not contain an `ED` location,
+Simulated Hospital fails to start.
 
-    Example:
+Example:
 
-    ```yaml
-    ED:
-      poc: ED
-      facility: Simulated Hospital
-      building:
-      floor: 1
-      room: ED Room
-      type: ED
-    ```
+```yaml
+ED:
+  poc: ED
+  facility: Simulated Hospital
+  building:
+  floor: 1
+  room: ED Room
+  type: ED
+```
 
-    The `type` is used for the *PL.6 - Person Location Type* field in the *PV1*
-    segment. If not set, Simulated Hospital uses *BED*.
+The `type` is used for the *PL.6 - Person Location Type* field in the *PV1*
+segment. If not set, Simulated Hospital uses *BED*.
 
-    If you use a custom Location Manager with no `ED` location defined, the
-    default location provided by Simulated Hospital will have a type of ED, and
-    the rest of the fields will be left blank.
+If you use a custom Location Manager with no `ED` location defined, the default
+location provided by Simulated Hospital will have a type of ED, and the rest of
+the fields will be left blank.
 
 `-nouns_file` (string)
 :   Path to a text file containing English nouns that Simulated Hospital uses to
@@ -286,41 +282,41 @@ Append these arguments to your launch command:
     Simulated Hospital uses to generate orders and results. If not set,
     Simulated Hospital uses _"configs/hl7\_messages/order\_profiles.yml"_.
 
-    This file has the following format:
+This file has the following format:
 
-    ```
-    UREA AND ELECTROLYTES:
-     test_types:
-       Creatinine:
-         id: lpdc-2012
-         ref_range: 49 - 92
-         unit: UMOLL
-         value: '382'
-         value_type: NM
-       Potassium:
-         id: lpdc-2804
-         ref_range: 3.5 - 5.1
-         unit: MMOLL
-         value: '3.6'
-         value_type: NM
-     universal_service_id: lpdc-3969
+```
+UREA AND ELECTROLYTES:
+ test_types:
+   Creatinine:
+     id: lpdc-2012
+     ref_range: 49 - 92
+     unit: UMOLL
+     value: '382'
+     value_type: NM
+   Potassium:
+     id: lpdc-2804
+     ref_range: 3.5 - 5.1
+     unit: MMOLL
+     value: '3.6'
+     value_type: NM
+ universal_service_id: lpdc-3969
 
-    Vital Signs:
-      test_types:
-        AVPU:
-          id: tt-0005-01
-          value: Alert
-          value_type: TX
-        BowelMovement:
-          id: tt-0005-02
-          value: 'Yes'
-          value_type: TX
+Vital Signs:
+  test_types:
+    AVPU:
+      id: tt-0005-01
+      value: Alert
+      value_type: TX
+    BowelMovement:
+      id: tt-0005-02
+      value: 'Yes'
+      value_type: TX
 
-    [etc.]
-    ```
+[etc.]
+```
 
-    See [Order Profiles](./write-pathways.md#order-profiles) for how to use
-    order profiles when writing pathways.
+See [Order Profiles](./write-pathways.md#order-profiles) for how to use order
+profiles when writing pathways.
 
 `-patient_class_file` (string)
 :   Path to a CSV file containing the list of patient classes and types and how
@@ -328,7 +324,7 @@ Append these arguments to your launch command:
     from these values. If not set, Simulated Hospital uses
     _"configs/hl7\_messages/patient\_class.csv"_.
 
-    See `allergies_file` for the format.
+See `allergies_file` for the format.
 
 `-procedures_file` (string)
 :   Path to a CSV file containing the list of procedures and how often they
@@ -336,7 +332,7 @@ Append these arguments to your launch command:
     these values. If not set, Simulated Hospital uses
     _"configs/hl7\_messages/procedures.csv"_.
 
-    See `allergies_file` for the format.
+See `allergies_file` for the format.
 
 `-sample_notes_directory` (string)
 :   Path to a directory containing sample notes in different formats that
@@ -410,9 +406,8 @@ these arguments to your launch command:
 Here's an example that sets values for these arguments:
 
 ```shell
-$ bazel run //:simhospital_container_image && \
-docker run --rm -it -p 8000:8000 bazel:simhospital_container_image health/simulator \
---hl7_timezone Europe/Paris -header_config_file configs/hospital-1/header.yml \
+$ docker run --rm -it -p 8000:8000 bazel:simhospital_container_image health/simulator \
+-hl7_timezone Europe/Paris -header_config_file configs/hospital-1/header.yml \
 -hl7_config_file configs/hospital-1/hl7.yml
 ```
 
@@ -434,9 +429,8 @@ For example, to serve Simulated Hospital from the URL
 `http://localhost:8080/hospital-1/`, launch it with the following command:
 
 ```shell
-$ bazel run //:simhospital_container_image && \
-docker run --rm -it -p 8000:8000 bazel:simhospital_container_image health/simulator \
---dashboard_address :8080 -dashboard_uri hospital-1
+$ docker run --rm -it -p 8000:8000 bazel:simhospital_container_image health/simulator \
+-dashboard_address :8080 -dashboard_uri hospital-1
 ```
 
 To use a different directory for CSS and JavaScript resources, use the
@@ -448,8 +442,7 @@ To use a different directory for CSS and JavaScript resources, use the
 For example:
 
 ```shell
-$ bazel run //:simhospital_container_image && \
-docker run --rm -it -p 8000:8000 bazel:simhospital_container_image health/simulator \
+$ docker run --rm -it -p 8000:8000 bazel:simhospital_container_image health/simulator \
 --static_dir site-resources/hospital-1
 ```
 
@@ -478,15 +471,14 @@ your launch command:
     Deleting saves memory but means you can't reuse the patient in another
     pathway. If you don't set this, Simulated Hospital keeps patients in memory.
 
-    If you need to handle many patients at the same time and you want your
-    patients to be available for future pathways, consider implementing an
-    [Item Syncer](./extend-s.mdh#item-syncers).
+If you need to handle many patients at the same time and you want your patients
+to be available for future pathways, consider implementing an
+[Item Syncer](./extend-sh.md#item-syncers).
 
 Here's an example that shows values for these arguments:
 
 ```shell
-$ bazel run //:simhospital_container_image && \
-docker run --rm -it -p 8000:8000 bazel:simhospital_container_image health/simulator \
---log_level ERROR -metrics_listen_address :9096 \
+$ docker run --rm -it -p 8000:8000 bazel:simhospital_container_image health/simulator \
+-log_level ERROR -metrics_listen_address :9096 \
 -sleep_for 2s -delete_patients_from_memory true
 ```
