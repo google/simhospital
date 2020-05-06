@@ -350,11 +350,16 @@ Pathways arguments adjust which messages (and how often) Simulated Hospital
 sends.
 
 `-pathway_names` (string)
-:   Comma-separated list of pathway names, or regular expressions that match
-    pathway names, for pathways to run. If not set, all pathways are included.
-    This argument controls the pathways that Simulated Hospital starts
-    automatically. All pathways from `-pathways_dir` can be started from the
+:   Comma-separated list of pathway names for pathways to run. This argument
+    controls the pathways that Simulated Hospital starts automatically. All
+    pathways from `-pathways_dir` can be started from the
     [dashboard](./dashboard.md).
+
+*   If `-pathway_manager_type=deterministic`, this argument must contain at
+    least one element, and pathways are run in the same order as specified in
+    this argument. The list wraps after all of the pathways are run.
+*   If `-pathway_manager_type=distribution`, this argument can include regular
+    expressions, or be empty - if empty, all pathways are included.
 
 `-pathways_dir` (string)
 :   Path to a directory containing YAML or JSON files with definitions of
@@ -362,6 +367,15 @@ sends.
     generates patients that follow those pathways.
     [Write pathways](./write-pathways) describes how to write valid pathway
     definitions. If not set, Simulated Hospital uses _"configs/pathways"_.
+
+`-pathway_manager_type` (string)
+:   The way pathways are picked to be run. You can use the following values:
+
+*   `distribution`: Pathways are run randomly, based on their distribution
+    specified in the
+    [`percentage_of_patients` section](./write-pathways.md#percentage-of-patients).
+*   `deterministic`: Pathways are run in a deterministic order specified by the
+    `-pathway_names` argument.
 
 `-pathways_per_hour` (float)
 :   Number of pathways that start per hour. If not set, Simulated Hospital uses
@@ -372,10 +386,12 @@ sends.
     pathway names, for the pathways to exclude from running. Pathways that match
     both `-pathway_names` and `-exclude_pathway_names` are excluded. This
     argument controls the pathways that Simulated Hospital starts automatically.
-    All pathways from `-pathways_dir` can be started from the
+    This argument is used only if `-pathway_manager_type=distribution`. All
+    pathways from `-pathways_dir` can be started from the
     [dashboard](./dashboard.md).
 
-You can also configure what pathways run or not with the
+When using the *distribution* pathway manager type, you can also configure what
+pathways run or not with the
 [`percentage_of_patients` section](./write-pathways.md#percentage-of-patients)
 in the pathway's YAML definition.
 

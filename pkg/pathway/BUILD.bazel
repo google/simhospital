@@ -23,6 +23,7 @@ go_library(
     name = "go_default_library",
     srcs = [
         "collection.go",
+        "deterministic_manager.go",
         "distribution_manager.go",
         "manager.go",
         "parser.go",
@@ -48,6 +49,7 @@ go_test(
     name = "go_default_test",
     srcs = [
         "collection_test.go",
+        "deterministic_manager_test.go",
         "distribution_manager_test.go",
         "parser_test.go",
         "pathway_test.go",

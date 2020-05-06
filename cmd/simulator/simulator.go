@@ -78,11 +78,13 @@ var (
 	outputFile            = flag.String("output_file", "messages.out", "File path to write messages if -output=file")
 
 	// Flags that control how pathways run.
-	pathwaysDir  = flag.String("pathways_dir", "configs/pathways", "Path to a directory with YAML files with definitions of pathways")
-	pathwayNames = flag.String("pathway_names", "", "Comma-separated list of pathway names, or regular expressions that match pathway names, for pathways to run. If empty, all pathways are included. "+
-		"Pathways that are not included here can still be run from the dashboard.")
-	excludePathwayNames = flag.String("exclude_pathway_names", "", "Comma-separated list of pathway names, or regular expressions that match pathway names, for the pathways to exclude from running. "+
-		"Pathways that match both -pathway_names and -exclude_pathway_names are excluded. Excluded pathways can still be run from the dashboard.")
+	pathwaysDir        = flag.String("pathways_dir", "configs/pathways", "Path to a directory with YAML files with definitions of pathways")
+	pathwayManagerType = flag.String("pathway_manager_type", "distribution", "The way pathways are picked to be run. Supported: [distribution, deterministic]")
+	pathwayNames       = flag.String("pathway_names", "", "Comma-separated list of pathway names for pathways to run. If pathway_manager_type=deterministic, this must be specified, and the pathways will be run "+
+		"in this order. If pathway_manager_type=distribution, can include regular expressions, or be empty - if empty, all pathways are included. Pathways that are not included here can still be run from the dashboard.")
+	excludePathwayNames = flag.String("exclude_pathway_names", "", "Comma-separated list of pathway names, or regular expressions that match pathway names, for the pathways to exclude from running "+
+		"when pathway_manager_type=distribution. Pathways that match both -pathway_names and -exclude_pathway_names are excluded. Excluded pathways can still be run from the dashboard.")
+
 	pathwaysPerHour = flag.Float64("pathways_per_hour", 1, "Number of pathways that should start per hour")
 
 	// Flags that control the dashboard.
@@ -156,6 +158,7 @@ func createRunner() (*runner.Hospital, error) {
 		DeletePatientsFromMemory: *deletePatientsFromMemory,
 		PathwayPaths: &hospital.PathwayPaths{
 			Dir:          addLocalPathIfNotSet(*pathwaysDir, "pathways_dir"),
+			Type:         *pathwayManagerType,
 			Names:        include,
 			ExcludeNames: exclude,
 		},

@@ -137,16 +137,19 @@ type Paths struct {
 	DataFiles *config.DataFiles
 }
 
-// PathwayPaths contains paths to create default Pathway Manager.
+// PathwayPaths contains paths to create a Pathway Manager.
 type PathwayPaths struct {
-	// Dir contains all pathways to be used to create default Pathway Manager.
+	// Dir contains all pathways to be used to create a Pathway Manager.
 	Dir string
 
-	// Names contains all pathway names to be included when creating default Pathway Manager.
+	// Names contains all pathway names to be included when creating a Pathway Manager.
 	Names []string
 
-	// ExcludeNames contains pathways names to be excluded when creating default Pathway Manager.
+	// ExcludeNames contains pathways names to be excluded when creating a Pathway Manager.
 	ExcludeNames []string
+
+	// Type is the way pathways are picked to be run - either "distribution" or "deterministic".
+	Type string
 }
 
 // SenderPaths contains paths to create a Sender.
@@ -340,13 +343,16 @@ func hl7Sender(paths SenderPaths) (hl7.Sender, error) {
 func pathwayManager(p *pathway.Parser, paths PathwayPaths) (pathway.Manager, error) {
 	pathways, err := p.ParsePathways(paths.Dir)
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to parse pathways for Distribution Pathway Manager")
+		return nil, errors.Wrap(err, "failed to parse pathways for Pathway Manager")
 	}
-	m, err := pathway.NewDistributionManager(pathways, paths.Names, paths.ExcludeNames)
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to create new Distribution Pathway Manager")
+	switch paths.Type {
+	case "distribution":
+		return pathway.NewDistributionManager(pathways, paths.Names, paths.ExcludeNames)
+	case "deterministic":
+		return pathway.NewDeterministicManager(pathways, paths.Names)
+	default:
+		return nil, errors.Errorf("unsupported pathway manager type %q", paths.Type)
 	}
-	return m, nil
 }
 
 // Processors for events and messages that enable configurable event/message processing logic to be run before,
