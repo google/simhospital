@@ -102,7 +102,7 @@ func TestDistributionManager_GetPathway(t *testing.T) {
 	}
 }
 
-func TestDistributionManager_AllPathwayNames(t *testing.T) {
+func TestDistributionManager_PathwayNames(t *testing.T) {
 	pathway := Pathway{
 		Pathway: []Step{
 			{Admission: &Admission{}},
@@ -117,33 +117,31 @@ func TestDistributionManager_AllPathwayNames(t *testing.T) {
 		include  []string
 		exclude  []string
 		want     []string
-	}{
-		{
-			name:     "one pathway",
-			pathways: map[string]Pathway{"pathway1": pathway},
-			want:     []string{"pathway1"},
-		}, {
-			name:     "two pathways",
-			pathways: map[string]Pathway{"pathway1": pathway, "pathway2": pathway},
-			want:     []string{"pathway1", "pathway2"},
-		}, {
-			// include and exclude should not have any effect on GetPathway, they affect NextPathway only.
-			name:     "excluded pathway name",
-			pathways: map[string]Pathway{"pathway1": pathway, "pathway2": pathway},
-			exclude:  []string{"pathway2"},
-			want:     []string{"pathway1", "pathway2"},
-		}, {
-			name:     "not included pathway name",
-			pathways: map[string]Pathway{"pathway1": pathway, "pathway2": pathway},
-			include:  []string{"pathway1"},
-			want:     []string{"pathway1", "pathway2"},
-		}, {
-			name:     "all excluded",
-			pathways: map[string]Pathway{"pathway1": pathway, "pathway2": pathway},
-			exclude:  []string{".*"},
-			want:     []string{"pathway1", "pathway2"},
-		},
-	}
+	}{{
+		name:     "one pathway",
+		pathways: map[string]Pathway{"pathway1": pathway},
+		want:     []string{"pathway1"},
+	}, {
+		name:     "two pathways",
+		pathways: map[string]Pathway{"pathway1": pathway, "pathway2": pathway},
+		want:     []string{"pathway1", "pathway2"},
+	}, {
+		// include and exclude should not have any effect on GetPathway, they affect NextPathway only.
+		name:     "excluded pathway name",
+		pathways: map[string]Pathway{"pathway1": pathway, "pathway2": pathway},
+		exclude:  []string{"pathway2"},
+		want:     []string{"pathway1", "pathway2"},
+	}, {
+		name:     "not included pathway name",
+		pathways: map[string]Pathway{"pathway1": pathway, "pathway2": pathway},
+		include:  []string{"pathway1"},
+		want:     []string{"pathway1", "pathway2"},
+	}, {
+		name:     "all excluded",
+		pathways: map[string]Pathway{"pathway1": pathway, "pathway2": pathway},
+		exclude:  []string{".*"},
+		want:     []string{"pathway1", "pathway2"},
+	}}
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
@@ -151,9 +149,9 @@ func TestDistributionManager_AllPathwayNames(t *testing.T) {
 			if err != nil {
 				t.Fatalf("NewDistributionManager(%v, %v, %v) failed with %v", tc.pathways, tc.include, tc.exclude, err)
 			}
-			got := m.AllPathwayNames()
+			got := m.PathwayNames()
 			if diff := cmp.Diff(tc.want, got, cmpopts.SortSlices(func(x, y string) bool { return strings.Compare(x, y) > 0 })); diff != "" {
-				t.Errorf("manager.AllPathwayNames() -want, +got:\n%s", diff)
+				t.Errorf("manager.PathwayNames() -want, +got:\n%s", diff)
 			}
 		})
 	}

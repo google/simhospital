@@ -35,15 +35,9 @@ const (
 // DistributionManager manages a given distribution of pathways.
 type DistributionManager struct {
 	// Collection contains the available pathways and methods to access them.
-	collection Collection
+	Collection
 	// distribution is the distribution of pathways.
 	distribution *sample.DiscreteDistribution
-}
-
-// GetPathway gets the pathway with the given name.
-// If the name provided is not valid, it returns an error.
-func (m DistributionManager) GetPathway(pathwayName string) (*Pathway, error) {
-	return m.collection.GetPathway(pathwayName)
 }
 
 // NextPathway returns the next pathway to run.
@@ -56,11 +50,6 @@ func (m DistributionManager) NextPathway() (*Pathway, error) {
 	}
 	nextPathwayName := r.(string)
 	return m.GetPathway(nextPathwayName)
-}
-
-// AllPathwayNames returns all the pathway names in this manager.
-func (m DistributionManager) AllPathwayNames() []string {
-	return m.collection.PathwayNames()
 }
 
 // NewDistributionManager creates a new DistributionManager with the given pathway map.
@@ -85,10 +74,10 @@ func NewDistributionManager(pathways map[string]Pathway, includeStr []string, ex
 
 	distr, percentages := calculateDistribution(collection.Pathways(), include, exclude)
 	m := DistributionManager{
-		collection:   collection,
+		Collection:   collection,
 		distribution: &sample.DiscreteDistribution{WeightedValues: distr},
 	}
-	m.printStats(percentages)
+	m.print(percentages)
 	return m, nil
 }
 
@@ -147,16 +136,16 @@ func calculateBudgetPerPathway(remaining float64, n int) float64 {
 	return round(perPathway)
 }
 
-func (m DistributionManager) printStats(percentage map[string]float64) {
+func (m DistributionManager) print(percentage map[string]float64) {
 	suffixes := map[string]string{}
-	for _, name := range m.collection.PathwayNames() {
+	for _, name := range m.PathwayNames() {
 		if percentage[name] == 0 {
 			suffixes[name] = " (percentage=0; this pathway will not be run)"
 		} else {
 			suffixes[name] = fmt.Sprintf(" (percentage=%v)", percentage[name])
 		}
 	}
-	m.collection.Print(suffixes)
+	m.Collection.Print(suffixes)
 }
 
 func toRegexps(strings []string) ([]*regexp.Regexp, error) {
