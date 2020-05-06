@@ -61,7 +61,20 @@ var (
 )
 
 func TestNewOrder(t *testing.T) {
-	g, hl7Config := testGenerator(t)
+	b  := []byte(`
+UREA AND ELECTROLYTES:
+  universal_service_id: lpdc-3969
+  test_types:
+    Creatinine:
+      id: lpdc-2012
+      value_type: NM
+      value: 51
+      unit: UMOLL
+      ref_range: 49 - 92`)
+	op := testwrite.BytesToFile(t, b)
+	defer os.Remove(op)
+
+	g, hl7Config := testGeneratorWithOrderProfile(t, op)
 
 	cases := []struct {
 		name            string
