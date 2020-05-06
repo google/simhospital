@@ -148,7 +148,7 @@ func createRunner() (*runner.Hospital, error) {
 		include = strings.Split(*pathwayNames, ",")
 	}
 	exclude := strings.Split(*excludePathwayNames, ",")
-	paths := hospital.Paths{
+	arguments := hospital.Arguments{
 		LocationsFile:            addLocalPathIfNotSetAndNotNil(locationsFile, "locations_file"),
 		HardcodedMessagesDir:     addLocalPathIfNotSetAndNotNil(hardcodedMessagesDir, "hardcoded_messages_dir"),
 		Hl7ConfigFile:            addLocalPathIfNotSetAndNotNil(hl7ConfigFile, "hl7_config_file"),
@@ -156,13 +156,13 @@ func createRunner() (*runner.Hospital, error) {
 		DoctorsFile:              addLocalPathIfNotSetAndNotNil(doctorsFile, "doctors_file"),
 		OrderProfilesFile:        addLocalPathIfNotSetAndNotNil(orderProfilesFile, "order_profile_file"),
 		DeletePatientsFromMemory: *deletePatientsFromMemory,
-		PathwayPaths: &hospital.PathwayPaths{
+		PathwayArguments: &hospital.PathwayArguments{
 			Dir:          addLocalPathIfNotSet(*pathwaysDir, "pathways_dir"),
 			Type:         *pathwayManagerType,
 			Names:        include,
 			ExcludeNames: exclude,
 		},
-		SenderPaths: &hospital.SenderPaths{
+		SenderArguments: &hospital.SenderArguments{
 			Output:                *output,
 			OutputFile:            *outputFile,
 			MllpDestination:       *mllpDestination,
@@ -185,7 +185,7 @@ func createRunner() (*runner.Hospital, error) {
 		},
 	}
 
-	config, err := hospital.DefaultConfig(paths)
+	config, err := hospital.DefaultConfig(arguments)
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot create default hospital config")
 	}

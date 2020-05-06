@@ -100,8 +100,8 @@ type MessageProcessor interface {
 	Matches(*state.HL7Message) bool
 }
 
-// Paths contains the paths used to create a default Simulated Hospital Config.
-type Paths struct {
+// Arguments contains the arguments used to create a default Simulated Hospital Config.
+type Arguments struct {
 	// LocationsFile to create the Config.LocationManager.
 	// Also required to create Config.PathwayParser and Config.PathwayManager.
 	LocationsFile *string
@@ -127,18 +127,18 @@ type Paths struct {
 	// DeletePatientsFromMemory to set as Config.DeletePatientsFromMemory.
 	DeletePatientsFromMemory bool
 
-	// PathwayPaths to create Config.PathwayManager.
-	PathwayPaths *PathwayPaths
+	// PathwayArguments to create Config.PathwayManager.
+	PathwayArguments *PathwayArguments
 
-	// SenderPaths to create Config.Sender.
-	SenderPaths *SenderPaths
+	// SenderArguments to create Config.Sender.
+	SenderArguments *SenderArguments
 
 	// DataFiles to set as Config.DataFiles.
 	DataFiles *config.DataFiles
 }
 
-// PathwayPaths contains paths to create a Pathway Manager.
-type PathwayPaths struct {
+// PathwayArguments contains arguments to create a Pathway Manager.
+type PathwayArguments struct {
 	// Dir contains all pathways to be used to create a Pathway Manager.
 	Dir string
 
@@ -152,8 +152,8 @@ type PathwayPaths struct {
 	Type string
 }
 
-// SenderPaths contains paths to create a Sender.
-type SenderPaths struct {
+// SenderArguments contains arguments to create a Sender.
+type SenderArguments struct {
 	// Output specified where the generated HL7 messages will be sent.
 	Output string
 
@@ -258,54 +258,54 @@ type AdditionalConfig struct {
 	FillerGenerator id.Generator
 }
 
-// DefaultConfig returns a default Config from Paths.
-// Config may be only partially populated if some Paths are not specified.
+// DefaultConfig returns a default Config from Arguments.
+// Config may be only partially populated if some Arguments are not specified.
 // It is the responsible of the caller to initialize missing components of the Config.
-func DefaultConfig(paths Paths) (Config, error) {
+func DefaultConfig(arguments Arguments) (Config, error) {
 	c := Config{
 		MessageControlGenerator:  &header.MessageControlGenerator{},
 		Clock:                    &clock.RealTimeClock{},
-		DeletePatientsFromMemory: paths.DeletePatientsFromMemory,
+		DeletePatientsFromMemory: arguments.DeletePatientsFromMemory,
 	}
 
 	var err error
-	if paths.LocationsFile != nil {
-		if c.LocationManager, err = location.NewManager(*paths.LocationsFile); err != nil {
+	if arguments.LocationsFile != nil {
+		if c.LocationManager, err = location.NewManager(*arguments.LocationsFile); err != nil {
 			return Config{}, errors.Wrap(err, "cannot create Location Manager")
 		}
 	}
 
-	if paths.HardcodedMessagesDir != nil {
-		if c.MessagesManager, err = hardcoded.NewManager(*paths.HardcodedMessagesDir, c.MessageControlGenerator); err != nil {
+	if arguments.HardcodedMessagesDir != nil {
+		if c.MessagesManager, err = hardcoded.NewManager(*arguments.HardcodedMessagesDir, c.MessageControlGenerator); err != nil {
 			return Config{}, errors.Wrap(err, "cannot create Hardcoded Messages Manager")
 		}
 	}
 
-	if paths.Hl7ConfigFile != nil {
-		if c.HL7Config, err = config.LoadHL7Config(*paths.Hl7ConfigFile); err != nil {
+	if arguments.Hl7ConfigFile != nil {
+		if c.HL7Config, err = config.LoadHL7Config(*arguments.Hl7ConfigFile); err != nil {
 			return Config{}, errors.Wrap(err, "cannot load the message HL7 configuration")
 		}
 	}
 
-	if paths.HeaderConfigFile != nil {
-		if c.Header, err = config.LoadHeaderConfig(*paths.HeaderConfigFile); err != nil {
+	if arguments.HeaderConfigFile != nil {
+		if c.Header, err = config.LoadHeaderConfig(*arguments.HeaderConfigFile); err != nil {
 			return Config{}, errors.Wrap(err, "cannot load the header configuration")
 		}
 	}
 
-	if paths.DoctorsFile != nil {
-		if c.Doctors, err = doctor.LoadDoctors(*paths.DoctorsFile); err != nil {
+	if arguments.DoctorsFile != nil {
+		if c.Doctors, err = doctor.LoadDoctors(*arguments.DoctorsFile); err != nil {
 			return Config{}, errors.Wrap(err, "cannot load the doctors configuration")
 		}
 	}
 
-	if paths.OrderProfilesFile != nil && c.HL7Config != nil {
-		if c.OrderProfiles, err = orderprofile.Load(*paths.OrderProfilesFile, c.HL7Config); err != nil {
+	if arguments.OrderProfilesFile != nil && c.HL7Config != nil {
+		if c.OrderProfiles, err = orderprofile.Load(*arguments.OrderProfilesFile, c.HL7Config); err != nil {
 			return Config{}, errors.Wrap(err, "cannot load the order profiles")
 		}
 	}
-	if paths.SenderPaths != nil {
-		if c.Sender, err = hl7Sender(*paths.SenderPaths); err != nil {
+	if arguments.SenderArguments != nil {
+		if c.Sender, err = hl7Sender(*arguments.SenderArguments); err != nil {
 			return Config{}, errors.Wrap(err, "cannot create the sender")
 		}
 	}
@@ -313,45 +313,45 @@ func DefaultConfig(paths Paths) (Config, error) {
 	if c.OrderProfiles != nil && c.Doctors != nil && c.LocationManager != nil {
 		c.PathwayParser = &pathway.Parser{Clock: c.Clock, OrderProfiles: c.OrderProfiles, Doctors: c.Doctors, LocationManager: c.LocationManager}
 
-		if paths.PathwayPaths != nil {
-			if c.PathwayManager, err = pathwayManager(c.PathwayParser, *paths.PathwayPaths); err != nil {
+		if arguments.PathwayArguments != nil {
+			if c.PathwayManager, err = pathwayManager(c.PathwayParser, *arguments.PathwayArguments); err != nil {
 				return Config{}, errors.Wrap(err, "cannot create pathway manager")
 			}
 		}
 	}
 
-	if paths.DataFiles != nil {
-		c.DataFiles = *paths.DataFiles
+	if arguments.DataFiles != nil {
+		c.DataFiles = *arguments.DataFiles
 	}
 
 	return c, nil
 }
 
-func hl7Sender(paths SenderPaths) (hl7.Sender, error) {
-	switch paths.Output {
+func hl7Sender(arguments SenderArguments) (hl7.Sender, error) {
+	switch arguments.Output {
 	case "stdout":
 		return hl7.NewStdoutSender(), nil
 	case "mllp":
-		return hl7.NewMLLPSender(paths.MllpDestination, paths.MllpKeepAlive, *paths.MllpKeepAliveInterval)
+		return hl7.NewMLLPSender(arguments.MllpDestination, arguments.MllpKeepAlive, *arguments.MllpKeepAliveInterval)
 	case "file":
-		return hl7.NewFileSender(paths.OutputFile)
+		return hl7.NewFileSender(arguments.OutputFile)
 	default:
-		return nil, errors.Errorf("unsupported output type %q", paths.Output)
+		return nil, errors.Errorf("unsupported output type %q", arguments.Output)
 	}
 }
 
-func pathwayManager(p *pathway.Parser, paths PathwayPaths) (pathway.Manager, error) {
-	pathways, err := p.ParsePathways(paths.Dir)
+func pathwayManager(p *pathway.Parser, arguments PathwayArguments) (pathway.Manager, error) {
+	pathways, err := p.ParsePathways(arguments.Dir)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to parse pathways for Pathway Manager")
 	}
-	switch paths.Type {
+	switch arguments.Type {
 	case "distribution":
-		return pathway.NewDistributionManager(pathways, paths.Names, paths.ExcludeNames)
+		return pathway.NewDistributionManager(pathways, arguments.Names, arguments.ExcludeNames)
 	case "deterministic":
-		return pathway.NewDeterministicManager(pathways, paths.Names)
+		return pathway.NewDeterministicManager(pathways, arguments.Names)
 	default:
-		return nil, errors.Errorf("unsupported pathway manager type %q", paths.Type)
+		return nil, errors.Errorf("unsupported pathway manager type %q", arguments.Type)
 	}
 }
 
