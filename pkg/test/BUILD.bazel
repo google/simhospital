@@ -49,6 +49,7 @@ exports_files(srcs = [
     "data/sh_doctors_test.yml",
     "data/sh_ethnicity_test.csv",
     "data/sh_header_config_test.yml",
+    "data/sh_locations_test.yml",
     "data/sh_message_config_test.yml",
     "data/sh_order_profiles_test.yml",
     "data/sh_pathways/sh_multiple_alert_pathways_test.yml",

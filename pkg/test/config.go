@@ -80,6 +80,8 @@ var (
 	BoysConfigTest = path.Join(testConfigDir, "historicname_boys_test.csv")
 	// GirlsConfigTest is the path to the girls' names config file for testing.
 	GirlsConfigTest = path.Join(testConfigDir, "historicname_girls_test.csv")
+	// LocationsConfigTest is the path to the locations config file for testing.
+	LocationsConfigTest = path.Join(testConfigDir, "sh_locations_test.yml")
 	// PathwaysDirTest is the path to the directory with pathways for testing.
 	PathwaysDirTest = path.Join(testConfigDir, "sh_pathways")
 	// HardcodedMessagesDirTest is the path to the directory with hardcoded messages for testing.
@@ -164,6 +166,7 @@ var (
 			MessageConfigFile:          MessageConfigTest,
 			HeaderConfigFile:           HeaderConfigTest,
 			HardcodedMessagesConfigDir: HardcodedMessagesDirTest,
+			LocationsFile:              LocationsConfigTest,
 		},
 	}
 )
