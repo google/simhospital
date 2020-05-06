@@ -18,7 +18,6 @@ import (
 	"fmt"
 	"math"
 	"regexp"
-	"sort"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -35,32 +34,16 @@ const (
 
 // DistributionManager manages a given distribution of pathways.
 type DistributionManager struct {
-	// pathways is a map of pathways indexed by their name.
-	pathways map[string]Pathway
+	// Collection contains the available pathways and methods to access them.
+	collection Collection
 	// distribution is the distribution of pathways.
 	distribution *sample.DiscreteDistribution
-	// pathwayNames is a list of the names of all pathways this manager contains.
-	pathwayNames []string
-}
-
-// getPathway returns the pathway for the specified name.
-// If the pathway does not exist, then it returns an error.
-func (m DistributionManager) getPathway(pathwayName string) (Pathway, error) {
-	pathway, ok := m.pathways[pathwayName]
-	if !ok {
-		return pathway, fmt.Errorf("pathwayName %s does not exist within manager.pathways", pathwayName)
-	}
-	return pathway.Runnable()
 }
 
 // GetPathway gets the pathway with the given name.
 // If the name provided is not valid, it returns an error.
 func (m DistributionManager) GetPathway(pathwayName string) (*Pathway, error) {
-	pathway, err := m.getPathway(pathwayName)
-	if err != nil {
-		return nil, errors.Wrapf(err, "cannot get pathway with name %s", pathwayName)
-	}
-	return &pathway, nil
+	return m.collection.GetPathway(pathwayName)
 }
 
 // NextPathway returns the next pathway to run.
@@ -77,7 +60,7 @@ func (m DistributionManager) NextPathway() (*Pathway, error) {
 
 // AllPathwayNames returns all the pathway names in this manager.
 func (m DistributionManager) AllPathwayNames() []string {
-	return m.pathwayNames
+	return m.collection.PathwayNames()
 }
 
 // NewDistributionManager creates a new DistributionManager with the given pathway map.
@@ -95,18 +78,17 @@ func NewDistributionManager(pathways map[string]Pathway, includeStr []string, ex
 		return DistributionManager{}, errors.Wrapf(err, "Failed to convert %v to regexps", exclude)
 	}
 
-	m := DistributionManager{
-		pathways: map[string]Pathway{},
-	}
-	for k, v := range pathways {
-		v.Init(k)
-		m.pathways[k] = v
-		m.pathwayNames = append(m.pathwayNames, k)
+	collection, err := NewCollection(pathways)
+	if err != nil {
+		return DistributionManager{}, err
 	}
 
-	distr, percentages := calculateDistribution(m.pathways, include, exclude)
-	m.distribution = &sample.DiscreteDistribution{WeightedValues: distr}
-	printPathwayStats(m.pathways, percentages)
+	distr, percentages := calculateDistribution(collection.Pathways(), include, exclude)
+	m := DistributionManager{
+		collection:   collection,
+		distribution: &sample.DiscreteDistribution{WeightedValues: distr},
+	}
+	m.printStats(percentages)
 	return m, nil
 }
 
@@ -165,22 +147,16 @@ func calculateBudgetPerPathway(remaining float64, n int) float64 {
 	return round(perPathway)
 }
 
-func printPathwayStats(pathways map[string]Pathway, percentage map[string]float64) {
-	var names []string
-	for name := range pathways {
-		names = append(names, name)
-	}
-
-	sort.Strings(names)
-
-	log.Infof("Loaded %d pathways:", len(pathways))
-	for _, name := range names {
-		suffix := ""
+func (m DistributionManager) printStats(percentage map[string]float64) {
+	suffixes := map[string]string{}
+	for _, name := range m.collection.PathwayNames() {
 		if percentage[name] == 0 {
-			suffix = "(percentage set to 0; this pathway will not be run)"
+			suffixes[name] = " (percentage=0; this pathway will not be run)"
+		} else {
+			suffixes[name] = fmt.Sprintf(" (percentage=%v)", percentage[name])
 		}
-		log.Infof(" - %s, percentage=%v %s", name, percentage[name], suffix)
 	}
+	m.collection.Print(suffixes)
 }
 
 func toRegexps(strings []string) ([]*regexp.Regexp, error) {

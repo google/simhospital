@@ -24,7 +24,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 )
 
-func TestGetPathway(t *testing.T) {
+func TestDistributionManager_GetPathway(t *testing.T) {
 	steps1 := []Step{
 		{Admission: &Admission{}},
 		{Result: &Results{}},
@@ -102,7 +102,7 @@ func TestGetPathway(t *testing.T) {
 	}
 }
 
-func TestAllPathwayNames(t *testing.T) {
+func TestDistributionManager_AllPathwayNames(t *testing.T) {
 	pathway := Pathway{
 		Pathway: []Step{
 			{Admission: &Admission{}},
@@ -159,7 +159,7 @@ func TestAllPathwayNames(t *testing.T) {
 	}
 }
 
-func TestNextPathway(t *testing.T) {
+func TestDistributionManager_NextPathway(t *testing.T) {
 	rand.Seed(1)
 
 	pathway1, pathway2, pathway3 := "pathway1", "pathway2", "pathway3"
