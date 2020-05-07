@@ -98,6 +98,7 @@ exports_files(srcs = [
     "pathways/pathways.yml",
     "pathways/sample_pathways.yml",
     "pathways/sample_pathways_json.yml",
+    "pathways/test_pathways.yml",
 ])
 
 filegroup(
