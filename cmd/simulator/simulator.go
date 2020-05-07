@@ -86,6 +86,8 @@ var (
 		"when pathway_manager_type=distribution. Pathways that match both -pathway_names and -exclude_pathway_names are excluded. Excluded pathways can still be run from the dashboard.")
 
 	pathwaysPerHour = flag.Float64("pathways_per_hour", 1, "Number of pathways that should start per hour")
+	maxPathways     = flag.Int("max_pathways", -1, "Number of pathways to run before stopping. Pathways run from the dashboard do not count towards this limit. "+
+		"If negative, Simulated Hospital will keep running pathways indefinitely")
 
 	// Flags that control the dashboard.
 	dashboardURI     = flag.String("dashboard_uri", "simulated-hospital", "Base URI at which the dashboard and endpoints are available")
@@ -202,6 +204,7 @@ func createRunner() (*runner.Hospital, error) {
 		MetricsAddress:     *metricsListenAddress,
 		SleepFor:           *sleepFor,
 		Clock:              config.Clock,
+		MaxPathways:        *maxPathways,
 	})
 }
 

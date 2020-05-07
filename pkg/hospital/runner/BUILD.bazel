@@ -41,5 +41,11 @@ go_test(
     name = "go_default_test",
     srcs = ["runner_test.go"],
     embed = [":go_default_library"],
-    deps = ["//pkg/hospital:go_default_library"],
+    deps = [
+        "//pkg/hl7:go_default_library",
+        "//pkg/hospital:go_default_library",
+        "//pkg/test/testclock:go_default_library",
+        "//pkg/test/testhospital:go_default_library",
+        "//pkg/test/testwrite:go_default_library",
+    ],
 )

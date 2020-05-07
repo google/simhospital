@@ -15,11 +15,21 @@
 package runner_test
 
 import (
+	"context"
+	"fmt"
+	"io/ioutil"
 	"net/http"
+	"os"
+	"path"
 	"testing"
+	"time"
 
+	"github.com/google/simhospital/pkg/hl7"
 	"github.com/google/simhospital/pkg/hospital"
 	. "github.com/google/simhospital/pkg/hospital/runner"
+	"github.com/google/simhospital/pkg/test/testclock"
+	"github.com/google/simhospital/pkg/test/testhospital"
+	"github.com/google/simhospital/pkg/test/testwrite"
 )
 
 const (
@@ -132,6 +142,92 @@ func TestNewRunner(t *testing.T) {
 			gotErr := err != nil
 			if gotErr != tt.wantErr {
 				t.Errorf("New(%+v) got error: %v, did want error? %t", tt.config, err, tt.wantErr)
+			}
+		})
+	}
+}
+
+// This test only covers the case when Run() stops.
+func TestRunner_Run(t *testing.T) {
+	mainDir, err := ioutil.TempDir("", "pathways")
+	if err != nil {
+		t.Fatalf("ioutil.TempDir(%v, %v) failed with %v", "", "pathways", err)
+	}
+	// test_pathway is an arbitrary pathway that sends 4 (arbitrary number) messages.
+	// This pathway refers to values in the files in the pkg/test/data package,
+	// more specifically the order profiles and the locations.
+	// This test will fail if those values change.
+	b := []byte(`
+test_pathway:
+  historical_data:
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 126.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+      parameters:
+        time_from_now: -48h
+  pathway:
+    - admission:
+        loc: Renal
+    - result:
+        order_profile: UREA AND ELECTROLYTES
+        results:
+          - test_name: Creatinine
+            value: 153.00
+            unit: UMOLL
+            abnormal_flag: HIGH
+    - discharge: {}`)
+	pFile := path.Join(mainDir, "pathways.yml")
+	testwrite.BytesToFileWithName(t, b, pFile)
+	defer os.Remove(pFile)
+
+	hl7.TimezoneAndLocation("Europe/London")
+	// now is an arbitrary date in the past.
+	now := time.Date(2020, 2, 12, 0, 0, 0, 0, time.UTC)
+
+	args := testhospital.Arguments
+	args.PathwayArguments.Dir = path.Dir(pFile)
+	args.PathwayArguments.Names = []string{"test_pathway"}
+
+	tests := []struct {
+		maxPathways  int
+		wantMessages int
+	}{
+		{maxPathways: 0, wantMessages: 0},
+		{maxPathways: 1, wantMessages: 4},
+		{maxPathways: 2, wantMessages: 8},
+	}
+
+	for _, tc := range tests {
+		t.Run(fmt.Sprintf("%d", tc.maxPathways), func(t *testing.T) {
+			clock := testclock.WithTick(now, time.Second)
+
+			h := testhospital.New(t, testhospital.Config{
+				Config:    hospital.Config{Clock: clock},
+				Arguments: args,
+			})
+			defer h.Close()
+
+			config := Config{
+				DashboardURI:       nonEmptyString,
+				DashboardAddress:   ":0000",
+				DashboardStaticDir: nonEmptyString,
+				MaxPathways:        tc.maxPathways,
+				PathwaysPerHour:    3600, // Create the pathways quickly.
+				Clock:              clock,
+			}
+
+			runner, err := New(h.Hospital, config)
+			if err != nil {
+				t.Fatalf("New(%+v) failed with %v", config, err)
+			}
+			runner.Run(context.Background())
+			messages := h.Sender.GetSentMessages()
+			if got, want := len(messages), tc.wantMessages; got != want {
+				t.Errorf("h.Sender.GetSentMessages() got %d messages, want %v", got, want)
 			}
 		})
 	}

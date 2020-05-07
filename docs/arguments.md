@@ -381,6 +381,11 @@ sends.
 :   Number of pathways that start per hour. If not set, Simulated Hospital uses
     `1`.
 
+`-max_pathways` (int)
+:   Number of pathways to run before stopping. Pathways run from the dashboard
+    do not count towards this limit. If negative or not set, Simulated Hospital
+    will keep running pathways indefinitely.
+
 `-exclude_pathway_names` (string)
 :   Comma-separated list of pathway names, or regular expressions that match
     pathway names, for the pathways to exclude from running. Pathways that match

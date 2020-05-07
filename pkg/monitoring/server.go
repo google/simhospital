@@ -58,16 +58,17 @@ func serveMetrics(ctx context.Context, lis net.Listener) error {
 	s.HandleFunc("/debug/pprof/symbol", pprof.Symbol)
 	s.HandleFunc("/debug/pprof/trace", pprof.Trace)
 
-	log.WithField("simulated_hospital_metrics_listen_address", lis.Addr()).
-		Info("Starting /metrics HTTP server.")
+	logLocal := log.WithContext(ctx).WithField("metrics_listen_address", lis.Addr())
+	logLocal.Info("Starting /metrics HTTP server")
 	srv := &http.Server{Handler: s}
 	go func() {
 		<-ctx.Done()
+		logLocal.Info("Closing metrics server")
 		srv.Close()
 	}()
 
 	if err := srv.Serve(lis); err != nil {
-		return errors.Wrap(err, "cannot start /metrics HTTP server")
+		return errors.Wrap(err, "cannot serve /metrics on HTTP server")
 	}
 	return nil
 }
