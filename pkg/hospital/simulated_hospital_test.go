@@ -3600,7 +3600,7 @@ func TestRunPathwayCustomPathwayManager(t *testing.T) {
 		LocationManager: locationManager(t, testLoc, testLocAE),
 		DataFiles:       test.DataFiles[test.Test],
 	}
-	hospital := testhospital.WithTime(t, testhospital.Config{Config: cfg, ConfigFiles: test.HospitalFiles[test.Test]}, now)
+	hospital := testhospital.WithTime(t, testhospital.Config{Config: cfg, Arguments: testhospital.Arguments}, now)
 	defer hospital.Close()
 	p, err := pm.NextPathway()
 	if err != nil {
@@ -3684,7 +3684,7 @@ func hospitalWithTime(t *testing.T, cfg Config, pathways map[string]pathway.Path
 	}
 	cfg.PathwayManager = pm
 	cfg.LocationManager = locationManager(t, testLoc, testLocAE)
-	return testhospital.WithTime(t, testhospital.Config{Config: cfg, ConfigFiles: test.HospitalFiles[test.Test]}, now)
+	return testhospital.WithTime(t, testhospital.Config{Config: cfg, Arguments: testhospital.Arguments}, now)
 }
 
 // startPathway starts pathways in the hospital by queuing their first events.

@@ -21,12 +21,8 @@ import (
 	"time"
 
 	"github.com/google/simhospital/pkg/config"
-	"github.com/google/simhospital/pkg/doctor"
-	"github.com/google/simhospital/pkg/generator/header"
-	"github.com/google/simhospital/pkg/hardcoded"
 	"github.com/google/simhospital/pkg/hospital"
 	"github.com/google/simhospital/pkg/location"
-	"github.com/google/simhospital/pkg/orderprofile"
 	"github.com/google/simhospital/pkg/pathway"
 	"github.com/google/simhospital/pkg/test"
 	"github.com/google/simhospital/pkg/test/testaddress"
@@ -37,8 +33,23 @@ import (
 
 const defaultClockTick = time.Second
 
-// now is an arbitrary time to be used by default.
-var now = time.Date(2018, 2, 12, 0, 0, 0, 0, time.UTC)
+var (
+	// now is an arbitrary time to be used by default.
+	now           = time.Date(2018, 2, 12, 0, 0, 0, 0, time.UTC)
+	dataFilesTest = test.DataFiles[test.Test]
+
+	// Arguments contains default arguments for testing.
+	Arguments = hospital.Arguments{
+		DoctorsFile:          &test.DoctorsConfigTest,
+		OrderProfilesFile:    &test.OrderProfilesConfigTest,
+		PathwayArguments:     &hospital.PathwayArguments{Dir: test.PathwaysDirTest, Type: "distribution"},
+		Hl7ConfigFile:        &test.MessageConfigTest,
+		HeaderConfigFile:     &test.HeaderConfigTest,
+		HardcodedMessagesDir: &test.HardcodedMessagesDirTest,
+		LocationsFile:        &test.LocationsConfigTest,
+		DataFiles:            &dataFilesTest,
+	}
+)
 
 // Hospital represents a hospital that can be used for testing.
 // Some of the fields this hospital is created with are exposed so that they can be accessed in the tests.
@@ -53,9 +64,10 @@ type Hospital struct {
 }
 
 // Config is the configuration of a test hospital.
+// Fields common to both Config and Arguments are taken from hospital.Config.
 type Config struct {
 	hospital.Config
-	test.ConfigFiles
+	hospital.Arguments
 }
 
 // New creates a new Hospital for test.
@@ -68,90 +80,65 @@ func New(t *testing.T, cfg Config) *Hospital {
 func WithTime(t *testing.T, cfg Config, now time.Time) *Hospital {
 	t.Helper()
 
-	if cfg.HL7Config == nil {
-		c, err := config.LoadHL7Config(cfg.MessageConfigFile)
-		if err != nil {
-			t.Fatalf("config.LoadHL7Config(%s) failed with %v", cfg.MessageConfigFile, err)
-		}
-		cfg.HL7Config = c
-	}
-	if cfg.LocationManager == nil {
-		locationManager, err := location.NewManager(cfg.LocationsFile)
-		if err != nil {
-			t.Fatalf("location.NewManager(%s) failed with %v", cfg.LocationsFile, err)
-		}
-		cfg.LocationManager = locationManager
-	}
-	if cfg.Header == nil {
-		headerCFG, err := config.LoadHeaderConfig(cfg.HeaderConfigFile)
-		if err != nil {
-			t.Fatalf("config.LoadHeaderConfig(%s) failed with %v", cfg.HeaderConfigFile, err)
-		}
-		cfg.Header = headerCFG
-	}
-	if cfg.DataFiles == (config.DataFiles{}) {
-		cfg.DataFiles = test.DataFiles[test.Test]
-	}
-	if cfg.Doctors == nil {
-		d, err := doctor.LoadDoctors(cfg.DoctorFile)
-		if err != nil {
-			t.Fatalf("doctor.LoadDoctors(%s) failed with %v", cfg.DoctorFile, err)
-		}
-		cfg.Doctors = d
-	}
-	if cfg.OrderProfiles == nil {
-		op, err := orderprofile.Load(cfg.OrderProfilesFile, cfg.HL7Config)
-		if err != nil {
-			t.Fatalf("orderprofile.Load(%s, %+v) failed with %v", cfg.OrderProfilesFile, cfg.HL7Config, err)
-		}
-		cfg.OrderProfiles = op
-	}
-	if cfg.MessageControlGenerator == nil {
-		cfg.MessageControlGenerator = &header.MessageControlGenerator{}
-	}
-	if cfg.MessagesManager == nil {
-		hm, err := hardcoded.NewManager(cfg.HardcodedMessagesConfigDir, cfg.MessageControlGenerator)
-		if err != nil {
-			t.Fatalf("hardcoded.NewManager(%s) failed with %v", cfg.HardcodedMessagesConfigDir, err)
-		}
-		cfg.MessagesManager = hm
-	}
-	cfg.Clock = testclock.New(now)
-	pathwayP := &pathway.Parser{Clock: cfg.Clock, OrderProfiles: cfg.OrderProfiles, Doctors: cfg.Doctors, LocationManager: cfg.LocationManager}
-	var pathways map[string]pathway.Pathway
-	if cfg.PathwayManager == nil {
-		var err error
-		pathways, err = pathwayP.ParsePathways(cfg.PathwaysDir)
-		if err != nil {
-			t.Fatalf("ParsePathways(%s) failed with %v", cfg.PathwaysDir, err)
-		}
-		pathwayManager, err := pathway.NewDistributionManager(pathways, nil, nil)
-		if err != nil {
-			t.Fatalf("pathway.NewDistributionManager(%v,%v,%v) failed with %v", pathways, nil, nil, err)
-		}
-		cfg.PathwayManager = pathwayManager
-	}
-	if cfg.Sender == nil {
-		cfg.Sender = &testhl7.Sender{}
-	}
+	clock := testclock.New(now)
 
-	cfg.AdditionalConfig.AddressGenerator = &testaddress.ArbitraryGenerator
-	cfg.AdditionalConfig.MRNGenerator = &testid.Generator{}
-	cfg.AdditionalConfig.PlacerGenerator = &testid.Generator{}
-	cfg.AdditionalConfig.FillerGenerator = &testid.Generator{}
-
-	h, err := hospital.NewHospital(cfg.Config)
+	// Create a default config using Arguments, and then override with the fields set in Config.
+	// Fields common to both Config and Arguments are taken from hospital.Config; copy them.
+	cfg.Arguments.MessageControlGenerator = cfg.Config.MessageControlGenerator
+	cfg.Arguments.Clock = clock
+	cfg.Arguments.DeletePatientsFromMemory = cfg.Config.DeletePatientsFromMemory
+	if cfg.Config.DataFiles != (config.DataFiles{}) {
+		cfg.Arguments.DataFiles = &cfg.Config.DataFiles
+	}
+	c, err := hospital.DefaultConfig(cfg.Arguments)
 	if err != nil {
-		t.Fatalf("NewHospital() failed with %v", err)
+		t.Fatalf("hospital.DefaultConfig(%+v) failed with %v", cfg.Arguments, err)
+	}
+
+	if cfg.LocationManager != nil {
+		c.LocationManager = cfg.LocationManager
+	}
+	if cfg.MessagesManager != nil {
+		c.MessagesManager = cfg.MessagesManager
+	}
+	if cfg.HL7Config != nil {
+		c.HL7Config = cfg.HL7Config
+	}
+	if cfg.Header != nil {
+		c.Header = cfg.Header
+	}
+	if cfg.Doctors != nil {
+		c.Doctors = cfg.Doctors
+	}
+	if cfg.OrderProfiles != nil {
+		c.OrderProfiles = cfg.OrderProfiles
+	}
+	if cfg.PathwayManager != nil {
+		c.PathwayManager = cfg.PathwayManager
+	}
+	if cfg.Sender != nil {
+		c.Sender = cfg.Sender
+	} else {
+		c.Sender = &testhl7.Sender{}
+	}
+	c.AdditionalConfig = cfg.AdditionalConfig
+	c.AdditionalConfig.AddressGenerator = &testaddress.ArbitraryGenerator
+	c.AdditionalConfig.MRNGenerator = &testid.Generator{}
+	c.AdditionalConfig.PlacerGenerator = &testid.Generator{}
+	c.AdditionalConfig.FillerGenerator = &testid.Generator{}
+
+	h, err := hospital.NewHospital(c)
+	if err != nil {
+		t.Fatalf("NewHospital(%+v) failed with %v", c, err)
 	}
 	return &Hospital{
 		Hospital:        h,
-		clock:           cfg.Clock.(*testclock.Clock),
-		Sender:          cfg.Sender.(*testhl7.Sender),
-		Parser:          pathwayP,
-		PathwayManager:  cfg.PathwayManager,
-		LocationManager: cfg.LocationManager,
-		MessageConfig:   cfg.HL7Config,
+		clock:           c.Clock.(*testclock.Clock),
+		Sender:          c.Sender.(*testhl7.Sender),
+		Parser:          c.PathwayParser,
+		PathwayManager:  c.PathwayManager,
+		LocationManager: c.LocationManager,
+		MessageConfig:   c.HL7Config,
 	}
 }
 

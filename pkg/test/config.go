@@ -32,17 +32,6 @@ const (
 	Prod = ConfigType("PROD")
 )
 
-// ConfigFiles contains file paths to configure a hospital.
-type ConfigFiles struct {
-	DoctorFile                 string
-	OrderProfilesFile          string
-	PathwaysDir                string
-	MessageConfigFile          string
-	HeaderConfigFile           string
-	LocationsFile              string
-	HardcodedMessagesConfigDir string
-}
-
 var (
 	base = path.Join(currentDir())
 
@@ -155,18 +144,6 @@ var (
 			PatientClass:      PatientClassConfigProd,
 			ClinicalNoteTypes: ClinicalNoteTypesConfigProd,
 			SampleNotesDir:    ClinicalNotesConfigProd,
-		},
-	}
-	// HospitalFiles contains paths to files for testing.
-	HospitalFiles = map[ConfigType]ConfigFiles{
-		Test: {
-			DoctorFile:                 DoctorsConfigTest,
-			OrderProfilesFile:          OrderProfilesConfigTest,
-			PathwaysDir:                PathwaysDirTest,
-			MessageConfigFile:          MessageConfigTest,
-			HeaderConfigFile:           HeaderConfigTest,
-			HardcodedMessagesConfigDir: HardcodedMessagesDirTest,
-			LocationsFile:              LocationsConfigTest,
 		},
 	}
 )

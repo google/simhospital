@@ -135,6 +135,12 @@ type Arguments struct {
 
 	// DataFiles to set as Config.DataFiles.
 	DataFiles *config.DataFiles
+
+	// MessageControlGenerator for the hospital. If not set, a default generator is created.
+	MessageControlGenerator *header.MessageControlGenerator
+
+	// Clock for this hospital. If not set, a default clock is created.
+	Clock clock.Clock
 }
 
 // PathwayArguments contains arguments to create a Pathway Manager.
@@ -260,12 +266,20 @@ type AdditionalConfig struct {
 
 // DefaultConfig returns a default Config from Arguments.
 // Config may be only partially populated if some Arguments are not specified.
-// It is the responsible of the caller to initialize missing components of the Config.
+// It is the responsibility of the caller to initialize missing components of the Config.
 func DefaultConfig(arguments Arguments) (Config, error) {
 	c := Config{
 		MessageControlGenerator:  &header.MessageControlGenerator{},
 		Clock:                    &clock.RealTimeClock{},
 		DeletePatientsFromMemory: arguments.DeletePatientsFromMemory,
+	}
+
+	if arguments.MessageControlGenerator != nil {
+		c.MessageControlGenerator = arguments.MessageControlGenerator
+	}
+
+	if arguments.Clock != nil {
+		c.Clock = arguments.Clock
 	}
 
 	var err error
