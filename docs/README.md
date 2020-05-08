@@ -51,7 +51,10 @@ defined with words that are common in clinical settings such as "admission",
 
 ## Next steps
 
-*   Get started by [installing & running SH](./get-started.md).
+*   Get started by [installing & running Simulated Hospital](./get-started.md).
+
+*   See an example of the
+    [messages that Simulated Hospital generates](./sample.md).
 
 *   [Write pathways](./write-pathways.md) to create patients with specific
     conditions, for instance, a patient with appendicitis that has sets of Vital
