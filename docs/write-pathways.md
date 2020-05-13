@@ -17,7 +17,7 @@
     +   [Discharge](#discharge)
     +   [Discharge in Error](#discharge-in-error)
     +   [Registration](#registration)
-    +   [Cancel Admit/ Visit](#cancel-admit--visit)
+    +   [Cancel Admit/ Visit](#cancel-admit-visit)
     +   [Cancel Transfer](#cancel-transfer)
     +   [Cancel Discharge](#cancel-discharge)
     +   [Add Person](#add-person)
@@ -36,17 +36,17 @@
         -   [Midnight Case](#midnight-case)
     +   [Merge](#merge)
     +   [Bed swap](#bed-swap)
-    +   [Track Departure / Track Arrival](#track-departure---track-arrival)
+    +   [Track Departure / Track Arrival](#track-departure-track-arrival)
     +   [AutoGenerate](#autogenerate)
     +   [Clinical Note](#clinical-note)
     +   [Hardcoded message](#hardcoded-message)
     +   [Generic](#generic)
 *   [Order profiles](#order-profiles)
     +   [Explicitly specify results for each test type in the order profile
-        (recommended)](#explicitly-specify-results-for-each-test-type-in-the-order-profile--recommended-)
+        (recommended)](#explicitly-specify-results-for-each-test-type-in-the-order-profile-recommended)
     +   [Only specify results for a subset of test types](#only-specify-results-for-a-subset-of-test-types)
     +   [Explicitly specify result as random](#explicitly-specify-result-as-random)
-    +   [Do not specify results - implicitly random](#do-not-specify-results---implicitly-random)
+    +   [Do not specify results - implicitly random](#do-not-specify-results-implicitly-random)
     +   [Results for a random order profile](#results-for-a-random-order-profile)
     +   [Results for non-existing order profile](#results-for-non-existing-order-profile)
     +   [Results with an unknown name for an existing order profile](#results-with-an-unknown-name-for-an-existing-order-profile)
@@ -1574,40 +1574,34 @@ A pathway that refers to an unknown location fails validation. See
 The following table describes what pathway events generate each type of HL7v2
 message:
 
-| Message Type | Segments                           | Pathway Event            |
-| ------------ | ---------------------------------- | ------------------------ |
-| ADT^A01      | MSH, EVN, PID, PD1, PV1, NK1, AL1  | admission                |
-| ADT^A02      | MSH, EVN, PID, PD1, PV1            | transfer_in_error        |
-| ADT^A03      | MSH, EVN, PID, PD1, PV1, AL1       | discharge,               |
-:              :                                    : discharge_in_error       :
-| ADT^A04      | MSH, EVN, PID, PD1, PV1, NK1, AL1  | registration             |
-| ADT^A05      | MSH, EVN, PID, PD1, PV1, PV2, NK1, | pre_admission            |
-:              : AL1, DG1                           :                          :
-| ADT^A08      | MSH, EVN, PID, PD1, PV1, AL1, DG1, | update_person            |
-:              : PR1                                :                          :
-| ADT^A09      | MSH, EVN, PID, PD1, PV1            | track_departure          |
-| ADT^A10      | MSH, EVN, PID, PD1, PV1            | track_arrival            |
-| ADT^A11      | MSH, EVN, PID, PD1, PV1            | cancel_visit             |
-| ADT^A12      | MSH, EVN, PID, PD1, PV1            | cancel_transfer          |
-| ADT^A13      | MSH, EVN, PID, PD1, PV1            | cancel_discharge         |
-| ADT^A14      | MSH, EVN, PID, PD1, PV1, PV2       | pending_admission        |
-| ADT^A15      | MSH, EVN, PID, PD1, PV1            | pending_transfer         |
-| ADT^A16      | MSH, EVN, PID, PD1, PV1, PV2       | pending_discharge        |
-| ADT^A17      | MSH, EVN, PID, PD1, PV1, PID, PD1, | bed_swap                 |
-:              : PV1                                :                          :
-| ADT^A23      | MSH, EVN, PID, PV1                 | delete_visit             |
-| ADT^A25      | MSH, EVN, PID, PD1, PV1, PV2       | cancel_pending_discharge |
-| ADT^A26      | MSH, EVN, PID, PD1, PV1, PV2       | cancel_pending_transfer  |
-| ADT^A27      | MSH, EVN, PID, PD1, PV1, PV2       | cancel_pending_admission |
-| ADT^A28      | MSH, EVN, PID, PD1, PV1, AL1       | add_person               |
-| ADT^A31      | MSH, EVN, PID, PD1, PV1, AL1, DG1, | update_person            |
-:              : PR1                                :                          :
-| ADT^A34      | MSH, EVN, PID, PD1, MRG            | merge                    |
-| ADT^A40      | MSH, EVN, PID, PD1, MRG, PV1       | merge                    |
-| MDM^T02      | MSH, EVN, PID, PV1, TXA, OBX       | document                 |
-| ORM^O01      | MSH, PID, PV1, ORC, OBR, NTE, OBX, | order                    |
-:              : NTE                                :                          :
-| ORR^O02      | MSH, MSA, PID, ORC                 | order                    |
-| ORU^R01      | MSH, PID, PV1, ORC, OBR, OBX, NTE  | results, clinical_note   |
-| ORU^R03      | MSH, PID, PV1, ORC, OBR, OBX, NTE  | results                  |
-| ORU^R32      | MSH, PID, PV1, ORC, OBR, OBX, NTE  | results                  |
+| Message Type | Segments                                    | Pathway Event                 |
+| ------------ | ------------------------------------------- | ----------------------------  |
+| ADT^A01      | MSH, EVN, PID, PD1, PV1, NK1, AL1           | admission                     |
+| ADT^A02      | MSH, EVN, PID, PD1, PV1                     | transfer_in_error             |
+| ADT^A03      | MSH, EVN, PID, PD1, PV1, AL1                | discharge, discharge_in_error |
+| ADT^A04      | MSH, EVN, PID, PD1, PV1, NK1, AL1           | registration                  |
+| ADT^A05      | MSH, EVN, PID, PD1, PV1, PV2, NK1, AL1, DG1 | pre_admission                 |
+| ADT^A08      | MSH, EVN, PID, PD1, PV1, AL1, DG1, PR1      | update_person                 |
+| ADT^A09      | MSH, EVN, PID, PD1, PV1                     | track_departure               |
+| ADT^A10      | MSH, EVN, PID, PD1, PV1                     | track_arrival                 |
+| ADT^A11      | MSH, EVN, PID, PD1, PV1                     | cancel_visit                  |
+| ADT^A12      | MSH, EVN, PID, PD1, PV1                     | cancel_transfer               |
+| ADT^A13      | MSH, EVN, PID, PD1, PV1                     | cancel_discharge              |
+| ADT^A14      | MSH, EVN, PID, PD1, PV1, PV2                | pending_admission             |
+| ADT^A15      | MSH, EVN, PID, PD1, PV1                     | pending_transfer              |
+| ADT^A16      | MSH, EVN, PID, PD1, PV1, PV2                | pending_discharge             |
+| ADT^A17      | MSH, EVN, PID, PD1, PV1, PID, PD1, PV1      | bed_swap                      |
+| ADT^A23      | MSH, EVN, PID, PV1                          | delete_visit                  |
+| ADT^A25      | MSH, EVN, PID, PD1, PV1, PV2                | cancel_pending_discharge      |
+| ADT^A26      | MSH, EVN, PID, PD1, PV1, PV2                | cancel_pending_transfer       |
+| ADT^A27      | MSH, EVN, PID, PD1, PV1, PV2                | cancel_pending_admission      |
+| ADT^A28      | MSH, EVN, PID, PD1, PV1, AL1                | add_person                    |
+| ADT^A31      | MSH, EVN, PID, PD1, PV1, AL1, DG1, PR1      | update_person                 |
+| ADT^A34      | MSH, EVN, PID, PD1, MRG                     | merge                         |
+| ADT^A40      | MSH, EVN, PID, PD1, MRG, PV1                | merge                         |
+| MDM^T02      | MSH, EVN, PID, PV1, TXA, OBX                | document                      |
+| ORM^O01      | MSH, PID, PV1, ORC, OBR, NTE, OBX, NTE      | order                         |
+| ORR^O02      | MSH, MSA, PID, ORC                          | order                         |
+| ORU^R01      | MSH, PID, PV1, ORC, OBR, OBX, NTE           | results, clinical_note        |
+| ORU^R03      | MSH, PID, PV1, ORC, OBR, OBX, NTE           | results                       |
+| ORU^R32      | MSH, PID, PV1, ORC, OBR, OBX, NTE           | results                       |

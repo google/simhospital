@@ -3,7 +3,8 @@
 
 
 -   [Overview](#overview)
--   [Pathways](#pathways)
+-   [Basic Concepts](#basic-concepts)
+    *   [Pathways](#pathways)
 -   [Next steps](#next-steps)
 -   [Quickstart](#quickstart)
 
@@ -30,12 +31,22 @@ can be sent to an
 [MLLP](https://www.hl7.org/implement/standards/product_brief.cfm?product_id=55)
 host, saved to a txt file, or printed to the console.
 
-Simulated Hospital helps developers build and test clinical apps that work with
-HL7v2 by making it easy to generate HL7v2 messages that reproduce realistic
-situations in clinical settings. Simulated Hospital uses *pathways* to model
-clinical actions and events that occur to patients in hospitals.
+Simulated Hospital helps developers build and test clinical apps without access
+to real data. It makes it easy to generate HL7v2 messages that reproduce
+realistic situations in clinical settings.
 
-## Pathways
+## Basic Concepts
+
+The basic behavior of Simulated Hospital can be summarized as follows:
+
+*   Simulated Hospital creates *patients* at a configurable rate.
+*   When Simulated Hospital creates a patient, it associates the patient with a
+    *pathway*.
+*   A *pathway* models the *events* that will occur to the patient.
+*   Simulated Hospital runs *events* when they are due, in real time.
+*   When *events* run, they generate HL7v2 *messages*.
+
+### Pathways
 
 A pathway is a sequence of clinicial actions or events that describe the
 lifetime of a patient's stay in a hospital. An example of a simple pathway could
