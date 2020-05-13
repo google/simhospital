@@ -2,7 +2,10 @@
 
 
 
-
+-   [Overview](#overview)
+-   [Pathways](#pathways)
+-   [Next steps](#next-steps)
+-   [Quickstart](#quickstart)
 
 *Simulated Hospital* is a tool that generates realistic and configurable
 hospital patient data in
@@ -51,7 +54,7 @@ defined with words that are common in clinical settings such as "admission",
 
 ## Next steps
 
-*   Get started by [installing & running Simulated Hospital](./get-started.md).
+*   Get started by [downloading & running Simulated Hospital](./get-started.md).
 
 *   See an example of the
     [messages that Simulated Hospital generates](./sample.md).
@@ -86,3 +89,31 @@ defined with words that are common in clinical settings such as "admission",
     using source code. For instance, you can change the format of the
     identifiers that Simulated Hospital generates, or create your own behavior
     for some events.
+
+## Quickstart
+
+Prerequisites: install [bazel](https://bazel.build/) and
+[git](https://git-scm.com/downloads).
+
+Download the code into a `simhospital` local folder.
+
+```shell
+git clone https://github.com/google/simhospital.git
+```
+
+`cd` into the folder:
+
+```shell
+cd simhospital
+```
+
+Run Simulated Hospital:
+
+```shell
+bazel run //cmd/simulator:simulator -- --local_path=$(pwd)
+```
+
+Stop the simulator with Ctrl-C.
+
+See more instructions on how to
+[download & run Simulated Hospital](./get-started.md).

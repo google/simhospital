@@ -2,7 +2,13 @@
 
 
 
-
+-   [Message destination](#message-destination)
+-   [Data configuration](#data-configuration)
+-   [Pathways](#pathways)
+-   [Tool setup](#tool-setup)
+    *   [HL7 config](#hl7-config)
+    *   [Dashboard](#dashboard)
+    *   [Runtime](#runtime)
 
 Command-line arguments (shortened here to _arguments_) change the default
 behavior of Simulated Hospital. This means you can do the following:

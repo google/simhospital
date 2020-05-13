@@ -1,6 +1,15 @@
 # Extend Simulated Hospital
 
-
+-   [Overview](#overview)
+-   [Custom event and message processors](#custom-event-and-message-processors)
+    *   [Example: An event that generates multiple messages](#example-an-event-that-generates-multiple-messages)
+    *   [Example: Generic events](#example-generic-events)
+-   [Validation functions](#validation-functions)
+-   [Item syncers](#item-syncers)
+-   [Data generators](#data-generators)
+    *   [Identifiers](#identifiers)
+    *   [Addresses of patients](#addresses-of-patients)
+-   [Arbitrary patient data](#arbitrary-patient-data)
 
 This page explains how you can write source code to extend the functionality of
 Simulated Hospital. You will need to import the hospital library and create your

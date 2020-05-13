@@ -1,6 +1,6 @@
 # Monitor Simulated Hospital
 
-
+-   [Multiple instances](#multiple-instances)
 
 You can use [Prometheus](https://prometheus.io/) to browse and monitor metrics
 from Simulated Hospital. Prometheus sends HTTP requests to pull data from

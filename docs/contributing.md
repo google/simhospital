@@ -1,6 +1,8 @@
 # How to Contribute
 
-
+-   [Contributor License Agreement](#contributor-license-agreement)
+-   [Code reviews](#code-reviews)
+-   [Community Guidelines](#community-guidelines)
 
 We'd love to accept your patches and contributions to this project. There are
 just a few small guidelines you need to follow.

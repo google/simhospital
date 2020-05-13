@@ -1,6 +1,10 @@
 # Dashboard
 
-
+-   [Open the dashboard](#open-the-dashboard)
+-   [Simulation rate](#simulation-rate)
+    *   [Set the rate programmatically](#set-the-rate-programmatically)
+-   [Run a pathway](#run-a-pathway)
+-   [Send a raw message](#send-a-raw-message)
 
 Simulated Hospital includes a built-in web app (called **Dashboard**) to manage
 running instances. This document explains how you can manage Simulated Hospital

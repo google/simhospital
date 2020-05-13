@@ -1,5 +1,7 @@
 # Sample output
 
+-   [Sample messages](#sample-messages)
+
 ## Sample messages
 
 The following two messages have been generated with the default Simulated

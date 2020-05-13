@@ -1,6 +1,13 @@
 # Get started
 
-
+-   [Run your own instance of Simulated Hospital](#run-your-own-instance-of-simulated-hospital)
+    *   [Download](#download)
+    *   [Run with Bazel](#run-with-bazel)
+    *   [Create Docker image](#create-docker-image)
+    *   [Publish Docker image](#publish-docker-image)
+-   [Run in Docker](#run-in-docker)
+-   [Troubleshooting](#troubleshooting)
+    *   [Error: cannot parse locations file: no such file or directory](#error-cannot-parse-locations-file-no-such-file-or-directory)
 
 ## Run your own instance of Simulated Hospital
 
