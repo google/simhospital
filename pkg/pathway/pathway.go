@@ -363,8 +363,10 @@ type Document struct {
 	// ObsIdentifierCS populates the Coding System of the OBX.3-Observation Identifier field.
 	// Simulated Hospital generates a value if this is null, but preserves an explicit empty string.
 	ObsIdentifierCS *string `yaml:"observation_identifier_coding_system"`
-	// ContentLinesLength is an optional parameter to control the number of OBX segments with the document content.
-	// Simulated Hospital chooses this length randomly between 10 and 50 if this isn't set.
+	// EndingContentLines is an optional parameter that sets the last content lines in the document content.
+	EndingContentLines []string `yaml:"ending_content_lines"`
+	// NumContentLines is an optional parameter to control the number of OBX segments with the document content.
+	// Simulated Hospital chooses this number randomly between 10 and 50 if this isn't set.
 	NumContentLines *Interval `yaml:"num_content_lines"`
 }
 

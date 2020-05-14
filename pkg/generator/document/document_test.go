@@ -34,6 +34,7 @@ var (
 	HL7Document = config.HL7Document{
 		Types: []string{"AR", "CD", "CN", "DI", "DS"},
 	}
+	sampleText = []string{"sample-text-1", "sample-text-2"}
 )
 
 func TestDocument(t *testing.T) {
@@ -158,5 +159,17 @@ func TestDocument_NumContentLines(t *testing.T) {
 	gotDoc := g.Document(date, d)
 	if got := len(gotDoc.ContentLine); got != 30 {
 		t.Errorf("len(g.Document().ContentLine) got %v, want 30", got)
+	}
+}
+
+func TestDocument_SetEndingContentLines(t *testing.T) {
+	d := &pathway.Document{EndingContentLines: sampleText}
+	g := Generator{DocumentConfig: &HL7Document, TextGenerator: &text.Generator{Nouns: nouns}}
+	gotDoc := g.Document(date, d)
+	l := len(gotDoc.ContentLine)
+	last := []string{gotDoc.ContentLine[l-2], gotDoc.ContentLine[l-1]}
+	want := []string{"sample-text-1", "sample-text-2"}
+	if diff := cmp.Diff(want, last); diff != "" {
+		t.Errorf("Last two lines of the content returned diff:\n%s", diff)
 	}
 }

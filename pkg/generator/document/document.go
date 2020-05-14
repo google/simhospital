@@ -68,6 +68,7 @@ func (g *Generator) Document(eventTime time.Time, d *pathway.Document) *message.
 	id := obsID
 	text := obsID
 	cs := obsCS
+	contentLine := g.TextGenerator.RandomSentences(randLen)
 
 	if docType == "" {
 		docType = g.DocumentConfig.Types[rand.Intn(len(g.DocumentConfig.Types))]
@@ -84,6 +85,9 @@ func (g *Generator) Document(eventTime time.Time, d *pathway.Document) *message.
 	if d.ObsIdentifierCS != nil {
 		cs = *d.ObsIdentifierCS
 	}
+	if len(d.EndingContentLines) != 0 {
+		contentLine = append(contentLine, d.EndingContentLines...)
+	}
 	return &message.Document{
 		ActivityDateTime:         e,
 		EditDateTime:             e,
@@ -95,7 +99,7 @@ func (g *Generator) Document(eventTime time.Time, d *pathway.Document) *message.
 			CodingSystem: cs,
 		},
 		UniqueDocumentNumber: randomUniqueDocumentNumber(),
-		ContentLine:          g.TextGenerator.RandomSentences(randLen),
+		ContentLine:          contentLine,
 	}
 }
 

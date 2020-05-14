@@ -445,6 +445,8 @@ This step has the following optional parameters:
 *   `observation_identifier_coding_system` populates the Coding System of the
     OBX.3-Observation Identifier field. If not set in the pathway, it defaults
     to *Simulation*.
+*   `ending_content_lines` sets the last content lines in the document if fixed
+    content needs to be set.
 *   `num_content_lines` specifies the range of content lines using the `from`
     and `to` attributes. If not set in the pathway, it is chosen at random in
     range 10 - 50.
@@ -460,6 +462,9 @@ pathway_with_document:
       observation_identifier_id: obs-id
       observation_identifier_text: obs-text
       observation_identifier_coding_system: coding-system
+      ending_content_lines:
+        - sample-text-1
+        - sample-text-2
       num_content_lines:
         from: 10
         to: 60
