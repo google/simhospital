@@ -46,7 +46,7 @@ var chars = []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 // Generator generates a document.
 type Generator struct {
 	DocumentConfig *config.HL7Document
-	TextGenerator  *text.Generator
+	TextGenerator  text.Generator
 }
 
 // Document returns a Document from the given configuration.
@@ -68,7 +68,7 @@ func (g *Generator) Document(eventTime time.Time, d *pathway.Document) *message.
 	id := obsID
 	text := obsID
 	cs := obsCS
-	contentLine := g.TextGenerator.RandomSentences(randLen)
+	contentLine := g.TextGenerator.Sentences(randLen)
 
 	if docType == "" {
 		docType = g.DocumentConfig.Types[rand.Intn(len(g.DocumentConfig.Types))]

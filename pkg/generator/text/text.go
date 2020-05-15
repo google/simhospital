@@ -20,18 +20,24 @@ import (
 	"strings"
 )
 
+// Generator is a generator of text.
+type Generator interface {
+	// Sentences generates n sentences.
+	Sentences(int) []string
+}
+
 // maxWords is the maximum number of words generated in a sentence.
 const maxWords = 10
 
-// Generator generates random sentences.
-type Generator struct {
+// NounGenerator generates text by concatenating nouns.
+type NounGenerator struct {
 	Nouns []string
 }
 
 // randomSentence returns a random sentence consisting of between [1, max] random nouns,
 // separated by an empty space.
 // The first word starts with a capital letter.
-func (g *Generator) randomSentence(max int) string {
+func (g *NounGenerator) randomSentence(max int) string {
 	r := rand.Intn(max)
 	w := make([]string, 0)
 	for i := 0; i <= r; i++ {
@@ -41,12 +47,12 @@ func (g *Generator) randomSentence(max int) string {
 	return strings.Join(w, " ")
 }
 
-func (g *Generator) randomNoun() string {
+func (g *NounGenerator) randomNoun() string {
 	return g.Nouns[rand.Intn(len(g.Nouns))]
 }
 
-// RandomSentences returns an array of n number of random sentences.
-func (g *Generator) RandomSentences(n int) []string {
+// Sentences returns an array of n random sentences.
+func (g *NounGenerator) Sentences(n int) []string {
 	contentLine := make([]string, 0, n)
 	for i := 0; i < n; i++ {
 		contentLine = append(contentLine, g.randomSentence(maxWords))

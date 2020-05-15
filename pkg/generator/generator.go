@@ -289,7 +289,7 @@ type Config struct {
 	MRNGenerator     id.Generator
 	PlacerGenerator  id.Generator
 	FillerGenerator  id.Generator
-	textGenerator    *text.Generator
+	textGenerator    text.Generator
 	NotesGenerator   order.NotesGenerator
 	DateGenerator    codedelement.DateGenerator
 	Data             *config.Data
@@ -322,7 +322,7 @@ func NewGenerator(cfg Config) *Generator {
 
 	tg := cfg.textGenerator
 	if tg == nil {
-		tg = &text.Generator{Nouns: cfg.Data.Nouns}
+		tg = &text.NounGenerator{Nouns: cfg.Data.Nouns}
 	}
 
 	ng := cfg.NotesGenerator

@@ -47,12 +47,12 @@ const (
 type Generator struct {
 	config        map[string][]config.ClinicalNote
 	types         []string
-	textGenerator *text.Generator
+	textGenerator text.Generator
 	numSentences  int
 }
 
 // NewGenerator returns a new Generator struct.
-func NewGenerator(d *config.Data, t *text.Generator) *Generator {
+func NewGenerator(d *config.Data, t text.Generator) *Generator {
 	return &Generator{
 		config:        d.NotesConfig,
 		types:         d.ClinicalNoteTypes,
@@ -105,7 +105,7 @@ func (g *Generator) contentAndEncoding(contentType string, documentContent strin
 
 	switch contentType {
 	case txt:
-		sentences := g.textGenerator.RandomSentences(g.numSentences)
+		sentences := g.textGenerator.Sentences(g.numSentences)
 		return strings.Join(sentences, ". "), "", nil
 	// pdf, jpg and png document contents can contain delimiters used in HL7 messages eg, pipes.
 	// So these files are encoded in base64 to make sure the HL7 messages are parsable.
@@ -135,9 +135,9 @@ func (g *Generator) RandomNotesForResult() []string {
 	case r < 4:
 		return nil
 	case r < 9:
-		return g.textGenerator.RandomSentences(1)
+		return g.textGenerator.Sentences(1)
 	default:
-		return g.textGenerator.RandomSentences(2)
+		return g.textGenerator.Sentences(2)
 	}
 }
 

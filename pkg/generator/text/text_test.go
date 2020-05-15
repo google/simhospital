@@ -23,23 +23,23 @@ import (
 
 var nouns = []string{"one", "two", "three", "four", "five"}
 
-func TestRandomSentences_Length(t *testing.T) {
-	g := Generator{Nouns: nouns}
-	if got, want := len(g.RandomSentences(10)), 10; got != want {
-		t.Errorf("len(g.RandomSentences(%v) got %v, want %v", 10, got, want)
+func TestNounGenerator_Sentences_Length(t *testing.T) {
+	g := NounGenerator{Nouns: nouns}
+	if got, want := len(g.Sentences(10)), 10; got != want {
+		t.Errorf("len(g.Sentences(%v) got %v, want %v", 10, got, want)
 	}
 }
 
-func TestRandomSentences_TextIsRandom(t *testing.T) {
+func TestNounGenerator_Sentences_TextIsRandom(t *testing.T) {
 	rand.Seed(1)
-	g := &Generator{Nouns: nouns}
+	g := &NounGenerator{Nouns: nouns}
 	runs := float64(100)
 	sentencesPerRun := 10
 	sentenceLenDistr := map[int]int{}
 	wordDistr := map[string]int{}
 	wordCount := 0
 	for i := 0; i < int(runs); i++ {
-		sentences := g.RandomSentences(sentencesPerRun)
+		sentences := g.Sentences(sentencesPerRun)
 		if ls := len(sentences); ls != 10 {
 			t.Errorf("len(sentences)=%d, want exactly 10. Sentences: %v", ls, sentences)
 		}

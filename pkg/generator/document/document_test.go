@@ -87,7 +87,7 @@ func TestDocument(t *testing.T) {
 	}}
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			g := Generator{DocumentConfig: &HL7Document, TextGenerator: &text.Generator{Nouns: nouns}}
+			g := Generator{DocumentConfig: &HL7Document, TextGenerator: &text.NounGenerator{Nouns: nouns}}
 			got := g.Document(date, tc.input)
 
 			// UniqueDocumentNumber is randomly generated with each document generation.
@@ -111,7 +111,7 @@ func TestDocument(t *testing.T) {
 
 func TestDocument_RandomDocumentTypeDoesntModifyInput(t *testing.T) {
 	dt := &pathway.Document{}
-	g := Generator{DocumentConfig: &HL7Document, TextGenerator: &text.Generator{Nouns: nouns}}
+	g := Generator{DocumentConfig: &HL7Document, TextGenerator: &text.NounGenerator{Nouns: nouns}}
 	gotDocument := g.Document(date, dt)
 
 	if got := gotDocument.DocumentType; got == "" {
@@ -125,7 +125,7 @@ func TestDocument_RandomDocumentTypeDoesntModifyInput(t *testing.T) {
 
 func TestDocument_RandomDocumentType(t *testing.T) {
 	rand.Seed(1)
-	g := Generator{DocumentConfig: &HL7Document, TextGenerator: &text.Generator{Nouns: nouns}}
+	g := Generator{DocumentConfig: &HL7Document, TextGenerator: &text.NounGenerator{Nouns: nouns}}
 	runs := float64(1000)
 	docTypeDistr := map[string]int{}
 	for i := 0; i < int(runs); i++ {
@@ -155,7 +155,7 @@ func TestDocument_RandomDocumentType(t *testing.T) {
 
 func TestDocument_NumContentLines(t *testing.T) {
 	d := &pathway.Document{DocumentType: "DS", NumContentLines: &pathway.Interval{From: 30, To: 30}}
-	g := Generator{DocumentConfig: &HL7Document, TextGenerator: &text.Generator{Nouns: nouns}}
+	g := Generator{DocumentConfig: &HL7Document, TextGenerator: &text.NounGenerator{Nouns: nouns}}
 	gotDoc := g.Document(date, d)
 	if got := len(gotDoc.ContentLine); got != 30 {
 		t.Errorf("len(g.Document().ContentLine) got %v, want 30", got)
@@ -164,7 +164,7 @@ func TestDocument_NumContentLines(t *testing.T) {
 
 func TestDocument_SetEndingContentLines(t *testing.T) {
 	d := &pathway.Document{EndingContentLines: sampleText}
-	g := Generator{DocumentConfig: &HL7Document, TextGenerator: &text.Generator{Nouns: nouns}}
+	g := Generator{DocumentConfig: &HL7Document, TextGenerator: &text.NounGenerator{Nouns: nouns}}
 	gotDoc := g.Document(date, d)
 	l := len(gotDoc.ContentLine)
 	last := []string{gotDoc.ContentLine[l-2], gotDoc.ContentLine[l-1]}

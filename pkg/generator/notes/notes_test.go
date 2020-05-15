@@ -59,7 +59,7 @@ func TestRandomDocumentForClinicalNote(t *testing.T) {
 	rand.Seed(1)
 	nc, fc := testSetup(t)
 	g := &Generator{
-		textGenerator: &text.Generator{Nouns: nouns},
+		textGenerator: &text.NounGenerator{Nouns: nouns},
 		config:        nc,
 		types:         noteTypes,
 		numSentences:  testNumSentences,
@@ -305,7 +305,7 @@ func TestRandomDocumentForClinicalNote(t *testing.T) {
 
 func TestRandomNotesForResult(t *testing.T) {
 	rand.Seed(1)
-	g := Generator{textGenerator: &text.Generator{Nouns: nouns}}
+	g := Generator{textGenerator: &text.NounGenerator{Nouns: nouns}}
 	runs := float64(1000)
 	runsWithNotes := float64(0)
 	noteLenDistr := map[int]int{}
@@ -343,7 +343,7 @@ func TestRandomNotesForResult(t *testing.T) {
 func TestRandomInvalidContentTypeError(t *testing.T) {
 	nc, _ := testSetup(t)
 	g := &Generator{
-		textGenerator: &text.Generator{Nouns: nouns},
+		textGenerator: &text.NounGenerator{Nouns: nouns},
 		config:        nc,
 		types:         noteTypes,
 		numSentences:  testNumSentences,
@@ -377,7 +377,7 @@ func TestRandomUniformDistribution(t *testing.T) {
 	rand.Seed(1)
 	nc, fc := testSetup(t)
 	g := &Generator{
-		textGenerator: &text.Generator{Nouns: nouns},
+		textGenerator: &text.NounGenerator{Nouns: nouns},
 		config:        nc,
 		types:         noteTypes,
 	}
