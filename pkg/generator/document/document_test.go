@@ -23,18 +23,17 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/google/simhospital/pkg/config"
-	"github.com/google/simhospital/pkg/generator/text"
 	"github.com/google/simhospital/pkg/message"
 	"github.com/google/simhospital/pkg/pathway"
+	"github.com/google/simhospital/pkg/test/testtext"
 )
 
 var (
 	date        = time.Date(2018, 2, 12, 1, 25, 0, 0, time.UTC)
-	nouns       = []string{"one", "two", "three", "four", "five"}
 	HL7Document = config.HL7Document{
 		Types: []string{"AR", "CD", "CN", "DI", "DS"},
 	}
-	sampleText = []string{"sample-text-1", "sample-text-2"}
+	textGenerator = &testtext.Generator{Text: []string{"sample-text-1", "sample-text-2"}}
 )
 
 func TestDocument(t *testing.T) {
@@ -87,7 +86,7 @@ func TestDocument(t *testing.T) {
 	}}
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			g := Generator{DocumentConfig: &HL7Document, TextGenerator: &text.NounGenerator{Nouns: nouns}}
+			g := Generator{DocumentConfig: &HL7Document, TextGenerator: textGenerator}
 			got := g.Document(date, tc.input)
 
 			// UniqueDocumentNumber is randomly generated with each document generation.
@@ -111,7 +110,7 @@ func TestDocument(t *testing.T) {
 
 func TestDocument_RandomDocumentTypeDoesntModifyInput(t *testing.T) {
 	dt := &pathway.Document{}
-	g := Generator{DocumentConfig: &HL7Document, TextGenerator: &text.NounGenerator{Nouns: nouns}}
+	g := Generator{DocumentConfig: &HL7Document, TextGenerator: textGenerator}
 	gotDocument := g.Document(date, dt)
 
 	if got := gotDocument.DocumentType; got == "" {
@@ -125,7 +124,7 @@ func TestDocument_RandomDocumentTypeDoesntModifyInput(t *testing.T) {
 
 func TestDocument_RandomDocumentType(t *testing.T) {
 	rand.Seed(1)
-	g := Generator{DocumentConfig: &HL7Document, TextGenerator: &text.NounGenerator{Nouns: nouns}}
+	g := Generator{DocumentConfig: &HL7Document, TextGenerator: textGenerator}
 	runs := float64(1000)
 	docTypeDistr := map[string]int{}
 	for i := 0; i < int(runs); i++ {
@@ -153,23 +152,58 @@ func TestDocument_RandomDocumentType(t *testing.T) {
 	}
 }
 
-func TestDocument_NumContentLines(t *testing.T) {
-	d := &pathway.Document{DocumentType: "DS", NumContentLines: &pathway.Interval{From: 30, To: 30}}
-	g := Generator{DocumentConfig: &HL7Document, TextGenerator: &text.NounGenerator{Nouns: nouns}}
-	gotDoc := g.Document(date, d)
-	if got := len(gotDoc.ContentLine); got != 30 {
-		t.Errorf("len(g.Document().ContentLine) got %v, want 30", got)
-	}
-}
+func TestDocument_ContentLine(t *testing.T) {
+	textGenerator := &testtext.Generator{Text: []string{"sentence 1", "sentence 2", "sentence 3"}}
+	tests := []struct {
+		name string
+		d    *pathway.Document
+		want []string
+	}{{
+		name: "Interval with 0",
+		d: &pathway.Document{
+			DocumentType:    "DS",
+			NumContentLines: &pathway.Interval{From: 0, To: 0},
+		},
+		want: nil,
+	}, {
+		name: "Random 5 sentences",
+		d: &pathway.Document{
+			DocumentType:    "DS",
+			NumContentLines: &pathway.Interval{From: 4, To: 4},
+		},
+		want: []string{"sentence 1", "sentence 2", "sentence 3", "sentence 1"},
+	}, {
+		name: "Empty interval",
+		d: &pathway.Document{
+			DocumentType:    "DS",
+			NumContentLines: &pathway.Interval{},
+		},
+		want: nil,
+	}, {
+		name: "Ending only",
+		d: &pathway.Document{
+			DocumentType:       "DS",
+			NumContentLines:    &pathway.Interval{},
+			EndingContentLines: []string{"ending 1", "ending 2"},
+		},
+		want: []string{"ending 1", "ending 2"},
+	}, {
+		name: "Random and ending",
+		d: &pathway.Document{
+			DocumentType:       "DS",
+			NumContentLines:    &pathway.Interval{From: 4, To: 4},
+			EndingContentLines: []string{"ending 1", "ending 2"},
+		},
+		want: []string{"sentence 1", "sentence 2", "sentence 3", "sentence 1", "ending 1", "ending 2"},
+	}}
 
-func TestDocument_SetEndingContentLines(t *testing.T) {
-	d := &pathway.Document{EndingContentLines: sampleText}
-	g := Generator{DocumentConfig: &HL7Document, TextGenerator: &text.NounGenerator{Nouns: nouns}}
-	gotDoc := g.Document(date, d)
-	l := len(gotDoc.ContentLine)
-	last := []string{gotDoc.ContentLine[l-2], gotDoc.ContentLine[l-1]}
-	want := []string{"sample-text-1", "sample-text-2"}
-	if diff := cmp.Diff(want, last); diff != "" {
-		t.Errorf("Last two lines of the content returned diff:\n%s", diff)
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			g := Generator{DocumentConfig: &HL7Document, TextGenerator: textGenerator}
+			gotDoc := g.Document(date, tc.d)
+			if diff := cmp.Diff(tc.want, gotDoc.ContentLine); diff != "" {
+				t.Errorf("g.Document(%v, %+v).ContentLine got diff:\n%s", date, tc.d, diff)
+			}
+		})
 	}
 }

@@ -37,9 +37,9 @@ go_test(
     embed = [":go_default_library"],
     deps = [
         "//pkg/config:go_default_library",
-        "//pkg/generator/text:go_default_library",
         "//pkg/message:go_default_library",
         "//pkg/pathway:go_default_library",
+        "//pkg/test/testtext:go_default_library",
         "@com_github_google_go_cmp//cmp:go_default_library",
         "@com_github_google_go_cmp//cmp/cmpopts:go_default_library",
     ],
