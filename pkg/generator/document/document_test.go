@@ -161,40 +161,74 @@ func TestDocument_ContentLine(t *testing.T) {
 	}{{
 		name: "Interval with 0",
 		d: &pathway.Document{
-			DocumentType:    "DS",
-			NumContentLines: &pathway.Interval{From: 0, To: 0},
+			DocumentType:          "DS",
+			NumRandomContentLines: &pathway.Interval{From: 0, To: 0},
 		},
 		want: nil,
 	}, {
 		name: "Random 5 sentences",
 		d: &pathway.Document{
-			DocumentType:    "DS",
-			NumContentLines: &pathway.Interval{From: 4, To: 4},
+			DocumentType:          "DS",
+			NumRandomContentLines: &pathway.Interval{From: 4, To: 4},
 		},
 		want: []string{"sentence 1", "sentence 2", "sentence 3", "sentence 1"},
 	}, {
 		name: "Empty interval",
 		d: &pathway.Document{
-			DocumentType:    "DS",
-			NumContentLines: &pathway.Interval{},
+			DocumentType:          "DS",
+			NumRandomContentLines: &pathway.Interval{},
 		},
 		want: nil,
 	}, {
 		name: "Ending only",
 		d: &pathway.Document{
-			DocumentType:       "DS",
-			NumContentLines:    &pathway.Interval{},
-			EndingContentLines: []string{"ending 1", "ending 2"},
+			DocumentType:          "DS",
+			NumRandomContentLines: &pathway.Interval{},
+			EndingContentLines:    []string{"ending 1", "ending 2"},
 		},
 		want: []string{"ending 1", "ending 2"},
 	}, {
 		name: "Random and ending",
 		d: &pathway.Document{
-			DocumentType:       "DS",
-			NumContentLines:    &pathway.Interval{From: 4, To: 4},
-			EndingContentLines: []string{"ending 1", "ending 2"},
+			DocumentType:          "DS",
+			NumRandomContentLines: &pathway.Interval{From: 4, To: 4},
+			EndingContentLines:    []string{"ending 1", "ending 2"},
 		},
 		want: []string{"sentence 1", "sentence 2", "sentence 3", "sentence 1", "ending 1", "ending 2"},
+	}, {
+		name: "Header and Random",
+		d: &pathway.Document{
+			DocumentType:          "DS",
+			NumRandomContentLines: &pathway.Interval{From: 4, To: 4},
+			HeaderContentLines:    []string{"header 1", "header 2"},
+		},
+		want: []string{"header 1", "header 2", "sentence 1", "sentence 2", "sentence 3", "sentence 1"},
+	}, {
+		name: "Header only",
+		d: &pathway.Document{
+			DocumentType:          "DS",
+			NumRandomContentLines: &pathway.Interval{},
+			HeaderContentLines:    []string{"header 1", "header 2"},
+		},
+		want: []string{"header 1", "header 2"},
+	}, {
+		name: "Header and Random and Ending",
+		d: &pathway.Document{
+			DocumentType:          "DS",
+			NumRandomContentLines: &pathway.Interval{From: 4, To: 4},
+			HeaderContentLines:    []string{"header 1", "header 2"},
+			EndingContentLines:    []string{"ending 1", "ending 2"},
+		},
+		want: []string{"header 1", "header 2", "sentence 1", "sentence 2", "sentence 3", "sentence 1", "ending 1", "ending 2"},
+	}, {
+		name: "Header and Ending",
+		d: &pathway.Document{
+			DocumentType:          "DS",
+			NumRandomContentLines: &pathway.Interval{},
+			HeaderContentLines:    []string{"header 1", "header 2"},
+			EndingContentLines:    []string{"ending 1", "ending 2"},
+		},
+		want: []string{"header 1", "header 2", "ending 1", "ending 2"},
 	}}
 
 	for _, tc := range tests {

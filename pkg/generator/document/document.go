@@ -54,21 +54,12 @@ type Generator struct {
 // A UniqueDocumentNumber is randomly generated.
 // ActivityDateTime and EditDateTime are set to eventTime.
 func (g *Generator) Document(eventTime time.Time, d *pathway.Document) *message.Document {
-	randLen := 0
-	cll := d.NumContentLines
-	if cll == nil {
-		i := &pathway.Interval{To: maxLines, From: minLines}
-		randLen = i.Random()
-	} else {
-		randLen = d.NumContentLines.Random()
-	}
 	e := message.NewValidTime(eventTime)
 	docType := d.DocumentType
 	status := d.CompletionStatus
 	id := obsID
 	text := obsID
 	cs := obsCS
-	contentLine := g.TextGenerator.Sentences(randLen)
 
 	if docType == "" {
 		docType = g.DocumentConfig.Types[rand.Intn(len(g.DocumentConfig.Types))]
@@ -85,9 +76,6 @@ func (g *Generator) Document(eventTime time.Time, d *pathway.Document) *message.
 	if d.ObsIdentifierCS != nil {
 		cs = *d.ObsIdentifierCS
 	}
-	if len(d.EndingContentLines) != 0 {
-		contentLine = append(contentLine, d.EndingContentLines...)
-	}
 	return &message.Document{
 		ActivityDateTime:         e,
 		EditDateTime:             e,
@@ -99,8 +87,29 @@ func (g *Generator) Document(eventTime time.Time, d *pathway.Document) *message.
 			CodingSystem: cs,
 		},
 		UniqueDocumentNumber: randomUniqueDocumentNumber(),
-		ContentLine:          contentLine,
+		ContentLine:          g.content(d),
 	}
+}
+
+func (g *Generator) content(d *pathway.Document) []string {
+	randLen := 0
+	if d.NumRandomContentLines == nil {
+		i := &pathway.Interval{To: maxLines, From: minLines}
+		randLen = i.Random()
+	} else {
+		randLen = d.NumRandomContentLines.Random()
+	}
+	var contentLine []string
+	if len(d.HeaderContentLines) != 0 {
+		contentLine = append(contentLine, d.HeaderContentLines...)
+	}
+	if randLen != 0 {
+		contentLine = append(contentLine, g.TextGenerator.Sentences(randLen)...)
+	}
+	if len(d.EndingContentLines) != 0 {
+		contentLine = append(contentLine, d.EndingContentLines...)
+	}
+	return contentLine
 }
 
 func randomUniqueDocumentNumber() string {

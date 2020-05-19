@@ -429,7 +429,11 @@ A `document` step creates documents such as an autopsy reports, diagnostic
 images, discharge summaries and cardiodiagnostics. It produces a MDM^T02 message
 with an TXA and an OBX segment.
 
-This step has the following optional parameters:
+This step allows customizing the document properties and/or the content.
+
+#### Document properties
+
+This step has the following optional parameters to set the document properties:
 
 *   `document_type` populates the TXA.2-Document Type field. If not set in the
     pathway, the document type is chosen at random from the configurable list in
@@ -445,11 +449,6 @@ This step has the following optional parameters:
 *   `observation_identifier_coding_system` populates the Coding System of the
     OBX.3-Observation Identifier field. If not set in the pathway, it defaults
     to *Simulation*.
-*   `ending_content_lines` sets the last content lines in the document if fixed
-    content needs to be set.
-*   `num_content_lines` specifies the range of content lines using the `from`
-    and `to` attributes. If not set in the pathway, it is chosen at random in
-    range 10 - 50.
 
 Example:
 
@@ -462,12 +461,49 @@ pathway_with_document:
       observation_identifier_id: obs-id
       observation_identifier_text: obs-text
       observation_identifier_coding_system: coding-system
+```
+
+#### Content
+
+The `document` step generates random textual content divided into lines, and
+each line of the content becomes an *OBX* segment.
+
+It is possible to set fixed content for the header, ending, or both, in order to
+make the document follow the expected structure of a clinical system.
+
+The following optional fields control the document's content:
+
+*   `header_content_lines` sets the first lines in the document if fixed content
+    needs to be set.
+*   `ending_content_lines` sets the last lines in the document if fixed content
+    needs to be set.
+*   `num_random_content_lines` specifies the range of content lines using the
+    `from` and `to` attributes. If not set in the pathway, Simulated Hospital
+    generates a random number of lines between 10 and 50. If you do not want
+    random content, set this to 0 or set as empty.
+
+Example of a document with a fixed header and a fixed ending, and random content
+in between:
+
+```yaml
+  - document:
+      header_content_lines:
+        - header-text-line-1
+        - header-text-line-2
       ending_content_lines:
-        - sample-text-1
-        - sample-text-2
-      num_content_lines:
-        from: 10
-        to: 60
+        - ending-text-line-1
+        - ending-text-line-2
+```
+
+Example of a document with fixed content only:
+
+```yaml
+  - document:
+      header_content_lines:
+        - content-text-line-1
+        - content-text-line-2
+        - content-text-line-3
+      num_random_content_lines: {}
 ```
 
 ### Discharge

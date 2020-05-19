@@ -94,7 +94,7 @@ one_random_document:
   percentage_of_patients: 0.1
   pathway:
   - document:
-      num_content_lines:
+      num_random_content_lines:
         from: 10
         to: 80
 

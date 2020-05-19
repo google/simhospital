@@ -936,15 +936,17 @@ func TestPathwayValidPathway(t *testing.T) {
 		{pathway: &Pathway{Pathway: []Step{{Order: &Order{OrderID: "order1", OrderProfile: "profile"}}, {Result: &Results{OrderID: "order2", OrderProfile: "profile"}}, validNote}}, wantErr: false},
 		{pathway: &Pathway{Pathway: []Step{{Order: &Order{OrderID: "order1", OrderProfile: "profile"}}, {Result: &Results{OrderID: "order2", OrderProfile: "profile"}}, invalidNote}}, wantErr: true},
 		{pathway: &Pathway{Pathway: []Step{{Document: &Document{}}}}, wantErr: false},
-		// All NumContentLines in Documents must be valid Intervals.
-		{pathway: &Pathway{Pathway: []Step{{Document: &Document{NumContentLines: &Interval{To: -1}}}}}, wantErr: true},
-		{pathway: &Pathway{Pathway: []Step{{Document: &Document{NumContentLines: &Interval{From: -1}}}}}, wantErr: true},
-		{pathway: &Pathway{Pathway: []Step{{Document: &Document{NumContentLines: &Interval{To: 20}}}}}, wantErr: false},
-		{pathway: &Pathway{Pathway: []Step{{Document: &Document{NumContentLines: &Interval{From: 10}}}}}, wantErr: true},
-		{pathway: &Pathway{Pathway: []Step{{Document: &Document{NumContentLines: &Interval{To: 0}}}}}, wantErr: false},
-		{pathway: &Pathway{Pathway: []Step{{Document: &Document{NumContentLines: &Interval{From: 30, To: 10}}}}}, wantErr: true},
-		{pathway: &Pathway{Pathway: []Step{{Document: &Document{NumContentLines: &Interval{From: 10, To: 30}}}}}, wantErr: false},
-		{pathway: &Pathway{Pathway: []Step{{Document: &Document{NumContentLines: &Interval{From: 10, To: 10}}}}}, wantErr: false},
+		// All NumRandomContentLines in Documents must be valid Intervals.
+		{pathway: &Pathway{Pathway: []Step{{Document: &Document{NumRandomContentLines: &Interval{To: -1}}}}}, wantErr: true},
+		{pathway: &Pathway{Pathway: []Step{{Document: &Document{NumRandomContentLines: &Interval{From: -1}}}}}, wantErr: true},
+		{pathway: &Pathway{Pathway: []Step{{Document: &Document{NumRandomContentLines: &Interval{To: 20}}}}}, wantErr: false},
+		{pathway: &Pathway{Pathway: []Step{{Document: &Document{NumRandomContentLines: &Interval{From: 10}}}}}, wantErr: true},
+		{pathway: &Pathway{Pathway: []Step{{Document: &Document{NumRandomContentLines: &Interval{To: 0}}}}}, wantErr: false},
+		{pathway: &Pathway{Pathway: []Step{{Document: &Document{NumRandomContentLines: &Interval{From: 30, To: 10}}}}}, wantErr: true},
+		{pathway: &Pathway{Pathway: []Step{{Document: &Document{NumRandomContentLines: &Interval{From: 10, To: 30}}}}}, wantErr: false},
+		{pathway: &Pathway{Pathway: []Step{{Document: &Document{NumRandomContentLines: &Interval{From: 10, To: 10}}}}}, wantErr: false},
+		{pathway: &Pathway{Pathway: []Step{{Document: &Document{NumRandomContentLines: &Interval{From: 0, To: 0}}}}}, wantErr: false},
+		{pathway: &Pathway{Pathway: []Step{{Document: &Document{NumRandomContentLines: &Interval{}}}}}, wantErr: false},
 	}
 
 	for i, tc := range cases {

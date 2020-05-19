@@ -619,8 +619,8 @@ func (s Step) valid(now time.Time, lm *location.Manager) error {
 	if s.Delay != nil && s.Parameters != nil && s.Parameters.DelayMessage != nil {
 		return errors.New("a Delay step cannot have delay_message")
 	}
-	if s.Document != nil && s.Document.NumContentLines != nil {
-		if err := s.Document.NumContentLines.valid(); err != nil {
+	if s.Document != nil && s.Document.NumRandomContentLines != nil {
+		if err := s.Document.NumRandomContentLines.valid(); err != nil {
 			return errors.Wrap(err, "invalid Document.ContentLinesLength")
 		}
 	}

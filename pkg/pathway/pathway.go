@@ -363,11 +363,14 @@ type Document struct {
 	// ObsIdentifierCS populates the Coding System of the OBX.3-Observation Identifier field.
 	// Simulated Hospital generates a value if this is null, but preserves an explicit empty string.
 	ObsIdentifierCS *string `yaml:"observation_identifier_coding_system"`
-	// EndingContentLines is an optional parameter that sets the last content lines in the document content.
+	// EndingContentLines is an optional parameter that sets the last lines in the document content.
 	EndingContentLines []string `yaml:"ending_content_lines"`
-	// NumContentLines is an optional parameter to control the number of OBX segments with the document content.
+	// HeaderContentLines is an optional parameter that sets the first lines in the document content.
+	HeaderContentLines []string `yaml:"header_content_lines"`
+	// NumRandomContentLines is an optional parameter to control the number of lines with random content.
 	// Simulated Hospital chooses this number randomly between 10 and 50 if this isn't set.
-	NumContentLines *Interval `yaml:"num_content_lines"`
+	// If you want to random content, set an empty Interval.
+	NumRandomContentLines *Interval `yaml:"num_random_content_lines"`
 }
 
 // Registration is a step to register the patient. It produces an ADT^A04 message.
