@@ -53,6 +53,73 @@ func newDefaultParser(t *testing.T, now time.Time) *Parser {
 	}
 }
 
+func TestFileExtensionValidation(t *testing.T) {
+	p := []byte(`
+pathway1:
+  persons:
+    main_patient:
+      gender: F
+  pathway:
+    - discharge: {}
+`)
+
+	cases := []struct {
+		name    string
+		wantErr bool
+	}{{
+		name: "valid*.yml",
+	}, {
+		name: "valid*.yaml",
+	}, {
+		name: "valid*.json",
+	}, {
+		name:    "no_extension",
+		wantErr: true,
+	}, {
+		name:    "invalid_extension*.jpg",
+		wantErr: true,
+	}}
+
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			dir, err := ioutil.TempDir("", "extension_validation")
+			if err != nil {
+				t.Fatalf("TempDir(%q, %q) failed with %v", "", "extension_validation", err)
+			}
+			defer os.RemoveAll(dir)
+			f, err := ioutil.TempFile(dir, tc.name)
+			if err != nil {
+				t.Fatalf("TempFile(%q, %q) failed with %v", dir, tc.name, err)
+			}
+			if _, err := f.Write([]byte(p)); err != nil {
+				t.Fatalf("Write(%s) failed with %v", p, err)
+			}
+			if err := f.Close(); err != nil {
+				t.Fatalf("Close() failed with %v", err)
+			}
+
+			p := newDefaultParser(t, time.Now())
+
+			pathways, err := p.ParsePathways(dir)
+
+			// If a filename is valid, we expect its pathways to be parsed.
+			// Otherwise, we expect an error because no files were parsed.
+			if (err != nil) != tc.wantErr {
+				t.Errorf("ParsePathways(%s) got err=%v; want error? %t", dir, err, tc.wantErr)
+			}
+
+			if err != nil || tc.wantErr {
+				return
+			}
+
+			want := 1
+			if got := len(pathways); got != want {
+				t.Errorf("len(pathways) got %d pathways, %d 1", got, want)
+			}
+		})
+	}
+}
+
 func TestParsePathways_Valid(t *testing.T) {
 	p1 := []byte(`
 pathway1:
@@ -263,11 +330,11 @@ pathway2:
 			}
 			defer os.RemoveAll(mainDir)
 
-			tmp1 := filepath.Join(mainDir, "pathway1")
+			tmp1 := filepath.Join(mainDir, "pathway1.yml")
 			testwrite.BytesToFileWithName(t, p1, tmp1)
 			defer os.Remove(tmp1)
 
-			tmp2 := filepath.Join(mainDir, "pathway2")
+			tmp2 := filepath.Join(mainDir, "pathway2.yml")
 			testwrite.BytesToFileWithName(t, tc.p2, tmp2)
 			defer os.Remove(tmp2)
 
@@ -1820,7 +1887,7 @@ func writePathwayToDir(t *testing.T, pathwayDefinition []byte) string {
 		t.Fatalf("ioutil.TempDir() failed with %v", err)
 	}
 
-	tmpF := filepath.Join(mainDir, "pathway1")
+	tmpF := filepath.Join(mainDir, "pathway1.yml")
 	testwrite.BytesToFileWithName(t, pathwayDefinition, tmpF)
 	return mainDir
 }

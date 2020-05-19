@@ -124,6 +124,61 @@ func TestNewManager(t *testing.T) {
 	}
 }
 
+func TestFileExtensionValidation(t *testing.T) {
+	tests := []struct {
+		name    string
+		wantErr bool
+	}{{
+		name: "valid*.yml",
+	}, {
+		name: "valid*.yaml",
+	}, {
+		name:    "no_extension",
+		wantErr: true,
+	}, {
+		name:    "invalid_extension*.jpg",
+		wantErr: true,
+	}}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			dir, err := ioutil.TempDir("", "extension_validation")
+			if err != nil {
+				t.Fatalf("TempDir(%q, %q) failed with %v", "", "extension_validation", err)
+			}
+			defer os.RemoveAll(dir)
+			f, err := ioutil.TempFile(dir, tc.name)
+			if err != nil {
+				t.Fatalf("TempFile(%q, %q) failed with %v", dir, tc.name, err)
+			}
+			if _, err := f.Write([]byte(nhsYML)); err != nil {
+				t.Fatalf("Write(%s) failed with %v", nhsYML, err)
+			}
+			if err := f.Close(); err != nil {
+				t.Fatalf("Close() failed with %v", err)
+			}
+
+			mcg := &header.MessageControlGenerator{}
+			mgr, err := NewManager(dir, mcg)
+
+			// If a filename is valid, we expect it to be parsed into messages.
+			// Otherwise, we expect an error because no files were parsed.
+			if (err != nil) != tc.wantErr {
+				t.Errorf("NewManager(%s, %v) got err %v, want err? %t", dir, mcg, err, tc.wantErr)
+			}
+
+			if err != nil || tc.wantErr {
+				return
+			}
+
+			want := 1
+			if got := len(mgr.messages); got != want {
+				t.Errorf("len(mgr.messages) got %d messages, want %d", got, want)
+			}
+		})
+	}
+}
+
 func TestMessage(t *testing.T) {
 	tests := []struct {
 		description string
@@ -272,7 +327,7 @@ func TestMessageErrors(t *testing.T) {
 func writeYmlToFile(t *testing.T, ymls ...string) string {
 	t.Helper()
 	yml := strings.Join(ymls, "\r")
-	seed := "hardcoded_messages"
+	seed := "hardcoded_messages*.yml"
 	dir, err := ioutil.TempDir("", seed)
 	if err != nil {
 		t.Fatalf("TempDir(%q, %q) failed with %v", "", seed, err)

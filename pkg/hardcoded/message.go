@@ -41,6 +41,9 @@ import (
 // should be filled in when the message is returned by this class.
 const pidSegmentPlaceholder = "PID_SEGMENT_PLACEHOLDER"
 
+// validExtensions defines which file extensions are valid for hardcoded messages.
+var validExtensions = []string{".yml", ".yaml"}
+
 var log = logging.ForCallerPackage()
 
 // Manager contains all hardcoded messages.
@@ -64,6 +67,11 @@ func NewManager(messageDir string, headerGenerator *header.MessageControlGenerat
 
 	messages := map[string]string{}
 	for _, file := range files {
+		if !fileExtensionIsValid(file.Name()) {
+			log.Warnf("File name has invalid extension %s, expected one of %+v. Skipping...", file.Name(), validExtensions)
+			continue
+		}
+
 		filePath := path.Join(messageDir, file.Name())
 
 		messagesInFile, err := parseFile(filePath)
@@ -209,4 +217,13 @@ func messageType(msg string) (*message.Type, error) {
 		MessageType:  msh.MessageType.MessageType.String(),
 		TriggerEvent: msh.MessageType.TriggerEvent.String(),
 	}, nil
+}
+
+func fileExtensionIsValid(fileName string) bool {
+	for _, ext := range validExtensions {
+		if path.Ext(fileName) == ext {
+			return true
+		}
+	}
+	return false
 }

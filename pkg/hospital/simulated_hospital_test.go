@@ -3626,12 +3626,13 @@ func TestRunPathwayWithHardcodedMessage(t *testing.T) {
 	}
 
 	dirName := "hardcoded_messages"
+	seed := dirName + "*.yml"
 	dir, err := ioutil.TempDir("", dirName)
 	if err != nil {
 		t.Fatalf("TempDir(%q, %q) failed with %v", "", dirName, err)
 	}
 	defer os.RemoveAll(dir)
-	file, err := ioutil.TempFile(dir, dirName)
+	file, err := ioutil.TempFile(dir, seed)
 	if err != nil {
 		t.Fatalf("TempFile(%q, %q) failed with %v", dir, dirName, err)
 	}

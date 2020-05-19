@@ -18,6 +18,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"path"
+	"path/filepath"
 
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v2"
@@ -29,6 +30,9 @@ import (
 
 // UnknownPathwayName is the default pathway name, if it is not explicitly specified.
 const UnknownPathwayName = "unknown_pathway"
+
+// validExtensions defines which file extensions are valid for pathways.
+var validExtensions = []string{".json", ".yml", ".yaml"}
 
 // Parser provides the functionality to parse the pathways.
 type Parser struct {
@@ -62,6 +66,11 @@ func (p *Parser) ParsePathways(pathwaysDir string) (map[string]Pathway, error) {
 	validPathways := map[string]Pathway{}
 	redeclaredPathways := make(map[string]bool, 0)
 	for _, file := range files {
+		if !fileExtensionIsValid(file.Name()) {
+			log.Warnf("File name has invalid extension %s, expected one of %+v. Skipping...", file.Name(), validExtensions)
+			continue
+		}
+
 		filePath := path.Join(pathwaysDir, file.Name())
 		logLocal := logLocal.WithField("pathway_file", file.Name())
 		logLocal.Info("Parsing pathways from file")
@@ -160,4 +169,13 @@ func (p *Parser) parse(fileName string) (map[string]Pathway, error) {
 	}
 
 	return pathways, nil
+}
+
+func fileExtensionIsValid(fileName string) bool {
+	for _, ext := range validExtensions {
+		if filepath.Ext(fileName) == ext {
+			return true
+		}
+	}
+	return false
 }
