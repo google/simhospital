@@ -122,6 +122,7 @@ container_image(
         ":web_stylesheets_layer",
         ":web_index_layer",
     ],
+    stamp = True,
 )
 
 docker_push(
