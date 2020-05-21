@@ -16,7 +16,6 @@ package hardcoded
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"strings"
 	"testing"
@@ -26,6 +25,7 @@ import (
 	"github.com/google/simhospital/pkg/generator/header"
 	"github.com/google/simhospital/pkg/hl7"
 	"github.com/google/simhospital/pkg/message"
+	"github.com/google/simhospital/pkg/test/testwrite"
 )
 
 const (
@@ -113,7 +113,6 @@ func TestNewManager(t *testing.T) {
 	for _, tc := range tests {
 		t.Run(tc.description, func(t *testing.T) {
 			dir := writeYmlToFile(t, tc.yml)
-			defer os.RemoveAll(dir)
 			mcg := &header.MessageControlGenerator{}
 			if _, err := NewManager(dir, mcg); (err != nil) != tc.wantErr {
 				t.Errorf("NewManager(%q, %v) got err %v, want err? %t", tc.yml, mcg, err, tc.wantErr)
@@ -140,21 +139,7 @@ func TestFileExtensionValidation(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			dir, err := ioutil.TempDir("", "extension_validation")
-			if err != nil {
-				t.Fatalf("TempDir(%q, %q) failed with %v", "", "extension_validation", err)
-			}
-			defer os.RemoveAll(dir)
-			f, err := ioutil.TempFile(dir, tc.name)
-			if err != nil {
-				t.Fatalf("TempFile(%q, %q) failed with %v", dir, tc.name, err)
-			}
-			if _, err := f.Write([]byte(nhsYML)); err != nil {
-				t.Fatalf("Write(%s) failed with %v", nhsYML, err)
-			}
-			if err := f.Close(); err != nil {
-				t.Fatalf("Close() failed with %v", err)
-			}
+			dir := testwrite.BytesToDir(t, []byte(nhsYML), tc.name)
 
 			mcg := &header.MessageControlGenerator{}
 			mgr, err := NewManager(dir, mcg)
@@ -228,7 +213,6 @@ func TestMessage(t *testing.T) {
 	for _, tc := range tests {
 		t.Run(tc.description, func(t *testing.T) {
 			dir := writeYmlToFile(t, tc.yml)
-			defer os.RemoveAll(dir)
 			mcg := &header.MessageControlGenerator{}
 			mgr, err := NewManager(dir, mcg)
 			if err != nil {
@@ -248,7 +232,6 @@ func TestMessage(t *testing.T) {
 
 func TestMessageReturnsUniqueMessages(t *testing.T) {
 	dir := writeYmlToFile(t, missingPIDYml)
-	defer os.RemoveAll(dir)
 	mcg := &header.MessageControlGenerator{}
 	mgr, err := NewManager(dir, mcg)
 	if err != nil {
@@ -303,7 +286,6 @@ func TestMessageErrors(t *testing.T) {
 	for _, tc := range tests {
 		t.Run(fmt.Sprintf("NewManager(%q)", tc.description), func(t *testing.T) {
 			dir := writeYmlToFile(t, tc.yml)
-			defer os.RemoveAll(dir)
 			mcg := &header.MessageControlGenerator{}
 			mgr, err := NewManager(dir, mcg)
 			if err != nil {
@@ -321,19 +303,7 @@ func TestMessageErrors(t *testing.T) {
 func writeYmlToFile(t *testing.T, ymls ...string) string {
 	t.Helper()
 	yml := strings.Join(ymls, "\r")
-	seed := "hardcoded_messages*.yml"
-	dir, err := ioutil.TempDir("", seed)
-	if err != nil {
-		t.Fatalf("TempDir(%q, %q) failed with %v", "", seed, err)
-	}
-	file, err := ioutil.TempFile(dir, seed)
-	if err != nil {
-		t.Fatalf("TempFile(%q, %q) failed with %v", dir, seed, err)
-	}
-	if _, err = file.Write([]byte(yml)); err != nil {
-		t.Fatalf("Write(%s) failed with %v", yml, err)
-	}
-	return dir
+	return testwrite.BytesToDir(t, []byte(yml), "hardcoded_messages.yml")
 }
 
 func testPerson() *message.Person {

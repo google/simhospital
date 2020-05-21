@@ -16,7 +16,6 @@ package pathway
 
 import (
 	"fmt"
-	"os"
 	"testing"
 	"time"
 
@@ -1091,7 +1090,6 @@ func TestPathwayValidConsultant(t *testing.T) {
   specialty: "specialty-2"`)
 
 	fName := testwrite.BytesToFile(t, doctorsFile)
-	defer os.Remove(fName)
 
 	doctors, err := doctor.LoadDoctors(fName)
 	if err != nil {

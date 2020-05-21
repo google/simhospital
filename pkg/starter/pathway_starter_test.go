@@ -232,9 +232,7 @@ RANK,1904
 `
 	surnames := `Jackson`
 	fNames := testwrite.BytesToFile(t, []byte(names))
-	defer os.Remove(fNames)
 	fSurnames := testwrite.BytesToFile(t, []byte(surnames))
-	defer os.Remove(fSurnames)
 	df := test.DataFiles[test.Test]
 	df.Boys = fNames
 	df.Girls = fNames
@@ -380,9 +378,7 @@ RANK,1904
 `
 	surnames := `Jackson`
 	fNames := testwrite.BytesToFile(t, []byte(names))
-	defer os.Remove(fNames)
 	fSurnames := testwrite.BytesToFile(t, []byte(surnames))
-	defer os.Remove(fSurnames)
 	df := test.DataFiles[test.Test]
 	df.Boys = fNames
 	df.Girls = fNames

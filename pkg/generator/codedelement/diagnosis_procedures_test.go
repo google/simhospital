@@ -17,7 +17,6 @@ package codedelement
 import (
 	"math"
 	"math/rand"
-	"os"
 	"testing"
 	"time"
 
@@ -39,14 +38,12 @@ A02.1,Diagnosis2,1
 A03.1,Diagnosis3,1
 A04.1,Diagnosis4,1
 `))
-	defer os.Remove(diagnosisFilename)
 	procedureFilename := testwrite.BytesToFile(t, []byte(`
 P01.1,Procedure1,1
 P02.1,Procedure2,1
 P03.1,Procedure3,1
 P04.1,Procedure4,1
 `))
-	defer os.Remove(procedureFilename)
 
 	f := test.DataFiles[test.Test]
 	f.Diagnoses = diagnosisFilename
@@ -180,7 +177,6 @@ func TestDiagOrProcGenerator_Random_EmptyFile_NoDate(t *testing.T) {
 	rand.Seed(1)
 
 	emptyFilename := testwrite.BytesToFile(t, []byte(``))
-	defer os.Remove(emptyFilename)
 
 	f := test.DataFiles[test.Test]
 	f.Diagnoses = emptyFilename

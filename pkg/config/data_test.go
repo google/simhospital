@@ -15,8 +15,6 @@
 package config
 
 import (
-	"io/ioutil"
-	"os"
 	"path/filepath"
 	"testing"
 
@@ -139,60 +137,25 @@ OUTPATIENT,OUTPATIENT,40
 
 func TestLoadDataConfig(t *testing.T) {
 	tmpData := testwrite.BytesToFile(t, defaultData)
-	defer os.Remove(tmpData)
-
 	tmpInvalidData := testwrite.BytesToFile(t, invalidData)
-	defer os.Remove(tmpInvalidData)
-
 	tmpNouns := testwrite.BytesToFile(t, defaultNouns)
-	defer os.Remove(tmpNouns)
-
 	tmpNoteTypes := testwrite.BytesToFile(t, defaultNotetypes)
-	defer os.Remove(tmpNoteTypes)
-
 	tmpSurnames := testwrite.BytesToFile(t, defaultSurnames)
-	defer os.Remove(tmpSurnames)
-
 	tmpGirls := testwrite.BytesToFile(t, defaultGirls)
-	defer os.Remove(tmpGirls)
-
 	tmpGirlsDuplicatedHeader := testwrite.BytesToFile(t, invalidGirlsDuplicatedHeader)
-	defer os.Remove(tmpGirlsDuplicatedHeader)
-
 	tmpGirlsHeaderAfterData := testwrite.BytesToFile(t, invalidGirlsHeaderAfterData)
-	defer os.Remove(tmpGirlsHeaderAfterData)
-
 	tmpGirlsHeaderOutOfOrder := testwrite.BytesToFile(t, invalidGirlsHeaderOutOfOrder)
-	defer os.Remove(tmpGirlsHeaderOutOfOrder)
-
 	tmpBoys := testwrite.BytesToFile(t, defaultBoys)
-	defer os.Remove(tmpBoys)
-
 	tmpAllergies := testwrite.BytesToFile(t, defaultAllergies)
-	defer os.Remove(tmpAllergies)
-
 	tmpDiagnoses := testwrite.BytesToFile(t, defaultDiagnoses)
-	defer os.Remove(tmpDiagnoses)
-
 	tmpProcedures := testwrite.BytesToFile(t, defaultProcedures)
-	defer os.Remove(tmpProcedures)
-
 	tmpEthnicities := testwrite.BytesToFile(t, defaultEthnicities)
-	defer os.Remove(tmpEthnicities)
-
 	tmpPatientClass := testwrite.BytesToFile(t, defaultPatients)
-	defer os.Remove(tmpPatientClass)
 
-	tmpNotesDir, err := ioutil.TempDir("", "test-dir")
-	if err != nil {
-		t.Fatalf(`ioutil.TempDir("", "test-dir") failed with %v`, err)
-	}
-	defer os.RemoveAll(tmpNotesDir)
+	tmpNotesDir := testwrite.TempDir(t)
 	for _, n := range sampleNotes {
 		content := []byte(n.content)
-		tempfn := filepath.Join(tmpNotesDir, n.filename)
-		testwrite.BytesToFileWithName(t, content, tempfn)
-		defer os.Remove(tempfn)
+		testwrite.BytesToFileInExistingDir(t, content, tmpNotesDir, n.filename)
 	}
 
 	tests := []struct {
@@ -415,60 +378,36 @@ func TestLoadDataConfig(t *testing.T) {
 // exposed method LoadData.
 func TestLoadData_CodedElements(t *testing.T) {
 	tmpData := testwrite.BytesToFile(t, defaultData)
-	defer os.Remove(tmpData)
-
 	tmpNouns := testwrite.BytesToFile(t, defaultNouns)
-	defer os.Remove(tmpNouns)
-
 	tmpNoteTypes := testwrite.BytesToFile(t, defaultNotetypes)
-	defer os.Remove(tmpNoteTypes)
-
 	tmpSurnames := testwrite.BytesToFile(t, defaultSurnames)
-	defer os.Remove(tmpSurnames)
-
 	tmpGirls := testwrite.BytesToFile(t, defaultGirls)
-	defer os.Remove(tmpGirls)
-
 	tmpBoys := testwrite.BytesToFile(t, defaultBoys)
-	defer os.Remove(tmpBoys)
-
 	tmpEthnicities := testwrite.BytesToFile(t, defaultEthnicities)
-	defer os.Remove(tmpEthnicities)
-
 	tmpPatientClass := testwrite.BytesToFile(t, defaultPatients)
-	defer os.Remove(tmpPatientClass)
-
-	tmpNotesDir, err := ioutil.TempDir("", "test-dir")
-	if err != nil {
-		t.Fatalf(`ioutil.TempDir("", "test-dir") failed with %v`, err)
-	}
-	defer os.RemoveAll(tmpNotesDir)
+	tmpNotesDir := testwrite.TempDir(t)
 
 	csv := []byte(`
 J30.1,Value1,59
 J45.0,Value2,2556`)
 	tmpCSV := testwrite.BytesToFile(t, csv)
-	defer os.Remove(tmpCSV)
 
 	csvWithComment := []byte(`
 # Lines starting with "#" are ignored.
 J30.1,Value1,59
 J45.0,Value2,2556`)
 	tmpCSVWithComment := testwrite.BytesToFile(t, csvWithComment)
-	defer os.Remove(tmpCSVWithComment)
 
 	csvWithNil := []byte(`
 J30.1,Value1,59
 J45.0,Value2,2556
 nil,nil,300`)
 	tmpCSVWithNil := testwrite.BytesToFile(t, csvWithNil)
-	defer os.Remove(tmpCSVWithNil)
 
 	csvNoInt := []byte(`
 J30.1,Value1,59.5
 J45.0,Value2,2556.6`)
 	tmpCSVNoInt := testwrite.BytesToFile(t, csvNoInt)
-	defer os.Remove(tmpCSVNoInt)
 
 	// Use the same coding system in all cases to make the assertions easier.
 	defaultCS := "coding-system"

@@ -16,7 +16,6 @@ package person
 
 import (
 	"math"
-	"os"
 	"testing"
 
 	"github.com/google/simhospital/pkg/config"
@@ -37,7 +36,6 @@ Other,Other,2
 nil,nil,3
 `
 	fEthnicity := testwrite.BytesToFile(t, []byte(ethnicity))
-	defer os.Remove(fEthnicity)
 	dataF := test.DataFiles[test.Test]
 	dataF.Ethnicities = fEthnicity
 	dataConfig, err := config.LoadData(dataF, hl7Config)

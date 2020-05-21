@@ -16,7 +16,6 @@ package person
 
 import (
 	"fmt"
-	"os"
 	"regexp"
 	"strconv"
 	"testing"
@@ -589,13 +588,10 @@ RANK,1904
 1,John
 `
 	fNames := testwrite.BytesToFile(t, []byte(name))
-	defer os.Remove(fNames)
 	surnames := `Smith`
 	fSurnames := testwrite.BytesToFile(t, []byte(surnames))
-	defer os.Remove(fSurnames)
 	ethnicity := `White,White,1`
 	fEthnicity := testwrite.BytesToFile(t, []byte(ethnicity))
-	defer os.Remove(fEthnicity)
 	data := `
 patient_name:
   degrees:
@@ -611,7 +607,6 @@ patient_name:
   middlename_percentage: 100
 `
 	fData := testwrite.BytesToFile(t, []byte(data))
-	defer os.Remove(fData)
 
 	df := test.DataFiles[test.Test]
 	df.Boys = fNames

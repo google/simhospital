@@ -17,7 +17,6 @@ package codedelement
 import (
 	"math"
 	"math/rand"
-	"os"
 	"testing"
 	"time"
 
@@ -36,7 +35,6 @@ var (
 
 func TestAllergyGenerator_RandomNoItems(t *testing.T) {
 	fName := testwrite.BytesToFile(t, []byte(``))
-	defer os.Remove(fName)
 
 	configHL7, err := config.LoadHL7Config(test.MessageConfigTest)
 	if err != nil {
@@ -62,7 +60,6 @@ J45.0,Allergy2,2556
 J23.1,Allergy3,200
 T78.1,Allergy4,23
 `))
-	defer os.Remove(fName)
 
 	codeToDesc := map[string]string{"J30.1": "Allergy1", "J45.0": "Allergy2", "J23.1": "Allergy3", "T78.1": "Allergy4"}
 

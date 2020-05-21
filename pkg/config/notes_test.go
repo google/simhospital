@@ -15,13 +15,11 @@
 package config
 
 import (
-	"io/ioutil"
-	"os"
 	"path/filepath"
 	"testing"
 
-	"github.com/google/simhospital/pkg/test/testwrite"
 	"github.com/google/go-cmp/cmp"
+	"github.com/google/simhospital/pkg/test/testwrite"
 )
 
 type note struct {
@@ -30,11 +28,7 @@ type note struct {
 }
 
 func TestLoadNotesConfigFromDir(t *testing.T) {
-	mainDir, err := ioutil.TempDir("", "notes")
-	if err != nil {
-		t.Fatalf("ioutil.TempDir() failed with %v", err)
-	}
-	defer os.RemoveAll(mainDir)
+	mainDir := testwrite.TempDir(t)
 
 	testCases := []struct {
 		name  string
@@ -135,9 +129,7 @@ func TestLoadNotesConfigFromDir(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			for _, n := range tt.notes {
 				content := []byte(n.content)
-				tempfn := filepath.Join(mainDir, n.filename)
-				testwrite.BytesToFileWithName(t, content, tempfn)
-				defer os.Remove(tempfn)
+				testwrite.BytesToFileInExistingDir(t, content, mainDir, n.filename)
 			}
 			got, err := LoadNotesConfig(mainDir)
 			if err != nil {

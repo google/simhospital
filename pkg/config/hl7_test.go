@@ -15,12 +15,10 @@
 package config
 
 import (
-	"io/ioutil"
-	"os"
 	"testing"
 
-	"github.com/google/simhospital/pkg/test/testwrite"
 	"github.com/google/go-cmp/cmp"
+	"github.com/google/simhospital/pkg/test/testwrite"
 )
 
 func TestLoadHL7Config(t *testing.T) {
@@ -43,18 +41,11 @@ order_control:
 	}}
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			tmp, err := ioutil.TempFile("", "HL7Config-file")
-			if err != nil {
-				t.Fatalf("TempFile() failed with %v", err)
-			}
-			defer os.Remove(tmp.Name())
-			if _, err = tmp.Write(tc.config); err != nil {
-				t.Fatalf("Write(%s) failed with %v", tc.config, err)
-			}
-			c, err := LoadHL7Config(tmp.Name())
+			tmp := testwrite.BytesToFile(t, []byte(tc.config))
+			c, err := LoadHL7Config(tmp)
 			gotErr := err != nil
 			if gotErr != tc.wantErr {
-				t.Errorf("LoadHL7Config(%s) got err %v; want error? %t", tmp.Name(), err, tc.wantErr)
+				t.Errorf("LoadHL7Config(%s) got err %v; want error? %t", tmp, err, tc.wantErr)
 			}
 			if gotErr || tc.wantErr {
 				return
@@ -231,7 +222,6 @@ default:
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
 			headerFile := testwrite.BytesToFile(t, tc.header)
-			defer os.Remove(headerFile)
 			h, err := LoadHeaderConfig(headerFile)
 			gotErr := err != nil
 			if gotErr != tc.wantErr {

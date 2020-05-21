@@ -17,11 +17,8 @@ package notes
 import (
 	"encoding/base64"
 	"fmt"
-	"io/ioutil"
 	"math"
 	"math/rand"
-	"os"
-	"path/filepath"
 	"strings"
 	"testing"
 	"time"
@@ -443,10 +440,7 @@ func TestRandomUniformDistribution(t *testing.T) {
 
 func testSetup(t *testing.T) (map[string][]config.ClinicalNote, map[string][]string) {
 	t.Helper()
-	mainDir, err := ioutil.TempDir("", "notes")
-	if err != nil {
-		t.Fatalf(`ioutil.TempDir("", "notes") failed with %v`, err)
-	}
+	mainDir := testwrite.TempDir(t)
 	fileContents := make(map[string][]string)
 	for _, n := range []struct {
 		content  string
@@ -477,14 +471,12 @@ func testSetup(t *testing.T) (map[string][]config.ClinicalNote, map[string][]str
 		} else {
 			fileContents[ext] = append(fileContents[ext], n.content)
 		}
-		tempfn := filepath.Join(mainDir, n.filename)
-		testwrite.BytesToFileWithName(t, contentBytes, tempfn)
+		testwrite.BytesToFileInExistingDir(t, contentBytes, mainDir, n.filename)
 	}
 	nc, err := config.LoadNotesConfig(mainDir)
 	if err != nil {
 		t.Fatalf("config.LoadNotesConfig(%s) failed with error %v", mainDir, err)
 	}
-	t.Cleanup(func() { os.RemoveAll(mainDir) })
 	return nc, fileContents
 }
 

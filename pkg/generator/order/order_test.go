@@ -16,7 +16,6 @@ package order
 
 import (
 	"errors"
-	"os"
 	"strconv"
 	"testing"
 	"time"
@@ -61,7 +60,7 @@ var (
 )
 
 func TestNewOrder(t *testing.T) {
-	b  := []byte(`
+	b := []byte(`
 UREA AND ELECTROLYTES:
   universal_service_id: lpdc-3969
   test_types:
@@ -72,7 +71,6 @@ UREA AND ELECTROLYTES:
       unit: UMOLL
       ref_range: 49 - 92`)
 	op := testwrite.BytesToFile(t, b)
-	defer os.Remove(op)
 
 	g, hl7Config := testGeneratorWithOrderProfile(t, op)
 
@@ -137,7 +135,6 @@ func TestOrderWithClinicalNote(t *testing.T) {
 
 	// Loading single doctor to eliminate randomness.
 	tmpDoctors := testwrite.BytesToFile(t, singleDoctorData)
-	defer os.Remove(tmpDoctors)
 	d, err := doctor.LoadDoctors(tmpDoctors)
 	if err != nil {
 		t.Fatalf("LoadDoctors(%s) failed with %v", tmpDoctors, err)

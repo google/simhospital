@@ -16,11 +16,8 @@ package pathway
 
 import (
 	"fmt"
-	"io/ioutil"
 	"math"
 	"math/rand"
-	"os"
-	"path/filepath"
 	"strings"
 	"testing"
 	"time"
@@ -78,21 +75,7 @@ pathway1:
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			dir, err := ioutil.TempDir("", "extension_validation")
-			if err != nil {
-				t.Fatalf("TempDir(%q, %q) failed with %v", "", "extension_validation", err)
-			}
-			defer os.RemoveAll(dir)
-			f, err := ioutil.TempFile(dir, tc.name)
-			if err != nil {
-				t.Fatalf("TempFile(%q, %q) failed with %v", dir, tc.name, err)
-			}
-			if _, err := f.Write([]byte(p)); err != nil {
-				t.Fatalf("Write(%s) failed with %v", p, err)
-			}
-			if err := f.Close(); err != nil {
-				t.Fatalf("Close() failed with %v", err)
-			}
+			dir := testwrite.BytesToDir(t, []byte(p), tc.name)
 
 			p := newDefaultParser(t, time.Now())
 
@@ -320,19 +303,9 @@ pathway2:
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			mainDir, err := ioutil.TempDir("", "pathways")
-			if err != nil {
-				t.Fatalf("ioutil.TempDir() failed with %v", err)
-			}
-			defer os.RemoveAll(mainDir)
-
-			tmp1 := filepath.Join(mainDir, "pathway1.yml")
-			testwrite.BytesToFileWithName(t, p1, tmp1)
-			defer os.Remove(tmp1)
-
-			tmp2 := filepath.Join(mainDir, "pathway2.yml")
-			testwrite.BytesToFileWithName(t, tc.p2, tmp2)
-			defer os.Remove(tmp2)
+			mainDir := testwrite.TempDir(t)
+			testwrite.BytesToFileInExistingDir(t, p1, mainDir, "pathway1.yml")
+			testwrite.BytesToFileInExistingDir(t, tc.p2, mainDir, "pathway2.yml")
 
 			p := newDefaultParser(t, time.Now())
 
@@ -422,7 +395,6 @@ test_pathway:
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
 			mainDir := writePathwayToDir(t, tc.pathwayDefinition)
-			defer os.RemoveAll(mainDir)
 
 			_, err := p.ParsePathways(mainDir)
 			gotErr := err != nil
@@ -1588,7 +1560,6 @@ pathway_autogenerate:
 `)
 
 	mainDir := writePathwayToDir(t, pathwayDefinition)
-	defer os.RemoveAll(mainDir)
 
 	p := newDefaultParser(t, time.Now())
 	pathways, err := p.ParsePathways(mainDir)
@@ -1750,7 +1721,6 @@ random_pathway:
     - discharge: {}
 `)
 	mainDir := writePathwayToDir(t, pathwayDefinition)
-	defer os.RemoveAll(mainDir)
 
 	p := newDefaultParser(t, time.Now())
 	pathways, err := p.ParsePathways(mainDir)
@@ -1845,7 +1815,6 @@ type parseFunc struct {
 func parsePathwayDefinition(t *testing.T, pathwayDefinition []byte) map[parseFunc]Pathway {
 	t.Helper()
 	mainDir := writePathwayToDir(t, pathwayDefinition)
-	defer os.RemoveAll(mainDir)
 
 	p := newDefaultParser(t, time.Now())
 	pathways, err := p.ParsePathways(mainDir)
@@ -1878,12 +1847,5 @@ func parsePathwayDefinition(t *testing.T, pathwayDefinition []byte) map[parseFun
 
 func writePathwayToDir(t *testing.T, pathwayDefinition []byte) string {
 	t.Helper()
-	mainDir, err := ioutil.TempDir("", "pathways")
-	if err != nil {
-		t.Fatalf("ioutil.TempDir() failed with %v", err)
-	}
-
-	tmpF := filepath.Join(mainDir, "pathway1.yml")
-	testwrite.BytesToFileWithName(t, pathwayDefinition, tmpF)
-	return mainDir
+	return testwrite.BytesToDir(t, pathwayDefinition, "pathway1.yml")
 }

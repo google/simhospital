@@ -17,7 +17,6 @@ package hospital_test
 import (
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"math"
 	"math/rand"
 	"os"
@@ -45,6 +44,7 @@ import (
 	"github.com/google/simhospital/pkg/test/testlocation"
 	"github.com/google/simhospital/pkg/test/testmetrics"
 	"github.com/google/simhospital/pkg/test/teststate"
+	"github.com/google/simhospital/pkg/test/testwrite"
 )
 
 var (
@@ -3624,20 +3624,8 @@ func TestRunPathwayWithHardcodedMessage(t *testing.T) {
 		}},
 	}
 
-	dirName := "hardcoded_messages"
-	seed := dirName + "*.yml"
-	dir, err := ioutil.TempDir("", dirName)
-	if err != nil {
-		t.Fatalf("TempDir(%q, %q) failed with %v", "", dirName, err)
-	}
-	defer os.RemoveAll(dir)
-	file, err := ioutil.TempFile(dir, seed)
-	if err != nil {
-		t.Fatalf("TempFile(%q, %q) failed with %v", dir, dirName, err)
-	}
-	if _, err = file.Write([]byte(hardcodedMessageYml)); err != nil {
-		t.Fatalf("Write(%s) failed with %v", hardcodedMessageYml, err)
-	}
+	seed := "hardcoded_messages.yml"
+	dir := testwrite.BytesToDir(t, []byte(hardcodedMessageYml), seed)
 	msgControlGen := &header.MessageControlGenerator{}
 	hardcodedMessagesManager, err := hardcoded.NewManager(dir, msgControlGen)
 	if err != nil {

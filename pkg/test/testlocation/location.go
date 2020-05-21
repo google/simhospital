@@ -17,7 +17,6 @@ package testlocation
 
 import (
 	"fmt"
-	"os"
 	"testing"
 
 	"github.com/google/simhospital/pkg/location"
@@ -55,7 +54,6 @@ func NewLocationManager(t *testing.T, locations ...string) *location.Manager {
 		allLocations += fmt.Sprintf(roomMgrTmpl, l, l)
 	}
 	tmp := testwrite.BytesToFile(t, []byte(allLocations))
-	defer os.Remove(tmp)
 
 	m, err := location.NewManager(tmp)
 	if err != nil {

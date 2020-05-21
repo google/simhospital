@@ -17,7 +17,6 @@ package orderprofile
 import (
 	"fmt"
 	"math"
-	"os"
 	"strconv"
 	"strings"
 	"testing"
@@ -201,7 +200,6 @@ func TestLoad(t *testing.T) {
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
 			fName := testwrite.BytesToFile(t, tc.opFileContent)
-			defer os.Remove(fName)
 
 			ops, err := Load(fName, hl7Config)
 			if gotErr := err != nil; gotErr != tc.wantLoadErr {
@@ -254,7 +252,6 @@ func TestRandomisedValueWithFlag_NumericalValue(t *testing.T) {
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
 			fName := testwrite.BytesToFile(t, tc.opFileContent)
-			defer os.Remove(fName)
 
 			ops, err := Load(fName, hl7Config)
 			if err != nil {
@@ -350,7 +347,6 @@ func TestRandomisedValueWithFlag_NonNumericalValue(t *testing.T) {
 
 	for _, tc := range cases {
 		fName := testwrite.BytesToFile(t, tc.opFileContent)
-		defer os.Remove(fName)
 
 		ops, err := Load(fName, hl7Config)
 		if err != nil {
@@ -422,7 +418,6 @@ func TestRandomisedValueWithFlagRange_Error(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 
 			fName := testwrite.BytesToFile(t, tc.opFileContent)
-			defer os.Remove(fName)
 
 			ops, err := Load(fName, hl7Config)
 			if err != nil {
@@ -466,7 +461,6 @@ func TestRandomisedValueWithFlagRange_Error(t *testing.T) {
 func TestGenerate(t *testing.T) {
 	hl7Config := loadHL7Config(t)
 	fName := testwrite.BytesToFile(t, ureaOP)
-	defer os.Remove(fName)
 
 	orderProfiles, err := Load(fName, hl7Config)
 	if err != nil {
@@ -537,7 +531,6 @@ func TestGenerateRandom(t *testing.T) {
 func loadHL7Config(t *testing.T) *config.HL7Config {
 	t.Helper()
 	fConfig := testwrite.BytesToFile(t, hl7ConfigFile)
-	defer os.Remove(fConfig)
 	hl7Config, err := config.LoadHL7Config(fConfig)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", fConfig, err)

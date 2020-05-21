@@ -24,17 +24,12 @@ import (
 	"time"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/google/simhospital/pkg/test/testwrite"
 )
 
 func TestNewFileSender(t *testing.T) {
-	dir, err := ioutil.TempDir("", "file_sender")
-	if err != nil {
-		t.Fatalf("ioutil.TempDir() failed with %v", err)
-	}
-	defer os.RemoveAll(dir)
-
+	dir := testwrite.TempDir(t)
 	filename := path.Join(dir, "output")
-	defer os.Remove(filename)
 
 	fileSender, err := NewFileSender(filename)
 	if err != nil {
@@ -58,14 +53,8 @@ func TestNewFileSender(t *testing.T) {
 }
 
 func TestNewFileSender_Error(t *testing.T) {
-	dir, err := ioutil.TempDir("", "file_sender")
-	if err != nil {
-		t.Fatalf("ioutil.TempDir() failed with %v", err)
-	}
-	defer os.RemoveAll(dir)
-
+	dir := testwrite.TempDir(t)
 	filename := path.Join(dir, "output")
-	defer os.Remove(filename)
 
 	tests := []struct {
 		name       string

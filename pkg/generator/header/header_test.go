@@ -73,7 +73,6 @@ oru:
   receiving_application: oru_ra
   receiving_facility: oru_rf
 `))
-	defer os.Remove(headerFile)
 
 	headerCFG, err := config.LoadHeaderConfig(headerFile)
 	if err != nil {

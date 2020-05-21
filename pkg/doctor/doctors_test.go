@@ -16,7 +16,6 @@ package doctor
 
 import (
 	"math"
-	"os"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -90,7 +89,6 @@ func TestLoadDoctors(t *testing.T) {
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
 			fName := testwrite.BytesToFile(t, []byte(tc.input))
-			defer os.Remove(fName)
 			if _, err := LoadDoctors(fName); (err == nil) == tc.wantErr {
 				t.Errorf("LoadDoctors(%s) got err %v; want err: %t", tc.input, err, tc.wantErr)
 			}
@@ -100,7 +98,6 @@ func TestLoadDoctors(t *testing.T) {
 
 func TestDoctorsGet(t *testing.T) {
 	fName := testwrite.BytesToFile(t, []byte(singleDoctor))
-	defer os.Remove(fName)
 	d, err := LoadDoctors(fName)
 	if err != nil {
 		t.Fatalf("LoadDoctors() failed with %v", err)
@@ -151,7 +148,6 @@ func TestDoctorsGet(t *testing.T) {
 
 func TestDoctorsAdd(t *testing.T) {
 	fName := testwrite.BytesToFile(t, []byte(singleDoctor))
-	defer os.Remove(fName)
 	d, err := LoadDoctors(fName)
 	if err != nil {
 		t.Fatalf("LoadDoctors(%s) failed with %v", singleDoctor, err)
@@ -184,7 +180,6 @@ func TestDoctorsGetRandomDoctor(t *testing.T) {
 	runs := 1000
 
 	fName := testwrite.BytesToFile(t, []byte(twoDoctors))
-	defer os.Remove(fName)
 	d, err := LoadDoctors(fName)
 	if err != nil {
 		t.Fatalf("LoadDoctors(%s) failed with %v", twoDoctors, err)

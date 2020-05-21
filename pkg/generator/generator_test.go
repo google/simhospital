@@ -17,7 +17,6 @@ package generator
 import (
 	"math"
 	"math/rand"
-	"os"
 	"testing"
 	"time"
 
@@ -208,7 +207,6 @@ func TestUpdateFromPathwaySetProceduresAndDiagnoses(t *testing.T) {
   firstname: "firstname-1"
   prefix: "prefix-1"
   specialty: "specialty-1"`))
-	defer os.Remove(fName)
 
 	d, err := doctor.LoadDoctors(fName)
 	if err != nil {
@@ -239,19 +237,16 @@ diagnosis:
     - "D"
   coding_system: "DCS"
 `))
-	defer os.Remove(tmpConfig)
 
 	// Allow only one single procedure to be "randomly" chosen for testing purposes.
 	tmpProcedures := testwrite.BytesToFile(t, []byte(`
 P24.9,Procedure1,1
 `))
-	defer os.Remove(tmpProcedures)
 
 	// Allow only one single diagnosis to be "randomly" chosen for testing purposes.
 	tmpDiagnoses := testwrite.BytesToFile(t, []byte(`
 A01.1,Diagnosis1,1
 `))
-	defer os.Remove(tmpDiagnoses)
 
 	c, err := config.LoadHL7Config(tmpConfig)
 	if err != nil {
@@ -607,7 +602,6 @@ func TestNewPatient(t *testing.T) {
   firstname: "firstname-1"
   prefix: "prefix-1"
   specialty: "specialty-1"`))
-	defer os.Remove(dName)
 
 	d, err := doctor.LoadDoctors(dName)
 	if err != nil {
@@ -624,7 +618,6 @@ func TestNewPatient(t *testing.T) {
 
 	// This empty configuration file simulates a nil primary facility and nil patient class.
 	nilHL7Name := testwrite.BytesToFile(t, []byte(``))
-	defer os.Remove(nilHL7Name)
 
 	nilHL7Config, err := config.LoadHL7Config(nilHL7Name)
 	if err != nil {
@@ -640,7 +633,6 @@ primary_facility:
   id_number: "123"
 hospital_service: "180"
 `))
-	defer os.Remove(hl7Name)
 
 	hl7Config, err := config.LoadHL7Config(hl7Name)
 	if err != nil {
@@ -753,7 +745,6 @@ func TestNewDoctor(t *testing.T) {
 	hl7Name := testwrite.BytesToFile(t, []byte(`
 hospital_service: "180"
 `))
-	defer os.Remove(hl7Name)
 
 	hl7Config, err := config.LoadHL7Config(hl7Name)
 	if err != nil {
@@ -766,7 +757,6 @@ hospital_service: "180"
   firstname: "firstname-1"
   prefix: "prefix-1"
   specialty: "specialty-1"`))
-	defer os.Remove(dName)
 
 	existingDoctor := &message.Doctor{
 		ID:        "id-1",
@@ -833,7 +823,6 @@ hospital_service: "180"
 func TestNewDoctorAddDoctorsForFutureUse(t *testing.T) {
 	// No doctors defined.
 	dName := testwrite.BytesToFile(t, []byte(``))
-	defer os.Remove(dName)
 	d, err := doctor.LoadDoctors(dName)
 	if err != nil {
 		t.Fatalf("LoadDoctors(%s) failed with %v", dName, err)
@@ -841,7 +830,6 @@ func TestNewDoctorAddDoctorsForFutureUse(t *testing.T) {
 	hl7Name := testwrite.BytesToFile(t, []byte(`
 hospital_service: "180"
 `))
-	defer os.Remove(hl7Name)
 
 	hl7Config, err := config.LoadHL7Config(hl7Name)
 	if err != nil {
@@ -892,13 +880,11 @@ allergy:
     - "SV"
   coding_system: "ZAL"
 `))
-	defer os.Remove(fHL7Config)
 
 	// Allow only one single allergy to be "randomly" chosen for testing purposes.
 	fAllergies := testwrite.BytesToFile(t, []byte(`
 J30.1,Allergy1,1
 `))
-	defer os.Remove(fAllergies)
 
 	// Simplified data config for testing purposes.
 	fData := testwrite.BytesToFile(t, []byte(`
@@ -908,7 +894,6 @@ allergy:
   percentage: 100
   maximum_allergies: 1
 `))
-	defer os.Remove(fData)
 
 	hl7Config, err := config.LoadHL7Config(fHL7Config)
 	if err != nil {
@@ -1175,7 +1160,6 @@ EMERGENCY,EMERGENCY,1
 OUTPATIENT,OUTPATIENT,4
 RECURRING,RECURRING,5
 `))
-	defer os.Remove(fPatientClass)
 
 	hl7Config, err := config.LoadHL7Config(test.MessageConfigTest)
 	if err != nil {

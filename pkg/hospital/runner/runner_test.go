@@ -17,10 +17,7 @@ package runner_test
 import (
 	"context"
 	"fmt"
-	"io/ioutil"
 	"net/http"
-	"os"
-	"path"
 	"testing"
 	"time"
 
@@ -149,10 +146,6 @@ func TestNewRunner(t *testing.T) {
 
 // This test only covers the case when Run() stops.
 func TestRunner_Run(t *testing.T) {
-	mainDir, err := ioutil.TempDir("", "pathways")
-	if err != nil {
-		t.Fatalf("ioutil.TempDir(%v, %v) failed with %v", "", "pathways", err)
-	}
 	// test_pathway is an arbitrary pathway that sends 4 (arbitrary number) messages.
 	// This pathway refers to values in the files in the pkg/test/data package,
 	// more specifically the order profiles and the locations.
@@ -180,16 +173,14 @@ test_pathway:
             unit: UMOLL
             abnormal_flag: HIGH
     - discharge: {}`)
-	pFile := path.Join(mainDir, "pathways.yml")
-	testwrite.BytesToFileWithName(t, b, pFile)
-	defer os.Remove(pFile)
+	mainDir := testwrite.BytesToDir(t, b, "pathway.yml")
 
 	hl7.TimezoneAndLocation("Europe/London")
 	// now is an arbitrary date in the past.
 	now := time.Date(2020, 2, 12, 0, 0, 0, 0, time.UTC)
 
 	args := testhospital.Arguments
-	args.PathwayArguments.Dir = path.Dir(pFile)
+	args.PathwayArguments.Dir = mainDir
 	args.PathwayArguments.Names = []string{"test_pathway"}
 
 	tests := []struct {

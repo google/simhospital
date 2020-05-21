@@ -15,7 +15,6 @@
 package location_test
 
 import (
-	"os"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -142,7 +141,6 @@ room: Room-1`)
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
 			fName := testwrite.BytesToFile(t, tc.locContent)
-			defer os.Remove(fName)
 
 			got, err := NewManager(fName)
 			gotErr := err != nil
