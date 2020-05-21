@@ -33,7 +33,6 @@ import (
 	"github.com/google/simhospital/pkg/hardcoded"
 	"github.com/google/simhospital/pkg/hl7"
 	. "github.com/google/simhospital/pkg/hospital"
-	"github.com/google/simhospital/pkg/location"
 	"github.com/google/simhospital/pkg/logging"
 	"github.com/google/simhospital/pkg/message"
 	"github.com/google/simhospital/pkg/pathway"
@@ -1741,7 +1740,7 @@ func TestStartPathway_OccupiedBed(t *testing.T) {
 				testPathwayName: {Pathway: tc.steps},
 			}
 			cfg := Config{
-				LocationManager: locationManager(t, testLoc, testLocAE),
+				LocationManager: testlocation.NewLocationManager(t, testLoc, testLocAE),
 			}
 			hospital := newHospital(t, cfg, pathways)
 			defer hospital.Close()
@@ -3597,7 +3596,7 @@ func TestRunPathwayCustomPathwayManager(t *testing.T) {
 	pm := &testPathwayManager{}
 	cfg := Config{
 		PathwayManager:  pm,
-		LocationManager: locationManager(t, testLoc, testLocAE),
+		LocationManager: testlocation.NewLocationManager(t, testLoc, testLocAE),
 		DataFiles:       test.DataFiles[test.Test],
 	}
 	hospital := testhospital.WithTime(t, testhospital.Config{Config: cfg, Arguments: testhospital.Arguments}, now)
@@ -3684,7 +3683,7 @@ func hospitalWithTime(t *testing.T, cfg Config, pathways map[string]pathway.Path
 		t.Fatalf("pathway.NewDistributionManager(%v,%v,%v) failed with %v", pathways, nil, nil, err)
 	}
 	cfg.PathwayManager = pm
-	cfg.LocationManager = locationManager(t, testLoc, testLocAE)
+	cfg.LocationManager = testlocation.NewLocationManager(t, testLoc, testLocAE)
 	return testhospital.WithTime(t, testhospital.Config{Config: cfg, Arguments: testhospital.Arguments}, now)
 }
 
@@ -4140,13 +4139,4 @@ func TestStartNextPathway(t *testing.T) {
 			t.Errorf("countMessageLen[%v] = %d, want within %.1f of %d", k, v, delta, want)
 		}
 	}
-}
-
-func locationManager(t *testing.T, locations ...string) *location.Manager {
-	t.Helper()
-	m, err := testlocation.NewLocationManager(locations...)
-	if err != nil {
-		t.Fatalf("testlocation.NewLocationManager(%v) failed with %v", locations, err)
-	}
-	return m
 }

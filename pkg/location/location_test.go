@@ -180,7 +180,7 @@ func TestManagerOccupyAvailableBed(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			locationManager := manager(t, aAndEID)
+			locationManager := testlocation.NewLocationManager(t, aAndEID)
 
 			got, err := locationManager.OccupyAvailableBed(tc.poc)
 			gotErr := err != nil
@@ -195,7 +195,7 @@ func TestManagerOccupyAvailableBed(t *testing.T) {
 }
 
 func TestManagerOccupyAvailableBedReoccupyFreedBed(t *testing.T) {
-	locationManager := manager(t, aAndEID)
+	locationManager := testlocation.NewLocationManager(t, aAndEID)
 	want := aAndEBed1
 
 	got, err := locationManager.OccupyAvailableBed(aAndEID)
@@ -252,7 +252,7 @@ func TestManagerOccupySpecificBed(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			locationManager := manager(t, aAndEID)
+			locationManager := testlocation.NewLocationManager(t, aAndEID)
 
 			got, err := locationManager.OccupySpecificBed(tc.poc, tc.bed)
 			gotErr := err != nil
@@ -268,7 +268,7 @@ func TestManagerOccupySpecificBed(t *testing.T) {
 }
 
 func TestManagerOccupySpecificBedNoAvailableBed(t *testing.T) {
-	locationManager := manager(t, aAndEID)
+	locationManager := testlocation.NewLocationManager(t, aAndEID)
 
 	// Mark bed as occupied.
 	if _, err := locationManager.OccupySpecificBed(aAndEID, bed2); err != nil {
@@ -281,7 +281,7 @@ func TestManagerOccupySpecificBedNoAvailableBed(t *testing.T) {
 }
 
 func TestManagerOccupySpecificBedReoccupyFreedBed(t *testing.T) {
-	locationManager := manager(t, aAndEID)
+	locationManager := testlocation.NewLocationManager(t, aAndEID)
 
 	want := aAndEBed2
 
@@ -318,7 +318,7 @@ func TestManagerOccupySpecificBedReoccupyFreedBed(t *testing.T) {
 }
 
 func TestManagerFreeBed(t *testing.T) {
-	locationManager := manager(t, aAndEID)
+	locationManager := testlocation.NewLocationManager(t, aAndEID)
 
 	// We first occupy a bed.
 	got, err := locationManager.OccupyAvailableBed(aAndEID)
@@ -341,7 +341,7 @@ func TestManagerFreeBed(t *testing.T) {
 }
 
 func TestManagerFreeBedError(t *testing.T) {
-	locationManager := manager(t, aAndEID)
+	locationManager := testlocation.NewLocationManager(t, aAndEID)
 
 	// Get a location that is not a bed.
 	aAndELoc := locationManager.GetAAndELocation()
@@ -401,7 +401,7 @@ func TestManagerGetAAndELocation(t *testing.T) {
 	}{
 		{
 			name:    "existing ED",
-			manager: manager(t, aAndEID),
+			manager: testlocation.NewLocationManager(t, aAndEID),
 			want: &message.PatientLocation{
 				Poc:          aAndEID,
 				Facility:     "Simulated Hospital",
@@ -483,7 +483,7 @@ func TestManagerMatches(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			manager := manager(t, aAndEID)
+			manager := testlocation.NewLocationManager(t, aAndEID)
 			got, err := manager.Matches(tc.location, tc.pl)
 			gotErr := err != nil
 			if gotErr != tc.wantErr {
@@ -527,13 +527,4 @@ func TestIsBed(t *testing.T) {
 			}
 		})
 	}
-}
-
-func manager(t *testing.T, loc string) *Manager {
-	t.Helper()
-	m, err := testlocation.NewLocationManager(loc)
-	if err != nil {
-		t.Fatalf("testlocation.NewLocationManager(%s) failed with %v", loc, err)
-	}
-	return m
 }

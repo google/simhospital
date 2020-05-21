@@ -697,11 +697,7 @@ func newTestPathwayStarter(t *testing.T, pathways map[string]pathway.Pathway, cf
 	}
 
 	cfg.PathwayManager = pathwayManager
-	lm, err := testlocation.NewLocationManager(testLoc, testLocAE)
-	if err != nil {
-		t.Fatalf("testlocation.NewLocationManager(%v) failed with %v", []string{testLoc, testLocAE}, err)
-	}
-	cfg.LocationManager = lm
+	cfg.LocationManager = testlocation.NewLocationManager(t, testLoc, testLocAE)
 	h := testhospital.WithTime(t, testhospital.Config{Config: cfg, Arguments: testhospital.Arguments}, now)
 	p := &pathway.Parser{
 		Clock:           testclock.New(time.Now()),

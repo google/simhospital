@@ -41,15 +41,11 @@ var (
 
 func newDefaultParser(t *testing.T, now time.Time) *Parser {
 	t.Helper()
-	lm, err := testlocation.NewLocationManager("ED", "Renal")
-	if err != nil {
-		t.Fatalf("testlocation.NewLocationManager(%v, %v) failed with %v", "ED", "Renal", err)
-	}
 	return &Parser{
 		Clock:           testclock.New(now),
 		OrderProfiles:   emptyOrderProfiles,
 		Doctors:         emptyDoctors,
-		LocationManager: lm,
+		LocationManager: testlocation.NewLocationManager(t, "ED", "Renal"),
 	}
 }
 

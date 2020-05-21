@@ -17,10 +17,11 @@ package testlocation
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
+	"testing"
 
 	"github.com/google/simhospital/pkg/location"
+	"github.com/google/simhospital/pkg/test/testwrite"
 )
 
 // roomMgrTmpl is the YML template for location.RoomManager.
@@ -48,20 +49,17 @@ var ManagerWithAAndE = &location.Manager{
 }
 
 // NewLocationManager creates a new location manager with the given locations.
-func NewLocationManager(locations ...string) (*location.Manager, error) {
+func NewLocationManager(t *testing.T, locations ...string) *location.Manager {
 	var allLocations string
 	for _, l := range locations {
 		allLocations += fmt.Sprintf(roomMgrTmpl, l, l)
 	}
-	loc := []byte(allLocations)
-	tmp, err := ioutil.TempFile("", "location")
-	if err != nil {
-		return nil, err
-	}
-	defer os.Remove(tmp.Name())
+	tmp := testwrite.BytesToFile(t, []byte(allLocations))
+	defer os.Remove(tmp)
 
-	if _, err = tmp.Write(loc); err != nil {
-		return nil, err
+	m, err := location.NewManager(tmp)
+	if err != nil {
+		t.Fatalf("location.NewManager(%s) failed with %v", tmp, err)
 	}
-	return location.NewManager(tmp.Name())
+	return m
 }
