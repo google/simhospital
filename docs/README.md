@@ -103,25 +103,12 @@ defined with words that are common in clinical settings such as "admission",
 
 ## Quickstart
 
-Prerequisites: install [bazel](https://bazel.build/) and
-[git](https://git-scm.com/downloads).
+Prerequisites: install [docker](https://www.docker.com/).
 
-Download the code into a `simhospital` local folder.
-
-```shell
-git clone https://github.com/google/simhospital.git
-```
-
-`cd` into the folder:
+Run the latest version of Simulated Hospital:
 
 ```shell
-cd simhospital
-```
-
-Run Simulated Hospital:
-
-```shell
-bazel run //cmd/simulator:simulator -- --local_path=$(pwd)
+docker run --rm -it -p 8000:8000 eu.gcr.io/simhospital-images/simhospital:latest health/simulator
 ```
 
 Stop the simulator with Ctrl-C.

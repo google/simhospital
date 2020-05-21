@@ -9,6 +9,17 @@
 -   [Troubleshooting](#troubleshooting)
     *   [Error: cannot parse locations file: no such file or directory](#error-cannot-parse-locations-file-no-such-file-or-directory)
 
+## Run the latest version of Simulated Hospital
+
+Prerequisites: install [docker](https://www.docker.com/).
+
+The Simulated Hospital team publishes new images of Simulated Hospital
+periodically. To run the latest release:
+
+```shell
+docker run --rm -it -p 8000:8000 eu.gcr.io/simhospital-images/simhospital:latest health/simulator
+```
+
 ## Run your own instance of Simulated Hospital
 
 You can download and run the code of Simulated Hospital. The advantage of
