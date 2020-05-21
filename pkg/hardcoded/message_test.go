@@ -97,20 +97,18 @@ func TestNewManager(t *testing.T) {
 		description string
 		yml         string
 		wantErr     bool
-	}{
-		{
-			description: "success",
-			yml:         missingPIDYml,
-		}, {
-			description: "no hardcoded messages",
-			yml:         "",
-			wantErr:     true,
-		}, {
-			description: "re-declared message name",
-			yml:         fmt.Sprintf("%s\n\n%s", missingPIDYml, missingPIDYml),
-			wantErr:     true,
-		},
-	}
+	}{{
+		description: "success",
+		yml:         missingPIDYml,
+	}, {
+		description: "no hardcoded messages",
+		yml:         "",
+		wantErr:     true,
+	}, {
+		description: "re-declared message name",
+		yml:         fmt.Sprintf("%s\n\n%s", missingPIDYml, missingPIDYml),
+		wantErr:     true,
+	}}
 
 	for _, tc := range tests {
 		t.Run(tc.description, func(t *testing.T) {
@@ -185,49 +183,47 @@ func TestMessage(t *testing.T) {
 		yml         string
 		toInclude   string
 		want        *message.HL7Message
-	}{
-		{
-			description: missingPIDName,
-			yml:         missingPIDYml,
-			toInclude:   ".*",
-			want: &message.HL7Message{
-				Type:    &message.Type{MessageType: "ADT", TriggerEvent: "A03"},
-				Message: missingPIDFieldsSet,
-			},
-		}, {
-			description: oruName,
-			yml:         oruYML,
-			toInclude:   ".*ORU.*",
-			want: &message.HL7Message{
-				Type:    &message.Type{MessageType: "ORU", TriggerEvent: "R01"},
-				Message: oruFieldsSet,
-			},
-		}, {
-			description: nhsName,
-			yml:         nhsYML,
-			toInclude:   ".*NHS.*,.*ORU.*",
-			want: &message.HL7Message{
-				Type:    &message.Type{MessageType: "ADT", TriggerEvent: "A01"},
-				Message: nhsFieldsSet,
-			},
-		}, {
-			description: oruName,
-			yml:         oruYML,
-			toInclude:   ".*NHS.*,.*ORU.*",
-			want: &message.HL7Message{
-				Type:    &message.Type{MessageType: "ORU", TriggerEvent: "R01"},
-				Message: oruFieldsSet,
-			},
-		}, {
-			description: fmt.Sprintf("%s,%s", oruName, nhsName),
-			yml:         fmt.Sprintf("%s\n%s", oruYML, nhsYML),
-			toInclude:   ".*ORU.*",
-			want: &message.HL7Message{
-				Type:    &message.Type{MessageType: "ORU", TriggerEvent: "R01"},
-				Message: oruFieldsSet,
-			},
+	}{{
+		description: missingPIDName,
+		yml:         missingPIDYml,
+		toInclude:   ".*",
+		want: &message.HL7Message{
+			Type:    &message.Type{MessageType: "ADT", TriggerEvent: "A03"},
+			Message: missingPIDFieldsSet,
 		},
-	}
+	}, {
+		description: oruName,
+		yml:         oruYML,
+		toInclude:   ".*ORU.*",
+		want: &message.HL7Message{
+			Type:    &message.Type{MessageType: "ORU", TriggerEvent: "R01"},
+			Message: oruFieldsSet,
+		},
+	}, {
+		description: nhsName,
+		yml:         nhsYML,
+		toInclude:   ".*NHS.*,.*ORU.*",
+		want: &message.HL7Message{
+			Type:    &message.Type{MessageType: "ADT", TriggerEvent: "A01"},
+			Message: nhsFieldsSet,
+		},
+	}, {
+		description: oruName,
+		yml:         oruYML,
+		toInclude:   ".*NHS.*,.*ORU.*",
+		want: &message.HL7Message{
+			Type:    &message.Type{MessageType: "ORU", TriggerEvent: "R01"},
+			Message: oruFieldsSet,
+		},
+	}, {
+		description: fmt.Sprintf("%s,%s", oruName, nhsName),
+		yml:         fmt.Sprintf("%s\n%s", oruYML, nhsYML),
+		toInclude:   ".*ORU.*",
+		want: &message.HL7Message{
+			Type:    &message.Type{MessageType: "ORU", TriggerEvent: "R01"},
+			Message: oruFieldsSet,
+		},
+	}}
 
 	for _, tc := range tests {
 		t.Run(tc.description, func(t *testing.T) {
@@ -278,33 +274,31 @@ func TestMessageErrors(t *testing.T) {
 		description string
 		yml         string
 		toInclude   string
-	}{
-		{
-			description: fmt.Sprintf("no matching messages: %s", nhsName),
-			yml:         nhsYML,
-			toInclude:   ".*ORU.*",
-		}, {
-			description: fmt.Sprintf("no matching messages: %s", missingPIDName),
-			yml:         missingPIDYml,
-			toInclude:   ".*NHS.*,.*ORU.*",
-		}, {
-			description: "empty regex",
-			yml:         nhsYML,
-			toInclude:   "",
-		}, {
-			description: "list of empty or invalid regex",
-			yml:         nhsYML,
-			toInclude:   ",[",
-		}, {
-			description: "unparsable message",
-			yml:         unparsableYML,
-			toInclude:   ".*",
-		}, {
-			description: "no message type",
-			yml:         noMessageTypeYML,
-			toInclude:   ".*",
-		},
-	}
+	}{{
+		description: fmt.Sprintf("no matching messages: %s", nhsName),
+		yml:         nhsYML,
+		toInclude:   ".*ORU.*",
+	}, {
+		description: fmt.Sprintf("no matching messages: %s", missingPIDName),
+		yml:         missingPIDYml,
+		toInclude:   ".*NHS.*,.*ORU.*",
+	}, {
+		description: "empty regex",
+		yml:         nhsYML,
+		toInclude:   "",
+	}, {
+		description: "list of empty or invalid regex",
+		yml:         nhsYML,
+		toInclude:   ",[",
+	}, {
+		description: "unparsable message",
+		yml:         unparsableYML,
+		toInclude:   ".*",
+	}, {
+		description: "no message type",
+		yml:         noMessageTypeYML,
+		toInclude:   ".*",
+	}}
 
 	for _, tc := range tests {
 		t.Run(fmt.Sprintf("NewManager(%q)", tc.description), func(t *testing.T) {

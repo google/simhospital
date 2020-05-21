@@ -69,177 +69,175 @@ func TestRandomDocumentForClinicalNote(t *testing.T) {
 		wantRandomID bool
 		wantDateTime message.NullTime
 		tuples       []*tuple
-	}{
-		{
-			name: "pdf, id is non-explicit, base64 encoding",
-			tuples: []*tuple{{
-				pathway: &pathway.ClinicalNote{
-					ContentType: "pdf",
-				},
-				contents: []*wantContent{{
-					wantEncoding:            "base64",
-					wantObservationDateTime: message.NewValidTime(defaultDate),
-				}},
-				eventDateTime: defaultDate,
+	}{{
+		name: "pdf, id is non-explicit, base64 encoding",
+		tuples: []*tuple{{
+			pathway: &pathway.ClinicalNote{
+				ContentType: "pdf",
+			},
+			contents: []*wantContent{{
+				wantEncoding:            "base64",
+				wantObservationDateTime: message.NewValidTime(defaultDate),
 			}},
-			wantRandomID: true,
-			wantDateTime: message.NewValidTime(defaultDate),
-		}, {
-			name: "rtf, id is non-explicit, no encoding",
-			tuples: []*tuple{{
-				pathway: &pathway.ClinicalNote{
-					ContentType: "rtf",
-				},
-				contents: []*wantContent{{
-					wantObservationDateTime: message.NewValidTime(defaultDate),
-				}},
-				eventDateTime: defaultDate,
+			eventDateTime: defaultDate,
+		}},
+		wantRandomID: true,
+		wantDateTime: message.NewValidTime(defaultDate),
+	}, {
+		name: "rtf, id is non-explicit, no encoding",
+		tuples: []*tuple{{
+			pathway: &pathway.ClinicalNote{
+				ContentType: "rtf",
+			},
+			contents: []*wantContent{{
+				wantObservationDateTime: message.NewValidTime(defaultDate),
 			}},
-			wantRandomID: true,
-			wantDateTime: message.NewValidTime(defaultDate),
-		}, {
-			name: "jpg, id is explicit, base64 encoding",
-			tuples: []*tuple{{
-				pathway: &pathway.ClinicalNote{
-					ContentType: "jpg",
-					DocumentID:  "some-id",
-				},
-				contents: []*wantContent{{
-					wantEncoding:            "base64",
-					wantObservationDateTime: message.NewValidTime(defaultDate),
-				}},
-				eventDateTime: defaultDate,
+			eventDateTime: defaultDate,
+		}},
+		wantRandomID: true,
+		wantDateTime: message.NewValidTime(defaultDate),
+	}, {
+		name: "jpg, id is explicit, base64 encoding",
+		tuples: []*tuple{{
+			pathway: &pathway.ClinicalNote{
+				ContentType: "jpg",
+				DocumentID:  "some-id",
+			},
+			contents: []*wantContent{{
+				wantEncoding:            "base64",
+				wantObservationDateTime: message.NewValidTime(defaultDate),
 			}},
-			wantDateTime: message.NewValidTime(defaultDate),
-		}, {
-			name: "pdf, id is explicit, base64 encoding",
-			tuples: []*tuple{{
-				pathway: &pathway.ClinicalNote{
-					ContentType: "pdf",
-					DocumentID:  "some-id",
-				},
-				contents: []*wantContent{{
-					wantEncoding:            "base64",
-					wantObservationDateTime: message.NewValidTime(defaultDate),
-				}},
-				eventDateTime: defaultDate,
+			eventDateTime: defaultDate,
+		}},
+		wantDateTime: message.NewValidTime(defaultDate),
+	}, {
+		name: "pdf, id is explicit, base64 encoding",
+		tuples: []*tuple{{
+			pathway: &pathway.ClinicalNote{
+				ContentType: "pdf",
+				DocumentID:  "some-id",
+			},
+			contents: []*wantContent{{
+				wantEncoding:            "base64",
+				wantObservationDateTime: message.NewValidTime(defaultDate),
 			}},
-			wantDateTime: message.NewValidTime(defaultDate),
-		}, {
-			name: "txt, document type explicitly given",
-			tuples: []*tuple{{
-				pathway: &pathway.ClinicalNote{
-					ContentType:  "txt",
-					DocumentType: "ED",
-					DocumentID:   "some-id",
-				},
-				contents: []*wantContent{{
-					wantObservationDateTime: message.NewValidTime(defaultDate),
-				}},
-				wantDocumentType: "ED",
-				eventDateTime:    defaultDate,
+			eventDateTime: defaultDate,
+		}},
+		wantDateTime: message.NewValidTime(defaultDate),
+	}, {
+		name: "txt, document type explicitly given",
+		tuples: []*tuple{{
+			pathway: &pathway.ClinicalNote{
+				ContentType:  "txt",
+				DocumentType: "ED",
+				DocumentID:   "some-id",
+			},
+			contents: []*wantContent{{
+				wantObservationDateTime: message.NewValidTime(defaultDate),
 			}},
-			wantDateTime: message.NewValidTime(defaultDate),
-		}, {
-			name: "txt, explicit content given",
-			tuples: []*tuple{{
-				pathway: &pathway.ClinicalNote{
-					ContentType:     "txt",
-					DocumentContent: "short content",
-				},
-				contents: []*wantContent{{
-					wantExplicitContent:     true,
-					wantObservationDateTime: message.NewValidTime(defaultDate),
-				}},
-				eventDateTime: defaultDate,
+			wantDocumentType: "ED",
+			eventDateTime:    defaultDate,
+		}},
+		wantDateTime: message.NewValidTime(defaultDate),
+	}, {
+		name: "txt, explicit content given",
+		tuples: []*tuple{{
+			pathway: &pathway.ClinicalNote{
+				ContentType:     "txt",
+				DocumentContent: "short content",
+			},
+			contents: []*wantContent{{
+				wantExplicitContent:     true,
+				wantObservationDateTime: message.NewValidTime(defaultDate),
 			}},
-			wantRandomID: true,
-			wantDateTime: message.NewValidTime(defaultDate),
+			eventDateTime: defaultDate,
+		}},
+		wantRandomID: true,
+		wantDateTime: message.NewValidTime(defaultDate),
+	}, {
+		name: "two pathways with same id, request a pdf, and then a text addendum with given content",
+		tuples: []*tuple{{
+			pathway: &pathway.ClinicalNote{
+				ContentType: "pdf",
+				DocumentID:  "some-id",
+			},
+			contents: []*wantContent{{
+				wantEncoding:            "base64",
+				wantObservationDateTime: message.NewValidTime(defaultDate),
+			}},
+			eventDateTime: defaultDate,
 		}, {
-			name: "two pathways with same id, request a pdf, and then a text addendum with given content",
-			tuples: []*tuple{{
-				pathway: &pathway.ClinicalNote{
-					ContentType: "pdf",
-					DocumentID:  "some-id",
-				},
-				contents: []*wantContent{{
-					wantEncoding:            "base64",
-					wantObservationDateTime: message.NewValidTime(defaultDate),
-				}},
-				eventDateTime: defaultDate,
+			pathway: &pathway.ClinicalNote{
+				ContentType:     "txt",
+				DocumentContent: "new content on addendum",
+				DocumentID:      "some-id",
+			},
+			contents: []*wantContent{{
+				wantEncoding:            "base64",
+				wantObservationDateTime: message.NewValidTime(defaultDate),
 			}, {
-				pathway: &pathway.ClinicalNote{
-					ContentType:     "txt",
-					DocumentContent: "new content on addendum",
-					DocumentID:      "some-id",
-				},
-				contents: []*wantContent{{
-					wantEncoding:            "base64",
-					wantObservationDateTime: message.NewValidTime(defaultDate),
-				}, {
-					wantExplicitContent:     true,
-					wantObservationDateTime: message.NewValidTime(time.Date(2019, 1, 21, 0, 0, 0, 0, time.UTC)),
-				}},
-				eventDateTime: time.Date(2019, 1, 21, 0, 0, 0, 0, time.UTC),
+				wantExplicitContent:     true,
+				wantObservationDateTime: message.NewValidTime(time.Date(2019, 1, 21, 0, 0, 0, 0, time.UTC)),
 			}},
-			wantDateTime: message.NewValidTime(defaultDate),
+			eventDateTime: time.Date(2019, 1, 21, 0, 0, 0, 0, time.UTC),
+		}},
+		wantDateTime: message.NewValidTime(defaultDate),
+	}, {
+		name: "two pathways with same id, request a txt, and then a txt addendum with new title and type",
+		tuples: []*tuple{{
+			pathway: &pathway.ClinicalNote{
+				ContentType:   "txt",
+				DocumentID:    "some-id",
+				DocumentType:  "type",
+				DocumentTitle: "title",
+			},
+			contents: []*wantContent{{
+				wantObservationDateTime: message.NewValidTime(defaultDate),
+			}},
+			wantDocumentType: "type",
+			eventDateTime:    defaultDate,
 		}, {
-			name: "two pathways with same id, request a txt, and then a txt addendum with new title and type",
-			tuples: []*tuple{{
-				pathway: &pathway.ClinicalNote{
-					ContentType:   "txt",
-					DocumentID:    "some-id",
-					DocumentType:  "type",
-					DocumentTitle: "title",
-				},
-				contents: []*wantContent{{
-					wantObservationDateTime: message.NewValidTime(defaultDate),
-				}},
-				wantDocumentType: "type",
-				eventDateTime:    defaultDate,
+			pathway: &pathway.ClinicalNote{
+				ContentType:   "txt",
+				DocumentID:    "some-id",
+				DocumentType:  "new-type",
+				DocumentTitle: "new-title",
+			},
+			contents: []*wantContent{{
+				wantObservationDateTime: message.NewValidTime(defaultDate),
 			}, {
-				pathway: &pathway.ClinicalNote{
-					ContentType:   "txt",
-					DocumentID:    "some-id",
-					DocumentType:  "new-type",
-					DocumentTitle: "new-title",
-				},
-				contents: []*wantContent{{
-					wantObservationDateTime: message.NewValidTime(defaultDate),
-				}, {
-					wantObservationDateTime: message.NewValidTime(time.Date(2019, 1, 21, 0, 0, 0, 0, time.UTC)),
-				}},
-				wantDocumentType: "new-type",
-				eventDateTime:    time.Date(2019, 1, 21, 0, 0, 0, 0, time.UTC),
+				wantObservationDateTime: message.NewValidTime(time.Date(2019, 1, 21, 0, 0, 0, 0, time.UTC)),
 			}},
-			wantDateTime: message.NewValidTime(defaultDate),
+			wantDocumentType: "new-type",
+			eventDateTime:    time.Date(2019, 1, 21, 0, 0, 0, 0, time.UTC),
+		}},
+		wantDateTime: message.NewValidTime(defaultDate),
+	}, {
+		name: "two pathways with same id, request a txt with a type and title, and then a txt addendum with empty title and type",
+		tuples: []*tuple{{
+			pathway: &pathway.ClinicalNote{
+				ContentType:   "txt",
+				DocumentID:    "some-id",
+				DocumentTitle: "title",
+			},
+			contents: []*wantContent{{
+				wantObservationDateTime: message.NewValidTime(defaultDate),
+			}},
+			eventDateTime: defaultDate,
 		}, {
-			name: "two pathways with same id, request a txt with a type and title, and then a txt addendum with empty title and type",
-			tuples: []*tuple{{
-				pathway: &pathway.ClinicalNote{
-					ContentType:   "txt",
-					DocumentID:    "some-id",
-					DocumentTitle: "title",
-				},
-				contents: []*wantContent{{
-					wantObservationDateTime: message.NewValidTime(defaultDate),
-				}},
-				eventDateTime: defaultDate,
+			pathway: &pathway.ClinicalNote{
+				ContentType: "txt",
+				DocumentID:  "some-id",
+			},
+			contents: []*wantContent{{
+				wantObservationDateTime: message.NewValidTime(defaultDate),
 			}, {
-				pathway: &pathway.ClinicalNote{
-					ContentType: "txt",
-					DocumentID:  "some-id",
-				},
-				contents: []*wantContent{{
-					wantObservationDateTime: message.NewValidTime(defaultDate),
-				}, {
-					wantObservationDateTime: message.NewValidTime(time.Date(2019, 1, 21, 0, 0, 0, 0, time.UTC)),
-				}},
-				eventDateTime: time.Date(2019, 1, 21, 0, 0, 0, 0, time.UTC),
+				wantObservationDateTime: message.NewValidTime(time.Date(2019, 1, 21, 0, 0, 0, 0, time.UTC)),
 			}},
-			wantDateTime: message.NewValidTime(defaultDate),
-		},
-	}
+			eventDateTime: time.Date(2019, 1, 21, 0, 0, 0, 0, time.UTC),
+		}},
+		wantDateTime: message.NewValidTime(defaultDate),
+	}}
 	for _, tt := range testCases {
 		t.Run(tt.name, func(t *testing.T) {
 			var (
