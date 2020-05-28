@@ -1,0 +1,11 @@
+steps:
+# Build the Docker image and load it into the Docker daemon.
+# The loaded image name is the BUILD target's name, prefixed with bazel.
+- name: gcr.io/cloud-builders/bazel
+  args: ['run', ':simhospital_container_image']
+# Re-tag the image to the public image tag.
+- name: gcr.io/cloud-builders/docker
+  args: ['tag', 'bazel:simhospital_container_image', 'eu.gcr.io/$PROJECT_ID/simhospital:latest']
+# Push the image.
+images: ['eu.gcr.io/$PROJECT_ID/simhospital:latest']
+timeout: 1800s
