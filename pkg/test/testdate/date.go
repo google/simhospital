@@ -18,13 +18,13 @@ package testdate
 import (
 	"time"
 
-	"github.com/google/simhospital/pkg/message"
+	"github.com/google/simhospital/pkg/ir"
 )
 
 // Generator is a generator of deterministic random dates.
 type Generator struct{}
 
 // Random returns the NullTime that corresponds to now.
-func (g *Generator) Random(now time.Time) message.NullTime {
-	return message.NewValidTime(now)
+func (g *Generator) Random(now time.Time) ir.NullTime {
+	return ir.NewValidTime(now)
 }

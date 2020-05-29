@@ -17,8 +17,8 @@ package hospital
 import (
 	"github.com/pkg/errors"
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/logging"
-	"github.com/google/simhospital/pkg/message"
 	"github.com/google/simhospital/pkg/pathway"
 	"github.com/google/simhospital/pkg/processor"
 	"github.com/google/simhospital/pkg/state"
@@ -269,7 +269,7 @@ func getNextEvents(historicalSteps []pathway.Step, pathwaySteps []pathway.Step) 
 	return
 }
 
-func (h *Hospital) runEventProcessors(logLocal *logging.SimulatedHospitalLogger, e *state.Event, patientInfo *message.PatientInfo, ps []EventProcessor) (bool, error) {
+func (h *Hospital) runEventProcessors(logLocal *logging.SimulatedHospitalLogger, e *state.Event, patientInfo *ir.PatientInfo, ps []EventProcessor) (bool, error) {
 	processed := false
 	for _, p := range ps {
 		if !p.Matches(e) {

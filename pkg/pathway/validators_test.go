@@ -24,7 +24,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/google/simhospital/pkg/constants"
 	"github.com/google/simhospital/pkg/doctor"
-	"github.com/google/simhospital/pkg/message"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/orderprofile"
 	"github.com/google/simhospital/pkg/test"
 	"github.com/google/simhospital/pkg/test/testclock"
@@ -34,10 +34,10 @@ import (
 
 var (
 	urea = &orderprofile.OrderProfile{
-		UniversalService: message.CodedElement{ID: "lpdc-3969", Text: "UREA AND ELECTROLYTES", CodingSystem: "WinPath"},
+		UniversalService: ir.CodedElement{ID: "lpdc-3969", Text: "UREA AND ELECTROLYTES", CodingSystem: "WinPath"},
 		TestTypes: map[string]*orderprofile.TestType{
 			"Creatinine": {
-				Name:      message.CodedElement{ID: "lpdc-2012", Text: "Creatinine", CodingSystem: "WinPath"},
+				Name:      ir.CodedElement{ID: "lpdc-2012", Text: "Creatinine", CodingSystem: "WinPath"},
 				Unit:      "UMOLL",
 				ValueType: "NM",
 				RefRange:  "49 - 92",
@@ -58,10 +58,10 @@ var (
 
 func TestResultValid(t *testing.T) {
 	openEnd := &orderprofile.OrderProfile{
-		UniversalService: message.CodedElement{ID: "lpdc-3969", Text: "Open End", CodingSystem: "WinPath"},
+		UniversalService: ir.CodedElement{ID: "lpdc-3969", Text: "Open End", CodingSystem: "WinPath"},
 		TestTypes: map[string]*orderprofile.TestType{
 			"Open End": {
-				Name:      message.CodedElement{ID: "lpdc-2012", Text: "Open End", CodingSystem: "WinPath"},
+				Name:      ir.CodedElement{ID: "lpdc-2012", Text: "Open End", CodingSystem: "WinPath"},
 				Unit:      "UMOLL",
 				ValueType: "NM",
 				RefRange:  ">=5.5",
@@ -72,10 +72,10 @@ func TestResultValid(t *testing.T) {
 		"UREA AND ELECTROLYTES": openEnd,
 	})
 	openStart := &orderprofile.OrderProfile{
-		UniversalService: message.CodedElement{ID: "lpdc-3969", Text: "Open Start", CodingSystem: "WinPath"},
+		UniversalService: ir.CodedElement{ID: "lpdc-3969", Text: "Open Start", CodingSystem: "WinPath"},
 		TestTypes: map[string]*orderprofile.TestType{
 			"Open Start": {
-				Name:      message.CodedElement{ID: "lpdc-2012", Text: "Open Start", CodingSystem: "WinPath"},
+				Name:      ir.CodedElement{ID: "lpdc-2012", Text: "Open Start", CodingSystem: "WinPath"},
 				Unit:      "UMOLL",
 				ValueType: "NM",
 				RefRange:  "<5.5",
@@ -247,10 +247,10 @@ func TestResultValidReferenceRange(t *testing.T) {
 
 func TestResultValidAbnormalFlag(t *testing.T) {
 	noRefRange := &orderprofile.OrderProfile{
-		UniversalService: message.CodedElement{ID: "lpdc-3969", Text: "UREA AND ELECTROLYTES", CodingSystem: "WinPath"},
+		UniversalService: ir.CodedElement{ID: "lpdc-3969", Text: "UREA AND ELECTROLYTES", CodingSystem: "WinPath"},
 		TestTypes: map[string]*orderprofile.TestType{
 			"Creatinine": {
-				Name:      message.CodedElement{ID: "lpdc-2012", Text: "Creatinine", CodingSystem: "WinPath"},
+				Name:      ir.CodedElement{ID: "lpdc-2012", Text: "Creatinine", CodingSystem: "WinPath"},
 				Unit:      "UMOLL",
 				ValueType: "NM",
 			},
@@ -260,10 +260,10 @@ func TestResultValidAbnormalFlag(t *testing.T) {
 		"UREA AND ELECTROLYTES": noRefRange,
 	})
 	nonParsableRefRange := &orderprofile.OrderProfile{
-		UniversalService: message.CodedElement{ID: "lpdc-3969", Text: "UREA AND ELECTROLYTES", CodingSystem: "WinPath"},
+		UniversalService: ir.CodedElement{ID: "lpdc-3969", Text: "UREA AND ELECTROLYTES", CodingSystem: "WinPath"},
 		TestTypes: map[string]*orderprofile.TestType{
 			"Creatinine": {
-				Name:      message.CodedElement{ID: "lpdc-2012", Text: "Creatinine", CodingSystem: "WinPath"},
+				Name:      ir.CodedElement{ID: "lpdc-2012", Text: "Creatinine", CodingSystem: "WinPath"},
 				Unit:      "UMOLL",
 				ValueType: "NM",
 				RefRange:  "-",

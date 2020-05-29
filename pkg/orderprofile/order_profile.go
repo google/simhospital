@@ -24,7 +24,7 @@ import (
 	"gopkg.in/yaml.v2"
 	"github.com/google/simhospital/pkg/config"
 	"github.com/google/simhospital/pkg/constants"
-	"github.com/google/simhospital/pkg/message"
+	"github.com/google/simhospital/pkg/ir"
 )
 
 // OrderProfiles contains Order Profile information.
@@ -39,14 +39,14 @@ type OrderProfiles struct {
 type OrderProfile struct {
 	// UniversalService encapsulated UniversalServiceID, Order Profile name (represented as Text)
 	// and CodingSystem.
-	UniversalService message.CodedElement
+	UniversalService ir.CodedElement
 	// TestTypes is a map of all Test Types for the Order Profile, keys by their names.
 	TestTypes map[string]*TestType
 }
 
 // TestType represents the Test Type of the Order Profile.
 type TestType struct {
-	Name         message.CodedElement
+	Name         ir.CodedElement
 	defaultValue validString
 	Unit         string
 	ValueType    string
@@ -102,7 +102,7 @@ func (op *OrderProfiles) Get(name string) (*OrderProfile, bool) {
 // If the name is a name of any existing Order Profile, the CodedElement for that Order Profile
 // is returned.
 // Otherwise, returns CodedElement with ID and Text equal to given name.
-func (op *OrderProfiles) Generate(name string) *message.CodedElement {
+func (op *OrderProfiles) Generate(name string) *ir.CodedElement {
 	if name == constants.RandomString {
 		name = op.names[rand.Intn(len(op.names))]
 	}
@@ -111,7 +111,7 @@ func (op *OrderProfiles) Generate(name string) *message.CodedElement {
 	}
 
 	log.Warningf("No order profile defined for: %s", name)
-	return &message.CodedElement{ID: name, Text: name}
+	return &ir.CodedElement{ID: name, Text: name}
 }
 
 // RandomisedValueWithFlag generates a random value for the given type.
@@ -154,7 +154,7 @@ func testType(ttName string, ttValue tt, codingSystem string) *TestType {
 		codingSystem = ttValue.CodingSystem
 	}
 	testType := &TestType{
-		Name:      message.CodedElement{ID: ttValue.ID, Text: ttName, CodingSystem: codingSystem},
+		Name:      ir.CodedElement{ID: ttValue.ID, Text: ttName, CodingSystem: codingSystem},
 		Unit:      ttValue.Unit,
 		ValueType: ttValue.ValueType,
 		RefRange:  ttValue.RefRange,
@@ -220,7 +220,7 @@ func Load(filename string, hl7Config *config.HL7Config) (*OrderProfiles, error) 
 			codingSystem = v.CodingSystem
 		}
 		orderProfiles[k] = &OrderProfile{
-			UniversalService: message.CodedElement{ID: v.UniversalServiceID, Text: k, CodingSystem: codingSystem},
+			UniversalService: ir.CodedElement{ID: v.UniversalServiceID, Text: k, CodingSystem: codingSystem},
 			TestTypes:        testTypes,
 		}
 		log.Infof(" - %s", k)

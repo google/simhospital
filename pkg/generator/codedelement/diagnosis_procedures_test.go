@@ -22,7 +22,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/simhospital/pkg/config"
-	"github.com/google/simhospital/pkg/message"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/pathway"
 	"github.com/google/simhospital/pkg/test"
 	"github.com/google/simhospital/pkg/test/testclock"
@@ -70,7 +70,7 @@ P04.1,Procedure4,1
 		wantRandom       bool
 		wantRandomCode   map[string]string
 		input            *pathway.DiagnosisOrProcedure
-		want             *message.DiagnosisOrProcedure
+		want             *ir.DiagnosisOrProcedure
 	}{{
 		name: "Diagnosis from pathway",
 		g:    NewDiagnosisGenerator(c, data, tclock, dg),
@@ -79,10 +79,10 @@ P04.1,Procedure4,1
 			Description: "description",
 			Code:        "code",
 		},
-		want: &message.DiagnosisOrProcedure{
-			Description: &message.CodedElement{ID: "code", Text: "description"},
+		want: &ir.DiagnosisOrProcedure{
+			Description: &ir.CodedElement{ID: "code", Text: "description"},
 			Type:        "some-type",
-			DateTime:    message.NullTime{Valid: true, Time: pathwayDate},
+			DateTime:    ir.NullTime{Valid: true, Time: pathwayDate},
 		},
 		wantTypes: c.Diagnosis.Types,
 	}, {
@@ -102,10 +102,10 @@ P04.1,Procedure4,1
 			Description: "description",
 			Code:        "code",
 		},
-		want: &message.DiagnosisOrProcedure{
-			Description: &message.CodedElement{ID: "code", Text: "description"},
+		want: &ir.DiagnosisOrProcedure{
+			Description: &ir.CodedElement{ID: "code", Text: "description"},
 			Type:        "some-type",
-			DateTime:    message.NullTime{Valid: true, Time: pathwayDate},
+			DateTime:    ir.NullTime{Valid: true, Time: pathwayDate},
 		},
 		wantTypes: c.Procedure.Types,
 	}, {
@@ -151,7 +151,7 @@ P04.1,Procedure4,1
 					t.Errorf("RandomOrFromPathway(%v, %+v).CodingSystem got %v, want %v", dt, tc.input, got, want)
 				}
 
-				if got, want := got.DateTime, message.NewValidTime(pathwayDate); got != want {
+				if got, want := got.DateTime, ir.NewValidTime(pathwayDate); got != want {
 					t.Errorf("RandomOrFromPathway(%v, %+v).DateTime got %v, want %v", dt, tc.input, got, want)
 				}
 
@@ -229,7 +229,7 @@ func TestDiagOrProcGenerator_Random_EmptyFile_NoDate(t *testing.T) {
 					t.Errorf("RandomOrFromPathway(nil, %+v).Description got %+v, want nil", tc.input, got.Description)
 				}
 
-				if got, want := got.DateTime, message.NewValidTime(defaultDate); got != want {
+				if got, want := got.DateTime, ir.NewValidTime(defaultDate); got != want {
 					t.Errorf("RandomOrFromPathway(nil, %+v).DateTime got %v, want %v", tc.input, got, want)
 				}
 

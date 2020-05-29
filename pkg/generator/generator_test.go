@@ -26,7 +26,7 @@ import (
 	"github.com/google/simhospital/pkg/doctor"
 	"github.com/google/simhospital/pkg/generator/codedelement"
 	"github.com/google/simhospital/pkg/generator/header"
-	"github.com/google/simhospital/pkg/message"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/orderprofile"
 	"github.com/google/simhospital/pkg/pathway"
 	"github.com/google/simhospital/pkg/state"
@@ -40,7 +40,7 @@ import (
 )
 
 var (
-	urineElectrolytesCE = &message.CodedElement{ID: "lpdc-3969", Text: "UREA AND ELECTROLYTES", CodingSystem: "WinPath"}
+	urineElectrolytesCE = &ir.CodedElement{ID: "lpdc-3969", Text: "UREA AND ELECTROLYTES", CodingSystem: "WinPath"}
 
 	oneDayAgoDuration  = -24 * time.Hour
 	twoDaysAgoDuration = -48 * time.Hour
@@ -94,12 +94,12 @@ func TestNewPerson(t *testing.T) {
 	}
 }
 
-func originalPatientInfo() *message.PatientInfo {
-	return &message.PatientInfo{
+func originalPatientInfo() *ir.PatientInfo {
+	return &ir.PatientInfo{
 		Person:     testperson.New(),
-		Diagnoses:  []*message.DiagnosisOrProcedure{},
-		Procedures: []*message.DiagnosisOrProcedure{},
-		Allergies:  []*message.Allergy{},
+		Diagnoses:  []*ir.DiagnosisOrProcedure{},
+		Procedures: []*ir.DiagnosisOrProcedure{},
+		Allergies:  []*ir.Allergy{},
 	}
 }
 
@@ -108,9 +108,9 @@ func TestUpdateFromPathway(t *testing.T) {
 
 	cases := []struct {
 		name    string
-		patient *message.PatientInfo
+		patient *ir.PatientInfo
 		pathway *pathway.UpdatePerson
-		want    func() *message.PatientInfo
+		want    func() *ir.PatientInfo
 	}{
 		{
 			name:    "No changes",
@@ -123,7 +123,7 @@ func TestUpdateFromPathway(t *testing.T) {
 			pathway: &pathway.UpdatePerson{
 				Person: &pathway.Person{MRN: "888888", NHS: "9377865972"},
 			},
-			want: func() *message.PatientInfo {
+			want: func() *ir.PatientInfo {
 				pi := originalPatientInfo()
 				pi.Person.MRN = "888888"
 				pi.Person.NHS = "9377865972"
@@ -131,9 +131,9 @@ func TestUpdateFromPathway(t *testing.T) {
 			},
 		}, {
 			name: "Update Diagnosis and Procedure: init to empty slices",
-			patient: &message.PatientInfo{
+			patient: &ir.PatientInfo{
 				Person:    testperson.New(),
-				Allergies: []*message.Allergy{},
+				Allergies: []*ir.Allergy{},
 			},
 			pathway: &pathway.UpdatePerson{},
 			want:    originalPatientInfo,
@@ -153,15 +153,15 @@ func TestUpdateFromPathway(t *testing.T) {
 					},
 				},
 			},
-			want: func() *message.PatientInfo {
+			want: func() *ir.PatientInfo {
 				pi := originalPatientInfo()
-				pi.Allergies = []*message.Allergy{
+				pi.Allergies = []*ir.Allergy{
 					{
 						Type:                   "FOOD",
-						Description:            message.CodedElement{ID: "E", Text: "egg-containing compound", CodingSystem: "AL"},
+						Description:            ir.CodedElement{ID: "E", Text: "egg-containing compound", CodingSystem: "AL"},
 						Severity:               "SEVERE",
 						Reaction:               "Rash",
-						IdentificationDateTime: message.NewValidTime(defaultDate),
+						IdentificationDateTime: ir.NewValidTime(defaultDate),
 					},
 				}
 				return pi
@@ -171,7 +171,7 @@ func TestUpdateFromPathway(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			got := new(message.PatientInfo)
+			got := new(ir.PatientInfo)
 			*got = *tc.patient
 
 			g.UpdateFromPathway(got, tc.pathway)
@@ -187,7 +187,7 @@ func TestNewPerson_MRNsAreIncremental(t *testing.T) {
 
 	person := g.NewPerson(&pathway.Person{})
 
-	patientInfo := &message.PatientInfo{Person: person}
+	patientInfo := &ir.PatientInfo{Person: person}
 	g.UpdateFromPathway(patientInfo, &pathway.UpdatePerson{Person: &pathway.Person{}})
 
 	g.UpdateFromPathway(patientInfo, &pathway.UpdatePerson{Person: &pathway.Person{MRN: "888888"}})
@@ -213,7 +213,7 @@ func TestUpdateFromPathwaySetProceduresAndDiagnoses(t *testing.T) {
 		t.Fatalf("LoadDoctors() failed with %v", err)
 	}
 
-	wantDoctor := &message.Doctor{
+	wantDoctor := &ir.Doctor{
 		ID:        "id-1",
 		Surname:   "surname-1",
 		FirstName: "firstname-1",
@@ -267,8 +267,8 @@ A01.1,Diagnosis1,1
 		name           string
 		procedures     []*pathway.DiagnosisOrProcedure
 		diagnoses      []*pathway.DiagnosisOrProcedure
-		wantProcedures []*message.DiagnosisOrProcedure
-		wantDiagnoses  []*message.DiagnosisOrProcedure
+		wantProcedures []*ir.DiagnosisOrProcedure
+		wantDiagnoses  []*ir.DiagnosisOrProcedure
 	}{{
 		name: "Random, no datetime recorded",
 		procedures: []*pathway.DiagnosisOrProcedure{
@@ -277,25 +277,25 @@ A01.1,Diagnosis1,1
 		diagnoses: []*pathway.DiagnosisOrProcedure{
 			{Description: constants.RandomString, DateTime: &pathway.DateTime{NoDateTimeRecorded: true}},
 		},
-		wantProcedures: []*message.DiagnosisOrProcedure{{
-			Description: &message.CodedElement{
+		wantProcedures: []*ir.DiagnosisOrProcedure{{
+			Description: &ir.CodedElement{
 				ID:           "P24.9",
 				Text:         "Procedure1",
 				CodingSystem: "PCS",
 			},
 			Type:      "P",
 			Clinician: wantDoctor,
-			DateTime:  message.NewInvalidTime(),
+			DateTime:  ir.NewInvalidTime(),
 		}},
-		wantDiagnoses: []*message.DiagnosisOrProcedure{{
-			Description: &message.CodedElement{
+		wantDiagnoses: []*ir.DiagnosisOrProcedure{{
+			Description: &ir.CodedElement{
 				ID:           "A01.1",
 				Text:         "Diagnosis1",
 				CodingSystem: "DCS",
 			},
 			Type:      "D",
 			Clinician: wantDoctor,
-			DateTime:  message.NewInvalidTime(),
+			DateTime:  ir.NewInvalidTime(),
 		}},
 	}, {
 		name: "all fields present, Time DateTime",
@@ -311,23 +311,23 @@ A01.1,Diagnosis1,1
 			Description: "diag1",
 			DateTime:    &pathway.DateTime{Time: &defaultDate},
 		}},
-		wantProcedures: []*message.DiagnosisOrProcedure{{
+		wantProcedures: []*ir.DiagnosisOrProcedure{{
 			Type: "A",
-			Description: &message.CodedElement{
+			Description: &ir.CodedElement{
 				ID:   "A01.1",
 				Text: "proc1",
 			},
 			Clinician: wantDoctor,
-			DateTime:  message.NewValidTime(defaultDate),
+			DateTime:  ir.NewValidTime(defaultDate),
 		}},
-		wantDiagnoses: []*message.DiagnosisOrProcedure{{
+		wantDiagnoses: []*ir.DiagnosisOrProcedure{{
 			Type: "B",
-			Description: &message.CodedElement{
+			Description: &ir.CodedElement{
 				ID:   "B01.1",
 				Text: "diag1",
 			},
 			Clinician: wantDoctor,
-			DateTime:  message.NewValidTime(defaultDate),
+			DateTime:  ir.NewValidTime(defaultDate),
 		}},
 	}, {
 		name: "all fields present, TimeFromNow DateTime",
@@ -343,23 +343,23 @@ A01.1,Diagnosis1,1
 			Description: "diag1",
 			DateTime:    &pathway.DateTime{TimeFromNow: &twoDaysAgoDuration},
 		}},
-		wantProcedures: []*message.DiagnosisOrProcedure{{
+		wantProcedures: []*ir.DiagnosisOrProcedure{{
 			Type: "B",
-			Description: &message.CodedElement{
+			Description: &ir.CodedElement{
 				ID:   "B01.1",
 				Text: "proc1",
 			},
 			Clinician: wantDoctor,
-			DateTime:  message.NewValidTime(twoDaysAgo),
+			DateTime:  ir.NewValidTime(twoDaysAgo),
 		}},
-		wantDiagnoses: []*message.DiagnosisOrProcedure{{
+		wantDiagnoses: []*ir.DiagnosisOrProcedure{{
 			Type: "A",
-			Description: &message.CodedElement{
+			Description: &ir.CodedElement{
 				ID:   "A01.1",
 				Text: "diag1",
 			},
 			Clinician: wantDoctor,
-			DateTime:  message.NewValidTime(twoDaysAgo),
+			DateTime:  ir.NewValidTime(twoDaysAgo),
 		}},
 	}, {
 		name: "all fields present, NoDateTimeRecorded DateTime",
@@ -375,23 +375,23 @@ A01.1,Diagnosis1,1
 			Description: "diag1",
 			DateTime:    &pathway.DateTime{NoDateTimeRecorded: true},
 		}},
-		wantProcedures: []*message.DiagnosisOrProcedure{{
+		wantProcedures: []*ir.DiagnosisOrProcedure{{
 			Type: "C",
-			Description: &message.CodedElement{
+			Description: &ir.CodedElement{
 				ID:   "C01.1",
 				Text: "proc1",
 			},
 			Clinician: wantDoctor,
-			DateTime:  message.NewInvalidTime(),
+			DateTime:  ir.NewInvalidTime(),
 		}},
-		wantDiagnoses: []*message.DiagnosisOrProcedure{{
+		wantDiagnoses: []*ir.DiagnosisOrProcedure{{
 			Type: "D",
-			Description: &message.CodedElement{
+			Description: &ir.CodedElement{
 				ID:   "D01.1",
 				Text: "diag1",
 			},
 			Clinician: wantDoctor,
-			DateTime:  message.NewInvalidTime(),
+			DateTime:  ir.NewInvalidTime(),
 		}},
 	}, {
 		name: "mapped description",
@@ -405,23 +405,23 @@ A01.1,Diagnosis1,1
 			Code:     "A01.1",
 			DateTime: &pathway.DateTime{Time: &defaultDate},
 		}},
-		wantProcedures: []*message.DiagnosisOrProcedure{{
+		wantProcedures: []*ir.DiagnosisOrProcedure{{
 			Type: "A",
-			Description: &message.CodedElement{
+			Description: &ir.CodedElement{
 				ID:   "P24.9",
 				Text: "Procedure1",
 			},
 			Clinician: wantDoctor,
-			DateTime:  message.NewValidTime(defaultDate),
+			DateTime:  ir.NewValidTime(defaultDate),
 		}},
-		wantDiagnoses: []*message.DiagnosisOrProcedure{{
+		wantDiagnoses: []*ir.DiagnosisOrProcedure{{
 			Type: "B",
-			Description: &message.CodedElement{
+			Description: &ir.CodedElement{
 				ID:   "A01.1",
 				Text: "Diagnosis1",
 			},
 			Clinician: wantDoctor,
-			DateTime:  message.NewValidTime(defaultDate),
+			DateTime:  ir.NewValidTime(defaultDate),
 		}},
 	}, {
 		name: "no description",
@@ -435,21 +435,21 @@ A01.1,Diagnosis1,1
 			Code:     "YYY.2",
 			DateTime: &pathway.DateTime{Time: &defaultDate},
 		}},
-		wantProcedures: []*message.DiagnosisOrProcedure{{
+		wantProcedures: []*ir.DiagnosisOrProcedure{{
 			Type: "A",
-			Description: &message.CodedElement{
+			Description: &ir.CodedElement{
 				ID: "XXX.1",
 			},
 			Clinician: wantDoctor,
-			DateTime:  message.NewValidTime(defaultDate),
+			DateTime:  ir.NewValidTime(defaultDate),
 		}},
-		wantDiagnoses: []*message.DiagnosisOrProcedure{{
+		wantDiagnoses: []*ir.DiagnosisOrProcedure{{
 			Type: "B",
-			Description: &message.CodedElement{
+			Description: &ir.CodedElement{
 				ID: "YYY.2",
 			},
 			Clinician: wantDoctor,
-			DateTime:  message.NewValidTime(defaultDate),
+			DateTime:  ir.NewValidTime(defaultDate),
 		}},
 	}, {
 		name: "mapped code",
@@ -463,23 +463,23 @@ A01.1,Diagnosis1,1
 			Description: "Diagnosis1",
 			DateTime:    &pathway.DateTime{Time: &defaultDate},
 		}},
-		wantProcedures: []*message.DiagnosisOrProcedure{{
+		wantProcedures: []*ir.DiagnosisOrProcedure{{
 			Type: "A",
-			Description: &message.CodedElement{
+			Description: &ir.CodedElement{
 				ID:   "P24.9",
 				Text: "Procedure1",
 			},
 			Clinician: wantDoctor,
-			DateTime:  message.NewValidTime(defaultDate),
+			DateTime:  ir.NewValidTime(defaultDate),
 		}},
-		wantDiagnoses: []*message.DiagnosisOrProcedure{{
+		wantDiagnoses: []*ir.DiagnosisOrProcedure{{
 			Type: "B",
-			Description: &message.CodedElement{
+			Description: &ir.CodedElement{
 				ID:   "A01.1",
 				Text: "Diagnosis1",
 			},
 			Clinician: wantDoctor,
-			DateTime:  message.NewValidTime(defaultDate),
+			DateTime:  ir.NewValidTime(defaultDate),
 		}},
 	}, {
 		name: "no code",
@@ -493,21 +493,21 @@ A01.1,Diagnosis1,1
 			Description: "DiagnosisX",
 			DateTime:    &pathway.DateTime{Time: &defaultDate},
 		}},
-		wantProcedures: []*message.DiagnosisOrProcedure{{
+		wantProcedures: []*ir.DiagnosisOrProcedure{{
 			Type: "A",
-			Description: &message.CodedElement{
+			Description: &ir.CodedElement{
 				Text: "ProcedureX",
 			},
 			Clinician: wantDoctor,
-			DateTime:  message.NewValidTime(defaultDate),
+			DateTime:  ir.NewValidTime(defaultDate),
 		}},
-		wantDiagnoses: []*message.DiagnosisOrProcedure{{
+		wantDiagnoses: []*ir.DiagnosisOrProcedure{{
 			Type: "B",
-			Description: &message.CodedElement{
+			Description: &ir.CodedElement{
 				Text: "DiagnosisX",
 			},
 			Clinician: wantDoctor,
-			DateTime:  message.NewValidTime(defaultDate),
+			DateTime:  ir.NewValidTime(defaultDate),
 		}},
 	}, {
 		name: "From Pathway, multiple",
@@ -539,39 +539,39 @@ A01.1,Diagnosis1,1
 				DateTime:    &pathway.DateTime{Time: &twoDaysAgo},
 			},
 		},
-		wantProcedures: []*message.DiagnosisOrProcedure{{
-			Description: &message.CodedElement{
+		wantProcedures: []*ir.DiagnosisOrProcedure{{
+			Description: &ir.CodedElement{
 				ID:   "A01.1",
 				Text: "proc1",
 			},
 			Type:      "A",
 			Clinician: wantDoctor,
-			DateTime:  message.NewValidTime(oneDayAgo),
+			DateTime:  ir.NewValidTime(oneDayAgo),
 		}, {
-			Description: &message.CodedElement{
+			Description: &ir.CodedElement{
 				ID:   "B01.1",
 				Text: "proc2",
 			},
 			Type:      "B",
 			Clinician: wantDoctor,
-			DateTime:  message.NewValidTime(twoDaysAgo),
+			DateTime:  ir.NewValidTime(twoDaysAgo),
 		}},
-		wantDiagnoses: []*message.DiagnosisOrProcedure{{
-			Description: &message.CodedElement{
+		wantDiagnoses: []*ir.DiagnosisOrProcedure{{
+			Description: &ir.CodedElement{
 				ID:   "C01.1",
 				Text: "diag1",
 			},
 			Type:      "C",
 			Clinician: wantDoctor,
-			DateTime:  message.NewValidTime(oneDayAgo),
+			DateTime:  ir.NewValidTime(oneDayAgo),
 		}, {
-			Description: &message.CodedElement{
+			Description: &ir.CodedElement{
 				ID:   "D01.1",
 				Text: "diag2",
 			},
 			Type:      "D",
 			Clinician: wantDoctor,
-			DateTime:  message.NewValidTime(twoDaysAgo),
+			DateTime:  ir.NewValidTime(twoDaysAgo),
 		}},
 	}}
 
@@ -608,7 +608,7 @@ func TestNewPatient(t *testing.T) {
 		t.Fatalf("LoadDoctors(%s) failed with %v", dName, err)
 	}
 
-	existingDoctor := &message.Doctor{
+	existingDoctor := &ir.Doctor{
 		ID:        "id-1",
 		Surname:   "surname-1",
 		FirstName: "firstname-1",
@@ -639,7 +639,7 @@ hospital_service: "180"
 		t.Fatalf("LoadHL7Config(%s) failed with %v", hl7Name, err)
 	}
 
-	newDoctor := &message.Doctor{
+	newDoctor := &ir.Doctor{
 		ID:        "123",
 		Surname:   "Osman",
 		FirstName: "Arthur",
@@ -651,7 +651,7 @@ hospital_service: "180"
 	cases := []struct {
 		name   string
 		conf   Config
-		doctor *message.Doctor
+		doctor *ir.Doctor
 		want   *state.Patient
 	}{
 		{
@@ -659,72 +659,72 @@ hospital_service: "180"
 			conf:   Config{HL7Config: nilHL7Config, Doctors: d},
 			doctor: nil,
 			want: &state.Patient{
-				PatientInfo: &message.PatientInfo{
+				PatientInfo: &ir.PatientInfo{
 					Class:           "",
 					Person:          person,
 					HospitalService: "",
 				},
-				Orders: make(map[string]*message.Order),
+				Orders: make(map[string]*ir.Order),
 			},
 		}, {
 			name:   "Existing doctor, override hospital service",
 			conf:   Config{HL7Config: nilHL7Config, Doctors: d},
 			doctor: existingDoctor,
 			want: &state.Patient{
-				PatientInfo: &message.PatientInfo{
+				PatientInfo: &ir.PatientInfo{
 					Class:           "",
 					Person:          person,
 					HospitalService: existingDoctor.Specialty,
 					AttendingDoctor: existingDoctor,
 				},
-				Orders: make(map[string]*message.Order),
+				Orders: make(map[string]*ir.Order),
 			},
 		}, {
 			name:   "New doctor, don't override hospital service",
 			conf:   Config{HL7Config: nilHL7Config, Doctors: d},
 			doctor: newDoctor,
 			want: &state.Patient{
-				PatientInfo: &message.PatientInfo{
+				PatientInfo: &ir.PatientInfo{
 					Class:           "",
 					Person:          person,
 					HospitalService: "",
 					AttendingDoctor: newDoctor,
 				},
-				Orders: make(map[string]*message.Order),
+				Orders: make(map[string]*ir.Order),
 			},
 		}, {
 			name:   "Nil doctor, primary facility, hospital service and patient class from config",
 			conf:   Config{HL7Config: hl7Config, Doctors: d},
 			doctor: newDoctor,
 			want: &state.Patient{
-				PatientInfo: &message.PatientInfo{
+				PatientInfo: &ir.PatientInfo{
 					Class:           "OUTPATIENT",
 					Person:          person,
 					HospitalService: "180",
 					AttendingDoctor: newDoctor,
-					PrimaryFacility: &message.PrimaryFacility{
+					PrimaryFacility: &ir.PrimaryFacility{
 						Organization: "Test Primary Facility",
 						ID:           "123",
 					},
 				},
-				Orders: make(map[string]*message.Order),
+				Orders: make(map[string]*ir.Order),
 			},
 		}, {
 			name:   "Existing doctor, defined config, override hospital service",
 			conf:   Config{HL7Config: hl7Config, Doctors: d},
 			doctor: existingDoctor,
 			want: &state.Patient{
-				PatientInfo: &message.PatientInfo{
+				PatientInfo: &ir.PatientInfo{
 					Class:           "OUTPATIENT",
 					Person:          person,
 					HospitalService: existingDoctor.Specialty,
 					AttendingDoctor: existingDoctor,
-					PrimaryFacility: &message.PrimaryFacility{
+					PrimaryFacility: &ir.PrimaryFacility{
 						Organization: "Test Primary Facility",
 						ID:           "123",
 					},
 				},
-				Orders: make(map[string]*message.Order),
+				Orders: make(map[string]*ir.Order),
 			},
 		},
 	}
@@ -758,7 +758,7 @@ hospital_service: "180"
   prefix: "prefix-1"
   specialty: "specialty-1"`))
 
-	existingDoctor := &message.Doctor{
+	existingDoctor := &ir.Doctor{
 		ID:        "id-1",
 		Surname:   "surname-1",
 		FirstName: "firstname-1",
@@ -775,7 +775,7 @@ hospital_service: "180"
 	cases := []struct {
 		name       string
 		consultant *pathway.Consultant
-		want       *message.Doctor
+		want       *ir.Doctor
 	}{
 		{
 			name: "Use existing doctor",
@@ -791,7 +791,7 @@ hospital_service: "180"
 				Prefix:    &newPrefix,
 				FirstName: &newName,
 			},
-			want: &message.Doctor{
+			want: &ir.Doctor{
 				ID:        "123",
 				Surname:   "Osman",
 				FirstName: "Arthur",
@@ -841,7 +841,7 @@ hospital_service: "180"
 	newName := "Arthur"
 	newPrefix := "Dr"
 
-	want := &message.Doctor{
+	want := &ir.Doctor{
 		ID:        "123",
 		Surname:   "Osman",
 		FirstName: "Arthur",
@@ -914,154 +914,154 @@ allergy:
 	pathwayA1 := pathway.Allergy{Type: "MEDICATION", Code: "J301", Description: "Allergic rhinitis due to pollen", Severity: "MODERATE", Reaction: "Skin rash"}
 	pathwayA2 := pathway.Allergy{Type: "FOOD", Code: "E", Description: "egg-containing compound", Severity: "SEVERE", Reaction: "Rash"}
 
-	a1 := &message.Allergy{
+	a1 := &ir.Allergy{
 		Type:                   "MEDICATION",
-		Description:            message.CodedElement{ID: "J301", Text: "Allergic rhinitis due to pollen", CodingSystem: "ZAL"},
+		Description:            ir.CodedElement{ID: "J301", Text: "Allergic rhinitis due to pollen", CodingSystem: "ZAL"},
 		Severity:               "MODERATE",
 		Reaction:               "Skin rash",
-		IdentificationDateTime: message.NewValidTime(now),
+		IdentificationDateTime: ir.NewValidTime(now),
 	}
-	a2 := &message.Allergy{
+	a2 := &ir.Allergy{
 		Type:                   "FOOD",
-		Description:            message.CodedElement{ID: "E", Text: "egg-containing compound", CodingSystem: "ZAL"},
+		Description:            ir.CodedElement{ID: "E", Text: "egg-containing compound", CodingSystem: "ZAL"},
 		Severity:               "SEVERE",
 		Reaction:               "Rash",
-		IdentificationDateTime: message.NewValidTime(now),
+		IdentificationDateTime: ir.NewValidTime(now),
 	}
 
 	cases := []struct {
 		name    string
-		patient *message.PatientInfo
+		patient *ir.PatientInfo
 		pathway []pathway.Allergy
-		want    *message.PatientInfo
+		want    *ir.PatientInfo
 	}{
 		{
 			name:    "Nil allergy - generate random",
-			patient: &message.PatientInfo{},
+			patient: &ir.PatientInfo{},
 			pathway: nil,
-			want: &message.PatientInfo{
-				Allergies: []*message.Allergy{
+			want: &ir.PatientInfo{
+				Allergies: []*ir.Allergy{
 					{
 						Type:                   "FA",
-						Description:            message.CodedElement{ID: "J30.1", Text: "Allergy1", CodingSystem: "ZAL"},
+						Description:            ir.CodedElement{ID: "J30.1", Text: "Allergy1", CodingSystem: "ZAL"},
 						Severity:               "SV",
 						Reaction:               "Sneezing",
-						IdentificationDateTime: message.NewValidTime(now),
+						IdentificationDateTime: ir.NewValidTime(now),
 					},
 				},
 			},
 		}, {
 			name:    "Nil allegy - don't generate allergies in already set to empty slice",
-			patient: &message.PatientInfo{Allergies: []*message.Allergy{}},
+			patient: &ir.PatientInfo{Allergies: []*ir.Allergy{}},
 			pathway: nil,
-			want: &message.PatientInfo{
-				Allergies: []*message.Allergy{},
+			want: &ir.PatientInfo{
+				Allergies: []*ir.Allergy{},
 			},
 		}, {
 			name:    "Explicit empty allergy slice in the pathway",
-			patient: &message.PatientInfo{},
+			patient: &ir.PatientInfo{},
 			pathway: []pathway.Allergy{},
-			want: &message.PatientInfo{
-				Allergies: []*message.Allergy{},
+			want: &ir.PatientInfo{
+				Allergies: []*ir.Allergy{},
 			},
 		}, {
 			name: "Explicit empty allergy slice in the pathway - override allergies in the PatientInfo",
-			patient: &message.PatientInfo{
-				Allergies: []*message.Allergy{
+			patient: &ir.PatientInfo{
+				Allergies: []*ir.Allergy{
 					{
 						Type:                   "FA",
-						Description:            message.CodedElement{ID: "J30.1", Text: "Allergy1", CodingSystem: "ZAL"},
+						Description:            ir.CodedElement{ID: "J30.1", Text: "Allergy1", CodingSystem: "ZAL"},
 						Severity:               "SV",
 						Reaction:               "Sneezing",
-						IdentificationDateTime: message.NewValidTime(now),
+						IdentificationDateTime: ir.NewValidTime(now),
 					},
 				},
 			},
 			pathway: []pathway.Allergy{},
-			want: &message.PatientInfo{
-				Allergies: []*message.Allergy{},
+			want: &ir.PatientInfo{
+				Allergies: []*ir.Allergy{},
 			},
 		}, {
 			name:    "Explicit allergies from the pathway",
-			patient: &message.PatientInfo{},
+			patient: &ir.PatientInfo{},
 			pathway: []pathway.Allergy{
 				pathwayA1,
 				pathwayA2,
 			},
-			want: &message.PatientInfo{
-				Allergies: []*message.Allergy{a1, a2},
+			want: &ir.PatientInfo{
+				Allergies: []*ir.Allergy{a1, a2},
 			},
 		}, {
 			name:    "Explicit allergies from the pathway - override empty slice",
-			patient: &message.PatientInfo{Allergies: []*message.Allergy{}},
+			patient: &ir.PatientInfo{Allergies: []*ir.Allergy{}},
 			pathway: []pathway.Allergy{
 				pathwayA1,
 			},
-			want: &message.PatientInfo{
-				Allergies: []*message.Allergy{a1},
+			want: &ir.PatientInfo{
+				Allergies: []*ir.Allergy{a1},
 			},
 		}, {
 			name:    "Explicit allergies from the pathway with date and coding system",
-			patient: &message.PatientInfo{},
+			patient: &ir.PatientInfo{},
 			pathway: []pathway.Allergy{
 				{Type: "MEDICATION", Code: "J301", Description: "Allergic rhinitis due to pollen", Severity: "MODERATE", Reaction: "Skin rash", CodingSystem: "all-code", IdentificationDateTime: &pathway.DateTime{TimeFromNow: &twoDaysAgoDuration}},
 			},
-			want: &message.PatientInfo{
-				Allergies: []*message.Allergy{
+			want: &ir.PatientInfo{
+				Allergies: []*ir.Allergy{
 					{
 						Type:                   "MEDICATION",
-						Description:            message.CodedElement{ID: "J301", Text: "Allergic rhinitis due to pollen", CodingSystem: "all-code"},
+						Description:            ir.CodedElement{ID: "J301", Text: "Allergic rhinitis due to pollen", CodingSystem: "all-code"},
 						Severity:               "MODERATE",
 						Reaction:               "Skin rash",
-						IdentificationDateTime: message.NewValidTime(twoDaysAgo),
+						IdentificationDateTime: ir.NewValidTime(twoDaysAgo),
 					},
 				},
 			},
 		}, {
 			name:    "Explicit allergies from the pathway, no date recorded",
-			patient: &message.PatientInfo{},
+			patient: &ir.PatientInfo{},
 			pathway: []pathway.Allergy{
 				{Type: "MEDICATION", Code: "J301", Description: "Allergic rhinitis due to pollen", Severity: "MODERATE", Reaction: "Skin rash", IdentificationDateTime: &pathway.DateTime{NoDateTimeRecorded: true}},
 			},
-			want: &message.PatientInfo{
-				Allergies: []*message.Allergy{
+			want: &ir.PatientInfo{
+				Allergies: []*ir.Allergy{
 					{
 						Type:                   "MEDICATION",
-						Description:            message.CodedElement{ID: "J301", Text: "Allergic rhinitis due to pollen", CodingSystem: "ZAL"},
+						Description:            ir.CodedElement{ID: "J301", Text: "Allergic rhinitis due to pollen", CodingSystem: "ZAL"},
 						Severity:               "MODERATE",
 						Reaction:               "Skin rash",
-						IdentificationDateTime: message.NewInvalidTime(),
+						IdentificationDateTime: ir.NewInvalidTime(),
 					},
 				},
 			},
 		}, {
 			name:    "Duplicated allergies in the pathway - deduplicate",
-			patient: &message.PatientInfo{},
+			patient: &ir.PatientInfo{},
 			pathway: []pathway.Allergy{
 				pathwayA1,
 				pathwayA1,
 			},
-			want: &message.PatientInfo{
-				Allergies: []*message.Allergy{a1},
+			want: &ir.PatientInfo{
+				Allergies: []*ir.Allergy{a1},
 			},
 		}, {
 			name: "Add allergies to existing, deduplicate",
-			patient: &message.PatientInfo{
-				Allergies: []*message.Allergy{a1},
+			patient: &ir.PatientInfo{
+				Allergies: []*ir.Allergy{a1},
 			},
 			pathway: []pathway.Allergy{
 				pathwayA1,
 				pathwayA2,
 			},
-			want: &message.PatientInfo{
-				Allergies: []*message.Allergy{a1, a2},
+			want: &ir.PatientInfo{
+				Allergies: []*ir.Allergy{a1, a2},
 			},
 		},
 	}
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			got := new(message.PatientInfo)
+			got := new(ir.PatientInfo)
 			*got = *tc.patient
 
 			g.AddAllergies(got, tc.pathway)
@@ -1231,7 +1231,7 @@ func TestGeneratorResetPatientInfo(t *testing.T) {
 	}
 	g := testGenerator(t, Config{HL7Config: hl7Config})
 
-	doctor := &message.Doctor{
+	doctor := &ir.Doctor{
 		ID:        "id-1",
 		Surname:   "surname-1",
 		FirstName: "firstname-1",
@@ -1239,37 +1239,37 @@ func TestGeneratorResetPatientInfo(t *testing.T) {
 		Specialty: "specialty-1",
 	}
 	patient := &state.Patient{
-		PatientInfo: &message.PatientInfo{
+		PatientInfo: &ir.PatientInfo{
 			Class:           "INPATIENT",
 			Person:          testperson.New(),
 			HospitalService: doctor.Specialty,
 			AttendingDoctor: doctor,
-			PrimaryFacility: &message.PrimaryFacility{
+			PrimaryFacility: &ir.PrimaryFacility{
 				Organization: "Test Primary Facility",
 				ID:           "123",
 			},
 			VisitID:   2,
-			Location:  &message.PatientLocation{Poc: "Poc-1", Room: "room-1", Bed: "bed-1"},
-			Allergies: []*message.Allergy{{Type: "food"}},
+			Location:  &ir.PatientLocation{Poc: "Poc-1", Room: "room-1", Bed: "bed-1"},
+			Allergies: []*ir.Allergy{{Type: "food"}},
 		},
-		Orders: map[string]*message.Order{
+		Orders: map[string]*ir.Order{
 			"order-id": urineOrder(defaultDate, hl7Config),
 		},
 		PastVisits: []uint64{1, 2},
 	}
 
 	want := &state.Patient{
-		PatientInfo: &message.PatientInfo{
+		PatientInfo: &ir.PatientInfo{
 			Class:           "OUTPATIENT",
 			Person:          testperson.New(),
 			HospitalService: doctor.Specialty,
 			AttendingDoctor: doctor,
-			PrimaryFacility: &message.PrimaryFacility{
+			PrimaryFacility: &ir.PrimaryFacility{
 				Organization: "Test Primary Facility",
 				ID:           "123",
 			},
 		},
-		Orders: map[string]*message.Order{
+		Orders: map[string]*ir.Order{
 			"order-id": urineOrder(defaultDate, hl7Config),
 		},
 		PastVisits: []uint64{1, 2},
@@ -1281,11 +1281,11 @@ func TestGeneratorResetPatientInfo(t *testing.T) {
 	}
 }
 
-func urineOrder(eventTime time.Time, c *config.HL7Config) *message.Order {
-	return &message.Order{
+func urineOrder(eventTime time.Time, c *config.HL7Config) *ir.Order {
+	return &ir.Order{
 		OrderProfile:                  urineElectrolytesCE,
 		Placer:                        "12345",
-		OrderDateTime:                 message.NewValidTime(eventTime),
+		OrderDateTime:                 ir.NewValidTime(eventTime),
 		OrderStatus:                   c.OrderStatus.InProcess,
 		MessageControlIDOriginalOrder: "7777",
 	}

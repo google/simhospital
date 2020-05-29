@@ -130,7 +130,7 @@ func (p *myProcessor) Matches(e *state.Event) bool {
 }
 
 // Process generates messages from the given event and patient information.
-func (p *myProcessor) Process(e *state.Event, patientInfo *message.PatientInfo, cfg *processor.Config) ([]*message.HL7Message, error) {
+func (p *myProcessor) Process(e *state.Event, patientInfo *ir.PatientInfo, cfg *processor.Config) ([]*message.HL7Message, error) {
   g := cfg.Generator
   o, err := g.SetResults(nil, e.Step.Result, e.EventTime)
   if err != nil {
@@ -214,13 +214,13 @@ func (p *addMedicationProc) Matches(e *state.Event) bool {
     return e.Step.Generic != nil && e.Step.Generic.Name == "add_medication"
 }
 
-// AdditionalData is the type of *message.PatientInfo.AdditionalData.
+// AdditionalData is the type of *ir.PatientInfo.AdditionalData.
 type AdditionalData struct {
     Medications []string
 }
 
 // Process adds a medication to the patient's medical record.
-func (p *addMedicationProc) Process(e *state.Event, patientInfo *message.PatientInfo, cfg *processor.Config) ([]*message.HL7Message, error) {
+func (p *addMedicationProc) Process(e *state.Event, patientInfo *ir.PatientInfo, cfg *processor.Config) ([]*message.HL7Message, error) {
     // Medications aren't part of the regular fields of patientInfo so we use the AdditionalData field.
     newMedication := e.Step.Parameters.Custom["medication_name"]
     var ad AdditionalData
@@ -242,7 +242,7 @@ func (p *printMedicationsProc) Matches(e *state.Event) bool {
 }
 
 // Process prints the medications from the patient's medical record.
-func (p *printMedicationsProc) Process(e *state.Event, patientInfo *message.PatientInfo, cfg *processor.Config) ([]*message.HL7Message, error) {
+func (p *printMedicationsProc) Process(e *state.Event, patientInfo *ir.PatientInfo, cfg *processor.Config) ([]*message.HL7Message, error) {
   ad := patientInfo.AdditionalData.(AdditionalData)
   fmt.Println("Medications:")
   fmt.Println(ad.Medications)
@@ -326,13 +326,13 @@ following interface:
 ```go
 // AddressGenerator is an interface to generate addresses.
 type AddressGenerator interface {
-    Random() *message.Address
+    Random() *ir.Address
 }
 ```
 
 ## Arbitrary patient data
 
-Patient data is stored in `message.PatientInfo`. If you need to store other data
+Patient data is stored in `ir.PatientInfo`. If you need to store other data
 types that aren't included there, use the `AdditionalData` field. This field is
 an interface so you can store any type you want, but you are responsible for
 casting it back and forth.
@@ -343,7 +343,7 @@ the [Generic events](#example-generic-events) example above.
 We define a struct to store inside AdditionalData.
 
 ```go
-// AdditionalData is the type of *message.PatientInfo.AdditionalData.
+// AdditionalData is the type of *ir.PatientInfo.AdditionalData.
 type AdditionalData struct {
     Medications []string
 }

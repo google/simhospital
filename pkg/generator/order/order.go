@@ -24,6 +24,7 @@ import (
 	"github.com/google/simhospital/pkg/constants"
 	"github.com/google/simhospital/pkg/doctor"
 	"github.com/google/simhospital/pkg/generator/id"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/logging"
 	"github.com/google/simhospital/pkg/message"
 	"github.com/google/simhospital/pkg/orderprofile"
@@ -37,7 +38,7 @@ type NotesGenerator interface {
 	// RandomNotesForResult generates textual notes for a Result, to be set in NTE segments related to the result.
 	RandomNotesForResult() []string
 	// RandomDocumentForClinicalNote generates a document that contains a clinical note.
-	RandomDocumentForClinicalNote(*pathway.ClinicalNote, *message.ClinicalNote, time.Time) (*message.ClinicalNote, error)
+	RandomDocumentForClinicalNote(*pathway.ClinicalNote, *ir.ClinicalNote, time.Time) (*ir.ClinicalNote, error)
 }
 
 // Generator is a generator of orders and results.
@@ -52,15 +53,15 @@ type Generator struct {
 }
 
 // NewOrder returns a new order based on order information from the pathway and eventTime.
-func (g Generator) NewOrder(o *pathway.Order, eventTime time.Time) *message.Order {
+func (g Generator) NewOrder(o *pathway.Order, eventTime time.Time) *ir.Order {
 	orderStatus := o.OrderStatus
 	if orderStatus == "" {
 		orderStatus = g.MessageConfig.OrderStatus.InProcess
 	}
-	return &message.Order{
+	return &ir.Order{
 		OrderProfile:  g.OrderProfiles.Generate(o.OrderProfile),
 		Placer:        g.PlacerGenerator.NewID(),
-		OrderDateTime: message.NewValidTime(eventTime),
+		OrderDateTime: ir.NewValidTime(eventTime),
 		OrderControl:  g.MessageConfig.OrderControl.New,
 		OrderStatus:   orderStatus,
 	}
@@ -69,8 +70,8 @@ func (g Generator) NewOrder(o *pathway.Order, eventTime time.Time) *message.Orde
 // OrderWithClinicalNote updates an order with a Clinical Note. If the supplied order is nil, a new order is created.
 // This order will contain a single result with the Clinical Note generated/updated based on the pathway.
 // The DiagnosticServID section is set to DiagnosticServIDMDOC, which indicates that the corresponding HL7 is a Clinical Note.
-func (g Generator) OrderWithClinicalNote(order *message.Order, n *pathway.ClinicalNote, eventTime time.Time) (*message.Order, error) {
-	var existingNote *message.ClinicalNote
+func (g Generator) OrderWithClinicalNote(order *ir.Order, n *pathway.ClinicalNote, eventTime time.Time) (*ir.Order, error) {
+	var existingNote *ir.ClinicalNote
 	if order != nil {
 		if len(order.Results) != 1 {
 			return nil, errors.New("No results found in the provided order; expected 1")
@@ -87,7 +88,7 @@ func (g Generator) OrderWithClinicalNote(order *message.Order, n *pathway.Clinic
 	}
 
 	if order == nil {
-		order = &message.Order{
+		order = &ir.Order{
 			ResultsStatus:    g.MessageConfig.DocumentStatus.Authenticated,
 			OrderingProvider: g.Doctors.GetRandomDoctor(),
 			DiagnosticServID: message.DiagnosticServIDMDOC,
@@ -97,8 +98,8 @@ func (g Generator) OrderWithClinicalNote(order *message.Order, n *pathway.Clinic
 	// Order.OrderProfile gets rendered to the Universal Service Identifier field of an OBR segment (OBR.4) as
 	// OrderProfile.ID^OrderProfile.Text^OrderProfile.CodingSystem. In clinical notes this field is used to send the
 	// DocumentType, which is rendered as  DocumentType^DocumentType^^^DocumentTitle.
-	order.OrderProfile = &message.CodedElement{ID: note.DocumentType, Text: note.DocumentType, AlternateText: note.DocumentTitle}
-	order.Results = []*message.Result{{ClinicalNote: note}}
+	order.OrderProfile = &ir.CodedElement{ID: note.DocumentType, Text: note.DocumentType, AlternateText: note.DocumentTitle}
+	order.Results = []*ir.Result{{ClinicalNote: note}}
 	return order, nil
 }
 
@@ -111,7 +112,7 @@ func (g Generator) OrderWithClinicalNote(order *message.Order, n *pathway.Clinic
 // If the Order already has the Results, they are replaced with Results from the pathway as the corrected results,
 // unless another status is explicitly specified in the pathway.
 // In the case of correction, only results specified in the pathway are included.
-func (g Generator) SetResults(o *message.Order, r *pathway.Results, eventTime time.Time) (*message.Order, error) {
+func (g Generator) SetResults(o *ir.Order, r *pathway.Results, eventTime time.Time) (*ir.Order, error) {
 	if o == nil {
 		o = g.NewOrder(&pathway.Order{OrderProfile: r.OrderProfile}, eventTime)
 	}
@@ -137,7 +138,7 @@ func (g Generator) SetResults(o *message.Order, r *pathway.Results, eventTime ti
 // and ResultsStatus is set to Corrected.
 // Otherwise, the new results are treated as a final result, so OrderStatus is set to Completed,
 // and ResultsStatus is set to Final.
-func (g Generator) setOrderStatuses(o *message.Order, r *pathway.Results) {
+func (g Generator) setOrderStatuses(o *ir.Order, r *pathway.Results) {
 	switch {
 	case r.OrderStatus != "":
 		// Use status value overridden in the pathway.
@@ -164,8 +165,8 @@ func (g Generator) setOrderStatuses(o *message.Order, r *pathway.Results) {
 // order time <= collected time <= received in lab time <= reported time
 // If CollectedDateTime or ReceivedInLabDateTime are specified explicitly in the pathway,
 // then they override the order dates.
-func (g Generator) setOrderDates(o *message.Order, r *pathway.Results, eventTime time.Time) error {
-	o.ReportedDateTime = message.NewValidTime(eventTime)
+func (g Generator) setOrderDates(o *ir.Order, r *pathway.Results, eventTime time.Time) error {
+	o.ReportedDateTime = ir.NewValidTime(eventTime)
 	// If this is the first Result for this order, also set CollectedDateTime and ReceivedInLabDateTime.
 	if len(o.Results) == 0 {
 		// order time <= collected time <= received in lab time <= reported time
@@ -173,13 +174,13 @@ func (g Generator) setOrderDates(o *message.Order, r *pathway.Results, eventTime
 		//    - get the difference between order and report time
 		//    - select random delay from it.
 		orderToCollectedDelay := pathway.Delay{From: 0, To: eventTime.Sub(o.OrderDateTime.Time)}
-		o.CollectedDateTime = message.NewValidTime(o.OrderDateTime.Add(orderToCollectedDelay.Random()))
+		o.CollectedDateTime = ir.NewValidTime(o.OrderDateTime.Add(orderToCollectedDelay.Random()))
 
 		// 2) To calculate received in lab time:
 		//    - get the difference between collected and reported time
 		//    - select random delay from it.
 		collectedToReceivedInLabDelay := pathway.Delay{From: 0, To: eventTime.Sub(o.CollectedDateTime.Time)}
-		o.ReceivedInLabDateTime = message.NewValidTime(o.CollectedDateTime.Time.Add(collectedToReceivedInLabDelay.Random()))
+		o.ReceivedInLabDateTime = ir.NewValidTime(o.CollectedDateTime.Time.Add(collectedToReceivedInLabDelay.Random()))
 	}
 
 	// Override dates if specified in the pathway.
@@ -208,8 +209,8 @@ func (g Generator) setOrderDates(o *message.Order, r *pathway.Results, eventTime
 //   is included for each test type specified in the Order Profile.
 // Otherwise, if the results are defined for non-existing order profile, then
 // only results specified explicitly are included.
-func (g Generator) setOrderResults(o *message.Order, r *pathway.Results) error {
-	o.Results = make([]*message.Result, 0)
+func (g Generator) setOrderResults(o *ir.Order, r *pathway.Results) error {
+	o.Results = make([]*ir.Result, 0)
 	opName := o.OrderProfile.Text
 	op, ok := g.OrderProfiles.Get(opName)
 
@@ -246,12 +247,12 @@ func (g Generator) setOrderResults(o *message.Order, r *pathway.Results) error {
 	return nil
 }
 
-func overriddenDate(fromPathway string, t message.NullTime) (message.NullTime, error) {
+func overriddenDate(fromPathway string, t ir.NullTime) (ir.NullTime, error) {
 	switch fromPathway {
 	case constants.EmptyString:
-		return message.NewInvalidTime(), nil
+		return ir.NewInvalidTime(), nil
 	case constants.MidnightDate:
-		return message.NewMidnightTime(t.Time), nil
+		return ir.NewMidnightTime(t.Time), nil
 	default:
 		// This can never happen if the pathway is valid.
 		return t, fmt.Errorf("unknown date: %v", fromPathway)
@@ -261,14 +262,14 @@ func overriddenDate(fromPathway string, t message.NullTime) (message.NullTime, e
 // testResult generates the Result from the default values in the Test Type,
 // overridden by values specified in the pathway, if provided.
 // If the Test Type is not provided, creates the Result from values specified in the pathway.
-func (g Generator) testResult(op *orderprofile.OrderProfile, pathwayResult *pathway.Result, orderResultsStatus string, orderCollectedDateTime message.NullTime) (*message.Result, error) {
-	obsDateTime := message.NewInvalidTime()
+func (g Generator) testResult(op *orderprofile.OrderProfile, pathwayResult *pathway.Result, orderResultsStatus string, orderCollectedDateTime ir.NullTime) (*ir.Result, error) {
+	obsDateTime := ir.NewInvalidTime()
 	if orderCollectedDateTime.Valid {
-		obsDateTime = message.NewValidTime(orderCollectedDateTime.Add(pathwayResult.ObservationDateTimeOffset))
+		obsDateTime = ir.NewValidTime(orderCollectedDateTime.Add(pathwayResult.ObservationDateTimeOffset))
 	}
 
 	// Init default Result values.
-	result := &message.Result{
+	result := &ir.Result{
 		Status:              orderResultsStatus,
 		ObservationDateTime: obsDateTime,
 	}
@@ -309,13 +310,13 @@ func (g Generator) testResult(op *orderprofile.OrderProfile, pathwayResult *path
 	return result, nil
 }
 
-func (g Generator) updateResultForCustomOrderProfile(result *message.Result, pathwayResult *pathway.Result) error {
+func (g Generator) updateResultForCustomOrderProfile(result *ir.Result, pathwayResult *pathway.Result) error {
 	// Set values based on the pathway.
 	id := pathwayResult.ID
 	if id == "" {
 		id = pathwayResult.TestName
 	}
-	result.TestName = &message.CodedElement{ID: id, Text: pathwayResult.TestName}
+	result.TestName = &ir.CodedElement{ID: id, Text: pathwayResult.TestName}
 	result.ValueType = pathwayResult.GetValueType()
 
 	switch {
@@ -346,7 +347,7 @@ func (g Generator) updateResultForCustomOrderProfile(result *message.Result, pat
 // specified in the pathway, then the value is generated based on that reference range
 // specified in the TestType.
 // Otherwise, if the value is explicitly set in the pathway, it is being used.
-func (g Generator) setTestResultValue(result *message.Result, pathwayResult *pathway.Result, tt *orderprofile.TestType) error {
+func (g Generator) setTestResultValue(result *ir.Result, pathwayResult *pathway.Result, tt *orderprofile.TestType) error {
 	switch {
 	case pathwayResult.IsValueRandom() && pathwayResult.ReferenceRange != "":
 		// Generate random value from the custom reference range.
@@ -363,7 +364,7 @@ func (g Generator) setTestResultValue(result *message.Result, pathwayResult *pat
 	return nil
 }
 
-func (g Generator) setRandomValueBasedOnCustomReferenceRange(result *message.Result, pathwayResult *pathway.Result) error {
+func (g Generator) setRandomValueBasedOnCustomReferenceRange(result *ir.Result, pathwayResult *pathway.Result) error {
 	rt, err := pathwayResult.GetRandomType()
 	if err != nil {
 		return errors.Wrap(err, "cannot get random type for result")
@@ -380,7 +381,7 @@ func (g Generator) setRandomValueBasedOnCustomReferenceRange(result *message.Res
 	return nil
 }
 
-func (g Generator) setRandomValueBasedOnOrderProfileReferenceRange(result *message.Result, pathwayResult *pathway.Result, tt *orderprofile.TestType) error {
+func (g Generator) setRandomValueBasedOnOrderProfileReferenceRange(result *ir.Result, pathwayResult *pathway.Result, tt *orderprofile.TestType) error {
 	rt, err := pathwayResult.GetRandomType()
 	if err != nil {
 		return errors.Wrap(err, "cannot get random type for result")
@@ -395,7 +396,7 @@ func (g Generator) setRandomValueBasedOnOrderProfileReferenceRange(result *messa
 	return nil
 }
 
-func (g Generator) setValueSpecifiedInThePathway(result *message.Result, pathwayResult *pathway.Result, tt *orderprofile.TestType) error {
+func (g Generator) setValueSpecifiedInThePathway(result *ir.Result, pathwayResult *pathway.Result, tt *orderprofile.TestType) error {
 	result.Value = pathwayResult.GetValue()
 	result.Unit = pathwayResult.GetUnit()
 	// It's not always possible to derive the type from the value, e.g., a value of an empty string doesn't necessarily mean

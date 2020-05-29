@@ -42,6 +42,7 @@ import (
 	"github.com/google/simhospital/pkg/generator/order"
 	"github.com/google/simhospital/pkg/generator/person"
 	"github.com/google/simhospital/pkg/generator/text"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/logging"
 	"github.com/google/simhospital/pkg/message"
 	"github.com/google/simhospital/pkg/orderprofile"
@@ -73,11 +74,11 @@ type Generator struct {
 }
 
 type diagnosisOrProcedureGenerator interface {
-	RandomOrFromPathway(*pathway.DateTime, *pathway.DiagnosisOrProcedure) *message.DiagnosisOrProcedure
+	RandomOrFromPathway(*pathway.DateTime, *pathway.DiagnosisOrProcedure) *ir.DiagnosisOrProcedure
 }
 
 // NewPerson returns a new person based on pathway.Person.
-func (g Generator) NewPerson(pathwayPerson *pathway.Person) *message.Person {
+func (g Generator) NewPerson(pathwayPerson *pathway.Person) *ir.Person {
 	return g.personGenerator.NewPerson(pathwayPerson)
 }
 
@@ -87,7 +88,7 @@ func (g Generator) NewPerson(pathwayPerson *pathway.Person) *message.Person {
 // - diagnoses
 // - procedures
 // - allergies
-func (g Generator) UpdateFromPathway(patientInfo *message.PatientInfo, updatePerson *pathway.UpdatePerson) {
+func (g Generator) UpdateFromPathway(patientInfo *ir.PatientInfo, updatePerson *pathway.UpdatePerson) {
 	if updatePerson.Person != nil {
 		g.personGenerator.UpdatePersonFromPathway(patientInfo.Person, updatePerson.Person)
 	}
@@ -97,9 +98,9 @@ func (g Generator) UpdateFromPathway(patientInfo *message.PatientInfo, updatePer
 }
 
 // NewPatient returns a new patient based on Person information and a doctor provided.
-func (g Generator) NewPatient(person *message.Person, doctor *message.Doctor) *state.Patient {
+func (g Generator) NewPatient(person *ir.Person, doctor *ir.Doctor) *state.Patient {
 	p := &state.Patient{
-		PatientInfo: &message.PatientInfo{
+		PatientInfo: &ir.PatientInfo{
 			Class:  g.messageConfig.PatientClass.Outpatient,
 			Person: person,
 			// The Hospital Service might be overridden later with the doctor's specialty.
@@ -107,12 +108,12 @@ func (g Generator) NewPatient(person *message.Person, doctor *message.Doctor) *s
 			AttendingDoctor: doctor,
 		},
 		// The code downstream assumes that Orders exists.
-		Orders: make(map[string]*message.Order),
+		Orders: make(map[string]*ir.Order),
 	}
 	// If none of the g.messageConfig.PrimaryFacility fields is set, we want the resulting HL7 message to have the entire
 	// PD1.3 Patient Primary Facility field empty. This is achieved by leaving p.PatientInfo.PrimaryFacility nil.
 	if g.messageConfig.PrimaryFacility != nil {
-		p.PatientInfo.PrimaryFacility = &message.PrimaryFacility{
+		p.PatientInfo.PrimaryFacility = &ir.PrimaryFacility{
 			Organization: g.messageConfig.PrimaryFacility.OrganizationName,
 			ID:           g.messageConfig.PrimaryFacility.IDNumber,
 		}
@@ -131,14 +132,14 @@ func (g Generator) NewPatient(person *message.Person, doctor *message.Doctor) *s
 // Otherwise, it attempts to lookup an existic doctor basd on consultant ID. If any doctor is found, it returns it.
 // Othwerise creates a new doctor from Consultant information, with the default speciality defined in
 // messageConfig.HospitalService.
-func (g Generator) NewDoctor(c *pathway.Consultant) *message.Doctor {
+func (g Generator) NewDoctor(c *pathway.Consultant) *ir.Doctor {
 	if c == nil {
 		return g.doctors.GetRandomDoctor()
 	}
 	if doctor := g.doctors.GetByID(*c.ID); doctor != nil {
 		return doctor
 	}
-	newDoctor := &message.Doctor{
+	newDoctor := &ir.Doctor{
 		// A valid pathway.Consultant has all the fields set, so we can just dereference.
 		ID:        *c.ID,
 		Surname:   *c.Surname,
@@ -170,21 +171,21 @@ func (g Generator) ResetPatient(p *state.Patient) *state.Patient {
 //   allergies), and then generate them.
 // * If the allergies from the pathway are explicitly set to empty slice, the allergies on the patient info are also set
 //   to empty slice.
-func (g Generator) AddAllergies(patientInfo *message.PatientInfo, allergies []pathway.Allergy) {
+func (g Generator) AddAllergies(patientInfo *ir.PatientInfo, allergies []pathway.Allergy) {
 	switch {
 	case len(allergies) > 0:
 		// If the pathway allergies are set, add them to the existing ones.
 		if patientInfo.Allergies == nil {
-			patientInfo.Allergies = []*message.Allergy{}
+			patientInfo.Allergies = []*ir.Allergy{}
 		}
 		patientInfo.Allergies = append(patientInfo.Allergies, g.getDedupedAllergiesFromPathway(patientInfo, allergies)...)
 	case allergies == nil && patientInfo.Allergies == nil:
 		// Initialise the allergies to an empty slice so that they're not nil anymore.
-		patientInfo.Allergies = []*message.Allergy{}
+		patientInfo.Allergies = []*ir.Allergy{}
 		patientInfo.Allergies = append(patientInfo.Allergies, g.allergyGenerator.GenerateRandomDistinctAllergies()...)
 	case allergies != nil && len(allergies) == 0:
 		// Allergies were set explicitly as an empty slice in the pathway.
-		patientInfo.Allergies = []*message.Allergy{}
+		patientInfo.Allergies = []*ir.Allergy{}
 	}
 }
 
@@ -193,9 +194,9 @@ func (g Generator) AddAllergies(patientInfo *message.PatientInfo, allergies []pa
 // already exists for the patient, it's not added to the list.
 // Note: if the same Allergy is specified with eg. different severity or reaction, it'll be added to
 // the list, as there is no way of deleting / amending existing pathwayAllergies.
-func (g Generator) getDedupedAllergiesFromPathway(patientInfo *message.PatientInfo, pathwayAllergies []pathway.Allergy) []*message.Allergy {
-	var dedupedAllergies []*message.Allergy
-	existing := make(map[message.Allergy]bool)
+func (g Generator) getDedupedAllergiesFromPathway(patientInfo *ir.PatientInfo, pathwayAllergies []pathway.Allergy) []*ir.Allergy {
+	var dedupedAllergies []*ir.Allergy
+	existing := make(map[ir.Allergy]bool)
 	for _, a := range patientInfo.Allergies {
 		existing[*a] = true
 	}
@@ -204,9 +205,9 @@ func (g Generator) getDedupedAllergiesFromPathway(patientInfo *message.PatientIn
 		code, description := g.allergyGenerator.DeriveCodeAndDescription(a.Code, a.Description)
 		idt := g.allergyGenerator.DeriveIdentificationDateTime(a)
 		cs := g.allergyGenerator.DeriveCodingSystem(g.messageConfig.Allergy, a)
-		allergy := &message.Allergy{
+		allergy := &ir.Allergy{
 			Type: a.Type,
-			Description: message.CodedElement{
+			Description: ir.CodedElement{
 				ID:           code,
 				Text:         description,
 				CodingSystem: cs,
@@ -223,17 +224,17 @@ func (g Generator) getDedupedAllergiesFromPathway(patientInfo *message.PatientIn
 	return dedupedAllergies
 }
 
-func (g Generator) setDiagnoses(patientInfo *message.PatientInfo, diagnoses []*pathway.DiagnosisOrProcedure) {
-	patientInfo.Diagnoses = make([]*message.DiagnosisOrProcedure, len(diagnoses))
+func (g Generator) setDiagnoses(patientInfo *ir.PatientInfo, diagnoses []*pathway.DiagnosisOrProcedure) {
+	patientInfo.Diagnoses = make([]*ir.DiagnosisOrProcedure, len(diagnoses))
 	g.setDiagnosesOrProcedures(patientInfo.Diagnoses, diagnoses, g.diagnosisGenerator)
 }
 
-func (g Generator) setProcedures(patientInfo *message.PatientInfo, procedures []*pathway.DiagnosisOrProcedure) {
-	patientInfo.Procedures = make([]*message.DiagnosisOrProcedure, len(procedures))
+func (g Generator) setProcedures(patientInfo *ir.PatientInfo, procedures []*pathway.DiagnosisOrProcedure) {
+	patientInfo.Procedures = make([]*ir.DiagnosisOrProcedure, len(procedures))
 	g.setDiagnosesOrProcedures(patientInfo.Procedures, procedures, g.procedureGenerator)
 }
 
-func (g Generator) setDiagnosesOrProcedures(diagnosisOrProcedure []*message.DiagnosisOrProcedure, fromPathway []*pathway.DiagnosisOrProcedure, dpg diagnosisOrProcedureGenerator) {
+func (g Generator) setDiagnosesOrProcedures(diagnosisOrProcedure []*ir.DiagnosisOrProcedure, fromPathway []*pathway.DiagnosisOrProcedure, dpg diagnosisOrProcedureGenerator) {
 	for i, p := range fromPathway {
 		diagnosisOrProcedure[i] = dpg.RandomOrFromPathway(p.DateTime, p)
 		// By design, diagnoses and procedures don't reuse the clinician from the pathway.
@@ -249,19 +250,19 @@ func (g Generator) NewRegistrationPatientClassAndType() *config.PatientClassAndT
 }
 
 // NewOrder returns a new order based on order information from the pathway and eventTime.
-func (g Generator) NewOrder(o *pathway.Order, eventTime time.Time) *message.Order {
+func (g Generator) NewOrder(o *pathway.Order, eventTime time.Time) *ir.Order {
 	return g.orderGenerator.NewOrder(o, eventTime)
 }
 
 // OrderWithClinicalNote creates an order with a Clinical Note based on the pathway.
-func (g Generator) OrderWithClinicalNote(o *message.Order, n *pathway.ClinicalNote, eventTime time.Time) (*message.Order, error) {
+func (g Generator) OrderWithClinicalNote(o *ir.Order, n *pathway.ClinicalNote, eventTime time.Time) (*ir.Order, error) {
 	return g.orderGenerator.OrderWithClinicalNote(o, n, eventTime)
 }
 
 // SetResults sets results on an existing Order based on the results information from the pathway.
 // If order is nil, this also creates an Order using details in pathway.Result.
 // Returns an error of the retults cannot be created.
-func (g Generator) SetResults(o *message.Order, r *pathway.Results, eventTime time.Time) (*message.Order, error) {
+func (g Generator) SetResults(o *ir.Order, r *pathway.Results, eventTime time.Time) (*ir.Order, error) {
 	return g.orderGenerator.SetResults(o, r, eventTime)
 }
 
@@ -276,7 +277,7 @@ func (g *Generator) NewHeader(step *pathway.Step) *message.HeaderInfo {
 }
 
 // NewDocument returns a NewDocument for MDM^T02 messages.
-func (g Generator) NewDocument(eventTime time.Time, d *pathway.Document) *message.Document {
+func (g Generator) NewDocument(eventTime time.Time, d *pathway.Document) *ir.Document {
 	return g.documentGenerator.Document(eventTime, d)
 }
 

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Package document contains functions needed to generate a message.Document object.
+// Package document contains functions needed to generate a ir.Document object.
 package document
 
 import (
@@ -21,7 +21,7 @@ import (
 
 	"github.com/google/simhospital/pkg/config"
 	"github.com/google/simhospital/pkg/generator/text"
-	"github.com/google/simhospital/pkg/message"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/pathway"
 )
 
@@ -53,8 +53,8 @@ type Generator struct {
 // See pathway.Document for information on how every field is populated.
 // A UniqueDocumentNumber is randomly generated.
 // ActivityDateTime and EditDateTime are set to eventTime.
-func (g *Generator) Document(eventTime time.Time, d *pathway.Document) *message.Document {
-	e := message.NewValidTime(eventTime)
+func (g *Generator) Document(eventTime time.Time, d *pathway.Document) *ir.Document {
+	e := ir.NewValidTime(eventTime)
 	docType := d.DocumentType
 	status := d.CompletionStatus
 	id := obsID
@@ -76,12 +76,12 @@ func (g *Generator) Document(eventTime time.Time, d *pathway.Document) *message.
 	if d.ObsIdentifierCS != nil {
 		cs = *d.ObsIdentifierCS
 	}
-	return &message.Document{
+	return &ir.Document{
 		ActivityDateTime:         e,
 		EditDateTime:             e,
 		DocumentCompletionStatus: status,
 		DocumentType:             docType,
-		ObservationIdentifier: &message.CodedElement{
+		ObservationIdentifier: &ir.CodedElement{
 			ID:           id,
 			Text:         text,
 			CodingSystem: cs,

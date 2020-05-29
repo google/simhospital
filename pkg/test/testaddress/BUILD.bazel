@@ -23,5 +23,5 @@ go_library(
     name = "go_default_library",
     srcs = ["address.go"],
     importpath = "github.com/google/simhospital/pkg/test/testaddress",
-    deps = ["//pkg/message:go_default_library"],
+    deps = ["//pkg/ir:go_default_library"],
 )

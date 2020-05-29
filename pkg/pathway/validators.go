@@ -26,8 +26,8 @@ import (
 	"github.com/google/simhospital/pkg/clock"
 	"github.com/google/simhospital/pkg/constants"
 	"github.com/google/simhospital/pkg/doctor"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/location"
-	"github.com/google/simhospital/pkg/message"
 	"github.com/google/simhospital/pkg/orderprofile"
 )
 
@@ -808,7 +808,7 @@ func (c *Consultant) valid(doctors *doctor.Doctors) (*Consultant, error) {
 	return nil, errors.New("consultant validation failed. Either ID or First Name and Surname must be provided for a consultant to be valid")
 }
 
-func updatePrefix(c *Consultant, withPrefix *message.Doctor) {
+func updatePrefix(c *Consultant, withPrefix *ir.Doctor) {
 	if withPrefix != nil && c.Prefix == nil {
 		c.Prefix = &withPrefix.Prefix
 	}

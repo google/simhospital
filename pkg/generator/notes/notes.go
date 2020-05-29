@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Package notes contains functions needed to generate a message.ClinicalNote object given the pathway.ClinicalNote object.
+// Package notes contains functions needed to generate a ir.ClinicalNote object given the pathway.ClinicalNote object.
 package notes
 
 import (
@@ -28,7 +28,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/google/simhospital/pkg/config"
 	"github.com/google/simhospital/pkg/generator/text"
-	"github.com/google/simhospital/pkg/message"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/pathway"
 )
 
@@ -65,11 +65,11 @@ func NewGenerator(d *config.Data, t text.Generator) *Generator {
 // If note is nil, it generates a new ClinicalNote object. If note is not nil, it updates it. If the content type is a txt,
 // random text is generated as the content. Otherwise a random file matching the content type is read from the list of sample files as the content.
 // If there is an existing note, the document type and title are only updated if a new type or title is specified in the pathway.
-func (g *Generator) RandomDocumentForClinicalNote(np *pathway.ClinicalNote, note *message.ClinicalNote, eventTime time.Time) (*message.ClinicalNote, error) {
+func (g *Generator) RandomDocumentForClinicalNote(np *pathway.ClinicalNote, note *ir.ClinicalNote, eventTime time.Time) (*ir.ClinicalNote, error) {
 	if note == nil {
-		note = &message.ClinicalNote{
+		note = &ir.ClinicalNote{
 			DocumentID: g.id(np.DocumentID),
-			DateTime:   message.NewValidTime(eventTime),
+			DateTime:   ir.NewValidTime(eventTime),
 		}
 	}
 
@@ -85,11 +85,11 @@ func (g *Generator) RandomDocumentForClinicalNote(np *pathway.ClinicalNote, note
 		return nil, err
 	}
 
-	note.Contents = append(note.Contents, &message.ClinicalNoteContent{
+	note.Contents = append(note.Contents, &ir.ClinicalNoteContent{
 		ContentType:         np.ContentType,
 		DocumentContent:     documentContent,
 		DocumentEncoding:    encoding,
-		ObservationDateTime: message.NewValidTime(eventTime),
+		ObservationDateTime: ir.NewValidTime(eventTime),
 	})
 	return note, nil
 }

@@ -24,6 +24,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/google/simhospital/pkg/constants"
 	"github.com/google/simhospital/pkg/hl7"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/logging"
 )
 
@@ -47,140 +48,6 @@ const DiagnosticServIDMDOC = "MDOC"
 
 // SegmentTerminator is the string used to terminate segments in HL7v2 messages.
 const SegmentTerminator = constants.SegmentTerminatorStr
-
-// Person represents a person.
-type Person struct {
-	Prefix         string
-	FirstName      string
-	MiddleName     string
-	Surname        string
-	Suffix         string
-	Degree         string
-	Gender         string
-	Ethnicity      *Ethnicity
-	Birth          NullTime
-	DateOfDeath    NullTime
-	Address        *Address
-	PhoneNumber    string
-	MRN            string
-	NHS            string
-	DeathIndicator string
-}
-
-// CodedElement represents a HL7v2 Coded Element: https://hl7-definition.caristix.com/v2/HL7v2.2/DataTypes/CE.
-type CodedElement struct {
-	ID            string
-	Text          string
-	CodingSystem  string
-	AlternateText string
-}
-
-// Order represents a clinical order.
-type Order struct {
-	// OrderProfile is the order profile for the order.
-	OrderProfile *CodedElement
-	// Placer is the PlacerOrderNumber to be set in the ORC and OBR segments.
-	Placer string
-	// Filler is the FillerOrderNumber to be set in the ORC and OBR segments.
-	Filler string
-	// OrderDateTime is the ORC -> Date/Time of Transaction.
-	OrderDateTime NullTime
-	// CollectedDateTime is the
-	// OBR / OBX -> Observation Date Time (the same for all observations for one report).
-	CollectedDateTime NullTime
-	// ReceivedInLabDateTime is the OBR -> Specimen Received in Lab.
-	ReceivedInLabDateTime NullTime
-	// ReportedDateTime is the OBR -> Results Rpt/Status Change.
-	ReportedDateTime NullTime
-	// OrderControl is the ORC -> Order Control
-	// (https://www.hl7.org/fhir/v2/0119/index.html).
-	OrderControl string
-	// MessageControlIDOriginalOrder is the MSH / MSA -> Message Control ID corresponding to the original Order message.
-	MessageControlIDOriginalOrder string
-	// OrderStatus is the ORC -> Order Status
-	// (http://hl7-definition.caristix.com:9010/HL7%20v2.3.1/Default.aspx?version=HL7%20v2.5.1&table=0038)
-	OrderStatus string
-	// ResultsStatus is the OBR -> Result Status
-	// (http://hl7-definition.caristix.com:9010/HL7%20v2.3.1/Default.aspx?version=HL7%20v2.5.1&table=0123)
-	ResultsStatus string
-	// Results (observations) relevant to ORU messages. They translate into OBX segments and contain
-	// clinically relevant information, for instance:
-	// "OBX|1|NM|lpdc-3384^Urea^WinPath||5.0|MMOLL|2.1 - 7.1||||F|||||".
-	Results []*Result
-	// ResultsForORM are the results to be included in ORM messages. They translate into OBX segments, as for Results.
-	// However these are usually not clinically relevant and contain less information than the results
-	// in the Results field that contain proper observations.
-	// For instance, "OBX|3|CD|PERSONUKRES||Yes".
-	ResultsForORM []*Result
-	// NotesForORM are the notes for ORM messages. These still generate NTE segments, but such segments are located before
-	// the OBX segments and refer to the order in general instead of the results as the Notes field in
-	// the Result struct.
-	NotesForORM      []string
-	OrderingProvider *Doctor
-	SpecimenSource   string
-	// DiagnosticServID is the value to be set in the Diagnostic Serv Sect ID (OBR.24) field.
-	// If the value matches DiagnosticServIDMDOC, the order is for a document/clinical note.
-	DiagnosticServID string
-	// NumberOfPreviousResults is used to keep track of how many results were already sent for this order.
-	// This allows for starting with the correct OBX SetID when sending new results linked to that order.
-	NumberOfPreviousResults int
-}
-
-// Result represents a clinical result.
-type Result struct {
-	TestName            *CodedElement
-	Value               string
-	Unit                string
-	ValueType           string
-	Range               string
-	AbnormalFlag        string
-	ObservationDateTime NullTime
-	// Status is the OBX -> Observation Result Status
-	// (http://hl7-definition.caristix.com:9010/HL7%20v2.3.1/Default.aspx?version=HL7%20v2.5.1&table=0085).
-	Status       string
-	Notes        []string
-	ClinicalNote *ClinicalNote
-}
-
-// ClinicalNoteContent contains data used to generate an OBX segment in a ClinicalNote HL7 message.
-type ClinicalNoteContent struct {
-	// ObservationDateTime can be different from the DateTime field in ClinicalNote struct.
-	// ObservationDateTime is set when the corresponding content is generated whereas ClinicalNote.DateTime is set when the ClinicalNote is generated.
-	ObservationDateTime NullTime
-	ContentType         string
-	DocumentEncoding    string
-	DocumentContent     string
-}
-
-// ClinicalNote represents a Clinical Note.
-// A clinical note is a document with information about a patient. Even if "document" could be more accurate,
-// we prefer to keep the term that clinicians use.
-type ClinicalNote struct {
-	DateTime      NullTime
-	DocumentTitle string
-	DocumentType  string
-	DocumentID    string
-	Contents      []*ClinicalNoteContent
-}
-
-// Document represents a generic document.
-// It is used to populate the TXA and OBX segments of an MDM message.
-type Document struct {
-	// Fields used in TXA segment.
-	ActivityDateTime         NullTime
-	EditDateTime             NullTime
-	DocumentType             string
-	DocumentCompletionStatus string
-	UniqueDocumentNumber     string
-
-	// Fields used in OBX segments.
-	// ObservationIdentifier populates the OBX.3 (Observation Identifier) field in each OBX segment.
-	ObservationIdentifier *CodedElement
-	// ContentLine contains values to be set in the OBX.5 (Observation Value) field.
-	// Each line generates a different OBX segment.
-	ContentLine []string
-}
-
 const (
 	listItemsSeparator           = "~"
 	componentSeparator           = "^"
@@ -192,21 +59,6 @@ const (
 	backwardSlash                = "\\"
 	escapedBackwardSlash         = "\\E\\"
 )
-
-// Ethnicity is a HL7v2 coded element to represent ethnicities.
-type Ethnicity CodedElement
-
-// Address represents a physical address, e.g., a patient's home.
-// Example: 1 Goodwill Hunting Road^^London^^N1C 4AG^GBR^HOME
-type Address struct {
-	FirstLine  string
-	SecondLine string
-	City       string
-	PostalCode string
-	Country    string
-	// Type is the type of the address, eg. HOME or WORK.
-	Type string
-}
 
 // HL7Message represents a HL7 Message.
 type HL7Message struct {
@@ -230,134 +82,6 @@ type HeaderInfo struct {
 	MessageControlID string
 }
 
-// PatientLocation represents a patient location within a clinical facility.
-// Example: RAL 12 West^Bay01^Bed10^RAL RF^^BED^RFH^Floor 1.
-type PatientLocation struct {
-	Poc          string
-	Room         string
-	Bed          string
-	Facility     string
-	LocationType string
-	Building     string
-	Floor        string
-}
-
-// Doctor represents a doctor.
-// Example: 216865551019^Osman^Arthur^^^Dr^^^DRNBR^PRSNL^^^ORGDR.
-type Doctor struct {
-	ID        string
-	Surname   string
-	FirstName string
-	Prefix    string
-	Specialty string // This field is not used in message building.
-}
-
-// AssociatedParty represents a person associated to another person.
-type AssociatedParty struct {
-	*Person
-	Relationship *CodedElement
-	ContactRole  *CodedElement
-}
-
-// Allergy represents an allergy.
-type Allergy struct {
-	Type                   string
-	Description            CodedElement
-	Severity               string
-	Reaction               string
-	IdentificationDateTime NullTime
-}
-
-// DiagnosisOrProcedure represents a clinical diagnosis or procedure.
-type DiagnosisOrProcedure struct {
-	Description *CodedElement
-	Type        string
-	Clinician   *Doctor
-	DateTime    NullTime
-}
-
-// PrimaryFacility represents a patient's primary clinical facility (e.g. a GP practice).
-type PrimaryFacility struct {
-	Organization string
-	// ID is the "XON.3-Id Number" for this primary facility.
-	// Id Number is numeric (NM) in HL7:
-	// http://hl7-definition.caristix.com:9010/HL7%20v2.3.1/segment/PD1?version=HL7%20v2.3.1&dataType=XON.
-	// We make it a string instead because it's more generic.
-	// Also, if it's not present, it appears in the HL7 message as an empty field as opposed to a 0.
-	ID string
-}
-
-// PatientInfo represents a patient and related information.
-type PatientInfo struct {
-	Person          *Person
-	Class           string // EMERGENCY / INPATIENT / OUTPATIENT / PREADMIT / RECURRING PATIENT / OBSTETRICS
-	Type            string // values are defined per-trust if this field is used
-	VisitID         uint64
-	HospitalService string
-	Location        *PatientLocation
-	PriorLocation   *PatientLocation
-	// PriorLocationForCancelTransfer is the patient's PriorLocation after a CancelTransfer message.
-	// After a transfer message we clear the patient's PriorLocation so that it's not included in
-	// future messages. However in a CancelTransfer we need to know it so that we can re-instate it.
-	PriorLocationForCancelTransfer *PatientLocation
-	PendingLocation                *PatientLocation
-	PriorPendingLocation           *PatientLocation
-	TemporaryLocation              *PatientLocation
-	PriorTemporaryLocation         *PatientLocation
-	AttendingDoctor                *Doctor
-	AccountStatus                  string
-	AdmissionDate                  NullTime
-	DischargeDate                  NullTime
-	TransferDate                   NullTime
-	ExpectedAdmitDateTime          NullTime
-	ExpectedDischargeDateTime      NullTime
-	ExpectedTransferDateTime       NullTime
-	AssociatedParties              []*AssociatedParty
-	Allergies                      []*Allergy
-	Diagnoses                      []*DiagnosisOrProcedure
-	Procedures                     []*DiagnosisOrProcedure
-	PrimaryFacility                *PrimaryFacility
-	// AdditionalData allows users to enter arbitrary information about a patient's medical record.
-	// It is up to the user to decide what data is stored here.
-	AdditionalData interface{}
-}
-
-// NullTime represents a time that can be null.
-type NullTime struct {
-	time.Time
-	Valid    bool
-	Midnight bool
-}
-
-// NewMidnightTime returns a NullTime from the given time with Midnight and Valid set.
-func NewMidnightTime(t time.Time) NullTime {
-	return NullTime{
-		Time:     t,
-		Valid:    true,
-		Midnight: true,
-	}
-}
-
-// NewValidTime returns a NullTime from the given time with Valid set.
-func NewValidTime(t time.Time) NullTime {
-	return NullTime{
-		Time:  t,
-		Valid: true,
-	}
-}
-
-// NewInvalidTime returns an invalid NullTime.
-func NewInvalidTime() NullTime {
-	return NullTime{
-		Valid: false,
-	}
-}
-
-// Formattable is an interface for formatting dates in different locations.
-type Formattable interface {
-	In(loc *time.Location) time.Time
-}
-
 var (
 	log = logging.ForCallerPackage()
 
@@ -371,8 +95,8 @@ var (
 )
 
 // ToHL7Date converts a date into a string with HL7 date format.
-func ToHL7Date(t Formattable) (string, error) {
-	nt, ok := t.(NullTime)
+func ToHL7Date(t ir.Formattable) (string, error) {
+	nt, ok := t.(ir.NullTime)
 	if ok && !nt.Valid {
 		return "", nil
 	}
@@ -588,7 +312,7 @@ var templates = map[string]*template.Template{
 }
 
 // BuildDocumentNotificationMDMT02 builds and returns a HL7 MDM^T02 message.
-func BuildDocumentNotificationMDMT02(h *HeaderInfo, p *PatientInfo, d *Document, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
+func BuildDocumentNotificationMDMT02(h *HeaderInfo, p *ir.PatientInfo, d *ir.Document, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
 	msgType := &Type{
 		MessageType:  MDM,
 		TriggerEvent: "T02",
@@ -600,7 +324,7 @@ func BuildDocumentNotificationMDMT02(h *HeaderInfo, p *PatientInfo, d *Document,
 		return nil, errors.Wrap(err, "cannot build MSH segment")
 	}
 	segments = append(segments, msh)
-	evn, err := BuildEVN(eventTime, msgType, NewInvalidTime(), p.AttendingDoctor, NewInvalidTime())
+	evn, err := BuildEVN(eventTime, msgType, ir.NewInvalidTime(), p.AttendingDoctor, ir.NewInvalidTime())
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot build EVN segment")
 	}
@@ -635,7 +359,7 @@ func BuildDocumentNotificationMDMT02(h *HeaderInfo, p *PatientInfo, d *Document,
 }
 
 // BuildResultORUR01 builds and returns a HL7 ORU^R01 message.
-func BuildResultORUR01(h *HeaderInfo, p *PatientInfo, o *Order, msgTime time.Time) (*HL7Message, error) {
+func BuildResultORUR01(h *HeaderInfo, p *ir.PatientInfo, o *ir.Order, msgTime time.Time) (*HL7Message, error) {
 	msgType := &Type{
 		MessageType:  ORU,
 		TriggerEvent: "R01",
@@ -653,7 +377,7 @@ func BuildResultORUR01(h *HeaderInfo, p *PatientInfo, o *Order, msgTime time.Tim
 }
 
 // BuildResultORUR03 builds and returns a HL7 ORU^R03 message.
-func BuildResultORUR03(h *HeaderInfo, p *PatientInfo, o *Order, msgTime time.Time) (*HL7Message, error) {
+func BuildResultORUR03(h *HeaderInfo, p *ir.PatientInfo, o *ir.Order, msgTime time.Time) (*HL7Message, error) {
 	msgType := &Type{
 		MessageType:  ORU,
 		TriggerEvent: "R03",
@@ -671,7 +395,7 @@ func BuildResultORUR03(h *HeaderInfo, p *PatientInfo, o *Order, msgTime time.Tim
 }
 
 // BuildResultORUR32 builds and returns a HL7 ORU^R32 message.
-func BuildResultORUR32(h *HeaderInfo, p *PatientInfo, o *Order, msgTime time.Time) (*HL7Message, error) {
+func BuildResultORUR32(h *HeaderInfo, p *ir.PatientInfo, o *ir.Order, msgTime time.Time) (*HL7Message, error) {
 	msgType := &Type{
 		MessageType:  ORU,
 		TriggerEvent: "R32",
@@ -688,7 +412,7 @@ func BuildResultORUR32(h *HeaderInfo, p *PatientInfo, o *Order, msgTime time.Tim
 	}, nil
 }
 
-func segmentsORU(h *HeaderInfo, p *PatientInfo, o *Order, msgTime time.Time, msgType *Type) ([]string, error) {
+func segmentsORU(h *HeaderInfo, p *ir.PatientInfo, o *ir.Order, msgTime time.Time, msgType *Type) ([]string, error) {
 	var segments []string
 	msh, err := BuildMSH(msgTime, msgType, h)
 	if err != nil {
@@ -722,7 +446,7 @@ func segmentsORU(h *HeaderInfo, p *PatientInfo, o *Order, msgTime time.Time, msg
 	return resultsOBX(o, segments)
 }
 
-func clinicalNotesOBX(o *Order, segments []string) ([]string, error) {
+func clinicalNotesOBX(o *ir.Order, segments []string) ([]string, error) {
 	for _, result := range o.Results {
 		for id := range result.ClinicalNote.Contents {
 			obx, err := BuildOBXForClinicalNote(id+1, id, result, o)
@@ -735,7 +459,7 @@ func clinicalNotesOBX(o *Order, segments []string) ([]string, error) {
 	return segments, nil
 }
 
-func resultsOBX(o *Order, segments []string) ([]string, error) {
+func resultsOBX(o *ir.Order, segments []string) ([]string, error) {
 	for id, result := range o.Results {
 		// We increment by 1 so that the first OBX has a SetID of 1 - that's how segment numbers starts.
 		// We use the number of previous result for the same order so that the SetIDs of OBX segments
@@ -757,7 +481,7 @@ func resultsOBX(o *Order, segments []string) ([]string, error) {
 }
 
 // BuildOrderORMO01 builds and returns a HL7 ORM^O01 message.
-func BuildOrderORMO01(h *HeaderInfo, p *PatientInfo, o *Order, msgTime time.Time) (*HL7Message, error) {
+func BuildOrderORMO01(h *HeaderInfo, p *ir.PatientInfo, o *ir.Order, msgTime time.Time) (*HL7Message, error) {
 	msgType := &Type{
 		MessageType:  ORM,
 		TriggerEvent: "O01",
@@ -818,7 +542,7 @@ func BuildOrderORMO01(h *HeaderInfo, p *PatientInfo, o *Order, msgTime time.Time
 }
 
 // BuildPathologyORRO02 builds and returns a HL7 ORR^O02 message.
-func BuildPathologyORRO02(h *HeaderInfo, p *PatientInfo, o *Order, msgTime time.Time) (*HL7Message, error) {
+func BuildPathologyORRO02(h *HeaderInfo, p *ir.PatientInfo, o *ir.Order, msgTime time.Time) (*HL7Message, error) {
 	msgType := &Type{
 		MessageType:  ORR,
 		TriggerEvent: "O02",
@@ -852,7 +576,7 @@ func BuildPathologyORRO02(h *HeaderInfo, p *PatientInfo, o *Order, msgTime time.
 }
 
 // BuildAdmissionADTA01 builds and returns a HL7 ADT^A01 message.
-func BuildAdmissionADTA01(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
+func BuildAdmissionADTA01(h *HeaderInfo, p *ir.PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
 	msgType := &Type{
 		MessageType:  ADT,
 		TriggerEvent: "A01",
@@ -864,7 +588,7 @@ func BuildAdmissionADTA01(h *HeaderInfo, p *PatientInfo, eventTime time.Time, ms
 		return nil, errors.Wrap(err, "cannot build MSH segment")
 	}
 	segments = append(segments, msh)
-	evn, err := BuildEVN(eventTime, msgType, NewInvalidTime(), p.AttendingDoctor, NewInvalidTime())
+	evn, err := BuildEVN(eventTime, msgType, ir.NewInvalidTime(), p.AttendingDoctor, ir.NewInvalidTime())
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot build EVN segment")
 	}
@@ -906,7 +630,7 @@ func BuildAdmissionADTA01(h *HeaderInfo, p *PatientInfo, eventTime time.Time, ms
 }
 
 // BuildTransferADTA02 builds and returns a HL7 ADT^A02 message.
-func BuildTransferADTA02(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
+func BuildTransferADTA02(h *HeaderInfo, p *ir.PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
 	msgType := &Type{
 		MessageType:  ADT,
 		TriggerEvent: "A02",
@@ -918,7 +642,7 @@ func BuildTransferADTA02(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msg
 		return nil, errors.Wrap(err, "cannot build MSH segment")
 	}
 	segments = append(segments, msh)
-	evn, err := BuildEVN(eventTime, msgType, NewInvalidTime(), p.AttendingDoctor, NewInvalidTime())
+	evn, err := BuildEVN(eventTime, msgType, ir.NewInvalidTime(), p.AttendingDoctor, ir.NewInvalidTime())
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot build EVN segment")
 	}
@@ -946,7 +670,7 @@ func BuildTransferADTA02(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msg
 }
 
 // BuildDischargeADTA03 builds and returns a HL7 ADT^A03 message.
-func BuildDischargeADTA03(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
+func BuildDischargeADTA03(h *HeaderInfo, p *ir.PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
 	msgType := &Type{
 		MessageType:  ADT,
 		TriggerEvent: "A03",
@@ -958,7 +682,7 @@ func BuildDischargeADTA03(h *HeaderInfo, p *PatientInfo, eventTime time.Time, ms
 		return nil, errors.Wrap(err, "cannot build MSH segment")
 	}
 	segments = append(segments, msh)
-	evn, err := BuildEVN(eventTime, msgType, NewInvalidTime(), p.AttendingDoctor, NewInvalidTime())
+	evn, err := BuildEVN(eventTime, msgType, ir.NewInvalidTime(), p.AttendingDoctor, ir.NewInvalidTime())
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot build EVN segment")
 	}
@@ -993,7 +717,7 @@ func BuildDischargeADTA03(h *HeaderInfo, p *PatientInfo, eventTime time.Time, ms
 }
 
 // BuildRegistrationADTA04 builds and returns a HL7 ADT^A04 message.
-func BuildRegistrationADTA04(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
+func BuildRegistrationADTA04(h *HeaderInfo, p *ir.PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
 	msgType := &Type{
 		MessageType:  ADT,
 		TriggerEvent: "A04",
@@ -1005,7 +729,7 @@ func BuildRegistrationADTA04(h *HeaderInfo, p *PatientInfo, eventTime time.Time,
 		return nil, errors.Wrap(err, "cannot build MSH segment")
 	}
 	segments = append(segments, msh)
-	evn, err := BuildEVN(eventTime, msgType, NewInvalidTime(), p.AttendingDoctor, NewInvalidTime())
+	evn, err := BuildEVN(eventTime, msgType, ir.NewInvalidTime(), p.AttendingDoctor, ir.NewInvalidTime())
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot build EVN segment")
 	}
@@ -1047,7 +771,7 @@ func BuildRegistrationADTA04(h *HeaderInfo, p *PatientInfo, eventTime time.Time,
 }
 
 // BuildPreAdmitADTA05 builds and returns a HL7 ADT^A05 message.
-func BuildPreAdmitADTA05(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
+func BuildPreAdmitADTA05(h *HeaderInfo, p *ir.PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
 	msgType := &Type{
 		MessageType:  ADT,
 		TriggerEvent: "A05",
@@ -1058,7 +782,7 @@ func BuildPreAdmitADTA05(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msg
 		return nil, errors.Wrap(err, "cannot build MSH segment")
 	}
 	segments = append(segments, msh)
-	evn, err := BuildEVN(eventTime, msgType, p.ExpectedAdmitDateTime, p.AttendingDoctor, NewInvalidTime())
+	evn, err := BuildEVN(eventTime, msgType, p.ExpectedAdmitDateTime, p.AttendingDoctor, ir.NewInvalidTime())
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot build EVN segment")
 	}
@@ -1111,7 +835,7 @@ func BuildPreAdmitADTA05(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msg
 }
 
 // BuildUpdatePatientADTA08 builds and returns a HL7 ADT^A08 message.
-func BuildUpdatePatientADTA08(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
+func BuildUpdatePatientADTA08(h *HeaderInfo, p *ir.PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
 	msgType := &Type{
 		MessageType:  ADT,
 		TriggerEvent: "A08",
@@ -1123,7 +847,7 @@ func BuildUpdatePatientADTA08(h *HeaderInfo, p *PatientInfo, eventTime time.Time
 		return nil, errors.Wrap(err, "cannot build MSH segment")
 	}
 	segments = append(segments, msh)
-	evn, err := BuildEVN(eventTime, msgType, NewInvalidTime(), p.AttendingDoctor, NewInvalidTime())
+	evn, err := BuildEVN(eventTime, msgType, ir.NewInvalidTime(), p.AttendingDoctor, ir.NewInvalidTime())
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot build EVN segment")
 	}
@@ -1168,7 +892,7 @@ func BuildUpdatePatientADTA08(h *HeaderInfo, p *PatientInfo, eventTime time.Time
 }
 
 // BuildTrackDepartureADTA09 builds and returns a HL7 ADT^A09 message.
-func BuildTrackDepartureADTA09(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
+func BuildTrackDepartureADTA09(h *HeaderInfo, p *ir.PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
 	msgType := &Type{
 		MessageType:  ADT,
 		TriggerEvent: "A09",
@@ -1180,7 +904,7 @@ func BuildTrackDepartureADTA09(h *HeaderInfo, p *PatientInfo, eventTime time.Tim
 		return nil, errors.Wrap(err, "cannot build MSH segment")
 	}
 	segments = append(segments, msh)
-	evn, err := BuildEVN(eventTime, msgType, NewInvalidTime(), p.AttendingDoctor, NewInvalidTime())
+	evn, err := BuildEVN(eventTime, msgType, ir.NewInvalidTime(), p.AttendingDoctor, ir.NewInvalidTime())
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot build EVN segment")
 	}
@@ -1208,7 +932,7 @@ func BuildTrackDepartureADTA09(h *HeaderInfo, p *PatientInfo, eventTime time.Tim
 }
 
 // BuildTrackArrivalADTA10 builds and returns a HL7 ADT^A10 message.
-func BuildTrackArrivalADTA10(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
+func BuildTrackArrivalADTA10(h *HeaderInfo, p *ir.PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
 	msgType := &Type{
 		MessageType:  ADT,
 		TriggerEvent: "A10",
@@ -1220,7 +944,7 @@ func BuildTrackArrivalADTA10(h *HeaderInfo, p *PatientInfo, eventTime time.Time,
 		return nil, errors.Wrap(err, "cannot build MSH segment")
 	}
 	segments = append(segments, msh)
-	evn, err := BuildEVN(eventTime, msgType, NewInvalidTime(), p.AttendingDoctor, NewInvalidTime())
+	evn, err := BuildEVN(eventTime, msgType, ir.NewInvalidTime(), p.AttendingDoctor, ir.NewInvalidTime())
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot build EVN segment")
 	}
@@ -1248,7 +972,7 @@ func BuildTrackArrivalADTA10(h *HeaderInfo, p *PatientInfo, eventTime time.Time,
 }
 
 // BuildCancelVisitADTA11 builds and returns a HL7 ADT^A11 message.
-func BuildCancelVisitADTA11(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
+func BuildCancelVisitADTA11(h *HeaderInfo, p *ir.PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
 	msgType := &Type{
 		MessageType:  ADT,
 		TriggerEvent: "A11",
@@ -1260,7 +984,7 @@ func BuildCancelVisitADTA11(h *HeaderInfo, p *PatientInfo, eventTime time.Time, 
 		return nil, errors.Wrap(err, "cannot build MSH segment")
 	}
 	segments = append(segments, msh)
-	evn, err := BuildEVN(eventTime, msgType, NewInvalidTime(), p.AttendingDoctor, p.AdmissionDate)
+	evn, err := BuildEVN(eventTime, msgType, ir.NewInvalidTime(), p.AttendingDoctor, p.AdmissionDate)
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot build EVN segment")
 	}
@@ -1288,7 +1012,7 @@ func BuildCancelVisitADTA11(h *HeaderInfo, p *PatientInfo, eventTime time.Time, 
 }
 
 // BuildBedSwapADTA17 builds and returns a HL7 ADT^A17 message.
-func BuildBedSwapADTA17(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msgTime time.Time, otherP *PatientInfo) (*HL7Message, error) {
+func BuildBedSwapADTA17(h *HeaderInfo, p *ir.PatientInfo, eventTime time.Time, msgTime time.Time, otherP *ir.PatientInfo) (*HL7Message, error) {
 	msgType := &Type{
 		MessageType:  ADT,
 		TriggerEvent: "A17",
@@ -1300,7 +1024,7 @@ func BuildBedSwapADTA17(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msgT
 		return nil, errors.Wrap(err, "cannot build MSH segment")
 	}
 	segments = append(segments, msh)
-	evn, err := BuildEVN(eventTime, msgType, NewInvalidTime(), p.AttendingDoctor, NewInvalidTime())
+	evn, err := BuildEVN(eventTime, msgType, ir.NewInvalidTime(), p.AttendingDoctor, ir.NewInvalidTime())
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot build EVN segment")
 	}
@@ -1339,7 +1063,7 @@ func BuildBedSwapADTA17(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msgT
 }
 
 // BuildAddPersonADTA28 builds and returns a HL7 ADT^A28 message.
-func BuildAddPersonADTA28(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
+func BuildAddPersonADTA28(h *HeaderInfo, p *ir.PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
 	msgType := &Type{
 		MessageType:  ADT,
 		TriggerEvent: "A28",
@@ -1351,7 +1075,7 @@ func BuildAddPersonADTA28(h *HeaderInfo, p *PatientInfo, eventTime time.Time, ms
 		return nil, errors.Wrap(err, "cannot build MSH segment")
 	}
 	segments = append(segments, msh)
-	evn, err := BuildEVN(eventTime, msgType, NewInvalidTime(), p.AttendingDoctor, NewInvalidTime())
+	evn, err := BuildEVN(eventTime, msgType, ir.NewInvalidTime(), p.AttendingDoctor, ir.NewInvalidTime())
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot build EVN segment")
 	}
@@ -1382,7 +1106,7 @@ func BuildAddPersonADTA28(h *HeaderInfo, p *PatientInfo, eventTime time.Time, ms
 }
 
 // BuildUpdatePersonADTA31 builds and returns a HL7 ADT^A31 message.
-func BuildUpdatePersonADTA31(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
+func BuildUpdatePersonADTA31(h *HeaderInfo, p *ir.PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
 	msgType := &Type{
 		MessageType:  ADT,
 		TriggerEvent: "A31",
@@ -1393,7 +1117,7 @@ func BuildUpdatePersonADTA31(h *HeaderInfo, p *PatientInfo, eventTime time.Time,
 		return nil, errors.Wrap(err, "cannot build MSH segment")
 	}
 	segments = append(segments, msh)
-	evn, err := BuildEVN(eventTime, msgType, NewInvalidTime(), p.AttendingDoctor, NewInvalidTime())
+	evn, err := BuildEVN(eventTime, msgType, ir.NewInvalidTime(), p.AttendingDoctor, ir.NewInvalidTime())
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot build EVN segment")
 	}
@@ -1438,7 +1162,7 @@ func BuildUpdatePersonADTA31(h *HeaderInfo, p *PatientInfo, eventTime time.Time,
 }
 
 // BuildCancelTransferADTA12 builds and returns a HL7 ADT^A12 message.
-func BuildCancelTransferADTA12(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
+func BuildCancelTransferADTA12(h *HeaderInfo, p *ir.PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
 	msgType := &Type{
 		MessageType:  ADT,
 		TriggerEvent: "A12",
@@ -1450,7 +1174,7 @@ func BuildCancelTransferADTA12(h *HeaderInfo, p *PatientInfo, eventTime time.Tim
 		return nil, errors.Wrap(err, "cannot build MSH segment")
 	}
 	segments = append(segments, msh)
-	evn, err := BuildEVN(eventTime, msgType, NewInvalidTime(), p.AttendingDoctor, p.TransferDate)
+	evn, err := BuildEVN(eventTime, msgType, ir.NewInvalidTime(), p.AttendingDoctor, p.TransferDate)
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot build EVN segment")
 	}
@@ -1478,7 +1202,7 @@ func BuildCancelTransferADTA12(h *HeaderInfo, p *PatientInfo, eventTime time.Tim
 }
 
 // BuildCancelDischargeADTA13 builds and returns a HL7 ADT^A13 message.
-func BuildCancelDischargeADTA13(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
+func BuildCancelDischargeADTA13(h *HeaderInfo, p *ir.PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
 	msgType := &Type{
 		MessageType:  ADT,
 		TriggerEvent: "A13",
@@ -1490,7 +1214,7 @@ func BuildCancelDischargeADTA13(h *HeaderInfo, p *PatientInfo, eventTime time.Ti
 		return nil, errors.Wrap(err, "cannot build MSH segment")
 	}
 	segments = append(segments, msh)
-	evn, err := BuildEVN(eventTime, msgType, NewInvalidTime(), p.AttendingDoctor, p.DischargeDate)
+	evn, err := BuildEVN(eventTime, msgType, ir.NewInvalidTime(), p.AttendingDoctor, p.DischargeDate)
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot build EVN segment")
 	}
@@ -1518,7 +1242,7 @@ func BuildCancelDischargeADTA13(h *HeaderInfo, p *PatientInfo, eventTime time.Ti
 }
 
 // BuildPendingAdmissionADTA14 builds and returns a HL7 ADT^A14 message.
-func BuildPendingAdmissionADTA14(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
+func BuildPendingAdmissionADTA14(h *HeaderInfo, p *ir.PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
 	msgType := &Type{
 		MessageType:  ADT,
 		TriggerEvent: "A14",
@@ -1533,7 +1257,7 @@ func BuildPendingAdmissionADTA14(h *HeaderInfo, p *PatientInfo, eventTime time.T
 	// http://www.hl7.eu/refactored/segEVN.html
 	// We add it in the EVN as well for consistency with the PendingTransfer message that doesn't have
 	// an equivalent in PV2.
-	evn, err := BuildEVN(eventTime, msgType, p.ExpectedAdmitDateTime, p.AttendingDoctor, NewInvalidTime())
+	evn, err := BuildEVN(eventTime, msgType, p.ExpectedAdmitDateTime, p.AttendingDoctor, ir.NewInvalidTime())
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot build EVN segment")
 	}
@@ -1566,7 +1290,7 @@ func BuildPendingAdmissionADTA14(h *HeaderInfo, p *PatientInfo, eventTime time.T
 }
 
 // BuildPendingTransferADTA15 builds and returns a HL7 ADT^A15 message.
-func BuildPendingTransferADTA15(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
+func BuildPendingTransferADTA15(h *HeaderInfo, p *ir.PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
 	msgType := &Type{
 		MessageType:  ADT,
 		TriggerEvent: "A15",
@@ -1577,7 +1301,7 @@ func BuildPendingTransferADTA15(h *HeaderInfo, p *PatientInfo, eventTime time.Ti
 		return nil, errors.Wrap(err, "cannot build MSH segment")
 	}
 	segments = append(segments, msh)
-	evn, err := BuildEVN(eventTime, msgType, p.ExpectedTransferDateTime, p.AttendingDoctor, NewInvalidTime())
+	evn, err := BuildEVN(eventTime, msgType, p.ExpectedTransferDateTime, p.AttendingDoctor, ir.NewInvalidTime())
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot build EVN segment")
 	}
@@ -1605,7 +1329,7 @@ func BuildPendingTransferADTA15(h *HeaderInfo, p *PatientInfo, eventTime time.Ti
 }
 
 // BuildPendingDischargeADTA16 builds and returns a HL7 ADT^A16 message.
-func BuildPendingDischargeADTA16(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
+func BuildPendingDischargeADTA16(h *HeaderInfo, p *ir.PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
 	msgType := &Type{
 		MessageType:  ADT,
 		TriggerEvent: "A16",
@@ -1617,7 +1341,7 @@ func BuildPendingDischargeADTA16(h *HeaderInfo, p *PatientInfo, eventTime time.T
 	}
 	segments = append(segments, msh)
 	// See BuildPendingAdmissionADTA14 for why we send ExpectedDischargeDateTime here.
-	evn, err := BuildEVN(eventTime, msgType, p.ExpectedDischargeDateTime, p.AttendingDoctor, NewInvalidTime())
+	evn, err := BuildEVN(eventTime, msgType, p.ExpectedDischargeDateTime, p.AttendingDoctor, ir.NewInvalidTime())
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot build EVN segment")
 	}
@@ -1650,7 +1374,7 @@ func BuildPendingDischargeADTA16(h *HeaderInfo, p *PatientInfo, eventTime time.T
 }
 
 // BuildDeleteVisitADTA23 builds and returns a HL7 ADT^A23 message.
-func BuildDeleteVisitADTA23(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
+func BuildDeleteVisitADTA23(h *HeaderInfo, p *ir.PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
 	msgType := &Type{
 		MessageType:  ADT,
 		TriggerEvent: "A23",
@@ -1661,7 +1385,7 @@ func BuildDeleteVisitADTA23(h *HeaderInfo, p *PatientInfo, eventTime time.Time, 
 		return nil, errors.Wrap(err, "cannot build MSH segment")
 	}
 	segments = append(segments, msh)
-	evn, err := BuildEVN(eventTime, msgType, NewInvalidTime(), p.AttendingDoctor, NewInvalidTime())
+	evn, err := BuildEVN(eventTime, msgType, ir.NewInvalidTime(), p.AttendingDoctor, ir.NewInvalidTime())
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot build EVN segment")
 	}
@@ -1683,7 +1407,7 @@ func BuildDeleteVisitADTA23(h *HeaderInfo, p *PatientInfo, eventTime time.Time, 
 }
 
 // BuildCancelPendingDischargeADTA25 builds and returns a HL7 ADT^A25 message.
-func BuildCancelPendingDischargeADTA25(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
+func BuildCancelPendingDischargeADTA25(h *HeaderInfo, p *ir.PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
 	msgType := &Type{
 		MessageType:  ADT,
 		TriggerEvent: "A25",
@@ -1694,7 +1418,7 @@ func BuildCancelPendingDischargeADTA25(h *HeaderInfo, p *PatientInfo, eventTime 
 		return nil, errors.Wrap(err, "cannot build MSH segment")
 	}
 	segments = append(segments, msh)
-	evn, err := BuildEVN(eventTime, msgType, NewInvalidTime(), p.AttendingDoctor, p.ExpectedDischargeDateTime)
+	evn, err := BuildEVN(eventTime, msgType, ir.NewInvalidTime(), p.AttendingDoctor, p.ExpectedDischargeDateTime)
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot build EVN segment")
 	}
@@ -1727,7 +1451,7 @@ func BuildCancelPendingDischargeADTA25(h *HeaderInfo, p *PatientInfo, eventTime 
 }
 
 // BuildCancelPendingTransferADTA26 builds and returns a HL7 ADT^A26 message.
-func BuildCancelPendingTransferADTA26(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
+func BuildCancelPendingTransferADTA26(h *HeaderInfo, p *ir.PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
 	msgType := &Type{
 		MessageType:  ADT,
 		TriggerEvent: "A26",
@@ -1738,7 +1462,7 @@ func BuildCancelPendingTransferADTA26(h *HeaderInfo, p *PatientInfo, eventTime t
 		return nil, errors.Wrap(err, "cannot build MSH segment")
 	}
 	segments = append(segments, msh)
-	evn, err := BuildEVN(eventTime, msgType, NewInvalidTime(), p.AttendingDoctor, p.ExpectedTransferDateTime)
+	evn, err := BuildEVN(eventTime, msgType, ir.NewInvalidTime(), p.AttendingDoctor, p.ExpectedTransferDateTime)
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot build EVN segment")
 	}
@@ -1771,7 +1495,7 @@ func BuildCancelPendingTransferADTA26(h *HeaderInfo, p *PatientInfo, eventTime t
 }
 
 // BuildCancelPendingAdmitADTA27 builds and returns a HL7 ADT^A27 message.
-func BuildCancelPendingAdmitADTA27(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
+func BuildCancelPendingAdmitADTA27(h *HeaderInfo, p *ir.PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
 	msgType := &Type{
 		MessageType:  ADT,
 		TriggerEvent: "A27",
@@ -1782,7 +1506,7 @@ func BuildCancelPendingAdmitADTA27(h *HeaderInfo, p *PatientInfo, eventTime time
 		return nil, errors.Wrap(err, "cannot build MSH segment")
 	}
 	segments = append(segments, msh)
-	evn, err := BuildEVN(eventTime, msgType, NewInvalidTime(), p.AttendingDoctor, p.ExpectedAdmitDateTime)
+	evn, err := BuildEVN(eventTime, msgType, ir.NewInvalidTime(), p.AttendingDoctor, p.ExpectedAdmitDateTime)
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot build EVN segment")
 	}
@@ -1815,7 +1539,7 @@ func BuildCancelPendingAdmitADTA27(h *HeaderInfo, p *PatientInfo, eventTime time
 }
 
 // BuildMergeADTA34 builds and returns a HL7 ADT^A34 message.
-func BuildMergeADTA34(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msgTime time.Time, withMRN string) (*HL7Message, error) {
+func BuildMergeADTA34(h *HeaderInfo, p *ir.PatientInfo, eventTime time.Time, msgTime time.Time, withMRN string) (*HL7Message, error) {
 	msgType := &Type{
 		MessageType:  ADT,
 		TriggerEvent: "A34",
@@ -1827,7 +1551,7 @@ func BuildMergeADTA34(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msgTim
 		return nil, errors.Wrap(err, "cannot build MSH segment")
 	}
 	segments = append(segments, msh)
-	evn, err := BuildEVN(eventTime, msgType, NewInvalidTime(), p.AttendingDoctor, NewInvalidTime())
+	evn, err := BuildEVN(eventTime, msgType, ir.NewInvalidTime(), p.AttendingDoctor, ir.NewInvalidTime())
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot build EVN segment")
 	}
@@ -1855,7 +1579,7 @@ func BuildMergeADTA34(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msgTim
 }
 
 // BuildMergeADTA40 builds and returns a HL7 ADT^A40 message.
-func BuildMergeADTA40(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msgTime time.Time, withMRN []string) (*HL7Message, error) {
+func BuildMergeADTA40(h *HeaderInfo, p *ir.PatientInfo, eventTime time.Time, msgTime time.Time, withMRN []string) (*HL7Message, error) {
 	msgType := &Type{
 		MessageType:  ADT,
 		TriggerEvent: "A40",
@@ -1867,7 +1591,7 @@ func BuildMergeADTA40(h *HeaderInfo, p *PatientInfo, eventTime time.Time, msgTim
 		return nil, errors.Wrap(err, "cannot build MSH segment")
 	}
 	segments = append(segments, msh)
-	evn, err := BuildEVN(eventTime, msgType, NewInvalidTime(), p.AttendingDoctor, NewInvalidTime())
+	evn, err := BuildEVN(eventTime, msgType, ir.NewInvalidTime(), p.AttendingDoctor, ir.NewInvalidTime())
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot build EVN segment")
 	}
@@ -1916,23 +1640,23 @@ func BuildMSA(orderMessageControlID string) (string, error) {
 }
 
 // BuildEVN builds and returns a HL7 EVN segment.
-func BuildEVN(t time.Time, messageType *Type, planned NullTime, operator *Doctor, occurred NullTime) (string, error) {
+func BuildEVN(t time.Time, messageType *Type, planned ir.NullTime, operator *ir.Doctor, occurred ir.NullTime) (string, error) {
 	return executeTemplate(templates[EVN], struct {
 		T                     *time.Time
 		MsgType               *Type
-		DateTimePlannedEvent  NullTime
-		Operator              *Doctor
-		EventOccurredDateTime NullTime
+		DateTimePlannedEvent  ir.NullTime
+		Operator              *ir.Doctor
+		EventOccurredDateTime ir.NullTime
 	}{&t, messageType, planned, operator, occurred})
 }
 
 // BuildPID builds and returns a HL7 PID segment.
-func BuildPID(p *Person) (string, error) {
+func BuildPID(p *ir.Person) (string, error) {
 	return executeTemplate(templates[PID], p)
 }
 
 // BuildPV1 builds and returns a HL7 PV1 segment.
-func BuildPV1(p *PatientInfo) (string, error) {
+func BuildPV1(p *ir.PatientInfo) (string, error) {
 	return executeTemplate(templates[PV1], p)
 }
 
@@ -1944,33 +1668,33 @@ func BuildPseudoPV1() string {
 }
 
 // BuildPV2 builds and returns a HL7 PV2 segment.
-func BuildPV2(p *PatientInfo) (string, error) {
+func BuildPV2(p *ir.PatientInfo) (string, error) {
 	return executeTemplate(templates[PV2], p)
 }
 
 // BuildNK1 builds and returns a HL7 NK1 segment.
-func BuildNK1(id int, p *AssociatedParty) (string, error) {
+func BuildNK1(id int, p *ir.AssociatedParty) (string, error) {
 	return executeTemplate(templates[NK1], struct {
-		*AssociatedParty
+		*ir.AssociatedParty
 		ID int
 	}{p, id})
 }
 
 // BuildAL1 builds and returns a HL7 AL1 segment.
-func BuildAL1(id int, a *Allergy) (string, error) {
+func BuildAL1(id int, a *ir.Allergy) (string, error) {
 	return executeTemplate(templates[AL1], struct {
-		*Allergy
+		*ir.Allergy
 		ID int
 	}{a, id})
 }
 
 // BuildORC builds and returns a HL7 ORC segment.
-func BuildORC(o *Order) (string, error) {
+func BuildORC(o *ir.Order) (string, error) {
 	return executeTemplate(templates[ORC], &o)
 }
 
 // BuildOBR builds and returns a HL7 OBR segment.
-func BuildOBR(o *Order) (string, error) {
+func BuildOBR(o *ir.Order) (string, error) {
 	// If this order is sending a ClinicalNote, use the appropriate OBR template.
 	var key, documentID string
 	if o.DiagnosticServID == DiagnosticServIDMDOC {
@@ -1980,38 +1704,38 @@ func BuildOBR(o *Order) (string, error) {
 		key = OBR
 	}
 	return executeTemplate(templates[key], struct {
-		*Order
+		*ir.Order
 		DocumentID string
 	}{o, documentID})
 }
 
 // BuildOBX builds and returns a HL7 OBX segment.
-func BuildOBX(id int, r *Result, o *Order) (string, error) {
+func BuildOBX(id int, r *ir.Result, o *ir.Order) (string, error) {
 	return executeTemplate(templates[OBX], struct {
-		*Result
+		*ir.Result
 		ID                  int
-		ObservationDateTime NullTime
-		OrderingProvider    *Doctor
+		ObservationDateTime ir.NullTime
+		OrderingProvider    *ir.Doctor
 	}{r, id, r.ObservationDateTime, o.OrderingProvider})
 }
 
 // BuildOBXForClinicalNote build and returns a HL7 OBX segment for a Clinical Note.
-func BuildOBXForClinicalNote(id, contentIndex int, r *Result, o *Order) (string, error) {
+func BuildOBXForClinicalNote(id, contentIndex int, r *ir.Result, o *ir.Order) (string, error) {
 	return executeTemplate(templates[OBXClinicalNote], struct {
-		*Result
+		*ir.Result
 		ID                  int
-		Content             *ClinicalNoteContent
-		ObservationDateTime NullTime
+		Content             *ir.ClinicalNoteContent
+		ObservationDateTime ir.NullTime
 		DiagnosticServID    string
-		OrderingProvider    *Doctor
+		OrderingProvider    *ir.Doctor
 	}{r, id, r.ClinicalNote.Contents[contentIndex], r.ObservationDateTime, o.DiagnosticServID, o.OrderingProvider})
 }
 
 // BuildOBXForMDM builds and returns a HL7 OBX segment for MDMT02 type for an MDM message.
-func BuildOBXForMDM(id int, o *CodedElement, line string) (string, error) {
+func BuildOBXForMDM(id int, o *ir.CodedElement, line string) (string, error) {
 	return executeTemplate(templates[OBXForMDM], struct {
 		ID                    int
-		ObservationIdentifier *CodedElement
+		ObservationIdentifier *ir.CodedElement
 		Content               string
 	}{id, o, line})
 }
@@ -2025,9 +1749,9 @@ func BuildNTE(id int, note string) (string, error) {
 }
 
 // BuildPD1 builds and returns a HL7 PD1 segment.
-func BuildPD1(p *PatientInfo) (string, error) {
+func BuildPD1(p *ir.PatientInfo) (string, error) {
 	return executeTemplate(templates[PD1], struct {
-		*PrimaryFacility
+		*ir.PrimaryFacility
 	}{p.PrimaryFacility})
 }
 
@@ -2039,26 +1763,26 @@ func BuildMRG(mrns []string) (string, error) {
 }
 
 // BuildDG1 builds and returns a HL7 DG1 segment.
-func BuildDG1(id int, diagnose *DiagnosisOrProcedure) (string, error) {
+func BuildDG1(id int, diagnose *ir.DiagnosisOrProcedure) (string, error) {
 	return executeTemplate(templates[DG1], struct {
-		*DiagnosisOrProcedure
+		*ir.DiagnosisOrProcedure
 		ID int
 	}{DiagnosisOrProcedure: diagnose, ID: id})
 }
 
 // BuildPR1 builds and returns a HL7 PR1 segment.
-func BuildPR1(id int, procedure *DiagnosisOrProcedure) (string, error) {
+func BuildPR1(id int, procedure *ir.DiagnosisOrProcedure) (string, error) {
 	return executeTemplate(templates[PR1], struct {
-		*DiagnosisOrProcedure
+		*ir.DiagnosisOrProcedure
 		ID int
 	}{DiagnosisOrProcedure: procedure, ID: id})
 }
 
 // BuildTXA builds and returns a HL7 TXA segment.
-func BuildTXA(p *PatientInfo, d *Document) (string, error) {
+func BuildTXA(p *ir.PatientInfo, d *ir.Document) (string, error) {
 	return executeTemplate(templates[TXA], struct {
-		*Document
-		AttendingDoctor *Doctor
+		*ir.Document
+		AttendingDoctor *ir.Doctor
 	}{d, p.AttendingDoctor})
 }
 

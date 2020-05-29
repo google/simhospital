@@ -26,7 +26,7 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/simhospital/pkg/config"
 	"github.com/google/simhospital/pkg/generator/text"
-	"github.com/google/simhospital/pkg/message"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/pathway"
 	"github.com/google/simhospital/pkg/test/testwrite"
 )
@@ -42,7 +42,7 @@ const testNumSentences = 15
 type wantContent struct {
 	wantEncoding            string
 	wantExplicitContent     bool
-	wantObservationDateTime message.NullTime
+	wantObservationDateTime ir.NullTime
 }
 
 type tuple struct {
@@ -64,7 +64,7 @@ func TestRandomDocumentForClinicalNote(t *testing.T) {
 	testCases := []struct {
 		name         string
 		wantRandomID bool
-		wantDateTime message.NullTime
+		wantDateTime ir.NullTime
 		tuples       []*tuple
 	}{{
 		name: "pdf, id is non-explicit, base64 encoding",
@@ -74,12 +74,12 @@ func TestRandomDocumentForClinicalNote(t *testing.T) {
 			},
 			contents: []*wantContent{{
 				wantEncoding:            "base64",
-				wantObservationDateTime: message.NewValidTime(defaultDate),
+				wantObservationDateTime: ir.NewValidTime(defaultDate),
 			}},
 			eventDateTime: defaultDate,
 		}},
 		wantRandomID: true,
-		wantDateTime: message.NewValidTime(defaultDate),
+		wantDateTime: ir.NewValidTime(defaultDate),
 	}, {
 		name: "rtf, id is non-explicit, no encoding",
 		tuples: []*tuple{{
@@ -87,12 +87,12 @@ func TestRandomDocumentForClinicalNote(t *testing.T) {
 				ContentType: "rtf",
 			},
 			contents: []*wantContent{{
-				wantObservationDateTime: message.NewValidTime(defaultDate),
+				wantObservationDateTime: ir.NewValidTime(defaultDate),
 			}},
 			eventDateTime: defaultDate,
 		}},
 		wantRandomID: true,
-		wantDateTime: message.NewValidTime(defaultDate),
+		wantDateTime: ir.NewValidTime(defaultDate),
 	}, {
 		name: "jpg, id is explicit, base64 encoding",
 		tuples: []*tuple{{
@@ -102,11 +102,11 @@ func TestRandomDocumentForClinicalNote(t *testing.T) {
 			},
 			contents: []*wantContent{{
 				wantEncoding:            "base64",
-				wantObservationDateTime: message.NewValidTime(defaultDate),
+				wantObservationDateTime: ir.NewValidTime(defaultDate),
 			}},
 			eventDateTime: defaultDate,
 		}},
-		wantDateTime: message.NewValidTime(defaultDate),
+		wantDateTime: ir.NewValidTime(defaultDate),
 	}, {
 		name: "pdf, id is explicit, base64 encoding",
 		tuples: []*tuple{{
@@ -116,11 +116,11 @@ func TestRandomDocumentForClinicalNote(t *testing.T) {
 			},
 			contents: []*wantContent{{
 				wantEncoding:            "base64",
-				wantObservationDateTime: message.NewValidTime(defaultDate),
+				wantObservationDateTime: ir.NewValidTime(defaultDate),
 			}},
 			eventDateTime: defaultDate,
 		}},
-		wantDateTime: message.NewValidTime(defaultDate),
+		wantDateTime: ir.NewValidTime(defaultDate),
 	}, {
 		name: "txt, document type explicitly given",
 		tuples: []*tuple{{
@@ -130,12 +130,12 @@ func TestRandomDocumentForClinicalNote(t *testing.T) {
 				DocumentID:   "some-id",
 			},
 			contents: []*wantContent{{
-				wantObservationDateTime: message.NewValidTime(defaultDate),
+				wantObservationDateTime: ir.NewValidTime(defaultDate),
 			}},
 			wantDocumentType: "ED",
 			eventDateTime:    defaultDate,
 		}},
-		wantDateTime: message.NewValidTime(defaultDate),
+		wantDateTime: ir.NewValidTime(defaultDate),
 	}, {
 		name: "txt, explicit content given",
 		tuples: []*tuple{{
@@ -145,12 +145,12 @@ func TestRandomDocumentForClinicalNote(t *testing.T) {
 			},
 			contents: []*wantContent{{
 				wantExplicitContent:     true,
-				wantObservationDateTime: message.NewValidTime(defaultDate),
+				wantObservationDateTime: ir.NewValidTime(defaultDate),
 			}},
 			eventDateTime: defaultDate,
 		}},
 		wantRandomID: true,
-		wantDateTime: message.NewValidTime(defaultDate),
+		wantDateTime: ir.NewValidTime(defaultDate),
 	}, {
 		name: "two pathways with same id, request a pdf, and then a text addendum with given content",
 		tuples: []*tuple{{
@@ -160,7 +160,7 @@ func TestRandomDocumentForClinicalNote(t *testing.T) {
 			},
 			contents: []*wantContent{{
 				wantEncoding:            "base64",
-				wantObservationDateTime: message.NewValidTime(defaultDate),
+				wantObservationDateTime: ir.NewValidTime(defaultDate),
 			}},
 			eventDateTime: defaultDate,
 		}, {
@@ -171,14 +171,14 @@ func TestRandomDocumentForClinicalNote(t *testing.T) {
 			},
 			contents: []*wantContent{{
 				wantEncoding:            "base64",
-				wantObservationDateTime: message.NewValidTime(defaultDate),
+				wantObservationDateTime: ir.NewValidTime(defaultDate),
 			}, {
 				wantExplicitContent:     true,
-				wantObservationDateTime: message.NewValidTime(time.Date(2019, 1, 21, 0, 0, 0, 0, time.UTC)),
+				wantObservationDateTime: ir.NewValidTime(time.Date(2019, 1, 21, 0, 0, 0, 0, time.UTC)),
 			}},
 			eventDateTime: time.Date(2019, 1, 21, 0, 0, 0, 0, time.UTC),
 		}},
-		wantDateTime: message.NewValidTime(defaultDate),
+		wantDateTime: ir.NewValidTime(defaultDate),
 	}, {
 		name: "two pathways with same id, request a txt, and then a txt addendum with new title and type",
 		tuples: []*tuple{{
@@ -189,7 +189,7 @@ func TestRandomDocumentForClinicalNote(t *testing.T) {
 				DocumentTitle: "title",
 			},
 			contents: []*wantContent{{
-				wantObservationDateTime: message.NewValidTime(defaultDate),
+				wantObservationDateTime: ir.NewValidTime(defaultDate),
 			}},
 			wantDocumentType: "type",
 			eventDateTime:    defaultDate,
@@ -201,14 +201,14 @@ func TestRandomDocumentForClinicalNote(t *testing.T) {
 				DocumentTitle: "new-title",
 			},
 			contents: []*wantContent{{
-				wantObservationDateTime: message.NewValidTime(defaultDate),
+				wantObservationDateTime: ir.NewValidTime(defaultDate),
 			}, {
-				wantObservationDateTime: message.NewValidTime(time.Date(2019, 1, 21, 0, 0, 0, 0, time.UTC)),
+				wantObservationDateTime: ir.NewValidTime(time.Date(2019, 1, 21, 0, 0, 0, 0, time.UTC)),
 			}},
 			wantDocumentType: "new-type",
 			eventDateTime:    time.Date(2019, 1, 21, 0, 0, 0, 0, time.UTC),
 		}},
-		wantDateTime: message.NewValidTime(defaultDate),
+		wantDateTime: ir.NewValidTime(defaultDate),
 	}, {
 		name: "two pathways with same id, request a txt with a type and title, and then a txt addendum with empty title and type",
 		tuples: []*tuple{{
@@ -218,7 +218,7 @@ func TestRandomDocumentForClinicalNote(t *testing.T) {
 				DocumentTitle: "title",
 			},
 			contents: []*wantContent{{
-				wantObservationDateTime: message.NewValidTime(defaultDate),
+				wantObservationDateTime: ir.NewValidTime(defaultDate),
 			}},
 			eventDateTime: defaultDate,
 		}, {
@@ -227,18 +227,18 @@ func TestRandomDocumentForClinicalNote(t *testing.T) {
 				DocumentID:  "some-id",
 			},
 			contents: []*wantContent{{
-				wantObservationDateTime: message.NewValidTime(defaultDate),
+				wantObservationDateTime: ir.NewValidTime(defaultDate),
 			}, {
-				wantObservationDateTime: message.NewValidTime(time.Date(2019, 1, 21, 0, 0, 0, 0, time.UTC)),
+				wantObservationDateTime: ir.NewValidTime(time.Date(2019, 1, 21, 0, 0, 0, 0, time.UTC)),
 			}},
 			eventDateTime: time.Date(2019, 1, 21, 0, 0, 0, 0, time.UTC),
 		}},
-		wantDateTime: message.NewValidTime(defaultDate),
+		wantDateTime: ir.NewValidTime(defaultDate),
 	}}
 	for _, tt := range testCases {
 		t.Run(tt.name, func(t *testing.T) {
 			var (
-				got *message.ClinicalNote
+				got *ir.ClinicalNote
 				err error
 			)
 			for index, tuple := range tt.tuples {
@@ -248,7 +248,7 @@ func TestRandomDocumentForClinicalNote(t *testing.T) {
 						t.Fatalf("g.RandomDocumentForClinicalNote(%v) failed with error %v", tuple.pathway, err)
 					}
 					if got == nil {
-						t.Fatalf("g.RandomDocumentForClinicalNote(%v)=<nil>, want *message.ClinicalNote{...} instance", tuple.pathway)
+						t.Fatalf("g.RandomDocumentForClinicalNote(%v)=<nil>, want *ir.ClinicalNote{...} instance", tuple.pathway)
 					}
 					if gotRandomID := strings.HasPrefix(got.DocumentID, "random-"); tt.wantRandomID != gotRandomID {
 						t.Errorf("g.RandomDocumentForClinicalNote(%v) got DocumentID=%s, is random? %t, want random? %t",

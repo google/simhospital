@@ -31,6 +31,7 @@ go_library(
     ],
     importpath = "github.com/google/simhospital/pkg/state",
     deps = [
+        "//pkg/ir:go_default_library",
         "//pkg/logging:go_default_library",
         "//pkg/message:go_default_library",
         "//pkg/monitoring:go_default_library",
@@ -51,7 +52,7 @@ go_test(
     ],
     embed = [":go_default_library"],
     deps = [
-        "//pkg/message:go_default_library",
+        "//pkg/ir:go_default_library",
         "//pkg/state/persist:go_default_library",
         "//pkg/test/teststate:go_default_library",
         "@com_github_google_go_cmp//cmp:go_default_library",

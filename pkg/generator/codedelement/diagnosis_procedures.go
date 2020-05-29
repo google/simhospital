@@ -18,7 +18,7 @@ import (
 	"github.com/google/simhospital/pkg/clock"
 	"github.com/google/simhospital/pkg/config"
 	"github.com/google/simhospital/pkg/constants"
-	"github.com/google/simhospital/pkg/message"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/pathway"
 )
 
@@ -37,9 +37,9 @@ func NewProcedureGenerator(hc *config.HL7Config, d *config.Data, c clock.Clock, 
 	return &DiagOrProcGenerator{Generator: newGenerator(d.Procedures, hc.Procedure.Types, c, dg)}
 }
 
-// RandomOrFromPathway returns a random message.DiagnosisOrProcedure or one based on the pathway
+// RandomOrFromPathway returns a random ir.DiagnosisOrProcedure or one based on the pathway
 // depending on the value of the pathway's Code or Description.
-func (g *DiagOrProcGenerator) RandomOrFromPathway(dt *pathway.DateTime, p *pathway.DiagnosisOrProcedure) *message.DiagnosisOrProcedure {
+func (g *DiagOrProcGenerator) RandomOrFromPathway(dt *pathway.DateTime, p *pathway.DiagnosisOrProcedure) *ir.DiagnosisOrProcedure {
 	t := g.nullTimeOrRandom(dt)
 	if p.Code == constants.RandomString || p.Description == constants.RandomString {
 		return g.random(t)
@@ -47,18 +47,18 @@ func (g *DiagOrProcGenerator) RandomOrFromPathway(dt *pathway.DateTime, p *pathw
 	return g.fromPathway(t, p)
 }
 
-func (g *DiagOrProcGenerator) random(t message.NullTime) *message.DiagnosisOrProcedure {
-	return &message.DiagnosisOrProcedure{
+func (g *DiagOrProcGenerator) random(t ir.NullTime) *ir.DiagnosisOrProcedure {
+	return &ir.DiagnosisOrProcedure{
 		Description: g.Random(),
 		Type:        g.RandomType(),
 		DateTime:    t,
 	}
 }
 
-func (g *DiagOrProcGenerator) fromPathway(t message.NullTime, p *pathway.DiagnosisOrProcedure) *message.DiagnosisOrProcedure {
+func (g *DiagOrProcGenerator) fromPathway(t ir.NullTime, p *pathway.DiagnosisOrProcedure) *ir.DiagnosisOrProcedure {
 	code, description := g.DeriveCodeAndDescription(p.Code, p.Description)
-	return &message.DiagnosisOrProcedure{
-		Description: &message.CodedElement{ID: code, Text: description},
+	return &ir.DiagnosisOrProcedure{
+		Description: &ir.CodedElement{ID: code, Text: description},
 		Type:        p.Type,
 		DateTime:    t,
 	}

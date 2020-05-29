@@ -25,7 +25,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/google/simhospital/pkg/config"
 	"github.com/google/simhospital/pkg/constants"
-	"github.com/google/simhospital/pkg/message"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/test"
 	"github.com/google/simhospital/pkg/test/testwrite"
 )
@@ -151,7 +151,7 @@ func TestLoad(t *testing.T) {
 		wantLoadErr   bool
 		opName        string
 		ttName        string
-		wantUS        message.CodedElement
+		wantUS        ir.CodedElement
 		wantTT        *TestType
 	}{
 		{
@@ -159,9 +159,9 @@ func TestLoad(t *testing.T) {
 			opFileContent: ureaOP,
 			opName:        "UREA AND ELECTROLYTES",
 			ttName:        "Creatinine",
-			wantUS:        message.CodedElement{ID: "lpdc-3969", Text: "UREA AND ELECTROLYTES", CodingSystem: "WinPath"},
+			wantUS:        ir.CodedElement{ID: "lpdc-3969", Text: "UREA AND ELECTROLYTES", CodingSystem: "WinPath"},
 			wantTT: &TestType{
-				Name:      message.CodedElement{ID: "lpdc-2012", Text: "Creatinine", CodingSystem: "WinPath"},
+				Name:      ir.CodedElement{ID: "lpdc-2012", Text: "Creatinine", CodingSystem: "WinPath"},
 				Unit:      "UMOLL",
 				ValueType: "NM",
 				RefRange:  "49 - 92",
@@ -171,9 +171,9 @@ func TestLoad(t *testing.T) {
 			opFileContent: vitalSignsTT,
 			opName:        "Vital Signs",
 			ttName:        "MDC_TEMP",
-			wantUS:        message.CodedElement{ID: "us-0005", Text: "Vital Signs", CodingSystem: "WinPath"},
+			wantUS:        ir.CodedElement{ID: "us-0005", Text: "Vital Signs", CodingSystem: "WinPath"},
 			wantTT: &TestType{
-				Name:      message.CodedElement{ID: "tt-0005-09", Text: "MDC_TEMP", CodingSystem: "MDC"},
+				Name:      ir.CodedElement{ID: "tt-0005-09", Text: "MDC_TEMP", CodingSystem: "MDC"},
 				Unit:      "MDC_DIM_DEGC",
 				ValueType: "NM",
 				RefRange:  "36-38",
@@ -183,9 +183,9 @@ func TestLoad(t *testing.T) {
 			opFileContent: vitalSignsOP,
 			opName:        "Vital Signs",
 			ttName:        "MDC_TEMP",
-			wantUS:        message.CodedElement{ID: "us-0005", Text: "Vital Signs", CodingSystem: "MDC"},
+			wantUS:        ir.CodedElement{ID: "us-0005", Text: "Vital Signs", CodingSystem: "MDC"},
 			wantTT: &TestType{
-				Name:      message.CodedElement{ID: "tt-0005-09", Text: "MDC_TEMP", CodingSystem: "WinPath"},
+				Name:      ir.CodedElement{ID: "tt-0005-09", Text: "MDC_TEMP", CodingSystem: "WinPath"},
 				Unit:      "MDC_DIM_DEGC",
 				ValueType: "NM",
 				RefRange:  "36-38",
@@ -307,7 +307,7 @@ func TestRandomisedValueWithFlag_NonNumericalValue(t *testing.T) {
 	hl7Config := loadHL7Config(t)
 	ohKey := "17-OH Prog"
 	hydKey := "17-Hydroxy Progesterone"
-	wantUS := message.CodedElement{ID: "OHPROG", Text: "17-OH Prog", CodingSystem: "WinPath"}
+	wantUS := ir.CodedElement{ID: "OHPROG", Text: "17-OH Prog", CodingSystem: "WinPath"}
 	cases := []struct {
 		name          string
 		opFileContent []byte
@@ -318,7 +318,7 @@ func TestRandomisedValueWithFlag_NonNumericalValue(t *testing.T) {
 			name:          "TX value type",
 			opFileContent: ohOPTX,
 			wantTT: &TestType{
-				Name:      message.CodedElement{ID: "OHPROG", Text: "17-Hydroxy Progesterone", CodingSystem: "WinPath"},
+				Name:      ir.CodedElement{ID: "OHPROG", Text: "17-Hydroxy Progesterone", CodingSystem: "WinPath"},
 				Unit:      "NMOLL",
 				ValueType: "TX",
 				RefRange:  "<=9.6^^<=9.6",
@@ -328,7 +328,7 @@ func TestRandomisedValueWithFlag_NonNumericalValue(t *testing.T) {
 			name:          "CE value type",
 			opFileContent: ohOPCE,
 			wantTT: &TestType{
-				Name:      message.CodedElement{ID: "OHPROG", Text: "17-Hydroxy Progesterone", CodingSystem: "WinPath"},
+				Name:      ir.CodedElement{ID: "OHPROG", Text: "17-Hydroxy Progesterone", CodingSystem: "WinPath"},
 				ValueType: "CE",
 			},
 			wantValue: "See note",
@@ -336,7 +336,7 @@ func TestRandomisedValueWithFlag_NonNumericalValue(t *testing.T) {
 			name:          "NM value type but value not numerical - default to value",
 			opFileContent: ohOPNM,
 			wantTT: &TestType{
-				Name:      message.CodedElement{ID: "OHPROG", Text: "17-Hydroxy Progesterone", CodingSystem: "WinPath"},
+				Name:      ir.CodedElement{ID: "OHPROG", Text: "17-Hydroxy Progesterone", CodingSystem: "WinPath"},
 				Unit:      "NMOLL",
 				ValueType: "NM",
 				RefRange:  "0 - 0.45",
@@ -470,16 +470,16 @@ func TestGenerate(t *testing.T) {
 	cases := []struct {
 		name  string
 		input string
-		want  *message.CodedElement
+		want  *ir.CodedElement
 	}{
 		{
 			name:  "Existing order profile",
 			input: "UREA AND ELECTROLYTES",
-			want:  &message.CodedElement{ID: "lpdc-3969", Text: "UREA AND ELECTROLYTES", CodingSystem: "WinPath"},
+			want:  &ir.CodedElement{ID: "lpdc-3969", Text: "UREA AND ELECTROLYTES", CodingSystem: "WinPath"},
 		}, {
 			name:  "Non-existing order profile",
 			input: "other",
-			want:  &message.CodedElement{ID: "other", Text: "other"},
+			want:  &ir.CodedElement{ID: "other", Text: "other"},
 		},
 	}
 

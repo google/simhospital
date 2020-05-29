@@ -23,15 +23,15 @@ import (
 
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v2"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/logging"
-	"github.com/google/simhospital/pkg/message"
 )
 
 var log = logging.ForCallerPackage()
 
 // Doctors contains and manages a set of doctors.
 type Doctors struct {
-	m map[string]*message.Doctor
+	m map[string]*ir.Doctor
 	k []string
 }
 
@@ -44,13 +44,13 @@ func LoadDoctors(filename string) (*Doctors, error) {
 		return nil, errors.Wrapf(err, "cannot parse doctors from file %q", filename)
 	}
 
-	var list []*message.Doctor
+	var list []*ir.Doctor
 	if err = yaml.UnmarshalStrict(data, &list); err != nil {
 		return nil, errors.Wrapf(err, "cannot unmarshal doctors from file %q", filename)
 	}
 
 	doctors := &Doctors{
-		m: make(map[string]*message.Doctor),
+		m: make(map[string]*ir.Doctor),
 	}
 
 	logLocal.Info("Loading doctors")
@@ -66,7 +66,7 @@ func LoadDoctors(filename string) (*Doctors, error) {
 	return doctors, nil
 }
 
-func validate(d *message.Doctor) error {
+func validate(d *ir.Doctor) error {
 	v := reflect.ValueOf(*d)
 	t := v.Type()
 	for i := 0; i < t.NumField(); i++ {
@@ -80,7 +80,7 @@ func validate(d *message.Doctor) error {
 
 // Add adds a doctor to the set of available doctors.
 // Returns an error if the doctor with the same ID already exists.
-func (d *Doctors) Add(doctor *message.Doctor) error {
+func (d *Doctors) Add(doctor *ir.Doctor) error {
 	if _, ok := d.m[doctor.ID]; ok {
 		return fmt.Errorf("a consultant with this consultant ID %q already exists in the doctors map", doctor.ID)
 	}
@@ -90,13 +90,13 @@ func (d *Doctors) Add(doctor *message.Doctor) error {
 }
 
 // GetByID returns a doctor by ID or nil if no doctor is mapped to a given ID.
-func (d *Doctors) GetByID(id string) *message.Doctor {
+func (d *Doctors) GetByID(id string) *ir.Doctor {
 	return d.m[id]
 }
 
 // GetByName returns a doctor by firstName and surname.
 // Returns nil if no matching doctor found.
-func (d *Doctors) GetByName(firstName string, surname string) *message.Doctor {
+func (d *Doctors) GetByName(firstName string, surname string) *ir.Doctor {
 	for _, doctor := range d.m {
 		if doctor.FirstName == firstName && doctor.Surname == surname {
 			return doctor
@@ -107,7 +107,7 @@ func (d *Doctors) GetByName(firstName string, surname string) *message.Doctor {
 
 // GetRandomDoctor returns a random doctor.
 // Returns nil if no doctors are specified.
-func (d *Doctors) GetRandomDoctor() *message.Doctor {
+func (d *Doctors) GetRandomDoctor() *ir.Doctor {
 	if len(d.k) == 0 {
 		return nil
 	}

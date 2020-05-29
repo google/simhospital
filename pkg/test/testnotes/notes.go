@@ -18,7 +18,7 @@ package testnotes
 import (
 	"errors"
 
-	"github.com/google/simhospital/pkg/message"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/pathway"
 )
 
@@ -36,6 +36,6 @@ func (g Generator) RandomNotesForResult() []string {
 }
 
 // RandomDocumentForClinicalNote is not supported in Generator and it returns an error.
-func (g Generator) RandomDocumentForClinicalNote(_ *pathway.ClinicalNote) (*message.ClinicalNote, error) {
+func (g Generator) RandomDocumentForClinicalNote(_ *pathway.ClinicalNote) (*ir.ClinicalNote, error) {
 	return nil, errors.New("method RandomDocumentForClinicalNote() not supported in testnotes.Generator")
 }

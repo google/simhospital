@@ -22,7 +22,7 @@ import (
 	"strconv"
 
 	"github.com/pkg/errors"
-	"github.com/google/simhospital/pkg/message"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/sample"
 )
 
@@ -129,7 +129,7 @@ func loadCodedElements(fileName string, codingSystem string, allowNil bool) ([]M
 		key := record.Value[textKey]
 		values = append(values, MappableWeightedValue{
 			WeightedVal: sample.WeightedValue{
-				Value: &message.CodedElement{
+				Value: &ir.CodedElement{
 					ID:           id,
 					Text:         key,
 					CodingSystem: codingSystem,
@@ -153,9 +153,9 @@ func ethnicities(fileName string) ([]sample.WeightedValue, error) {
 
 	var distr []sample.WeightedValue
 	for _, record := range recordsWithFrequency {
-		var e *message.Ethnicity
+		var e *ir.Ethnicity
 		if record.Value != nil {
-			e = &message.Ethnicity{
+			e = &ir.Ethnicity{
 				ID:   record.Value[idKey],
 				Text: record.Value[textKey],
 			}

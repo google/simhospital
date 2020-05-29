@@ -27,7 +27,7 @@ import (
 	"github.com/google/simhospital/pkg/constants"
 	"github.com/google/simhospital/pkg/gender"
 	"github.com/google/simhospital/pkg/generator/names"
-	"github.com/google/simhospital/pkg/message"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/pathway"
 	"github.com/google/simhospital/pkg/test"
 	"github.com/google/simhospital/pkg/test/testclock"
@@ -45,11 +45,11 @@ var (
 	maleSuffix       = "Jr"
 	maleDegree       = "Dr"
 	maleGender       = "M"
-	defaultEthnicity = &message.Ethnicity{
+	defaultEthnicity = &ir.Ethnicity{
 		ID:   "White",
 		Text: "White",
 	}
-	defaultAddress = &message.Address{
+	defaultAddress = &ir.Address{
 		FirstLine:  "111 Big House",
 		SecondLine: "Long Way",
 		City:       "London",
@@ -57,7 +57,7 @@ var (
 		Country:    "GB",
 		Type:       "HOME",
 	}
-	defaultMalePerson = &message.Person{
+	defaultMalePerson = &ir.Person{
 		Prefix:     malePrefix,
 		FirstName:  maleName,
 		MiddleName: maleName,
@@ -75,7 +75,7 @@ func TestNewPerson(t *testing.T) {
 	cases := []struct {
 		name string
 		p    *pathway.Person
-		want *message.Person
+		want *ir.Person
 	}{
 		{
 			name: "All values generated",
@@ -96,7 +96,7 @@ func TestNewPerson(t *testing.T) {
 					Type:       "HOME",
 				},
 			},
-			want: &message.Person{
+			want: &ir.Person{
 				Prefix:     malePrefix,
 				FirstName:  "Bob",
 				MiddleName: maleName,
@@ -105,7 +105,7 @@ func TestNewPerson(t *testing.T) {
 				Degree:     maleDegree,
 				Gender:     maleGender,
 				Ethnicity:  defaultEthnicity,
-				Address: &message.Address{
+				Address: &ir.Address{
 					FirstLine:  "999 Small House",
 					SecondLine: "Short Street",
 					City:       "Croydon",
@@ -123,7 +123,7 @@ func TestNewPerson(t *testing.T) {
 			g := simpleMaleGenerator(t, defaultNow)
 			got := g.NewPerson(tc.p)
 
-			ignoreFields := cmpopts.IgnoreFields(message.Person{}, "Birth", "PhoneNumber", "NHS")
+			ignoreFields := cmpopts.IgnoreFields(ir.Person{}, "Birth", "PhoneNumber", "NHS")
 			if diff := cmp.Diff(tc.want, got, ignoreFields); diff != "" {
 				t.Errorf("g.NewPerson(%v) diff: (-want, +got):\n%s", tc.p, diff)
 			}
@@ -284,15 +284,15 @@ func TestUpdatePersonFromPathway(t *testing.T) {
 	birthdate := time.Date(1984, 2, 12, 0, 0, 0, 0, time.UTC)
 	cases := []struct {
 		name    string
-		person  func() *message.Person
+		person  func() *ir.Person
 		pathway *pathway.Person
-		want    func() *message.Person
+		want    func() *ir.Person
 	}{
 		{
 			name:    "No changes",
 			person:  testperson.New,
 			pathway: &pathway.Person{},
-			want: func() *message.Person {
+			want: func() *ir.Person {
 				return testperson.New()
 			},
 		}, {
@@ -301,7 +301,7 @@ func TestUpdatePersonFromPathway(t *testing.T) {
 			pathway: &pathway.Person{
 				Address: &pathway.Address{FirstLine: "12 New House"},
 			},
-			want: func() *message.Person {
+			want: func() *ir.Person {
 				newPerson := testperson.New()
 				newPerson.Address.FirstLine = "12 New House"
 				newPerson.Address.SecondLine = ""
@@ -313,7 +313,7 @@ func TestUpdatePersonFromPathway(t *testing.T) {
 			pathway: &pathway.Person{
 				Address: &pathway.Address{FirstLine: "12 New House", SecondLine: "New Street"},
 			},
-			want: func() *message.Person {
+			want: func() *ir.Person {
 				newPerson := testperson.New()
 				newPerson.Address.FirstLine = "12 New House"
 				newPerson.Address.SecondLine = "New Street"
@@ -325,7 +325,7 @@ func TestUpdatePersonFromPathway(t *testing.T) {
 			pathway: &pathway.Person{
 				Address: &pathway.Address{AllRandom: true},
 			},
-			want: func() *message.Person {
+			want: func() *ir.Person {
 				newPerson := testperson.New()
 				newPerson.Address = defaultAddress
 				return newPerson
@@ -334,14 +334,14 @@ func TestUpdatePersonFromPathway(t *testing.T) {
 			name:    "Empty address - no change",
 			person:  testperson.New,
 			pathway: &pathway.Person{Address: &pathway.Address{}},
-			want: func() *message.Person {
+			want: func() *ir.Person {
 				return testperson.New()
 			},
 		}, {
 			name:    "Update gender - change gender, prefix and middle name",
 			person:  testperson.New,
 			pathway: &pathway.Person{Gender: pathway.Male},
-			want: func() *message.Person {
+			want: func() *ir.Person {
 				newPerson := testperson.New()
 				newPerson.Gender = maleGender
 				newPerson.Prefix = malePrefix
@@ -352,7 +352,7 @@ func TestUpdatePersonFromPathway(t *testing.T) {
 			name:    "Update gender and name - change name, gender, prefix and middle name",
 			person:  testperson.New,
 			pathway: &pathway.Person{FirstName: "Adam", Gender: pathway.Male},
-			want: func() *message.Person {
+			want: func() *ir.Person {
 				newPerson := testperson.New()
 				newPerson.FirstName = "Adam"
 				newPerson.Gender = maleGender
@@ -364,7 +364,7 @@ func TestUpdatePersonFromPathway(t *testing.T) {
 			name:    "Update MRN and NHS",
 			person:  testperson.New,
 			pathway: &pathway.Person{MRN: "987654", NHS: "0714630333"},
-			want: func() *message.Person {
+			want: func() *ir.Person {
 				newPerson := testperson.New()
 				newPerson.MRN = "987654"
 				newPerson.NHS = "0714630333"
@@ -374,22 +374,22 @@ func TestUpdatePersonFromPathway(t *testing.T) {
 			name:    "Update date of birth",
 			person:  testperson.New,
 			pathway: &pathway.Person{DateOfBirth: &birthdate},
-			want: func() *message.Person {
+			want: func() *ir.Person {
 				newPerson := testperson.New()
-				newPerson.Birth = message.NewValidTime(birthdate)
+				newPerson.Birth = ir.NewValidTime(birthdate)
 				return newPerson
 			},
 		}, {
 			name: "Update empty fields",
-			person: func() *message.Person {
-				return &message.Person{
+			person: func() *ir.Person {
+				return &ir.Person{
 					NHS:   "0714630667",
-					Birth: message.NewValidTime(defaultNow),
+					Birth: ir.NewValidTime(defaultNow),
 				}
 			},
 			pathway: &pathway.Person{},
-			want: func() *message.Person {
-				return &message.Person{
+			want: func() *ir.Person {
+				return &ir.Person{
 					Prefix:     malePrefix,
 					FirstName:  maleName,
 					MiddleName: maleName,
@@ -398,7 +398,7 @@ func TestUpdatePersonFromPathway(t *testing.T) {
 					Address:    defaultAddress,
 					MRN:        "1",
 					NHS:        "0714630667",
-					Birth:      message.NewValidTime(defaultNow),
+					Birth:      ir.NewValidTime(defaultNow),
 				}
 			},
 		},
@@ -421,7 +421,7 @@ func TestUpdatePersonFromPathwayUpdateDateOfBirth(t *testing.T) {
 	birthdate := time.Date(1984, 2, 12, 0, 0, 0, 0, time.UTC)
 	cases := []struct {
 		name        string
-		person      func() *message.Person
+		person      func() *ir.Person
 		pathway     *pathway.Person
 		wantDOBFrom int
 		wantDOBTo   int
@@ -476,7 +476,7 @@ func TestUpdatePersonFromPathwaySetNHSIfEmpty(t *testing.T) {
 	person := testperson.New()
 	person.NHS = ""
 
-	original := new(message.Person)
+	original := new(ir.Person)
 	*original = *person
 	g.UpdatePersonFromPathway(person, pathway)
 
@@ -496,13 +496,13 @@ func TestUpdatePersonFromPathwayNilPathway(t *testing.T) {
 	want.Degree = ""
 	want.Ethnicity = nil
 	want.PhoneNumber = ""
-	got := &message.Person{}
-	original := new(message.Person)
+	got := &ir.Person{}
+	original := new(ir.Person)
 	*original = *got
 
 	g.UpdatePersonFromPathway(got, pathway)
 
-	ignoreFields := cmpopts.IgnoreFields(message.Person{}, "Birth", "NHS")
+	ignoreFields := cmpopts.IgnoreFields(ir.Person{}, "Birth", "NHS")
 	if diff := cmp.Diff(&want, got, ignoreFields); diff != "" {
 		t.Errorf("g.UpdatePersonFromPathway(%v, nil) diff: (-want, +got):\n%s", original, diff)
 	}
@@ -564,10 +564,10 @@ func contains(str string, strs []string) bool {
 }
 
 type fakeAddressGenerator struct {
-	want *message.Address
+	want *ir.Address
 }
 
-func (f *fakeAddressGenerator) Random() *message.Address {
+func (f *fakeAddressGenerator) Random() *ir.Address {
 	return f.want
 }
 

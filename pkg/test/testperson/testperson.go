@@ -18,12 +18,12 @@ package testperson
 import (
 	"time"
 
-	"github.com/google/simhospital/pkg/message"
+	"github.com/google/simhospital/pkg/ir"
 )
 
 // New returns a Person with all fields populated.
-func New() *message.Person {
-	return &message.Person{
+func New() *ir.Person {
+	return &ir.Person{
 		Prefix:     "Miss",
 		FirstName:  "Alice",
 		MiddleName: "Mary",
@@ -31,8 +31,8 @@ func New() *message.Person {
 		Suffix:     "Sr",
 		Degree:     "Ph.D.",
 		Gender:     "F",
-		Ethnicity:  &message.Ethnicity{ID: "Asian", Text: "Asian"},
-		Address: &message.Address{
+		Ethnicity:  &ir.Ethnicity{ID: "Asian", Text: "Asian"},
+		Address: &ir.Address{
 			FirstLine:  "999 Small House",
 			SecondLine: "Short Street",
 			City:       "Croydon",
@@ -42,6 +42,6 @@ func New() *message.Person {
 		},
 		MRN:   "123456",
 		NHS:   "0714630667",
-		Birth: message.NewValidTime(time.Date(1998, 1, 20, 0, 0, 0, 0, time.UTC)),
+		Birth: ir.NewValidTime(time.Date(1998, 1, 20, 0, 0, 0, 0, time.UTC)),
 	}
 }

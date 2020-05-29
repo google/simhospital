@@ -24,6 +24,7 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/simhospital/pkg/generator/header"
 	"github.com/google/simhospital/pkg/hl7"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/message"
 	"github.com/google/simhospital/pkg/test/testwrite"
 )
@@ -306,13 +307,13 @@ func writeYmlToFile(t *testing.T, ymls ...string) string {
 	return testwrite.BytesToDir(t, []byte(yml), "hardcoded_messages.yml")
 }
 
-func testPerson() *message.Person {
-	return &message.Person{
+func testPerson() *ir.Person {
+	return &ir.Person{
 		MRN:       "98186149572547538",
 		NHS:       "8676784620",
 		Surname:   "Johnson",
 		FirstName: "John",
-		Address: &message.Address{
+		Address: &ir.Address{
 			FirstLine:  "Carbeth Road",
 			SecondLine: "20 Bull Lane",
 			City:       "London",

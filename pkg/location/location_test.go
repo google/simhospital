@@ -19,8 +19,8 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
+	"github.com/google/simhospital/pkg/ir"
 	. "github.com/google/simhospital/pkg/location"
-	"github.com/google/simhospital/pkg/message"
 	"github.com/google/simhospital/pkg/test/testlocation"
 	"github.com/google/simhospital/pkg/test/testwrite"
 )
@@ -28,7 +28,7 @@ import (
 const aAndEID = "ED"
 
 var (
-	aAndEBed1 = &message.PatientLocation{
+	aAndEBed1 = &ir.PatientLocation{
 		Poc:          "ED",
 		Facility:     "Simulated Hospital",
 		Building:     "Building-1",
@@ -40,7 +40,7 @@ var (
 	}
 
 	bed2      = "Bed 2"
-	aAndEBed2 = &message.PatientLocation{
+	aAndEBed2 = &ir.PatientLocation{
 		Poc:          "ED",
 		Facility:     "Simulated Hospital",
 		Building:     "Building-1",
@@ -162,7 +162,7 @@ func TestManagerOccupyAvailableBed(t *testing.T) {
 	cases := []struct {
 		name    string
 		poc     string
-		want    *message.PatientLocation
+		want    *ir.PatientLocation
 		wantErr bool
 	}{
 		{
@@ -232,7 +232,7 @@ func TestManagerOccupySpecificBed(t *testing.T) {
 		name    string
 		poc     string
 		bed     string
-		want    *message.PatientLocation
+		want    *ir.PatientLocation
 		wantErr bool
 	}{
 		{
@@ -352,14 +352,14 @@ func TestManagerFreeBedError(t *testing.T) {
 
 	cases := []struct {
 		name string
-		pl   *message.PatientLocation
+		pl   *ir.PatientLocation
 	}{
 		{
 			name: "not a bed",
 			pl:   aAndELoc,
 		}, {
 			name: "location doesn't match",
-			pl: &message.PatientLocation{
+			pl: &ir.PatientLocation{
 				Poc:          "ED",
 				Facility:     "Different Facility",
 				Building:     "Building-1",
@@ -370,7 +370,7 @@ func TestManagerFreeBedError(t *testing.T) {
 			},
 		}, {
 			name: "unknown location",
-			pl: &message.PatientLocation{
+			pl: &ir.PatientLocation{
 				Poc:          "Renal",
 				Facility:     "Simulated Hospital",
 				Building:     "Building-1",
@@ -395,12 +395,12 @@ func TestManagerGetAAndELocation(t *testing.T) {
 	cases := []struct {
 		name    string
 		manager *Manager
-		want    *message.PatientLocation
+		want    *ir.PatientLocation
 	}{
 		{
 			name:    "existing ED",
 			manager: testlocation.NewLocationManager(t, aAndEID),
-			want: &message.PatientLocation{
+			want: &ir.PatientLocation{
 				Poc:          aAndEID,
 				Facility:     "Simulated Hospital",
 				LocationType: "BED",
@@ -423,7 +423,7 @@ func TestManagerGetAAndELocation(t *testing.T) {
 					},
 				},
 			},
-			want: &message.PatientLocation{
+			want: &ir.PatientLocation{
 				LocationType: "ED",
 			},
 		},
@@ -443,7 +443,7 @@ func TestManagerMatches(t *testing.T) {
 	cases := []struct {
 		name     string
 		location string
-		pl       *message.PatientLocation
+		pl       *ir.PatientLocation
 		want     bool
 		wantErr  bool
 	}{
@@ -455,7 +455,7 @@ func TestManagerMatches(t *testing.T) {
 		}, {
 			name:     "not matching location",
 			location: aAndEID,
-			pl: &message.PatientLocation{
+			pl: &ir.PatientLocation{
 				Poc:          "Renal",
 				Facility:     "Simulated Hospital",
 				Building:     "Building-1",
@@ -498,19 +498,19 @@ func TestManagerMatches(t *testing.T) {
 func TestIsBed(t *testing.T) {
 	cases := []struct {
 		name string
-		pl   *message.PatientLocation
+		pl   *ir.PatientLocation
 		want bool
 	}{
 		{
 			name: "is bed",
-			pl: &message.PatientLocation{
+			pl: &ir.PatientLocation{
 				Poc: "Ward",
 				Bed: "Bed 1",
 			},
 			want: true,
 		}, {
 			name: "is not a bed",
-			pl: &message.PatientLocation{
+			pl: &ir.PatientLocation{
 				Poc: "Ward",
 			},
 			want: false,

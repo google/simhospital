@@ -29,6 +29,7 @@ import (
 	"github.com/google/simhospital/pkg/generator/person"
 	"github.com/google/simhospital/pkg/hardcoded"
 	"github.com/google/simhospital/pkg/hl7"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/location"
 	"github.com/google/simhospital/pkg/logging"
 	"github.com/google/simhospital/pkg/message"
@@ -87,7 +88,7 @@ var (
 // EventProcessor defines a processor of events that is run before, instead of or after the standard event processing logic.
 type EventProcessor interface {
 	// Process processes the given event and returns any HL7 messages that must be sent as the result of the processing, if any.
-	Process(*state.Event, *message.PatientInfo, *processor.Config) ([]*message.HL7Message, error)
+	Process(*state.Event, *ir.PatientInfo, *processor.Config) ([]*message.HL7Message, error)
 	// Matches returns whether the given event can be processed by the processor.
 	Matches(*state.Event) bool
 }
@@ -499,7 +500,7 @@ func (h *Hospital) StartNextPathway() error {
 // StartPathway returns:
 //   - the list of persons that were generated as a result of running this pathway.
 //   - an error if something unexpected happened.
-func (h *Hospital) StartPathway(p *pathway.Pathway) ([]*message.Person, error) {
+func (h *Hospital) StartPathway(p *pathway.Pathway) ([]*ir.Person, error) {
 	logLocal := log.WithField(keyPathwayName, p.Name())
 
 	if p.Persons == nil || len(*p.Persons) == 0 {
@@ -511,7 +512,7 @@ func (h *Hospital) StartPathway(p *pathway.Pathway) ([]*message.Person, error) {
 	}
 
 	idsToMRN := map[pathway.PatientID]string{}
-	var mbPersons []*message.Person
+	var mbPersons []*ir.Person
 	var patients []*state.Patient
 
 	persons := *p.Persons
@@ -545,7 +546,7 @@ func (h *Hospital) StartPathway(p *pathway.Pathway) ([]*message.Person, error) {
 // If it is not set, or if an existing patient isn't found, it generates a new person and patient.
 // If the patient already exists, this method updates the patient with information contained in the
 // pathway.
-func (h Hospital) newOrExistingPatient(person *pathway.Person, consultant *pathway.Consultant) (*message.Person, *state.Patient) {
+func (h Hospital) newOrExistingPatient(person *pathway.Person, consultant *pathway.Consultant) (*ir.Person, *state.Patient) {
 	if person.MRN != "" {
 		if p := h.patients.Get(person.MRN); p != nil {
 			// After we load the patient, update the information with the information in the pathway.
@@ -557,7 +558,7 @@ func (h Hospital) newOrExistingPatient(person *pathway.Person, consultant *pathw
 }
 
 // newPatient returns a new person and patient.
-func (h Hospital) newPatient(person *pathway.Person, consultant *pathway.Consultant) (*message.Person, *state.Patient) {
+func (h Hospital) newPatient(person *pathway.Person, consultant *pathway.Consultant) (*ir.Person, *state.Patient) {
 	newPerson := h.generator.NewPerson(person)
 	newConsultant := h.generator.NewDoctor(consultant)
 	return newPerson, h.generator.NewPatient(newPerson, newConsultant)

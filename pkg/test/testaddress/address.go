@@ -18,7 +18,7 @@ package testaddress
 import (
 	"fmt"
 
-	"github.com/google/simhospital/pkg/message"
+	"github.com/google/simhospital/pkg/ir"
 )
 
 // ArbitraryGenerator is a generator of addresses with predefined country and cities,
@@ -47,10 +47,10 @@ type Generator struct {
 //
 // City is the nth city in the list of cities configured for the generator. After it reaches the end
 // of the list, it will wrap back around to the beginning of the list.
-func (g *Generator) Random() *message.Address {
+func (g *Generator) Random() *ir.Address {
 	g.n++
 
-	return &message.Address{
+	return &ir.Address{
 		FirstLine:  fmt.Sprintf("%d Test House", g.n),
 		SecondLine: fmt.Sprintf("%d Test Street", g.n),
 		City:       g.city(),

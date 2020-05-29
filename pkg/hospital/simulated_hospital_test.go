@@ -32,6 +32,7 @@ import (
 	"github.com/google/simhospital/pkg/hardcoded"
 	"github.com/google/simhospital/pkg/hl7"
 	. "github.com/google/simhospital/pkg/hospital"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/logging"
 	"github.com/google/simhospital/pkg/message"
 	"github.com/google/simhospital/pkg/pathway"
@@ -422,7 +423,7 @@ func TestStartPathway_OrderAckAndResult(t *testing.T) {
 
 			gotOrderStatuses := testhl7.Fields(t, messages, testhl7.OrderStatus)
 			if diff := cmp.Diff(tc.wantOrderStatuses, gotOrderStatuses); diff != "" {
-				t.Errorf("StartPathway(%v) generated message Order statuses with diff (-want, +got):\n%s", testPathwayName, diff)
+				t.Errorf("StartPathway(%v) generated ir.Order statuses with diff (-want, +got):\n%s", testPathwayName, diff)
 			}
 		})
 	}
@@ -2132,13 +2133,13 @@ func TestLoadPersonFromSyncer(t *testing.T) {
 	expectedFirstName := "Expected first name"
 	// Patient to be returned by syncer.
 	existingPatient := state.Patient{
-		PatientInfo: &message.PatientInfo{
-			Person: &message.Person{
+		PatientInfo: &ir.PatientInfo{
+			Person: &ir.Person{
 				FirstName: expectedFirstName,
 				MRN:       existingPatientMRN,
 			},
 		},
-		Orders: make(map[string]*message.Order),
+		Orders: make(map[string]*ir.Order),
 	}
 
 	testSteps := []struct {
@@ -2196,14 +2197,14 @@ func TestLoadExistingPatientUpdatePerson(t *testing.T) {
 	existingFirstName := "Existing first name"
 	existingSurname := "Existing surname"
 	existingPatient := state.Patient{
-		PatientInfo: &message.PatientInfo{
-			Person: &message.Person{
+		PatientInfo: &ir.PatientInfo{
+			Person: &ir.Person{
 				FirstName: existingFirstName,
 				Surname:   existingSurname,
 				MRN:       existingPatientMRN,
 			},
 		},
-		Orders: make(map[string]*message.Order),
+		Orders: make(map[string]*ir.Order),
 	}
 
 	// Create a pathway that uses the existing patient (via MRN), and make it override the surname.
@@ -2943,7 +2944,7 @@ func (p *eventProcessor) Matches(e *state.Event) bool {
 	return p.match
 }
 
-func (p *eventProcessor) Process(*state.Event, *message.PatientInfo, *processor.Config) ([]*message.HL7Message, error) {
+func (p *eventProcessor) Process(*state.Event, *ir.PatientInfo, *processor.Config) ([]*message.HL7Message, error) {
 	return p.msgs, p.err
 }
 
@@ -3533,14 +3534,14 @@ func (p *addMedicationProc) Matches(e *state.Event) bool {
 	return e.Step.Generic != nil && e.Step.Generic.Name == "add_medication"
 }
 
-// AdditionalData is the type of *message.PatientInfo.AdditionalData.
+// AdditionalData is the type of *ir.PatientInfo.AdditionalData.
 // Medications aren't part of the regular fields of patientInfo so we use the AdditionalData field.
 type AdditionalData struct {
 	Medications []string
 }
 
 // Process adds a medication to the patient's medical record.
-func (p *addMedicationProc) Process(e *state.Event, patientInfo *message.PatientInfo, _ *processor.Config) ([]*message.HL7Message, error) {
+func (p *addMedicationProc) Process(e *state.Event, patientInfo *ir.PatientInfo, _ *processor.Config) ([]*message.HL7Message, error) {
 	newMedication := e.Step.Parameters.Custom["medication_name"]
 	var ad AdditionalData
 	if patientInfo.AdditionalData != nil {
@@ -3563,7 +3564,7 @@ func (p *assertMedicationsProc) Matches(e *state.Event) bool {
 }
 
 // Process makes sure that the number of medications in the patient's medical record is expected.
-func (p *assertMedicationsProc) Process(e *state.Event, patientInfo *message.PatientInfo, _ *processor.Config) ([]*message.HL7Message, error) {
+func (p *assertMedicationsProc) Process(e *state.Event, patientInfo *ir.PatientInfo, _ *processor.Config) ([]*message.HL7Message, error) {
 	ad := patientInfo.AdditionalData.(AdditionalData)
 	want, err := strconv.Atoi(e.Step.Parameters.Custom["medications_number"])
 	if err != nil {

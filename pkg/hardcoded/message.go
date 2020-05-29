@@ -33,6 +33,7 @@ import (
 	"gopkg.in/yaml.v2"
 	"github.com/google/simhospital/pkg/generator/header"
 	"github.com/google/simhospital/pkg/hl7"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/logging"
 	"github.com/google/simhospital/pkg/message"
 )
@@ -126,7 +127,7 @@ func parseFile(fileName string) (map[string]string, error) {
 // will be left as it is. If there aren't any messages that match the provided
 // regular expression or if the regular expression is malformed, this method
 // returns an error.
-func (m Manager) Message(toIncludeRegex string, p *message.Person, t time.Time) (*message.HL7Message, error) {
+func (m Manager) Message(toIncludeRegex string, p *ir.Person, t time.Time) (*message.HL7Message, error) {
 	filtered := m.filterMessages(toIncludeRegex)
 	if len(filtered) == 0 {
 		return nil, fmt.Errorf("cannot get hardcoded message: no messages match the regular expression %q", toIncludeRegex)
@@ -177,7 +178,7 @@ func (m Manager) filterMessages(toIncludeRegex string) []string {
 	return filtered
 }
 
-func (m Manager) buildMessage(msg string, p *message.Person, t time.Time) (*message.HL7Message, error) {
+func (m Manager) buildMessage(msg string, p *ir.Person, t time.Time) (*message.HL7Message, error) {
 	pid, err := message.BuildPID(p)
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot build PID segment")

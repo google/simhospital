@@ -20,7 +20,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
-	"github.com/google/simhospital/pkg/message"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/sample"
 	"github.com/google/simhospital/pkg/test/testwrite"
 )
@@ -279,13 +279,13 @@ func TestLoadDataConfig(t *testing.T) {
 
 			wantAllergies := []MappableWeightedValue{{
 				WeightedVal: sample.WeightedValue{
-					Value:     &message.CodedElement{ID: "J30.1", Text: "Allergy1", CodingSystem: "allergy-cs"},
+					Value:     &ir.CodedElement{ID: "J30.1", Text: "Allergy1", CodingSystem: "allergy-cs"},
 					Frequency: uint(59),
 				},
 				Mapping: Mapping{Key: "J30.1", Value: "Allergy1"},
 			}, {
 				WeightedVal: sample.WeightedValue{
-					Value:     &message.CodedElement{ID: "J45.0", Text: "Allergy2", CodingSystem: "allergy-cs"},
+					Value:     &ir.CodedElement{ID: "J45.0", Text: "Allergy2", CodingSystem: "allergy-cs"},
 					Frequency: uint(2556),
 				},
 				Mapping: Mapping{Key: "J45.0", Value: "Allergy2"},
@@ -296,13 +296,13 @@ func TestLoadDataConfig(t *testing.T) {
 
 			wantDiagnoses := []MappableWeightedValue{{
 				WeightedVal: sample.WeightedValue{
-					Value:     &message.CodedElement{ID: "A01.1", Text: "Diagnosis1", CodingSystem: "diagnosis-cs"},
+					Value:     &ir.CodedElement{ID: "A01.1", Text: "Diagnosis1", CodingSystem: "diagnosis-cs"},
 					Frequency: uint(1),
 				},
 				Mapping: Mapping{Key: "A01.1", Value: "Diagnosis1"},
 			}, {
 				WeightedVal: sample.WeightedValue{
-					Value:     &message.CodedElement{ID: "A02.1", Text: "Diagnosis2", CodingSystem: "diagnosis-cs"},
+					Value:     &ir.CodedElement{ID: "A02.1", Text: "Diagnosis2", CodingSystem: "diagnosis-cs"},
 					Frequency: uint(1),
 				}, Mapping: Mapping{Key: "A02.1", Value: "Diagnosis2"},
 			}}
@@ -312,13 +312,13 @@ func TestLoadDataConfig(t *testing.T) {
 
 			wantProcedures := []MappableWeightedValue{{
 				WeightedVal: sample.WeightedValue{
-					Value:     &message.CodedElement{ID: "P24.9", Text: "Procedure1", CodingSystem: "procedure-cs"},
+					Value:     &ir.CodedElement{ID: "P24.9", Text: "Procedure1", CodingSystem: "procedure-cs"},
 					Frequency: uint(1),
 				},
 				Mapping: Mapping{Key: "P24.9", Value: "Procedure1"},
 			}, {
 				WeightedVal: sample.WeightedValue{
-					Value:     &message.CodedElement{ID: "P25.8", Text: "Procedure2", CodingSystem: "procedure-cs"},
+					Value:     &ir.CodedElement{ID: "P25.8", Text: "Procedure2", CodingSystem: "procedure-cs"},
 					Frequency: uint(1),
 				},
 				Mapping: Mapping{Key: "P25.8", Value: "Procedure2"},
@@ -328,11 +328,11 @@ func TestLoadDataConfig(t *testing.T) {
 			}
 
 			wantEthnicities := []sample.WeightedValue{
-				{Value: &message.Ethnicity{ID: "White", Text: "White"}, Frequency: uint(1)},
-				{Value: &message.Ethnicity{ID: "Asian", Text: "Asian"}, Frequency: uint(2)},
-				{Value: &message.Ethnicity{ID: "Black", Text: "Black"}, Frequency: uint(2)},
-				{Value: &message.Ethnicity{ID: "Other", Text: "Other"}, Frequency: uint(2)},
-				{Value: (*message.Ethnicity)(nil), Frequency: uint(3)},
+				{Value: &ir.Ethnicity{ID: "White", Text: "White"}, Frequency: uint(1)},
+				{Value: &ir.Ethnicity{ID: "Asian", Text: "Asian"}, Frequency: uint(2)},
+				{Value: &ir.Ethnicity{ID: "Black", Text: "Black"}, Frequency: uint(2)},
+				{Value: &ir.Ethnicity{ID: "Other", Text: "Other"}, Frequency: uint(2)},
+				{Value: (*ir.Ethnicity)(nil), Frequency: uint(3)},
 			}
 			if diff := cmp.Diff(wantEthnicities, c.Ethnicities); diff != "" {
 				t.Errorf("LoadData(%+v, %+v) Ethnicities mismatch (-want, +got):\n%s", f, hl7Config, diff)
@@ -413,32 +413,32 @@ J45.0,Value2,2556.6`)
 	defaultCS := "coding-system"
 	wantCSVWithNil := []MappableWeightedValue{{
 		WeightedVal: sample.WeightedValue{
-			Value:     &message.CodedElement{ID: "J30.1", Text: "Value1", CodingSystem: defaultCS},
+			Value:     &ir.CodedElement{ID: "J30.1", Text: "Value1", CodingSystem: defaultCS},
 			Frequency: uint(59),
 		},
 		Mapping: Mapping{Key: "J30.1", Value: "Value1"},
 	}, {
 		WeightedVal: sample.WeightedValue{
-			Value:     &message.CodedElement{ID: "J45.0", Text: "Value2", CodingSystem: defaultCS},
+			Value:     &ir.CodedElement{ID: "J45.0", Text: "Value2", CodingSystem: defaultCS},
 			Frequency: uint(2556),
 		},
 		Mapping: Mapping{Key: "J45.0", Value: "Value2"},
 	}, {
 		WeightedVal: sample.WeightedValue{
-			Value:     &message.CodedElement{CodingSystem: defaultCS},
+			Value:     &ir.CodedElement{CodingSystem: defaultCS},
 			Frequency: uint(300),
 		},
 	}}
 
 	wantCSVNoNil := []MappableWeightedValue{{
 		WeightedVal: sample.WeightedValue{
-			Value:     &message.CodedElement{ID: "J30.1", Text: "Value1", CodingSystem: defaultCS},
+			Value:     &ir.CodedElement{ID: "J30.1", Text: "Value1", CodingSystem: defaultCS},
 			Frequency: uint(59),
 		},
 		Mapping: Mapping{Key: "J30.1", Value: "Value1"},
 	}, {
 		WeightedVal: sample.WeightedValue{
-			Value:     &message.CodedElement{ID: "J45.0", Text: "Value2", CodingSystem: defaultCS},
+			Value:     &ir.CodedElement{ID: "J45.0", Text: "Value2", CodingSystem: defaultCS},
 			Frequency: uint(2556),
 		},
 		Mapping: Mapping{Key: "J45.0", Value: "Value2"},

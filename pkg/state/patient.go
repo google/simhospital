@@ -19,26 +19,26 @@ import (
 	"fmt"
 
 	"github.com/pkg/errors"
-	"github.com/google/simhospital/pkg/message"
+	"github.com/google/simhospital/pkg/ir"
 )
 
 const generatedOrderIDPattern = "generated-%d"
 
 // Patient represents a patient in Simulated Hospital.
 type Patient struct {
-	PatientInfo *message.PatientInfo
-	Orders      map[string]*message.Order
+	PatientInfo *ir.PatientInfo
+	Orders      map[string]*ir.Order
 	PastVisits  []uint64
 }
 
 // GetOrder retrieves an order by its identifier.
-func (p *Patient) GetOrder(orderID string) *message.Order {
+func (p *Patient) GetOrder(orderID string) *ir.Order {
 	return p.Orders[orderID]
 }
 
 // AddOrder adds an order to the map against the specified order ID, so that it can be looked up later on.
 // If the orderID is not specified (ie is an empty string), a unique ID is generated.
-func (p *Patient) AddOrder(orderID string, order *message.Order) {
+func (p *Patient) AddOrder(orderID string, order *ir.Order) {
 	if orderID == "" {
 		p.Orders[fmt.Sprintf(generatedOrderIDPattern, len(p.Orders))] = order
 	} else {

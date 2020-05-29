@@ -19,7 +19,7 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/google/simhospital/pkg/message"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/test/testwrite"
 )
 
@@ -106,34 +106,34 @@ func TestDoctorsGet(t *testing.T) {
 		t.Fatalf("len(d.m)=%v, want %v", got, want)
 	}
 
-	testDoctor := &message.Doctor{
+	testDoctor := &ir.Doctor{
 		ID:        "id-1",
 		Surname:   "surname-1",
 		FirstName: "firstname-1",
 		Prefix:    "prefix-1",
 		Specialty: "specialty-1",
 	}
-	var nilDoctor *message.Doctor
+	var nilDoctor *ir.Doctor
 
 	tests := []struct {
 		name       string
-		f          func() *message.Doctor
-		wantDoctor *message.Doctor
+		f          func() *ir.Doctor
+		wantDoctor *ir.Doctor
 	}{{
 		name:       "by id",
-		f:          func() *message.Doctor { return d.GetByID("id-1") },
+		f:          func() *ir.Doctor { return d.GetByID("id-1") },
 		wantDoctor: testDoctor,
 	}, {
 		name:       "by id but not in map",
-		f:          func() *message.Doctor { return d.GetByID("NotInMap") },
+		f:          func() *ir.Doctor { return d.GetByID("NotInMap") },
 		wantDoctor: nilDoctor,
 	}, {
 		name:       "by name",
-		f:          func() *message.Doctor { return d.GetByName("firstname-1", "surname-1") },
+		f:          func() *ir.Doctor { return d.GetByName("firstname-1", "surname-1") },
 		wantDoctor: testDoctor,
 	}, {
 		name:       "by name but not in map",
-		f:          func() *message.Doctor { return d.GetByName("NotInMap", "surname-1") },
+		f:          func() *ir.Doctor { return d.GetByName("NotInMap", "surname-1") },
 		wantDoctor: nilDoctor,
 	}}
 	for _, tc := range tests {
@@ -153,7 +153,7 @@ func TestDoctorsAdd(t *testing.T) {
 		t.Fatalf("LoadDoctors(%s) failed with %v", singleDoctor, err)
 	}
 
-	doctorToAdd := &message.Doctor{
+	doctorToAdd := &ir.Doctor{
 		ID:        "id-2",
 		Surname:   "surname-2",
 		FirstName: "firstname-2",

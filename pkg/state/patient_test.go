@@ -19,12 +19,12 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/google/simhospital/pkg/message"
+	"github.com/google/simhospital/pkg/ir"
 )
 
 func TestPatient_GetOrder(t *testing.T) {
 	p := Patient{
-		Orders: make(map[string]*message.Order),
+		Orders: make(map[string]*ir.Order),
 	}
 	orderID1 := "orderID1"
 
@@ -33,8 +33,8 @@ func TestPatient_GetOrder(t *testing.T) {
 	}
 
 	// Add order with non-empty id.
-	order1 := &message.Order{
-		OrderProfile: &message.CodedElement{ID: "1", Text: "profile1"},
+	order1 := &ir.Order{
+		OrderProfile: &ir.CodedElement{ID: "1", Text: "profile1"},
 	}
 	p.AddOrder(orderID1, order1)
 	if diff := cmp.Diff(order1, p.GetOrder(orderID1)); diff != "" {
@@ -56,8 +56,8 @@ func TestPatient_GetOrder(t *testing.T) {
 
 	// Add an order with an empty ID
 	// The ID is generated, and every order with an empty ID is treated as an unique order.
-	orderNoID := &message.Order{
-		OrderProfile: &message.CodedElement{ID: "2", Text: "profile2"},
+	orderNoID := &ir.Order{
+		OrderProfile: &ir.CodedElement{ID: "2", Text: "profile2"},
 	}
 	p.AddOrder("", orderNoID)
 	wantOrderID := fmt.Sprintf(generatedOrderIDPattern, 1)

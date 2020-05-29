@@ -21,10 +21,7 @@ package(
 
 go_library(
     name = "go_default_library",
-    srcs = ["notes.go"],
-    importpath = "github.com/google/simhospital/pkg/test/testnotes",
-    deps = [
-        "//pkg/ir:go_default_library",
-        "//pkg/pathway:go_default_library",
-    ],
+    srcs = ["ir.go"],
+    importpath = "github.com/google/simhospital/pkg/ir",
+    visibility = ["//visibility:public"],
 )

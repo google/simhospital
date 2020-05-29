@@ -21,6 +21,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/simhospital/pkg/hl7"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/test/testhl7"
 )
 
@@ -59,18 +60,18 @@ func TestMain(m *testing.M) {
 func TestBuildPID(t *testing.T) {
 	tests := []struct {
 		name  string
-		setup func() *Person
+		setup func() *ir.Person
 		want  string
 	}{{
 		name: "Female",
-		setup: func() *Person {
+		setup: func() *ir.Person {
 			return testPersonFemale()
 		},
 		want: "PID|1|12529150521124992^^^SIMULATOR MRN^MRN|12529150521124992^^^SIMULATOR MRN^MRN~3333381389^^^NHSNBR^NHSNMBR||Smiths^Helen^Matilda^Junior^Miss^Dr^CURRENT||19940704133518|F|||1 Goodwill Hunting Road^Kings Cross^London^^N1C 4AG^GBR^HOME||020 7031 3000^HOME|||||||||A^White British^^^|||||||20200526202828|DECEASED",
 	}, {
 		name: "Missing Data",
-		setup: func() *Person {
-			return &Person{
+		setup: func() *ir.Person {
+			return &ir.Person{
 				Prefix:    "Miss",
 				FirstName: "Helen",
 				Surname:   "Smiths",
@@ -124,8 +125,8 @@ func TestBuildMSA(t *testing.T) {
 
 func TestBuildEVN(t *testing.T) {
 	now := time.Date(2018, 1, 26, 15, 24, 21, 0, time.UTC)
-	occurred := NewValidTime(time.Date(2018, 1, 26, 15, 24, 23, 0, time.UTC))
-	planned := NewValidTime(time.Date(2018, 1, 26, 15, 24, 22, 0, time.UTC))
+	occurred := ir.NewValidTime(time.Date(2018, 1, 26, 15, 24, 23, 0, time.UTC))
+	planned := ir.NewValidTime(time.Date(2018, 1, 26, 15, 24, 22, 0, time.UTC))
 	operator := testDoctor()
 	mt := &Type{"ORU", "R01"}
 
@@ -142,7 +143,7 @@ func TestBuildEVN(t *testing.T) {
 func TestBuildEVN_NoOccurredOrPlannedTime(t *testing.T) {
 	now := time.Date(2018, 1, 26, 15, 24, 21, 0, time.UTC)
 	operator := testDoctor()
-	invalidTime := NewInvalidTime()
+	invalidTime := ir.NewInvalidTime()
 	mt := &Type{"ORU", "R01"}
 
 	want := "EVN|R01|20180126152421|||216865551019^Osman^Arthur^^^Dr^^^DRNBR^PRSNL^^^ORGDR|"
@@ -170,7 +171,7 @@ func TestBuildORC(t *testing.T) {
 }
 
 func TestBuildORC_NoOrderDateTime(t *testing.T) {
-	o := &Order{
+	o := &ir.Order{
 		Placer:       "9984058",
 		Filler:       "1902082",
 		OrderControl: "RE",
@@ -191,46 +192,46 @@ func TestBuildOBR(t *testing.T) {
 
 	tests := []struct {
 		name    string
-		setup   func() *Order
+		setup   func() *ir.Order
 		want    string
 		wantErr bool
 	}{{
 		name: "Regular",
-		setup: func() *Order {
+		setup: func() *ir.Order {
 			return testOrder(now)
 		},
 		want: "OBR|1|9984058|1902082|lpdc-3969^UREA AND ELECTROLYTES^WinPath^^||20180126152421|||||||||||||||||||C||1",
 	}, {
 		name: "AllDates",
-		setup: func() *Order {
+		setup: func() *ir.Order {
 			o := testOrder(now)
-			o.CollectedDateTime = NewValidTime(time.Date(2018, 1, 26, 15, 45, 23, 0, time.UTC))
-			o.ReceivedInLabDateTime = NewValidTime(time.Date(2018, 1, 26, 16, 32, 55, 0, time.UTC))
-			o.ReportedDateTime = NewValidTime(time.Date(2018, 1, 26, 16, 51, 21, 0, time.UTC))
+			o.CollectedDateTime = ir.NewValidTime(time.Date(2018, 1, 26, 15, 45, 23, 0, time.UTC))
+			o.ReceivedInLabDateTime = ir.NewValidTime(time.Date(2018, 1, 26, 16, 32, 55, 0, time.UTC))
+			o.ReportedDateTime = ir.NewValidTime(time.Date(2018, 1, 26, 16, 51, 21, 0, time.UTC))
 			return o
 		},
 		want: "OBR|1|9984058|1902082|lpdc-3969^UREA AND ELECTROLYTES^WinPath^^||20180126152421|20180126154523|||||||20180126163255||||||||20180126165121|||C||1",
 	}, {
 		name: "NoTimezone",
-		setup: func() *Order {
+		setup: func() *ir.Order {
 			o := testOrder(now)
-			o.CollectedDateTime = NewValidTime(time.Now())
+			o.CollectedDateTime = ir.NewValidTime(time.Now())
 			return o
 		},
 		wantErr: true,
 	}, {
 		name: "Midnight Dates",
-		setup: func() *Order {
+		setup: func() *ir.Order {
 			o := testOrder(now)
-			o.CollectedDateTime = NewMidnightTime(time.Date(2018, 1, 26, 23, 45, 23, 0, time.UTC))
-			o.ReceivedInLabDateTime = NewValidTime(time.Date(2018, 1, 26, 16, 32, 55, 0, time.UTC))
-			o.ReportedDateTime = NewValidTime(time.Date(2018, 1, 26, 16, 51, 21, 0, time.UTC))
+			o.CollectedDateTime = ir.NewMidnightTime(time.Date(2018, 1, 26, 23, 45, 23, 0, time.UTC))
+			o.ReceivedInLabDateTime = ir.NewValidTime(time.Date(2018, 1, 26, 16, 32, 55, 0, time.UTC))
+			o.ReportedDateTime = ir.NewValidTime(time.Date(2018, 1, 26, 16, 51, 21, 0, time.UTC))
 			return o
 		},
 		want: "OBR|1|9984058|1902082|lpdc-3969^UREA AND ELECTROLYTES^WinPath^^||20180126152421|20180126000000|||||||20180126163255||||||||20180126165121|||C||1",
 	}, {
 		name: "WithOrderingProvider",
-		setup: func() *Order {
+		setup: func() *ir.Order {
 			o := testOrder(now)
 			o.OrderingProvider = testDoctor()
 			return o
@@ -238,7 +239,7 @@ func TestBuildOBR(t *testing.T) {
 		want: "OBR|1|9984058|1902082|lpdc-3969^UREA AND ELECTROLYTES^WinPath^^||20180126152421||||||||||216865551019^Osman^Arthur^^^Dr^^^DRNBR^PRSNL^^^ORGDR|||||||||C||1",
 	}, {
 		name: "WithSpecimenSource",
-		setup: func() *Order {
+		setup: func() *ir.Order {
 			o := testOrder(now)
 			o.SpecimenSource = "source"
 			return o
@@ -246,23 +247,23 @@ func TestBuildOBR(t *testing.T) {
 		want: "OBR|1|9984058|1902082|lpdc-3969^UREA AND ELECTROLYTES^WinPath^^||20180126152421|||||||||source||||||||||C||1",
 	}, {
 		name: "ClinicalNote",
-		setup: func() *Order {
+		setup: func() *ir.Order {
 			return orderWithClinicalNote(now, "content")
 		},
 		want: "OBR|1||document_id^HNAM_CEREF~document_id^HNAM_EVENTID|document-type^document-type^^^document-title||||||||||||216865551019^Osman^Arthur^^^Dr^^^DRNBR^PRSNL^^^ORGDR||||||||MDOC|||1",
 	}, {
 		// We use BuildOBR, but we could use any method that uses the ToHL7Date method.
 		name: "No UTC",
-		setup: func() *Order {
+		setup: func() *ir.Order {
 			now := time.Date(2018, 1, 26, 15, 24, 21, 0, time.Local)
 			return testOrder(now)
 		},
 		wantErr: true,
 	}, {
 		name: "Escape OrderProfile",
-		setup: func() *Order {
+		setup: func() *ir.Order {
 			o := testOrder(now)
-			o.OrderProfile = &CodedElement{
+			o.OrderProfile = &ir.CodedElement{
 				ID:            "Urea & Electrolytes",
 				Text:          "Creatinine & Glucose",
 				CodingSystem:  "& not escaped",
@@ -296,9 +297,9 @@ func TestBuildOBR_MidnightDatesAndDifferentTimezone(t *testing.T) {
 
 	now := time.Date(2018, 1, 26, 15, 24, 21, 0, time.UTC)
 	o := testOrder(now)
-	o.CollectedDateTime = NewMidnightTime(time.Date(2018, 1, 26, 23, 45, 23, 0, time.UTC))
-	o.ReceivedInLabDateTime = NewValidTime(time.Date(2018, 1, 26, 23, 32, 55, 0, time.UTC))
-	o.ReportedDateTime = NewValidTime(time.Date(2018, 1, 26, 23, 51, 21, 0, time.UTC))
+	o.CollectedDateTime = ir.NewMidnightTime(time.Date(2018, 1, 26, 23, 45, 23, 0, time.UTC))
+	o.ReceivedInLabDateTime = ir.NewValidTime(time.Date(2018, 1, 26, 23, 32, 55, 0, time.UTC))
+	o.ReportedDateTime = ir.NewValidTime(time.Date(2018, 1, 26, 23, 51, 21, 0, time.UTC))
 
 	// Some of the dates should be set the day after (27th).
 	want := "OBR|1|9984058|1902082|lpdc-3969^UREA AND ELECTROLYTES^WinPath^^||20180126162421|20180127000000|||||||20180127003255||||||||20180127005121|||C||1"
@@ -316,39 +317,39 @@ func TestBuildOBX(t *testing.T) {
 
 	tests := []struct {
 		name  string
-		setup func() *Order
+		setup func() *ir.Order
 		want  string
 	}{{
 		name: "Regular",
-		setup: func() *Order {
+		setup: func() *ir.Order {
 			o := testOrderWithResult(now)
-			o.Results[0].ObservationDateTime = NewValidTime(time.Date(2018, 1, 26, 15, 45, 23, 0, time.UTC))
+			o.Results[0].ObservationDateTime = ir.NewValidTime(time.Date(2018, 1, 26, 15, 45, 23, 0, time.UTC))
 			return o
 		},
 		want: "OBX|1|NM|lpdc-2011^Creatinine^WinPath^^||700|UML|39.00 - 308.00|HIGH|||F|||20180126154523||",
 	}, {
 		name: "Escape Unit",
-		setup: func() *Order {
+		setup: func() *ir.Order {
 			o := testOrderWithResult(now)
 			o.Results[0].Unit = "10^9 g/L"
-			o.Results[0].ObservationDateTime = NewValidTime(time.Date(2018, 1, 26, 15, 45, 23, 0, time.UTC))
+			o.Results[0].ObservationDateTime = ir.NewValidTime(time.Date(2018, 1, 26, 15, 45, 23, 0, time.UTC))
 			return o
 		},
 		want: "OBX|1|NM|lpdc-2011^Creatinine^WinPath^^||700|10\\S\\9 g/L|39.00 - 308.00|HIGH|||F|||20180126154523||",
 	}, {
 		name: "Escape Reference Range",
-		setup: func() *Order {
+		setup: func() *ir.Order {
 			o := testOrderWithResult(now)
 			o.Results[0].Range = "39.00 ^ 308.00"
-			o.Results[0].ObservationDateTime = NewValidTime(time.Date(2018, 1, 26, 15, 45, 23, 0, time.UTC))
+			o.Results[0].ObservationDateTime = ir.NewValidTime(time.Date(2018, 1, 26, 15, 45, 23, 0, time.UTC))
 			return o
 		},
 		want: "OBX|1|NM|lpdc-2011^Creatinine^WinPath^^||700|UML|39.00 \\S\\ 308.00|HIGH|||F|||20180126154523||",
 	}, {
 		name: "Escape TestName",
-		setup: func() *Order {
+		setup: func() *ir.Order {
 			o := testOrderWithResult(now)
-			o.Results[0].TestName = &CodedElement{
+			o.Results[0].TestName = &ir.CodedElement{
 				ID:            "Urea & Electrolytes",
 				Text:          "Creatinine & Glucose",
 				CodingSystem:  "& not escaped",
@@ -359,10 +360,10 @@ func TestBuildOBX(t *testing.T) {
 		want: "OBX|1|NM|Urea \\T\\ Electrolytes^Creatinine \\T\\ Glucose^& not escaped^^Some text with \\T\\||700|UML|39.00 - 308.00|HIGH|||F|||||",
 	}, {
 		name: "Replace New Line",
-		setup: func() *Order {
+		setup: func() *ir.Order {
 			o := testOrder(now)
-			o.Results = []*Result{{
-				TestName: &CodedElement{
+			o.Results = []*ir.Result{{
+				TestName: &ir.CodedElement{
 					ID:           "lpdc-2011",
 					Text:         "Creatinine",
 					CodingSystem: "WinPath",
@@ -370,7 +371,7 @@ func TestBuildOBX(t *testing.T) {
 				Value:               "This is the result.\nAnd this is second line.",
 				ValueType:           "TX",
 				Status:              "F",
-				ObservationDateTime: NewValidTime(time.Date(2018, 1, 26, 15, 45, 23, 0, time.UTC)),
+				ObservationDateTime: ir.NewValidTime(time.Date(2018, 1, 26, 15, 45, 23, 0, time.UTC)),
 			}}
 			return o
 		},
@@ -394,18 +395,18 @@ func TestBuildOBX(t *testing.T) {
 func TestBuildOBXForClinicalNote(t *testing.T) {
 	tests := []struct {
 		name  string
-		setup func() *Order
+		setup func() *ir.Order
 		want  string
 	}{{
 		name: "Clinical Note",
-		setup: func() *Order {
+		setup: func() *ir.Order {
 			orderTime := time.Date(2018, 1, 26, 15, 24, 21, 0, time.UTC)
 			return orderWithClinicalNote(orderTime, "some-content")
 		},
 		want: "OBX|1||ECG^ECG||^^PNG^BASE64^some-content|||||||||20180126152421||216865551019^Osman^Arthur^^^Dr^^^DRNBR^PRSNL^^^ORGDR",
 	}, {
 		name: "clinical note with an rtf file",
-		setup: func() *Order {
+		setup: func() *ir.Order {
 			orderTime := time.Date(2018, 1, 26, 15, 24, 21, 0, time.UTC)
 			return orderWithClinicalNote(orderTime, `{\rtf1\ansi{\fonttbl\f0\fswiss Helvetica;}\f0\pard\nThis is some {\b bold} text.\par\n}`)
 		},
@@ -429,18 +430,18 @@ func TestBuildOBXForClinicalNote(t *testing.T) {
 func TestBuildPV1(t *testing.T) {
 	tests := []struct {
 		name    string
-		setup   func() *PatientInfo
+		setup   func() *ir.PatientInfo
 		want    string
 		wantErr bool
 	}{{
 		name: "Regular",
-		setup: func() *PatientInfo {
-			return &PatientInfo{
+		setup: func() *ir.PatientInfo {
+			return &ir.PatientInfo{
 				Class:           "INPATIENT",
 				Type:            "EMERGENCY",
 				VisitID:         12341234,
 				HospitalService: "180",
-				Location: &PatientLocation{
+				Location: &ir.PatientLocation{
 					Poc:          "RAL 12 West",
 					Room:         "Bay01",
 					Bed:          "Bed10",
@@ -449,7 +450,7 @@ func TestBuildPV1(t *testing.T) {
 					Building:     "RFH",
 					Floor:        "Floor1",
 				},
-				PriorLocation: &PatientLocation{
+				PriorLocation: &ir.PatientLocation{
 					Poc:          "RAL 11 East",
 					Room:         "Bay02",
 					Bed:          "Bed11",
@@ -458,7 +459,7 @@ func TestBuildPV1(t *testing.T) {
 					Building:     "RFH",
 					Floor:        "Floor1",
 				},
-				PendingLocation: &PatientLocation{
+				PendingLocation: &ir.PatientLocation{
 					Poc:          "RAL 12 West",
 					Room:         "Bay01",
 					Bed:          "Bed10",
@@ -467,31 +468,31 @@ func TestBuildPV1(t *testing.T) {
 					Building:     "RFH",
 					Floor:        "Floor1",
 				},
-				TemporaryLocation: &PatientLocation{
+				TemporaryLocation: &ir.PatientLocation{
 					Poc:      "X-RAY",
 					Facility: "RAL RF",
 					Building: "RFH",
 					Floor:    "Floor1",
 				},
-				PriorTemporaryLocation: &PatientLocation{
+				PriorTemporaryLocation: &ir.PatientLocation{
 					Poc:      "Hallway",
 					Facility: "RAL RF",
 					Building: "RFH",
 					Floor:    "Floor1",
 				},
 				AttendingDoctor: testDoctor(),
-				AdmissionDate:   NewValidTime(time.Date(2018, 4, 28, 22, 38, 44, 0, time.UTC)),
-				DischargeDate:   NewValidTime(time.Date(2018, 4, 29, 21, 45, 30, 0, time.UTC)),
+				AdmissionDate:   ir.NewValidTime(time.Date(2018, 4, 28, 22, 38, 44, 0, time.UTC)),
+				DischargeDate:   ir.NewValidTime(time.Date(2018, 4, 29, 21, 45, 30, 0, time.UTC)),
 			}
 		},
 		want: "PV1|1|INPATIENT|RAL 12 West^Bay01^Bed10^RAL RF^^BED^RFH^Floor1|28b||RAL 11 East^Bay02^Bed11^RAL RF^^BED^RFH^Floor1|216865551019^Osman^Arthur^^^Dr^^^DRNBR^PRSNL^^^ORGDR|||180|X-RAY^^^RAL RF^^^RFH^Floor1|||||||EMERGENCY|12341234^^^^visitid|||||||||||||||||||||||RAL 12 West^Bay01^Bed10^RAL RF^^BED^RFH^Floor1|Hallway^^^RAL RF^^^RFH^Floor1|20180428233844|20180429224530|",
 	}, {
 		name: "Missing Data",
-		setup: func() *PatientInfo {
-			return &PatientInfo{
+		setup: func() *ir.PatientInfo {
+			return &ir.PatientInfo{
 				Class:           "OUTPATIENT",
 				HospitalService: "180",
-				AdmissionDate:   NewInvalidTime(),
+				AdmissionDate:   ir.NewInvalidTime(),
 			}
 		},
 		want: "PV1|1|OUTPATIENT||28b||||||180||||||||||||||||||||||||||||||||||||",
@@ -519,8 +520,8 @@ func TestBuildPseudoPV1(t *testing.T) {
 }
 
 func TestBuildPV2(t *testing.T) {
-	patientInfo := &PatientInfo{
-		PriorPendingLocation: &PatientLocation{
+	patientInfo := &ir.PatientInfo{
+		PriorPendingLocation: &ir.PatientLocation{
 			Poc:          "RAL 12 West",
 			Room:         "Bay01",
 			Bed:          "Bed10",
@@ -529,8 +530,8 @@ func TestBuildPV2(t *testing.T) {
 			Building:     "RFH",
 			Floor:        "Floor1",
 		},
-		ExpectedAdmitDateTime:     NewValidTime(time.Date(2018, 4, 28, 22, 38, 44, 0, time.UTC)),
-		ExpectedDischargeDateTime: NewValidTime(time.Date(2018, 4, 29, 21, 45, 30, 0, time.UTC)),
+		ExpectedAdmitDateTime:     ir.NewValidTime(time.Date(2018, 4, 28, 22, 38, 44, 0, time.UTC)),
+		ExpectedDischargeDateTime: ir.NewValidTime(time.Date(2018, 4, 29, 21, 45, 30, 0, time.UTC)),
 	}
 
 	want := "PV2|RAL 12 West^Bay01^Bed10^RAL RF^^BED^RFH^Floor1|||||||20180428233844|20180429224530"
@@ -544,15 +545,15 @@ func TestBuildPV2(t *testing.T) {
 }
 
 func TestBuildNK1(t *testing.T) {
-	p := &AssociatedParty{
-		Person: &Person{
+	p := &ir.AssociatedParty{
+		Person: &ir.Person{
 			Prefix:     "Mr",
 			FirstName:  "John",
 			MiddleName: "George",
 			Surname:    "Smiths",
 			Suffix:     "Senior",
 			Gender:     "M",
-			Address: &Address{
+			Address: &ir.Address{
 				FirstLine:  "5 Goodwill Hunting Road",
 				City:       "London",
 				PostalCode: "N1D 4AG",
@@ -563,8 +564,8 @@ func TestBuildNK1(t *testing.T) {
 			MRN:         "21124992125291505",
 			NHS:         "3338933381",
 		},
-		Relationship: &CodedElement{ID: "S", Text: "SPOUSE"},
-		ContactRole:  &CodedElement{ID: "F", Text: "FAMILYMEM"},
+		Relationship: &ir.CodedElement{ID: "S", Text: "SPOUSE"},
+		ContactRole:  &ir.CodedElement{ID: "F", Text: "FAMILYMEM"},
 	}
 
 	want := "NK1|3|Smiths^John^George^Senior^Mr^^CURRENT|S^SPOUSE^^^|5 Goodwill Hunting Road^^London^^N1D 4AG^GBR^HOME|020 7031 4000^HOME||F^FAMILYMEM^^^||||||||M|"
@@ -578,8 +579,8 @@ func TestBuildNK1(t *testing.T) {
 }
 
 func TestBuildNK1_missingData(t *testing.T) {
-	p := &AssociatedParty{
-		Person: &Person{
+	p := &ir.AssociatedParty{
+		Person: &ir.Person{
 			FirstName:   "John",
 			Surname:     "Smiths",
 			Gender:      "M",
@@ -602,25 +603,25 @@ func TestBuildNK1_missingData(t *testing.T) {
 func TestBuildAL1(t *testing.T) {
 	tests := []struct {
 		name        string
-		allergy     *Allergy
+		allergy     *ir.Allergy
 		expectedMsg string
 	}{
 		{
 			"Moderate food allergy, valid IdentificationDate",
-			&Allergy{
+			&ir.Allergy{
 				Type:                   "FA",
-				Description:            CodedElement{ID: "E", Text: "egg-containing compound", CodingSystem: "ZAL"},
+				Description:            ir.CodedElement{ID: "E", Text: "egg-containing compound", CodingSystem: "ZAL"},
 				Severity:               "MO",
 				Reaction:               "Skin rash",
-				IdentificationDateTime: NewValidTime(time.Date(2018, 4, 28, 22, 38, 44, 0, time.UTC)),
+				IdentificationDateTime: ir.NewValidTime(time.Date(2018, 4, 28, 22, 38, 44, 0, time.UTC)),
 			},
 			"AL1|2|FA|E^egg-containing compound^ZAL^^|MO|Skin rash|20180428233844",
 		},
 		{
 			"Severe drug allergy, missing IdentificationDate",
-			&Allergy{
+			&ir.Allergy{
 				Type:        "DA",
-				Description: CodedElement{ID: "E", Text: "egg-containing drug", CodingSystem: "ZAL"},
+				Description: ir.CodedElement{ID: "E", Text: "egg-containing drug", CodingSystem: "ZAL"},
 				Severity:    "SV",
 				Reaction:    "Rash",
 			},
@@ -628,12 +629,12 @@ func TestBuildAL1(t *testing.T) {
 		},
 		{
 			"Mild miscellaneous allergy, invalid IdentificationDate",
-			&Allergy{
+			&ir.Allergy{
 				Type:                   "MA",
-				Description:            CodedElement{ID: "E", Text: "eggshell-containing liquid", CodingSystem: "ZAL"},
+				Description:            ir.CodedElement{ID: "E", Text: "eggshell-containing liquid", CodingSystem: "ZAL"},
 				Severity:               "MI",
 				Reaction:               "Skin boils",
-				IdentificationDateTime: NewInvalidTime(),
+				IdentificationDateTime: ir.NewInvalidTime(),
 			},
 			"AL1|2|MA|E^eggshell-containing liquid^ZAL^^|MI|Skin boils|",
 		},
@@ -714,8 +715,8 @@ func TestBuildPR1(t *testing.T) {
 
 func TestBuildTXA(t *testing.T) {
 	d := document()
-	p := &PatientInfo{
-		AttendingDoctor: &Doctor{
+	p := &ir.PatientInfo{
+		AttendingDoctor: &ir.Doctor{
 			ID:        "743857BT34",
 			Surname:   "Davis",
 			FirstName: "Olive",
@@ -732,7 +733,7 @@ func TestBuildTXA(t *testing.T) {
 }
 
 func TestBuildOBXForMDM(t *testing.T) {
-	observationIdentifier := &CodedElement{
+	observationIdentifier := &ir.CodedElement{
 		ID:           "Established Patient 15",
 		Text:         "Established Patient 15",
 		CodingSystem: "Simulation",
@@ -751,7 +752,7 @@ func TestBuildOBXForMDM(t *testing.T) {
 func TestPD1(t *testing.T) {
 	tests := []struct {
 		name            string
-		primaryFacility *PrimaryFacility
+		primaryFacility *ir.PrimaryFacility
 		expected        string
 	}{
 		{
@@ -761,7 +762,7 @@ func TestPD1(t *testing.T) {
 		},
 		{
 			"Populated Primary Facility",
-			&PrimaryFacility{
+			&ir.PrimaryFacility{
 				Organization: "ORG",
 				ID:           "12345",
 			},
@@ -769,7 +770,7 @@ func TestPD1(t *testing.T) {
 		},
 		{
 			"All empty",
-			&PrimaryFacility{
+			&ir.PrimaryFacility{
 				Organization: "",
 				ID:           "",
 			},
@@ -2561,8 +2562,8 @@ func TestBuildResultORU(t *testing.T) {
 
 	tests := []struct {
 		name             string
-		order            *Order
-		f                func(*HeaderInfo, *PatientInfo, *Order, time.Time) (*HL7Message, error)
+		order            *ir.Order
+		f                func(*HeaderInfo, *ir.PatientInfo, *ir.Order, time.Time) (*HL7Message, error)
 		numNotes         int
 		wantTriggerEvent string
 		wantOBXSetIDs    []string
@@ -2693,8 +2694,8 @@ func TestBuildResultORU_StartCountingAtInitialSetID(t *testing.T) {
 
 	orderWithResults := testOrderWithResult(eventTime)
 	orderWithResults.NumberOfPreviousResults = 7
-	orderWithResults.Results = append(orderWithResults.Results, &Result{
-		TestName: &CodedElement{
+	orderWithResults.Results = append(orderWithResults.Results, &ir.Result{
+		TestName: &ir.CodedElement{
 			ID:           "lpdc-2011",
 			Text:         "Creatinine",
 			CodingSystem: "WinPath",
@@ -2710,7 +2711,7 @@ func TestBuildResultORU_StartCountingAtInitialSetID(t *testing.T) {
 
 	tests := []struct {
 		name string
-		f    func(*HeaderInfo, *PatientInfo, *Order, time.Time) (*HL7Message, error)
+		f    func(*HeaderInfo, *ir.PatientInfo, *ir.Order, time.Time) (*HL7Message, error)
 	}{
 		{name: "R01", f: BuildResultORUR01},
 		{name: "R03", f: BuildResultORUR03},
@@ -2755,9 +2756,9 @@ func TestBuildOrderORMO01(t *testing.T) {
 	msgTime := time.Date(2018, 4, 28, 22, 39, 44, 0, time.UTC)
 	patientInfo := testPatientInfo()
 	order := testOrder(eventTime)
-	order.ResultsForORM = []*Result{
+	order.ResultsForORM = []*ir.Result{
 		{
-			TestName: &CodedElement{
+			TestName: &ir.CodedElement{
 				ID: "random-test-id",
 			},
 		},
@@ -3197,10 +3198,10 @@ func TestBuildDocumentNotificationMDMT02(t *testing.T) {
 	}
 }
 
-func testOrderWithResult(now time.Time) *Order {
+func testOrderWithResult(now time.Time) *ir.Order {
 	order := testOrder(now)
-	order.Results = []*Result{{
-		TestName: &CodedElement{
+	order.Results = []*ir.Result{{
+		TestName: &ir.CodedElement{
 			ID:           "lpdc-2011",
 			Text:         "Creatinine",
 			CodingSystem: "WinPath",
@@ -3214,7 +3215,7 @@ func testOrderWithResult(now time.Time) *Order {
 		Notes:               []string{"Note1", "Note2"},
 		ObservationDateTime: order.CollectedDateTime,
 	}, {
-		TestName: &CodedElement{
+		TestName: &ir.CodedElement{
 			ID:           "lpdc-2804",
 			Text:         "Potassium",
 			CodingSystem: "WinPath",
@@ -3224,38 +3225,38 @@ func testOrderWithResult(now time.Time) *Order {
 	return order
 }
 
-func testOrder(now time.Time) *Order {
-	return &Order{
-		OrderProfile: &CodedElement{
+func testOrder(now time.Time) *ir.Order {
+	return &ir.Order{
+		OrderProfile: &ir.CodedElement{
 			ID:           "lpdc-3969",
 			Text:         "UREA AND ELECTROLYTES",
 			CodingSystem: "WinPath",
 		},
 		Placer:        "9984058",
 		Filler:        "1902082",
-		OrderDateTime: NewValidTime(now),
+		OrderDateTime: ir.NewValidTime(now),
 		OrderControl:  "RE",
 		OrderStatus:   "IP",
 		ResultsStatus: "C",
 	}
 }
 
-func orderWithClinicalNote(now time.Time, content string) *Order {
-	return &Order{
-		OrderProfile: &CodedElement{
+func orderWithClinicalNote(now time.Time, content string) *ir.Order {
+	return &ir.Order{
+		OrderProfile: &ir.CodedElement{
 			ID:            "document-type",
 			Text:          "document-type",
 			AlternateText: "document-title",
 		},
 		DiagnosticServID: "MDOC",
 		OrderingProvider: testDoctor(),
-		Results: []*Result{{
-			ObservationDateTime: NewValidTime(now),
-			ClinicalNote: &ClinicalNote{
-				DateTime:     NewValidTime(now),
+		Results: []*ir.Result{{
+			ObservationDateTime: ir.NewValidTime(now),
+			ClinicalNote: &ir.ClinicalNote{
+				DateTime:     ir.NewValidTime(now),
 				DocumentType: "ECG",
 				DocumentID:   "document_id",
-				Contents: []*ClinicalNoteContent{{
+				Contents: []*ir.ClinicalNoteContent{{
 					ContentType:      "PNG",
 					DocumentContent:  content,
 					DocumentEncoding: "BASE64",
@@ -3268,13 +3269,13 @@ func orderWithClinicalNote(now time.Time, content string) *Order {
 	}
 }
 
-func document() *Document {
-	return &Document{
-		ActivityDateTime:         NewValidTime(time.Date(2019, 6, 15, 8, 13, 40, 0, time.UTC)),
-		EditDateTime:             NewValidTime(time.Date(2019, 11, 4, 8, 13, 40, 0, time.UTC)),
+func document() *ir.Document {
+	return &ir.Document{
+		ActivityDateTime:         ir.NewValidTime(time.Date(2019, 6, 15, 8, 13, 40, 0, time.UTC)),
+		EditDateTime:             ir.NewValidTime(time.Date(2019, 11, 4, 8, 13, 40, 0, time.UTC)),
 		DocumentCompletionStatus: "DO",
 		DocumentType:             "DS",
-		ObservationIdentifier: &CodedElement{
+		ObservationIdentifier: &ir.CodedElement{
 			ID:           "Established Patient 15",
 			Text:         "Established Patient 15",
 			CodingSystem: "Simulation",
@@ -3287,16 +3288,16 @@ func document() *Document {
 	}
 }
 
-func testPatientInfo() *PatientInfo {
-	ap := &AssociatedParty{
-		Person: &Person{
+func testPatientInfo() *ir.PatientInfo {
+	ap := &ir.AssociatedParty{
+		Person: &ir.Person{
 			Prefix:     "Mr",
 			FirstName:  "John",
 			MiddleName: "George",
 			Surname:    "Smiths",
 			Suffix:     "Senior",
 			Gender:     "M",
-			Address: &Address{
+			Address: &ir.Address{
 				FirstLine:  "5 Goodwill Hunting Road",
 				City:       "London",
 				PostalCode: "N1D 4AG",
@@ -3307,23 +3308,23 @@ func testPatientInfo() *PatientInfo {
 			MRN:         "21124992125291505",
 			NHS:         "3338933381",
 		},
-		Relationship: &CodedElement{ID: "S", Text: "SPOUSE"},
-		ContactRole:  &CodedElement{ID: "F", Text: "FAMILYMEM"},
+		Relationship: &ir.CodedElement{ID: "S", Text: "SPOUSE"},
+		ContactRole:  &ir.CodedElement{ID: "F", Text: "FAMILYMEM"},
 	}
-	al := &Allergy{
+	al := &ir.Allergy{
 		Type:        "FA", // Food allergy.
-		Description: CodedElement{ID: "E", Text: "egg-containing compound", CodingSystem: "ZAL"},
+		Description: ir.CodedElement{ID: "E", Text: "egg-containing compound", CodingSystem: "ZAL"},
 		Severity:    "MO", // Moderate.
 		Reaction:    "Skin rash",
 	}
 	p := testPersonFemale()
-	patientInfo := &PatientInfo{
+	patientInfo := &ir.PatientInfo{
 		Person:          p,
 		Class:           "INPATIENT",
 		Type:            "EMERGENCY",
 		VisitID:         12341234,
 		HospitalService: "180",
-		Location: &PatientLocation{
+		Location: &ir.PatientLocation{
 			Poc:          "RAL 12 West",
 			Room:         "Bay01",
 			Bed:          "Bed10",
@@ -3331,7 +3332,7 @@ func testPatientInfo() *PatientInfo {
 			LocationType: "BED",
 			Building:     "RFH",
 		},
-		PriorLocation: &PatientLocation{
+		PriorLocation: &ir.PatientLocation{
 			Poc:          "RAL 12 East",
 			Room:         "Bay02",
 			Bed:          "Bed11",
@@ -3340,22 +3341,22 @@ func testPatientInfo() *PatientInfo {
 			Building:     "RFH",
 		},
 		AttendingDoctor:           testDoctor(),
-		AdmissionDate:             NewValidTime(defaultAdmissionDate),
-		DischargeDate:             NewValidTime(defaultDischargeDate),
-		TransferDate:              NewValidTime(defaultTransferDate),
-		ExpectedAdmitDateTime:     NewValidTime(defaultExpectedAdmissionDate),
-		ExpectedDischargeDateTime: NewValidTime(defaultExpectedDischargeDate),
-		ExpectedTransferDateTime:  NewValidTime(defaultExpectedTransferDate),
-		AssociatedParties:         []*AssociatedParty{ap},
-		Allergies:                 []*Allergy{al},
-		Diagnoses:                 []*DiagnosisOrProcedure{testDiagnosis()},
-		Procedures:                []*DiagnosisOrProcedure{testProcedure()},
+		AdmissionDate:             ir.NewValidTime(defaultAdmissionDate),
+		DischargeDate:             ir.NewValidTime(defaultDischargeDate),
+		TransferDate:              ir.NewValidTime(defaultTransferDate),
+		ExpectedAdmitDateTime:     ir.NewValidTime(defaultExpectedAdmissionDate),
+		ExpectedDischargeDateTime: ir.NewValidTime(defaultExpectedDischargeDate),
+		ExpectedTransferDateTime:  ir.NewValidTime(defaultExpectedTransferDate),
+		AssociatedParties:         []*ir.AssociatedParty{ap},
+		Allergies:                 []*ir.Allergy{al},
+		Diagnoses:                 []*ir.DiagnosisOrProcedure{testDiagnosis()},
+		Procedures:                []*ir.DiagnosisOrProcedure{testProcedure()},
 	}
 	return patientInfo
 }
 
-func testDoctor() *Doctor {
-	return &Doctor{
+func testDoctor() *ir.Doctor {
+	return &ir.Doctor{
 		ID:        defaultDoctorID,
 		Surname:   defaultDoctorSurname,
 		FirstName: defaultDoctorFirstName,
@@ -3373,8 +3374,8 @@ func testHeader() *HeaderInfo {
 	}
 }
 
-func testPersonFemale() *Person {
-	return &Person{
+func testPersonFemale() *ir.Person {
+	return &ir.Person{
 		Prefix:      "Miss",
 		FirstName:   "Helen",
 		MiddleName:  "Matilda",
@@ -3382,10 +3383,10 @@ func testPersonFemale() *Person {
 		Suffix:      "Junior",
 		Degree:      "Dr",
 		Gender:      "F",
-		Ethnicity:   &Ethnicity{ID: "A", Text: "White British"},
-		Birth:       NewValidTime(time.Date(1994, 7, 4, 12, 35, 18, 0, time.UTC)),
-		DateOfDeath: NewValidTime(defaultDateOfDeath),
-		Address: &Address{
+		Ethnicity:   &ir.Ethnicity{ID: "A", Text: "White British"},
+		Birth:       ir.NewValidTime(time.Date(1994, 7, 4, 12, 35, 18, 0, time.UTC)),
+		DateOfDeath: ir.NewValidTime(defaultDateOfDeath),
+		Address: &ir.Address{
 			FirstLine:  "1 Goodwill Hunting Road",
 			SecondLine: "Kings Cross",
 			City:       "London",
@@ -3400,20 +3401,20 @@ func testPersonFemale() *Person {
 	}
 }
 
-func testDiagnosis() *DiagnosisOrProcedure {
-	return &DiagnosisOrProcedure{
-		Description: &CodedElement{ID: "A01.0", Text: "Typhoid fever"},
+func testDiagnosis() *ir.DiagnosisOrProcedure {
+	return &ir.DiagnosisOrProcedure{
+		Description: &ir.CodedElement{ID: "A01.0", Text: "Typhoid fever"},
 		Type:        "Admitting",
 		Clinician:   testDoctor(),
-		DateTime:    NewValidTime(defaultDiagnoseDate),
+		DateTime:    ir.NewValidTime(defaultDiagnoseDate),
 	}
 }
 
-func testProcedure() *DiagnosisOrProcedure {
-	return &DiagnosisOrProcedure{
-		Description: &CodedElement{ID: defaultProcedureCodeID, Text: defaultProcedureCodeDescription},
+func testProcedure() *ir.DiagnosisOrProcedure {
+	return &ir.DiagnosisOrProcedure{
+		Description: &ir.CodedElement{ID: defaultProcedureCodeID, Text: defaultProcedureCodeDescription},
 		Type:        defaultProcedureFunctionalType,
 		Clinician:   testDoctor(),
-		DateTime:    NewValidTime(defaultProcedureDate),
+		DateTime:    ir.NewValidTime(defaultProcedureDate),
 	}
 }

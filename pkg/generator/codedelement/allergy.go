@@ -19,7 +19,7 @@ import (
 
 	"github.com/google/simhospital/pkg/clock"
 	"github.com/google/simhospital/pkg/config"
-	"github.com/google/simhospital/pkg/message"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/pathway"
 )
 
@@ -34,7 +34,7 @@ type AllergyGenerator struct {
 
 // DeriveIdentificationDateTime returns an absolute or invalid NullTime value for an
 // allergy's IdentificationDateTime.
-func (g *AllergyGenerator) DeriveIdentificationDateTime(a pathway.Allergy) message.NullTime {
+func (g *AllergyGenerator) DeriveIdentificationDateTime(a pathway.Allergy) ir.NullTime {
 	return g.nullTimeOrRandom(a.IdentificationDateTime)
 }
 
@@ -58,15 +58,15 @@ func (g *AllergyGenerator) randomReaction() string {
 }
 
 // randomIdentificationDateTime returns a random identification datetime.
-func (g *AllergyGenerator) randomIdentificationDateTime() message.NullTime {
+func (g *AllergyGenerator) randomIdentificationDateTime() ir.NullTime {
 	return g.nullTimeOrRandom(nil)
 }
 
 // GenerateRandomDistinctAllergies generates a list of allergies.
 // The list will have at least one item with probability percentage.
 // After that, the final number of items is picked randomly between 1 to maxAllergies (both inclusive).
-func (g *AllergyGenerator) GenerateRandomDistinctAllergies() []*message.Allergy {
-	var generatedAllergies []*message.Allergy
+func (g *AllergyGenerator) GenerateRandomDistinctAllergies() []*ir.Allergy {
+	var generatedAllergies []*ir.Allergy
 	ra := rand.Intn(100)
 	if ra >= g.percentage {
 		return generatedAllergies
@@ -78,7 +78,7 @@ func (g *AllergyGenerator) GenerateRandomDistinctAllergies() []*message.Allergy 
 		if !selectedCodes[a.ID] {
 			selectedCodes[a.ID] = true
 
-			generatedAllergies = append(generatedAllergies, &message.Allergy{
+			generatedAllergies = append(generatedAllergies, &ir.Allergy{
 				Type:                   g.RandomType(),
 				Description:            *a,
 				Severity:               g.randomSeverity(),

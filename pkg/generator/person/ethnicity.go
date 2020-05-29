@@ -16,7 +16,7 @@ package person
 
 import (
 	"github.com/google/simhospital/pkg/config"
-	"github.com/google/simhospital/pkg/message"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/sample"
 )
 
@@ -31,10 +31,10 @@ func NewEthnicityGenerator(d *config.Data) EthnicityGenerator {
 }
 
 // Random returns a random ethnicity, which can be nil.
-func (eg EthnicityGenerator) Random() *message.Ethnicity {
+func (eg EthnicityGenerator) Random() *ir.Ethnicity {
 	e := eg.DiscreteDistribution.Random()
 	if e == nil {
 		return nil
 	}
-	return e.(*message.Ethnicity)
+	return e.(*ir.Ethnicity)
 }

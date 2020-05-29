@@ -21,7 +21,7 @@ import (
 	"time"
 
 	"github.com/google/simhospital/pkg/config"
-	"github.com/google/simhospital/pkg/message"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/test"
 	"github.com/google/simhospital/pkg/test/testclock"
 	"github.com/google/simhospital/pkg/test/testdate"
@@ -84,13 +84,13 @@ T78.1,Allergy4,23
 	severitiesCount := make(map[string]int)
 	reactionsCount := make(map[string]int)
 	fieldExpectations := map[string]struct {
-		field func(*message.Allergy) string
+		field func(*ir.Allergy) string
 		want  []string
 		count map[string]int
 	}{
-		"Type":     {func(a *message.Allergy) string { return a.Type }, configHL7.Allergy.Types, typesCount},
-		"Severity": {func(a *message.Allergy) string { return a.Severity }, configHL7.Allergy.Severities, severitiesCount},
-		"Reaction": {func(a *message.Allergy) string { return a.Reaction }, reactions, reactionsCount},
+		"Type":     {func(a *ir.Allergy) string { return a.Type }, configHL7.Allergy.Types, typesCount},
+		"Severity": {func(a *ir.Allergy) string { return a.Severity }, configHL7.Allergy.Severities, severitiesCount},
+		"Reaction": {func(a *ir.Allergy) string { return a.Reaction }, reactions, reactionsCount},
 	}
 	for i := 0; i < runs; i++ {
 		allergies := g.GenerateRandomDistinctAllergies()
@@ -103,7 +103,7 @@ T78.1,Allergy4,23
 			if got, want := a.Description.Text, codeToDesc[a.Description.ID]; got != want {
 				t.Errorf("GenerateRandomDistinctAllergies().Description.Text got %v, want %v", got, want)
 			}
-			if got, want := a.IdentificationDateTime, message.NewValidTime(defaultDate); got != want {
+			if got, want := a.IdentificationDateTime, ir.NewValidTime(defaultDate); got != want {
 				t.Errorf("GenerateRandomDistinctAllergies().IdentificationDateTime got %v, want %v", got, want)
 			}
 			for k, v := range fieldExpectations {

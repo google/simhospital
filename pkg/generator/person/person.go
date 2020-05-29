@@ -27,13 +27,13 @@ import (
 	"github.com/google/simhospital/pkg/gender"
 	"github.com/google/simhospital/pkg/generator/id"
 	"github.com/google/simhospital/pkg/generator/names"
-	"github.com/google/simhospital/pkg/message"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/pathway"
 )
 
 // AddressGenerator is an interface to generate addresses.
 type AddressGenerator interface {
-	Random() *message.Address
+	Random() *ir.Address
 }
 
 // Generator is a generator of person.
@@ -47,10 +47,10 @@ type Generator struct {
 }
 
 // NewPerson returns a new person based on pathway.Person.
-func (g Generator) NewPerson(pathwayPerson *pathway.Person) *message.Person {
+func (g Generator) NewPerson(pathwayPerson *pathway.Person) *ir.Person {
 
 	// We first set the fields that can't be set from the pathway.
-	person := &message.Person{
+	person := &ir.Person{
 		Suffix:      g.NameGenerator.Suffix(),
 		Degree:      g.NameGenerator.Degree(),
 		Ethnicity:   g.EthnicityGenerator.Random(),
@@ -65,7 +65,7 @@ func (g Generator) NewPerson(pathwayPerson *pathway.Person) *message.Person {
 // Fields that are set in the pathway's person always override the original person's.
 // Fields that are set in the original person, but not in the pathway, are kept as they are.
 // Fields that are not set in any are generated randomly.
-func (g Generator) UpdatePersonFromPathway(person *message.Person, pathwayPerson *pathway.Person) {
+func (g Generator) UpdatePersonFromPathway(person *ir.Person, pathwayPerson *pathway.Person) {
 	if pathwayPerson == nil {
 		pathwayPerson = &pathway.Person{}
 	}
@@ -78,11 +78,11 @@ func (g Generator) UpdatePersonFromPathway(person *message.Person, pathwayPerson
 	// nor Age are explicitly set in the pathway, don't change the person.Birth.
 	switch {
 	case pathwayPerson.DateOfBirth != nil:
-		person.Birth = message.NewValidTime(*pathwayPerson.DateOfBirth)
+		person.Birth = ir.NewValidTime(*pathwayPerson.DateOfBirth)
 	case pathwayPerson.Age != nil:
-		person.Birth = message.NewValidTime(pathwayPerson.Age.Birthdate(g.Clock))
+		person.Birth = ir.NewValidTime(pathwayPerson.Age.Birthdate(g.Clock))
 	case !person.Birth.Valid:
-		person.Birth = message.NewValidTime(pathway.RandomBirthdate(g.Clock))
+		person.Birth = ir.NewValidTime(pathway.RandomBirthdate(g.Clock))
 	}
 
 	// For gender, if there is no gender set in the pathway then we need to randomly generate one
@@ -118,7 +118,7 @@ func (g Generator) UpdatePersonFromPathway(person *message.Person, pathwayPerson
 // no matter if it is empty.
 // Fields set to RANDOM are overridden with a new random value.
 // If AllRandom is enabled in the pathway, all fields are overridden with new random values.
-func (g Generator) mergeAddressFromPathway(a *pathway.Address, p *message.Address) *message.Address {
+func (g Generator) mergeAddressFromPathway(a *pathway.Address, p *ir.Address) *ir.Address {
 	random := g.AddressGenerator.Random()
 	if p == nil {
 		p = random

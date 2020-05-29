@@ -274,7 +274,7 @@ type Result struct {
 	// Required.
 	TestName string `yaml:"test_name"`
 	// ID is the ID of the test type, e.g. LABR or lpdc code. It overrides the
-	// message.Result.TestName.Id field, i.e. OBX.3.1 in the resulting HL7 message.
+	// ir.Result.TestName.Id field, i.e. OBX.3.1 in the resulting HL7 message.
 	// Optional.
 	ID string
 	// ResultStatus is the status of this result.

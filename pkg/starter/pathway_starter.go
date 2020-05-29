@@ -25,8 +25,8 @@ import (
 	"github.com/pkg/errors"
 	"github.com/google/simhospital/pkg/hl7"
 	"github.com/google/simhospital/pkg/hospital"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/logging"
-	"github.com/google/simhospital/pkg/message"
 	"github.com/google/simhospital/pkg/pathway"
 )
 
@@ -266,7 +266,7 @@ func (ps *PathwayStarter) startPathwayInHospital(p *pathway.Pathway) ([]string, 
 }
 
 // pathwayStartedResponse returns a pathway started response from the given persons' names and MRNs.
-func (ps *PathwayStarter) pathwayStartedResponse(pathwayName string, persons []*message.Person) []string {
+func (ps *PathwayStarter) pathwayStartedResponse(pathwayName string, persons []*ir.Person) []string {
 	allLines := []string{fmt.Sprintf("Pathway %s started with patient(s):", pathwayName)}
 	for _, person := range persons {
 		allLines = append(allLines, fmt.Sprintf("%s %s (MRN %s)", person.FirstName, person.Surname, person.MRN))

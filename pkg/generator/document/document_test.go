@@ -23,7 +23,7 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/google/simhospital/pkg/config"
-	"github.com/google/simhospital/pkg/message"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/pathway"
 	"github.com/google/simhospital/pkg/test/testtext"
 )
@@ -43,7 +43,7 @@ func TestDocument(t *testing.T) {
 	tests := []struct {
 		name  string
 		input *pathway.Document
-		want  *message.Document
+		want  *ir.Document
 	}{{
 		name: "Fixed values",
 		input: &pathway.Document{
@@ -53,12 +53,12 @@ func TestDocument(t *testing.T) {
 			ObsIdentifierText: &obsText,
 			ObsIdentifierCS:   &cs,
 		},
-		want: &message.Document{
-			ActivityDateTime:         message.NewValidTime(date),
-			EditDateTime:             message.NewValidTime(date),
+		want: &ir.Document{
+			ActivityDateTime:         ir.NewValidTime(date),
+			EditDateTime:             ir.NewValidTime(date),
 			DocumentType:             "DS",
 			DocumentCompletionStatus: "IP",
-			ObservationIdentifier: &message.CodedElement{
+			ObservationIdentifier: &ir.CodedElement{
 				ID:           obsID,
 				Text:         obsText,
 				CodingSystem: cs,
@@ -72,12 +72,12 @@ func TestDocument(t *testing.T) {
 			// TestDocument_RandomDocumentType tests unspecified document types.
 			DocumentType: "DS",
 		},
-		want: &message.Document{
-			ActivityDateTime:         message.NewValidTime(date),
-			EditDateTime:             message.NewValidTime(date),
+		want: &ir.Document{
+			ActivityDateTime:         ir.NewValidTime(date),
+			EditDateTime:             ir.NewValidTime(date),
 			DocumentType:             "DS",
 			DocumentCompletionStatus: "DO",
-			ObservationIdentifier: &message.CodedElement{
+			ObservationIdentifier: &ir.CodedElement{
 				ID:           "Established Patient 15",
 				Text:         "Established Patient 15",
 				CodingSystem: "Simulated Hospital",
@@ -91,7 +91,7 @@ func TestDocument(t *testing.T) {
 
 			// UniqueDocumentNumber is randomly generated with each document generation.
 			// ContentLine contains randomly generated sentences with each document generation.
-			ignore := cmpopts.IgnoreFields(message.Document{}, "UniqueDocumentNumber", "ContentLine")
+			ignore := cmpopts.IgnoreFields(ir.Document{}, "UniqueDocumentNumber", "ContentLine")
 			if diff := cmp.Diff(tc.want, got, ignore); diff != "" {
 				t.Errorf("g.Document() got diff (-want, +got):\n%s", diff)
 			}

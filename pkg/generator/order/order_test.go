@@ -24,7 +24,7 @@ import (
 	"github.com/google/simhospital/pkg/config"
 	"github.com/google/simhospital/pkg/constants"
 	"github.com/google/simhospital/pkg/doctor"
-	"github.com/google/simhospital/pkg/message"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/orderprofile"
 	"github.com/google/simhospital/pkg/pathway"
 	"github.com/google/simhospital/pkg/test"
@@ -36,10 +36,10 @@ const seqID = "1"
 var (
 	eventTime = time.Date(2019, 1, 20, 0, 0, 0, 0, time.UTC)
 
-	ureaElectrolytesCE = &message.CodedElement{ID: "lpdc-3969", Text: "UREA AND ELECTROLYTES", CodingSystem: "WinPath"}
-	creatinineCE       = &message.CodedElement{ID: "lpdc-2012", Text: "Creatinine", CodingSystem: "WinPath"}
-	potassiumCE        = &message.CodedElement{ID: "lpdc-2804", Text: "Potassium", CodingSystem: "WinPath"}
-	hydroxyCE          = &message.CodedElement{ID: "OHPROG", Text: "17-Hydroxy Progesterone", CodingSystem: "WinPath"}
+	ureaElectrolytesCE = &ir.CodedElement{ID: "lpdc-3969", Text: "UREA AND ELECTROLYTES", CodingSystem: "WinPath"}
+	creatinineCE       = &ir.CodedElement{ID: "lpdc-2012", Text: "Creatinine", CodingSystem: "WinPath"}
+	potassiumCE        = &ir.CodedElement{ID: "lpdc-2804", Text: "Potassium", CodingSystem: "WinPath"}
+	hydroxyCE          = &ir.CodedElement{ID: "OHPROG", Text: "17-Hydroxy Progesterone", CodingSystem: "WinPath"}
 
 	creatinineRange = "49 - 92"
 	hydroxyRange    = "<=9.6^^<=9.6"
@@ -50,7 +50,7 @@ var (
   firstname: "firstname-1"
   prefix: "prefix-1"
   specialty: "specialty-1"`)
-	singleDoctor = &message.Doctor{
+	singleDoctor = &ir.Doctor{
 		ID:        "id-1",
 		Surname:   "surname-1",
 		FirstName: "firstname-1",
@@ -78,42 +78,42 @@ UREA AND ELECTROLYTES:
 		name            string
 		pathway         *pathway.Order
 		wantOrderStatus string
-		wantOP          *message.CodedElement
+		wantOP          *ir.CodedElement
 	}{
 		{
 			name:            "Existing order profile",
 			pathway:         &pathway.Order{OrderProfile: "UREA AND ELECTROLYTES"},
 			wantOrderStatus: hl7Config.OrderStatus.InProcess,
-			wantOP:          &message.CodedElement{ID: "lpdc-3969", Text: "UREA AND ELECTROLYTES", CodingSystem: "WinPath"},
+			wantOP:          &ir.CodedElement{ID: "lpdc-3969", Text: "UREA AND ELECTROLYTES", CodingSystem: "WinPath"},
 		}, {
 			name:            "No matching order profile",
 			pathway:         &pathway.Order{OrderProfile: "Foo"},
 			wantOrderStatus: hl7Config.OrderStatus.InProcess,
-			wantOP:          &message.CodedElement{ID: "Foo", Text: "Foo"},
+			wantOP:          &ir.CodedElement{ID: "Foo", Text: "Foo"},
 		}, {
 			name:            "Random order profile",
 			pathway:         &pathway.Order{OrderProfile: constants.RandomString},
 			wantOrderStatus: hl7Config.OrderStatus.InProcess,
-			wantOP:          &message.CodedElement{ID: "lpdc-3969", Text: "UREA AND ELECTROLYTES", CodingSystem: "WinPath"},
+			wantOP:          &ir.CodedElement{ID: "lpdc-3969", Text: "UREA AND ELECTROLYTES", CodingSystem: "WinPath"},
 		}, {
 			name:            "OrderStatus explicitly specified",
 			pathway:         &pathway.Order{OrderProfile: constants.RandomString, OrderStatus: "DISPATCH"},
 			wantOrderStatus: "DISPATCH",
-			wantOP:          &message.CodedElement{ID: "lpdc-3969", Text: "UREA AND ELECTROLYTES", CodingSystem: "WinPath"},
+			wantOP:          &ir.CodedElement{ID: "lpdc-3969", Text: "UREA AND ELECTROLYTES", CodingSystem: "WinPath"},
 		},
 	}
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			want := &message.Order{
+			want := &ir.Order{
 				OrderProfile:          tc.wantOP,
 				Placer:                seqID,
-				OrderDateTime:         message.NewValidTime(eventTime),
+				OrderDateTime:         ir.NewValidTime(eventTime),
 				OrderControl:          hl7Config.OrderControl.New,
 				OrderStatus:           tc.wantOrderStatus,
-				CollectedDateTime:     message.NewInvalidTime(),
-				ReceivedInLabDateTime: message.NewInvalidTime(),
-				ReportedDateTime:      message.NewInvalidTime(),
+				CollectedDateTime:     ir.NewInvalidTime(),
+				ReceivedInLabDateTime: ir.NewInvalidTime(),
+				ReportedDateTime:      ir.NewInvalidTime(),
 			}
 			got := g.NewOrder(tc.pathway, eventTime)
 			if diff := cmp.Diff(want, got); diff != "" {
@@ -141,22 +141,22 @@ func TestOrderWithClinicalNote(t *testing.T) {
 	}
 
 	wantTitle := "document-title"
-	wantClinicalNoteContent := &message.ClinicalNoteContent{
+	wantClinicalNoteContent := &ir.ClinicalNoteContent{
 		DocumentContent:     "rtf-content",
 		ContentType:         "rtf",
-		ObservationDateTime: message.NewValidTime(eventTime),
+		ObservationDateTime: ir.NewValidTime(eventTime),
 	}
-	addendum := &message.ClinicalNoteContent{
+	addendum := &ir.ClinicalNoteContent{
 		DocumentContent:     "pdf-content",
 		ContentType:         "pdf",
-		ObservationDateTime: message.NewValidTime(eventTime),
+		ObservationDateTime: ir.NewValidTime(eventTime),
 	}
-	wantClinicalNote := &message.ClinicalNote{
+	wantClinicalNote := &ir.ClinicalNote{
 		DocumentType:  "document-type",
 		DocumentID:    "doc-id",
 		DocumentTitle: wantTitle,
-		DateTime:      message.NewValidTime(eventTime),
-		Contents:      []*message.ClinicalNoteContent{wantClinicalNoteContent},
+		DateTime:      ir.NewValidTime(eventTime),
+		Contents:      []*ir.ClinicalNoteContent{wantClinicalNoteContent},
 	}
 
 	cn := &pathway.ClinicalNote{
@@ -168,27 +168,27 @@ func TestOrderWithClinicalNote(t *testing.T) {
 	cases := []struct {
 		name                string
 		notePathway         *pathway.ClinicalNote
-		existingOrder       *message.Order
+		existingOrder       *ir.Order
 		notesGeneratorError error
-		wantClinicalNote    *message.ClinicalNote
-		want                *message.Order
+		wantClinicalNote    *ir.ClinicalNote
+		want                *ir.Order
 		wantErr             bool
 	}{
 		{
 			name:             "new clinical note success",
 			notePathway:      cn,
 			wantClinicalNote: wantClinicalNote,
-			want: &message.Order{
-				Results: []*message.Result{{
-					ClinicalNote: &message.ClinicalNote{
-						DateTime:      message.NewValidTime(eventTime),
-						Contents:      []*message.ClinicalNoteContent{wantClinicalNoteContent},
+			want: &ir.Order{
+				Results: []*ir.Result{{
+					ClinicalNote: &ir.ClinicalNote{
+						DateTime:      ir.NewValidTime(eventTime),
+						Contents:      []*ir.ClinicalNoteContent{wantClinicalNoteContent},
 						DocumentType:  wantClinicalNote.DocumentType,
 						DocumentID:    wantClinicalNote.DocumentID,
 						DocumentTitle: wantClinicalNote.DocumentTitle,
 					},
 				}},
-				OrderProfile: &message.CodedElement{
+				OrderProfile: &ir.CodedElement{
 					ID:            wantClinicalNote.DocumentType,
 					Text:          wantClinicalNote.DocumentType,
 					AlternateText: wantClinicalNote.DocumentTitle,
@@ -204,16 +204,16 @@ func TestOrderWithClinicalNote(t *testing.T) {
 				DocumentTitle: "new-title",
 				DocumentID:    wantClinicalNote.DocumentID,
 			},
-			existingOrder: &message.Order{
-				Results: []*message.Result{{
-					ClinicalNote: &message.ClinicalNote{
-						DateTime:     message.NewValidTime(eventTime),
-						Contents:     []*message.ClinicalNoteContent{wantClinicalNoteContent},
+			existingOrder: &ir.Order{
+				Results: []*ir.Result{{
+					ClinicalNote: &ir.ClinicalNote{
+						DateTime:     ir.NewValidTime(eventTime),
+						Contents:     []*ir.ClinicalNoteContent{wantClinicalNoteContent},
 						DocumentType: wantClinicalNote.DocumentType,
 						DocumentID:   wantClinicalNote.DocumentID,
 					},
 				}},
-				OrderProfile: &message.CodedElement{
+				OrderProfile: &ir.CodedElement{
 					ID:            wantClinicalNote.DocumentType,
 					Text:          wantClinicalNote.DocumentType,
 					AlternateText: wantTitle,
@@ -222,24 +222,24 @@ func TestOrderWithClinicalNote(t *testing.T) {
 				DiagnosticServID: "MDOC",
 				OrderingProvider: singleDoctor,
 			},
-			wantClinicalNote: &message.ClinicalNote{
-				DateTime:      message.NewValidTime(eventTime),
-				Contents:      []*message.ClinicalNoteContent{wantClinicalNoteContent, addendum},
+			wantClinicalNote: &ir.ClinicalNote{
+				DateTime:      ir.NewValidTime(eventTime),
+				Contents:      []*ir.ClinicalNoteContent{wantClinicalNoteContent, addendum},
 				DocumentType:  "new-type",
 				DocumentTitle: "new-title",
 				DocumentID:    wantClinicalNote.DocumentID,
 			},
-			want: &message.Order{
-				Results: []*message.Result{{
-					ClinicalNote: &message.ClinicalNote{
-						DateTime:      message.NewValidTime(eventTime),
-						Contents:      []*message.ClinicalNoteContent{wantClinicalNoteContent, addendum},
+			want: &ir.Order{
+				Results: []*ir.Result{{
+					ClinicalNote: &ir.ClinicalNote{
+						DateTime:      ir.NewValidTime(eventTime),
+						Contents:      []*ir.ClinicalNoteContent{wantClinicalNoteContent, addendum},
 						DocumentID:    wantClinicalNote.DocumentID,
 						DocumentType:  "new-type",
 						DocumentTitle: "new-title",
 					},
 				}},
-				OrderProfile: &message.CodedElement{
+				OrderProfile: &ir.CodedElement{
 					ID:            "new-type",
 					Text:          "new-type",
 					AlternateText: "new-title",
@@ -250,12 +250,12 @@ func TestOrderWithClinicalNote(t *testing.T) {
 			},
 		}, {
 			name:          "order with 0 results passed to method",
-			existingOrder: &message.Order{},
+			existingOrder: &ir.Order{},
 			wantErr:       true,
 		}, {
 			name: "wrong order passed to the method",
-			existingOrder: &message.Order{
-				Results: []*message.Result{{Value: "1"}},
+			existingOrder: &ir.Order{
+				Results: []*ir.Result{{Value: "1"}},
 			},
 			wantErr: true,
 		}, {
@@ -298,11 +298,11 @@ func TestSetResultsOverrideDates(t *testing.T) {
 
 	cases := []struct {
 		name                      string
-		order                     *message.Order
+		order                     *ir.Order
 		pathwayR                  *pathway.Results
-		wantCollectedDateTime     message.NullTime
-		wantReceivedInLabDateTime message.NullTime
-		wantObservationDateTime   message.NullTime
+		wantCollectedDateTime     ir.NullTime
+		wantReceivedInLabDateTime ir.NullTime
+		wantObservationDateTime   ir.NullTime
 	}{
 		{
 			name: "No order provided",
@@ -316,9 +316,9 @@ func TestSetResultsOverrideDates(t *testing.T) {
 					},
 				},
 			},
-			wantCollectedDateTime:     message.NewValidTime(eventTime),
-			wantReceivedInLabDateTime: message.NewValidTime(eventTime),
-			wantObservationDateTime:   message.NewValidTime(eventTime),
+			wantCollectedDateTime:     ir.NewValidTime(eventTime),
+			wantReceivedInLabDateTime: ir.NewValidTime(eventTime),
+			wantObservationDateTime:   ir.NewValidTime(eventTime),
 		}, {
 			name:  "No dates override",
 			order: ureaOrder(eventTime, hl7Config),
@@ -332,9 +332,9 @@ func TestSetResultsOverrideDates(t *testing.T) {
 					},
 				},
 			},
-			wantCollectedDateTime:     message.NewValidTime(eventTime),
-			wantReceivedInLabDateTime: message.NewValidTime(eventTime),
-			wantObservationDateTime:   message.NewValidTime(eventTime),
+			wantCollectedDateTime:     ir.NewValidTime(eventTime),
+			wantReceivedInLabDateTime: ir.NewValidTime(eventTime),
+			wantObservationDateTime:   ir.NewValidTime(eventTime),
 		}, {
 			name:  "Empty collected and received in lab dates",
 			order: ureaOrder(eventTime, hl7Config),
@@ -350,9 +350,9 @@ func TestSetResultsOverrideDates(t *testing.T) {
 					},
 				},
 			},
-			wantCollectedDateTime:     message.NewInvalidTime(),
-			wantReceivedInLabDateTime: message.NewInvalidTime(),
-			wantObservationDateTime:   message.NewInvalidTime(),
+			wantCollectedDateTime:     ir.NewInvalidTime(),
+			wantReceivedInLabDateTime: ir.NewInvalidTime(),
+			wantObservationDateTime:   ir.NewInvalidTime(),
 		}, {
 			name:  "Midnight collected and received in lab dates",
 			order: ureaOrder(eventTime, hl7Config),
@@ -368,26 +368,26 @@ func TestSetResultsOverrideDates(t *testing.T) {
 					},
 				},
 			},
-			wantCollectedDateTime:     message.NewMidnightTime(eventTime),
-			wantReceivedInLabDateTime: message.NewMidnightTime(eventTime),
-			wantObservationDateTime:   message.NewValidTime(eventTime),
+			wantCollectedDateTime:     ir.NewMidnightTime(eventTime),
+			wantReceivedInLabDateTime: ir.NewMidnightTime(eventTime),
+			wantObservationDateTime:   ir.NewValidTime(eventTime),
 		},
 	}
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			want := &message.Order{
+			want := &ir.Order{
 				OrderProfile:          ureaElectrolytesCE,
 				Placer:                seqID,
 				Filler:                seqID,
 				OrderControl:          hl7Config.OrderControl.New,
 				OrderStatus:           hl7Config.OrderStatus.Completed,
 				ResultsStatus:         hl7Config.ResultStatus.Final,
-				OrderDateTime:         message.NewValidTime(eventTime),
+				OrderDateTime:         ir.NewValidTime(eventTime),
 				CollectedDateTime:     tc.wantCollectedDateTime,
 				ReceivedInLabDateTime: tc.wantReceivedInLabDateTime,
-				ReportedDateTime:      message.NewValidTime(eventTime),
-				Results: []*message.Result{
+				ReportedDateTime:      ir.NewValidTime(eventTime),
+				Results: []*ir.Result{
 					{
 						TestName:            creatinineCE,
 						Value:               "52",
@@ -460,10 +460,10 @@ func TestSetResultsDifferentDates(t *testing.T) {
 				t.Fatalf("SetResults(%+v, %+v, %+v) failed with %v", order, tc.pathwayR, reportTime, err)
 			}
 
-			if diff := cmp.Diff(message.NewValidTime(orderTime), got.OrderDateTime); diff != "" {
+			if diff := cmp.Diff(ir.NewValidTime(orderTime), got.OrderDateTime); diff != "" {
 				t.Errorf("SetResults(%+v, %+v, %+v) OrderDateTime diff (-want, +got):\n%s", order, tc.pathwayR, reportTime, diff)
 			}
-			if diff := cmp.Diff(message.NewValidTime(reportTime), got.ReportedDateTime); diff != "" {
+			if diff := cmp.Diff(ir.NewValidTime(reportTime), got.ReportedDateTime); diff != "" {
 				t.Errorf("SetResults(%+v, %+v, %+v) ReportedDateTime diff (-want, +got):\n%s", order, tc.pathwayR, reportTime, diff)
 			}
 
@@ -486,7 +486,7 @@ func TestSetResultsDifferentDates(t *testing.T) {
 			}
 
 			// ObservationDateTime = CollectedDateTime + wantwantObsTimeOffset
-			if diff := cmp.Diff(message.NewValidTime(got.CollectedDateTime.Add(tc.wantObsTimeOffset)), got.Results[0].ObservationDateTime); diff != "" {
+			if diff := cmp.Diff(ir.NewValidTime(got.CollectedDateTime.Add(tc.wantObsTimeOffset)), got.Results[0].ObservationDateTime); diff != "" {
 				t.Errorf("SetResults(%+v, %+v, %+v) ObservationDateTime diff (-want, +got):\n%s", order, tc.pathwayR, reportTime, diff)
 			}
 		})
@@ -559,18 +559,18 @@ func TestSetResultsOverrideStatus(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			want := &message.Order{
+			want := &ir.Order{
 				OrderProfile:          ureaElectrolytesCE,
 				Placer:                seqID,
 				Filler:                seqID,
 				OrderControl:          hl7Config.OrderControl.New,
 				OrderStatus:           tc.wantOrderStatus,
 				ResultsStatus:         tc.wantResultsStatus,
-				OrderDateTime:         message.NewValidTime(eventTime),
-				CollectedDateTime:     message.NewValidTime(eventTime),
-				ReceivedInLabDateTime: message.NewValidTime(eventTime),
-				ReportedDateTime:      message.NewValidTime(eventTime),
-				Results: []*message.Result{
+				OrderDateTime:         ir.NewValidTime(eventTime),
+				CollectedDateTime:     ir.NewValidTime(eventTime),
+				ReceivedInLabDateTime: ir.NewValidTime(eventTime),
+				ReportedDateTime:      ir.NewValidTime(eventTime),
+				Results: []*ir.Result{
 					{
 						TestName:            creatinineCE,
 						Value:               "52",
@@ -579,7 +579,7 @@ func TestSetResultsOverrideStatus(t *testing.T) {
 						Range:               creatinineRange,
 						Status:              tc.wantResultStatus,
 						AbnormalFlag:        "",
-						ObservationDateTime: message.NewValidTime(eventTime),
+						ObservationDateTime: ir.NewValidTime(eventTime),
 					},
 				},
 			}
@@ -601,7 +601,7 @@ func TestSetResultsAbnormalFlag(t *testing.T) {
 	cases := []struct {
 		name       string
 		pathwayR   *pathway.Results
-		wantResult *message.Result
+		wantResult *ir.Result
 	}{
 		{
 			name: "High abnormal flag from the order profile reference range",
@@ -616,7 +616,7 @@ func TestSetResultsAbnormalFlag(t *testing.T) {
 					},
 				},
 			},
-			wantResult: &message.Result{
+			wantResult: &ir.Result{
 				TestName:            creatinineCE,
 				Value:               "100",
 				Unit:                "UMOLL",
@@ -624,7 +624,7 @@ func TestSetResultsAbnormalFlag(t *testing.T) {
 				Range:               creatinineRange,
 				Status:              hl7Config.ResultStatus.Final,
 				AbnormalFlag:        hl7Config.AbnormalFlags.AboveHighNormal,
-				ObservationDateTime: message.NewValidTime(eventTime),
+				ObservationDateTime: ir.NewValidTime(eventTime),
 			},
 		}, {
 			name: "Override abnormal flag",
@@ -639,7 +639,7 @@ func TestSetResultsAbnormalFlag(t *testing.T) {
 					},
 				},
 			},
-			wantResult: &message.Result{
+			wantResult: &ir.Result{
 				TestName:            creatinineCE,
 				Value:               "100",
 				Unit:                "UMOLL",
@@ -647,7 +647,7 @@ func TestSetResultsAbnormalFlag(t *testing.T) {
 				Range:               creatinineRange,
 				Status:              hl7Config.ResultStatus.Final,
 				AbnormalFlag:        hl7Config.AbnormalFlags.BelowLowNormal,
-				ObservationDateTime: message.NewValidTime(eventTime),
+				ObservationDateTime: ir.NewValidTime(eventTime),
 			},
 		}, {
 			name: "Override reference ranges; low abnormal flag",
@@ -663,7 +663,7 @@ func TestSetResultsAbnormalFlag(t *testing.T) {
 					},
 				},
 			},
-			wantResult: &message.Result{
+			wantResult: &ir.Result{
 				TestName:            creatinineCE,
 				Value:               "100",
 				Unit:                "UMOLL",
@@ -671,25 +671,25 @@ func TestSetResultsAbnormalFlag(t *testing.T) {
 				Range:               "145 - 550",
 				Status:              hl7Config.ResultStatus.Final,
 				AbnormalFlag:        hl7Config.AbnormalFlags.BelowLowNormal,
-				ObservationDateTime: message.NewValidTime(eventTime),
+				ObservationDateTime: ir.NewValidTime(eventTime),
 			},
 		},
 	}
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			want := &message.Order{
+			want := &ir.Order{
 				OrderProfile:          ureaElectrolytesCE,
 				Placer:                seqID,
 				Filler:                seqID,
 				OrderControl:          hl7Config.OrderControl.New,
 				OrderStatus:           hl7Config.OrderStatus.Completed,
 				ResultsStatus:         hl7Config.ResultStatus.Final,
-				OrderDateTime:         message.NewValidTime(eventTime),
-				CollectedDateTime:     message.NewValidTime(eventTime),
-				ReceivedInLabDateTime: message.NewValidTime(eventTime),
-				ReportedDateTime:      message.NewValidTime(eventTime),
-				Results: []*message.Result{
+				OrderDateTime:         ir.NewValidTime(eventTime),
+				CollectedDateTime:     ir.NewValidTime(eventTime),
+				ReceivedInLabDateTime: ir.NewValidTime(eventTime),
+				ReportedDateTime:      ir.NewValidTime(eventTime),
+				Results: []*ir.Result{
 					tc.wantResult,
 				},
 			}
@@ -711,8 +711,8 @@ func TestSetResultsSetValueType(t *testing.T) {
 	cases := []struct {
 		name     string
 		pathwayR *pathway.Results
-		order    *message.Order
-		want     *message.Result
+		order    *ir.Order
+		want     *ir.Result
 	}{{
 		name: "Empty Value",
 		pathwayR: &pathway.Results{
@@ -726,14 +726,14 @@ func TestSetResultsSetValueType(t *testing.T) {
 			},
 		},
 		order: ureaOrder(eventTime, hl7Config),
-		want: &message.Result{
+		want: &ir.Result{
 			TestName:            creatinineCE,
 			Value:               "",
 			Unit:                "UMOLL",
 			ValueType:           "NM",
 			Range:               creatinineRange,
 			Status:              hl7Config.ResultStatus.Final,
-			ObservationDateTime: message.NewValidTime(eventTime),
+			ObservationDateTime: ir.NewValidTime(eventTime),
 		},
 	}, {
 		name: "Override type NM with TX",
@@ -747,14 +747,14 @@ func TestSetResultsSetValueType(t *testing.T) {
 			},
 		},
 		order: ureaOrder(eventTime, hl7Config),
-		want: &message.Result{
+		want: &ir.Result{
 			TestName:            creatinineCE,
 			Value:               "Normal value",
 			Unit:                "",
 			ValueType:           "TX",
 			Range:               creatinineRange,
 			Status:              hl7Config.ResultStatus.Final,
-			ObservationDateTime: message.NewValidTime(eventTime),
+			ObservationDateTime: ir.NewValidTime(eventTime),
 		},
 	}, {
 		name: "Override String value",
@@ -767,14 +767,14 @@ func TestSetResultsSetValueType(t *testing.T) {
 				},
 			},
 		},
-		want: &message.Result{
+		want: &ir.Result{
 			TestName:            hydroxyCE,
 			Value:               "Normal value",
 			Unit:                "",
 			ValueType:           "TX",
 			Range:               hydroxyRange,
 			Status:              hl7Config.ResultStatus.Final,
-			ObservationDateTime: message.NewValidTime(eventTime),
+			ObservationDateTime: ir.NewValidTime(eventTime),
 		},
 	}, {
 		name: "Override TX with NM",
@@ -789,7 +789,7 @@ func TestSetResultsSetValueType(t *testing.T) {
 				},
 			},
 		},
-		want: &message.Result{
+		want: &ir.Result{
 			TestName:            hydroxyCE,
 			Value:               "12",
 			Unit:                "UMOLL",
@@ -797,7 +797,7 @@ func TestSetResultsSetValueType(t *testing.T) {
 			Range:               hydroxyRange,
 			AbnormalFlag:        hl7Config.AbnormalFlags.AboveHighNormal,
 			Status:              hl7Config.ResultStatus.Final,
-			ObservationDateTime: message.NewValidTime(eventTime),
+			ObservationDateTime: ir.NewValidTime(eventTime),
 		},
 	}, {
 		name: "Don't override CE",
@@ -811,14 +811,14 @@ func TestSetResultsSetValueType(t *testing.T) {
 				},
 			},
 		},
-		want: &message.Result{
+		want: &ir.Result{
 			TestName:            hydroxyCE,
 			Value:               "something",
 			Unit:                "",
 			ValueType:           "CE",
 			Range:               "",
 			Status:              hl7Config.ResultStatus.Final,
-			ObservationDateTime: message.NewValidTime(eventTime),
+			ObservationDateTime: ir.NewValidTime(eventTime),
 		},
 	}}
 
@@ -955,7 +955,7 @@ func TestSetResultsRandomValue(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			var order *message.Order
+			var order *ir.Order
 
 			got, err := g.SetResults(order, tc.pathwayR, eventTime)
 			if err != nil {
@@ -992,7 +992,7 @@ func TestSetResultsWithCompexOrderProfiles(t *testing.T) {
 	cases := []struct {
 		name          string
 		pathwayR      *pathway.Results
-		order         *message.Order
+		order         *ir.Order
 		wantTestTypes map[string]valueRange
 	}{
 		{
@@ -1069,9 +1069,9 @@ func TestSetResultsUnknownTestTypeOrOrderProfile(t *testing.T) {
 
 	tests := []struct {
 		name     string
-		order    *message.Order
+		order    *ir.Order
 		pathwayR *pathway.Results
-		want     []*message.Result
+		want     []*ir.Result
 		wantErr  bool
 	}{
 		{
@@ -1086,13 +1086,13 @@ func TestSetResultsUnknownTestTypeOrOrderProfile(t *testing.T) {
 					},
 				},
 			},
-			want: []*message.Result{{
-				TestName:            &message.CodedElement{ID: "Bar", Text: "Bar"},
+			want: []*ir.Result{{
+				TestName:            &ir.CodedElement{ID: "Bar", Text: "Bar"},
 				Value:               "200",
 				Unit:                "UML",
 				ValueType:           "NM",
 				Status:              hl7Config.ResultStatus.Final,
-				ObservationDateTime: message.NewValidTime(eventTime),
+				ObservationDateTime: ir.NewValidTime(eventTime),
 			}},
 		}, {
 			name: "No matching Order Profile String Value",
@@ -1105,13 +1105,13 @@ func TestSetResultsUnknownTestTypeOrOrderProfile(t *testing.T) {
 					},
 				},
 			},
-			want: []*message.Result{{
-				TestName:            &message.CodedElement{ID: "Bar", Text: "Bar"},
+			want: []*ir.Result{{
+				TestName:            &ir.CodedElement{ID: "Bar", Text: "Bar"},
 				Value:               "Normal value",
 				Unit:                "",
 				ValueType:           "TX",
 				Status:              hl7Config.ResultStatus.Final,
-				ObservationDateTime: message.NewValidTime(eventTime),
+				ObservationDateTime: ir.NewValidTime(eventTime),
 			}},
 		}, {
 			name: "No matching Order Profile Empty Value",
@@ -1124,28 +1124,28 @@ func TestSetResultsUnknownTestTypeOrOrderProfile(t *testing.T) {
 					},
 				},
 			},
-			want: []*message.Result{{
-				TestName:            &message.CodedElement{ID: "Bar", Text: "Bar"},
+			want: []*ir.Result{{
+				TestName:            &ir.CodedElement{ID: "Bar", Text: "Bar"},
 				Value:               "",
 				Unit:                "",
 				ValueType:           "",
 				Status:              hl7Config.ResultStatus.Final,
-				ObservationDateTime: message.NewValidTime(eventTime),
+				ObservationDateTime: ir.NewValidTime(eventTime),
 			}},
 		}, {
 			name: "No matching Order Profile for Corrected results",
-			order: &message.Order{
-				OrderProfile:      &message.CodedElement{ID: "lpdc-1234", Text: "Foo", CodingSystem: "WinPath"},
+			order: &ir.Order{
+				OrderProfile:      &ir.CodedElement{ID: "lpdc-1234", Text: "Foo", CodingSystem: "WinPath"},
 				Placer:            "12345",
-				OrderDateTime:     message.NewValidTime(eventTime),
-				CollectedDateTime: message.NewValidTime(eventTime),
+				OrderDateTime:     ir.NewValidTime(eventTime),
+				CollectedDateTime: ir.NewValidTime(eventTime),
 				OrderStatus:       g.MessageConfig.OrderStatus.InProcess,
 				ResultsStatus:     g.MessageConfig.ResultStatus.Final,
-				Results: []*message.Result{
+				Results: []*ir.Result{
 					{
 						TestName:            potassiumCE,
 						Value:               "3.6",
-						ObservationDateTime: message.NewValidTime(eventTime),
+						ObservationDateTime: ir.NewValidTime(eventTime),
 					},
 				},
 			},
@@ -1160,14 +1160,14 @@ func TestSetResultsUnknownTestTypeOrOrderProfile(t *testing.T) {
 					},
 				},
 			},
-			want: []*message.Result{{
-				TestName:            &message.CodedElement{ID: "Bar", Text: "Bar"},
+			want: []*ir.Result{{
+				TestName:            &ir.CodedElement{ID: "Bar", Text: "Bar"},
 				Value:               "200",
 				Unit:                "UML",
 				Range:               "120 - 250",
 				ValueType:           "NM",
 				Status:              hl7Config.ResultStatus.Corrected,
-				ObservationDateTime: message.NewValidTime(eventTime),
+				ObservationDateTime: ir.NewValidTime(eventTime),
 			}},
 		}, {
 			name: "Matching Order Profile but no matching Test Name",
@@ -1236,7 +1236,7 @@ func TestSetResultsCorrectedResults(t *testing.T) {
 
 	cases := []struct {
 		name             string
-		order            *message.Order
+		order            *ir.Order
 		pathwayR         *pathway.Results
 		wantOrderStatus  string
 		wantResultStatus string
@@ -1342,24 +1342,24 @@ func TestSetResultsCorrectedResults(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			want := &message.Order{
+			want := &ir.Order{
 				OrderProfile:          ureaElectrolytesCE,
 				Placer:                seqID,
 				Filler:                seqID,
-				OrderDateTime:         message.NewValidTime(before),
-				CollectedDateTime:     message.NewValidTime(before),
-				ReceivedInLabDateTime: message.NewValidTime(before),
-				ReportedDateTime:      message.NewValidTime(eventTime),
+				OrderDateTime:         ir.NewValidTime(before),
+				CollectedDateTime:     ir.NewValidTime(before),
+				ReceivedInLabDateTime: ir.NewValidTime(before),
+				ReportedDateTime:      ir.NewValidTime(eventTime),
 				OrderStatus:           tc.wantOrderStatus,
 				ResultsStatus:         tc.wantResultStatus,
-				Results: []*message.Result{
+				Results: []*ir.Result{
 					{
 						TestName:            creatinineCE,
 						Value:               "52",
 						Unit:                "UMOLL",
 						ValueType:           "NM",
 						Range:               "49 - 92",
-						ObservationDateTime: message.NewValidTime(before),
+						ObservationDateTime: ir.NewValidTime(before),
 						Status:              tc.wantResultStatus,
 					},
 				},
@@ -1388,7 +1388,7 @@ func TestSetResultsOverrideNotes(t *testing.T) {
 	cases := []struct {
 		name         string
 		pathwayR     *pathway.Results
-		wantTestName *message.CodedElement
+		wantTestName *ir.CodedElement
 		wantNotes    []string
 	}{
 		{
@@ -1435,24 +1435,24 @@ func TestSetResultsOverrideNotes(t *testing.T) {
 					},
 				},
 			},
-			wantTestName: &message.CodedElement{ID: "lpdc-0001", Text: "Test1"},
+			wantTestName: &ir.CodedElement{ID: "lpdc-0001", Text: "Test1"},
 			wantNotes:    pathwayNotes,
 		},
 	}
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			want := &message.Result{
+			want := &ir.Result{
 				TestName:            tc.wantTestName,
 				Value:               "52",
 				Unit:                "UMOLL",
 				ValueType:           "NM",
 				Range:               creatinineRange,
 				Status:              hl7Config.ResultStatus.Final,
-				ObservationDateTime: message.NewValidTime(eventTime),
+				ObservationDateTime: ir.NewValidTime(eventTime),
 				Notes:               tc.wantNotes,
 			}
-			var order *message.Order
+			var order *ir.Order
 			got, err := g.SetResults(order, tc.pathwayR, eventTime)
 			if err != nil {
 				t.Fatalf("SetResults(%+v, %+v, %+v) failed with %v", order, tc.pathwayR, eventTime, err)
@@ -1500,27 +1500,27 @@ func testGeneratorWithOrderProfile(t *testing.T, orderProfileConfig string) (*Ge
 	return g, hl7Config
 }
 
-func ureaOrder(eventTime time.Time, c *config.HL7Config) *message.Order {
-	return &message.Order{
+func ureaOrder(eventTime time.Time, c *config.HL7Config) *ir.Order {
+	return &ir.Order{
 		OrderProfile:  ureaElectrolytesCE,
 		Placer:        seqID,
-		OrderDateTime: message.NewValidTime(eventTime),
+		OrderDateTime: ir.NewValidTime(eventTime),
 		OrderControl:  c.OrderControl.New,
 		OrderStatus:   c.OrderStatus.InProcess,
 	}
 }
 
-func ureaOrderWithPotassiumResult(t time.Time, c *config.HL7Config) *message.Order {
-	return &message.Order{
+func ureaOrderWithPotassiumResult(t time.Time, c *config.HL7Config) *ir.Order {
+	return &ir.Order{
 		OrderProfile:          ureaElectrolytesCE,
 		Placer:                seqID,
-		OrderDateTime:         message.NewValidTime(t),
-		CollectedDateTime:     message.NewValidTime(t),
-		ReceivedInLabDateTime: message.NewValidTime(t),
-		ReportedDateTime:      message.NewValidTime(t),
+		OrderDateTime:         ir.NewValidTime(t),
+		CollectedDateTime:     ir.NewValidTime(t),
+		ReceivedInLabDateTime: ir.NewValidTime(t),
+		ReportedDateTime:      ir.NewValidTime(t),
 		OrderStatus:           c.OrderStatus.InProcess,
 		ResultsStatus:         c.ResultStatus.Final,
-		Results: []*message.Result{
+		Results: []*ir.Result{
 			{
 				TestName: potassiumCE,
 				Value:    "3.6",
@@ -1529,7 +1529,7 @@ func ureaOrderWithPotassiumResult(t time.Time, c *config.HL7Config) *message.Ord
 	}
 }
 
-func ureaOrderWithPotassiumResultAndStatus(t time.Time, c *config.HL7Config, os string, rs string) *message.Order {
+func ureaOrderWithPotassiumResultAndStatus(t time.Time, c *config.HL7Config, os string, rs string) *ir.Order {
 	o := ureaOrderWithPotassiumResult(t, c)
 	o.OrderStatus = os
 	o.ResultsStatus = rs
@@ -1544,7 +1544,7 @@ func (g *sequenceIDGenerator) NewID() string {
 
 type fakeNoteGenerator struct {
 	wantNotes        []string
-	wantClinicalNote *message.ClinicalNote
+	wantClinicalNote *ir.ClinicalNote
 	wantErr          error
 }
 
@@ -1552,7 +1552,7 @@ func (ng *fakeNoteGenerator) RandomNotesForResult() []string {
 	return ng.wantNotes
 }
 
-func (ng *fakeNoteGenerator) RandomDocumentForClinicalNote(*pathway.ClinicalNote, *message.ClinicalNote, time.Time) (*message.ClinicalNote, error) {
+func (ng *fakeNoteGenerator) RandomDocumentForClinicalNote(*pathway.ClinicalNote, *ir.ClinicalNote, time.Time) (*ir.ClinicalNote, error) {
 	return ng.wantClinicalNote, ng.wantErr
 }
 

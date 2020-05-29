@@ -19,7 +19,7 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/google/simhospital/pkg/message"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/state/persist"
 	"github.com/google/simhospital/pkg/test/teststate"
 )
@@ -30,8 +30,8 @@ const (
 )
 
 var (
-	testInfo1 = &Patient{PatientInfo: &message.PatientInfo{Person: &message.Person{MRN: testID}}}
-	testInfo2 = &Patient{PatientInfo: &message.PatientInfo{Person: &message.Person{MRN: testID2}}}
+	testInfo1 = &Patient{PatientInfo: &ir.PatientInfo{Person: &ir.Person{MRN: testID}}}
+	testInfo2 = &Patient{PatientInfo: &ir.PatientInfo{Person: &ir.Person{MRN: testID2}}}
 )
 
 func TestPatientsMap_Put_DifferentIDs(t *testing.T) {
@@ -82,7 +82,7 @@ func TestPatientsMap_Put_DuplicateIDs(t *testing.T) {
 			if err != nil {
 				t.Fatalf("testInfo1.ID() failed with %v", err)
 			}
-			second := &Patient{PatientInfo: &message.PatientInfo{Person: &message.Person{MRN: testInfo1ID}}}
+			second := &Patient{PatientInfo: &ir.PatientInfo{Person: &ir.Person{MRN: testInfo1ID}}}
 			tt.pm.Put(second)
 
 			for _, want := range []*Patient{testInfo1, second} {

@@ -26,6 +26,7 @@ go_library(
     deps = [
         "//pkg/generator/header:go_default_library",
         "//pkg/hl7:go_default_library",
+        "//pkg/ir:go_default_library",
         "//pkg/logging:go_default_library",
         "//pkg/message:go_default_library",
         "@com_github_pkg_errors//:go_default_library",
@@ -43,6 +44,7 @@ go_test(
     deps = [
         "//pkg/generator/header:go_default_library",
         "//pkg/hl7:go_default_library",
+        "//pkg/ir:go_default_library",
         "//pkg/message:go_default_library",
         "//pkg/test:go_default_library",
         "//pkg/test/testwrite:go_default_library",

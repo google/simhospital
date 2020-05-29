@@ -22,8 +22,8 @@ import (
 	"github.com/pkg/errors"
 	"github.com/prometheus/client_golang/prometheus"
 	"gopkg.in/yaml.v2"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/logging"
-	"github.com/google/simhospital/pkg/message"
 	"github.com/google/simhospital/pkg/monitoring"
 )
 
@@ -104,12 +104,12 @@ func NewManager(fileName string) (*Manager, error) {
 }
 
 // GetAAndELocation returns the ED location.
-func (m *Manager) GetAAndELocation() *message.PatientLocation {
+func (m *Manager) GetAAndELocation() *ir.PatientLocation {
 	roomManager := m.RoomManagers[aAndEID]
 	if roomManager == nil {
-		return &message.PatientLocation{LocationType: "ED"}
+		return &ir.PatientLocation{LocationType: "ED"}
 	}
-	return &message.PatientLocation{
+	return &ir.PatientLocation{
 		Poc:          roomManager.Poc,
 		Facility:     roomManager.Facility,
 		LocationType: roomManager.Type,
@@ -120,7 +120,7 @@ func (m *Manager) GetAAndELocation() *message.PatientLocation {
 // OccupyAvailableBed picks an available bed in the given location and occupies it.
 // This would be equivalent to assigning a patient to a bed.
 // Returns an error if the location doesn't exist.
-func (m *Manager) OccupyAvailableBed(locationName string) (*message.PatientLocation, error) {
+func (m *Manager) OccupyAvailableBed(locationName string) (*ir.PatientLocation, error) {
 	if _, ok := m.RoomManagers[locationName]; !ok {
 		return nil, fmt.Errorf("%s: %s", unknownLocation, locationName)
 	}
@@ -136,7 +136,7 @@ func (m *Manager) OccupyAvailableBed(locationName string) (*message.PatientLocat
 
 // OccupySpecificBed occupies the given bed in the given location.
 // Returns an error if the location doesn't exist, or the bed is already occupied.
-func (m *Manager) OccupySpecificBed(locationName string, bedName string) (*message.PatientLocation, error) {
+func (m *Manager) OccupySpecificBed(locationName string, bedName string) (*ir.PatientLocation, error) {
 	roomManager, ok := m.RoomManagers[locationName]
 	if !ok {
 		return nil, fmt.Errorf("%s: %s", unknownLocation, locationName)
@@ -150,7 +150,7 @@ func (m *Manager) OccupySpecificBed(locationName string, bedName string) (*messa
 		"poc": locationName,
 	}).Set(float64(roomManager.occupiedBeds))
 	log.Debugf("Occupied beds in %s: %d", locationName, roomManager.occupiedBeds)
-	return &message.PatientLocation{
+	return &ir.PatientLocation{
 		Poc:          roomManager.Poc,
 		Room:         roomManager.Room,
 		Bed:          bedName,
@@ -163,7 +163,7 @@ func (m *Manager) OccupySpecificBed(locationName string, bedName string) (*messa
 
 // FreeBed marks the bed given in the patient location as available.
 // It returns an error if the patient location is not a bed.
-func (m *Manager) FreeBed(pl *message.PatientLocation) error {
+func (m *Manager) FreeBed(pl *ir.PatientLocation) error {
 	if !IsBed(pl) {
 		return fmt.Errorf("patient location %+v is not a bed", pl)
 	}
@@ -193,7 +193,7 @@ func (m *Manager) FreeBed(pl *message.PatientLocation) error {
 
 // Matches returns whether the location name matches the patient location.
 // If pl is nil, this method returns an error.
-func (m *Manager) Matches(locationName string, pl *message.PatientLocation) (bool, error) {
+func (m *Manager) Matches(locationName string, pl *ir.PatientLocation) (bool, error) {
 	if pl == nil {
 		return false, errors.New("nil patient location")
 	}
@@ -209,12 +209,12 @@ func (r *RoomManager) OccupiedBeds() int {
 	return r.occupiedBeds
 }
 
-func (r *RoomManager) equalToPatientLocation(pl *message.PatientLocation) bool {
+func (r *RoomManager) equalToPatientLocation(pl *ir.PatientLocation) bool {
 	return r.Poc == pl.Poc && r.Facility == pl.Facility &&
 		r.Building == pl.Building && r.Floor == pl.Floor && r.Room == pl.Room
 }
 
 // IsBed returns whether the given location is a bed.
-func IsBed(pl *message.PatientLocation) bool {
+func IsBed(pl *ir.PatientLocation) bool {
 	return pl.Bed != ""
 }

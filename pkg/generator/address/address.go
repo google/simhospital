@@ -21,7 +21,7 @@ import (
 	"strings"
 
 	"github.com/google/simhospital/pkg/config"
-	"github.com/google/simhospital/pkg/message"
+	"github.com/google/simhospital/pkg/ir"
 )
 
 // Generator is a generator of addresses.
@@ -56,8 +56,8 @@ type PostcodeGenerator interface {
 // StreetSuffix is a street suffix, eg.: Road, Street, Place etc.
 // PostCode is a random post code.
 // City is a random city.
-func (g *Generator) Random() *message.Address {
-	a := &message.Address{
+func (g *Generator) Random() *ir.Address {
+	a := &ir.Address{
 		City:       g.city(),
 		PostalCode: g.PostcodeGenerator.Random(),
 		Country:    g.Address.Country,

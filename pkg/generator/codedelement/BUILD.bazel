@@ -31,7 +31,7 @@ go_library(
         "//pkg/clock:go_default_library",
         "//pkg/config:go_default_library",
         "//pkg/constants:go_default_library",
-        "//pkg/message:go_default_library",
+        "//pkg/ir:go_default_library",
         "//pkg/pathway:go_default_library",
         "//pkg/sample:go_default_library",
     ],
@@ -47,7 +47,7 @@ go_test(
     embed = [":go_default_library"],
     deps = [
         "//pkg/config:go_default_library",
-        "//pkg/message:go_default_library",
+        "//pkg/ir:go_default_library",
         "//pkg/pathway:go_default_library",
         "//pkg/test:go_default_library",
         "//pkg/test/testclock:go_default_library",

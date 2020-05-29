@@ -22,6 +22,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/google/simhospital/pkg/constants"
+	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/location"
 	"github.com/google/simhospital/pkg/logging"
 	"github.com/google/simhospital/pkg/message"
@@ -31,7 +32,7 @@ import (
 
 const locationError = "patient location error"
 
-func (h *Hospital) occupyBed(loc, bed string) (*message.PatientLocation, error) {
+func (h *Hospital) occupyBed(loc, bed string) (*ir.PatientLocation, error) {
 	if bed != "" {
 		return h.locationManager.OccupySpecificBed(loc, bed)
 	}
@@ -48,7 +49,7 @@ func (h *Hospital) processAdmission(e *state.Event, logLocal *logging.SimulatedH
 		patientInfo.Location = patientInfo.PendingLocation
 		logLocal.Debugf("Entered reserved bed %s", patientInfo.PendingLocation)
 	} else {
-		patientInfo.AdmissionDate = message.NewValidTime(e.EventTime)
+		patientInfo.AdmissionDate = ir.NewValidTime(e.EventTime)
 		loc, err := h.occupyBed(e.Step.Admission.Loc, e.Step.Admission.Bed)
 		if err != nil {
 			return errors.Wrap(err, locationError)
@@ -57,7 +58,7 @@ func (h *Hospital) processAdmission(e *state.Event, logLocal *logging.SimulatedH
 	}
 
 	patientInfo.PendingLocation = nil
-	patientInfo.ExpectedAdmitDateTime = message.NewInvalidTime()
+	patientInfo.ExpectedAdmitDateTime = ir.NewInvalidTime()
 	patientInfo.Class = h.messageConfig.PatientClass.Inpatient
 	patientInfo.VisitID = h.generator.NewVisitID()
 	patientInfo.AccountStatus = h.messageConfig.PatientAccountStatus.Arrived
@@ -256,7 +257,7 @@ func (h *Hospital) processTransferOrTransferInError(e *state.Event, logLocal *lo
 		patientInfo.Location = patientInfo.PendingLocation
 		logLocal.Debugf("Entered reserved bed %s", patientInfo.PendingLocation)
 	} else {
-		patientInfo.TransferDate = message.NewValidTime(e.EventTime)
+		patientInfo.TransferDate = ir.NewValidTime(e.EventTime)
 		// Even if this transfer is in error, we simulate the new bed being allocated to the new
 		// patient, as that's what the system will think has happened.
 		// The old bed is not released, as the patient is still physically there, thus can't be
@@ -270,7 +271,7 @@ func (h *Hospital) processTransferOrTransferInError(e *state.Event, logLocal *lo
 		patientInfo.Location = loc
 	}
 	patientInfo.PendingLocation = nil
-	patientInfo.ExpectedTransferDateTime = message.NewInvalidTime()
+	patientInfo.ExpectedTransferDateTime = ir.NewInvalidTime()
 	h.updateDeathInfo(logLocal, now, pathwayName, patientInfo, e.Step.Parameters)
 
 	msg, err := message.BuildTransferADTA02(msgHeader, patientInfo, eventTime, e.MessageTime)
@@ -315,7 +316,7 @@ func (h *Hospital) cancelTransfer(e *state.Event, logLocal *logging.SimulatedHos
 	if err != nil {
 		return errors.Wrap(err, "cannot build ADT^A12 message")
 	}
-	patientInfo.TransferDate = message.NewInvalidTime()
+	patientInfo.TransferDate = ir.NewInvalidTime()
 	patientInfo.PriorLocation = nil
 	patientInfo.PriorLocationForCancelTransfer = nil
 	return h.queueMessage(logLocal, msg, e)
@@ -342,7 +343,7 @@ func (h *Hospital) pendingAdmission(e *state.Event, logLocal *logging.SimulatedH
 	}
 	patientInfo.AccountStatus = h.messageConfig.PatientAccountStatus.Planned
 	patientInfo.PendingLocation = pendingLocation
-	patientInfo.ExpectedAdmitDateTime = message.NewValidTime(e.EventTime.Add(*e.Step.PendingAdmission.ExpectedAdmissionTimeFromNow))
+	patientInfo.ExpectedAdmitDateTime = ir.NewValidTime(e.EventTime.Add(*e.Step.PendingAdmission.ExpectedAdmissionTimeFromNow))
 	h.updateDeathInfo(logLocal, now, e.PathwayName, patientInfo, e.Step.Parameters)
 	msg, err := message.BuildPendingAdmissionADTA14(msgHeader, patientInfo, e.EventTime, e.MessageTime)
 	if err != nil {
@@ -354,7 +355,7 @@ func (h *Hospital) pendingAdmission(e *state.Event, logLocal *logging.SimulatedH
 func (h *Hospital) pendingDischarge(e *state.Event, logLocal *logging.SimulatedHospitalLogger, now time.Time) error {
 	msgHeader := h.generator.NewHeader(&e.Step)
 	patientInfo := h.patients.Get(e.PatientMRN).PatientInfo
-	patientInfo.ExpectedDischargeDateTime = message.NewValidTime(e.EventTime.Add(*e.Step.PendingDischarge.ExpectedDischargeTimeFromNow))
+	patientInfo.ExpectedDischargeDateTime = ir.NewValidTime(e.EventTime.Add(*e.Step.PendingDischarge.ExpectedDischargeTimeFromNow))
 	h.updateDeathInfo(logLocal, now, e.PathwayName, patientInfo, e.Step.Parameters)
 	msg, err := message.BuildPendingDischargeADTA16(msgHeader, patientInfo, e.EventTime, e.MessageTime)
 	if err != nil {
@@ -371,7 +372,7 @@ func (h *Hospital) pendingTransfer(e *state.Event, logLocal *logging.SimulatedHo
 		return errors.Wrap(err, locationError)
 	}
 	patientInfo.PendingLocation = pendingLocation
-	patientInfo.ExpectedTransferDateTime = message.NewValidTime(e.EventTime.Add(*e.Step.PendingTransfer.ExpectedTransferTimeFromNow))
+	patientInfo.ExpectedTransferDateTime = ir.NewValidTime(e.EventTime.Add(*e.Step.PendingTransfer.ExpectedTransferTimeFromNow))
 	h.updateDeathInfo(logLocal, now, e.PathwayName, patientInfo, e.Step.Parameters)
 	msg, err := message.BuildPendingTransferADTA15(msgHeader, patientInfo, e.EventTime, e.MessageTime)
 	if err != nil {
@@ -383,7 +384,7 @@ func (h *Hospital) pendingTransfer(e *state.Event, logLocal *logging.SimulatedHo
 func (h *Hospital) registration(e *state.Event, logLocal *logging.SimulatedHospitalLogger, now time.Time) error {
 	msgHeader := h.generator.NewHeader(&e.Step)
 	patientInfo := h.patients.Get(e.PatientMRN).PatientInfo
-	patientInfo.AdmissionDate = message.NewValidTime(e.EventTime)
+	patientInfo.AdmissionDate = ir.NewValidTime(e.EventTime)
 	patientInfo.VisitID = h.generator.NewVisitID()
 	h.generator.AddAllergies(patientInfo, e.Step.Registration.Allergies)
 	h.updateDeathInfo(logLocal, now, e.PathwayName, patientInfo, e.Step.Parameters)
@@ -413,7 +414,7 @@ func (h *Hospital) preadmission(e *state.Event, logLocal *logging.SimulatedHospi
 		return errors.Wrap(err, locationError)
 	}
 	patientInfo.PendingLocation = pendingLocation
-	patientInfo.ExpectedAdmitDateTime = message.NewValidTime(e.EventTime.Add(*e.Step.PreAdmission.ExpectedAdmissionTimeFromNow))
+	patientInfo.ExpectedAdmitDateTime = ir.NewValidTime(e.EventTime.Add(*e.Step.PreAdmission.ExpectedAdmissionTimeFromNow))
 	patientInfo.AccountStatus = h.messageConfig.PatientAccountStatus.Planned
 	h.generator.AddAllergies(patientInfo, e.Step.PreAdmission.Allergies)
 	h.updateDeathInfo(logLocal, now, e.PathwayName, patientInfo, e.Step.Parameters)
@@ -549,7 +550,7 @@ func (h *Hospital) cancelPendingAdmission(e *state.Event, logLocal *logging.Simu
 	}
 	h.freeSpecificLocation(logLocal, patientInfo.PriorPendingLocation, pathwayName)
 	patientInfo.PriorPendingLocation = nil
-	patientInfo.ExpectedAdmitDateTime = message.NewInvalidTime()
+	patientInfo.ExpectedAdmitDateTime = ir.NewInvalidTime()
 	return h.queueMessage(logLocal, msg, e)
 }
 
@@ -566,7 +567,7 @@ func (h *Hospital) cancelPendingTransfer(e *state.Event, logLocal *logging.Simul
 	}
 	h.freeSpecificLocation(logLocal, patientInfo.PriorPendingLocation, pathwayName)
 	patientInfo.PriorPendingLocation = nil
-	patientInfo.ExpectedTransferDateTime = message.NewInvalidTime()
+	patientInfo.ExpectedTransferDateTime = ir.NewInvalidTime()
 	return h.queueMessage(logLocal, msg, e)
 }
 
@@ -578,7 +579,7 @@ func (h *Hospital) cancelPendingDischarge(e *state.Event, logLocal *logging.Simu
 	if err != nil {
 		return errors.Wrap(err, "cannot build ADT^A25 message")
 	}
-	patientInfo.ExpectedDischargeDateTime = message.NewInvalidTime()
+	patientInfo.ExpectedDischargeDateTime = ir.NewInvalidTime()
 	return h.queueMessage(logLocal, msg, e)
 }
 
@@ -633,7 +634,7 @@ func (h *Hospital) trackDeparture(e *state.Event, logLocal *logging.SimulatedHos
 		} else {
 			patientInfo.PriorLocation = patientInfo.Location
 		}
-		patientInfo.TemporaryLocation = &message.PatientLocation{Poc: loc}
+		patientInfo.TemporaryLocation = &ir.PatientLocation{Poc: loc}
 		patientInfo.Location = nil
 	default:
 		return fmt.Errorf("unsupported mode in TrackDeparture: %q", e.Step.TrackDeparture.Mode)
@@ -691,7 +692,7 @@ func (h *Hospital) trackArrival(e *state.Event, logLocal *logging.SimulatedHospi
 			// We assume the previous location was temporary if there's none.
 			// We only need to update the location when the new one is different from the current one.
 			patientInfo.PriorTemporaryLocation = patientInfo.TemporaryLocation
-			patientInfo.TemporaryLocation = &message.PatientLocation{Poc: e.Step.TrackArrival.Loc}
+			patientInfo.TemporaryLocation = &ir.PatientLocation{Poc: e.Step.TrackArrival.Loc}
 		}
 	default:
 		return fmt.Errorf("unsupported mode in TrackArrival: %q", e.Step.TrackArrival.Mode)
@@ -801,22 +802,22 @@ func (h *Hospital) processEventType(e *state.Event, logLocal *logging.SimulatedH
 	return nil
 }
 
-func setDischargeDate(patientInfo *message.PatientInfo, dischargeTime time.Time) {
+func setDischargeDate(patientInfo *ir.PatientInfo, dischargeTime time.Time) {
 	if patientInfo.ExpectedDischargeDateTime.Valid {
 		patientInfo.DischargeDate = patientInfo.ExpectedDischargeDateTime
 	} else {
-		patientInfo.DischargeDate = message.NewValidTime(dischargeTime)
+		patientInfo.DischargeDate = ir.NewValidTime(dischargeTime)
 	}
 }
 
 // freeLocation frees the location occupied by the patient, and returns the (now free) patient location.
-func (h *Hospital) freeLocation(logLocal *logging.SimulatedHospitalLogger, patientInfo *message.PatientInfo, pathwayName string) *message.PatientLocation {
+func (h *Hospital) freeLocation(logLocal *logging.SimulatedHospitalLogger, patientInfo *ir.PatientInfo, pathwayName string) *ir.PatientLocation {
 	h.freeSpecificLocation(logLocal, patientInfo.Location, pathwayName)
 	return patientInfo.Location
 }
 
 // freeSpecificLocation frees the given location.
-func (h *Hospital) freeSpecificLocation(logLocal *logging.SimulatedHospitalLogger, l *message.PatientLocation, pathwayName string) {
+func (h *Hospital) freeSpecificLocation(logLocal *logging.SimulatedHospitalLogger, l *ir.PatientLocation, pathwayName string) {
 	if l == nil {
 		logLocal.Debug("Tried to free location but no patient location specified")
 		return
@@ -843,20 +844,20 @@ func (h *Hospital) resetPatient(logLocal *logging.SimulatedHospitalLogger, pathw
 	return h.generator.ResetPatient(patient)
 }
 
-func updatePersonDeath(parameters *pathway.Parameters, now time.Time, person *message.Person) {
+func updatePersonDeath(parameters *pathway.Parameters, now time.Time, person *ir.Person) {
 	switch {
 	case parameters.Status.TimeOfDeath != nil:
-		person.DateOfDeath = message.NewValidTime(*parameters.Status.TimeOfDeath)
+		person.DateOfDeath = ir.NewValidTime(*parameters.Status.TimeOfDeath)
 	case parameters.Status.TimeSinceDeath != nil:
-		person.DateOfDeath = message.NewValidTime(now.Add(-*parameters.Status.TimeSinceDeath))
+		person.DateOfDeath = ir.NewValidTime(now.Add(-*parameters.Status.TimeSinceDeath))
 	default:
-		person.DateOfDeath = message.NewInvalidTime()
+		person.DateOfDeath = ir.NewInvalidTime()
 	}
 	person.DeathIndicator = parameters.Status.DeathIndicator
 }
 
 // updateDeathInfo updates the patient's death status and frees patient locations if the patient is declared dead.
-func (h *Hospital) updateDeathInfo(logLocal *logging.SimulatedHospitalLogger, now time.Time, pathwayName string, patientInfo *message.PatientInfo, parameters *pathway.Parameters) {
+func (h *Hospital) updateDeathInfo(logLocal *logging.SimulatedHospitalLogger, now time.Time, pathwayName string, patientInfo *ir.PatientInfo, parameters *pathway.Parameters) {
 	// Update death status if new info provided in current step.
 	person := patientInfo.Person
 	if parameters != nil && parameters.Status != nil {
@@ -879,21 +880,21 @@ func (h *Hospital) updateDeathInfo(logLocal *logging.SimulatedHospitalLogger, no
 		patientInfo.Location = nil
 	}
 	if patientInfo.PendingLocation != nil {
-		patientInfo.ExpectedAdmitDateTime = message.NewInvalidTime()
-		patientInfo.ExpectedTransferDateTime = message.NewInvalidTime()
+		patientInfo.ExpectedAdmitDateTime = ir.NewInvalidTime()
+		patientInfo.ExpectedTransferDateTime = ir.NewInvalidTime()
 		h.freeSpecificLocation(logLocal, patientInfo.PendingLocation, pathwayName)
 		patientInfo.PriorPendingLocation = patientInfo.PendingLocation
 		patientInfo.PendingLocation = nil
 	}
 	// Pending Discharge Step could have any of (pending/temporary/assigned) location occupied when called.
-	patientInfo.ExpectedDischargeDateTime = message.NewInvalidTime()
+	patientInfo.ExpectedDischargeDateTime = ir.NewInvalidTime()
 }
 
-func (h *Hospital) setAdmissionDetailsIfMissing(patientInfo *message.PatientInfo, eventTime time.Time) {
+func (h *Hospital) setAdmissionDetailsIfMissing(patientInfo *ir.PatientInfo, eventTime time.Time) {
 	// If the admission date is not set it means that the patient was not admitted.
 	if patientInfo.AdmissionDate.Valid {
 		return
 	}
 	patientInfo.Location = h.locationManager.GetAAndELocation()
-	patientInfo.AdmissionDate = message.NewValidTime(eventTime)
+	patientInfo.AdmissionDate = ir.NewValidTime(eventTime)
 }
