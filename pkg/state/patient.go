@@ -22,13 +22,14 @@ import (
 	"github.com/google/simhospital/pkg/ir"
 )
 
-const generatedOrderIDPattern = "generated-%d"
+const generatedIDPattern = "generated-%d"
 
 // Patient represents a patient in Simulated Hospital.
 type Patient struct {
 	PatientInfo *ir.PatientInfo
 	Orders      map[string]*ir.Order
 	PastVisits  []uint64
+	Documents   map[string]*ir.Document
 }
 
 // GetOrder retrieves an order by its identifier.
@@ -40,9 +41,24 @@ func (p *Patient) GetOrder(orderID string) *ir.Order {
 // If the orderID is not specified (ie is an empty string), a unique ID is generated.
 func (p *Patient) AddOrder(orderID string, order *ir.Order) {
 	if orderID == "" {
-		p.Orders[fmt.Sprintf(generatedOrderIDPattern, len(p.Orders))] = order
+		p.Orders[fmt.Sprintf(generatedIDPattern, len(p.Orders))] = order
 	} else {
 		p.Orders[orderID] = order
+	}
+}
+
+// GetDocument retrieves an order by the pathway Document ID.
+func (p *Patient) GetDocument(pathwayDocumentID string) *ir.Document {
+	return p.Documents[pathwayDocumentID]
+}
+
+// AddDocument adds a document to the map against the specified pathway Document ID, so that it can be looked up and updated.
+// If the pathwayDocumentID is not specified, a unique ID is generated.
+func (p *Patient) AddDocument(pathwayDocumentID string, document *ir.Document) {
+	if pathwayDocumentID == "" {
+		p.Documents[fmt.Sprintf(generatedIDPattern, len(p.Documents))] = document
+	} else {
+		p.Documents[pathwayDocumentID] = document
 	}
 }
 

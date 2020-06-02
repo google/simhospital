@@ -784,6 +784,29 @@ func TestPathwayValidStep(t *testing.T) {
 		{step: Step{Admission: &Admission{Loc: "ED"}, Parameters: &Parameters{Status: &DeathStatus{TimeSinceDeath: &oneHour}}}},
 		{step: Step{Admission: &Admission{Loc: "ED"}, Parameters: &Parameters{Status: &DeathStatus{TimeSinceDeath: &oneHour, TimeOfDeath: &fifteenHoursAgo}}}, wantErr: true},
 		{step: Step{Admission: &Admission{Loc: "ED"}, Parameters: &Parameters{Status: &DeathStatus{TimeOfDeath: &fifteenHoursAgo}}}},
+		{step: Step{Document: &Document{ID: "docid1"}}},
+		{step: Step{Document: &Document{}}},
+		// All NumRandomContentLines in Documents must be valid Intervals.
+		{step: Step{Document: &Document{NumRandomContentLines: &Interval{To: -1}}}, wantErr: true},
+		{step: Step{Document: &Document{NumRandomContentLines: &Interval{From: -1}}}, wantErr: true},
+		{step: Step{Document: &Document{NumRandomContentLines: &Interval{To: 20}}}},
+		{step: Step{Document: &Document{NumRandomContentLines: &Interval{From: 10}}}, wantErr: true},
+		{step: Step{Document: &Document{NumRandomContentLines: &Interval{To: 0}}}},
+		{step: Step{Document: &Document{NumRandomContentLines: &Interval{From: 30, To: 10}}}, wantErr: true},
+		{step: Step{Document: &Document{NumRandomContentLines: &Interval{From: 10, To: 30}}}},
+		{step: Step{Document: &Document{NumRandomContentLines: &Interval{From: 10, To: 10}}}},
+		{step: Step{Document: &Document{NumRandomContentLines: &Interval{From: 0, To: 0}}}},
+		{step: Step{Document: &Document{NumRandomContentLines: &Interval{}}}},
+		// UpdateType must be "append" or "overwrite".
+		{step: Step{Document: &Document{ID: "id1", UpdateType: "append"}}},
+		{step: Step{Document: &Document{ID: "id1", UpdateType: "overwrite"}}},
+		{step: Step{Document: &Document{ID: "id1", UpdateType: "delete"}}, wantErr: true},
+		// Append type document updates must add at least 1 line.
+		{step: Step{Document: &Document{ID: "docid1", UpdateType: "append", NumRandomContentLines: &Interval{From: 0, To: 0}}}, wantErr: true},
+		{step: Step{Document: &Document{ID: "docid1", UpdateType: "append", NumRandomContentLines: &Interval{}}}, wantErr: true},
+		{step: Step{Document: &Document{ID: "docid1", UpdateType: "append", HeaderContentLines: []string{"header"}, NumRandomContentLines: &Interval{}}}, wantErr: false},
+		{step: Step{Document: &Document{ID: "docid1", UpdateType: "append", EndingContentLines: []string{"ending"}, NumRandomContentLines: &Interval{}}}, wantErr: false},
+		{step: Step{Document: &Document{ID: "docid1", UpdateType: "append", EndingContentLines: []string{"ending"}}}, wantErr: false},
 	}
 	for i, tc := range cases {
 		t.Run(fmt.Sprintf("id:%d-step:%+v-valid:%t", i, tc.step, !tc.wantErr), func(t *testing.T) {
@@ -935,17 +958,6 @@ func TestPathwayValidPathway(t *testing.T) {
 		{pathway: &Pathway{Pathway: []Step{{Order: &Order{OrderID: "order1", OrderProfile: "profile"}}, {Result: &Results{OrderID: "order2", OrderProfile: "profile"}}, validNote}}, wantErr: false},
 		{pathway: &Pathway{Pathway: []Step{{Order: &Order{OrderID: "order1", OrderProfile: "profile"}}, {Result: &Results{OrderID: "order2", OrderProfile: "profile"}}, invalidNote}}, wantErr: true},
 		{pathway: &Pathway{Pathway: []Step{{Document: &Document{}}}}, wantErr: false},
-		// All NumRandomContentLines in Documents must be valid Intervals.
-		{pathway: &Pathway{Pathway: []Step{{Document: &Document{NumRandomContentLines: &Interval{To: -1}}}}}, wantErr: true},
-		{pathway: &Pathway{Pathway: []Step{{Document: &Document{NumRandomContentLines: &Interval{From: -1}}}}}, wantErr: true},
-		{pathway: &Pathway{Pathway: []Step{{Document: &Document{NumRandomContentLines: &Interval{To: 20}}}}}, wantErr: false},
-		{pathway: &Pathway{Pathway: []Step{{Document: &Document{NumRandomContentLines: &Interval{From: 10}}}}}, wantErr: true},
-		{pathway: &Pathway{Pathway: []Step{{Document: &Document{NumRandomContentLines: &Interval{To: 0}}}}}, wantErr: false},
-		{pathway: &Pathway{Pathway: []Step{{Document: &Document{NumRandomContentLines: &Interval{From: 30, To: 10}}}}}, wantErr: true},
-		{pathway: &Pathway{Pathway: []Step{{Document: &Document{NumRandomContentLines: &Interval{From: 10, To: 30}}}}}, wantErr: false},
-		{pathway: &Pathway{Pathway: []Step{{Document: &Document{NumRandomContentLines: &Interval{From: 10, To: 10}}}}}, wantErr: false},
-		{pathway: &Pathway{Pathway: []Step{{Document: &Document{NumRandomContentLines: &Interval{From: 0, To: 0}}}}}, wantErr: false},
-		{pathway: &Pathway{Pathway: []Step{{Document: &Document{NumRandomContentLines: &Interval{}}}}}, wantErr: false},
 	}
 
 	for i, tc := range cases {

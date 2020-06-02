@@ -450,7 +450,7 @@ This step has the following optional parameters to set the document properties:
     OBX.3-Observation Identifier field. If not set in the pathway, it defaults
     to *Simulation*.
 
-Example:
+Example of a new document:
 
 ```yaml
 pathway_with_document:
@@ -505,6 +505,65 @@ Example of a document with fixed content only:
         - content-text-line-3
       num_random_content_lines: {}
 ```
+
+#### Document updates
+
+The `document` step includes an option to update the content lines for an
+existing document given a pathway Document ID and an update type to be one of
+the following:
+
+*   append
+*   overwrite
+
+The following required fields control the document update:
+
+*   `id` is used to link documents within a pathway. This should be set when
+    generating a new document if there is intention to update this document.
+    This does not set field TXA.12-Document_ID, which is always randomly
+    generated.
+*   `update_type` sets the type of update to perform.
+
+Example of a document update of type `append`:
+
+```yaml
+pathway_with_document:
+  pathway:
+  - document:
+      id: doc-id1
+  - document:
+      id: doc-id1
+      update_type: "append"
+      ending_content_lines:
+        - ending-text-line-1
+```
+
+This pathway generates two messages for the same document. In the first message,
+the document will have between 10 and 50 OBX segments with randomly generated
+content. The second message will have an additional OBX with the content
+"ending-text-line-1" after the previous randomly generated content.
+
+Example of a document update of type `overwrite`:
+
+```yaml
+pathway_with_document:
+  pathway:
+  - document:
+      id: doc-id1
+  - document:
+      id: doc-id1
+      update_type: "overwrite"
+      header_content_lines:
+        - header-text-line-1
+      num_content_lines:
+        from: 10
+        to: 10
+```
+
+This pathway generated two messages for the same document. In the first message,
+the document will have between 10 and 50 OBX segments with randomly generated
+content. The second message will replace these segments with an OBX with the
+content "header-text-line-1" followed by 10 OBX segments with randomly generated
+content.
 
 ### Discharge
 

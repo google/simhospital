@@ -665,6 +665,7 @@ hospital_service: "180"
 					HospitalService: "",
 				},
 				Orders: make(map[string]*ir.Order),
+				Documents: make(map[string]*ir.Document),
 			},
 		}, {
 			name:   "Existing doctor, override hospital service",
@@ -678,6 +679,7 @@ hospital_service: "180"
 					AttendingDoctor: existingDoctor,
 				},
 				Orders: make(map[string]*ir.Order),
+				Documents: make(map[string]*ir.Document),
 			},
 		}, {
 			name:   "New doctor, don't override hospital service",
@@ -691,6 +693,7 @@ hospital_service: "180"
 					AttendingDoctor: newDoctor,
 				},
 				Orders: make(map[string]*ir.Order),
+				Documents: make(map[string]*ir.Document),
 			},
 		}, {
 			name:   "Nil doctor, primary facility, hospital service and patient class from config",
@@ -708,6 +711,7 @@ hospital_service: "180"
 					},
 				},
 				Orders: make(map[string]*ir.Order),
+				Documents: make(map[string]*ir.Document),
 			},
 		}, {
 			name:   "Existing doctor, defined config, override hospital service",
@@ -725,6 +729,7 @@ hospital_service: "180"
 					},
 				},
 				Orders: make(map[string]*ir.Order),
+				Documents: make(map[string]*ir.Document),
 			},
 		},
 	}
@@ -1255,6 +1260,7 @@ func TestGeneratorResetPatientInfo(t *testing.T) {
 		Orders: map[string]*ir.Order{
 			"order-id": urineOrder(defaultDate, hl7Config),
 		},
+		Documents:  map[string]*ir.Document{},
 		PastVisits: []uint64{1, 2},
 	}
 
@@ -1272,6 +1278,7 @@ func TestGeneratorResetPatientInfo(t *testing.T) {
 		Orders: map[string]*ir.Order{
 			"order-id": urineOrder(defaultDate, hl7Config),
 		},
+		Documents:  map[string]*ir.Document{},
 		PastVisits: []uint64{1, 2},
 	}
 

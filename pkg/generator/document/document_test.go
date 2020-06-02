@@ -108,6 +108,108 @@ func TestDocument(t *testing.T) {
 	}
 }
 
+func TestDocument_UpdateDocumentContent(t *testing.T) {
+	tests := []struct {
+		name                 string
+		input                *pathway.Document
+		originalContentLines []string
+		wantContentLine      []string
+		wantErr              bool
+	}{{
+		name: "Append",
+		input: &pathway.Document{
+			UpdateType: "append",
+			NumRandomContentLines: &pathway.Interval{
+				From: 2,
+				To:   2,
+			},
+		},
+		originalContentLines: []string{"content-1"},
+		wantContentLine:      []string{"content-1", "sample-text-1", "sample-text-2"},
+	}, {
+		name: "Overwrite",
+		input: &pathway.Document{
+			UpdateType: "overwrite",
+			NumRandomContentLines: &pathway.Interval{
+				From: 2,
+				To:   2,
+			},
+		},
+		originalContentLines: []string{"content-1"},
+		wantContentLine:      []string{"sample-text-1", "sample-text-2"},
+	}, {
+		name: "Append with fixed Ending",
+		input: &pathway.Document{
+			UpdateType: "append",
+			NumRandomContentLines: &pathway.Interval{
+				From: 2,
+				To:   2,
+			},
+			EndingContentLines: []string{"ending-text"},
+		},
+		originalContentLines: []string{"content-1"},
+		wantContentLine:      []string{"content-1", "sample-text-1", "sample-text-2", "ending-text"},
+	}, {
+		name: "Append with fixed Header",
+		input: &pathway.Document{
+			UpdateType: "append",
+			NumRandomContentLines: &pathway.Interval{
+				From: 2,
+				To:   2,
+			},
+			HeaderContentLines: []string{"header-text"},
+		},
+		originalContentLines: []string{"content-1"},
+		wantContentLine:      []string{"content-1", "header-text", "sample-text-1", "sample-text-2"},
+	}, {
+		name: "Empty update",
+		input: &pathway.Document{
+			NumRandomContentLines: &pathway.Interval{
+				From: 2,
+				To:   2,
+			},
+			HeaderContentLines: []string{"header-text"},
+		},
+		wantErr: true,
+	}, {
+		name: "Invalid update type",
+		input: &pathway.Document{
+			UpdateType: "appendd",
+			NumRandomContentLines: &pathway.Interval{
+				From: 2,
+				To:   2,
+			},
+			HeaderContentLines: []string{"header-text"},
+		},
+		wantErr: true,
+	}}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			g := Generator{DocumentConfig: &HL7Document, TextGenerator: textGenerator}
+			d := &ir.Document{
+				ActivityDateTime:         ir.NewValidTime(date),
+				EditDateTime:             ir.NewValidTime(date),
+				DocumentType:             "DS",
+				DocumentCompletionStatus: "DO",
+				ObservationIdentifier: &ir.CodedElement{
+					ID:           "Established Patient 15",
+					Text:         "Established Patient 15",
+					CodingSystem: "Simulated Hospital",
+				},
+				ContentLine: tc.originalContentLines,
+			}
+			err := g.UpdateDocumentContent(d, tc.input)
+			if gotErr := err != nil; gotErr != tc.wantErr {
+				t.Errorf("g.UpdateDocumentContent(%v, %v) got error %v; want err? %t", d, tc.input, err, tc.wantErr)
+			}
+			if diff := cmp.Diff(tc.wantContentLine, d.ContentLine); diff != "" {
+				t.Errorf("g.UpdateDocument(%v, %v) got diff: \n%s", d, tc.input, diff)
+			}
+		})
+	}
+}
+
 func TestDocument_RandomDocumentTypeDoesntModifyInput(t *testing.T) {
 	dt := &pathway.Document{}
 	g := Generator{DocumentConfig: &HL7Document, TextGenerator: textGenerator}

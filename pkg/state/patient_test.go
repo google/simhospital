@@ -15,7 +15,6 @@
 package state
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -60,7 +59,7 @@ func TestPatient_GetOrder(t *testing.T) {
 		OrderProfile: &ir.CodedElement{ID: "2", Text: "profile2"},
 	}
 	p.AddOrder("", orderNoID)
-	wantOrderID := fmt.Sprintf(generatedOrderIDPattern, 1)
+	wantOrderID := "generated-1"
 	got := p.GetOrder(wantOrderID)
 	if diff := cmp.Diff(orderNoID, got); diff != "" {
 		t.Errorf("Patient.GetOrder(%q) mismatch (-want +got):\n%s", wantOrderID, diff)
@@ -71,7 +70,7 @@ func TestPatient_GetOrder(t *testing.T) {
 
 	// Adding an identical order without order ID does not override the existing one.
 	p.AddOrder("", orderNoID)
-	wantOrderID = fmt.Sprintf(generatedOrderIDPattern, 2)
+	wantOrderID = "generated-2"
 	got = p.GetOrder(wantOrderID)
 	if diff := cmp.Diff(orderNoID, got); diff != "" {
 		t.Errorf("Patient.GetOrder(%q) mismatch (-want +got):\n%s", wantOrderID, diff)
@@ -79,6 +78,44 @@ func TestPatient_GetOrder(t *testing.T) {
 
 	if len(p.Orders) != 3 {
 		t.Errorf("len(p.Orders) = %d, want %d", len(p.Orders), 3)
+	}
+}
+
+func TestPatient_GetDocument(t *testing.T) {
+	p := Patient{
+		Documents: make(map[string]*ir.Document),
+	}
+
+	docid1 := "docid1"
+
+	// Add document with non-empty id.
+	doc1 := &ir.Document{ContentLine: []string{"sample-text1"}}
+	p.AddDocument(docid1, doc1)
+	if diff := cmp.Diff(doc1, p.GetDocument(docid1)); diff != "" {
+		t.Errorf("Patient.GetDocument(%v) mismatch (-want +got):\n%s", docid1, diff)
+	}
+
+	// Update the existing document.
+	doc1.ContentLine = append(doc1.ContentLine, "sample-text2")
+	if diff := cmp.Diff(doc1, p.GetDocument(docid1)); diff != "" {
+		t.Errorf("Patient.Document(%v) mismatch (-want +got):\n%s", docid1, diff)
+	}
+
+	if len(p.Documents) != 1 {
+		t.Errorf("len(p.Documents) = %d, want %d", len(p.Documents), 1)
+	}
+
+	// Add a Document with an empty ID.
+	// The ID is generated, and every Document with an empty ID is treated as an unique document.
+	docNoID := &ir.Document{}
+	p.AddDocument("", docNoID)
+	wantDocID := "generated-1"
+	got := p.GetDocument(wantDocID)
+	if diff := cmp.Diff(docNoID, got); diff != "" {
+		t.Errorf("Patient.GetDocument(%v) mismatch (-want +got):\n%s", wantDocID, diff)
+	}
+	if len(p.Documents) != 2 {
+		t.Errorf("len(p.Documents) = %d, want %d", len(p.Documents), 2)
 	}
 }
 

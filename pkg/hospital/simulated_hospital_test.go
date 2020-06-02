@@ -551,6 +551,10 @@ func TestRunPathway_StepTypes(t *testing.T) {
 	yesterday := now.Add(oneDayAgo)
 	oneDay := 24 * time.Hour
 	twoHours := 2 * time.Hour
+	// originalNumContentLines, appendNumContentLines and overwriteNumContentLines are arbitrarily chosen.
+	originalNumContentLines := 11
+	appendNumContentLines := 4
+	overwriteNumContentLines := 26
 	tests := []struct {
 		name             string
 		pathway          pathway.Pathway
@@ -624,6 +628,116 @@ func TestRunPathway_StepTypes(t *testing.T) {
 				t.Errorf("len(documentOBXs) got %v, want greater than %v", got, want)
 			}
 		},
+	}, {
+		name: "Document with Document append update",
+		pathway: pathway.Pathway{Pathway: []pathway.Step{
+			{Document: &pathway.Document{ID: "id1", NumRandomContentLines: &pathway.Interval{From: originalNumContentLines, To: originalNumContentLines}}},
+			{Document: &pathway.Document{ID: "id1", UpdateType: "append", NumRandomContentLines: &pathway.Interval{From: appendNumContentLines, To: appendNumContentLines}}},
+		}},
+		wantMessageTypes: []string{"MDM^T02", "MDM^T02"},
+		want: func(t *testing.T, messages []string, hospital *testhospital.Hospital) {
+			documentTXA := testhl7.TXA(t, messages[0])
+			updateDocumentTXA := testhl7.TXA(t, messages[1])
+			if diff := cmp.Diff(documentTXA, updateDocumentTXA); diff != "" {
+				t.Errorf("Updated documentTXA got diff:\n%s", diff)
+			}
+			documentOBXs := testhl7.AllOBX(t, messages[0])
+			updateDocumentOBXs := testhl7.AllOBX(t, messages[1])
+			sumOfContentLines := originalNumContentLines + appendNumContentLines
+			if got, want := len(updateDocumentOBXs), sumOfContentLines; got != want {
+				t.Errorf("len(documentOBXs) got %v, want %v (%d old lines + %d new lines)", got, want, originalNumContentLines, appendNumContentLines)
+			}
+			if diff := cmp.Diff(documentOBXs[:4], updateDocumentOBXs[:4]); diff != "" {
+				t.Errorf("Updated Document content got diff \n%s", diff)
+			}
+			if got, want := updateDocumentTXA.UniqueDocumentNumber.EntityIdentifier.String(), documentTXA.UniqueDocumentNumber.EntityIdentifier.String(); got != want {
+				t.Errorf("updateDocumentTXA.UniqueDocumentNumber got %v, want %v", got, want)
+			}
+		},
+	}, {
+		name: "Document with Document overwrite update",
+		pathway: pathway.Pathway{Pathway: []pathway.Step{
+			{Document: &pathway.Document{ID: "id1", NumRandomContentLines: &pathway.Interval{From: originalNumContentLines, To: originalNumContentLines}}},
+			{Document: &pathway.Document{ID: "id1", UpdateType: "overwrite", NumRandomContentLines: &pathway.Interval{From: overwriteNumContentLines, To: overwriteNumContentLines}}},
+		}},
+		wantMessageTypes: []string{"MDM^T02", "MDM^T02"},
+		want: func(t *testing.T, messages []string, hospital *testhospital.Hospital) {
+			documentTXA := testhl7.TXA(t, messages[0])
+			updateDocumentTXA := testhl7.TXA(t, messages[1])
+
+			if diff := cmp.Diff(documentTXA, updateDocumentTXA); diff != "" {
+				t.Errorf("Updated documentTXA got diff:\n%s", diff)
+			}
+			updateDocumentOBXs := testhl7.AllOBX(t, messages[1])
+			if got, want := len(updateDocumentOBXs), overwriteNumContentLines; got != want {
+				t.Errorf("Updated len(documentOBXs) got %v, want %v", got, want)
+			}
+		},
+	}, {
+		name: "Document with multiple updates",
+		pathway: pathway.Pathway{Pathway: []pathway.Step{
+			{Document: &pathway.Document{ID: "id1", NumRandomContentLines: &pathway.Interval{From: originalNumContentLines, To: originalNumContentLines}}},
+			{Document: &pathway.Document{ID: "id1", UpdateType: "overwrite", NumRandomContentLines: &pathway.Interval{From: overwriteNumContentLines, To: overwriteNumContentLines}}},
+			{Document: &pathway.Document{ID: "id1", UpdateType: "append", NumRandomContentLines: &pathway.Interval{From: appendNumContentLines, To: appendNumContentLines}}},
+		}},
+		wantMessageTypes: []string{"MDM^T02", "MDM^T02", "MDM^T02"},
+		want: func(t *testing.T, messages []string, hospital *testhospital.Hospital) {
+			documentTXA := testhl7.TXA(t, messages[0])
+			finalUpdatedDocumentTXA := testhl7.TXA(t, messages[2])
+
+			if diff := cmp.Diff(documentTXA, finalUpdatedDocumentTXA); diff != "" {
+				t.Errorf("Updated documentTXA got diff:\n%s", diff)
+			}
+			finalUpdatedDocumentOBXs := testhl7.AllOBX(t, messages[2])
+			finalSumOfContentLines := overwriteNumContentLines + appendNumContentLines
+			if got, want := len(finalUpdatedDocumentOBXs), finalSumOfContentLines; got != want {
+				t.Errorf("Updated len(documentOBXs) got %v, want %v", got, want)
+			}
+		},
+	}, {
+		name: "Document with existing Document ID",
+		pathway: pathway.Pathway{Pathway: []pathway.Step{
+			{Document: &pathway.Document{ID: "id1"}},
+			{Document: &pathway.Document{ID: "id1"}},
+		}},
+		wantMessageTypes: []string{"MDM^T02"},
+		wantMetrics: []metric{{
+			name: "simulated_hospital_errors_total",
+			labels: map[string]string{
+				"pathway_name": testPathwayName,
+				"reason":       "Document.ID already exists",
+			},
+			wantDiff: 1,
+		}},
+	}, {
+		name: "Document update with non-existing ID",
+		pathway: pathway.Pathway{Pathway: []pathway.Step{
+			{Document: &pathway.Document{ID: "id1", UpdateType: "overwrite"}},
+		}},
+		wantMessageTypes: nil,
+		wantMetrics: []metric{{
+			name: "simulated_hospital_errors_total",
+			labels: map[string]string{
+				"pathway_name": testPathwayName,
+				"reason":       "Document.ID does not exist",
+			},
+			wantDiff: 1,
+		}},
+	}, {
+		name: "Document update with unsupported update type",
+		pathway: pathway.Pathway{Pathway: []pathway.Step{
+			{Document: &pathway.Document{ID: "id1"}},
+			{Document: &pathway.Document{ID: "id1", UpdateType: "delete"}},
+		}},
+		wantMessageTypes: []string{"MDM^T02"},
+		wantMetrics: []metric{{
+			name: "simulated_hospital_errors_total",
+			labels: map[string]string{
+				"pathway_name": testPathwayName,
+				"reason":       `cannot update document: update type was "delete", expected "append" or "overwrite"`,
+			},
+			wantDiff: 1,
+		}},
 	}, {
 		name: "PreAdmission",
 		pathway: pathway.Pathway{Pathway: []pathway.Step{

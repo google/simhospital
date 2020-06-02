@@ -170,8 +170,27 @@ func (h *Hospital) processDocument(e *state.Event, logLocal *logging.SimulatedHo
 	msgHeader := h.generator.NewHeader(&e.Step)
 	patient := h.patients.Get(e.PatientMRN)
 	patientInfo := patient.PatientInfo
+	updateType := e.Step.Document.UpdateType
+	var d *ir.Document
 
-	d := h.generator.NewDocument(e.EventTime, e.Step.Document)
+	if updateType != "" {
+		d = patient.GetDocument(e.Step.Document.ID)
+		if d == nil {
+			log.WithError(fmt.Errorf("update type, %q, was requested for document ID, %q, but document does not exist", updateType, e.Step.Document.ID))
+			return fmt.Errorf("Document.ID does not exist")
+		}
+		if err := h.generator.UpdateDocumentContent(d, e.Step.Document); err != nil {
+			return errors.Wrap(err, "cannot update document")
+		}
+	} else {
+		if _, ok := patient.Documents[e.Step.Document.ID]; ok {
+			log.WithError(fmt.Errorf("ID was set to %q, but document ID already exists", e.Step.Document.ID))
+			return fmt.Errorf("Document.ID already exists")
+		}
+		d = h.generator.NewDocument(e.EventTime, e.Step.Document)
+		patient.AddDocument(e.Step.Document.ID, d)
+	}
+
 	msg, err := message.BuildDocumentNotificationMDMT02(msgHeader, patientInfo, d, e.EventTime, e.MessageTime)
 	if err != nil {
 		return errors.Wrap(err, "cannot build MDM^T02 message")

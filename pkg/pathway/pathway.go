@@ -87,6 +87,12 @@ const (
 	TemporaryMode = "temporary"
 )
 
+// Constants for the possible update types in a Document step.
+const (
+	Append = "append"
+	Overwrite = "overwrite"
+)
+
 var (
 	log = logging.ForCallerPackage()
 
@@ -363,6 +369,12 @@ type Document struct {
 	// ObsIdentifierCS populates the Coding System of the OBX.3-Observation Identifier field.
 	// Simulated Hospital generates a value if this is null, but preserves an explicit empty string.
 	ObsIdentifierCS *string `yaml:"observation_identifier_coding_system"`
+	// ID is the pathway document ID that links to a document and is unrelated to the HL7 message Document ID field.
+	// It is a required field if a document is being updated.
+	ID string
+	// UpdateType is an optional parameter that specifies the type of update to perform.
+	// The supported update types are: append, overwrite.
+	UpdateType string `yaml:"update_type"`
 	// EndingContentLines is an optional parameter that sets the last lines in the document content.
 	EndingContentLines []string `yaml:"ending_content_lines"`
 	// HeaderContentLines is an optional parameter that sets the first lines in the document content.

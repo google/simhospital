@@ -597,6 +597,31 @@ func (v *orderIDAndProfileValidator) validateOrderIDAndOrderProfile(orderID stri
 	return ec
 }
 
+func (d *Document) valid() error {
+	if d == nil {
+		return nil
+	}
+	var ec error
+	if d.NumRandomContentLines != nil {
+		if err := d.NumRandomContentLines.valid(); err != nil {
+			ec = combineErrors(ec, errors.New("invalid Document.NumContentLines"))
+		}
+	}
+	if d.UpdateType == "" {
+		return ec
+	}
+	if d.UpdateType != Append && d.UpdateType != Overwrite {
+		ec = combineErrors(ec, fmt.Errorf("Document.UpdateType must be set to `append` or `overwrite`, but was set to: %s", d.UpdateType))
+	}
+	if d.ID == "" {
+		ec = combineErrors(ec, errors.New("Document.ID is required to update a document"))
+	}
+	if d.UpdateType == Append && len(d.HeaderContentLines) == 0 && len(d.EndingContentLines) == 0 && d.NumRandomContentLines != nil && d.NumRandomContentLines.From == 0 && d.NumRandomContentLines.To == 0 {
+		ec = combineErrors(ec, errors.New("cannot append 0 lines to document"))
+	}
+	return ec
+}
+
 func (s Step) valid(now time.Time, lm *location.Manager) error {
 	if s.StepType() == stepInvalid {
 		return errors.New("cannot detect step type, exactly one field must be set")
@@ -619,10 +644,8 @@ func (s Step) valid(now time.Time, lm *location.Manager) error {
 	if s.Delay != nil && s.Parameters != nil && s.Parameters.DelayMessage != nil {
 		return errors.New("a Delay step cannot have delay_message")
 	}
-	if s.Document != nil && s.Document.NumRandomContentLines != nil {
-		if err := s.Document.NumRandomContentLines.valid(); err != nil {
-			return errors.Wrap(err, "invalid Document.ContentLinesLength")
-		}
+	if err := s.Document.valid(); err != nil {
+		return errors.Wrap(err, "invalid Document step")
 	}
 
 	if s.Parameters != nil {

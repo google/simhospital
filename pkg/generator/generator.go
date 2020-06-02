@@ -109,6 +109,7 @@ func (g Generator) NewPatient(person *ir.Person, doctor *ir.Doctor) *state.Patie
 		},
 		// The code downstream assumes that Orders exists.
 		Orders: make(map[string]*ir.Order),
+		Documents: make(map[string]*ir.Document),
 	}
 	// If none of the g.messageConfig.PrimaryFacility fields is set, we want the resulting HL7 message to have the entire
 	// PD1.3 Patient Primary Facility field empty. This is achieved by leaving p.PatientInfo.PrimaryFacility nil.
@@ -279,6 +280,11 @@ func (g *Generator) NewHeader(step *pathway.Step) *message.HeaderInfo {
 // NewDocument returns a NewDocument for MDM^T02 messages.
 func (g Generator) NewDocument(eventTime time.Time, d *pathway.Document) *ir.Document {
 	return g.documentGenerator.Document(eventTime, d)
+}
+
+// UpdateDocumentContent updates the given document for MDM^T02 messages.
+func (g Generator) UpdateDocumentContent(dm *ir.Document, dp *pathway.Document) error {
+	return g.documentGenerator.UpdateDocumentContent(dm, dp)
 }
 
 // Config contains the configuration for Generator.

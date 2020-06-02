@@ -16,6 +16,7 @@
 package document
 
 import (
+	"fmt"
 	"math/rand"
 	"time"
 
@@ -91,11 +92,26 @@ func (g *Generator) Document(eventTime time.Time, d *pathway.Document) *ir.Docum
 	}
 }
 
+// UpdateDocumentContent updates an existing document, 'dm', content in place based on a pathway.Document configuration, 'dp'.
+// Update type is determined in the pathway can be set to "append" or "overwrite".
+// An error is returned if the set update type is not one of the above mentioned.
+func (g *Generator) UpdateDocumentContent(dm *ir.Document, dp *pathway.Document) error {
+	newContent := g.content(dp)
+	switch dp.UpdateType {
+	case pathway.Append:
+		dm.ContentLine = append(dm.ContentLine, newContent...)
+	case pathway.Overwrite:
+		dm.ContentLine = newContent
+	default:
+		return fmt.Errorf("update type was %q, expected %q or %q", dp.UpdateType, pathway.Append, pathway.Overwrite)
+	}
+	return nil
+}
+
 func (g *Generator) content(d *pathway.Document) []string {
 	randLen := 0
 	if d.NumRandomContentLines == nil {
-		i := &pathway.Interval{To: maxLines, From: minLines}
-		randLen = i.Random()
+		randLen = g.defaultRandomNumContentLines()
 	} else {
 		randLen = d.NumRandomContentLines.Random()
 	}
@@ -118,4 +134,9 @@ func randomUniqueDocumentNumber() string {
 		udn[i] = chars[rand.Intn(len(chars))]
 	}
 	return string(udn)
+}
+
+func (g Generator) defaultRandomNumContentLines() int {
+	i := &pathway.Interval{To: maxLines, From: minLines}
+	return i.Random()
 }
