@@ -664,7 +664,7 @@ hospital_service: "180"
 					Person:          person,
 					HospitalService: "",
 				},
-				Orders: make(map[string]*ir.Order),
+				Orders:    make(map[string]*ir.Order),
 				Documents: make(map[string]*ir.Document),
 			},
 		}, {
@@ -678,7 +678,7 @@ hospital_service: "180"
 					HospitalService: existingDoctor.Specialty,
 					AttendingDoctor: existingDoctor,
 				},
-				Orders: make(map[string]*ir.Order),
+				Orders:    make(map[string]*ir.Order),
 				Documents: make(map[string]*ir.Document),
 			},
 		}, {
@@ -692,7 +692,7 @@ hospital_service: "180"
 					HospitalService: "",
 					AttendingDoctor: newDoctor,
 				},
-				Orders: make(map[string]*ir.Order),
+				Orders:    make(map[string]*ir.Order),
 				Documents: make(map[string]*ir.Document),
 			},
 		}, {
@@ -710,7 +710,7 @@ hospital_service: "180"
 						ID:           "123",
 					},
 				},
-				Orders: make(map[string]*ir.Order),
+				Orders:    make(map[string]*ir.Order),
 				Documents: make(map[string]*ir.Document),
 			},
 		}, {
@@ -728,7 +728,7 @@ hospital_service: "180"
 						ID:           "123",
 					},
 				},
-				Orders: make(map[string]*ir.Order),
+				Orders:    make(map[string]*ir.Order),
 				Documents: make(map[string]*ir.Document),
 			},
 		},

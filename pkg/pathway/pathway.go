@@ -89,7 +89,7 @@ const (
 
 // Constants for the possible update types in a Document step.
 const (
-	Append = "append"
+	Append    = "append"
 	Overwrite = "overwrite"
 )
 

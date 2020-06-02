@@ -108,7 +108,7 @@ func (g Generator) NewPatient(person *ir.Person, doctor *ir.Doctor) *state.Patie
 			AttendingDoctor: doctor,
 		},
 		// The code downstream assumes that Orders exists.
-		Orders: make(map[string]*ir.Order),
+		Orders:    make(map[string]*ir.Order),
 		Documents: make(map[string]*ir.Document),
 	}
 	// If none of the g.messageConfig.PrimaryFacility fields is set, we want the resulting HL7 message to have the entire
