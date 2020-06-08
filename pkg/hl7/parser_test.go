@@ -35,26 +35,8 @@ var (
 	obx2 = []byte("OBX|2|CD|PASSITECODE||thisite")
 	obx3 = []byte("OBX|3|CD|PERSONUKRES||YES")
 
-	segmentTerminatorBytes = []byte(SegmentTerminatorStr)
-)
-
-func TestMain(m *testing.M) {
-	TimezoneAndLocation("Europe/London")
-	retCode := m.Run()
-	os.Exit(retCode)
-}
-
-func TestParsePIDWithinMessage(t *testing.T) {
-	m, err := ParseMessage(bytes.Join([][]byte{msh, pid, nk1, obx1, obx2, obx3}, segmentTerminatorBytes))
-	if err != nil {
-		t.Fatalf("ParseMessage() failed with %v", err)
-	}
-	got, err := m.PID()
-	if err != nil {
-		t.Fatalf("PID() failed with %v", err)
-	}
-
-	want := &PID{
+	// wantPID is the representation of the "pid" variable as a *PID struct.
+	wantPID = &PID{
 		SetIDPID:  NewSI(1),
 		PatientID: &CX{ID: NewST("843124"), AssigningAuthority: &HD{NamespaceID: NewIS("RAL MRN")}, IdentifierTypeCode: NewID("MRN")},
 		PatientIdentifierList: []CX{
@@ -82,7 +64,26 @@ func TestParsePIDWithinMessage(t *testing.T) {
 		BirthOrder:           NewNM(0),
 	}
 
-	if diff := cmp.Diff(want, got); diff != "" {
+	segmentTerminatorBytes = []byte(SegmentTerminatorStr)
+)
+
+func TestMain(m *testing.M) {
+	TimezoneAndLocation("Europe/London")
+	retCode := m.Run()
+	os.Exit(retCode)
+}
+
+func TestParsePIDWithinMessage(t *testing.T) {
+	m, err := ParseMessage(bytes.Join([][]byte{msh, pid, nk1, obx1, obx2, obx3}, segmentTerminatorBytes))
+	if err != nil {
+		t.Fatalf("ParseMessage() failed with %v", err)
+	}
+	got, err := m.PID()
+	if err != nil {
+		t.Fatalf("PID() failed with %v", err)
+	}
+
+	if diff := cmp.Diff(wantPID, got); diff != "" {
 		t.Errorf("PID() diff: (-want, +got):\n%s", diff)
 	}
 }
@@ -454,6 +455,51 @@ func TestTimezoneAndLocation(t *testing.T) {
 			}
 			if !tc.wantErr && Timezone != tc.timezone {
 				t.Errorf("Timezone got %q; want %q", Timezone, tc.timezone)
+			}
+		})
+	}
+}
+
+func TestParseMessageWithOptions_AllowNullHeader(t *testing.T) {
+	allowNullHeaderDisabled := NewParseMessageOptions()
+	allowNullHeaderEnabled := NewParseMessageOptions()
+	allowNullHeaderEnabled.AllowNullHeader = true
+
+	tests := []struct {
+		name     string
+		segments [][]byte
+		options  *ParseMessageOptions
+		wantErr  bool
+	}{{
+		name:     "AllowNullHeader disabled",
+		segments: [][]byte{pid, nk1, obx1, obx2, obx3},
+		options:  allowNullHeaderDisabled,
+		wantErr:  true,
+	}, {
+		name:     "AllowNullHeader enabled",
+		segments: [][]byte{pid, nk1, obx1, obx2, obx3},
+		options:  allowNullHeaderEnabled,
+	}}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			m, err := ParseMessageWithOptions(bytes.Join(tc.segments, segmentTerminatorBytes), tc.options)
+			gotErr := err != nil
+			if gotErr != tc.wantErr {
+				t.Fatalf("ParseMessageWithOptions() got error %v, want error? %t", err, tc.wantErr)
+			}
+			if err != nil || tc.wantErr {
+				return
+			}
+
+			// We use the PID segment to make sure the message is still parsable, but we could have used any other segment.
+			got, err := m.PID()
+			if err != nil {
+				t.Fatalf("PID() failed with %v", err)
+			}
+
+			if diff := cmp.Diff(wantPID, got); diff != "" {
+				t.Errorf("PID() diff: (-want, +got):\n%s", diff)
 			}
 		})
 	}

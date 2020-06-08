@@ -127,6 +127,7 @@ type Segment interface {
 // the header) which is necessary to parse individual values.
 type Context struct {
 	Decoder    *encoding.Decoder
+	Rewrite    []Rewrite
 	Delimiters *Delimiters
 	// Nesting represents how deep in the HL7 parsing we are. HL7 only allows two levels of
 	// nesting, so we keep track of this as an int in order to be able to detect if the code is
@@ -150,6 +151,8 @@ type ParseMessageOptions struct {
 	TimezoneLoc *time.Location
 	// SegmentTerminator contains characters used as an end of segment terminator.
 	SegmentTerminator []byte
+	Rewrites          *[]Rewrite
+	AllowNullHeader   bool
 }
 
 // NewParseMessageOptions returns a ParseMessageOptions, which can be used to
@@ -158,6 +161,7 @@ func NewParseMessageOptions() *ParseMessageOptions {
 	return &ParseMessageOptions{
 		TimezoneLoc:       Location,
 		SegmentTerminator: []byte{SegmentTerminator},
+		Rewrites:          &[]Rewrite{NopRewrite},
 	}
 }
 
@@ -371,34 +375,48 @@ func ParseMessage(input []byte) (*Message, error) {
 
 // ParseMessageWithOptions returns an object representing the HL7 message in
 // input, ensuring it has a correct header, and returning an error if not.
+// If options.Rewrites is populated, fields are rewritten with options.Rewrites
+// during parsing. The rewrite functions are applied in order, and are chained
+// so that the result of one function is passed to the next one. If not
+// specified, the no-op rewrite is applied.
 // If options.TimezoneLoc is populated, the given timezone is used to interpret
 // dates from the message. If not specified, Timezone is used.
+// If options.AllowNullHeader is set and the message has a null header, defaultDelimiters is used
+// as the delimiters.
 // options.segmentTerminator is used as the segment terminator or delimiter. The default value is
 // \r. The spec doesn't allow custom values for this delimiter, but it might be necessary to change
 // it to deal with some messages that use a non-standard terminator.
 func ParseMessageWithOptions(input []byte, options *ParseMessageOptions) (*Message, error) {
-	delimiters := defaultDelimiters
+	m := &Message{
+		Context: &Context{
+			Decoder:     encoding.Nop.NewDecoder(),
+			Delimiters:  defaultDelimiters,
+			Nesting:     0,
+			TimezoneLoc: options.TimezoneLoc,
+			Rewrite:     *options.Rewrites,
+		},
+		Segments: splitMultiCharDelimiter(Token{input, 0, ""}, options.SegmentTerminator),
+	}
+
 	// Messages start with "MSH" header and 5 delimiter characters.
 	if len(input) < 8 || !bytes.HasPrefix(input, []byte("MSH")) {
-		return nil, errors.New("bad HL7 MSH header")
+		if !options.AllowNullHeader {
+			return nil, errors.New("Bad HL7 MSH header")
+		}
+		return m, nil
 	}
-	delimiters = &Delimiters{
+
+	m.Delimiters = &Delimiters{
 		Field: input[3],
 		// The remaining delimiters are filled in when the MSH segment is parsed.
 	}
 
-	m := &Message{
-		Context: &Context{
-			Decoder:     encoding.Nop.NewDecoder(),
-			Delimiters:  delimiters,
-			Nesting:     0,
-			TimezoneLoc: options.TimezoneLoc,
-		},
-		Segments: splitMultiCharDelimiter(Token{input, 0, ""}, options.SegmentTerminator),
-	}
-	err := parseSegment(m.Segments[0].Value, m.Context, &m.msh)
+	rewriteRes, err := parseSegment(m.Segments[0].Value, m.Context, &m.msh)
 	if err != nil {
 		return nil, err
+	}
+	if rewriteRes.action == deleteToken {
+		return nil, errors.New("MSH segment was deleted during rewrite")
 	}
 	if len(m.msh.CharacterSet) > 0 && m.msh.CharacterSet[0] != "" {
 		enc, ok := encodings[strings.TrimSpace(string(m.msh.CharacterSet[0]))]
@@ -440,18 +458,32 @@ func parseCompositeValue(input Token, c *Context, v reflect.Value) error {
 // parseSegment parses a HL7 segment, ef PID. v should be a pointer to an
 // instance of the corresponding struct, for example:
 //   var pid PID
-//   err := parseSegment(segment, c, &pid)
-func parseSegment(input []byte, c *Context, v interface{}) error {
+//   _, err := parseSegment(segment, c, &pid)
+func parseSegment(input []byte, c *Context, v interface{}) (*RewriteResult, error) {
 	return parseSegmentValue(Token{input, 0, ""}, c, reflect.ValueOf(v).Elem())
 }
 
-func parseSegmentValue(input Token, c *Context, v reflect.Value) error {
+func parseSegmentValue(input Token, c *Context, v reflect.Value) (*RewriteResult, error) {
 	input.Location = v.Type().Name()
 	vType := v.Type()
 	if vType.Kind() == reflect.Ptr {
 		vType = vType.Elem()
 	}
 	input.Location = vType.Name()
+	rwRes, err := rewrite(c, input)
+	if err != nil {
+		return nil, err
+	}
+	switch rwRes.action {
+	case noop:
+		// Do nothing
+	case replaceValue:
+		input.Value = rwRes.value
+	case deleteToken:
+		return rwRes, nil
+	default:
+		return nil, fmt.Errorf("Unknown rewriteAction value: %v", rwRes.action)
+	}
 	fields := c.Delimiters.splitFields(input)
 	errs := ParseErrors{}
 	for i := 0; i < v.NumField(); i++ {
@@ -470,14 +502,14 @@ func parseSegmentValue(input Token, c *Context, v reflect.Value) error {
 			if perr, ok := err.(ParseErrors); ok {
 				errs = append(errs, perr...)
 			} else {
-				return err
+				return rwRes, err
 			}
 		}
 	}
 	if len(errs) == 0 {
-		return nil
+		return rwRes, nil
 	}
-	return errs
+	return rwRes, errs
 }
 
 func parseRepeatedValue(input Token, c *Context, v reflect.Value) error {
@@ -508,6 +540,21 @@ func isHL7Null(field []byte) bool {
 func parseValue(input Token, c *Context, v reflect.Value) error {
 	if !v.CanSet() {
 		panic("Can't set value") // Implies a bug in the parser.
+	}
+	// Individual values can be rewritten.
+	rwRes, err := rewrite(c, input)
+	if err != nil {
+		return err
+	}
+	switch rwRes.action {
+	case noop:
+		// Do nothing.
+	case replaceValue:
+		input.Value = rwRes.value
+	case deleteToken:
+		return nil
+	default:
+		return fmt.Errorf("Unknown rewriteAction value: %v", rwRes.action)
 	}
 	if len(input.Value) == 0 {
 		return nil
@@ -579,8 +626,10 @@ func (m *Message) parse(name string) (interface{}, error) {
 			continue
 		}
 		ps := reflect.New(t)
-		err := parseSegmentValue(s, m.Context, ps.Elem())
-		return ps.Interface(), err
+		rwRes, err := parseSegmentValue(s, m.Context, ps.Elem())
+		if rwRes.action != deleteToken {
+			return ps.Interface(), err
+		}
 	}
 	return nil, nil
 }
@@ -599,7 +648,7 @@ func (m *Message) ParseAll(name string) (interface{}, error) {
 			continue
 		}
 		ps := reflect.New(t)
-		err := parseSegmentValue(s, m.Context, ps.Elem())
+		rwRes, err := parseSegmentValue(s, m.Context, ps.Elem())
 		if err != nil {
 			if perr, ok := err.(ParseErrors); ok {
 				errs = append(errs, perr...)
@@ -607,7 +656,9 @@ func (m *Message) ParseAll(name string) (interface{}, error) {
 				return nil, err
 			}
 		}
-		v = reflect.Append(v, ps)
+		if rwRes.action != deleteToken {
+			v = reflect.Append(v, ps)
+		}
 	}
 	if len(errs) > 0 {
 		return v.Interface(), errs
@@ -639,7 +690,7 @@ func (m *Message) All() ([]interface{}, error) {
 			continue
 		}
 		ps := reflect.New(t)
-		err := parseSegmentValue(s, m.Context, ps.Elem())
+		rwRes, err := parseSegmentValue(s, m.Context, ps.Elem())
 		if err != nil {
 			if perr, ok := err.(ParseErrors); ok {
 				errs = append(errs, perr...)
@@ -647,7 +698,9 @@ func (m *Message) All() ([]interface{}, error) {
 				return nil, err
 			}
 		}
-		v = append(v, ps.Interface())
+		if rwRes.action != deleteToken {
+			v = append(v, ps.Interface())
+		}
 	}
 	if len(errs) > 0 {
 		return v, errs
