@@ -21,18 +21,8 @@ package(
 
 go_library(
     name = "go_default_library",
-    srcs = ["hospital.go"],
-    importpath = "github.com/google/simhospital/pkg/test/testhospital",
-    deps = [
-        "//pkg/config:go_default_library",
-        "//pkg/hospital:go_default_library",
-        "//pkg/location:go_default_library",
-        "//pkg/pathway:go_default_library",
-        "//pkg/test:go_default_library",
-        "//pkg/test/testaddress:go_default_library",
-        "//pkg/test/testclock:go_default_library",
-        "//pkg/test/testhl7:go_default_library",
-        "//pkg/test/testid:go_default_library",
-        "//pkg/test/testresource:go_default_library",
-    ],
+    srcs = ["resource.go"],
+    importpath = "github.com/google/simhospital/pkg/test/testresource",
+    visibility = ["//visibility:public"],
+    deps = ["//pkg/ir:go_default_library"],
 )

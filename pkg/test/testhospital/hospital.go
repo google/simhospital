@@ -29,6 +29,7 @@ import (
 	"github.com/google/simhospital/pkg/test/testclock"
 	"github.com/google/simhospital/pkg/test/testhl7"
 	"github.com/google/simhospital/pkg/test/testid"
+	"github.com/google/simhospital/pkg/test/testresource"
 )
 
 const defaultClockTick = time.Second
@@ -121,6 +122,12 @@ func WithTime(t *testing.T, cfg Config, now time.Time) *Hospital {
 	} else {
 		c.Sender = &testhl7.Sender{}
 	}
+	if cfg.ResourceWriter != nil {
+		c.ResourceWriter = cfg.ResourceWriter
+	} else {
+		c.ResourceWriter = testresource.NewWriter()
+	}
+
 	c.AdditionalConfig = cfg.AdditionalConfig
 	c.AdditionalConfig.AddressGenerator = &testaddress.ArbitraryGenerator
 	c.AdditionalConfig.MRNGenerator = &testid.Generator{}

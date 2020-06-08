@@ -41,6 +41,7 @@
     +   [Clinical Note](#clinical-note)
     +   [Hardcoded message](#hardcoded-message)
     +   [Generic](#generic)
+    +   [GenerateResources](#generate-resources)
 *   [Order profiles](#order-profiles)
     +   [Explicitly specify results for each test type in the order profile
         (recommended)](#explicitly-specify-results-for-each-test-type-in-the-order-profile-recommended)
@@ -1184,6 +1185,11 @@ second one a diagnosis.
     custom:
       diagnosis_name: appendicitis
 ```
+
+### Generate Resources
+
+A `generate_resources` event will trigger the generation of the entire patient
+record (at the time of the event) for each pathway.
 
 ## Order profiles
 

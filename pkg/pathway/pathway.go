@@ -66,6 +66,7 @@ const (
 	StepHardcodedMessage       = "HardcodedMessage"
 	StepDocument               = "Document"
 	StepGeneric                = "Generic"
+	StepGenerateResources      = "GenerateResources"
 )
 
 const (
@@ -845,6 +846,10 @@ func (r *Result) GetAbnormalFlag(secondaryValueGenerator *orderprofile.ValueGene
 	return r.AbnormalFlag, nil
 }
 
+// GenerateResources step triggers the generation of resources (i.e. FHIR) from a
+// patient's health record at that point in time.
+type GenerateResources struct{}
+
 func valueOrEmptyString(s string) string {
 	if s == constants.EmptyString {
 		return ""
@@ -974,6 +979,7 @@ type Step struct {
 	HardcodedMessage       *HardcodedMessage       `yaml:"hardcoded_message,omitempty"`
 	Document               *Document               `yaml:",omitempty"`
 	Generic                *Generic                `yaml:",omitempty"`
+	GenerateResources      *GenerateResources      `yaml:"generate_resources,omitempty"`
 	// Up to this point, only one of the fields can be set. The pathway will be considered invalid if
 	// more than one of the above fields is set.
 

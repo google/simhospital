@@ -101,6 +101,12 @@ type MessageProcessor interface {
 	Matches(*state.HL7Message) bool
 }
 
+// ResourceWriter defines an object which can produce resources from a patient record.
+type ResourceWriter interface {
+	// Generate generates resources from the given PatientInfo.
+	Generate(*ir.PatientInfo) error
+}
+
 // Arguments contains the arguments used to create a default Simulated Hospital Config.
 type Arguments struct {
 	// LocationsFile to create the Config.LocationManager.
@@ -226,6 +232,9 @@ type Config struct {
 	// Deleting patients saves memory, but patients cannot be reused for other pathways.
 	DeletePatientsFromMemory bool
 
+	// ResourceWriter is used to write resources.
+	ResourceWriter ResourceWriter
+
 	// Additional configuration.
 	// Optional.
 	AdditionalConfig AdditionalConfig
@@ -319,6 +328,7 @@ func DefaultConfig(arguments Arguments) (Config, error) {
 			return Config{}, errors.Wrap(err, "cannot load the order profiles")
 		}
 	}
+
 	if arguments.SenderArguments != nil {
 		if c.Sender, err = hl7Sender(*arguments.SenderArguments); err != nil {
 			return Config{}, errors.Wrap(err, "cannot create the sender")
@@ -410,6 +420,7 @@ type Hospital struct {
 	hardcodedMessageManager *hardcoded.Manager
 	patients                *state.PatientsMap
 	processors              Processors
+	resourceWriter          ResourceWriter
 	messageConfig           *config.HL7Config
 	orderAckDelay           *pathway.Delay
 }
@@ -649,6 +660,7 @@ func NewHospital(c Config) (*Hospital, error) {
 		hardcodedMessageManager: c.MessagesManager,
 		patients:                patientsMap,
 		processors:              c.AdditionalConfig.Processors,
+		resourceWriter:          c.ResourceWriter,
 		messageConfig:           c.HL7Config,
 		orderAckDelay:           ac.OrderAckDelay,
 	}, nil

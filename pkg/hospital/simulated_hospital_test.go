@@ -26,6 +26,7 @@ import (
 	"time"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/Sirupsen/logrus"
 	"github.com/golang/protobuf/proto"
 	"github.com/google/simhospital/pkg/generator/header"
@@ -44,6 +45,7 @@ import (
 	"github.com/google/simhospital/pkg/test/testhospital"
 	"github.com/google/simhospital/pkg/test/testlocation"
 	"github.com/google/simhospital/pkg/test/testmetrics"
+	"github.com/google/simhospital/pkg/test/testresource"
 	"github.com/google/simhospital/pkg/test/teststate"
 	"github.com/google/simhospital/pkg/test/testwrite"
 )
@@ -1730,7 +1732,16 @@ func TestRunPathway_StepTypes(t *testing.T) {
 			},
 			wantDiff: 1,
 		}},
+	}, {
+		name: "Admission Discharge with GenerateResources",
+		pathway: pathway.Pathway{Pathway: []pathway.Step{
+			{Admission: &pathway.Admission{Loc: testLoc}},
+			{GenerateResources: &pathway.GenerateResources{}}, // Should not generate any messages.
+			{Discharge: &pathway.Discharge{}},
+		}},
+		wantMessageTypes: []string{"ADT^A01", "ADT^A03"},
 	}}
+
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
 			mr := testmetrics.NewRetrieverFromGatherer(t)
@@ -4241,5 +4252,143 @@ func TestStartNextPathway(t *testing.T) {
 		if math.Abs(float64(v)-float64(want)) >= delta {
 			t.Errorf("countMessageLen[%v] = %d, want within %.1f of %d", k, v, delta, want)
 		}
+	}
+}
+
+// TestGenerateResources verifies the interaction between the `GenerateResources`
+// step in the pathway and the `ResourceWriter`.
+// It only tests that the contents of the `Person` field has been populated correctly,
+// as this is all that is necessary to ensure that writing is happening as intended.
+// Population of the remaining fields is covered by other tests.
+func TestGenerateResources(t *testing.T) {
+	testPerson := pathway.Person{
+		FirstName: "FIRST_NAME_1",
+		Surname:   "SURNAME",
+		MRN:       "MRN-NUMBER",
+		NHS:       "NHS-NUMBER",
+		Address: &pathway.Address{
+			FirstLine:  "FIRST_LINE",
+			SecondLine: "SECOND_LINE",
+			City:       "CITY",
+			Postcode:   "POSTCODE",
+			Country:    "COUNTRY",
+			Type:       "TYPE",
+		},
+		DateOfBirth: &now,
+		Gender:      "M",
+	}
+
+	testPerson2 := testPerson
+	testPerson2.FirstName = "FIRST_NAME_2"
+
+	testPerson3 := testPerson
+	testPerson3.FirstName = "FIRST_NAME_3"
+
+	tests := []struct {
+		name    string
+		pathway pathway.Pathway
+		want    []*ir.Person
+	}{{
+		name: "Admission",
+		pathway: pathway.Pathway{
+			Persons: &pathway.Persons{pathway.PatientID(testPerson.MRN): testPerson},
+			Pathway: []pathway.Step{
+				{Admission: &pathway.Admission{Loc: testLocAE}},
+				{GenerateResources: &pathway.GenerateResources{}},
+			},
+		},
+		want: []*ir.Person{pathwayPersonToIRPerson(testPerson)},
+	}, {
+		name: "Update person before and after",
+		pathway: pathway.Pathway{
+			Persons: &pathway.Persons{pathway.PatientID(testPerson.MRN): testPerson},
+			Pathway: []pathway.Step{
+				{Admission: &pathway.Admission{Loc: testLocAE}},
+				{UpdatePerson: &pathway.UpdatePerson{
+					Person: &pathway.Person{FirstName: "FIRST_NAME_2"},
+				}},
+				{GenerateResources: &pathway.GenerateResources{}},
+				{UpdatePerson: &pathway.UpdatePerson{
+					Person: &pathway.Person{FirstName: "FIRST_NAME_3"},
+				}},
+			},
+		},
+		want: []*ir.Person{pathwayPersonToIRPerson(testPerson2)},
+	}, {
+		name: "Two GenerateResources",
+		pathway: pathway.Pathway{
+			Persons: &pathway.Persons{pathway.PatientID(testPerson.MRN): testPerson},
+			Pathway: []pathway.Step{
+				{Admission: &pathway.Admission{Loc: testLocAE}},
+				{UpdatePerson: &pathway.UpdatePerson{
+					Person: &pathway.Person{FirstName: "FIRST_NAME_2"},
+				}},
+				{GenerateResources: &pathway.GenerateResources{}},
+				{UpdatePerson: &pathway.UpdatePerson{
+					Person: &pathway.Person{FirstName: "FIRST_NAME_3"},
+				}},
+				{GenerateResources: &pathway.GenerateResources{}},
+			},
+		},
+		want: []*ir.Person{pathwayPersonToIRPerson(testPerson2), pathwayPersonToIRPerson(testPerson3)},
+	}}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			rw := testresource.NewWriter()
+
+			pathways := map[string]pathway.Pathway{
+				testPathwayName: tc.pathway,
+			}
+
+			hospital := newHospital(t, Config{ResourceWriter: rw}, pathways)
+			defer hospital.Close()
+
+			if err := hospital.StartNextPathway(); err != nil {
+				t.Fatalf("StartNextPathway() failed with %v", err)
+			}
+
+			hospital.ConsumeQueues(t)
+
+			if got, want := len(rw.Resources), len(tc.want); got != want {
+				t.Fatalf("len(rw.Resources) = %d, want %v", got, want)
+			}
+
+			// We specify options to equate nil with empty slices and ignore unstable fields.
+			// These fields are populated randomly by a generator, and it is not possible to
+			// (easily) specify what data to be generated from a test.
+			opts := []cmp.Option{
+				cmpopts.EquateEmpty(),
+				cmpopts.IgnoreFields(ir.Person{}, "Prefix", "Suffix", "PhoneNumber",
+					"DeathIndicator", "Degree", "Ethnicity", "DateOfDeath", "MiddleName"),
+			}
+
+			var got []*ir.Person
+			for _, r := range rw.Resources {
+				got = append(got, r.Person)
+			}
+			if diff := cmp.Diff(tc.want, got, opts...); diff != "" {
+				t.Errorf("StartNextPathway() resources returned diff (-want +got):\n%s", diff)
+			}
+		})
+	}
+}
+
+func pathwayPersonToIRPerson(p pathway.Person) *ir.Person {
+	return &ir.Person{
+		FirstName: p.FirstName,
+		Surname:   string(p.Surname),
+		MRN:       p.MRN,
+		NHS:       p.NHS,
+		Address: &ir.Address{
+			FirstLine:  string(p.Address.FirstLine),
+			SecondLine: string(p.Address.SecondLine),
+			City:       string(p.Address.City),
+			Country:    string(p.Address.Country),
+			PostalCode: string(p.Address.Postcode),
+			Type:       string(p.Address.Type),
+		},
+		Gender: string(p.Gender),
+		Birth:  ir.NewValidTime(*p.DateOfBirth),
 	}
 }

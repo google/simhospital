@@ -15,7 +15,11 @@
 // Package ir contains data structures related to internal representations of entities within Simulated Hospital.
 package ir
 
-import "time"
+import (
+	"bytes"
+	"encoding/gob"
+	"time"
+)
 
 // Person represents a person.
 type Person struct {
@@ -262,6 +266,38 @@ type NullTime struct {
 	time.Time
 	Valid    bool
 	Midnight bool
+}
+
+// GobEncode returns the gob encoding of NullTime.
+// This is necessary to prevent `time.Time.GobEncode()` being called instead,
+// which will discard the `Valid` and `Midnight` fields.
+func (t NullTime) GobEncode() ([]byte, error) {
+	var b bytes.Buffer
+	enc := gob.NewEncoder(&b)
+	if err := enc.Encode(t.Time); err != nil {
+		return nil, err
+	}
+	if err := enc.Encode(t.Valid); err != nil {
+		return nil, err
+	}
+	if err := enc.Encode(t.Midnight); err != nil {
+		return nil, err
+	}
+	return b.Bytes(), nil
+}
+
+// GobDecode performs the inverse of GobEncode.
+// It modifies the receiver, so it must take a pointer receiver.
+func (t *NullTime) GobDecode(data []byte) error {
+	b := bytes.NewBuffer(data)
+	dec := gob.NewDecoder(b)
+	if err := dec.Decode(&t.Time); err != nil {
+		return err
+	}
+	if err := dec.Decode(&t.Valid); err != nil {
+		return err
+	}
+	return dec.Decode(&t.Midnight)
 }
 
 // NewMidnightTime returns a NullTime from the given time with Midnight and Valid set.

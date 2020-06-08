@@ -23,5 +23,4 @@ go_library(
     name = "go_default_library",
     srcs = ["ir.go"],
     importpath = "github.com/google/simhospital/pkg/ir",
-    visibility = ["//visibility:public"],
 )

@@ -735,6 +735,15 @@ func (h *Hospital) hardcodedMessage(e *state.Event, logLocal *logging.SimulatedH
 	return h.queueMessage(logLocal, msg, e)
 }
 
+func (h *Hospital) generateResources(e *state.Event, logLocal *logging.SimulatedHospitalLogger) error {
+	if h.resourceWriter == nil {
+		return errors.New("generate_resources is unimplemented")
+	}
+	patientInfo := h.patients.Get(e.PatientMRN).PatientInfo
+	logLocal.Info("Generating resources")
+	return h.resourceWriter.Generate(patientInfo)
+}
+
 // processEventType processes the given event type.
 // Most events create HL7 messages that are added to the message queue.
 func (h *Hospital) processEventType(e *state.Event, logLocal *logging.SimulatedHospitalLogger, now time.Time) error {
@@ -815,6 +824,8 @@ func (h *Hospital) processEventType(e *state.Event, logLocal *logging.SimulatedH
 		// Generic events do not have a default logic by design.
 		// Add an event processor in AdditionalConfig.Processors.EventOverride to specify the behaviour for these events.
 		return errors.New("missing_processor_of_generic_event")
+	case pathway.StepGenerateResources:
+		return h.generateResources(e, logLocal)
 	default:
 		return fmt.Errorf("unknown_event_type_%s", e.Step.StepType())
 	}
