@@ -23,6 +23,7 @@ go_library(
     name = "go_default_library",
     srcs = [
         "abnormal_flag.go",
+        "encounter_status.go",
         "hl7.go",
         "pathway.go",
     ],

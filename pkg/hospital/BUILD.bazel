@@ -59,6 +59,7 @@ go_test(
     srcs = ["simulated_hospital_test.go"],
     embed = [":go_default_library"],
     deps = [
+        "//pkg/constants:go_default_library",
         "//pkg/generator/header:go_default_library",
         "//pkg/hardcoded:go_default_library",
         "//pkg/hl7:go_default_library",

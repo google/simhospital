@@ -1180,9 +1180,9 @@ RECURRING,RECURRING,5
 	g := testGenerator(t, Config{Data: dataConfig})
 
 	wantFreq := map[config.PatientClassAndType]int{
-		config.PatientClassAndType{Class: "EMERGENCY", Type: "EMERGENCY"}:   1,
-		config.PatientClassAndType{Class: "OUTPATIENT", Type: "OUTPATIENT"}: 4,
-		config.PatientClassAndType{Class: "RECURRING", Type: "RECURRING"}:   5,
+		{Class: "EMERGENCY", Type: "EMERGENCY"}:   1,
+		{Class: "OUTPATIENT", Type: "OUTPATIENT"}: 4,
+		{Class: "RECURRING", Type: "RECURRING"}:   5,
 	}
 
 	runs := 1000
@@ -1235,6 +1235,7 @@ func TestGeneratorResetPatientInfo(t *testing.T) {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
 	g := testGenerator(t, Config{HL7Config: hl7Config})
+	now := ir.NewValidTime(time.Date(2018, 2, 12, 0, 0, 0, 0, time.UTC))
 
 	doctor := &ir.Doctor{
 		ID:        "id-1",
@@ -1256,6 +1257,21 @@ func TestGeneratorResetPatientInfo(t *testing.T) {
 			VisitID:   2,
 			Location:  &ir.PatientLocation{Poc: "Poc-1", Room: "room-1", Bed: "bed-1"},
 			Allergies: []*ir.Allergy{{Type: "food"}},
+			Encounters: []*ir.Encounter{
+				{
+					Status:      constants.EncounterStatusArrived,
+					StatusStart: now,
+					Start:       now,
+					End:         now,
+					StatusHistory: []*ir.StatusHistory{
+						{
+							Status: constants.EncounterStatusPlanned,
+							Start:  now,
+							End:    now,
+						},
+					},
+				},
+			},
 		},
 		Orders: map[string]*ir.Order{
 			"order-id": urineOrder(defaultDate, hl7Config),
@@ -1273,6 +1289,21 @@ func TestGeneratorResetPatientInfo(t *testing.T) {
 			PrimaryFacility: &ir.PrimaryFacility{
 				Organization: "Test Primary Facility",
 				ID:           "123",
+			},
+			Encounters: []*ir.Encounter{
+				{
+					Status:      constants.EncounterStatusArrived,
+					StatusStart: now,
+					Start:       now,
+					End:         now,
+					StatusHistory: []*ir.StatusHistory{
+						{
+							Status: constants.EncounterStatusPlanned,
+							Start:  now,
+							End:    now,
+						},
+					},
+				},
 			},
 		},
 		Orders: map[string]*ir.Order{

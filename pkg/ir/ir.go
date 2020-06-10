@@ -255,10 +255,68 @@ type PatientInfo struct {
 	Allergies                      []*Allergy
 	Diagnoses                      []*DiagnosisOrProcedure
 	Procedures                     []*DiagnosisOrProcedure
+	Encounters                     []*Encounter
 	PrimaryFacility                *PrimaryFacility
 	// AdditionalData allows users to enter arbitrary information about a patient's medical record.
 	// It is up to the user to decide what data is stored here.
 	AdditionalData interface{}
+}
+
+// LatestEncounter retrieves the latest encounter from PatientInfo.
+func (p *PatientInfo) LatestEncounter() *Encounter {
+	if len(p.Encounters) == 0 {
+		return nil
+	}
+	return p.Encounters[len(p.Encounters)-1]
+}
+
+// AddEncounter creates a new Encounter, adds it to the list of Encounters, and sets its status.
+func (p *PatientInfo) AddEncounter(startTime NullTime, status string) *Encounter {
+	ec := &Encounter{Status: status, StatusStart: startTime, Start: startTime}
+	p.Encounters = append(p.Encounters, ec)
+	return ec
+}
+
+// EndEncounter finishes the specified Encounter and sets its status.
+// Note that this takes an Encounter as a receiver, unlike AddEncounter.
+func (ec *Encounter) EndEncounter(endTime NullTime, newStatus string) {
+	ec.UpdateStatus(endTime, newStatus)
+	ec.End = endTime
+}
+
+// Encounter represents an interaction between a patient and healthcare provider.
+type Encounter struct {
+	Status string
+	// StatusStart tracks the start time of the current status.
+	StatusStart NullTime
+	// StatusHistory tracks the lifecycle of this Encounter.
+	// e.g. [planned -> arrived -> finished] or [planned -> in-progress -> cancelled]
+	StatusHistory []*StatusHistory
+	IsPending     bool
+	// Start to End encompasses the entire period that this Encounter is active for.
+	Start NullTime
+	End   NullTime
+}
+
+// StatusHistory represents an Encounter's status and its period.
+type StatusHistory struct {
+	// Status must be a value from the value set EncounterStatus:
+	// https://www.hl7.org/fhir/codesystem-encounter-status.html
+	Status string
+	Start  NullTime
+	End    NullTime
+}
+
+// UpdateStatus ends the current status and appends a new entry to an Encounter's status history.
+// If the new status is the same as the current one, this is a no-op.
+func (ec *Encounter) UpdateStatus(endTime NullTime, newStatus string) {
+	if ec.Status == newStatus {
+		return
+	}
+	oldStatus := &StatusHistory{Status: ec.Status, Start: ec.StatusStart, End: endTime}
+	ec.StatusHistory = append(ec.StatusHistory, oldStatus)
+	ec.Status = newStatus
+	ec.StatusStart = endTime
 }
 
 // NullTime represents a time that can be null.

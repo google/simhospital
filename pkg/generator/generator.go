@@ -153,12 +153,13 @@ func (g Generator) NewDoctor(c *pathway.Consultant) *ir.Doctor {
 }
 
 // ResetPatient returns a Patient based on the given Patient.
-// Medical History (Orders) and general information is kept, but other information is cleared as if the patient was a
-// new patient.
+// Medical History (Orders, Encounters) and general information is kept, but other
+// information is cleared as if the patient was a new patient.
 func (g Generator) ResetPatient(p *state.Patient) *state.Patient {
 	newP := g.NewPatient(p.PatientInfo.Person, p.PatientInfo.AttendingDoctor)
 	newP.Orders = p.Orders
 	newP.PatientInfo.HospitalService = p.PatientInfo.HospitalService
+	newP.PatientInfo.Encounters = p.PatientInfo.Encounters
 	newP.PastVisits = p.PastVisits
 	newP.PatientInfo.PrimaryFacility = p.PatientInfo.PrimaryFacility
 	return newP

@@ -29,6 +29,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/Sirupsen/logrus"
 	"github.com/golang/protobuf/proto"
+	"github.com/google/simhospital/pkg/constants"
 	"github.com/google/simhospital/pkg/generator/header"
 	"github.com/google/simhospital/pkg/hardcoded"
 	"github.com/google/simhospital/pkg/hl7"
@@ -4161,7 +4162,7 @@ func TestPathwayClinicalNote(t *testing.T) {
 
 func TestHasEvents_HasMessages_RunNextEventIfDue_ProcessNextMessageIfDue(t *testing.T) {
 	pathways := map[string]pathway.Pathway{
-		testPathwayName: pathway.Pathway{Pathway: []pathway.Step{
+		testPathwayName: {Pathway: []pathway.Step{
 			{Admission: &pathway.Admission{Loc: testLoc}},
 		}},
 	}
@@ -4390,5 +4391,170 @@ func pathwayPersonToIRPerson(p pathway.Person) *ir.Person {
 		},
 		Gender: string(p.Gender),
 		Birth:  ir.NewValidTime(*p.DateOfBirth),
+	}
+}
+
+func TestEncounters(t *testing.T) {
+	delay := time.Hour * 5
+	later := now.Add(delay)
+	evenLater := later.Add(delay)
+
+	tests := []struct {
+		name    string
+		pathway pathway.Pathway
+		want    []*ir.Encounter
+	}{{
+		name: "PendingAdmission Admission PendingDischarge Discharge",
+		pathway: pathway.Pathway{
+			Pathway: []pathway.Step{
+				{PendingAdmission: &pathway.PendingAdmission{Loc: testLocAE, ExpectedAdmissionTimeFromNow: &delay}},
+				{Delay: &pathway.Delay{From: delay, To: delay}},
+				{Admission: &pathway.Admission{Loc: testLocAE}},
+				{PendingDischarge: &pathway.PendingDischarge{ExpectedDischargeTimeFromNow: &delay}},
+				{Delay: &pathway.Delay{From: delay, To: delay}},
+				{Discharge: &pathway.Discharge{}},
+				{GenerateResources: &pathway.GenerateResources{}},
+			},
+		},
+		want: []*ir.Encounter{
+			{
+				Start:       ir.NewValidTime(later),
+				End:         ir.NewValidTime(evenLater),
+				Status:      constants.EncounterStatusFinished,
+				StatusStart: ir.NewValidTime(evenLater),
+				StatusHistory: []*ir.StatusHistory{
+					{
+						Start:  ir.NewValidTime(later),
+						End:    ir.NewValidTime(later),
+						Status: constants.EncounterStatusPlanned,
+					},
+					{
+						Start:  ir.NewValidTime(later),
+						End:    ir.NewValidTime(evenLater),
+						Status: constants.EncounterStatusArrived,
+					},
+					{
+						Start:  ir.NewValidTime(evenLater),
+						End:    ir.NewValidTime(evenLater),
+						Status: constants.EncounterStatusPlanned,
+					},
+				},
+			},
+		},
+	}, {
+		name: "Admission and Discharge twice",
+		pathway: pathway.Pathway{
+			Pathway: []pathway.Step{
+				{Admission: &pathway.Admission{Loc: testLocAE}},
+				{Delay: &pathway.Delay{From: delay, To: delay}},
+				{Discharge: &pathway.Discharge{}},
+				{Admission: &pathway.Admission{Loc: testLocAE}},
+				{Delay: &pathway.Delay{From: delay, To: delay}},
+				{Discharge: &pathway.Discharge{DischargeTime: &evenLater}},
+				{GenerateResources: &pathway.GenerateResources{}},
+			},
+		},
+		want: []*ir.Encounter{
+			{
+				Start:       ir.NewValidTime(now),
+				End:         ir.NewValidTime(later),
+				Status:      constants.EncounterStatusFinished,
+				StatusStart: ir.NewValidTime(later),
+				StatusHistory: []*ir.StatusHistory{
+					{
+						Start:  ir.NewValidTime(now),
+						End:    ir.NewValidTime(later),
+						Status: constants.EncounterStatusArrived,
+					},
+				},
+			},
+			{
+				Start:       ir.NewValidTime(later),
+				End:         ir.NewValidTime(evenLater),
+				Status:      constants.EncounterStatusFinished,
+				StatusStart: ir.NewValidTime(evenLater),
+				StatusHistory: []*ir.StatusHistory{
+					{
+						Start:  ir.NewValidTime(later),
+						End:    ir.NewValidTime(evenLater),
+						Status: constants.EncounterStatusArrived,
+					},
+				},
+			},
+		},
+	}, {
+		name: "PendingAdmission twice",
+		pathway: pathway.Pathway{
+			Pathway: []pathway.Step{
+				{PendingAdmission: &pathway.PendingAdmission{Loc: testLoc, ExpectedAdmissionTimeFromNow: &delay}},
+				{PendingAdmission: &pathway.PendingAdmission{Loc: testLoc, ExpectedAdmissionTimeFromNow: &delay}},
+				{Delay: &pathway.Delay{From: delay, To: delay}},
+				{Admission: &pathway.Admission{Loc: testLoc}},
+				{GenerateResources: &pathway.GenerateResources{}},
+			},
+		},
+		want: []*ir.Encounter{
+			{
+				Start:       ir.NewValidTime(later),
+				End:         ir.NewInvalidTime(),
+				Status:      constants.EncounterStatusPlanned,
+				StatusStart: ir.NewValidTime(later),
+				IsPending:   true,
+			},
+			{
+				Start:       ir.NewValidTime(later),
+				End:         ir.NewInvalidTime(),
+				Status:      constants.EncounterStatusArrived,
+				StatusStart: ir.NewValidTime(later),
+				StatusHistory: []*ir.StatusHistory{
+					{
+						Start:  ir.NewValidTime(later),
+						End:    ir.NewValidTime(later),
+						Status: constants.EncounterStatusPlanned,
+					},
+				},
+			},
+		},
+	}}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			rw := testresource.NewWriter()
+
+			pathways := map[string]pathway.Pathway{
+				testPathwayName: tc.pathway,
+			}
+
+			hospital := hospitalWithTime(t, Config{ResourceWriter: rw}, pathways, now)
+			defer hospital.Close()
+
+			if err := hospital.StartNextPathway(); err != nil {
+				t.Fatalf("StartNextPathway() failed with %v", err)
+			}
+
+			hospital.ConsumeQueues(t)
+
+			if got, want := len(rw.Resources), 1; got != want {
+				t.Fatalf("len(rw.Resources) = %d, want %d", got, want)
+			}
+
+			p := rw.Resources[0]
+
+			if got, want := len(p.Encounters), len(tc.want); got != want {
+				t.Fatalf("len(p.Encounters) = %d, want %d", got, want)
+			}
+
+			opts := []cmp.Option{
+				cmpopts.EquateEmpty(),
+			}
+
+			var got []*ir.Encounter
+			for _, e := range p.Encounters {
+				got = append(got, e)
+			}
+			if diff := cmp.Diff(tc.want, got, opts...); diff != "" {
+				t.Errorf("StartNextPathway() encounters returned diff (-want +got):\n%s", diff)
+			}
+		})
 	}
 }

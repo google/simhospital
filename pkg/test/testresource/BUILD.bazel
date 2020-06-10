@@ -23,6 +23,5 @@ go_library(
     name = "go_default_library",
     srcs = ["resource.go"],
     importpath = "github.com/google/simhospital/pkg/test/testresource",
-    visibility = ["//visibility:public"],
     deps = ["//pkg/ir:go_default_library"],
 )

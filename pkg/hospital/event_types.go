@@ -57,6 +57,13 @@ func (h *Hospital) processAdmission(e *state.Event, logLocal *logging.SimulatedH
 		patientInfo.Location = loc
 	}
 
+	if ec := patientInfo.LatestEncounter(); ec != nil && ec.IsPending {
+		ec.UpdateStatus(patientInfo.AdmissionDate, constants.EncounterStatusArrived)
+		ec.IsPending = false
+	} else {
+		patientInfo.AddEncounter(patientInfo.AdmissionDate, constants.EncounterStatusArrived)
+	}
+
 	patientInfo.PendingLocation = nil
 	patientInfo.ExpectedAdmitDateTime = ir.NewInvalidTime()
 	patientInfo.Class = h.messageConfig.PatientClass.Inpatient
@@ -213,6 +220,14 @@ func (h *Hospital) processDischarge(e *state.Event, logLocal *logging.SimulatedH
 	patientInfo.AccountStatus = h.messageConfig.PatientAccountStatus.Finished
 	h.generator.AddAllergies(patientInfo, e.Step.Discharge.Allergies)
 	h.updateDeathInfo(logLocal, now, pathwayName, patientInfo, e.Step.Parameters)
+
+	ec := patientInfo.LatestEncounter()
+	if ec == nil {
+		// No Encounters exist, so we just create and end one here.
+		ec = patientInfo.AddEncounter(patientInfo.DischargeDate, constants.EncounterStatusInProgress)
+	}
+	ec.EndEncounter(patientInfo.DischargeDate, constants.EncounterStatusFinished)
+	ec.IsPending = false
 	msg, err := message.BuildDischargeADTA03(msgHeader, patientInfo, e.EventTime, e.MessageTime)
 	if err != nil {
 		return errors.Wrap(err, "cannot build ADT^A03 message")
@@ -364,6 +379,13 @@ func (h *Hospital) pendingAdmission(e *state.Event, logLocal *logging.SimulatedH
 	patientInfo.PendingLocation = pendingLocation
 	patientInfo.ExpectedAdmitDateTime = ir.NewValidTime(e.EventTime.Add(*e.Step.PendingAdmission.ExpectedAdmissionTimeFromNow))
 	h.updateDeathInfo(logLocal, now, e.PathwayName, patientInfo, e.Step.Parameters)
+
+	// A planned Encounter has its start time set to the time that it is expected to begin.
+	// In the case that there are two consecutive PendingEncounter steps, the first Encounter
+	// will never be finished, since only the latest Encounter is checked.
+	ec := patientInfo.AddEncounter(patientInfo.ExpectedAdmitDateTime, constants.EncounterStatusPlanned)
+	ec.IsPending = true
+
 	msg, err := message.BuildPendingAdmissionADTA14(msgHeader, patientInfo, e.EventTime, e.MessageTime)
 	if err != nil {
 		return errors.Wrap(err, "cannot build ADT^A14 message")
@@ -376,6 +398,15 @@ func (h *Hospital) pendingDischarge(e *state.Event, logLocal *logging.SimulatedH
 	patientInfo := h.patients.Get(e.PatientMRN).PatientInfo
 	patientInfo.ExpectedDischargeDateTime = ir.NewValidTime(e.EventTime.Add(*e.Step.PendingDischarge.ExpectedDischargeTimeFromNow))
 	h.updateDeathInfo(logLocal, now, e.PathwayName, patientInfo, e.Step.Parameters)
+
+	var ec *ir.Encounter
+	if ec = patientInfo.LatestEncounter(); ec != nil {
+		ec.UpdateStatus(patientInfo.ExpectedDischargeDateTime, constants.EncounterStatusPlanned)
+	} else {
+		ec = patientInfo.AddEncounter(patientInfo.ExpectedDischargeDateTime, constants.EncounterStatusPlanned)
+	}
+	ec.IsPending = true
+
 	msg, err := message.BuildPendingDischargeADTA16(msgHeader, patientInfo, e.EventTime, e.MessageTime)
 	if err != nil {
 		return errors.Wrap(err, "cannot build ADT^A16 message")
@@ -437,6 +468,7 @@ func (h *Hospital) preadmission(e *state.Event, logLocal *logging.SimulatedHospi
 	patientInfo.AccountStatus = h.messageConfig.PatientAccountStatus.Planned
 	h.generator.AddAllergies(patientInfo, e.Step.PreAdmission.Allergies)
 	h.updateDeathInfo(logLocal, now, e.PathwayName, patientInfo, e.Step.Parameters)
+
 	msg, err := message.BuildPreAdmitADTA05(msgHeader, patientInfo, e.EventTime, e.MessageTime)
 	if err != nil {
 		return errors.Wrap(err, "cannot build ADT^A05 message")
