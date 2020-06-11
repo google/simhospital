@@ -2283,14 +2283,6 @@ func TestBuildUpdatePatientA08(t *testing.T) {
 		t.Error("PID() got nil PID segment, want non nil")
 	}
 
-	pd1, err := m.PD1()
-	if err != nil {
-		t.Fatalf("PD1() failed with %v", err)
-	}
-	if pd1 == nil {
-		t.Error("PD1() got nil PD1 segment, want non nil")
-	}
-
 	pv1, err := m.PV1()
 	if err != nil {
 		t.Fatalf("PV1() failed with %v", err)
@@ -2487,14 +2479,6 @@ func TestBuildUpdatePersonADTA31(t *testing.T) {
 	}
 	if pid == nil {
 		t.Error("PID() got nil PID segment, want non nil")
-	}
-
-	pd1, err := m.PD1()
-	if err != nil {
-		t.Fatalf("PD1() failed with %v", err)
-	}
-	if pd1 == nil {
-		t.Error("PD1() got nil PD1 segment, want non nil")
 	}
 
 	pv1, err := m.PV1()
