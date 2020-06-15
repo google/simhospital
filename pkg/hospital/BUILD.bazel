@@ -56,7 +56,10 @@ go_library(
 
 go_test(
     name = "go_default_test",
-    srcs = ["simulated_hospital_test.go"],
+    srcs = [
+        "resources_test.go",
+        "simulated_hospital_test.go",
+    ],
     embed = [":go_default_library"],
     deps = [
         "//pkg/constants:go_default_library",
