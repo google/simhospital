@@ -19,6 +19,8 @@ import (
 	"bytes"
 	"encoding/gob"
 	"time"
+
+	"github.com/google/simhospital/pkg/constants"
 )
 
 // Person represents a person.
@@ -284,6 +286,28 @@ func (ec *Encounter) EndEncounter(endTime NullTime, newStatus string) {
 	ec.End = endTime
 }
 
+// AddOrderToEncounter either adds the specified order to the current on-going Encounter, or
+// creates a new Encounter for the Order if one does not exist. In the latter case, the new
+// Encounter will contain only that Order, and we set the start/end time of the Encounter to the
+// order/reported time of the Order.
+func (p *PatientInfo) AddOrderToEncounter(o *Order) {
+	ec := p.LatestEncounter()
+	if ec != nil && !ec.hasEnded() {
+		ec.UpdateStatus(o.OrderDateTime, constants.EncounterStatusInProgress)
+	} else {
+		ec = p.AddEncounter(o.OrderDateTime, constants.EncounterStatusInProgress)
+		// If the Order does not have any Results associated with it ReportedDateTime will be nil.
+		// In this case we set the end time to the OrderDateTime instead. If a Result is added in the
+		// future, the Order's ReportedDateTime will be updated but the Encounter's end time will not.
+		endTime := o.ReportedDateTime
+		if !endTime.Valid {
+			endTime = o.OrderDateTime
+		}
+		ec.EndEncounter(endTime, constants.EncounterStatusFinished)
+	}
+	ec.Orders = append(ec.Orders, o)
+}
+
 // Encounter represents an interaction between a patient and healthcare provider.
 type Encounter struct {
 	Status string
@@ -296,6 +320,13 @@ type Encounter struct {
 	// Start to End encompasses the entire period that this Encounter is active for.
 	Start NullTime
 	End   NullTime
+	// Orders tracks the Orders for this Encounter. Each entry in Patient.Orders is associated with
+	// exactly one Encounter.
+	Orders []*Order
+}
+
+func (ec *Encounter) hasEnded() bool {
+	return ec.Status == constants.EncounterStatusFinished || ec.Status == constants.EncounterStatusCancelled
 }
 
 // StatusHistory represents an Encounter's status and its period.

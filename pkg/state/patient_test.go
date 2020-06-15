@@ -23,7 +23,8 @@ import (
 
 func TestPatient_GetOrder(t *testing.T) {
 	p := Patient{
-		Orders: make(map[string]*ir.Order),
+		Orders:      make(map[string]*ir.Order),
+		PatientInfo: &ir.PatientInfo{},
 	}
 	orderID1 := "orderID1"
 
@@ -42,6 +43,10 @@ func TestPatient_GetOrder(t *testing.T) {
 	if len(p.Orders) != 1 {
 		t.Errorf("len(p.Orders) = %d, want %d", len(p.Orders), 1)
 	}
+	ec1 := p.PatientInfo.LatestEncounter()
+	if diff := cmp.Diff([]*ir.Order{order1}, ec1.Orders); diff != "" {
+		t.Errorf("ec.Orders mismatch (-want +got):\n%s", diff)
+	}
 
 	// Update the existing order.
 	order1.Filler = "1234"
@@ -51,6 +56,12 @@ func TestPatient_GetOrder(t *testing.T) {
 	}
 	if len(p.Orders) != 1 {
 		t.Errorf("len(p.Orders) = %d, want %d", len(p.Orders), 1)
+	}
+	if len(p.PatientInfo.Encounters) != 1 {
+		t.Errorf("len(p.PatientInfo.Encounter) = %d, want %d", len(p.PatientInfo.Encounters), 1)
+	}
+	if diff := cmp.Diff([]*ir.Order{order1}, ec1.Orders); diff != "" {
+		t.Errorf("ec.Orders mismatch (-want +got):\n%s", diff)
 	}
 
 	// Add an order with an empty ID
@@ -67,6 +78,13 @@ func TestPatient_GetOrder(t *testing.T) {
 	if len(p.Orders) != 2 {
 		t.Errorf("len(p.Orders) = %d, want %d", len(p.Orders), 2)
 	}
+	if len(p.PatientInfo.Encounters) != 2 {
+		t.Errorf("len(p.PatientInfo.Encounters) = %d, want %d", len(p.PatientInfo.Encounters), 2)
+	}
+	ec2 := p.PatientInfo.LatestEncounter()
+	if diff := cmp.Diff([]*ir.Order{got}, ec2.Orders); diff != "" {
+		t.Errorf("ec.Orders mismatch (-want +got):\n%s", diff)
+	}
 
 	// Adding an identical order without order ID does not override the existing one.
 	p.AddOrder("", orderNoID)
@@ -74,6 +92,13 @@ func TestPatient_GetOrder(t *testing.T) {
 	got = p.GetOrder(wantOrderID)
 	if diff := cmp.Diff(orderNoID, got); diff != "" {
 		t.Errorf("Patient.GetOrder(%q) mismatch (-want +got):\n%s", wantOrderID, diff)
+	}
+	if len(p.PatientInfo.Encounters) != 3 {
+		t.Errorf("len(p.PatientInfo.Encounters) = %d, want %d", len(p.PatientInfo.Encounters), 3)
+	}
+	ec3 := p.PatientInfo.LatestEncounter()
+	if diff := cmp.Diff([]*ir.Order{got}, ec3.Orders); diff != "" {
+		t.Errorf("ec.Orders mismatch (-want +got):\n%s", diff)
 	}
 
 	if len(p.Orders) != 3 {

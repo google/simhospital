@@ -109,7 +109,6 @@ func (h *Hospital) processOrder(e *state.Event, logLocal *logging.SimulatedHospi
 	}
 	msgHeader = h.generator.NewHeader(&e.Step)
 	o.OrderControl = h.messageConfig.OrderControl.OK
-	patient.AddOrder(e.Step.Order.OrderID, o)
 	delay := h.orderAckDelay.Random()
 	orderAckMessageTime := e.MessageTime.Add(delay)
 	msg, err = message.BuildPathologyORRO02(msgHeader, patientInfo, o, orderAckMessageTime)

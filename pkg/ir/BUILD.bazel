@@ -23,6 +23,7 @@ go_library(
     name = "go_default_library",
     srcs = ["ir.go"],
     importpath = "github.com/google/simhospital/pkg/ir",
+    deps = ["//pkg/constants:go_default_library"],
 )
 
 go_test(

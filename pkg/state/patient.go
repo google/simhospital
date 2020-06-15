@@ -27,9 +27,12 @@ const generatedIDPattern = "generated-%d"
 // Patient represents a patient in Simulated Hospital.
 type Patient struct {
 	PatientInfo *ir.PatientInfo
-	Orders      map[string]*ir.Order
-	PastVisits  []uint64
-	Documents   map[string]*ir.Document
+	// Orders maps from orderIDs to Orders. This is used to provide an index to all of a Patient's
+	// orders so they can be looked up later on. In particular, this is used to link Results events
+	// to their corresponding Order events.
+	Orders     map[string]*ir.Order
+	PastVisits []uint64
+	Documents  map[string]*ir.Document
 }
 
 // GetOrder retrieves an order by its identifier.
@@ -37,12 +40,15 @@ func (p *Patient) GetOrder(orderID string) *ir.Order {
 	return p.Orders[orderID]
 }
 
-// AddOrder adds an order to the map against the specified order ID, so that it can be looked up later on.
-// If the orderID is not specified (ie is an empty string), a unique ID is generated.
+// AddOrder adds an order to the map against the specified order ID if it does not exist, and adds
+// it to the current Encounter. If the orderID is not specified (ie is an empty string), a unique
+// ID is generated.
 func (p *Patient) AddOrder(orderID string, order *ir.Order) {
 	if orderID == "" {
-		p.Orders[fmt.Sprintf(generatedIDPattern, len(p.Orders))] = order
-	} else {
+		orderID = fmt.Sprintf(generatedIDPattern, len(p.Orders))
+	}
+	if _, ok := p.Orders[orderID]; !ok {
+		p.PatientInfo.AddOrderToEncounter(order)
 		p.Orders[orderID] = order
 	}
 }

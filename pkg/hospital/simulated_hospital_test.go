@@ -4414,33 +4414,26 @@ func TestEncounters(t *testing.T) {
 				{Delay: &pathway.Delay{From: delay, To: delay}},
 				{Discharge: &pathway.Discharge{}},
 				{GenerateResources: &pathway.GenerateResources{}},
-			},
-		},
-		want: []*ir.Encounter{
-			{
-				Start:       ir.NewValidTime(later),
-				End:         ir.NewValidTime(evenLater),
-				Status:      constants.EncounterStatusFinished,
-				StatusStart: ir.NewValidTime(evenLater),
-				StatusHistory: []*ir.StatusHistory{
-					{
-						Start:  ir.NewValidTime(later),
-						End:    ir.NewValidTime(later),
-						Status: constants.EncounterStatusPlanned,
-					},
-					{
-						Start:  ir.NewValidTime(later),
-						End:    ir.NewValidTime(evenLater),
-						Status: constants.EncounterStatusArrived,
-					},
-					{
-						Start:  ir.NewValidTime(evenLater),
-						End:    ir.NewValidTime(evenLater),
-						Status: constants.EncounterStatusPlanned,
-					},
-				},
-			},
-		},
+			}},
+		want: []*ir.Encounter{{
+			Start:       ir.NewValidTime(later),
+			End:         ir.NewValidTime(evenLater),
+			Status:      constants.EncounterStatusFinished,
+			StatusStart: ir.NewValidTime(evenLater),
+			StatusHistory: []*ir.StatusHistory{{
+				Start:  ir.NewValidTime(later),
+				End:    ir.NewValidTime(later),
+				Status: constants.EncounterStatusPlanned,
+			}, {
+				Start:  ir.NewValidTime(later),
+				End:    ir.NewValidTime(evenLater),
+				Status: constants.EncounterStatusArrived,
+			}, {
+				Start:  ir.NewValidTime(evenLater),
+				End:    ir.NewValidTime(evenLater),
+				Status: constants.EncounterStatusPlanned,
+			}},
+		}},
 	}, {
 		name: "Admission and Discharge twice",
 		pathway: pathway.Pathway{
@@ -4452,36 +4445,28 @@ func TestEncounters(t *testing.T) {
 				{Delay: &pathway.Delay{From: delay, To: delay}},
 				{Discharge: &pathway.Discharge{DischargeTime: &evenLater}},
 				{GenerateResources: &pathway.GenerateResources{}},
-			},
-		},
-		want: []*ir.Encounter{
-			{
-				Start:       ir.NewValidTime(now),
-				End:         ir.NewValidTime(later),
-				Status:      constants.EncounterStatusFinished,
-				StatusStart: ir.NewValidTime(later),
-				StatusHistory: []*ir.StatusHistory{
-					{
-						Start:  ir.NewValidTime(now),
-						End:    ir.NewValidTime(later),
-						Status: constants.EncounterStatusArrived,
-					},
-				},
-			},
-			{
-				Start:       ir.NewValidTime(later),
-				End:         ir.NewValidTime(evenLater),
-				Status:      constants.EncounterStatusFinished,
-				StatusStart: ir.NewValidTime(evenLater),
-				StatusHistory: []*ir.StatusHistory{
-					{
-						Start:  ir.NewValidTime(later),
-						End:    ir.NewValidTime(evenLater),
-						Status: constants.EncounterStatusArrived,
-					},
-				},
-			},
-		},
+			}},
+		want: []*ir.Encounter{{
+			Start:       ir.NewValidTime(now),
+			End:         ir.NewValidTime(later),
+			Status:      constants.EncounterStatusFinished,
+			StatusStart: ir.NewValidTime(later),
+			StatusHistory: []*ir.StatusHistory{{
+				Start:  ir.NewValidTime(now),
+				End:    ir.NewValidTime(later),
+				Status: constants.EncounterStatusArrived,
+			}},
+		}, {
+			Start:       ir.NewValidTime(later),
+			End:         ir.NewValidTime(evenLater),
+			Status:      constants.EncounterStatusFinished,
+			StatusStart: ir.NewValidTime(evenLater),
+			StatusHistory: []*ir.StatusHistory{{
+				Start:  ir.NewValidTime(later),
+				End:    ir.NewValidTime(evenLater),
+				Status: constants.EncounterStatusArrived,
+			}},
+		}},
 	}, {
 		name: "PendingAdmission twice",
 		pathway: pathway.Pathway{
@@ -4491,30 +4476,115 @@ func TestEncounters(t *testing.T) {
 				{Delay: &pathway.Delay{From: delay, To: delay}},
 				{Admission: &pathway.Admission{Loc: testLoc}},
 				{GenerateResources: &pathway.GenerateResources{}},
-			},
-		},
-		want: []*ir.Encounter{
-			{
-				Start:       ir.NewValidTime(later),
-				End:         ir.NewInvalidTime(),
-				Status:      constants.EncounterStatusPlanned,
-				StatusStart: ir.NewValidTime(later),
-				IsPending:   true,
-			},
-			{
-				Start:       ir.NewValidTime(later),
-				End:         ir.NewInvalidTime(),
-				Status:      constants.EncounterStatusArrived,
-				StatusStart: ir.NewValidTime(later),
-				StatusHistory: []*ir.StatusHistory{
-					{
-						Start:  ir.NewValidTime(later),
-						End:    ir.NewValidTime(later),
-						Status: constants.EncounterStatusPlanned,
+			}},
+		want: []*ir.Encounter{{
+			Start:       ir.NewValidTime(later),
+			End:         ir.NewInvalidTime(),
+			Status:      constants.EncounterStatusPlanned,
+			StatusStart: ir.NewValidTime(later),
+			IsPending:   true,
+		}, {
+			Start:       ir.NewValidTime(later),
+			End:         ir.NewInvalidTime(),
+			Status:      constants.EncounterStatusArrived,
+			StatusStart: ir.NewValidTime(later),
+			StatusHistory: []*ir.StatusHistory{{
+				Start:  ir.NewValidTime(later),
+				End:    ir.NewValidTime(later),
+				Status: constants.EncounterStatusPlanned,
+			}},
+		}},
+	}, {
+		name: "Multiple Orders",
+		pathway: pathway.Pathway{
+			Pathway: []pathway.Step{
+				{Admission: &pathway.Admission{Loc: testLoc}},
+				{Order: &pathway.Order{OrderID: "ORDER_ID_1"}},
+				{Order: &pathway.Order{OrderID: "ORDER_ID_2"}},
+				{Delay: &pathway.Delay{From: delay, To: delay}},
+				{Result: &pathway.Results{
+					OrderID: "ORDER_ID_2",
+					Results: []*pathway.Result{
+						{TestName: "TEST_NAME_2"},
 					},
-				},
+				}},
+				{Delay: &pathway.Delay{From: delay, To: delay}},
+				{Result: &pathway.Results{ // Will be overwritten.
+					OrderID: "ORDER_ID_1",
+					Results: []*pathway.Result{
+						{TestName: "TEST_NAME_1_1"},
+					},
+				}},
+				{Result: &pathway.Results{
+					OrderID: "ORDER_ID_1",
+					Results: []*pathway.Result{
+						{TestName: "TEST_NAME_1_2"},
+						{TestName: "TEST_NAME_1_3"},
+					},
+				}},
+				{Discharge: &pathway.Discharge{}},
+				{GenerateResources: &pathway.GenerateResources{}},
 			},
 		},
+		want: []*ir.Encounter{{
+			Status:      constants.EncounterStatusFinished,
+			Start:       ir.NewValidTime(now),
+			End:         ir.NewValidTime(evenLater),
+			StatusStart: ir.NewValidTime(evenLater),
+			StatusHistory: []*ir.StatusHistory{{
+				Status: constants.EncounterStatusArrived,
+				Start:  ir.NewValidTime(now),
+				End:    ir.NewValidTime(now),
+			}, {
+				Status: constants.EncounterStatusInProgress,
+				Start:  ir.NewValidTime(now),
+				End:    ir.NewValidTime(evenLater),
+			}},
+			Orders: []*ir.Order{{
+				OrderDateTime:    ir.NewValidTime(now),
+				ReportedDateTime: ir.NewValidTime(evenLater),
+				Results: []*ir.Result{
+					{TestName: &ir.CodedElement{ID: "TEST_NAME_1_2", Text: "TEST_NAME_1_2"}},
+					{TestName: &ir.CodedElement{ID: "TEST_NAME_1_3", Text: "TEST_NAME_1_3"}},
+				},
+			}, {
+				OrderDateTime:    ir.NewValidTime(now),
+				ReportedDateTime: ir.NewValidTime(later),
+				Results: []*ir.Result{
+					{TestName: &ir.CodedElement{ID: "TEST_NAME_2", Text: "TEST_NAME_2"}},
+				},
+			}},
+		}},
+	}, {
+		name: "Update Orders after ending Encounter",
+		pathway: pathway.Pathway{
+			Pathway: []pathway.Step{
+				{Order: &pathway.Order{OrderID: "ORDER_ID"}}, // Will create and finish a new Encounter.
+				{Delay: &pathway.Delay{From: delay, To: delay}},
+				{Result: &pathway.Results{
+					OrderID: "ORDER_ID",
+					Results: []*pathway.Result{{TestName: "TEST_NAME"}},
+				}},
+				{GenerateResources: &pathway.GenerateResources{}},
+			}},
+		want: []*ir.Encounter{{
+			Status:      constants.EncounterStatusFinished,
+			StatusStart: ir.NewValidTime(now),
+			Start:       ir.NewValidTime(now),
+			End:         ir.NewValidTime(now),
+			StatusHistory: []*ir.StatusHistory{{
+				Status: constants.EncounterStatusInProgress,
+				Start:  ir.NewValidTime(now),
+				End:    ir.NewValidTime(now),
+			}},
+			Orders: []*ir.Order{{
+				OrderDateTime:    ir.NewValidTime(now),
+				ReportedDateTime: ir.NewValidTime(later),
+				Results: []*ir.Result{
+					{TestName: &ir.CodedElement{ID: "TEST_NAME", Text: "TEST_NAME"}},
+				},
+			}},
+		}},
 	}}
 
 	for _, tc := range tests {
@@ -4546,6 +4616,11 @@ func TestEncounters(t *testing.T) {
 
 			opts := []cmp.Option{
 				cmpopts.EquateEmpty(),
+				// We ignore any fields that are randomly generated.
+				cmpopts.IgnoreFields(ir.Result{}, "Status", "ObservationDateTime", "Notes", "ValueType"),
+				cmpopts.IgnoreFields(ir.Order{}, "NumberOfPreviousResults", "MessageControlIDOriginalOrder",
+					"OrderProfile", "Placer", "Filler", "OrderControl", "OrderStatus", "ResultsStatus",
+					"ReceivedInLabDateTime", "CollectedDateTime"),
 			}
 
 			var got []*ir.Encounter
