@@ -183,6 +183,14 @@ type PatientLocation struct {
 	Floor        string
 }
 
+// LocationHistory represents a patient location along with the period for which the patient was
+// at that location.
+type LocationHistory struct {
+	Location *PatientLocation
+	Start    NullTime
+	End      NullTime
+}
+
 // Doctor represents a doctor.
 // Example: 216865551019^Osman^Arthur^^^Dr^^^DRNBR^PRSNL^^^ORGDR.
 type Doctor struct {
@@ -235,8 +243,9 @@ type PatientInfo struct {
 	Type            string // values are defined per-trust if this field is used
 	VisitID         uint64
 	HospitalService string
-	Location        *PatientLocation
-	PriorLocation   *PatientLocation
+	// Location is the current patient location.
+	Location      *PatientLocation
+	PriorLocation *PatientLocation
 	// PriorLocationForCancelTransfer is the patient's PriorLocation after a CancelTransfer message.
 	// After a transfer message we clear the patient's PriorLocation so that it's not included in
 	// future messages. However in a CancelTransfer we need to know it so that we can re-instate it.
@@ -272,18 +281,23 @@ func (p *PatientInfo) LatestEncounter() *Encounter {
 	return p.Encounters[len(p.Encounters)-1]
 }
 
-// AddEncounter creates a new Encounter, adds it to the list of Encounters, and sets its status.
-func (p *PatientInfo) AddEncounter(startTime NullTime, status string) *Encounter {
+// AddEncounter creates a new Encounter, adds it to the list of Encounters, and sets its status
+// and location.
+func (p *PatientInfo) AddEncounter(startTime NullTime, status string, loc *PatientLocation) *Encounter {
 	ec := &Encounter{Status: status, StatusStart: startTime, Start: startTime}
 	p.Encounters = append(p.Encounters, ec)
+	ec.UpdateLocation(startTime, loc)
 	return ec
 }
 
-// EndEncounter finishes the specified Encounter and sets its status.
+// EndEncounter finishes the specified Encounter and sets its status and final location end time.
 // Note that this takes an Encounter as a receiver, unlike AddEncounter.
 func (ec *Encounter) EndEncounter(endTime NullTime, newStatus string) {
 	ec.UpdateStatus(endTime, newStatus)
 	ec.End = endTime
+	if l := len(ec.LocationHistory); l > 0 {
+		ec.LocationHistory[l-1].End = endTime
+	}
 }
 
 // AddOrderToEncounter either adds the specified order to the current on-going Encounter, or
@@ -294,8 +308,9 @@ func (p *PatientInfo) AddOrderToEncounter(o *Order) {
 	ec := p.LatestEncounter()
 	if ec != nil && !ec.hasEnded() {
 		ec.UpdateStatus(o.OrderDateTime, constants.EncounterStatusInProgress)
+		ec.UpdateLocation(o.OrderDateTime, p.Location)
 	} else {
-		ec = p.AddEncounter(o.OrderDateTime, constants.EncounterStatusInProgress)
+		ec = p.AddEncounter(o.OrderDateTime, constants.EncounterStatusInProgress, p.Location)
 		// If the Order does not have any Results associated with it ReportedDateTime will be nil.
 		// In this case we set the end time to the OrderDateTime instead. If a Result is added in the
 		// future, the Order's ReportedDateTime will be updated but the Encounter's end time will not.
@@ -320,6 +335,8 @@ type Encounter struct {
 	// Start to End encompasses the entire period that this Encounter is active for.
 	Start NullTime
 	End   NullTime
+	// LocationHistory tracks where the patient has been during this Encounter.
+	LocationHistory []*LocationHistory
 	// Orders tracks the Orders for this Encounter. Each entry in Patient.Orders is associated with
 	// exactly one Encounter.
 	Orders []*Order
@@ -339,15 +356,35 @@ type StatusHistory struct {
 }
 
 // UpdateStatus ends the current status and appends a new entry to an Encounter's status history.
-// If the new status is the same as the current one, this is a no-op.
-func (ec *Encounter) UpdateStatus(endTime NullTime, newStatus string) {
+// If the new status is the same as the current one this is a no-op.
+func (ec *Encounter) UpdateStatus(startTime NullTime, newStatus string) {
 	if ec.Status == newStatus {
 		return
 	}
-	oldStatus := &StatusHistory{Status: ec.Status, Start: ec.StatusStart, End: endTime}
+	oldStatus := &StatusHistory{Status: ec.Status, Start: ec.StatusStart, End: startTime}
 	ec.StatusHistory = append(ec.StatusHistory, oldStatus)
 	ec.Status = newStatus
-	ec.StatusStart = endTime
+	ec.StatusStart = startTime
+}
+
+// UpdateLocation sets the end time of the current location and appends a new entry to an
+// Encounter's location history. If the new location is the same as the current one this is a no-op.
+func (ec *Encounter) UpdateLocation(startTime NullTime, newLocation *PatientLocation) {
+	if newLocation == nil {
+		return
+	}
+	if l := len(ec.LocationHistory); l > 0 {
+		oldLocation := ec.LocationHistory[l-1]
+		if *newLocation == *oldLocation.Location {
+			return
+		}
+		oldLocation.End = startTime
+	}
+	newLocationHistory := &LocationHistory{
+		Location: newLocation,
+		Start:    startTime,
+	}
+	ec.LocationHistory = append(ec.LocationHistory, newLocationHistory)
 }
 
 // NullTime represents a time that can be null.

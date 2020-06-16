@@ -15,6 +15,7 @@
 package hospital_test
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -186,6 +187,11 @@ func TestEncounters(t *testing.T) {
 			End:         ir.NewValidTime(evenLater),
 			Status:      constants.EncounterStatusFinished,
 			StatusStart: ir.NewValidTime(evenLater),
+			LocationHistory: []*ir.LocationHistory{{
+				Location: aAndEBed(1),
+				Start:    ir.NewValidTime(later),
+				End:      ir.NewValidTime(evenLater),
+			}},
 			StatusHistory: []*ir.StatusHistory{{
 				Start:  ir.NewValidTime(later),
 				End:    ir.NewValidTime(later),
@@ -207,7 +213,7 @@ func TestEncounters(t *testing.T) {
 				{Admission: &pathway.Admission{Loc: testLocAE}},
 				{Delay: &pathway.Delay{From: delay, To: delay}},
 				{Discharge: &pathway.Discharge{}},
-				{Admission: &pathway.Admission{Loc: testLocAE}},
+				{Admission: &pathway.Admission{Loc: testLoc}},
 				{Delay: &pathway.Delay{From: delay, To: delay}},
 				{Discharge: &pathway.Discharge{DischargeTime: &evenLater}},
 				{GenerateResources: &pathway.GenerateResources{}},
@@ -217,6 +223,11 @@ func TestEncounters(t *testing.T) {
 			End:         ir.NewValidTime(later),
 			Status:      constants.EncounterStatusFinished,
 			StatusStart: ir.NewValidTime(later),
+			LocationHistory: []*ir.LocationHistory{{
+				Location: aAndEBed(1),
+				Start:    ir.NewValidTime(now),
+				End:      ir.NewValidTime(later),
+			}},
 			StatusHistory: []*ir.StatusHistory{{
 				Start:  ir.NewValidTime(now),
 				End:    ir.NewValidTime(later),
@@ -227,6 +238,11 @@ func TestEncounters(t *testing.T) {
 			End:         ir.NewValidTime(evenLater),
 			Status:      constants.EncounterStatusFinished,
 			StatusStart: ir.NewValidTime(evenLater),
+			LocationHistory: []*ir.LocationHistory{{
+				Location: wardBed(1),
+				Start:    ir.NewValidTime(later),
+				End:      ir.NewValidTime(evenLater),
+			}},
 			StatusHistory: []*ir.StatusHistory{{
 				Start:  ir.NewValidTime(later),
 				End:    ir.NewValidTime(evenLater),
@@ -254,6 +270,11 @@ func TestEncounters(t *testing.T) {
 			End:         ir.NewInvalidTime(),
 			Status:      constants.EncounterStatusArrived,
 			StatusStart: ir.NewValidTime(later),
+			LocationHistory: []*ir.LocationHistory{{
+				Location: wardBed(2),
+				Start:    ir.NewValidTime(later),
+				End:      ir.NewInvalidTime(),
+			}},
 			StatusHistory: []*ir.StatusHistory{{
 				Start:  ir.NewValidTime(later),
 				End:    ir.NewValidTime(later),
@@ -297,6 +318,11 @@ func TestEncounters(t *testing.T) {
 			Start:       ir.NewValidTime(now),
 			End:         ir.NewValidTime(evenLater),
 			StatusStart: ir.NewValidTime(evenLater),
+			LocationHistory: []*ir.LocationHistory{{
+				Location: wardBed(1),
+				Start:    ir.NewValidTime(now),
+				End:      ir.NewValidTime(evenLater),
+			}},
 			StatusHistory: []*ir.StatusHistory{{
 				Status: constants.EncounterStatusArrived,
 				Start:  ir.NewValidTime(now),
@@ -342,6 +368,11 @@ func TestEncounters(t *testing.T) {
 				Status: constants.EncounterStatusInProgress,
 				Start:  ir.NewValidTime(now),
 				End:    ir.NewValidTime(now),
+			}},
+			LocationHistory: []*ir.LocationHistory{{
+				Location: hospitalLoc(),
+				Start:    ir.NewValidTime(now),
+				End:      ir.NewValidTime(now),
 			}},
 			Orders: []*ir.Order{{
 				OrderDateTime:    ir.NewValidTime(now),
@@ -397,5 +428,28 @@ func TestEncounters(t *testing.T) {
 				t.Errorf("StartNextPathway() encounters returned diff (-want +got):\n%s", diff)
 			}
 		})
+	}
+}
+
+func wardBed(i int) *ir.PatientLocation {
+	l := aAndEBed(i)
+	l.Poc = "Ward 1"
+	return l
+}
+
+func aAndEBed(i int) *ir.PatientLocation {
+	l := hospitalLoc()
+	l.Room = "Room-1"
+	l.Floor = "7"
+	l.Bed = fmt.Sprintf("Bed %d", i)
+	return l
+}
+
+func hospitalLoc() *ir.PatientLocation {
+	return &ir.PatientLocation{
+		Poc:          "ED",
+		Facility:     "Simulated Hospital",
+		LocationType: "BED",
+		Building:     "Building-1",
 	}
 }

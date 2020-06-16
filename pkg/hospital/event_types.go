@@ -59,9 +59,10 @@ func (h *Hospital) processAdmission(e *state.Event, logLocal *logging.SimulatedH
 
 	if ec := patientInfo.LatestEncounter(); ec != nil && ec.IsPending {
 		ec.UpdateStatus(patientInfo.AdmissionDate, constants.EncounterStatusArrived)
+		ec.UpdateLocation(patientInfo.AdmissionDate, patientInfo.Location)
 		ec.IsPending = false
 	} else {
-		patientInfo.AddEncounter(patientInfo.AdmissionDate, constants.EncounterStatusArrived)
+		patientInfo.AddEncounter(patientInfo.AdmissionDate, constants.EncounterStatusArrived, patientInfo.Location)
 	}
 
 	patientInfo.PendingLocation = nil
@@ -223,7 +224,7 @@ func (h *Hospital) processDischarge(e *state.Event, logLocal *logging.SimulatedH
 	ec := patientInfo.LatestEncounter()
 	if ec == nil {
 		// No Encounters exist, so we just create and end one here.
-		ec = patientInfo.AddEncounter(patientInfo.DischargeDate, constants.EncounterStatusInProgress)
+		ec = patientInfo.AddEncounter(patientInfo.DischargeDate, constants.EncounterStatusInProgress, patientInfo.Location)
 	}
 	ec.EndEncounter(patientInfo.DischargeDate, constants.EncounterStatusFinished)
 	ec.IsPending = false
@@ -382,7 +383,7 @@ func (h *Hospital) pendingAdmission(e *state.Event, logLocal *logging.SimulatedH
 	// A planned Encounter has its start time set to the time that it is expected to begin.
 	// In the case that there are two consecutive PendingEncounter steps, the first Encounter
 	// will never be finished, since only the latest Encounter is checked.
-	ec := patientInfo.AddEncounter(patientInfo.ExpectedAdmitDateTime, constants.EncounterStatusPlanned)
+	ec := patientInfo.AddEncounter(patientInfo.ExpectedAdmitDateTime, constants.EncounterStatusPlanned, nil)
 	ec.IsPending = true
 
 	msg, err := message.BuildPendingAdmissionADTA14(msgHeader, patientInfo, e.EventTime, e.MessageTime)
@@ -398,11 +399,11 @@ func (h *Hospital) pendingDischarge(e *state.Event, logLocal *logging.SimulatedH
 	patientInfo.ExpectedDischargeDateTime = ir.NewValidTime(e.EventTime.Add(*e.Step.PendingDischarge.ExpectedDischargeTimeFromNow))
 	h.updateDeathInfo(logLocal, now, e.PathwayName, patientInfo, e.Step.Parameters)
 
-	var ec *ir.Encounter
-	if ec = patientInfo.LatestEncounter(); ec != nil {
+	ec := patientInfo.LatestEncounter()
+	if ec != nil {
 		ec.UpdateStatus(patientInfo.ExpectedDischargeDateTime, constants.EncounterStatusPlanned)
 	} else {
-		ec = patientInfo.AddEncounter(patientInfo.ExpectedDischargeDateTime, constants.EncounterStatusPlanned)
+		ec = patientInfo.AddEncounter(patientInfo.ExpectedDischargeDateTime, constants.EncounterStatusPlanned, patientInfo.Location)
 	}
 	ec.IsPending = true
 

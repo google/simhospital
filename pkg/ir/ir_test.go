@@ -15,6 +15,7 @@
 package ir
 
 import (
+	"fmt"
 	"testing"
 	"time"
 
@@ -23,9 +24,10 @@ import (
 )
 
 var (
-	delay = time.Hour * 5
-	now   = NewValidTime(time.Date(2018, 2, 12, 0, 0, 0, 0, time.UTC))
-	later = NewValidTime(now.Add(delay))
+	delay     = time.Hour * 5
+	now       = NewValidTime(time.Date(2018, 2, 12, 0, 0, 0, 0, time.UTC))
+	later     = NewValidTime(now.Add(delay))
+	evenLater = NewValidTime(later.Add(delay))
 )
 
 func TestPatientInfo_AddEncounter(t *testing.T) {
@@ -38,8 +40,12 @@ func TestPatientInfo_AddEncounter(t *testing.T) {
 			Start:       now,
 			Status:      constants.EncounterStatusPlanned,
 			StatusStart: now,
+			LocationHistory: []*LocationHistory{{
+				Location: wardBed(1),
+				Start:    now,
+			}},
 		})
-		got = append(got, p.AddEncounter(now, constants.EncounterStatusPlanned))
+		got = append(got, p.AddEncounter(now, constants.EncounterStatusPlanned, wardBed(1)))
 	}
 
 	if diff := cmp.Diff(want, got); diff != "" {
@@ -50,8 +56,8 @@ func TestPatientInfo_AddEncounter(t *testing.T) {
 func TestEncounter_EndEncounter(t *testing.T) {
 	p := &PatientInfo{}
 
-	ec1 := p.AddEncounter(now, constants.EncounterStatusPlanned)
-	ec2 := p.AddEncounter(later, constants.EncounterStatusInProgress)
+	ec1 := p.AddEncounter(now, constants.EncounterStatusPlanned, wardBed(1))
+	ec2 := p.AddEncounter(later, constants.EncounterStatusInProgress, wardBed(2))
 	ec1.EndEncounter(later, constants.EncounterStatusCancelled)
 	ec2.EndEncounter(later, constants.EncounterStatusFinished)
 
@@ -63,6 +69,11 @@ func TestEncounter_EndEncounter(t *testing.T) {
 		StatusHistory: []*StatusHistory{
 			{Status: constants.EncounterStatusPlanned, Start: now, End: later},
 		},
+		LocationHistory: []*LocationHistory{{
+			Location: wardBed(1),
+			Start:    now,
+			End:      later,
+		}},
 	}, {
 		Status:      constants.EncounterStatusFinished,
 		StatusStart: later,
@@ -71,8 +82,12 @@ func TestEncounter_EndEncounter(t *testing.T) {
 		StatusHistory: []*StatusHistory{
 			{Status: constants.EncounterStatusInProgress, Start: later, End: later},
 		},
-	},
-	}
+		LocationHistory: []*LocationHistory{{
+			Location: wardBed(2),
+			Start:    later,
+			End:      later,
+		}},
+	}}
 
 	got := p.Encounters
 	if diff := cmp.Diff(want, got); diff != "" {
@@ -88,8 +103,8 @@ func TestPatientInfo_LatestEncounter(t *testing.T) {
 	}
 
 	// Populate Encounters slice with two encounters.
-	p.AddEncounter(now, constants.EncounterStatusInProgress)
-	want := p.AddEncounter(later, constants.EncounterStatusFinished)
+	p.AddEncounter(now, constants.EncounterStatusInProgress, wardBed(1))
+	want := p.AddEncounter(later, constants.EncounterStatusFinished, wardBed(2))
 
 	// We assert that both got and want point to the same struct.
 	if got := p.LatestEncounter(); got != want {
@@ -169,6 +184,90 @@ func TestPatientInfo_AddOrderToEncounter(t *testing.T) {
 	}
 }
 
+func TestEncounter_UpdateLocation(t *testing.T) {
+	tests := []struct {
+		name      string
+		locations []*LocationHistory
+		want      []*LocationHistory
+	}{{
+		name: "Add three locations",
+		locations: []*LocationHistory{
+			{
+				Location: wardBed(3),
+				Start:    now,
+			}, {
+				Location: wardBed(1),
+				Start:    later,
+			}, {
+				Location: wardBed(2),
+				Start:    evenLater,
+			},
+		},
+		want: []*LocationHistory{
+			{
+				Location: wardBed(3),
+				Start:    now,
+				End:      later,
+			}, {
+				Location: wardBed(1),
+				Start:    later,
+				End:      evenLater,
+			}, {
+				Location: wardBed(2),
+				Start:    evenLater,
+			},
+		},
+	}, {
+		name: "Update twice with same location",
+		locations: []*LocationHistory{
+			{
+				Location: wardBed(1),
+				Start:    now,
+			}, {
+				Location: wardBed(1), // Should not be added to location history.
+				Start:    later,
+			},
+		},
+		want: []*LocationHistory{
+			{
+				Location: wardBed(1),
+				Start:    now,
+			},
+		},
+	}, {
+		name: "Update with nil location",
+		locations: []*LocationHistory{
+			{
+				Location: wardBed(1),
+				Start:    now,
+			}, {
+				// Nil location.
+			},
+		},
+		want: []*LocationHistory{
+			{
+				Location: wardBed(1),
+				Start:    now,
+			},
+		},
+	}}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			ec := &Encounter{}
+
+			for _, l := range tc.locations {
+				ec.UpdateLocation(l.Start, l.Location)
+			}
+
+			got := ec.LocationHistory
+			if diff := cmp.Diff(tc.want, got); diff != "" {
+				t.Errorf("ec.LocationHistory returned locations diff (-want +got):\n%s", diff)
+			}
+		})
+	}
+}
+
 func testOrder() *Order {
 	return &Order{
 		OrderProfile:                  &CodedElement{ID: "ORDER_PROFILE", Text: "ORDER_PROFILE"},
@@ -216,5 +315,17 @@ func testOrder() *Order {
 				}},
 			},
 		}},
+	}
+}
+
+func wardBed(i int) *PatientLocation {
+	return &PatientLocation{
+		Poc:          "Ward 1",
+		Facility:     "Simulated Hospital",
+		Building:     "Building-1",
+		Floor:        "7",
+		LocationType: "BED",
+		Room:         "Room-1",
+		Bed:          fmt.Sprintf("Bed %d", i),
 	}
 }
