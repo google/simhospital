@@ -253,7 +253,7 @@ var templates = map[string]*template.Template{
 	OBRClinicalNote: mustParseTemplates(OBR, map[string]string{
 		ceTemplate:     ceTmpl,
 		doctorTemplate: doctorTmpl,
-		OBR:            `OBR|1|{{.Placer}}|{{.DocumentID}}^HNAM_CEREF~{{.DocumentID}}^HNAM_EVENTID|{{template "CETmpl" .OrderProfile}}||{{HL7_date .OrderDateTime}}|{{HL7_date .CollectedDateTime}}|||||||{{HL7_date .ReceivedInLabDateTime}}|{{.SpecimenSource}}|{{template "DoctorTmpl" .OrderingProvider}}||||||{{HL7_date .ReportedDateTime}}||{{.DiagnosticServID}}|{{.ResultsStatus}}||1`,
+		OBR:            `OBR|1|{{.Placer}}|{{.DocumentID}}|{{template "CETmpl" .OrderProfile}}||{{HL7_date .OrderDateTime}}|{{HL7_date .CollectedDateTime}}|||||||{{HL7_date .ReceivedInLabDateTime}}|{{.SpecimenSource}}|{{template "DoctorTmpl" .OrderingProvider}}||||||{{HL7_date .ReportedDateTime}}||{{.DiagnosticServID}}|{{.ResultsStatus}}||1`,
 	}),
 	OBX: mustParseTemplates(OBX, map[string]string{
 		ceTemplate: ceTmpl,

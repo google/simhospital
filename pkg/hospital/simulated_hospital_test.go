@@ -4128,15 +4128,12 @@ func TestPathwayClinicalNote(t *testing.T) {
 					if got, want := obr.DiagnosticServSectID.String(), message.DiagnosticServIDMDOC; got != want {
 						t.Errorf("obr.DiagnosticServSectID.String()=%s, want %s", got, want)
 					}
-					// This section in the OBR segment is rendered as this: {{.DocumentID}}^HNAM_CEREF~{{.DocumentID}}^HNAM_EVENTID.
-					// A NamespaceID field is the following: HNAM_CEREF~{{.DocumentID}}.
 					if obr.FillerOrderNumber == nil {
 						t.Fatal("obr.FillerOrderNumber=<nil> want *hl7.EI{...} object")
 					}
 					step := tt.steps[index]
-					gotDocID := strings.Split(obr.FillerOrderNumber.NamespaceID.String(), "~")[1]
-					if wantDocID := step.DocumentID; gotDocID != wantDocID {
-						t.Errorf("FillerOrderNumber.NamespaceID=HNAM_CEREF~%q want HNAM_CEREF~%q", gotDocID, wantDocID)
+					if gotDocID, wantDocID := obr.FillerOrderNumber.EntityIdentifier.String(), step.DocumentID; gotDocID != wantDocID {
+						t.Errorf("FillerOrderNumber.NamespaceID got %q, want %q", gotDocID, wantDocID)
 					}
 					if diff := cmp.Diff(tt.wantFillerOrderNumber[index], obr.UniversalServiceIdentifier); diff != "" {
 						t.Errorf("obr.UniversalServiceIdentifier mismatch (-want, +got):\n%s", diff)

@@ -250,7 +250,7 @@ func TestBuildOBR(t *testing.T) {
 		setup: func() *ir.Order {
 			return orderWithClinicalNote(now, "content")
 		},
-		want: "OBR|1||document_id^HNAM_CEREF~document_id^HNAM_EVENTID|document-type^document-type^^^document-title||||||||||||216865551019^Osman^Arthur^^^Dr^^^DRNBR^PRSNL^^^ORGDR||||||||MDOC|||1",
+		want: "OBR|1||document_id|document-type^document-type^^^document-title||||||||||||216865551019^Osman^Arthur^^^Dr^^^DRNBR^PRSNL^^^ORGDR||||||||MDOC|||1",
 	}, {
 		// We use BuildOBR, but we could use any method that uses the ToHL7Date method.
 		name: "No UTC",
