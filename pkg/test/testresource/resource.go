@@ -50,6 +50,11 @@ func (w *Writer) Generate(p *ir.PatientInfo) error {
 	return nil
 }
 
+// Close exists to implement the hospital.ResourceWriter interface and is a no-op.
+func (w *Writer) Close() error {
+	return nil
+}
+
 // NewWriter initialises gob encoders and returns a new TestWriter.
 func NewWriter() *Writer {
 	var b bytes.Buffer

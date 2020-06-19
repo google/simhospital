@@ -48,10 +48,10 @@ The basic behavior of Simulated Hospital can be summarized as follows:
 
 ### Pathways
 
-A pathway is a sequence of clinicial actions or events that describe the
-lifetime of a patient's stay in a hospital. An example of a simple pathway could
-be: the patient is admitted, a doctor orders an X-ray, the X-ray is taken, and
-the patient is discharged. Each action typically generates one or more HL7v2
+A pathway is a sequence of clinical actions or events that describe the lifetime
+of a patient's stay in a hospital. An example of a simple pathway could be: the
+patient is admitted, a doctor orders an X-ray, the X-ray is taken, and the
+patient is discharged. Each action typically generates one or more HL7v2
 messages.
 
 Simulated Hospital runs pathways. You can configure Simulated Hospital to run

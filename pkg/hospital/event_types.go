@@ -768,9 +768,6 @@ func (h *Hospital) hardcodedMessage(e *state.Event, logLocal *logging.SimulatedH
 }
 
 func (h *Hospital) generateResources(e *state.Event, logLocal *logging.SimulatedHospitalLogger) error {
-	if h.resourceWriter == nil {
-		return errors.New("generate_resources is unimplemented")
-	}
 	patientInfo := h.patients.Get(e.PatientMRN).PatientInfo
 	logLocal.Info("Generating resources")
 	return h.resourceWriter.Generate(patientInfo)

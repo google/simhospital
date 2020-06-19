@@ -1189,7 +1189,13 @@ second one a diagnosis.
 ### Generate Resources
 
 A `generate_resources` event will trigger the generation of the entire patient
-record (at the time of the event) for each pathway.
+record (at the time of the event) for each pathway as FHIR resources.
+
+Currently, the following resources are supported:
+
+-   [`Patient`](https://www.hl7.org/fhir/patient.html)
+    -   `identifier`
+    -   `name`
 
 ## Order profiles
 

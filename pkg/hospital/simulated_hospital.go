@@ -16,6 +16,7 @@
 package hospital
 
 import (
+	"os"
 	"time"
 
 	"github.com/pkg/errors"
@@ -37,6 +38,7 @@ import (
 	"github.com/google/simhospital/pkg/orderprofile"
 	"github.com/google/simhospital/pkg/pathway"
 	"github.com/google/simhospital/pkg/processor"
+	"github.com/google/simhospital/pkg/resource"
 	"github.com/google/simhospital/pkg/state/persist"
 	"github.com/google/simhospital/pkg/state"
 )
@@ -105,6 +107,7 @@ type MessageProcessor interface {
 type ResourceWriter interface {
 	// Generate generates resources from the given PatientInfo.
 	Generate(*ir.PatientInfo) error
+	Close() error
 }
 
 // Arguments contains the arguments used to create a default Simulated Hospital Config.
@@ -334,6 +337,10 @@ func DefaultConfig(arguments Arguments) (Config, error) {
 			return Config{}, errors.Wrap(err, "cannot create the sender")
 		}
 	}
+
+	// TODO: Make resource writers configurable via flags.
+	cfg := resource.GeneratorConfig{Writer: os.Stdout}
+	c.ResourceWriter = resource.NewFHIRWriter(cfg)
 
 	if c.OrderProfiles != nil && c.Doctors != nil && c.LocationManager != nil {
 		c.PathwayParser = &pathway.Parser{Clock: c.Clock, OrderProfiles: c.OrderProfiles, Doctors: c.Doctors, LocationManager: c.LocationManager}
@@ -615,6 +622,9 @@ func NewHospital(c Config) (*Hospital, error) {
 	if c.Sender == nil {
 		return nil, errors.New("Config.Sender not provided; this is required")
 	}
+	if c.ResourceWriter == nil {
+		return nil, errors.New("Config.ResourceWriter not provided; this is required")
+	}
 	if c.PathwayManager == nil {
 		return nil, errors.New("Config.PathwayManager not provided; this is required")
 	}
@@ -671,6 +681,9 @@ func NewHospital(c Config) (*Hospital, error) {
 func (h *Hospital) Close() error {
 	if err := h.sender.Close(); err != nil {
 		return errors.Wrap(err, "error closing sender")
+	}
+	if err := h.resourceWriter.Close(); err != nil {
+		return errors.Wrap(err, "error closing resource writer")
 	}
 	return nil
 }

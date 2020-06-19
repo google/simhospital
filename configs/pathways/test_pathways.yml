@@ -41,3 +41,4 @@ test_pathway_four_messages:
             unit: UMOLL
             abnormal_flag: HIGH
     - discharge: {}
+    - generate_resources: {}
