@@ -275,11 +275,18 @@ const (
 	HourPrecision
 	MinutePrecision
 	SecondPrecision
-	TenthSecondPrecision
-	HundredthSecondPrecision
-	ThousandthSecondPrecision
-	TenThousandthSecondPrecision
 )
+
+func (p TSPrecision) formatString() string {
+	return [...]string{
+		"2006",
+		"200601",
+		"20060102",
+		"2006010215",
+		"200601021504",
+		"20060102150405",
+	}[p]
+}
 
 // TS represents a HL7 TS value (Timestamp).
 type TS struct {
@@ -290,13 +297,9 @@ type TS struct {
 
 var _ Primitive = (*TS)(nil)
 
-// Used as the string to determine time formatting as per HL7 DateTime
-// when calling Time.Format(). See TS below.
-const dateTimeFormat = "20060102150405"
-
 // Marshal marshals the TS value.
 func (ts *TS) Marshal(c *Context) ([]byte, error) {
-	return []byte(ts.Time.In(c.TimezoneLoc).Format(dateTimeFormat)), nil
+	return []byte(ts.Time.In(c.TimezoneLoc).Format(ts.Precision.formatString())), nil
 }
 
 // Unmarshal unmarshals a TS value, as described in 2.8.42 of the HL7 2.3
@@ -344,18 +347,6 @@ func (ts *TS) Unmarshal(field []byte, c *Context) error {
 	case 14:
 		format = "20060102150405"
 		ts.Precision = SecondPrecision
-	case 16:
-		format = "20060102150405.9"
-		ts.Precision = TenthSecondPrecision
-	case 17:
-		format = "20060102150405.99"
-		ts.Precision = HundredthSecondPrecision
-	case 18:
-		format = "20060102150405.999"
-		ts.Precision = ThousandthSecondPrecision
-	case 19:
-		format = "20060102150405.9999"
-		ts.Precision = TenThousandthSecondPrecision
 	default:
 		return errors.New("bad TS value: invalid length")
 	}
@@ -381,7 +372,8 @@ func (ts *TS) Unmarshal(field []byte, c *Context) error {
 	if tzIndex < 0 && ts.Precision > DayPrecision {
 		ts.Time, err = time.ParseInLocation(format, string(tsWithoutTz), c.TimezoneLoc)
 		return err
-	} else if tzIndex < 0 && ts.Precision <= DayPrecision {
+	}
+	if tzIndex < 0 && ts.Precision <= DayPrecision {
 		ts.Time, err = time.Parse(format, string(tsWithoutTz))
 		return err
 	}

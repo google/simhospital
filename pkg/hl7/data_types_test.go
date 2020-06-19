@@ -31,28 +31,109 @@ func TestPrimitive(t *testing.T) {
 		Nesting:     0,
 		TimezoneLoc: Location,
 	}
-	arbitraryTime := time.Date(2020, 24, 02, 12, 55, 30, 0, time.UTC)
 
 	cases := []struct {
 		name string
 		p    Primitive
+		want Primitive
 		// got is an empty placeholder of the given type,
 		// where the value will be unmarshalled to.
 		got Primitive
-	}{
-		{name: "ST", p: NewST("value"), got: NewST("")},
-		{name: "ID", p: NewID("value"), got: NewID("")},
-		{name: "SI", p: NewSI(44), got: &SI{Valid: false}},
-		{name: "NM", p: NewNM(44), got: &NM{Valid: false}},
-		{name: "IS", p: NewIS("value"), got: NewIS("")},
-		{name: "DT", p: NewDT("value"), got: NewDT("")},
-		{name: "TM", p: NewTM("value"), got: NewTM("")},
-		{name: "TS", p: &TS{IsHL7Null: false, Time: arbitraryTime, Precision: SecondPrecision}, got: &TS{IsHL7Null: true}},
-		{name: "TN", p: NewTN("value"), got: NewTN("")},
-		{name: "FT", p: NewFT("value"), got: NewFT("")},
-		{name: "TX", p: NewTX("value"), got: NewTX("")},
-		{name: "CM", p: NewCM([]byte("value")), got: NewCM([]byte{})},
-		{name: "Any", p: NewAny([]byte("value")), got: NewAny([]byte{})},
+	}{{
+		name: "ST",
+		p:    NewST("value"),
+		want: NewST("value"),
+		got:  NewST(""),
+	}, {
+		name: "ID",
+		p:    NewID("value"),
+		want: NewID("value"),
+		got:  NewID(""),
+	}, {
+		name: "SI",
+		p:    NewSI(44),
+		want: NewSI(44),
+		got:  &SI{Valid: false},
+	}, {
+		name: "NM",
+		p:    NewNM(44),
+		want: NewNM(44),
+		got:  &NM{Valid: false},
+	}, {
+		name: "IS",
+		p:    NewIS("value"),
+		want: NewIS("value"),
+		got:  NewIS(""),
+	}, {
+		name: "DT",
+		p:    NewDT("value"),
+		want: NewDT("value"),
+		got:  NewDT(""),
+	}, {
+		name: "TM",
+		p:    NewTM("value"),
+		want: NewTM("value"),
+		got:  NewTM(""),
+	}, {
+		name: "TS_YearPrecision",
+		p:    &TS{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 0, time.UTC), Precision: YearPrecision},
+		want: &TS{IsHL7Null: false, Time: time.Date(2020, 01, 01, 0, 0, 0, 0, time.UTC), Precision: YearPrecision},
+		got:  &TS{IsHL7Null: true},
+	}, {
+		name: "TS_MonthPrecision",
+		p:    &TS{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 0, time.UTC), Precision: MonthPrecision},
+		want: &TS{IsHL7Null: false, Time: time.Date(2020, 02, 01, 0, 0, 0, 0, time.UTC), Precision: MonthPrecision},
+		got:  &TS{IsHL7Null: true},
+	}, {
+		name: "TS_DayPrecision",
+		p:    &TS{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 0, time.UTC), Precision: DayPrecision},
+		want: &TS{IsHL7Null: false, Time: time.Date(2020, 02, 24, 0, 0, 0, 0, time.UTC), Precision: DayPrecision},
+		got:  &TS{IsHL7Null: true},
+	}, {
+		name: "TS_HourPrecision",
+		p:    &TS{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 0, time.UTC), Precision: HourPrecision},
+		want: &TS{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 0, 0, 0, time.UTC), Precision: HourPrecision},
+		got:  &TS{IsHL7Null: true},
+	}, {
+		name: "TS_MinutePrecision",
+		p:    &TS{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 0, time.UTC), Precision: MinutePrecision},
+		want: &TS{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 0, 0, time.UTC), Precision: MinutePrecision},
+		got:  &TS{IsHL7Null: true},
+	}, {
+		name: "TS_SecondPrecision",
+		p:    &TS{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 0, time.UTC), Precision: SecondPrecision},
+		want: &TS{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 0, time.UTC), Precision: SecondPrecision},
+		got:  &TS{IsHL7Null: true},
+	}, {
+		name: "TS_SecondPrecision_WithNanoseconds",
+		p:    &TS{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 5100000000, time.UTC), Precision: SecondPrecision},
+		want: &TS{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 35, 0, time.UTC), Precision: SecondPrecision},
+		got:  &TS{IsHL7Null: true},
+	}, {
+		name: "TN",
+		p:    NewTN("value"),
+		want: NewTN("value"),
+		got:  NewTN(""),
+	}, {
+		name: "FT",
+		p:    NewFT("value"),
+		want: NewFT("value"),
+		got:  NewFT(""),
+	}, {
+		name: "TX",
+		p:    NewTX("value"),
+		want: NewTX("value"),
+		got:  NewTX(""),
+	}, {
+		name: "CM",
+		p:    NewCM([]byte("value")),
+		want: NewCM([]byte("value")),
+		got:  NewCM([]byte{}),
+	}, {
+		name: "Any",
+		p:    NewAny([]byte("value")),
+		want: NewAny([]byte("value")),
+		got:  NewAny([]byte{})},
 	}
 
 	for _, tc := range cases {
@@ -65,7 +146,7 @@ func TestPrimitive(t *testing.T) {
 			if err := tc.got.Unmarshal(b, c); err != nil {
 				t.Fatalf("[%+v].Unmarshal(%s, %v) failed with %v", tc.got, string(b), c, err)
 			}
-			if diff := cmp.Diff(tc.p, tc.got); diff != "" {
+			if diff := cmp.Diff(tc.want, tc.got); diff != "" {
 				t.Errorf("[%+v].Unmarshal(%s, %v) got diff (-want, +got):\n%s", tc.got, string(b), c, diff)
 			}
 		})
