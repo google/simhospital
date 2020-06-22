@@ -20,6 +20,9 @@ import (
 
 	"github.com/google/simhospital/pkg/config"
 	"github.com/google/simhospital/pkg/pathway"
+
+	cpb "google/fhir/proto/r4/core/codes_go_proto"
+	patientpb "google/fhir/proto/r4/core/resources/patient_go_proto"
 )
 
 // Internal is an internal representation of the gender.
@@ -49,6 +52,7 @@ func Random() Internal {
 type Convertor struct {
 	internalToHL7Mapping map[Internal]string
 	hl7ToInternalMapping map[string]Internal
+	hl7ToFHIRMapping     map[string]*patientpb.Patient_GenderCode
 	hl7Gender            config.Gender
 }
 
@@ -64,6 +68,12 @@ func NewConvertor(c *config.HL7Config) Convertor {
 			c.Gender.Male:    Male,
 			c.Gender.Female:  Female,
 			c.Gender.Unknown: Unknown,
+		},
+		// Mapping taken from https://www.hl7.org/fhir/cm-administrative-gender-v2.html
+		hl7ToFHIRMapping: map[string]*patientpb.Patient_GenderCode{
+			c.Gender.Male:    {Value: cpb.AdministrativeGenderCode_MALE},
+			c.Gender.Female:  {Value: cpb.AdministrativeGenderCode_FEMALE},
+			c.Gender.Unknown: {Value: cpb.AdministrativeGenderCode_UNKNOWN},
 		},
 		hl7Gender: c.Gender,
 	}
@@ -90,4 +100,9 @@ func (gc Convertor) InternalToHL7(gender Internal) string {
 // HL7ToInternal returns the Internal representation for the given HL7 gender.
 func (gc Convertor) HL7ToInternal(gender string) Internal {
 	return gc.hl7ToInternalMapping[gender]
+}
+
+// HL7ToFHIR returns the FHIR representation for the given HL7 gender.
+func (gc Convertor) HL7ToFHIR(gender string) *patientpb.Patient_GenderCode {
+	return gc.hl7ToFHIRMapping[gender]
 }

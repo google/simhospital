@@ -1196,6 +1196,10 @@ Currently, the following resources are supported:
 -   [`Patient`](https://www.hl7.org/fhir/patient.html)
     -   `identifier`
     -   `name`
+    -   `gender`
+    -   `telecom`
+    -   `deceased`
+    -   `address`
 
 ## Order profiles
 
