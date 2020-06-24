@@ -106,8 +106,28 @@ func TestPrimitive(t *testing.T) {
 		got:  &TS{IsHL7Null: true},
 	}, {
 		name: "TS_SecondPrecision_WithNanoseconds",
-		p:    &TS{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 5100000000, time.UTC), Precision: SecondPrecision},
+		p:    &TS{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 5123456789, time.UTC), Precision: SecondPrecision},
 		want: &TS{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 35, 0, time.UTC), Precision: SecondPrecision},
+		got:  &TS{IsHL7Null: true},
+	}, {
+		name: "TS_TenthSecondPrecision",
+		p:    &TS{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 5123456789, time.UTC), Precision: TenthSecondPrecision},
+		want: &TS{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 35, 100000000, time.UTC), Precision: TenthSecondPrecision},
+		got:  &TS{IsHL7Null: true},
+	}, {
+		name: "TS_HundredthSecondPrecision",
+		p:    &TS{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 5123456789, time.UTC), Precision: HundredthSecondPrecision},
+		want: &TS{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 35, 120000000, time.UTC), Precision: HundredthSecondPrecision},
+		got:  &TS{IsHL7Null: true},
+	}, {
+		name: "TS_ThousandthSecondPrecision",
+		p:    &TS{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 5123456789, time.UTC), Precision: ThousandthSecondPrecision},
+		want: &TS{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 35, 123000000, time.UTC), Precision: ThousandthSecondPrecision},
+		got:  &TS{IsHL7Null: true},
+	}, {
+		name: "TS_TenThousandthSecondPrecision",
+		p:    &TS{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 5123456789, time.UTC), Precision: TenThousandthSecondPrecision},
+		want: &TS{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 35, 123400000, time.UTC), Precision: TenThousandthSecondPrecision},
 		got:  &TS{IsHL7Null: true},
 	}, {
 		name: "TN",
@@ -133,8 +153,8 @@ func TestPrimitive(t *testing.T) {
 		name: "Any",
 		p:    NewAny([]byte("value")),
 		want: NewAny([]byte("value")),
-		got:  NewAny([]byte{})},
-	}
+		got:  NewAny([]byte{}),
+	}}
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {

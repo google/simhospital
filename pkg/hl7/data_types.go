@@ -275,6 +275,10 @@ const (
 	HourPrecision
 	MinutePrecision
 	SecondPrecision
+	TenthSecondPrecision
+	HundredthSecondPrecision
+	ThousandthSecondPrecision
+	TenThousandthSecondPrecision
 )
 
 func (p TSPrecision) formatString() string {
@@ -285,6 +289,10 @@ func (p TSPrecision) formatString() string {
 		"2006010215",
 		"200601021504",
 		"20060102150405",
+		"20060102150405.0",
+		"20060102150405.00",
+		"20060102150405.000",
+		"20060102150405.0000",
 	}[p]
 }
 
@@ -347,6 +355,18 @@ func (ts *TS) Unmarshal(field []byte, c *Context) error {
 	case 14:
 		format = "20060102150405"
 		ts.Precision = SecondPrecision
+	case 16:
+		format = "20060102150405.0"
+		ts.Precision = TenthSecondPrecision
+	case 17:
+		format = "20060102150405.00"
+		ts.Precision = HundredthSecondPrecision
+	case 18:
+		format = "20060102150405.000"
+		ts.Precision = ThousandthSecondPrecision
+	case 19:
+		format = "20060102150405.0000"
+		ts.Precision = TenThousandthSecondPrecision
 	default:
 		return errors.New("bad TS value: invalid length")
 	}
