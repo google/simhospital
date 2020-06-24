@@ -1200,6 +1200,10 @@ Currently, the following resources are supported:
     -   `telecom`
     -   `deceased`
     -   `address`
+-   [`Encounter`](https://www.hl7.org/fhir/encounter.html)
+    -   `status`
+    -   `statusHistory`
+    -   `period`
 
 ## Order profiles
 

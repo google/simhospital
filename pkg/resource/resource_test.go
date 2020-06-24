@@ -19,24 +19,32 @@ import (
 	"testing"
 	"time"
 
-	cpb "google/fhir/proto/r4/core/codes_go_proto"
-	dpb "google/fhir/proto/r4/core/datatypes_go_proto"
-	r4pb "google/fhir/proto/r4/core/resources/bundle_and_contained_resource_go_proto"
-	patientpb "google/fhir/proto/r4/core/resources/patient_go_proto"
 	"github.com/google/go-cmp/cmp"
 	"google.golang.org/protobuf/encoding/prototext"
 	"google.golang.org/protobuf/testing/protocmp"
 	"github.com/google/simhospital/pkg/config"
+	"github.com/google/simhospital/pkg/constants"
 	"github.com/google/simhospital/pkg/ir"
+
+	cpb "google/fhir/proto/r4/core/codes_go_proto"
+	dpb "google/fhir/proto/r4/core/datatypes_go_proto"
+	r4pb "google/fhir/proto/r4/core/resources/bundle_and_contained_resource_go_proto"
+	encounterpb "google/fhir/proto/r4/core/resources/encounter_go_proto"
+	patientpb "google/fhir/proto/r4/core/resources/patient_go_proto"
 )
 
-var now = ir.NewValidTime(time.Date(2018, 2, 12, 0, 0, 0, 0, time.UTC))
+var (
+	delay     = time.Hour * 5
+	now       = ir.NewValidTime(time.Date(2018, 2, 12, 0, 0, 0, 0, time.UTC))
+	later     = ir.NewValidTime(now.Add(delay))
+	evenLater = ir.NewValidTime(later.Add(delay))
+)
 
-func TestGeneratePatient(t *testing.T) {
+func TestGenerate(t *testing.T) {
 	tests := []struct {
 		name        string
 		patientInfo *ir.PatientInfo
-		want        *patientpb.Patient
+		want        *r4pb.Bundle
 	}{{
 		name: "Patient with all fields",
 		patientInfo: &ir.PatientInfo{
@@ -58,40 +66,114 @@ func TestGeneratePatient(t *testing.T) {
 					Country:    "COUNTRY",
 					Type:       "HOME",
 				},
+			},
+			Encounters: []*ir.Encounter{{
+				Status:      constants.EncounterStatusFinished,
+				StatusStart: evenLater,
+				Start:       now,
+				End:         evenLater,
+				StatusHistory: []*ir.StatusHistory{{
+					Status: constants.EncounterStatusPlanned,
+					Start:  now,
+					End:    now,
+				}, {
+					Status: constants.EncounterStatusArrived,
+					Start:  now,
+					End:    later,
+				}, {
+					Status: constants.EncounterStatusInProgress,
+					Start:  later,
+					End:    evenLater,
+				}},
+			}, {
+				Status:      constants.EncounterStatusInProgress,
+				StatusStart: evenLater,
+				Start:       evenLater,
 			}},
-		want: &patientpb.Patient{
-			Identifier: []*dpb.Identifier{{Value: &dpb.String{Value: "1234"}}},
-			Name: []*dpb.HumanName{{
-				Prefix: []*dpb.String{{Value: "Dr"}},
-				Family: &dpb.String{Value: "Burr"},
-				Given:  []*dpb.String{{Value: "William"}, {Value: "George"}},
-				Suffix: []*dpb.String{{Value: "MD"}},
-			}},
-			Gender: &patientpb.Patient_GenderCode{Value: cpb.AdministrativeGenderCode_MALE},
-			Telecom: []*dpb.ContactPoint{{
-				Value:  &dpb.String{Value: "01234567890"},
-				System: &dpb.ContactPoint_SystemCode{Value: cpb.ContactPointSystemCode_PHONE},
-				Use:    &dpb.ContactPoint_UseCode{Value: cpb.ContactPointUseCode_HOME},
-			}},
-			Deceased: &patientpb.Patient_DeceasedX{
-				Choice: &patientpb.Patient_DeceasedX_DateTime{
-					DateTime: &dpb.DateTime{
-						ValueUs:   now.Unix(),
-						Precision: dpb.DateTime_SECOND,
+		},
+		want: &r4pb.Bundle{
+			Entry: []*r4pb.Bundle_Entry{{
+				Resource: &r4pb.ContainedResource{
+					OneofResource: &r4pb.ContainedResource_Patient{
+						&patientpb.Patient{
+							Identifier: []*dpb.Identifier{{Value: &dpb.String{Value: "1234"}}},
+							Name: []*dpb.HumanName{{
+								Prefix: []*dpb.String{{Value: "Dr"}},
+								Family: &dpb.String{Value: "Burr"},
+								Given:  []*dpb.String{{Value: "William"}, {Value: "George"}},
+								Suffix: []*dpb.String{{Value: "MD"}},
+							}},
+							Gender: &patientpb.Patient_GenderCode{Value: cpb.AdministrativeGenderCode_MALE},
+							Telecom: []*dpb.ContactPoint{{
+								Value:  &dpb.String{Value: "01234567890"},
+								System: &dpb.ContactPoint_SystemCode{Value: cpb.ContactPointSystemCode_PHONE},
+								Use:    &dpb.ContactPoint_UseCode{Value: cpb.ContactPointUseCode_HOME},
+							}},
+							Deceased: &patientpb.Patient_DeceasedX{
+								Choice: &patientpb.Patient_DeceasedX_DateTime{
+									DateTime: &dpb.DateTime{
+										ValueUs:   now.Unix(),
+										Precision: dpb.DateTime_SECOND,
+									},
+								},
+							},
+							Address: []*dpb.Address{{
+								Use:  &dpb.Address_UseCode{Value: cpb.AddressUseCode_HOME},
+								Type: &dpb.Address_TypeCode{Value: cpb.AddressTypeCode_BOTH},
+								Line: []*dpb.String{{
+									Value: "FIRST_LINE",
+								}, {
+									Value: "SECOND_LINE",
+								}},
+								City:       &dpb.String{Value: "CITY"},
+								PostalCode: &dpb.String{Value: "ABC DEF"},
+								Country:    &dpb.String{Value: "COUNTRY"},
+							}},
+						},
 					},
 				},
-			},
-			Address: []*dpb.Address{{
-				Use:  &dpb.Address_UseCode{Value: cpb.AddressUseCode_HOME},
-				Type: &dpb.Address_TypeCode{Value: cpb.AddressTypeCode_BOTH},
-				Line: []*dpb.String{{
-					Value: "FIRST_LINE",
-				}, {
-					Value: "SECOND_LINE",
-				}},
-				City:       &dpb.String{Value: "CITY"},
-				PostalCode: &dpb.String{Value: "ABC DEF"},
-				Country:    &dpb.String{Value: "COUNTRY"},
+			}, {
+				Resource: &r4pb.ContainedResource{
+					OneofResource: &r4pb.ContainedResource_Encounter{
+						&encounterpb.Encounter{
+							Status: &encounterpb.Encounter_StatusCode{Value: cpb.EncounterStatusCode_FINISHED},
+							Period: &dpb.Period{
+								Start: &dpb.DateTime{ValueUs: now.Unix(), Precision: dpb.DateTime_SECOND},
+								End:   &dpb.DateTime{ValueUs: evenLater.Unix(), Precision: dpb.DateTime_SECOND},
+							},
+							StatusHistory: []*encounterpb.Encounter_StatusHistory{{
+								Status: &encounterpb.Encounter_StatusHistory_StatusCode{Value: cpb.EncounterStatusCode_PLANNED},
+								Period: &dpb.Period{
+									Start: &dpb.DateTime{ValueUs: now.Unix(), Precision: dpb.DateTime_SECOND},
+									End:   &dpb.DateTime{ValueUs: now.Unix(), Precision: dpb.DateTime_SECOND},
+								},
+							}, {
+								Status: &encounterpb.Encounter_StatusHistory_StatusCode{Value: cpb.EncounterStatusCode_ARRIVED},
+								Period: &dpb.Period{
+									Start: &dpb.DateTime{ValueUs: now.Unix(), Precision: dpb.DateTime_SECOND},
+									End:   &dpb.DateTime{ValueUs: later.Unix(), Precision: dpb.DateTime_SECOND},
+								},
+							}, {
+								Status: &encounterpb.Encounter_StatusHistory_StatusCode{Value: cpb.EncounterStatusCode_IN_PROGRESS},
+								Period: &dpb.Period{
+									Start: &dpb.DateTime{ValueUs: later.Unix(), Precision: dpb.DateTime_SECOND},
+									End:   &dpb.DateTime{ValueUs: evenLater.Unix(), Precision: dpb.DateTime_SECOND},
+								},
+							}},
+						},
+					},
+				},
+			}, {
+				Resource: &r4pb.ContainedResource{
+					OneofResource: &r4pb.ContainedResource_Encounter{
+						&encounterpb.Encounter{
+							Status: &encounterpb.Encounter_StatusCode{Value: cpb.EncounterStatusCode_IN_PROGRESS},
+							Period: &dpb.Period{
+								Start: &dpb.DateTime{ValueUs: evenLater.Unix(), Precision: dpb.DateTime_SECOND},
+							},
+						},
+					},
+				},
 			}},
 		},
 	}, {
@@ -109,28 +191,36 @@ func TestGeneratePatient(t *testing.T) {
 					Type:       "UNKNOWN",
 				},
 			}},
-		want: &patientpb.Patient{
-			Identifier: []*dpb.Identifier{{Value: &dpb.String{Value: "8888"}}},
-			Name: []*dpb.HumanName{{
-				Family: &dpb.String{Value: "Mogollon"},
-				Given:  []*dpb.String{{Value: "Elisa"}},
-			}},
-			Gender: &patientpb.Patient_GenderCode{Value: cpb.AdministrativeGenderCode_UNKNOWN},
-			Address: []*dpb.Address{{
-				Line:       []*dpb.String{{Value: "FIRST_LINE"}},
-				City:       &dpb.String{Value: "CITY"},
-				Country:    &dpb.String{Value: "COUNTRY"},
-				PostalCode: &dpb.String{Value: "ABC DEF"},
-				Use:        &dpb.Address_UseCode{Value: cpb.AddressUseCode_INVALID_UNINITIALIZED},
-				Type:       &dpb.Address_TypeCode{Value: cpb.AddressTypeCode_BOTH},
-			}},
-			Deceased: &patientpb.Patient_DeceasedX{
-				Choice: &patientpb.Patient_DeceasedX_Boolean{
-					Boolean: &dpb.Boolean{
-						Value: false,
+		want: &r4pb.Bundle{
+			Entry: []*r4pb.Bundle_Entry{{
+				Resource: &r4pb.ContainedResource{
+					OneofResource: &r4pb.ContainedResource_Patient{
+						&patientpb.Patient{
+							Identifier: []*dpb.Identifier{{Value: &dpb.String{Value: "8888"}}},
+							Name: []*dpb.HumanName{{
+								Family: &dpb.String{Value: "Mogollon"},
+								Given:  []*dpb.String{{Value: "Elisa"}},
+							}},
+							Gender: &patientpb.Patient_GenderCode{Value: cpb.AdministrativeGenderCode_UNKNOWN},
+							Address: []*dpb.Address{{
+								Line:       []*dpb.String{{Value: "FIRST_LINE"}},
+								City:       &dpb.String{Value: "CITY"},
+								Country:    &dpb.String{Value: "COUNTRY"},
+								PostalCode: &dpb.String{Value: "ABC DEF"},
+								Use:        &dpb.Address_UseCode{Value: cpb.AddressUseCode_INVALID_UNINITIALIZED},
+								Type:       &dpb.Address_TypeCode{Value: cpb.AddressTypeCode_BOTH},
+							}},
+							Deceased: &patientpb.Patient_DeceasedX{
+								Choice: &patientpb.Patient_DeceasedX_Boolean{
+									Boolean: &dpb.Boolean{
+										Value: false,
+									},
+								},
+							},
+						},
 					},
 				},
-			},
+			}},
 		},
 	}}
 
@@ -148,16 +238,11 @@ func TestGeneratePatient(t *testing.T) {
 				t.Errorf("w.Close() failed: %v", err)
 			}
 
-			bundle := &r4pb.Bundle{}
-			if err := prototext.Unmarshal(b.Bytes(), bundle); err != nil {
-				t.Errorf("prototext.Unmarshal(%v, %v) failed: %v", b.String(), bundle, err)
+			got := &r4pb.Bundle{}
+			if err := prototext.Unmarshal(b.Bytes(), got); err != nil {
+				t.Fatalf("prototext.Unmarshal(%v, %v) failed: %v", b.String(), got, err)
 			}
 
-			if got, want := len(bundle.GetEntry()), 1; got != want {
-				t.Fatalf("len(bundle.GetEntry()) = %d, want %d", got, want)
-			}
-
-			got := bundle.GetEntry()[0].GetResource().GetPatient()
 			if diff := cmp.Diff(tc.want, got, protocmp.Transform()); diff != "" {
 				t.Errorf("w.Generate(%v) returned diff (-want +got):\n%s", tc.patientInfo, diff)
 			}

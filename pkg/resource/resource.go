@@ -16,10 +16,12 @@
 package resource
 
 import (
+	"errors"
 	"io"
 
 	"google.golang.org/protobuf/encoding/prototext"
 	"github.com/google/simhospital/pkg/config"
+	"github.com/google/simhospital/pkg/constants"
 	"github.com/google/simhospital/pkg/gender"
 	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/logging"
@@ -27,6 +29,7 @@ import (
 	cpb "google/fhir/proto/r4/core/codes_go_proto"
 	dpb "google/fhir/proto/r4/core/datatypes_go_proto"
 	r4pb "google/fhir/proto/r4/core/resources/bundle_and_contained_resource_go_proto"
+	encounterpb "google/fhir/proto/r4/core/resources/encounter_go_proto"
 	patientpb "google/fhir/proto/r4/core/resources/patient_go_proto"
 )
 
@@ -36,6 +39,16 @@ var log = logging.ForCallerPackage()
 var internalToFHIRAddressType = map[string]cpb.AddressUseCode_Value{
 	"HOME": cpb.AddressUseCode_HOME,
 	"WORK": cpb.AddressUseCode_WORK,
+}
+
+// Default value for cpb.EncounterStatusCode is EncounterStatusCode_INVALID_UNINITIALIZED.
+var internalToFHIREncounterStatus = map[string]cpb.EncounterStatusCode_Value{
+	constants.EncounterStatusPlanned:    cpb.EncounterStatusCode_PLANNED,
+	constants.EncounterStatusInProgress: cpb.EncounterStatusCode_IN_PROGRESS,
+	constants.EncounterStatusArrived:    cpb.EncounterStatusCode_ARRIVED,
+	constants.EncounterStatusFinished:   cpb.EncounterStatusCode_FINISHED,
+	constants.EncounterStatusCancelled:  cpb.EncounterStatusCode_CANCELLED,
+	constants.EncounterStatusUnknown:    cpb.EncounterStatusCode_UNKNOWN,
 }
 
 // GeneratorConfig is the configuration for resource generators.
@@ -61,6 +74,9 @@ type FHIRWriter struct {
 
 // Generate generates FHIR resources from PatientInfo.
 func (w *FHIRWriter) Generate(p *ir.PatientInfo) error {
+	if p == nil {
+		return errors.New("cannot generate resources from nil PatientInfo")
+	}
 	b := w.bundle(p)
 	// TODO: Use jsonformat for output when available.
 	m := prototext.MarshalOptions{Multiline: true}
@@ -84,7 +100,7 @@ func (w *FHIRWriter) Close() error {
 // bundle converts PatientInfo into FHIR and returns an R4 Bundle. Bundle is the top-level
 // record encapsulating a patient's medical history.
 func (w *FHIRWriter) bundle(p *ir.PatientInfo) *r4pb.Bundle {
-	return &r4pb.Bundle{
+	bundle := &r4pb.Bundle{
 		Entry: []*r4pb.Bundle_Entry{{
 			Resource: &r4pb.ContainedResource{
 				OneofResource: &r4pb.ContainedResource_Patient{
@@ -92,6 +108,19 @@ func (w *FHIRWriter) bundle(p *ir.PatientInfo) *r4pb.Bundle {
 				}},
 		}},
 	}
+
+	for _, ec := range p.Encounters {
+		encounter := &r4pb.Bundle_Entry{
+			Resource: &r4pb.ContainedResource{
+				OneofResource: &r4pb.ContainedResource_Encounter{
+					w.encounter(ec),
+				},
+			},
+		}
+		bundle.Entry = append(bundle.Entry, encounter)
+	}
+
+	return bundle
 }
 
 func (w *FHIRWriter) patient(p *ir.PatientInfo) *patientpb.Patient {
@@ -173,6 +202,39 @@ func (w *FHIRWriter) address(address *ir.Address) []*dpb.Address {
 	return []*dpb.Address{a}
 }
 
+func (w *FHIRWriter) encounter(ec *ir.Encounter) *encounterpb.Encounter {
+	return &encounterpb.Encounter{
+		Status: &encounterpb.Encounter_StatusCode{
+			Value: internalToFHIREncounterStatus[ec.Status],
+		},
+		Period: &dpb.Period{
+			Start: w.dateTime(ec.Start),
+			End:   w.dateTime(ec.End),
+		},
+		StatusHistory: w.statusHistory(ec.StatusHistory),
+	}
+}
+
+func (w *FHIRWriter) statusHistory(statusHistory []*ir.StatusHistory) []*encounterpb.Encounter_StatusHistory {
+	var sh []*encounterpb.Encounter_StatusHistory
+	for _, s := range statusHistory {
+		h := &encounterpb.Encounter_StatusHistory{
+			Status: &encounterpb.Encounter_StatusHistory_StatusCode{
+				Value: internalToFHIREncounterStatus[s.Status],
+			},
+			Period: &dpb.Period{
+				Start: w.dateTime(s.Start),
+				End:   w.dateTime(s.End),
+			},
+		}
+		sh = append(sh, h)
+	}
+	return sh
+}
+
 func (w *FHIRWriter) dateTime(time ir.NullTime) *dpb.DateTime {
+	if !time.Valid {
+		return nil
+	}
 	return &dpb.DateTime{ValueUs: time.Unix(), Precision: dpb.DateTime_SECOND}
 }
