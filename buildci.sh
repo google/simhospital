@@ -1,4 +1,4 @@
-# Format: //devtools/kokoro/config/proto/build.proto
+#!/bin/bash
 
 # Copyright 2020 Google LLC
 #
@@ -14,4 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-build_file: "simulated-hospital/ci/gcp_ubuntu/build.sh"
+time bazel build -- ...
+time bazel test -- ...
+bazel run //cmd/simulator:simulator -- --local_path=$(pwd) --pathway_manager_type=deterministic --max_pathways=1 --pathway_names=test_pathway_four_messages
