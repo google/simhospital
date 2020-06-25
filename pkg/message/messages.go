@@ -54,7 +54,7 @@ const (
 	escapedComponentSeparator    = "\\S\\"
 	subComponentSeparator        = "&"
 	escapedSubComponentSeparator = "\\T\\"
-	lineBreak                    = "\\n"
+	lineBreak                    = "\n"
 	escapedLineBreak             = "\\.br\\"
 	backwardSlash                = "\\"
 	escapedBackwardSlash         = "\\E\\"

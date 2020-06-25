@@ -36,6 +36,10 @@ const (
 	defaultProcedureCodeDescription = "Hemispherectomy"
 	defaultProcedureFunctionalType  = "A"
 	defaultProcedurePriority        = "0"
+
+	rtfContent = `{\rtf1\ansi{\fonttbl\f0\fswiss Helvetica;}\f0\pard
+This is some {\b bold} text.\par
+}`
 )
 
 var (
@@ -408,7 +412,7 @@ func TestBuildOBXForClinicalNote(t *testing.T) {
 		name: "clinical note with an rtf file",
 		setup: func() *ir.Order {
 			orderTime := time.Date(2018, 1, 26, 15, 24, 21, 0, time.UTC)
-			return orderWithClinicalNote(orderTime, `{\rtf1\ansi{\fonttbl\f0\fswiss Helvetica;}\f0\pard\nThis is some {\b bold} text.\par\n}`)
+			return orderWithClinicalNote(orderTime, rtfContent)
 		},
 		want: `OBX|1||ECG^ECG||^^PNG^BASE64^{\E\rtf1\E\ansi{\E\fonttbl\E\f0\E\fswiss Helvetica;}\E\f0\E\pard\.br\This is some {\E\b bold} text.\E\par\.br\}|||||||||20180126152421||216865551019^Osman^Arthur^^^Dr^^^DRNBR^PRSNL^^^ORGDR`,
 	}}
