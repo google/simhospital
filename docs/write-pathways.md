@@ -1210,6 +1210,8 @@ Currently, the following resources are supported:
     -   `value`
     -   `note`
     -   `subject`
+-   [`Location`](https://www.hl7.org/fhir/location.html)
+    -   `name`
 
 ## Order profiles
 

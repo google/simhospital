@@ -31,6 +31,7 @@ import (
 	dpb "google/fhir/proto/r4/core/datatypes_go_proto"
 	r4pb "google/fhir/proto/r4/core/resources/bundle_and_contained_resource_go_proto"
 	encounterpb "google/fhir/proto/r4/core/resources/encounter_go_proto"
+	locationpb "google/fhir/proto/r4/core/resources/location_go_proto"
 	observationpb "google/fhir/proto/r4/core/resources/observation_go_proto"
 	patientpb "google/fhir/proto/r4/core/resources/patient_go_proto"
 )
@@ -101,6 +102,24 @@ func TestGenerate(t *testing.T) {
 						Value:    "VALUE",
 						Unit:     "UNIT",
 					}},
+				}},
+				LocationHistory: []*ir.LocationHistory{{
+					Location: &ir.PatientLocation{
+						Poc:      "POC",
+						Room:     "ROOM",
+						Bed:      "BED",
+						Floor:    "FLOOR",
+						Building: "BUILDING",
+						Facility: "FACILITY",
+					},
+					Start: now,
+					End:   later,
+				}, {
+					Location: &ir.PatientLocation{
+						Building: "BUILDING",
+					},
+					Start: later,
+					End:   evenLater,
 				}},
 			}, {
 				Status:      constants.EncounterStatusInProgress,
@@ -179,6 +198,47 @@ func TestGenerate(t *testing.T) {
 									End:   &dpb.DateTime{ValueUs: evenLater.Unix(), Precision: dpb.DateTime_SECOND},
 								},
 							}},
+							Location: []*encounterpb.Encounter_Location{{
+								Location: &dpb.Reference{
+									Reference: &dpb.Reference_LocationId{
+										&dpb.ReferenceId{Value: "3"},
+									},
+									Display: &dpb.String{Value: "BED, POC, ROOM, FLOOR, BUILDING, FACILITY"},
+								},
+								Period: &dpb.Period{
+									Start: &dpb.DateTime{ValueUs: now.Unix(), Precision: dpb.DateTime_SECOND},
+									End:   &dpb.DateTime{ValueUs: later.Unix(), Precision: dpb.DateTime_SECOND},
+								},
+							}, {
+								Location: &dpb.Reference{
+									Reference: &dpb.Reference_LocationId{
+										&dpb.ReferenceId{Value: "4"},
+									},
+									Display: &dpb.String{Value: "BUILDING"},
+								},
+								Period: &dpb.Period{
+									Start: &dpb.DateTime{ValueUs: later.Unix(), Precision: dpb.DateTime_SECOND},
+									End:   &dpb.DateTime{ValueUs: evenLater.Unix(), Precision: dpb.DateTime_SECOND},
+								},
+							}},
+						},
+					},
+				},
+			}, {
+				Resource: &r4pb.ContainedResource{
+					OneofResource: &r4pb.ContainedResource_Location{
+						&locationpb.Location{
+							Id:   &dpb.Id{Value: "3"},
+							Name: &dpb.String{Value: "BED, POC, ROOM, FLOOR, BUILDING, FACILITY"},
+						},
+					},
+				},
+			}, {
+				Resource: &r4pb.ContainedResource{
+					OneofResource: &r4pb.ContainedResource_Location{
+						&locationpb.Location{
+							Id:   &dpb.Id{Value: "4"},
+							Name: &dpb.String{Value: "BUILDING"},
 						},
 					},
 				},
@@ -186,7 +246,7 @@ func TestGenerate(t *testing.T) {
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Observation{
 						&observationpb.Observation{
-							Id: &dpb.Id{Value: "3"},
+							Id: &dpb.Id{Value: "5"},
 							Encounter: &dpb.Reference{
 								Reference: &dpb.Reference_EncounterId{&dpb.ReferenceId{Value: "2"}},
 							},
@@ -225,7 +285,7 @@ func TestGenerate(t *testing.T) {
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Observation{
 						&observationpb.Observation{
-							Id: &dpb.Id{Value: "4"},
+							Id: &dpb.Id{Value: "6"},
 							Encounter: &dpb.Reference{
 								Reference: &dpb.Reference_EncounterId{&dpb.ReferenceId{Value: "2"}},
 							},
@@ -259,7 +319,7 @@ func TestGenerate(t *testing.T) {
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Encounter{
 						&encounterpb.Encounter{
-							Id:     &dpb.Id{Value: "5"},
+							Id:     &dpb.Id{Value: "7"},
 							Status: &encounterpb.Encounter_StatusCode{Value: cpb.EncounterStatusCode_IN_PROGRESS},
 							Period: &dpb.Period{
 								Start: &dpb.DateTime{ValueUs: evenLater.Unix(), Precision: dpb.DateTime_SECOND},

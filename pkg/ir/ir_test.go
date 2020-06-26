@@ -302,6 +302,23 @@ func TestText(t *testing.T) {
 	}
 }
 
+func TestPatientLocation_Name(t *testing.T) {
+	location := &PatientLocation{
+		Bed:      "BED 1",
+		Room:     "ROOM 2",
+		Floor:    "5",
+		Poc:      " ", // Should be omitted from the output.
+		Facility: "FACILITY",
+		Building: "BUILDING",
+	}
+
+	want := "BED 1, ROOM 2, 5, BUILDING, FACILITY"
+
+	if got := location.Name(); got != want {
+		t.Errorf("%v.Name() = %q, want %q", location, got, want)
+	}
+}
+
 func testOrder() *Order {
 	return &Order{
 		OrderProfile:                  &CodedElement{ID: "ORDER_PROFILE", Text: "ORDER_PROFILE"},

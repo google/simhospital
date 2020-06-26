@@ -195,6 +195,17 @@ type PatientLocation struct {
 	Floor        string
 }
 
+// Name returns the name for this location by concatenating non-empty fields.
+func (p *PatientLocation) Name() string {
+	var parts []string
+	for _, s := range []string{p.Bed, p.Poc, p.Room, p.Floor, p.Building, p.Facility} {
+		if strings.TrimSpace(s) != "" {
+			parts = append(parts, s)
+		}
+	}
+	return strings.Join(parts, ", ")
+}
+
 // LocationHistory represents a patient location along with the period for which the patient was
 // at that location.
 type LocationHistory struct {

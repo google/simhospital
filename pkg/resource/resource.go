@@ -33,6 +33,7 @@ import (
 	dpb "google/fhir/proto/r4/core/datatypes_go_proto"
 	r4pb "google/fhir/proto/r4/core/resources/bundle_and_contained_resource_go_proto"
 	encounterpb "google/fhir/proto/r4/core/resources/encounter_go_proto"
+	locationpb "google/fhir/proto/r4/core/resources/location_go_proto"
 	observationpb "google/fhir/proto/r4/core/resources/observation_go_proto"
 	patientpb "google/fhir/proto/r4/core/resources/patient_go_proto"
 )
@@ -119,6 +120,13 @@ func (w *FHIRWriter) bundle(p *ir.PatientInfo) *r4pb.Bundle {
 	for _, ec := range p.Encounters {
 		encounter, encounterRef := w.encounter(ec)
 		bundle.Entry = append(bundle.Entry, encounter)
+
+		e := encounter.GetResource().GetEncounter()
+		for _, lh := range ec.LocationHistory {
+			location, locationRef := w.location(lh.Location)
+			bundle.Entry = append(bundle.Entry, location)
+			e.Location = append(e.Location, w.encounterLocation(locationRef, lh.Start, lh.End))
+		}
 
 		for _, o := range ec.Orders {
 			observations := w.observations(encounterRef, patientRef, o)
@@ -251,6 +259,16 @@ func (w *FHIRWriter) encounter(ec *ir.Encounter) (*r4pb.Bundle_Entry, *dpb.Refer
 	return entry, ref
 }
 
+func (w *FHIRWriter) encounterLocation(locationRef *dpb.Reference, start ir.NullTime, end ir.NullTime) *encounterpb.Encounter_Location {
+	return &encounterpb.Encounter_Location{
+		Location: locationRef,
+		Period: &dpb.Period{
+			Start: w.dateTime(start),
+			End:   w.dateTime(end),
+		},
+	}
+}
+
 func (w *FHIRWriter) statusHistory(statusHistory []*ir.StatusHistory) []*encounterpb.Encounter_StatusHistory {
 	var sh []*encounterpb.Encounter_StatusHistory
 	for _, s := range statusHistory {
@@ -319,6 +337,31 @@ func (w *FHIRWriter) narrative(paragraphs ...string) *dpb.Narrative {
 	}
 	sb.WriteString("</div>")
 	return &dpb.Narrative{Div: &dpb.Xhtml{Value: sb.String()}}
+}
+
+func (w *FHIRWriter) location(l *ir.PatientLocation) (*r4pb.Bundle_Entry, *dpb.Reference) {
+	id := w.idGenerator.NewID()
+	name := l.Name()
+
+	entry := &r4pb.Bundle_Entry{
+		Resource: &r4pb.ContainedResource{
+			OneofResource: &r4pb.ContainedResource_Location{
+				&locationpb.Location{
+					Id:   &dpb.Id{Value: id},
+					Name: &dpb.String{Value: name},
+				},
+			},
+		},
+	}
+
+	ref := &dpb.Reference{
+		Reference: &dpb.Reference_LocationId{
+			&dpb.ReferenceId{Value: id},
+		},
+		Display: &dpb.String{Value: name},
+	}
+
+	return entry, ref
 }
 
 func (w *FHIRWriter) notes(notes []string) []*dpb.Annotation {
