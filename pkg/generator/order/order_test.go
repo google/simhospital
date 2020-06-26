@@ -16,10 +16,12 @@ package order
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
 	"testing"
 	"time"
 
+	cpb "google/fhir/proto/r4/core/codes_go_proto"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/simhospital/pkg/config"
 	"github.com/google/simhospital/pkg/constants"
@@ -1001,8 +1003,8 @@ func TestSetResultsWithCompexOrderProfiles(t *testing.T) {
 				OrderProfile: "UREA AND ELECTROLYTES",
 			},
 			wantTestTypes: map[string]valueRange{
-				"Creatinine": valueRange{from: 49, to: 92},
-				"Potassium":  valueRange{from: 3.5, to: 5.1},
+				"Creatinine": {from: 49, to: 92},
+				"Potassium":  {from: 3.5, to: 5.1},
 			},
 		}, {
 			name: "Only specified test type included",
@@ -1016,7 +1018,7 @@ func TestSetResultsWithCompexOrderProfiles(t *testing.T) {
 				},
 			},
 			wantTestTypes: map[string]valueRange{
-				"Creatinine": valueRange{from: 49, to: 92},
+				"Creatinine": {from: 49, to: 92},
 			},
 		}, {
 			name:  "Only specified test type for corrected results",
@@ -1031,7 +1033,7 @@ func TestSetResultsWithCompexOrderProfiles(t *testing.T) {
 				},
 			},
 			wantTestTypes: map[string]valueRange{
-				"Potassium": valueRange{from: 3.5, to: 5.1},
+				"Potassium": {from: 3.5, to: 5.1},
 			},
 		},
 	}
@@ -1462,6 +1464,28 @@ func TestSetResultsOverrideNotes(t *testing.T) {
 			}
 			if diff := cmp.Diff(want, got.Results[0]); diff != "" {
 				t.Errorf("SetResults(%+v, %+v, %+v) diff (-want, +got):\n%s", order, tc.pathwayR, eventTime, diff)
+			}
+		})
+	}
+}
+
+func TestConvertorHL7ToFHIR(t *testing.T) {
+	hl7Config, err := config.LoadHL7Config(test.MessageConfigTest)
+	if err != nil {
+		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
+	}
+
+	wantMapping := map[string]cpb.ObservationStatusCode_Value{
+		"":                               cpb.ObservationStatusCode_INVALID_UNINITIALIZED,
+		hl7Config.ResultStatus.Final:     cpb.ObservationStatusCode_FINAL,
+		hl7Config.ResultStatus.Corrected: cpb.ObservationStatusCode_AMENDED,
+	}
+	c := NewConvertor(hl7Config)
+
+	for k, v := range wantMapping {
+		t.Run(fmt.Sprintf("%v-%v", k, v), func(t *testing.T) {
+			if got, want := c.HL7ToFHIR(k), v; got != want {
+				t.Errorf("c.HL7ToInternal(%v)=%v, want %v", k, got, want)
 			}
 		})
 	}

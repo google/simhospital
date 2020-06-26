@@ -268,6 +268,40 @@ func TestEncounter_UpdateLocation(t *testing.T) {
 	}
 }
 
+func TestText(t *testing.T) {
+	tests := []struct {
+		name   string
+		result *Result
+		want   string
+	}{{
+		name: "All fields",
+		result: &Result{
+			TestName:     &CodedElement{Text: "TEST NAME"},
+			Value:        "VALUE",
+			Unit:         "UNIT",
+			AbnormalFlag: "HIGH",
+		},
+		want: "TEST NAME: VALUE UNIT (HIGH)",
+	}, {
+		name: "Missing abnormal flag",
+		result: &Result{
+			TestName: &CodedElement{Text: "TEST NAME"},
+			Value:    "VALUE",
+			Unit:     "UNIT",
+		},
+		want: "TEST NAME: VALUE UNIT",
+	}}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			got := tc.result.Text()
+			if diff := cmp.Diff(tc.want, got); diff != "" {
+				t.Errorf("result.Text() returned diff (-want +got):\n%s", diff)
+			}
+		})
+	}
+}
+
 func testOrder() *Order {
 	return &Order{
 		OrderProfile:                  &CodedElement{ID: "ORDER_PROFILE", Text: "ORDER_PROFILE"},

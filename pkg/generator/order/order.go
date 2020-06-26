@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"time"
 
+	cpb "google/fhir/proto/r4/core/codes_go_proto"
 	"github.com/pkg/errors"
 	"github.com/google/simhospital/pkg/config"
 	"github.com/google/simhospital/pkg/constants"
@@ -414,4 +415,25 @@ func (g Generator) setValueSpecifiedInThePathway(result *ir.Result, pathwayResul
 	}
 	result.AbnormalFlag = g.AbnormalFlagConvertor.ToHL7(abnormalFlag)
 	return nil
+}
+
+// Convertor converts between the HL7 and FHIR representations of a result status.
+type Convertor struct {
+	hl7ToFHIRMapping map[string]cpb.ObservationStatusCode_Value
+}
+
+// NewConvertor returns a new result status Convertor based on the HL7Config.
+// Full set of codes can be found at https://www.hl7.org/fhir/codesystem-observation-status.html.
+func NewConvertor(c *config.HL7Config) Convertor {
+	return Convertor{
+		hl7ToFHIRMapping: map[string]cpb.ObservationStatusCode_Value{
+			c.ResultStatus.Final:     cpb.ObservationStatusCode_FINAL,
+			c.ResultStatus.Corrected: cpb.ObservationStatusCode_AMENDED,
+		},
+	}
+}
+
+// HL7ToFHIR returns the FHIR representation for the given HL7 result status.
+func (c Convertor) HL7ToFHIR(status string) cpb.ObservationStatusCode_Value {
+	return c.hl7ToFHIRMapping[status]
 }

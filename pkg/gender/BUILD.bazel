@@ -27,7 +27,6 @@ go_library(
         "//pkg/config:go_default_library",
         "//pkg/pathway:go_default_library",
         "@com_github_google_fhir//proto/r4/core:codes_go_proto",  # keep
-        "@com_github_google_fhir//proto/r4/core/resources:patient_go_proto",  # keep
     ],
 )
 

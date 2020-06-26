@@ -25,11 +25,13 @@ import (
 	"github.com/google/simhospital/pkg/config"
 	"github.com/google/simhospital/pkg/constants"
 	"github.com/google/simhospital/pkg/ir"
+	"github.com/google/simhospital/pkg/test/testid"
 
 	cpb "google/fhir/proto/r4/core/codes_go_proto"
 	dpb "google/fhir/proto/r4/core/datatypes_go_proto"
 	r4pb "google/fhir/proto/r4/core/resources/bundle_and_contained_resource_go_proto"
 	encounterpb "google/fhir/proto/r4/core/resources/encounter_go_proto"
+	observationpb "google/fhir/proto/r4/core/resources/observation_go_proto"
 	patientpb "google/fhir/proto/r4/core/resources/patient_go_proto"
 )
 
@@ -85,6 +87,21 @@ func TestGenerate(t *testing.T) {
 					Start:  later,
 					End:    evenLater,
 				}},
+				Orders: []*ir.Order{{
+					OrderDateTime: later,
+					Results: []*ir.Result{{
+						TestName:     &ir.CodedElement{ID: "TEST_ID_1", Text: "TEST_NAME_1"},
+						Value:        "VALUE",
+						Unit:         "UNIT",
+						AbnormalFlag: "H",
+						Notes:        []string{"NOTE_1", "NOTE_2"},
+						Status:       "C",
+					}, {
+						TestName: &ir.CodedElement{ID: "TEST_ID_2", Text: "TEST_NAME_2"},
+						Value:    "VALUE",
+						Unit:     "UNIT",
+					}},
+				}},
 			}, {
 				Status:      constants.EncounterStatusInProgress,
 				StatusStart: evenLater,
@@ -96,6 +113,7 @@ func TestGenerate(t *testing.T) {
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Patient{
 						&patientpb.Patient{
+							Id:         &dpb.Id{Value: "1"},
 							Identifier: []*dpb.Identifier{{Value: &dpb.String{Value: "1234"}}},
 							Name: []*dpb.HumanName{{
 								Prefix: []*dpb.String{{Value: "Dr"}},
@@ -136,6 +154,7 @@ func TestGenerate(t *testing.T) {
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Encounter{
 						&encounterpb.Encounter{
+							Id:     &dpb.Id{Value: "2"},
 							Status: &encounterpb.Encounter_StatusCode{Value: cpb.EncounterStatusCode_FINISHED},
 							Period: &dpb.Period{
 								Start: &dpb.DateTime{ValueUs: now.Unix(), Precision: dpb.DateTime_SECOND},
@@ -165,8 +184,82 @@ func TestGenerate(t *testing.T) {
 				},
 			}, {
 				Resource: &r4pb.ContainedResource{
+					OneofResource: &r4pb.ContainedResource_Observation{
+						&observationpb.Observation{
+							Id: &dpb.Id{Value: "3"},
+							Encounter: &dpb.Reference{
+								Reference: &dpb.Reference_EncounterId{&dpb.ReferenceId{Value: "2"}},
+							},
+							Text: &dpb.Narrative{
+								Div: &dpb.Xhtml{
+									Value: "<div><p>TEST_NAME_1: VALUE UNIT (H)</p><p>NOTE_1; NOTE_2</p></div>",
+								},
+							},
+							Status: &observationpb.Observation_StatusCode{Value: cpb.ObservationStatusCode_AMENDED},
+							Subject: &dpb.Reference{
+								Reference: &dpb.Reference_PatientId{&dpb.ReferenceId{Value: "1"}},
+								Display:   &dpb.String{Value: "William Burr"},
+							},
+							Value: &observationpb.Observation_ValueX{
+								Choice: &observationpb.Observation_ValueX_Quantity{
+									&dpb.Quantity{Value: &dpb.Decimal{Value: "VALUE"}, Unit: &dpb.String{Value: "UNIT"}},
+								},
+							},
+							Effective: &observationpb.Observation_EffectiveX{
+								Choice: &observationpb.Observation_EffectiveX_DateTime{
+									&dpb.DateTime{
+										ValueUs:   later.Unix(),
+										Precision: dpb.DateTime_SECOND,
+									},
+								},
+							},
+							Note: []*dpb.Annotation{{
+								Text: &dpb.Markdown{Value: "NOTE_1"},
+							}, {
+								Text: &dpb.Markdown{Value: "NOTE_2"},
+							}},
+						},
+					},
+				},
+			}, {
+				Resource: &r4pb.ContainedResource{
+					OneofResource: &r4pb.ContainedResource_Observation{
+						&observationpb.Observation{
+							Id: &dpb.Id{Value: "4"},
+							Encounter: &dpb.Reference{
+								Reference: &dpb.Reference_EncounterId{&dpb.ReferenceId{Value: "2"}},
+							},
+							Text: &dpb.Narrative{
+								Div: &dpb.Xhtml{
+									Value: "<div><p>TEST_NAME_2: VALUE UNIT</p></div>",
+								},
+							},
+							Status: &observationpb.Observation_StatusCode{Value: cpb.ObservationStatusCode_INVALID_UNINITIALIZED},
+							Subject: &dpb.Reference{
+								Reference: &dpb.Reference_PatientId{&dpb.ReferenceId{Value: "1"}},
+								Display:   &dpb.String{Value: "William Burr"},
+							},
+							Value: &observationpb.Observation_ValueX{
+								Choice: &observationpb.Observation_ValueX_Quantity{
+									&dpb.Quantity{Value: &dpb.Decimal{Value: "VALUE"}, Unit: &dpb.String{Value: "UNIT"}},
+								},
+							},
+							Effective: &observationpb.Observation_EffectiveX{
+								Choice: &observationpb.Observation_EffectiveX_DateTime{
+									&dpb.DateTime{
+										ValueUs:   later.Unix(),
+										Precision: dpb.DateTime_SECOND,
+									},
+								},
+							},
+						},
+					},
+				},
+			}, {
+				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Encounter{
 						&encounterpb.Encounter{
+							Id:     &dpb.Id{Value: "5"},
 							Status: &encounterpb.Encounter_StatusCode{Value: cpb.EncounterStatusCode_IN_PROGRESS},
 							Period: &dpb.Period{
 								Start: &dpb.DateTime{ValueUs: evenLater.Unix(), Precision: dpb.DateTime_SECOND},
@@ -196,6 +289,7 @@ func TestGenerate(t *testing.T) {
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Patient{
 						&patientpb.Patient{
+							Id:         &dpb.Id{Value: "1"},
 							Identifier: []*dpb.Identifier{{Value: &dpb.String{Value: "8888"}}},
 							Name: []*dpb.HumanName{{
 								Family: &dpb.String{Value: "Mogollon"},
@@ -228,12 +322,21 @@ func TestGenerate(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			var b bytes.Buffer
 			cfg := GeneratorConfig{
-				HL7Config: &config.HL7Config{Gender: config.Gender{Male: "M", Female: "F"}},
-				Writer:    &b,
+				HL7Config: &config.HL7Config{
+					Gender: config.Gender{Male: "M", Female: "F"},
+					ResultStatus: config.ResultStatus{
+						Final:     "F",
+						Corrected: "C",
+					},
+				},
+				Writer:      &b,
+				IDGenerator: &testid.Generator{},
 			}
 
 			w := NewFHIRWriter(cfg)
-			w.Generate(tc.patientInfo)
+			if err := w.Generate(tc.patientInfo); err != nil {
+				t.Fatalf("w.Generate(%v) failed: %v", tc.patientInfo, err)
+			}
 			if err := w.Close(); err != nil {
 				t.Errorf("w.Close() failed: %v", err)
 			}

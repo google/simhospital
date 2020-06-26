@@ -1204,6 +1204,12 @@ Currently, the following resources are supported:
     -   `status`
     -   `statusHistory`
     -   `period`
+-   [`Observation`](https://www.hl7.org/fhir/observation.html)
+    -   `encounter`
+    -   `status`
+    -   `value`
+    -   `note`
+    -   `subject`
 
 ## Order profiles
 

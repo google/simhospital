@@ -18,6 +18,8 @@ package ir
 import (
 	"bytes"
 	"encoding/gob"
+	"fmt"
+	"strings"
 	"time"
 
 	"github.com/google/simhospital/pkg/constants"
@@ -115,6 +117,16 @@ type Result struct {
 	Status       string
 	Notes        []string
 	ClinicalNote *ClinicalNote
+}
+
+// Text returns a human-readable version of the result.
+func (r *Result) Text() string {
+	var sb strings.Builder
+	fmt.Fprintf(&sb, "%s: %s %s", r.TestName.Text, r.Value, r.Unit)
+	if strings.TrimSpace(r.AbnormalFlag) != "" {
+		fmt.Fprintf(&sb, " (%s)", r.AbnormalFlag)
+	}
+	return sb.String()
 }
 
 // ClinicalNoteContent contains data used to generate an OBX segment in a ClinicalNote HL7 message.

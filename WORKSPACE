@@ -183,6 +183,13 @@ go_repository(
 )
 
 go_repository(
+    name = "com_github_google_uuid",
+    importpath = "github.com/google/uuid",
+    sum = "h1:Gkbcsh/GbpXz7lPftLA3P6TYMwjCLYm83jiFQZF/3gY=",
+    version = "v1.1.1",
+)
+
+go_repository(
     name = "org_golang_x_crypto",
     importpath = "golang.org/x/crypto",
     sum = "h1:9bFeDpN3gTqNanMVqNcoR/pJQuP5uroC3t1D7eXozTE=",

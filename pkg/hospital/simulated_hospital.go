@@ -339,7 +339,11 @@ func DefaultConfig(arguments Arguments) (Config, error) {
 	}
 
 	// TODO: Make resource writers configurable via flags.
-	cfg := resource.GeneratorConfig{Writer: os.Stdout, HL7Config: c.HL7Config}
+	cfg := resource.GeneratorConfig{
+		Writer:      os.Stdout,
+		HL7Config:   c.HL7Config,
+		IDGenerator: &id.UUIDGenerator{},
+	}
 	c.ResourceWriter = resource.NewFHIRWriter(cfg)
 
 	if c.OrderProfiles != nil && c.Doctors != nil && c.LocationManager != nil {

@@ -15,7 +15,17 @@
 // Package id provides the functionality to generate identifiers.
 package id
 
+import "github.com/google/uuid"
+
 // Generator is an interface to generate identifiers.
 type Generator interface {
 	NewID() string
+}
+
+// UUIDGenerator is a wrapper for github.com/google/uuid that implements the Generator interface.
+type UUIDGenerator struct{}
+
+// NewID returns a new random UUID.
+func (*UUIDGenerator) NewID() string {
+	return uuid.New().String()
 }

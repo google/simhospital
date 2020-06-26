@@ -18,11 +18,14 @@ package resource
 import (
 	"errors"
 	"io"
+	"strings"
 
 	"google.golang.org/protobuf/encoding/prototext"
 	"github.com/google/simhospital/pkg/config"
 	"github.com/google/simhospital/pkg/constants"
 	"github.com/google/simhospital/pkg/gender"
+	"github.com/google/simhospital/pkg/generator/id"
+	"github.com/google/simhospital/pkg/generator/order"
 	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/logging"
 
@@ -30,6 +33,7 @@ import (
 	dpb "google/fhir/proto/r4/core/datatypes_go_proto"
 	r4pb "google/fhir/proto/r4/core/resources/bundle_and_contained_resource_go_proto"
 	encounterpb "google/fhir/proto/r4/core/resources/encounter_go_proto"
+	observationpb "google/fhir/proto/r4/core/resources/observation_go_proto"
 	patientpb "google/fhir/proto/r4/core/resources/patient_go_proto"
 )
 
@@ -53,23 +57,30 @@ var internalToFHIREncounterStatus = map[string]cpb.EncounterStatusCode_Value{
 
 // GeneratorConfig is the configuration for resource generators.
 type GeneratorConfig struct {
-	Writer    io.Writer
-	HL7Config *config.HL7Config
+	Writer      io.Writer
+	HL7Config   *config.HL7Config
+	IDGenerator id.Generator
 }
 
 // NewFHIRWriter constructs and returns a new FHIRWriter.
 func NewFHIRWriter(cfg GeneratorConfig) *FHIRWriter {
 	return &FHIRWriter{
-		gc:     gender.NewConvertor(cfg.HL7Config),
-		writer: cfg.Writer,
+		// Gender and Order have dedicated converters because their values comes from the configuration
+		// instead of being fixed within Simulated Hospital.
+		gc:          gender.NewConvertor(cfg.HL7Config),
+		oc:          order.NewConvertor(cfg.HL7Config),
+		writer:      cfg.Writer,
+		idGenerator: cfg.IDGenerator,
 	}
 }
 
 // FHIRWriter generates FHIR resources as protocol buffers, and writes them to writer.
 type FHIRWriter struct {
-	gc     gender.Convertor
-	writer io.Writer
-	count  int
+	gc          gender.Convertor
+	oc          order.Convertor
+	writer      io.Writer
+	idGenerator id.Generator
+	count       int
 }
 
 // Generate generates FHIR resources from PatientInfo.
@@ -100,46 +111,56 @@ func (w *FHIRWriter) Close() error {
 // bundle converts PatientInfo into FHIR and returns an R4 Bundle. Bundle is the top-level
 // record encapsulating a patient's medical history.
 func (w *FHIRWriter) bundle(p *ir.PatientInfo) *r4pb.Bundle {
-	bundle := &r4pb.Bundle{
-		Entry: []*r4pb.Bundle_Entry{{
-			Resource: &r4pb.ContainedResource{
-				OneofResource: &r4pb.ContainedResource_Patient{
-					w.patient(p),
-				}},
-		}},
-	}
+	bundle := &r4pb.Bundle{}
+
+	patient, patientRef := w.patient(p)
+	bundle.Entry = append(bundle.Entry, patient)
 
 	for _, ec := range p.Encounters {
-		encounter := &r4pb.Bundle_Entry{
-			Resource: &r4pb.ContainedResource{
-				OneofResource: &r4pb.ContainedResource_Encounter{
-					w.encounter(ec),
-				},
-			},
-		}
+		encounter, encounterRef := w.encounter(ec)
 		bundle.Entry = append(bundle.Entry, encounter)
+
+		for _, o := range ec.Orders {
+			observations := w.observations(encounterRef, patientRef, o)
+			bundle.Entry = append(bundle.Entry, observations...)
+		}
 	}
 
 	return bundle
 }
 
-func (w *FHIRWriter) patient(p *ir.PatientInfo) *patientpb.Patient {
-	return &patientpb.Patient{
-		Identifier: w.identifier(p.Person),
-		Name:       w.humanName(p.Person),
-		Gender:     w.gc.HL7ToFHIR(p.Person.Gender),
-		Address:    w.address(p.Person.Address),
-		Deceased:   w.deceased(p.Person),
-		Telecom:    w.telecom(p.Person.PhoneNumber),
+func (w *FHIRWriter) patient(patient *ir.PatientInfo) (*r4pb.Bundle_Entry, *dpb.Reference) {
+	id := w.idGenerator.NewID()
+	displayName := patient.Person.FirstName + " " + patient.Person.Surname
+
+	entry := &r4pb.Bundle_Entry{
+		Resource: &r4pb.ContainedResource{
+			OneofResource: &r4pb.ContainedResource_Patient{
+				&patientpb.Patient{
+					Id:         &dpb.Id{Value: id},
+					Identifier: w.personIdentifier(patient.Person),
+					Name:       w.humanName(patient.Person),
+					Address:    w.address(patient.Person.Address),
+					Deceased:   w.deceased(patient.Person),
+					Telecom:    w.telecom(patient.Person.PhoneNumber),
+					Gender: &patientpb.Patient_GenderCode{
+						Value: w.gc.HL7ToFHIR(patient.Person.Gender),
+					},
+				},
+			},
+		},
 	}
+
+	ref := &dpb.Reference{
+		Reference: &dpb.Reference_PatientId{&dpb.ReferenceId{Value: id}},
+		Display:   &dpb.String{Value: displayName},
+	}
+
+	return entry, ref
 }
 
-func (w *FHIRWriter) identifier(pe *ir.Person) []*dpb.Identifier {
-	return []*dpb.Identifier{{
-		Value: &dpb.String{
-			Value: pe.MRN,
-		}},
-	}
+func (w *FHIRWriter) personIdentifier(pe *ir.Person) []*dpb.Identifier {
+	return []*dpb.Identifier{{Value: &dpb.String{Value: pe.MRN}}}
 }
 
 func (w *FHIRWriter) humanName(pe *ir.Person) []*dpb.HumanName {
@@ -202,17 +223,32 @@ func (w *FHIRWriter) address(address *ir.Address) []*dpb.Address {
 	return []*dpb.Address{a}
 }
 
-func (w *FHIRWriter) encounter(ec *ir.Encounter) *encounterpb.Encounter {
-	return &encounterpb.Encounter{
-		Status: &encounterpb.Encounter_StatusCode{
-			Value: internalToFHIREncounterStatus[ec.Status],
+func (w *FHIRWriter) encounter(ec *ir.Encounter) (*r4pb.Bundle_Entry, *dpb.Reference) {
+	id := w.idGenerator.NewID()
+
+	entry := &r4pb.Bundle_Entry{
+		Resource: &r4pb.ContainedResource{
+			OneofResource: &r4pb.ContainedResource_Encounter{
+				&encounterpb.Encounter{
+					Id: &dpb.Id{Value: id},
+					Status: &encounterpb.Encounter_StatusCode{
+						Value: internalToFHIREncounterStatus[ec.Status],
+					},
+					Period: &dpb.Period{
+						Start: w.dateTime(ec.Start),
+						End:   w.dateTime(ec.End),
+					},
+					StatusHistory: w.statusHistory(ec.StatusHistory),
+				},
+			},
 		},
-		Period: &dpb.Period{
-			Start: w.dateTime(ec.Start),
-			End:   w.dateTime(ec.End),
-		},
-		StatusHistory: w.statusHistory(ec.StatusHistory),
 	}
+
+	ref := &dpb.Reference{
+		Reference: &dpb.Reference_EncounterId{&dpb.ReferenceId{Value: id}},
+	}
+
+	return entry, ref
 }
 
 func (w *FHIRWriter) statusHistory(statusHistory []*ir.StatusHistory) []*encounterpb.Encounter_StatusHistory {
@@ -230,6 +266,68 @@ func (w *FHIRWriter) statusHistory(statusHistory []*ir.StatusHistory) []*encount
 		sh = append(sh, h)
 	}
 	return sh
+}
+
+func (w *FHIRWriter) observations(encounterRef *dpb.Reference, patientRef *dpb.Reference, order *ir.Order) []*r4pb.Bundle_Entry {
+	var observations []*r4pb.Bundle_Entry
+	for _, r := range order.Results {
+		id := w.idGenerator.NewID()
+		entry := &r4pb.Bundle_Entry{
+			Resource: &r4pb.ContainedResource{
+				OneofResource: &r4pb.ContainedResource_Observation{
+					&observationpb.Observation{
+						Encounter: encounterRef,
+						Subject:   patientRef,
+						Id:        &dpb.Id{Value: id},
+						Note:      w.notes(r.Notes),
+						Status: &observationpb.Observation_StatusCode{
+							Value: w.oc.HL7ToFHIR(r.Status),
+						},
+						Text: w.narrative(r.Text(), strings.Join(r.Notes, "; ")),
+						Effective: &observationpb.Observation_EffectiveX{
+							Choice: &observationpb.Observation_EffectiveX_DateTime{
+								DateTime: w.dateTime(order.OrderDateTime),
+							},
+						},
+						Value: &observationpb.Observation_ValueX{
+							Choice: &observationpb.Observation_ValueX_Quantity{
+								Quantity: &dpb.Quantity{
+									Value: &dpb.Decimal{Value: r.Value},
+									Unit:  &dpb.String{Value: r.Unit},
+								},
+							},
+						},
+					},
+				},
+			},
+		}
+		observations = append(observations, entry)
+	}
+	return observations
+}
+
+func (w *FHIRWriter) narrative(paragraphs ...string) *dpb.Narrative {
+	var sb strings.Builder
+	sb.WriteString("<div>")
+	for _, p := range paragraphs {
+		if p == "" {
+			continue
+		}
+		sb.WriteString("<p>")
+		sb.WriteString(p)
+		sb.WriteString("</p>")
+	}
+	sb.WriteString("</div>")
+	return &dpb.Narrative{Div: &dpb.Xhtml{Value: sb.String()}}
+}
+
+func (w *FHIRWriter) notes(notes []string) []*dpb.Annotation {
+	var annotations []*dpb.Annotation
+	for _, n := range notes {
+		a := &dpb.Annotation{Text: &dpb.Markdown{Value: n}}
+		annotations = append(annotations, a)
+	}
+	return annotations
 }
 
 func (w *FHIRWriter) dateTime(time ir.NullTime) *dpb.DateTime {
