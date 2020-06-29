@@ -16,7 +16,6 @@
 package hospital
 
 import (
-	"os"
 	"time"
 
 	"github.com/pkg/errors"
@@ -134,6 +133,9 @@ type Arguments struct {
 	// Also required to create Config.PathwayParser and Config.PathwayManager.
 	OrderProfilesFile *string
 
+	// ResourceArguments to create ResourceWriter.
+	ResourceArguments *ResourceArguments
+
 	// DeletePatientsFromMemory to set as Config.DeletePatientsFromMemory.
 	DeletePatientsFromMemory bool
 
@@ -186,6 +188,12 @@ type SenderArguments struct {
 	// MllpKeepAliveInterval is an interval between keep-alive messages.
 	// Only relevant if Output=mllp and MllpKeepAlive=true.
 	MllpKeepAliveInterval *time.Duration
+}
+
+// ResourceArguments contains arguments to create a ResourceWriter.
+type ResourceArguments struct {
+	Output    string
+	OutputDir string
 }
 
 // Config contains the configuration for Simulated Hospital.
@@ -338,11 +346,19 @@ func DefaultConfig(arguments Arguments) (Config, error) {
 		}
 	}
 
+	var output resource.Output
+	if arguments.ResourceArguments != nil {
+		output, err = resourceOutput(arguments.ResourceArguments)
+		if err != nil {
+			return Config{}, errors.Wrap(err, "cannot create Resource Output")
+		}
+	}
+
 	// TODO: Make resource writers configurable via flags.
 	cfg := resource.GeneratorConfig{
-		Writer:      os.Stdout,
 		HL7Config:   c.HL7Config,
 		IDGenerator: &id.UUIDGenerator{},
+		Output:      output,
 	}
 	c.ResourceWriter = resource.NewFHIRWriter(cfg)
 
@@ -361,6 +377,20 @@ func DefaultConfig(arguments Arguments) (Config, error) {
 	}
 
 	return c, nil
+}
+
+func resourceOutput(arguments *ResourceArguments) (resource.Output, error) {
+	if arguments == nil {
+		return &resource.StdOutput{}, nil
+	}
+	switch arguments.Output {
+	case "stdout":
+		return &resource.StdOutput{}, nil
+	case "file":
+		return resource.NewDirectoryOutput(arguments.OutputDir)
+	default:
+		return nil, errors.Errorf("unsupported output type %q", arguments.Output)
+	}
 }
 
 func hl7Sender(arguments SenderArguments) (hl7.Sender, error) {

@@ -60,6 +60,10 @@ var (
 	doctorsFile            = flag.String("doctors_file", "configs/hl7_messages/doctors.yml", "Path to a YAML file with the doctors")
 	orderProfilesFile      = flag.String("order_profile_file", "configs/hl7_messages/order_profiles.yml", "Path to a YAML file with the definition of the order profiles")
 
+	// Flags that control resource generation.
+	resourceOutput    = flag.String("resource_output", "stdout", "Where the generated resources will be written: [stdout, file]")
+	resourceOutputDir = flag.String("resource_output_dir", "resources", "Path to the output directory for resource files; only relevant if -resource_output=file")
+
 	// Flags that control the behaviour of Simulated Hospital.
 	sleepFor                 = flag.Duration("sleep_for", time.Second, "How long Simulated Hospital sleeps before checking if any new messages need to be generated")
 	deletePatientsFromMemory = flag.Bool("delete_patients_from_memory", false, "Whether Simulated Hospital deletes patients after their pathways finish. "+
@@ -163,6 +167,10 @@ func createRunner() (*runner.Hospital, error) {
 			Type:         *pathwayManagerType,
 			Names:        include,
 			ExcludeNames: exclude,
+		},
+		ResourceArguments: &hospital.ResourceArguments{
+			Output:    *resourceOutput,
+			OutputDir: *resourceOutputDir,
 		},
 		SenderArguments: &hospital.SenderArguments{
 			Output:                *output,

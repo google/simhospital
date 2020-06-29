@@ -61,6 +61,7 @@ type GeneratorConfig struct {
 	Writer      io.Writer
 	HL7Config   *config.HL7Config
 	IDGenerator id.Generator
+	Output      Output
 }
 
 // NewFHIRWriter constructs and returns a new FHIRWriter.
@@ -70,8 +71,8 @@ func NewFHIRWriter(cfg GeneratorConfig) *FHIRWriter {
 		// instead of being fixed within Simulated Hospital.
 		gc:          gender.NewConvertor(cfg.HL7Config),
 		oc:          order.NewConvertor(cfg.HL7Config),
-		writer:      cfg.Writer,
 		idGenerator: cfg.IDGenerator,
+		output:      cfg.Output,
 	}
 }
 
@@ -79,9 +80,9 @@ func NewFHIRWriter(cfg GeneratorConfig) *FHIRWriter {
 type FHIRWriter struct {
 	gc          gender.Convertor
 	oc          order.Convertor
-	writer      io.Writer
 	idGenerator id.Generator
 	count       int
+	output      Output
 }
 
 // Generate generates FHIR resources from PatientInfo.
@@ -96,7 +97,12 @@ func (w *FHIRWriter) Generate(p *ir.PatientInfo) error {
 	if err != nil {
 		return err
 	}
-	if _, err = w.writer.Write(bytes); err != nil {
+	f, err := w.output.New(p)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+	if _, err = f.Write(bytes); err != nil {
 		return err
 	}
 	w.count = w.count + len(b.GetEntry()) + 1 // Include the Bundle resource itself.

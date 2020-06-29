@@ -21,7 +21,10 @@ package(
 
 go_library(
     name = "go_default_library",
-    srcs = ["resource.go"],
+    srcs = [
+        "output.go",
+        "resource.go",
+    ],
     importpath = "github.com/google/simhospital/pkg/test/testresource",
     deps = ["//pkg/ir:go_default_library"],
 )

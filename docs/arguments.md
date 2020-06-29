@@ -3,6 +3,7 @@
 
 
 -   [Message destination](#message-destination)
+-   [Resource destination](#resource-destination)
 -   [Data configuration](#data-configuration)
 -   [Pathways](#pathways)
 -   [Tool setup](#tool-setup)
@@ -21,6 +22,8 @@ Append arguments to your launch command to change the following:
 
 *   [Message destination](#message-destination)—where messages go once they're
     generated.
+*   [Resource destination](#resource-destination)-where resources go once
+    they're generated.
 *   [Data configuration](#data-configuration) lets you use your own sample data.
 *   [Pathways](#pathways) adjust which messages (and how often) Simulated
     Hospital sends.
@@ -83,6 +86,26 @@ $ docker run --rm -it -p 8000:8000 bazel:simhospital_container_image health/simu
 -output mllp \
 -mllp_destination 127.0.0.1:6661
 ```
+
+## Resource destination
+
+Similarly to message destination arguments, resource destination arguments
+control where resources go once they're generated.
+
+`-resource_output` (string)
+:   Where the generated resources go once they're generated. You can use the
+    following values:
+
+*   `stdout`: Print the resources to the console.
+*   `file`: Store each resource in a separate file.
+
+If not set, Simulated Hospital uses _"stdout"_.
+
+`-resource_output_dir` (string)
+:   Path to the output directory for resource files; only relevant if
+    `-resource_output=file`. Each file stores resources for a single patient at
+    a specific point in time. Files are never updated. If not set, Simulated
+    Hospital uses _"resources"_.
 
 ## Data configuration
 

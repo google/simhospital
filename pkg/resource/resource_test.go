@@ -26,6 +26,7 @@ import (
 	"github.com/google/simhospital/pkg/constants"
 	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/test/testid"
+	"github.com/google/simhospital/pkg/test/testresource"
 
 	cpb "google/fhir/proto/r4/core/codes_go_proto"
 	dpb "google/fhir/proto/r4/core/datatypes_go_proto"
@@ -389,8 +390,8 @@ func TestGenerate(t *testing.T) {
 						Corrected: "C",
 					},
 				},
-				Writer:      &b,
 				IDGenerator: &testid.Generator{},
+				Output:      &testresource.ByteOutput{Bytes: &b},
 			}
 
 			w := NewFHIRWriter(cfg)
