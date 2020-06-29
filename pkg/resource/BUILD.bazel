@@ -34,14 +34,14 @@ go_library(
         "//pkg/generator/order:go_default_library",
         "//pkg/ir:go_default_library",
         "//pkg/logging:go_default_library",
-        "@com_github_google_fhir//proto/r4/core:codes_go_proto",  # keep
-        "@com_github_google_fhir//proto/r4/core:datatypes_go_proto",  # keep
-        "@com_github_google_fhir//proto/r4/core/resources:bundle_and_contained_resource_go_proto",  # keep
-        "@com_github_google_fhir//proto/r4/core/resources:encounter_go_proto",  # keep
-        "@com_github_google_fhir//proto/r4/core/resources:location_go_proto",  # keep
-        "@com_github_google_fhir//proto/r4/core/resources:observation_go_proto",  # keep
-        "@com_github_google_fhir//proto/r4/core/resources:patient_go_proto",  # keep
         "@com_github_pkg_errors//:go_default_library",
+        "@com_google_fhir//proto/r4/core:codes_go_proto",
+        "@com_google_fhir//proto/r4/core:datatypes_go_proto",
+        "@com_google_fhir//proto/r4/core/resources:bundle_and_contained_resource_go_proto",
+        "@com_google_fhir//proto/r4/core/resources:encounter_go_proto",
+        "@com_google_fhir//proto/r4/core/resources:location_go_proto",
+        "@com_google_fhir//proto/r4/core/resources:observation_go_proto",
+        "@com_google_fhir//proto/r4/core/resources:patient_go_proto",
         "@org_golang_google_protobuf//encoding/prototext:go_default_library",
     ],
 )
@@ -60,14 +60,14 @@ go_test(
         "//pkg/test/testid:go_default_library",
         "//pkg/test/testresource:go_default_library",
         "//pkg/test/testwrite:go_default_library",
-        "@com_github_google_fhir//proto/r4/core:codes_go_proto",  # keep
-        "@com_github_google_fhir//proto/r4/core:datatypes_go_proto",  # keep
-        "@com_github_google_fhir//proto/r4/core/resources:bundle_and_contained_resource_go_proto",  # keep
-        "@com_github_google_fhir//proto/r4/core/resources:encounter_go_proto",  # keep
-        "@com_github_google_fhir//proto/r4/core/resources:location_go_proto",  # keep
-        "@com_github_google_fhir//proto/r4/core/resources:observation_go_proto",  # keep
-        "@com_github_google_fhir//proto/r4/core/resources:patient_go_proto",  # keep
         "@com_github_google_go_cmp//cmp:go_default_library",
+        "@com_google_fhir//proto/r4/core:codes_go_proto",
+        "@com_google_fhir//proto/r4/core:datatypes_go_proto",
+        "@com_google_fhir//proto/r4/core/resources:bundle_and_contained_resource_go_proto",
+        "@com_google_fhir//proto/r4/core/resources:encounter_go_proto",
+        "@com_google_fhir//proto/r4/core/resources:location_go_proto",
+        "@com_google_fhir//proto/r4/core/resources:observation_go_proto",
+        "@com_google_fhir//proto/r4/core/resources:patient_go_proto",
         "@org_golang_google_protobuf//encoding/prototext:go_default_library",
         "@org_golang_google_protobuf//testing/protocmp:go_default_library",
     ],

@@ -204,9 +204,12 @@ go_repository(
 )
 
 go_repository(
-    name = "com_github_google_fhir",
-    commit = "869537a45757be9fe0011d742873c02721aa7d97",
-    importpath = "github.com/google/fhir",
+    name = "com_google_fhir",
+    importpath = "google/fhir",
+    urls = ["https://github.com/google/fhir/archive/869537a45757be9fe0011d742873c02721aa7d97.zip"],
+    sha256 = "ad8828aee2effbec79b543ff027680be3e4618339325d281e2a60af6c548ccf0",
+    strip_prefix = "fhir-869537a45757be9fe0011d742873c02721aa7d97",
+    type = "zip",
 )
 
 go_repository(
