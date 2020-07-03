@@ -146,3 +146,23 @@ func (s SimpleDateGenerator) Random(now time.Time) ir.NullTime {
 	timeFromNow := -time.Duration(days) * 24 * time.Hour
 	return ir.NewValidTime(now.Add(timeFromNow))
 }
+
+// CodingSystemConvertor converts between the HL7 and FHIR representations of coding systems.
+type CodingSystemConvertor struct {
+	hl7ToFHIR map[string]string
+}
+
+// HL7ToFHIR returns the FHIR representation for the given HL7 name.
+func (c CodingSystemConvertor) HL7ToFHIR(name string) string {
+	if uri, ok := c.hl7ToFHIR[name]; ok {
+		return uri
+	}
+	return name
+}
+
+// NewCodingSystemConvertor returns a new coding system converter based on the HL7Config,
+func NewCodingSystemConvertor(hc *config.HL7Config) CodingSystemConvertor {
+	return CodingSystemConvertor{
+		hl7ToFHIR: hc.Mapping.FHIR.CodingSystems,
+	}
+}

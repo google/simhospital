@@ -175,3 +175,23 @@ hospital_service: "MED"
 #
 # WinPath is the UK's leading Laboratory Information Management System.
 coding_system: "WinPath"
+
+#
+# Mapping from HL7 codes to other value sets.
+#
+mapping:
+  fhir:
+    coding_systems: { "SNM3": "http://snomed.info/sct" }
+    # Reference:
+    # https://www.hl7.org/fhir/valueset-reaction-event-severity.html
+    allergy_severities:
+      severe: ["SV", "SEVERE"]
+      moderate: ["MO", "MODERATE"]
+      mild: ["MI", "MILD"]
+    # Reference:
+    # https://www.hl7.org/fhir/valueset-allergy-intolerance-category.html
+    allergy_types:
+      food: ["FA", "FOOD"]
+      medication: ["DA", "MEDICATION"]
+      environment: ["EA", "ENVIRONMENTAL"]
+      biologic: ["BIOLOGIC"]

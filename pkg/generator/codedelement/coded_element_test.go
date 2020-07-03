@@ -15,8 +15,11 @@
 package codedelement
 
 import (
+	"fmt"
 	"testing"
 	"time"
+
+	"github.com/google/simhospital/pkg/config"
 )
 
 func TestSimpleDateGenerator(t *testing.T) {
@@ -30,5 +33,34 @@ func TestSimpleDateGenerator(t *testing.T) {
 		if got.After(now) || got.Before(oneYearAgo) {
 			t.Errorf("sdg.Random(%v)=%v, want between (%v, %v)", now, oneYearAgo, now)
 		}
+	}
+}
+
+func TestCodingSystemConvertorHL7ToFHIR(t *testing.T) {
+	hl7Config := &config.HL7Config{
+		Mapping: config.CodeMapping{
+			FHIR: config.FHIRMapping{
+				CodingSystems: map[string]string{
+					"SNM3": "http://snomed.info/sct",
+					"ACME": "https://acme.lab/resultcodes",
+				},
+			},
+		},
+	}
+
+	wantMapping := map[string]string{
+		"": "",
+		"UNKNOWN": "UNKNOWN",
+		"SNM3":    "http://snomed.info/sct",
+		"ACME":    "https://acme.lab/resultcodes",
+	}
+	c := NewCodingSystemConvertor(hl7Config)
+
+	for k, v := range wantMapping {
+		t.Run(fmt.Sprintf("%v-%v", k, v), func(t *testing.T) {
+			if got, want := c.HL7ToFHIR(k), v; got != want {
+				t.Errorf("c.HL7ToFHIR(%v)=%v, want %v", k, got, want)
+			}
+		})
 	}
 }

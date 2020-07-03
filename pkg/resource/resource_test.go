@@ -30,6 +30,7 @@ import (
 
 	cpb "google/fhir/proto/r4/core/codes_go_proto"
 	dpb "google/fhir/proto/r4/core/datatypes_go_proto"
+	aipb "google/fhir/proto/r4/core/resources/allergy_intolerance_go_proto"
 	r4pb "google/fhir/proto/r4/core/resources/bundle_and_contained_resource_go_proto"
 	encounterpb "google/fhir/proto/r4/core/resources/encounter_go_proto"
 	locationpb "google/fhir/proto/r4/core/resources/location_go_proto"
@@ -71,6 +72,29 @@ func TestGenerate(t *testing.T) {
 					Type:       "HOME",
 				},
 			},
+			Allergies: []*ir.Allergy{{
+				Description: ir.CodedElement{
+					ID:            "ID",
+					Text:          "TEXT",
+					CodingSystem:  "SYSTEM",
+					AlternateText: "ALTERNATE_TEXT",
+				},
+				Severity:               "SEVERE",
+				Reaction:               "REACTION",
+				Type:                   "FOOD",
+				IdentificationDateTime: now,
+			}, {
+				Description: ir.CodedElement{
+					ID:            "ID",
+					Text:          "TEXT",
+					CodingSystem:  "SYSTEM",
+					AlternateText: "ALTERNATE_TEXT",
+				},
+				Severity:               "MODERATE",
+				Reaction:               "REACTION",
+				Type:                   "MEDICATION",
+				IdentificationDateTime: now,
+			}},
 			Encounters: []*ir.Encounter{{
 				Status:      constants.EncounterStatusFinished,
 				StatusStart: evenLater,
@@ -172,9 +196,79 @@ func TestGenerate(t *testing.T) {
 				},
 			}, {
 				Resource: &r4pb.ContainedResource{
+					OneofResource: &r4pb.ContainedResource_AllergyIntolerance{
+						&aipb.AllergyIntolerance{
+							Id:           &dpb.Id{Value: "2"},
+							Type:         &aipb.AllergyIntolerance_TypeCode{Value: cpb.AllergyIntoleranceTypeCode_ALLERGY},
+							RecordedDate: &dpb.DateTime{ValueUs: now.Unix(), Precision: dpb.DateTime_SECOND},
+							Category: []*aipb.AllergyIntolerance_CategoryCode{{
+								Value: cpb.AllergyIntoleranceCategoryCode_FOOD,
+							}},
+							Patient: &dpb.Reference{
+								Reference: &dpb.Reference_PatientId{
+									&dpb.ReferenceId{Value: "1"},
+								},
+								Display: &dpb.String{Value: "William Burr"},
+							},
+							Code: &dpb.CodeableConcept{
+								Text: &dpb.String{Value: "TEXT"},
+								Coding: []*dpb.Coding{
+									&dpb.Coding{
+										System:  &dpb.Uri{Value: "SYSTEM_URI"},
+										Code:    &dpb.Code{Value: "ID"},
+										Display: &dpb.String{Value: "TEXT"},
+									},
+								},
+							},
+							Reaction: []*aipb.AllergyIntolerance_Reaction{{
+								Description: &dpb.String{Value: "REACTION"},
+								Severity: &aipb.AllergyIntolerance_Reaction_SeverityCode{
+									Value: cpb.AllergyIntoleranceSeverityCode_SEVERE,
+								},
+							}},
+						},
+					},
+				},
+			}, {
+				Resource: &r4pb.ContainedResource{
+					OneofResource: &r4pb.ContainedResource_AllergyIntolerance{
+						&aipb.AllergyIntolerance{
+							Id:           &dpb.Id{Value: "3"},
+							Type:         &aipb.AllergyIntolerance_TypeCode{Value: cpb.AllergyIntoleranceTypeCode_ALLERGY},
+							RecordedDate: &dpb.DateTime{ValueUs: now.Unix(), Precision: dpb.DateTime_SECOND},
+							Category: []*aipb.AllergyIntolerance_CategoryCode{{
+								Value: cpb.AllergyIntoleranceCategoryCode_MEDICATION,
+							}},
+							Code: &dpb.CodeableConcept{
+								Text: &dpb.String{Value: "TEXT"},
+								Coding: []*dpb.Coding{
+									&dpb.Coding{
+										System:  &dpb.Uri{Value: "SYSTEM_URI"},
+										Code:    &dpb.Code{Value: "ID"},
+										Display: &dpb.String{Value: "TEXT"},
+									},
+								},
+							},
+							Patient: &dpb.Reference{
+								Reference: &dpb.Reference_PatientId{
+									&dpb.ReferenceId{Value: "1"},
+								},
+								Display: &dpb.String{Value: "William Burr"},
+							},
+							Reaction: []*aipb.AllergyIntolerance_Reaction{{
+								Description: &dpb.String{Value: "REACTION"},
+								Severity: &aipb.AllergyIntolerance_Reaction_SeverityCode{
+									Value: cpb.AllergyIntoleranceSeverityCode_MODERATE,
+								},
+							}},
+						},
+					},
+				},
+			}, {
+				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Encounter{
 						&encounterpb.Encounter{
-							Id:     &dpb.Id{Value: "2"},
+							Id:     &dpb.Id{Value: "4"},
 							Status: &encounterpb.Encounter_StatusCode{Value: cpb.EncounterStatusCode_FINISHED},
 							Period: &dpb.Period{
 								Start: &dpb.DateTime{ValueUs: now.Unix(), Precision: dpb.DateTime_SECOND},
@@ -202,7 +296,7 @@ func TestGenerate(t *testing.T) {
 							Location: []*encounterpb.Encounter_Location{{
 								Location: &dpb.Reference{
 									Reference: &dpb.Reference_LocationId{
-										&dpb.ReferenceId{Value: "3"},
+										&dpb.ReferenceId{Value: "5"},
 									},
 									Display: &dpb.String{Value: "BED, POC, ROOM, FLOOR, BUILDING, FACILITY"},
 								},
@@ -213,7 +307,7 @@ func TestGenerate(t *testing.T) {
 							}, {
 								Location: &dpb.Reference{
 									Reference: &dpb.Reference_LocationId{
-										&dpb.ReferenceId{Value: "4"},
+										&dpb.ReferenceId{Value: "6"},
 									},
 									Display: &dpb.String{Value: "BUILDING"},
 								},
@@ -229,7 +323,7 @@ func TestGenerate(t *testing.T) {
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Location{
 						&locationpb.Location{
-							Id:   &dpb.Id{Value: "3"},
+							Id:   &dpb.Id{Value: "5"},
 							Name: &dpb.String{Value: "BED, POC, ROOM, FLOOR, BUILDING, FACILITY"},
 						},
 					},
@@ -238,7 +332,7 @@ func TestGenerate(t *testing.T) {
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Location{
 						&locationpb.Location{
-							Id:   &dpb.Id{Value: "4"},
+							Id:   &dpb.Id{Value: "6"},
 							Name: &dpb.String{Value: "BUILDING"},
 						},
 					},
@@ -247,9 +341,9 @@ func TestGenerate(t *testing.T) {
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Observation{
 						&observationpb.Observation{
-							Id: &dpb.Id{Value: "5"},
+							Id: &dpb.Id{Value: "7"},
 							Encounter: &dpb.Reference{
-								Reference: &dpb.Reference_EncounterId{&dpb.ReferenceId{Value: "2"}},
+								Reference: &dpb.Reference_EncounterId{&dpb.ReferenceId{Value: "4"}},
 							},
 							Text: &dpb.Narrative{
 								Div: &dpb.Xhtml{
@@ -286,9 +380,9 @@ func TestGenerate(t *testing.T) {
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Observation{
 						&observationpb.Observation{
-							Id: &dpb.Id{Value: "6"},
+							Id: &dpb.Id{Value: "8"},
 							Encounter: &dpb.Reference{
-								Reference: &dpb.Reference_EncounterId{&dpb.ReferenceId{Value: "2"}},
+								Reference: &dpb.Reference_EncounterId{&dpb.ReferenceId{Value: "4"}},
 							},
 							Text: &dpb.Narrative{
 								Div: &dpb.Xhtml{
@@ -320,7 +414,7 @@ func TestGenerate(t *testing.T) {
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Encounter{
 						&encounterpb.Encounter{
-							Id:     &dpb.Id{Value: "7"},
+							Id:     &dpb.Id{Value: "9"},
 							Status: &encounterpb.Encounter_StatusCode{Value: cpb.EncounterStatusCode_IN_PROGRESS},
 							Period: &dpb.Period{
 								Start: &dpb.DateTime{ValueUs: evenLater.Unix(), Precision: dpb.DateTime_SECOND},
@@ -389,22 +483,43 @@ func TestGenerate(t *testing.T) {
 						Final:     "F",
 						Corrected: "C",
 					},
+					Allergy: config.HL7Allergy{
+						Types:      []string{"FOOD", "MEDICATION"},
+						Severities: []string{"MILD", "MODERATE", "SEVERE"},
+					},
+					Mapping: config.CodeMapping{
+						FHIR: config.FHIRMapping{
+							CodingSystems: map[string]string{"SYSTEM": "SYSTEM_URI"},
+							AllergySeverities: map[string][]string{
+								"Severe":   []string{"SEVERE"},
+								"Moderate": []string{"MODERATE"},
+								"Mild":     []string{"MILD"},
+							},
+							AllergyTypes: map[string][]string{
+								"Food":       []string{"FOOD"},
+								"Medication": []string{"MEDICATION"},
+							},
+						},
+					},
 				},
 				IDGenerator: &testid.Generator{},
 				Output:      &testresource.ByteOutput{Bytes: &b},
 			}
 
-			w := NewFHIRWriter(cfg)
+			w, err := NewFHIRWriter(cfg)
+			if err != nil {
+				t.Fatalf("NewFHIRWriter(%v) failed with: %v", cfg, err)
+			}
 			if err := w.Generate(tc.patientInfo); err != nil {
-				t.Fatalf("w.Generate(%v) failed: %v", tc.patientInfo, err)
+				t.Fatalf("w.Generate(%v) failed with: %v", tc.patientInfo, err)
 			}
 			if err := w.Close(); err != nil {
-				t.Errorf("w.Close() failed: %v", err)
+				t.Errorf("w.Close() failed with: %v", err)
 			}
 
 			got := &r4pb.Bundle{}
 			if err := prototext.Unmarshal(b.Bytes(), got); err != nil {
-				t.Fatalf("prototext.Unmarshal(%v, %v) failed: %v", b.String(), got, err)
+				t.Fatalf("prototext.Unmarshal(%v, %v) failed with: %v", b.String(), got, err)
 			}
 
 			if diff := cmp.Diff(tc.want, got, protocmp.Transform()); diff != "" {

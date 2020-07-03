@@ -34,6 +34,7 @@ go_library(
         "//pkg/ir:go_default_library",
         "//pkg/pathway:go_default_library",
         "//pkg/sample:go_default_library",
+        "@com_google_fhir//proto/r4/core:codes_go_proto",
     ],
 )
 
@@ -54,5 +55,6 @@ go_test(
         "//pkg/test/testdate:go_default_library",
         "//pkg/test/testwrite:go_default_library",
         "@com_github_google_go_cmp//cmp:go_default_library",
+        "@com_google_fhir//proto/r4/core:codes_go_proto",
     ],
 )

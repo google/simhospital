@@ -1485,7 +1485,7 @@ func TestConvertorHL7ToFHIR(t *testing.T) {
 	for k, v := range wantMapping {
 		t.Run(fmt.Sprintf("%v-%v", k, v), func(t *testing.T) {
 			if got, want := c.HL7ToFHIR(k), v; got != want {
-				t.Errorf("c.HL7ToInternal(%v)=%v, want %v", k, got, want)
+				t.Errorf("c.HL7ToFHIR(%v)=%v, want %v", k, got, want)
 			}
 		})
 	}

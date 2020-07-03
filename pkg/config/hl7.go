@@ -60,6 +60,8 @@ type HL7Config struct {
 	// CodingSystem is the default coding system of Order Profiles and their Test Types.
 	// It is used to construct the Coded Element.
 	CodingSystem string `yaml:"coding_system"`
+
+	Mapping CodeMapping
 }
 
 // Header contains the configuration of the Message Header (MSH segment).

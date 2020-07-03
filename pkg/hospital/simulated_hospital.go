@@ -360,7 +360,9 @@ func DefaultConfig(arguments Arguments) (Config, error) {
 		IDGenerator: &id.UUIDGenerator{},
 		Output:      output,
 	}
-	c.ResourceWriter = resource.NewFHIRWriter(cfg)
+	if c.ResourceWriter, err = resource.NewFHIRWriter(cfg); err != nil {
+		return Config{}, errors.Wrap(err, "cannot create the resource writer")
+	}
 
 	if c.OrderProfiles != nil && c.Doctors != nil && c.LocationManager != nil {
 		c.PathwayParser = &pathway.Parser{Clock: c.Clock, OrderProfiles: c.OrderProfiles, Doctors: c.Doctors, LocationManager: c.LocationManager}

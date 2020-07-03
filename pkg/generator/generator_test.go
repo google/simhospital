@@ -1286,6 +1286,7 @@ func TestGeneratorResetPatientInfo(t *testing.T) {
 			Person:          testperson.New(),
 			HospitalService: doctor.Specialty,
 			AttendingDoctor: doctor,
+			Allergies:       []*ir.Allergy{{Type: "food"}},
 			PrimaryFacility: &ir.PrimaryFacility{
 				Organization: "Test Primary Facility",
 				ID:           "123",

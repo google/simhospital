@@ -24,6 +24,7 @@ import (
 	"github.com/google/simhospital/pkg/config"
 	"github.com/google/simhospital/pkg/constants"
 	"github.com/google/simhospital/pkg/gender"
+	"github.com/google/simhospital/pkg/generator/codedelement"
 	"github.com/google/simhospital/pkg/generator/id"
 	"github.com/google/simhospital/pkg/generator/order"
 	"github.com/google/simhospital/pkg/ir"
@@ -31,6 +32,7 @@ import (
 
 	cpb "google/fhir/proto/r4/core/codes_go_proto"
 	dpb "google/fhir/proto/r4/core/datatypes_go_proto"
+	aipb "google/fhir/proto/r4/core/resources/allergy_intolerance_go_proto"
 	r4pb "google/fhir/proto/r4/core/resources/bundle_and_contained_resource_go_proto"
 	encounterpb "google/fhir/proto/r4/core/resources/encounter_go_proto"
 	locationpb "google/fhir/proto/r4/core/resources/location_go_proto"
@@ -65,21 +67,27 @@ type GeneratorConfig struct {
 }
 
 // NewFHIRWriter constructs and returns a new FHIRWriter.
-func NewFHIRWriter(cfg GeneratorConfig) *FHIRWriter {
+func NewFHIRWriter(cfg GeneratorConfig) (*FHIRWriter, error) {
+	ac, err := codedelement.NewAllergyConvertor(cfg.HL7Config)
+	if err != nil {
+		return nil, err
+	}
 	return &FHIRWriter{
-		// Gender and Order have dedicated converters because their values comes from the configuration
-		// instead of being fixed within Simulated Hospital.
 		gc:          gender.NewConvertor(cfg.HL7Config),
 		oc:          order.NewConvertor(cfg.HL7Config),
+		ac:          ac,
+		cc:          codedelement.NewCodingSystemConvertor(cfg.HL7Config),
 		idGenerator: cfg.IDGenerator,
 		output:      cfg.Output,
-	}
+	}, err
 }
 
 // FHIRWriter generates FHIR resources as protocol buffers, and writes them to writer.
 type FHIRWriter struct {
 	gc          gender.Convertor
 	oc          order.Convertor
+	ac          codedelement.AllergyConvertor
+	cc          codedelement.CodingSystemConvertor
 	idGenerator id.Generator
 	count       int
 	output      Output
@@ -122,6 +130,11 @@ func (w *FHIRWriter) bundle(p *ir.PatientInfo) *r4pb.Bundle {
 
 	patient, patientRef := w.patient(p)
 	bundle.Entry = append(bundle.Entry, patient)
+
+	allergies := w.allergies(p.Allergies, patientRef)
+	for _, a := range allergies {
+		bundle.Entry = append(bundle.Entry, a)
+	}
 
 	for _, ec := range p.Encounters {
 		encounter, encounterRef := w.encounter(ec)
@@ -171,6 +184,50 @@ func (w *FHIRWriter) patient(patient *ir.PatientInfo) (*r4pb.Bundle_Entry, *dpb.
 	}
 
 	return entry, ref
+}
+
+func (w *FHIRWriter) allergies(allergies []*ir.Allergy, patientRef *dpb.Reference) []*r4pb.Bundle_Entry {
+	var entries []*r4pb.Bundle_Entry
+	for _, a := range allergies {
+		id := w.idGenerator.NewID()
+
+		entry := &r4pb.Bundle_Entry{
+			Resource: &r4pb.ContainedResource{
+				OneofResource: &r4pb.ContainedResource_AllergyIntolerance{
+					&aipb.AllergyIntolerance{
+						Id: &dpb.Id{Value: id},
+						// Simulated Hospital does not yet distinguish between allergies and intolerances.
+						Type: &aipb.AllergyIntolerance_TypeCode{Value: cpb.AllergyIntoleranceTypeCode_ALLERGY},
+						Category: []*aipb.AllergyIntolerance_CategoryCode{{
+							Value: w.ac.TypeHL7ToFHIR(a.Type),
+						}},
+						Reaction: []*aipb.AllergyIntolerance_Reaction{{
+							Description: &dpb.String{Value: a.Reaction},
+							Severity: &aipb.AllergyIntolerance_Reaction_SeverityCode{
+								Value: w.ac.SeverityHL7ToFHIR(a.Severity),
+							},
+						}},
+						Code:         w.codeableConcept(a.Description),
+						RecordedDate: w.dateTime(a.IdentificationDateTime),
+						Patient:      patientRef,
+					},
+				},
+			},
+		}
+		entries = append(entries, entry)
+	}
+	return entries
+}
+
+func (w *FHIRWriter) codeableConcept(c ir.CodedElement) *dpb.CodeableConcept {
+	return &dpb.CodeableConcept{
+		Text: &dpb.String{Value: c.Text},
+		Coding: []*dpb.Coding{{
+			System:  &dpb.Uri{Value: w.cc.HL7ToFHIR(c.CodingSystem)},
+			Code:    &dpb.Code{Value: c.ID},
+			Display: &dpb.String{Value: c.Text},
+		}},
+	}
 }
 
 func (w *FHIRWriter) personIdentifier(pe *ir.Person) []*dpb.Identifier {

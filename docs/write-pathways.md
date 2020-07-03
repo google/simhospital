@@ -1200,6 +1200,12 @@ Currently, the following resources are supported:
     -   `telecom`
     -   `deceased`
     -   `address`
+-   [`AllergyIntolerance`](https://www.hl7.org/fhir/allergyintolerance.html)
+    -   `type`
+    -   `category`
+    -   `reaction`
+    -   `code`
+    -   `patient`
 -   [`Encounter`](https://www.hl7.org/fhir/encounter.html)
     -   `status`
     -   `statusHistory`

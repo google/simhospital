@@ -15,6 +15,7 @@
 package codedelement
 
 import (
+	"fmt"
 	"math"
 	"math/rand"
 	"testing"
@@ -26,6 +27,8 @@ import (
 	"github.com/google/simhospital/pkg/test/testclock"
 	"github.com/google/simhospital/pkg/test/testdate"
 	"github.com/google/simhospital/pkg/test/testwrite"
+
+	cpb "google/fhir/proto/r4/core/codes_go_proto"
 )
 
 var (
@@ -132,6 +135,147 @@ T78.1,Allergy4,23
 		if want := generated / float64(len(reactions)); math.Abs(float64(got)-float64(want)) >= delta {
 			t.Errorf("reactionsCount[%q] = %d, want within %.1f of %d", k, got, delta, want)
 		}
+	}
+}
+
+func TestNewAllergyConvertor(t *testing.T) {
+	tests := []struct {
+		name      string
+		hl7Config *config.HL7Config
+		wantErr   bool
+	}{{
+		name: "Valid mapping",
+		hl7Config: &config.HL7Config{
+			Mapping: config.CodeMapping{
+				FHIR: config.FHIRMapping{
+					AllergySeverities: map[string][]string{
+						"SEVERE": []string{"SV", "SEVERE"},
+						"MILD":   []string{"MI", "MILD"},
+					},
+					AllergyTypes: map[string][]string{
+						"FOOD": []string{"V1"},
+					},
+				},
+			},
+		},
+	}, {
+		name: "Invalid severity mapping",
+		hl7Config: &config.HL7Config{
+			Mapping: config.CodeMapping{
+				FHIR: config.FHIRMapping{
+					AllergySeverities: map[string][]string{
+						"SEVERE":  []string{"SV", "SEVERE"},
+						"INVALID": []string{"INVALID"},
+					},
+					AllergyTypes: map[string][]string{
+						"FOOD": []string{"V1"},
+					},
+				},
+			},
+		},
+		wantErr: true,
+	}, {
+		name: "Invalid type mapping",
+		hl7Config: &config.HL7Config{
+			Mapping: config.CodeMapping{
+				FHIR: config.FHIRMapping{
+					AllergySeverities: map[string][]string{
+						"SEVERE": []string{"SV", "SEVERE"},
+						"MILD":   []string{"MI", "MILD"},
+					},
+					AllergyTypes: map[string][]string{
+						"INVALID": []string{"INVALID"},
+					},
+				},
+			},
+		},
+		wantErr: true,
+	}}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			// AllergyConvertor has no exported fields, so we skip the comparison of the convertor itself.
+			_, err := NewAllergyConvertor(tc.hl7Config)
+			if gotErr := err != nil; gotErr != tc.wantErr {
+				t.Errorf("NewAllergyConvertor(%v) got err %v, want error=%t", tc.hl7Config, err, tc.wantErr)
+			}
+		})
+	}
+}
+
+func TestAllergyConvertorSeverityHL7ToFHIR(t *testing.T) {
+	hl7Config := &config.HL7Config{
+		Mapping: config.CodeMapping{
+			FHIR: config.FHIRMapping{
+				AllergySeverities: map[string][]string{
+					"severe":   []string{"SV", "SEVERE"},
+					"moderate": []string{"MO", "MODERATE"},
+					"mild":     []string{"MI", "MILD"},
+				},
+			},
+		},
+	}
+
+	wantMapping := map[string]cpb.AllergyIntoleranceSeverityCode_Value{
+		"":         cpb.AllergyIntoleranceSeverityCode_INVALID_UNINITIALIZED,
+		"UNKNOWN":  cpb.AllergyIntoleranceSeverityCode_INVALID_UNINITIALIZED,
+		"MILD":     cpb.AllergyIntoleranceSeverityCode_MILD,
+		"MI":       cpb.AllergyIntoleranceSeverityCode_MILD,
+		"MODERATE": cpb.AllergyIntoleranceSeverityCode_MODERATE,
+		"MO":       cpb.AllergyIntoleranceSeverityCode_MODERATE,
+		"SEVERE":   cpb.AllergyIntoleranceSeverityCode_SEVERE,
+		"SV":       cpb.AllergyIntoleranceSeverityCode_SEVERE,
+	}
+	c, err := NewAllergyConvertor(hl7Config)
+	if err != nil {
+		t.Fatalf("NewAllergyConvertor(%v) failed with %v", hl7Config, err)
+	}
+
+	for k, v := range wantMapping {
+		t.Run(fmt.Sprintf("%v-%v", k, v), func(t *testing.T) {
+			if got, want := c.SeverityHL7ToFHIR(k), v; got != want {
+				t.Errorf("c.SeverityHL7ToFHIR(%v)=%v, want %v", k, got, want)
+			}
+		})
+	}
+}
+
+func TestAllergyConvertorTypeHL7ToFHIR(t *testing.T) {
+	hl7Config := &config.HL7Config{
+		Mapping: config.CodeMapping{
+			FHIR: config.FHIRMapping{
+				AllergyTypes: map[string][]string{
+					"food":        []string{"FA", "FOOD"},
+					"medication":  []string{"MA", "MEDICATION"},
+					"environment": []string{"EA", "ENVIRONMENT"},
+					"biologic":    []string{"BIOLOGIC"},
+				},
+			},
+		},
+	}
+
+	wantMapping := map[string]cpb.AllergyIntoleranceCategoryCode_Value{
+		"":            cpb.AllergyIntoleranceCategoryCode_INVALID_UNINITIALIZED,
+		"UNKNOWN":     cpb.AllergyIntoleranceCategoryCode_INVALID_UNINITIALIZED,
+		"FOOD":        cpb.AllergyIntoleranceCategoryCode_FOOD,
+		"FA":          cpb.AllergyIntoleranceCategoryCode_FOOD,
+		"MEDICATION":  cpb.AllergyIntoleranceCategoryCode_MEDICATION,
+		"MA":          cpb.AllergyIntoleranceCategoryCode_MEDICATION,
+		"ENVIRONMENT": cpb.AllergyIntoleranceCategoryCode_ENVIRONMENT,
+		"EA":          cpb.AllergyIntoleranceCategoryCode_ENVIRONMENT,
+		"BIOLOGIC":    cpb.AllergyIntoleranceCategoryCode_BIOLOGIC,
+	}
+	c, err := NewAllergyConvertor(hl7Config)
+	if err != nil {
+		t.Fatalf("NewAllergyConvertor(%v) failed with %v", hl7Config, err)
+	}
+
+	for k, v := range wantMapping {
+		t.Run(fmt.Sprintf("%v-%v", k, v), func(t *testing.T) {
+			if got, want := c.TypeHL7ToFHIR(k), v; got != want {
+				t.Errorf("c.TypeHL7ToFHIR(%v)=%v, want %v", k, got, want)
+			}
+		})
 	}
 }
 

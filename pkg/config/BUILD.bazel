@@ -25,6 +25,7 @@ go_library(
         "csv.go",
         "data.go",
         "hl7.go",
+        "mapping.go",
         "names.go",
         "notes.go",
     ],

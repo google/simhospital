@@ -162,6 +162,7 @@ func (g Generator) ResetPatient(p *state.Patient) *state.Patient {
 	newP.PatientInfo.Encounters = p.PatientInfo.Encounters
 	newP.PastVisits = p.PastVisits
 	newP.PatientInfo.PrimaryFacility = p.PatientInfo.PrimaryFacility
+	newP.PatientInfo.Allergies = p.PatientInfo.Allergies
 	return newP
 }
 
