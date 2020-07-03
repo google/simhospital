@@ -19,6 +19,7 @@ import (
 	"errors"
 	"io"
 	"strings"
+	"time"
 
 	"google.golang.org/protobuf/encoding/prototext"
 	"github.com/google/simhospital/pkg/config"
@@ -39,6 +40,8 @@ import (
 	observationpb "google/fhir/proto/r4/core/resources/observation_go_proto"
 	patientpb "google/fhir/proto/r4/core/resources/patient_go_proto"
 )
+
+const microPerNano = int64(time.Microsecond / time.Nanosecond)
 
 var log = logging.ForCallerPackage()
 
@@ -79,7 +82,7 @@ func NewFHIRWriter(cfg GeneratorConfig) (*FHIRWriter, error) {
 		cc:          codedelement.NewCodingSystemConvertor(cfg.HL7Config),
 		idGenerator: cfg.IDGenerator,
 		output:      cfg.Output,
-	}, err
+	}, nil
 }
 
 // FHIRWriter generates FHIR resources as protocol buffers, and writes them to writer.
@@ -436,9 +439,13 @@ func (w *FHIRWriter) notes(notes []string) []*dpb.Annotation {
 	return annotations
 }
 
-func (w *FHIRWriter) dateTime(time ir.NullTime) *dpb.DateTime {
-	if !time.Valid {
+func (w *FHIRWriter) dateTime(t ir.NullTime) *dpb.DateTime {
+	if !t.Valid {
 		return nil
 	}
-	return &dpb.DateTime{ValueUs: time.Unix(), Precision: dpb.DateTime_SECOND}
+	return &dpb.DateTime{ValueUs: unixMicro(t.Time), Precision: dpb.DateTime_SECOND}
+}
+
+func unixMicro(t time.Time) int64 {
+	return t.UnixNano() / microPerNano
 }

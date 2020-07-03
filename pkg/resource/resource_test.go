@@ -39,10 +39,13 @@ import (
 )
 
 var (
-	delay     = time.Hour * 5
-	now       = ir.NewValidTime(time.Date(2018, 2, 12, 0, 0, 0, 0, time.UTC))
-	later     = ir.NewValidTime(now.Add(delay))
-	evenLater = ir.NewValidTime(later.Add(delay))
+	delay           = time.Hour * 5
+	now             = ir.NewValidTime(time.Date(2018, 2, 12, 0, 0, 0, 0, time.UTC))
+	later           = ir.NewValidTime(now.Add(delay))
+	evenLater       = ir.NewValidTime(later.Add(delay))
+	nowMicros       = now.UnixNano() / 1000
+	laterMicros     = later.UnixNano() / 1000
+	evenLaterMicros = evenLater.UnixNano() / 1000
 )
 
 func TestGenerate(t *testing.T) {
@@ -173,10 +176,7 @@ func TestGenerate(t *testing.T) {
 							}},
 							Deceased: &patientpb.Patient_DeceasedX{
 								Choice: &patientpb.Patient_DeceasedX_DateTime{
-									DateTime: &dpb.DateTime{
-										ValueUs:   now.Unix(),
-										Precision: dpb.DateTime_SECOND,
-									},
+									DateTime: &dpb.DateTime{ValueUs: nowMicros, Precision: dpb.DateTime_SECOND},
 								},
 							},
 							Address: []*dpb.Address{{
@@ -200,7 +200,7 @@ func TestGenerate(t *testing.T) {
 						&aipb.AllergyIntolerance{
 							Id:           &dpb.Id{Value: "2"},
 							Type:         &aipb.AllergyIntolerance_TypeCode{Value: cpb.AllergyIntoleranceTypeCode_ALLERGY},
-							RecordedDate: &dpb.DateTime{ValueUs: now.Unix(), Precision: dpb.DateTime_SECOND},
+							RecordedDate: &dpb.DateTime{ValueUs: nowMicros, Precision: dpb.DateTime_SECOND},
 							Category: []*aipb.AllergyIntolerance_CategoryCode{{
 								Value: cpb.AllergyIntoleranceCategoryCode_FOOD,
 							}},
@@ -235,7 +235,7 @@ func TestGenerate(t *testing.T) {
 						&aipb.AllergyIntolerance{
 							Id:           &dpb.Id{Value: "3"},
 							Type:         &aipb.AllergyIntolerance_TypeCode{Value: cpb.AllergyIntoleranceTypeCode_ALLERGY},
-							RecordedDate: &dpb.DateTime{ValueUs: now.Unix(), Precision: dpb.DateTime_SECOND},
+							RecordedDate: &dpb.DateTime{ValueUs: nowMicros, Precision: dpb.DateTime_SECOND},
 							Category: []*aipb.AllergyIntolerance_CategoryCode{{
 								Value: cpb.AllergyIntoleranceCategoryCode_MEDICATION,
 							}},
@@ -271,26 +271,26 @@ func TestGenerate(t *testing.T) {
 							Id:     &dpb.Id{Value: "4"},
 							Status: &encounterpb.Encounter_StatusCode{Value: cpb.EncounterStatusCode_FINISHED},
 							Period: &dpb.Period{
-								Start: &dpb.DateTime{ValueUs: now.Unix(), Precision: dpb.DateTime_SECOND},
-								End:   &dpb.DateTime{ValueUs: evenLater.Unix(), Precision: dpb.DateTime_SECOND},
+								Start: &dpb.DateTime{ValueUs: nowMicros, Precision: dpb.DateTime_SECOND},
+								End:   &dpb.DateTime{ValueUs: evenLaterMicros, Precision: dpb.DateTime_SECOND},
 							},
 							StatusHistory: []*encounterpb.Encounter_StatusHistory{{
 								Status: &encounterpb.Encounter_StatusHistory_StatusCode{Value: cpb.EncounterStatusCode_PLANNED},
 								Period: &dpb.Period{
-									Start: &dpb.DateTime{ValueUs: now.Unix(), Precision: dpb.DateTime_SECOND},
-									End:   &dpb.DateTime{ValueUs: now.Unix(), Precision: dpb.DateTime_SECOND},
+									Start: &dpb.DateTime{ValueUs: nowMicros, Precision: dpb.DateTime_SECOND},
+									End:   &dpb.DateTime{ValueUs: nowMicros, Precision: dpb.DateTime_SECOND},
 								},
 							}, {
 								Status: &encounterpb.Encounter_StatusHistory_StatusCode{Value: cpb.EncounterStatusCode_ARRIVED},
 								Period: &dpb.Period{
-									Start: &dpb.DateTime{ValueUs: now.Unix(), Precision: dpb.DateTime_SECOND},
-									End:   &dpb.DateTime{ValueUs: later.Unix(), Precision: dpb.DateTime_SECOND},
+									Start: &dpb.DateTime{ValueUs: nowMicros, Precision: dpb.DateTime_SECOND},
+									End:   &dpb.DateTime{ValueUs: laterMicros, Precision: dpb.DateTime_SECOND},
 								},
 							}, {
 								Status: &encounterpb.Encounter_StatusHistory_StatusCode{Value: cpb.EncounterStatusCode_IN_PROGRESS},
 								Period: &dpb.Period{
-									Start: &dpb.DateTime{ValueUs: later.Unix(), Precision: dpb.DateTime_SECOND},
-									End:   &dpb.DateTime{ValueUs: evenLater.Unix(), Precision: dpb.DateTime_SECOND},
+									Start: &dpb.DateTime{ValueUs: laterMicros, Precision: dpb.DateTime_SECOND},
+									End:   &dpb.DateTime{ValueUs: evenLaterMicros, Precision: dpb.DateTime_SECOND},
 								},
 							}},
 							Location: []*encounterpb.Encounter_Location{{
@@ -301,8 +301,8 @@ func TestGenerate(t *testing.T) {
 									Display: &dpb.String{Value: "BED, POC, ROOM, FLOOR, BUILDING, FACILITY"},
 								},
 								Period: &dpb.Period{
-									Start: &dpb.DateTime{ValueUs: now.Unix(), Precision: dpb.DateTime_SECOND},
-									End:   &dpb.DateTime{ValueUs: later.Unix(), Precision: dpb.DateTime_SECOND},
+									Start: &dpb.DateTime{ValueUs: nowMicros, Precision: dpb.DateTime_SECOND},
+									End:   &dpb.DateTime{ValueUs: laterMicros, Precision: dpb.DateTime_SECOND},
 								},
 							}, {
 								Location: &dpb.Reference{
@@ -312,8 +312,8 @@ func TestGenerate(t *testing.T) {
 									Display: &dpb.String{Value: "BUILDING"},
 								},
 								Period: &dpb.Period{
-									Start: &dpb.DateTime{ValueUs: later.Unix(), Precision: dpb.DateTime_SECOND},
-									End:   &dpb.DateTime{ValueUs: evenLater.Unix(), Precision: dpb.DateTime_SECOND},
+									Start: &dpb.DateTime{ValueUs: laterMicros, Precision: dpb.DateTime_SECOND},
+									End:   &dpb.DateTime{ValueUs: evenLaterMicros, Precision: dpb.DateTime_SECOND},
 								},
 							}},
 						},
@@ -362,10 +362,7 @@ func TestGenerate(t *testing.T) {
 							},
 							Effective: &observationpb.Observation_EffectiveX{
 								Choice: &observationpb.Observation_EffectiveX_DateTime{
-									&dpb.DateTime{
-										ValueUs:   later.Unix(),
-										Precision: dpb.DateTime_SECOND,
-									},
+									&dpb.DateTime{ValueUs: laterMicros, Precision: dpb.DateTime_SECOND},
 								},
 							},
 							Note: []*dpb.Annotation{{
@@ -401,10 +398,7 @@ func TestGenerate(t *testing.T) {
 							},
 							Effective: &observationpb.Observation_EffectiveX{
 								Choice: &observationpb.Observation_EffectiveX_DateTime{
-									&dpb.DateTime{
-										ValueUs:   later.Unix(),
-										Precision: dpb.DateTime_SECOND,
-									},
+									&dpb.DateTime{ValueUs: laterMicros, Precision: dpb.DateTime_SECOND},
 								},
 							},
 						},
@@ -417,7 +411,7 @@ func TestGenerate(t *testing.T) {
 							Id:     &dpb.Id{Value: "9"},
 							Status: &encounterpb.Encounter_StatusCode{Value: cpb.EncounterStatusCode_IN_PROGRESS},
 							Period: &dpb.Period{
-								Start: &dpb.DateTime{ValueUs: evenLater.Unix(), Precision: dpb.DateTime_SECOND},
+								Start: &dpb.DateTime{ValueUs: evenLaterMicros, Precision: dpb.DateTime_SECOND},
 							},
 						},
 					},
