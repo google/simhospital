@@ -308,6 +308,14 @@ func (h *Hospital) processTransferOrTransferInError(e *state.Event, logLocal *lo
 	patientInfo.ExpectedTransferDateTime = ir.NewInvalidTime()
 	h.updateDeathInfo(logLocal, now, pathwayName, patientInfo, e.Step.Parameters)
 
+	if ec := patientInfo.LatestEncounter(); ec != nil {
+		ec.UpdateStatus(patientInfo.TransferDate, constants.EncounterStatusArrived)
+		ec.UpdateLocation(patientInfo.TransferDate, patientInfo.Location)
+		ec.IsPending = false
+	} else {
+		patientInfo.AddEncounter(patientInfo.TransferDate, constants.EncounterStatusArrived, patientInfo.Location)
+	}
+
 	msg, err := message.BuildTransferADTA02(msgHeader, patientInfo, eventTime, e.MessageTime)
 	if err != nil {
 		return errors.Wrap(err, "cannot build ADT^A02 message")
@@ -424,6 +432,10 @@ func (h *Hospital) pendingTransfer(e *state.Event, logLocal *logging.SimulatedHo
 	patientInfo.PendingLocation = pendingLocation
 	patientInfo.ExpectedTransferDateTime = ir.NewValidTime(e.EventTime.Add(*e.Step.PendingTransfer.ExpectedTransferTimeFromNow))
 	h.updateDeathInfo(logLocal, now, e.PathwayName, patientInfo, e.Step.Parameters)
+
+	ec := patientInfo.AddEncounter(patientInfo.ExpectedTransferDateTime, constants.EncounterStatusPlanned, nil)
+	ec.IsPending = true
+
 	msg, err := message.BuildPendingTransferADTA15(msgHeader, patientInfo, e.EventTime, e.MessageTime)
 	if err != nil {
 		return errors.Wrap(err, "cannot build ADT^A15 message")

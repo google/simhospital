@@ -382,6 +382,68 @@ func TestEncounters(t *testing.T) {
 				},
 			}},
 		}},
+	}, {
+		name: "Transfer twice",
+		pathway: pathway.Pathway{
+			Pathway: []pathway.Step{
+				{Admission: &pathway.Admission{Loc: testLoc}},
+				{Transfer: &pathway.Transfer{Loc: testLocAE}},
+				{Delay: &pathway.Delay{From: delay, To: delay}},
+				{Transfer: &pathway.Transfer{Loc: testLoc}},
+				{Delay: &pathway.Delay{From: delay, To: delay}},
+				{Discharge: &pathway.Discharge{}},
+				{GenerateResources: &pathway.GenerateResources{}},
+			},
+		},
+		want: []*ir.Encounter{{
+			Status:      constants.EncounterStatusFinished,
+			StatusStart: ir.NewValidTime(evenLater),
+			Start:       ir.NewValidTime(now),
+			End:         ir.NewValidTime(evenLater),
+			StatusHistory: []*ir.StatusHistory{{
+				Status: constants.EncounterStatusArrived,
+				Start:  ir.NewValidTime(now),
+				End:    ir.NewValidTime(evenLater),
+			}},
+			LocationHistory: []*ir.LocationHistory{{
+				Location: wardBed(1),
+				Start:    ir.NewValidTime(now),
+				End:      ir.NewValidTime(now),
+			}, {
+				Location: aAndEBed(1),
+				Start:    ir.NewValidTime(now),
+				End:      ir.NewValidTime(later),
+			}, {
+				Location: wardBed(1),
+				Start:    ir.NewValidTime(later),
+				End:      ir.NewValidTime(evenLater),
+			}},
+		}},
+	}, {
+		name: "Pending transfer",
+		pathway: pathway.Pathway{
+			Pathway: []pathway.Step{
+				{PendingTransfer: &pathway.PendingTransfer{Loc: testLoc, ExpectedTransferTimeFromNow: &delay}},
+				{Transfer: &pathway.Transfer{Loc: testLoc}},
+				{GenerateResources: &pathway.GenerateResources{}},
+			},
+		},
+		want: []*ir.Encounter{{
+			Status:      constants.EncounterStatusArrived,
+			StatusStart: ir.NewValidTime(later),
+			Start:       ir.NewValidTime(later),
+			End:         ir.NewInvalidTime(),
+			StatusHistory: []*ir.StatusHistory{{
+				Status: constants.EncounterStatusPlanned,
+				Start:  ir.NewValidTime(later),
+				End:    ir.NewValidTime(later),
+			}},
+			LocationHistory: []*ir.LocationHistory{{
+				Location: wardBed(1),
+				Start:    ir.NewValidTime(later),
+				End:      ir.NewInvalidTime(),
+			}},
+		}},
 	}}
 
 	for _, tc := range tests {
