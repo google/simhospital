@@ -212,6 +212,9 @@ go_repository(
     type = "zip",
 )
 
+load("@com_google_fhir//bazel:go_dependencies.bzl", "fhir_go_dependencies")
+fhir_go_dependencies()
+
 go_repository(
     name = "org_golang_google_protobuf",
     version = "v1.24.0",

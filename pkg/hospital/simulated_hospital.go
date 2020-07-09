@@ -20,6 +20,7 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/prometheus/client_golang/prometheus"
+	"google.golang.org/protobuf/encoding/prototext"
 	"github.com/google/simhospital/pkg/clock"
 	"github.com/google/simhospital/pkg/config"
 	"github.com/google/simhospital/pkg/doctor"
@@ -194,6 +195,7 @@ type SenderArguments struct {
 type ResourceArguments struct {
 	Output    string
 	OutputDir string
+	Format    string
 }
 
 // Config contains the configuration for Simulated Hospital.
@@ -346,22 +348,10 @@ func DefaultConfig(arguments Arguments) (Config, error) {
 		}
 	}
 
-	var output resource.Output
-	if arguments.ResourceArguments != nil {
-		output, err = resourceOutput(arguments.ResourceArguments)
-		if err != nil {
-			return Config{}, errors.Wrap(err, "cannot create Resource Output")
+	if arguments.ResourceArguments != nil && c.HL7Config != nil {
+		if c.ResourceWriter, err = resourceWriter(*arguments.ResourceArguments, c.HL7Config); err != nil {
+			return Config{}, errors.Wrap(err, "cannot create the resource writer")
 		}
-	}
-
-	// TODO: Make resource writers configurable via flags.
-	cfg := resource.GeneratorConfig{
-		HL7Config:   c.HL7Config,
-		IDGenerator: &id.UUIDGenerator{},
-		Output:      output,
-	}
-	if c.ResourceWriter, err = resource.NewFHIRWriter(cfg); err != nil {
-		return Config{}, errors.Wrap(err, "cannot create the resource writer")
 	}
 
 	if c.OrderProfiles != nil && c.Doctors != nil && c.LocationManager != nil {
@@ -381,10 +371,27 @@ func DefaultConfig(arguments Arguments) (Config, error) {
 	return c, nil
 }
 
-func resourceOutput(arguments *ResourceArguments) (resource.Output, error) {
-	if arguments == nil {
-		return &resource.StdOutput{}, nil
+func resourceWriter(arguments ResourceArguments, hl7Config *config.HL7Config) (ResourceWriter, error) {
+	output, err := resourceOutput(arguments)
+	if err != nil {
+		return nil, errors.Wrap(err, "cannot create resource output")
 	}
+	marshaller, err := resourceMarshaller(arguments)
+	if err != nil {
+		return nil, errors.Wrap(err, "cannot create resource marshaller")
+	}
+
+	cfg := resource.GeneratorConfig{
+		HL7Config:   hl7Config,
+		IDGenerator: &id.UUIDGenerator{},
+		Output:      output,
+		Marshaller:  marshaller,
+	}
+
+	return resource.NewFHIRWriter(cfg)
+}
+
+func resourceOutput(arguments ResourceArguments) (resource.Output, error) {
 	switch arguments.Output {
 	case "stdout":
 		return &resource.StdOutput{}, nil
@@ -392,6 +399,17 @@ func resourceOutput(arguments *ResourceArguments) (resource.Output, error) {
 		return resource.NewDirectoryOutput(arguments.OutputDir)
 	default:
 		return nil, errors.Errorf("unsupported output type %q", arguments.Output)
+	}
+}
+
+func resourceMarshaller(arguments ResourceArguments) (resource.Marshaller, error) {
+	switch arguments.Format {
+	case "json":
+		return resource.NewJSONMarshaller()
+	case "proto":
+		return prototext.MarshalOptions{Multiline: true, Indent: "  "}, nil
+	default:
+		return nil, errors.Errorf("unsupported output format %q", arguments.Format)
 	}
 }
 

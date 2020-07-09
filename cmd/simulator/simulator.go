@@ -63,6 +63,7 @@ var (
 	// Flags that control resource generation.
 	resourceOutput    = flag.String("resource_output", "stdout", "Where the generated resources will be written: [stdout, file]")
 	resourceOutputDir = flag.String("resource_output_dir", "resources", "Path to the output directory for resource files; only relevant if -resource_output=file")
+	resourceFormat    = flag.String("resource_format", "json", "The format in which to generate resources: [json, proto]")
 
 	// Flags that control the behaviour of Simulated Hospital.
 	sleepFor                 = flag.Duration("sleep_for", time.Second, "How long Simulated Hospital sleeps before checking if any new messages need to be generated")
@@ -171,6 +172,7 @@ func createRunner() (*runner.Hospital, error) {
 		ResourceArguments: &hospital.ResourceArguments{
 			Output:    *resourceOutput,
 			OutputDir: *resourceOutputDir,
+			Format:    *resourceFormat,
 		},
 		SenderArguments: &hospital.SenderArguments{
 			Output:                *output,

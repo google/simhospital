@@ -107,6 +107,14 @@ If not set, Simulated Hospital uses _"stdout"_.
     a specific point in time. Files are never updated. If not set, Simulated
     Hospital uses _"resources"_.
 
+`-resource_format` (string)
+:   The format in which to generate resources. You can use the following values:
+
+*   `json`: Generate resources as JSON.
+*   `proto`: Generate resources as text protocol buffers.
+
+If not set, Simulated Hospital uses _"json"_.
+
 ## Data configuration
 
 Data configuration arguments allow you to use your own custom clinical,

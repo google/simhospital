@@ -21,7 +21,7 @@ import (
 	"strings"
 	"time"
 
-	"google.golang.org/protobuf/encoding/prototext"
+	"google.golang.org/protobuf/proto"
 	"github.com/google/simhospital/pkg/config"
 	"github.com/google/simhospital/pkg/constants"
 	"github.com/google/simhospital/pkg/gender"
@@ -61,12 +61,18 @@ var internalToFHIREncounterStatus = map[string]cpb.EncounterStatusCode_Value{
 	constants.EncounterStatusUnknown:    cpb.EncounterStatusCode_UNKNOWN,
 }
 
+// Marshaller defines an object that can marshal a protocol buffer message.
+type Marshaller interface {
+	Marshal(proto.Message) ([]byte, error)
+}
+
 // GeneratorConfig is the configuration for resource generators.
 type GeneratorConfig struct {
 	Writer      io.Writer
 	HL7Config   *config.HL7Config
 	IDGenerator id.Generator
 	Output      Output
+	Marshaller  Marshaller
 }
 
 // NewFHIRWriter constructs and returns a new FHIRWriter.
@@ -82,6 +88,7 @@ func NewFHIRWriter(cfg GeneratorConfig) (*FHIRWriter, error) {
 		cc:          codedelement.NewCodingSystemConvertor(cfg.HL7Config),
 		idGenerator: cfg.IDGenerator,
 		output:      cfg.Output,
+		marshaller:  cfg.Marshaller,
 	}, nil
 }
 
@@ -94,6 +101,7 @@ type FHIRWriter struct {
 	idGenerator id.Generator
 	count       int
 	output      Output
+	marshaller  Marshaller
 }
 
 // Generate generates FHIR resources from PatientInfo.
@@ -102,9 +110,7 @@ func (w *FHIRWriter) Generate(p *ir.PatientInfo) error {
 		return errors.New("cannot generate resources from nil PatientInfo")
 	}
 	b := w.bundle(p)
-	// TODO: Use jsonformat for output when available.
-	m := prototext.MarshalOptions{Multiline: true}
-	bytes, err := m.Marshal(b)
+	bytes, err := w.marshaller.Marshal(b)
 	if err != nil {
 		return err
 	}
@@ -129,7 +135,11 @@ func (w *FHIRWriter) Close() error {
 // bundle converts PatientInfo into FHIR and returns an R4 Bundle. Bundle is the top-level
 // record encapsulating a patient's medical history.
 func (w *FHIRWriter) bundle(p *ir.PatientInfo) *r4pb.Bundle {
-	bundle := &r4pb.Bundle{}
+	bundle := &r4pb.Bundle{
+		Type: &r4pb.Bundle_TypeCode{
+			Value: cpb.BundleTypeCode_COLLECTION,
+		},
+	}
 
 	patient, patientRef := w.patient(p)
 	bundle.Entry = append(bundle.Entry, patient)

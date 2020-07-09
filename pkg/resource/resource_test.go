@@ -129,6 +129,7 @@ func TestGenerate(t *testing.T) {
 						TestName: &ir.CodedElement{ID: "TEST_ID_2", Text: "TEST_NAME_2"},
 						Value:    "VALUE",
 						Unit:     "UNIT",
+						Status:   "F",
 					}},
 				}},
 				LocationHistory: []*ir.LocationHistory{{
@@ -156,6 +157,7 @@ func TestGenerate(t *testing.T) {
 			}},
 		},
 		want: &r4pb.Bundle{
+			Type: &r4pb.Bundle_TypeCode{Value: cpb.BundleTypeCode_COLLECTION},
 			Entry: []*r4pb.Bundle_Entry{{
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Patient{
@@ -212,13 +214,11 @@ func TestGenerate(t *testing.T) {
 							},
 							Code: &dpb.CodeableConcept{
 								Text: &dpb.String{Value: "TEXT"},
-								Coding: []*dpb.Coding{
-									&dpb.Coding{
-										System:  &dpb.Uri{Value: "SYSTEM_URI"},
-										Code:    &dpb.Code{Value: "ID"},
-										Display: &dpb.String{Value: "TEXT"},
-									},
-								},
+								Coding: []*dpb.Coding{{
+									System:  &dpb.Uri{Value: "SYSTEM_URI"},
+									Code:    &dpb.Code{Value: "ID"},
+									Display: &dpb.String{Value: "TEXT"},
+								}},
 							},
 							Reaction: []*aipb.AllergyIntolerance_Reaction{{
 								Description: &dpb.String{Value: "REACTION"},
@@ -242,7 +242,7 @@ func TestGenerate(t *testing.T) {
 							Code: &dpb.CodeableConcept{
 								Text: &dpb.String{Value: "TEXT"},
 								Coding: []*dpb.Coding{
-									&dpb.Coding{
+									{
 										System:  &dpb.Uri{Value: "SYSTEM_URI"},
 										Code:    &dpb.Code{Value: "ID"},
 										Display: &dpb.String{Value: "TEXT"},
@@ -377,7 +377,8 @@ func TestGenerate(t *testing.T) {
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Observation{
 						&observationpb.Observation{
-							Id: &dpb.Id{Value: "8"},
+							Id:     &dpb.Id{Value: "8"},
+							Status: &observationpb.Observation_StatusCode{Value: cpb.ObservationStatusCode_FINAL},
 							Encounter: &dpb.Reference{
 								Reference: &dpb.Reference_EncounterId{&dpb.ReferenceId{Value: "4"}},
 							},
@@ -386,7 +387,6 @@ func TestGenerate(t *testing.T) {
 									Value: "<div><p>TEST_NAME_2: VALUE UNIT</p></div>",
 								},
 							},
-							Status: &observationpb.Observation_StatusCode{Value: cpb.ObservationStatusCode_INVALID_UNINITIALIZED},
 							Subject: &dpb.Reference{
 								Reference: &dpb.Reference_PatientId{&dpb.ReferenceId{Value: "1"}},
 								Display:   &dpb.String{Value: "William Burr"},
@@ -434,6 +434,7 @@ func TestGenerate(t *testing.T) {
 				},
 			}},
 		want: &r4pb.Bundle{
+			Type: &r4pb.Bundle_TypeCode{Value: cpb.BundleTypeCode_COLLECTION},
 			Entry: []*r4pb.Bundle_Entry{{
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Patient{
@@ -450,8 +451,8 @@ func TestGenerate(t *testing.T) {
 								City:       &dpb.String{Value: "CITY"},
 								Country:    &dpb.String{Value: "COUNTRY"},
 								PostalCode: &dpb.String{Value: "ABC DEF"},
-								Use:        &dpb.Address_UseCode{Value: cpb.AddressUseCode_INVALID_UNINITIALIZED},
 								Type:       &dpb.Address_TypeCode{Value: cpb.AddressTypeCode_BOTH},
+								Use:        &dpb.Address_UseCode{Value: cpb.AddressUseCode_INVALID_UNINITIALIZED},
 							}},
 							Deceased: &patientpb.Patient_DeceasedX{
 								Choice: &patientpb.Patient_DeceasedX_Boolean{
@@ -485,19 +486,20 @@ func TestGenerate(t *testing.T) {
 						FHIR: config.FHIRMapping{
 							CodingSystems: map[string]string{"SYSTEM": "SYSTEM_URI"},
 							AllergySeverities: map[string][]string{
-								"Severe":   []string{"SEVERE"},
-								"Moderate": []string{"MODERATE"},
-								"Mild":     []string{"MILD"},
+								"Severe":   {"SEVERE"},
+								"Moderate": {"MODERATE"},
+								"Mild":     {"MILD"},
 							},
 							AllergyTypes: map[string][]string{
-								"Food":       []string{"FOOD"},
-								"Medication": []string{"MEDICATION"},
+								"Food":       {"FOOD"},
+								"Medication": {"MEDICATION"},
 							},
 						},
 					},
 				},
 				IDGenerator: &testid.Generator{},
 				Output:      &testresource.ByteOutput{Bytes: &b},
+				Marshaller:  prototext.MarshalOptions{},
 			}
 
 			w, err := NewFHIRWriter(cfg)
