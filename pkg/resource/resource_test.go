@@ -36,6 +36,8 @@ import (
 	locationpb "google/fhir/proto/r4/core/resources/location_go_proto"
 	observationpb "google/fhir/proto/r4/core/resources/observation_go_proto"
 	patientpb "google/fhir/proto/r4/core/resources/patient_go_proto"
+	practitionerpb "google/fhir/proto/r4/core/resources/practitioner_go_proto"
+	procedurepb "google/fhir/proto/r4/core/resources/procedure_go_proto"
 )
 
 var (
@@ -115,6 +117,22 @@ func TestGenerate(t *testing.T) {
 					Status: constants.EncounterStatusInProgress,
 					Start:  later,
 					End:    evenLater,
+				}},
+				Procedures: []*ir.DiagnosisOrProcedure{{
+					Description: &ir.CodedElement{
+						ID:           "ID",
+						Text:         "PROCEDURE",
+						CodingSystem: "SYSTEM",
+					},
+					Type: "TYPE",
+					Clinician: &ir.Doctor{
+						ID:        "ID",
+						Prefix:    "Dr",
+						FirstName: "Doctor",
+						Surname:   "Doctorson",
+						Specialty: "Doctoring",
+					},
+					DateTime: now,
 				}},
 				Orders: []*ir.Order{{
 					OrderDateTime: later,
@@ -406,9 +424,67 @@ func TestGenerate(t *testing.T) {
 				},
 			}, {
 				Resource: &r4pb.ContainedResource{
+					OneofResource: &r4pb.ContainedResource_Practitioner{
+						&practitionerpb.Practitioner{
+							Id: &dpb.Id{Value: "9"},
+							Identifier: []*dpb.Identifier{{
+								Value: &dpb.String{Value: "ID"},
+							}},
+							Text: &dpb.Narrative{
+								Div: &dpb.Xhtml{Value: "<div><p>Dr Doctor Doctorson</p></div>"},
+							},
+							Name: []*dpb.HumanName{{
+								Family: &dpb.String{Value: "Doctorson"},
+								Given:  []*dpb.String{{Value: "Doctor"}},
+								Prefix: []*dpb.String{{Value: "Dr"}},
+							}},
+						},
+					},
+				},
+			}, {
+				Resource: &r4pb.ContainedResource{
+					OneofResource: &r4pb.ContainedResource_Procedure{
+						&procedurepb.Procedure{
+							Id: &dpb.Id{Value: "10"},
+							Text: &dpb.Narrative{
+								Div: &dpb.Xhtml{Value: "<div><p>PROCEDURE by Dr Doctor Doctorson</p></div>"},
+							},
+							Category: &dpb.CodeableConcept{
+								Text: &dpb.String{Value: "TYPE"},
+							},
+							Code: &dpb.CodeableConcept{
+								Text: &dpb.String{Value: "PROCEDURE"},
+								Coding: []*dpb.Coding{{
+									Code:    &dpb.Code{Value: "ID"},
+									System:  &dpb.Uri{Value: "SYSTEM_URI"},
+									Display: &dpb.String{Value: "PROCEDURE"},
+								}},
+							},
+							Performer: []*procedurepb.Procedure_Performer{{
+								Actor: &dpb.Reference{
+									Reference: &dpb.Reference_PractitionerId{
+										&dpb.ReferenceId{Value: "9"},
+									},
+								},
+							}},
+							Performed: &procedurepb.Procedure_PerformedX{
+								Choice: &procedurepb.Procedure_PerformedX_DateTime{
+									&dpb.DateTime{ValueUs: nowMicros, Precision: dpb.DateTime_SECOND},
+								},
+							},
+							Encounter: &dpb.Reference{
+								Reference: &dpb.Reference_EncounterId{
+									&dpb.ReferenceId{Value: "4"},
+								},
+							},
+						},
+					},
+				},
+			}, {
+				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Encounter{
 						&encounterpb.Encounter{
-							Id:     &dpb.Id{Value: "9"},
+							Id:     &dpb.Id{Value: "11"},
 							Status: &encounterpb.Encounter_StatusCode{Value: cpb.EncounterStatusCode_IN_PROGRESS},
 							Period: &dpb.Period{
 								Start: &dpb.DateTime{ValueUs: evenLaterMicros, Precision: dpb.DateTime_SECOND},

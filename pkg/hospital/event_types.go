@@ -594,6 +594,8 @@ func (h *Hospital) updatePerson(e *state.Event, logLocal *logging.SimulatedHospi
 		return err
 	}
 
+	patientInfo.AddDiagnosesOrProceduresToEncounter(e.EventTime, patientInfo.Diagnoses, patientInfo.Procedures)
+
 	patientInfo.Diagnoses = nil
 	patientInfo.Procedures = nil
 	return nil

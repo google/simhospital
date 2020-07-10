@@ -44,6 +44,11 @@ type Person struct {
 	DeathIndicator string
 }
 
+// Text returns a human-readable representation of a person i.e. their full name.
+func (p *Person) Text() string {
+	return joinNonEmpty([]string{p.Prefix, p.FirstName, p.MiddleName, p.Surname, p.Suffix}, " ")
+}
+
 // CodedElement represents a HL7v2 Coded Element: https://hl7-definition.caristix.com/v2/HL7v2.2/DataTypes/CE.
 type CodedElement struct {
 	ID            string
@@ -119,7 +124,7 @@ type Result struct {
 	ClinicalNote *ClinicalNote
 }
 
-// Text returns a human-readable version of the result.
+// Text returns a human-readable representation of the result.
 func (r *Result) Text() string {
 	var sb strings.Builder
 	fmt.Fprintf(&sb, "%s: %s %s", r.TestName.Text, r.Value, r.Unit)
@@ -197,13 +202,7 @@ type PatientLocation struct {
 
 // Name returns the name for this location by concatenating non-empty fields.
 func (p *PatientLocation) Name() string {
-	var parts []string
-	for _, s := range []string{p.Bed, p.Poc, p.Room, p.Floor, p.Building, p.Facility} {
-		if strings.TrimSpace(s) != "" {
-			parts = append(parts, s)
-		}
-	}
-	return strings.Join(parts, ", ")
+	return joinNonEmpty([]string{p.Bed, p.Poc, p.Room, p.Floor, p.Building, p.Facility}, ", ")
 }
 
 // LocationHistory represents a patient location along with the period for which the patient was
@@ -248,6 +247,12 @@ type DiagnosisOrProcedure struct {
 	DateTime    NullTime
 }
 
+// Text returns a human-readable representation of a DiagnosisOrProcedure.
+func (d *DiagnosisOrProcedure) Text() string {
+	c := d.Clinician
+	return fmt.Sprintf("%s by %s", d.Description.Text, joinNonEmpty([]string{c.Prefix, c.FirstName, c.Surname}, " "))
+}
+
 // PrimaryFacility represents a patient's primary clinical facility (e.g. a GP practice).
 type PrimaryFacility struct {
 	Organization string
@@ -287,10 +292,13 @@ type PatientInfo struct {
 	ExpectedTransferDateTime       NullTime
 	AssociatedParties              []*AssociatedParty
 	Allergies                      []*Allergy
-	Diagnoses                      []*DiagnosisOrProcedure
-	Procedures                     []*DiagnosisOrProcedure
-	Encounters                     []*Encounter
-	PrimaryFacility                *PrimaryFacility
+	// Diagnoses and Procedures are used in UpdatePerson to build ADT^A31 messages and are cleared
+	// at the end of the event. Not to be confused with Encounter.Diagnoses and Encounter.Procedures
+	// which persist diagnoses and procedures in the medical record.
+	Diagnoses       []*DiagnosisOrProcedure
+	Procedures      []*DiagnosisOrProcedure
+	Encounters      []*Encounter
+	PrimaryFacility *PrimaryFacility
 	// AdditionalData allows users to enter arbitrary information about a patient's medical record.
 	// It is up to the user to decide what data is stored here.
 	AdditionalData interface{}
@@ -346,6 +354,31 @@ func (p *PatientInfo) AddOrderToEncounter(o *Order) {
 	ec.Orders = append(ec.Orders, o)
 }
 
+// AddDiagnosesOrProceduresToEncounter either adds the specified DiagnosisOrProcedures to the current on-going
+// Encounter, or creates a new Encounter for *each* DiagnosisOrProcedure, if one does not exist.
+func (p *PatientInfo) AddDiagnosesOrProceduresToEncounter(startTime time.Time, diagnoses []*DiagnosisOrProcedure, procedures []*DiagnosisOrProcedure) {
+	t := NewValidTime(startTime)
+	ec := p.LatestEncounter()
+	if ec != nil && !ec.hasEnded() {
+		// We use the event time because DiagnosisOrProcedure.DateTime is likely to be outside the
+		// period of the Encounter itself.
+		ec.UpdateStatus(t, constants.EncounterStatusInProgress)
+		ec.Diagnoses = append(ec.Diagnoses, diagnoses...)
+		ec.Procedures = append(ec.Procedures, procedures...)
+	} else {
+		for _, d := range diagnoses {
+			ec = p.AddEncounter(t, constants.EncounterStatusInProgress, p.Location)
+			ec.Diagnoses = append(ec.Diagnoses, d)
+			ec.EndEncounter(t, constants.EncounterStatusFinished)
+		}
+		for _, pr := range procedures {
+			ec = p.AddEncounter(t, constants.EncounterStatusInProgress, p.Location)
+			ec.Procedures = append(ec.Procedures, pr)
+			ec.EndEncounter(t, constants.EncounterStatusFinished)
+		}
+	}
+}
+
 // Encounter represents an interaction between a patient and healthcare provider.
 type Encounter struct {
 	Status string
@@ -363,6 +396,11 @@ type Encounter struct {
 	// Orders tracks the Orders for this Encounter. Each entry in Patient.Orders is associated with
 	// exactly one Encounter.
 	Orders []*Order
+	// Diagnoses and Procedures track the diagnoses and procedures for each Encounter. This is
+	// different from PatientInfo.Procedures and PatientInfo.Diagnoses, which are used for building
+	// ADT^A31 messages and are cleared after each UpdatePerson step.
+	Diagnoses  []*DiagnosisOrProcedure
+	Procedures []*DiagnosisOrProcedure
 }
 
 func (ec *Encounter) hasEnded() bool {
@@ -379,9 +417,10 @@ type StatusHistory struct {
 }
 
 // UpdateStatus ends the current status and appends a new entry to an Encounter's status history.
-// If the new status is the same as the current one this is a no-op.
+// If the new status is the same as the current one, or the start time is before the Encounter's
+// start time, this is a no-op.
 func (ec *Encounter) UpdateStatus(startTime NullTime, newStatus string) {
-	if ec.Status == newStatus {
+	if ec.Status == newStatus || startTime.Before(ec.Start.Time) {
 		return
 	}
 	oldStatus := &StatusHistory{Status: ec.Status, Start: ec.StatusStart, End: startTime}
@@ -476,4 +515,14 @@ func NewInvalidTime() NullTime {
 // Formattable is an interface for formatting dates in different locations.
 type Formattable interface {
 	In(loc *time.Location) time.Time
+}
+
+func joinNonEmpty(parts []string, separator string) string {
+	var toJoin []string
+	for _, s := range parts {
+		if strings.TrimSpace(s) != "" {
+			toJoin = append(toJoin, s)
+		}
+	}
+	return strings.Join(toJoin, separator)
 }

@@ -39,6 +39,8 @@ import (
 	locationpb "google/fhir/proto/r4/core/resources/location_go_proto"
 	observationpb "google/fhir/proto/r4/core/resources/observation_go_proto"
 	patientpb "google/fhir/proto/r4/core/resources/patient_go_proto"
+	practitionerpb "google/fhir/proto/r4/core/resources/practitioner_go_proto"
+	procedurepb "google/fhir/proto/r4/core/resources/procedure_go_proto"
 )
 
 const microPerNano = int64(time.Microsecond / time.Nanosecond)
@@ -145,9 +147,7 @@ func (w *FHIRWriter) bundle(p *ir.PatientInfo) *r4pb.Bundle {
 	bundle.Entry = append(bundle.Entry, patient)
 
 	allergies := w.allergies(p.Allergies, patientRef)
-	for _, a := range allergies {
-		bundle.Entry = append(bundle.Entry, a)
-	}
+	bundle.Entry = append(bundle.Entry, allergies...)
 
 	for _, ec := range p.Encounters {
 		encounter, encounterRef := w.encounter(ec)
@@ -164,8 +164,17 @@ func (w *FHIRWriter) bundle(p *ir.PatientInfo) *r4pb.Bundle {
 			observations := w.observations(encounterRef, patientRef, o)
 			bundle.Entry = append(bundle.Entry, observations...)
 		}
-	}
 
+		for _, pr := range ec.Procedures {
+			practitioner, practitionerRef := w.practitioner(pr.Clinician)
+			bundle.Entry = append(bundle.Entry, practitioner)
+
+			procedure := w.procedure(pr, practitionerRef, encounterRef)
+			bundle.Entry = append(bundle.Entry, procedure)
+
+			// TODO: Emit diagnoses.
+		}
+	}
 	return bundle
 }
 
@@ -178,7 +187,7 @@ func (w *FHIRWriter) patient(patient *ir.PatientInfo) (*r4pb.Bundle_Entry, *dpb.
 			OneofResource: &r4pb.ContainedResource_Patient{
 				&patientpb.Patient{
 					Id:         &dpb.Id{Value: id},
-					Identifier: w.personIdentifier(patient.Person),
+					Identifier: w.identifier(patient.Person.MRN),
 					Name:       w.humanName(patient.Person),
 					Address:    w.address(patient.Person.Address),
 					Deceased:   w.deceased(patient.Person),
@@ -243,8 +252,8 @@ func (w *FHIRWriter) codeableConcept(c ir.CodedElement) *dpb.CodeableConcept {
 	}
 }
 
-func (w *FHIRWriter) personIdentifier(pe *ir.Person) []*dpb.Identifier {
-	return []*dpb.Identifier{{Value: &dpb.String{Value: pe.MRN}}}
+func (w *FHIRWriter) identifier(identifier string) []*dpb.Identifier {
+	return []*dpb.Identifier{{Value: &dpb.String{Value: identifier}}}
 }
 
 func (w *FHIRWriter) humanName(pe *ir.Person) []*dpb.HumanName {
@@ -454,6 +463,67 @@ func (w *FHIRWriter) dateTime(t ir.NullTime) *dpb.DateTime {
 		return nil
 	}
 	return &dpb.DateTime{ValueUs: unixMicro(t.Time), Precision: dpb.DateTime_SECOND}
+}
+
+func (w *FHIRWriter) procedure(procedure *ir.DiagnosisOrProcedure, practitionerRef *dpb.Reference, encounterRef *dpb.Reference) *r4pb.Bundle_Entry {
+	id := w.idGenerator.NewID()
+
+	p := &procedurepb.Procedure{
+		Id: &dpb.Id{Value: id},
+		Performed: &procedurepb.Procedure_PerformedX{
+			Choice: &procedurepb.Procedure_PerformedX_DateTime{
+				w.dateTime(procedure.DateTime),
+			},
+		},
+		Category: &dpb.CodeableConcept{
+			Text: &dpb.String{Value: procedure.Type},
+		},
+		Encounter: encounterRef,
+		Performer: []*procedurepb.Procedure_Performer{{
+			Actor: practitionerRef,
+		}},
+		Text: w.narrative(procedure.Text()),
+	}
+
+	if procedure.Description != nil {
+		p.Code = w.codeableConcept(*procedure.Description)
+	}
+
+	return &r4pb.Bundle_Entry{
+		Resource: &r4pb.ContainedResource{
+			OneofResource: &r4pb.ContainedResource_Procedure{p},
+		},
+	}
+}
+
+func (w *FHIRWriter) practitioner(doctor *ir.Doctor) (*r4pb.Bundle_Entry, *dpb.Reference) {
+	id := w.idGenerator.NewID()
+	person := &ir.Person{
+		Prefix:    doctor.Prefix,
+		FirstName: doctor.FirstName,
+		Surname:   doctor.Surname,
+	}
+
+	entry := &r4pb.Bundle_Entry{
+		Resource: &r4pb.ContainedResource{
+			OneofResource: &r4pb.ContainedResource_Practitioner{
+				&practitionerpb.Practitioner{
+					Id:         &dpb.Id{Value: id},
+					Identifier: w.identifier(doctor.ID),
+					Name:       w.humanName(person),
+					Text:       w.narrative(person.Text()),
+				},
+			},
+		},
+	}
+
+	ref := &dpb.Reference{
+		Reference: &dpb.Reference_PractitionerId{
+			&dpb.ReferenceId{Value: id},
+		},
+	}
+
+	return entry, ref
 }
 
 func unixMicro(t time.Time) int64 {

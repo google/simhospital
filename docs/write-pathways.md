@@ -1220,6 +1220,13 @@ Currently, the following resources are supported:
     -   `subject`
 -   [`Location`](https://www.hl7.org/fhir/location.html)
     -   `name`
+-   [`Procedure`](https://www.hl7.org/fhir/procedure.html)
+    -   `code`
+    -   `category`
+    -   `subject`
+    -   `encounter`
+    -   `performed`
+    -   `performer`
 
 ## Order profiles
 
