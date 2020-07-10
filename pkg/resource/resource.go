@@ -17,6 +17,7 @@ package resource
 
 import (
 	"errors"
+	"fmt"
 	"io"
 	"strings"
 	"time"
@@ -195,6 +196,7 @@ func (w *FHIRWriter) patient(patient *ir.PatientInfo) (*r4pb.Bundle_Entry, *dpb.
 					Gender: &patientpb.Patient_GenderCode{
 						Value: w.gc.HL7ToFHIR(patient.Person.Gender),
 					},
+					Text: w.narrative(patient.Person.Text()),
 				},
 			},
 		},
@@ -243,7 +245,7 @@ func (w *FHIRWriter) allergies(allergies []*ir.Allergy, patientRef *dpb.Referenc
 
 func (w *FHIRWriter) codeableConcept(c ir.CodedElement) *dpb.CodeableConcept {
 	return &dpb.CodeableConcept{
-		Text: &dpb.String{Value: c.Text},
+		// The Text field should only be used if the code and coding system are unknown.
 		Coding: []*dpb.Coding{{
 			System:  &dpb.Uri{Value: w.cc.HL7ToFHIR(c.CodingSystem)},
 			Code:    &dpb.Code{Value: c.ID},
@@ -316,22 +318,23 @@ func (w *FHIRWriter) address(address *ir.Address) []*dpb.Address {
 	return []*dpb.Address{a}
 }
 
-func (w *FHIRWriter) encounter(ec *ir.Encounter) (*r4pb.Bundle_Entry, *dpb.Reference) {
+func (w *FHIRWriter) encounter(encounter *ir.Encounter) (*r4pb.Bundle_Entry, *dpb.Reference) {
 	id := w.idGenerator.NewID()
 
 	entry := &r4pb.Bundle_Entry{
 		Resource: &r4pb.ContainedResource{
 			OneofResource: &r4pb.ContainedResource_Encounter{
 				&encounterpb.Encounter{
-					Id: &dpb.Id{Value: id},
+					Id:   &dpb.Id{Value: id},
+					Text: w.narrative(encounter.Text()),
 					Status: &encounterpb.Encounter_StatusCode{
-						Value: internalToFHIREncounterStatus[ec.Status],
+						Value: internalToFHIREncounterStatus[encounter.Status],
 					},
 					Period: &dpb.Period{
-						Start: w.dateTime(ec.Start),
-						End:   w.dateTime(ec.End),
+						Start: w.dateTime(encounter.Start),
+						End:   w.dateTime(encounter.End),
 					},
-					StatusHistory: w.statusHistory(ec.StatusHistory),
+					StatusHistory: w.statusHistory(encounter.StatusHistory),
 				},
 			},
 		},
@@ -416,9 +419,9 @@ func (w *FHIRWriter) narrative(paragraphs ...string) *dpb.Narrative {
 		if p == "" {
 			continue
 		}
-		sb.WriteString("<p>")
-		sb.WriteString(p)
-		sb.WriteString("</p>")
+		for _, s := range strings.Split(p, "\n") {
+			fmt.Fprintf(&sb, "<p>%s</p>", s)
+		}
 	}
 	sb.WriteString("</div>")
 	return &dpb.Narrative{Div: &dpb.Xhtml{Value: sb.String()}}
@@ -434,6 +437,7 @@ func (w *FHIRWriter) location(l *ir.PatientLocation) (*r4pb.Bundle_Entry, *dpb.R
 				&locationpb.Location{
 					Id:   &dpb.Id{Value: id},
 					Name: &dpb.String{Value: name},
+					Text: w.narrative(name),
 				},
 			},
 		},

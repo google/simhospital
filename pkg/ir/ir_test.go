@@ -268,7 +268,39 @@ func TestEncounter_UpdateLocation(t *testing.T) {
 	}
 }
 
-func TestText(t *testing.T) {
+func TestEncounter_Text(t *testing.T) {
+	tests := []struct {
+		name      string
+		encounter *Encounter
+		want      string
+	}{{
+		name: "Finished",
+		encounter: &Encounter{
+			Status: constants.EncounterStatusFinished,
+			Start:  now,
+			End:    later,
+		},
+		want: "Status: finished\nActive from Mon Feb 12 00:00:00 2018 until Mon Feb 12 05:00:00 2018",
+	}, {
+		name: "In progress",
+		encounter: &Encounter{
+			Status: constants.EncounterStatusInProgress,
+			Start:  now,
+		},
+		want: "Status: in-progress\nActive from Mon Feb 12 00:00:00 2018",
+	}}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			got := tc.encounter.Text()
+			if diff := cmp.Diff(tc.want, got); diff != "" {
+				t.Errorf("encounter.Text() returned diff (-want +got):\n%s", diff)
+			}
+		})
+	}
+}
+
+func TestResult_Text(t *testing.T) {
 	tests := []struct {
 		name   string
 		result *Result

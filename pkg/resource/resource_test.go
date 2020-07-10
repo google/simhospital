@@ -182,6 +182,9 @@ func TestGenerate(t *testing.T) {
 						&patientpb.Patient{
 							Id:         &dpb.Id{Value: "1"},
 							Identifier: []*dpb.Identifier{{Value: &dpb.String{Value: "1234"}}},
+							Text: &dpb.Narrative{
+								Div: &dpb.Xhtml{Value: "<div><p>Dr William George Burr MD</p></div>"},
+							},
 							Name: []*dpb.HumanName{{
 								Prefix: []*dpb.String{{Value: "Dr"}},
 								Family: &dpb.String{Value: "Burr"},
@@ -231,7 +234,6 @@ func TestGenerate(t *testing.T) {
 								Display: &dpb.String{Value: "William Burr"},
 							},
 							Code: &dpb.CodeableConcept{
-								Text: &dpb.String{Value: "TEXT"},
 								Coding: []*dpb.Coding{{
 									System:  &dpb.Uri{Value: "SYSTEM_URI"},
 									Code:    &dpb.Code{Value: "ID"},
@@ -258,7 +260,6 @@ func TestGenerate(t *testing.T) {
 								Value: cpb.AllergyIntoleranceCategoryCode_MEDICATION,
 							}},
 							Code: &dpb.CodeableConcept{
-								Text: &dpb.String{Value: "TEXT"},
 								Coding: []*dpb.Coding{
 									{
 										System:  &dpb.Uri{Value: "SYSTEM_URI"},
@@ -288,6 +289,11 @@ func TestGenerate(t *testing.T) {
 						&encounterpb.Encounter{
 							Id:     &dpb.Id{Value: "4"},
 							Status: &encounterpb.Encounter_StatusCode{Value: cpb.EncounterStatusCode_FINISHED},
+							Text: &dpb.Narrative{
+								Div: &dpb.Xhtml{
+									Value: "<div><p>Status: finished</p><p>Active from Mon Feb 12 00:00:00 2018 until Mon Feb 12 10:00:00 2018</p></div>",
+								},
+							},
 							Period: &dpb.Period{
 								Start: &dpb.DateTime{ValueUs: nowMicros, Precision: dpb.DateTime_SECOND},
 								End:   &dpb.DateTime{ValueUs: evenLaterMicros, Precision: dpb.DateTime_SECOND},
@@ -343,6 +349,11 @@ func TestGenerate(t *testing.T) {
 						&locationpb.Location{
 							Id:   &dpb.Id{Value: "5"},
 							Name: &dpb.String{Value: "BED, POC, ROOM, FLOOR, BUILDING, FACILITY"},
+							Text: &dpb.Narrative{
+								Div: &dpb.Xhtml{
+									Value: "<div><p>BED, POC, ROOM, FLOOR, BUILDING, FACILITY</p></div>",
+								},
+							},
 						},
 					},
 				},
@@ -352,6 +363,9 @@ func TestGenerate(t *testing.T) {
 						&locationpb.Location{
 							Id:   &dpb.Id{Value: "6"},
 							Name: &dpb.String{Value: "BUILDING"},
+							Text: &dpb.Narrative{
+								Div: &dpb.Xhtml{Value: "<div><p>BUILDING</p></div>"},
+							},
 						},
 					},
 				},
@@ -453,7 +467,6 @@ func TestGenerate(t *testing.T) {
 								Text: &dpb.String{Value: "TYPE"},
 							},
 							Code: &dpb.CodeableConcept{
-								Text: &dpb.String{Value: "PROCEDURE"},
 								Coding: []*dpb.Coding{{
 									Code:    &dpb.Code{Value: "ID"},
 									System:  &dpb.Uri{Value: "SYSTEM_URI"},
@@ -489,6 +502,11 @@ func TestGenerate(t *testing.T) {
 							Period: &dpb.Period{
 								Start: &dpb.DateTime{ValueUs: evenLaterMicros, Precision: dpb.DateTime_SECOND},
 							},
+							Text: &dpb.Narrative{
+								Div: &dpb.Xhtml{
+									Value: "<div><p>Status: in-progress</p><p>Active from Mon Feb 12 10:00:00 2018</p></div>",
+								},
+							},
 						},
 					},
 				},
@@ -517,6 +535,9 @@ func TestGenerate(t *testing.T) {
 						&patientpb.Patient{
 							Id:         &dpb.Id{Value: "1"},
 							Identifier: []*dpb.Identifier{{Value: &dpb.String{Value: "8888"}}},
+							Text: &dpb.Narrative{
+								Div: &dpb.Xhtml{Value: "<div><p>Elisa Mogollon</p></div>"},
+							},
 							Name: []*dpb.HumanName{{
 								Family: &dpb.String{Value: "Mogollon"},
 								Given:  []*dpb.String{{Value: "Elisa"}},

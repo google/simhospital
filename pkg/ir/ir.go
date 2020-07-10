@@ -403,6 +403,16 @@ type Encounter struct {
 	Procedures []*DiagnosisOrProcedure
 }
 
+// Text returns a human-readable representation of an Encounter.
+func (ec *Encounter) Text() string {
+	var sb strings.Builder
+	fmt.Fprintf(&sb, "Status: %s\nActive from %s", ec.Status, ec.Start.Format(time.ANSIC))
+	if ec.hasEnded() {
+		fmt.Fprintf(&sb, " until %s", ec.End.Format(time.ANSIC))
+	}
+	return sb.String()
+}
+
 func (ec *Encounter) hasEnded() bool {
 	return ec.Status == constants.EncounterStatusFinished || ec.Status == constants.EncounterStatusCancelled
 }
