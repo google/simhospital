@@ -685,10 +685,12 @@ Example:
      - type: Working
        code: A01.0
        description: Typhoid fever
-       time_from_now: -48h
+       datetime:
+         time_from_now: -48h
    procedures:
      - code: RANDOM
-       time_from_now: -24h
+       datetime:
+         time_from_now: -24h
 ```
 
 ### Pre Admission
