@@ -120,7 +120,7 @@ func TestGenerate(t *testing.T) {
 				}},
 				Procedures: []*ir.DiagnosisOrProcedure{{
 					Description: &ir.CodedElement{
-						ID:           "ID",
+						ID:           "ID_1",
 						Text:         "PROCEDURE",
 						CodingSystem: "SYSTEM",
 					},
@@ -133,6 +133,21 @@ func TestGenerate(t *testing.T) {
 						Specialty: "Doctoring",
 					},
 					DateTime: now,
+				}, {
+					Description: &ir.CodedElement{
+						ID:           "ID_2",
+						Text:         "PROCEDURE",
+						CodingSystem: "SYSTEM",
+					},
+					Type: "TYPE",
+					Clinician: &ir.Doctor{
+						ID:        "ID",
+						Prefix:    "Dr",
+						FirstName: "Doctor",
+						Surname:   "Doctorson",
+						Specialty: "Doctoring",
+					},
+					DateTime: later,
 				}},
 				Orders: []*ir.Order{{
 					OrderDateTime: later,
@@ -160,6 +175,17 @@ func TestGenerate(t *testing.T) {
 						Facility: "FACILITY",
 					},
 					Start: now,
+					End:   later,
+				}, {
+					Location: &ir.PatientLocation{
+						Poc:      "POC",
+						Room:     "ROOM",
+						Bed:      "BED",
+						Floor:    "FLOOR",
+						Building: "BUILDING",
+						Facility: "FACILITY",
+					},
+					Start: later,
 					End:   later,
 				}, {
 					Location: &ir.PatientLocation{
@@ -331,6 +357,17 @@ func TestGenerate(t *testing.T) {
 							}, {
 								Location: &dpb.Reference{
 									Reference: &dpb.Reference_LocationId{
+										&dpb.ReferenceId{Value: "5"},
+									},
+									Display: &dpb.String{Value: "BED, POC, ROOM, FLOOR, BUILDING, FACILITY"},
+								},
+								Period: &dpb.Period{
+									Start: &dpb.DateTime{ValueUs: laterMicros, Precision: dpb.DateTime_SECOND},
+									End:   &dpb.DateTime{ValueUs: laterMicros, Precision: dpb.DateTime_SECOND},
+								},
+							}, {
+								Location: &dpb.Reference{
+									Reference: &dpb.Reference_LocationId{
 										&dpb.ReferenceId{Value: "6"},
 									},
 									Display: &dpb.String{Value: "BUILDING"},
@@ -468,7 +505,7 @@ func TestGenerate(t *testing.T) {
 							},
 							Code: &dpb.CodeableConcept{
 								Coding: []*dpb.Coding{{
-									Code:    &dpb.Code{Value: "ID"},
+									Code:    &dpb.Code{Value: "ID_1"},
 									System:  &dpb.Uri{Value: "SYSTEM_URI"},
 									Display: &dpb.String{Value: "PROCEDURE"},
 								}},
@@ -495,9 +532,47 @@ func TestGenerate(t *testing.T) {
 				},
 			}, {
 				Resource: &r4pb.ContainedResource{
+					OneofResource: &r4pb.ContainedResource_Procedure{
+						&procedurepb.Procedure{
+							Id: &dpb.Id{Value: "11"},
+							Text: &dpb.Narrative{
+								Div: &dpb.Xhtml{Value: "<div><p>PROCEDURE by Dr Doctor Doctorson</p></div>"},
+							},
+							Category: &dpb.CodeableConcept{
+								Text: &dpb.String{Value: "TYPE"},
+							},
+							Code: &dpb.CodeableConcept{
+								Coding: []*dpb.Coding{{
+									Code:    &dpb.Code{Value: "ID_2"},
+									System:  &dpb.Uri{Value: "SYSTEM_URI"},
+									Display: &dpb.String{Value: "PROCEDURE"},
+								}},
+							},
+							Performer: []*procedurepb.Procedure_Performer{{
+								Actor: &dpb.Reference{
+									Reference: &dpb.Reference_PractitionerId{
+										&dpb.ReferenceId{Value: "9"},
+									},
+								},
+							}},
+							Performed: &procedurepb.Procedure_PerformedX{
+								Choice: &procedurepb.Procedure_PerformedX_DateTime{
+									&dpb.DateTime{ValueUs: laterMicros, Precision: dpb.DateTime_SECOND},
+								},
+							},
+							Encounter: &dpb.Reference{
+								Reference: &dpb.Reference_EncounterId{
+									&dpb.ReferenceId{Value: "4"},
+								},
+							},
+						},
+					},
+				},
+			}, {
+				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Encounter{
 						&encounterpb.Encounter{
-							Id:     &dpb.Id{Value: "11"},
+							Id:     &dpb.Id{Value: "12"},
 							Status: &encounterpb.Encounter_StatusCode{Value: cpb.EncounterStatusCode_IN_PROGRESS},
 							Period: &dpb.Period{
 								Start: &dpb.DateTime{ValueUs: evenLaterMicros, Precision: dpb.DateTime_SECOND},

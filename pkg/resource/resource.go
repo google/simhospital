@@ -92,6 +92,8 @@ func NewFHIRWriter(cfg GeneratorConfig) (*FHIRWriter, error) {
 		idGenerator: cfg.IDGenerator,
 		output:      cfg.Output,
 		marshaller:  cfg.Marshaller,
+		locations: make(map[ir.PatientLocation]*dpb.Reference),
+		doctors:   make(map[ir.Doctor]*dpb.Reference),
 	}, nil
 }
 
@@ -105,6 +107,10 @@ type FHIRWriter struct {
 	count       int
 	output      Output
 	marshaller  Marshaller
+	// locationMap and doctorMap ensure that equivalent locations and doctors are only generated
+	// once, preventing duplicates.
+	locations map[ir.PatientLocation]*dpb.Reference
+	doctors   map[ir.Doctor]*dpb.Reference
 }
 
 // Generate generates FHIR resources from PatientInfo.
@@ -145,38 +151,47 @@ func (w *FHIRWriter) bundle(p *ir.PatientInfo) *r4pb.Bundle {
 	}
 
 	patient, patientRef := w.patient(p)
-	bundle.Entry = append(bundle.Entry, patient)
+	addEntry(bundle, patient)
 
 	allergies := w.allergies(p.Allergies, patientRef)
-	bundle.Entry = append(bundle.Entry, allergies...)
+	addEntry(bundle, allergies...)
 
 	for _, ec := range p.Encounters {
 		encounter, encounterRef := w.encounter(ec)
-		bundle.Entry = append(bundle.Entry, encounter)
+		addEntry(bundle, encounter)
 
 		e := encounter.GetResource().GetEncounter()
 		for _, lh := range ec.LocationHistory {
 			location, locationRef := w.location(lh.Location)
-			bundle.Entry = append(bundle.Entry, location)
+			addEntry(bundle, location)
 			e.Location = append(e.Location, w.encounterLocation(locationRef, lh.Start, lh.End))
 		}
 
 		for _, o := range ec.Orders {
 			observations := w.observations(encounterRef, patientRef, o)
-			bundle.Entry = append(bundle.Entry, observations...)
+			addEntry(bundle, observations...)
 		}
 
 		for _, pr := range ec.Procedures {
 			practitioner, practitionerRef := w.practitioner(pr.Clinician)
-			bundle.Entry = append(bundle.Entry, practitioner)
+			addEntry(bundle, practitioner)
 
 			procedure := w.procedure(pr, practitionerRef, encounterRef)
-			bundle.Entry = append(bundle.Entry, procedure)
+			addEntry(bundle, procedure)
 
 			// TODO: Emit diagnoses.
 		}
 	}
 	return bundle
+}
+
+func addEntry(bundle *r4pb.Bundle, entries ...*r4pb.Bundle_Entry) {
+	for _, entry := range entries {
+		if entry == nil {
+			continue
+		}
+		bundle.Entry = append(bundle.Entry, entry)
+	}
 }
 
 func (w *FHIRWriter) patient(patient *ir.PatientInfo) (*r4pb.Bundle_Entry, *dpb.Reference) {
@@ -427,9 +442,16 @@ func (w *FHIRWriter) narrative(paragraphs ...string) *dpb.Narrative {
 	return &dpb.Narrative{Div: &dpb.Xhtml{Value: sb.String()}}
 }
 
-func (w *FHIRWriter) location(l *ir.PatientLocation) (*r4pb.Bundle_Entry, *dpb.Reference) {
+func (w *FHIRWriter) location(location *ir.PatientLocation) (*r4pb.Bundle_Entry, *dpb.Reference) {
+	if location == nil {
+		return nil, nil
+	}
+	if ref, ok := w.locations[*location]; ok {
+		return nil, ref
+	}
+
 	id := w.idGenerator.NewID()
-	name := l.Name()
+	name := location.Name()
 
 	entry := &r4pb.Bundle_Entry{
 		Resource: &r4pb.ContainedResource{
@@ -449,6 +471,8 @@ func (w *FHIRWriter) location(l *ir.PatientLocation) (*r4pb.Bundle_Entry, *dpb.R
 		},
 		Display: &dpb.String{Value: name},
 	}
+
+	w.locations[*location] = ref
 
 	return entry, ref
 }
@@ -501,6 +525,13 @@ func (w *FHIRWriter) procedure(procedure *ir.DiagnosisOrProcedure, practitionerR
 }
 
 func (w *FHIRWriter) practitioner(doctor *ir.Doctor) (*r4pb.Bundle_Entry, *dpb.Reference) {
+	if doctor == nil {
+		return nil, nil
+	}
+	if ref, ok := w.doctors[*doctor]; ok {
+		return nil, ref
+	}
+
 	id := w.idGenerator.NewID()
 	person := &ir.Person{
 		Prefix:    doctor.Prefix,
@@ -526,6 +557,8 @@ func (w *FHIRWriter) practitioner(doctor *ir.Doctor) (*r4pb.Bundle_Entry, *dpb.R
 			&dpb.ReferenceId{Value: id},
 		},
 	}
+
+	w.doctors[*doctor] = ref
 
 	return entry, ref
 }
