@@ -151,7 +151,7 @@ func (w *FHIRWriter) bundle(p *ir.PatientInfo) *r4pb.Bundle {
 		},
 	}
 
-	patient, patientRef := w.patient(p)
+	patient, patientRef := w.patient(p.Person)
 	addEntry(bundle, patient)
 
 	allergies := w.allergies(p.Allergies, patientRef)
@@ -177,8 +177,9 @@ func (w *FHIRWriter) bundle(p *ir.PatientInfo) *r4pb.Bundle {
 			practitioner, practitionerRef := w.practitioner(pr.Clinician)
 			addEntry(bundle, practitioner)
 
-			procedure := w.procedure(pr, practitionerRef, encounterRef)
+			procedure, procedureRef := w.procedure(pr, patientRef, practitionerRef, encounterRef)
 			addEntry(bundle, procedure)
+			e.Diagnosis = append(e.Diagnosis, w.encounterDiagnosis(procedureRef))
 		}
 
 		for _, d := range ec.Diagnoses {
@@ -202,24 +203,23 @@ func addEntry(bundle *r4pb.Bundle, entries ...*r4pb.Bundle_Entry) {
 	}
 }
 
-func (w *FHIRWriter) patient(patient *ir.PatientInfo) (*r4pb.Bundle_Entry, *dpb.Reference) {
+func (w *FHIRWriter) patient(person *ir.Person) (*r4pb.Bundle_Entry, *dpb.Reference) {
 	id := w.idGenerator.NewID()
-	displayName := patient.Person.FirstName + " " + patient.Person.Surname
 
 	entry := &r4pb.Bundle_Entry{
 		Resource: &r4pb.ContainedResource{
 			OneofResource: &r4pb.ContainedResource_Patient{
 				&patientpb.Patient{
 					Id:         &dpb.Id{Value: id},
-					Identifier: w.identifier(patient.Person.MRN),
-					Name:       w.humanName(patient.Person),
-					Address:    w.address(patient.Person.Address),
-					Deceased:   w.deceased(patient.Person),
-					Telecom:    w.telecom(patient.Person.PhoneNumber),
+					Identifier: w.identifier(person.MRN),
+					Name:       w.humanName(person),
+					Address:    w.address(person.Address),
+					Deceased:   w.deceased(person),
+					Telecom:    w.telecom(person.PhoneNumber),
 					Gender: &patientpb.Patient_GenderCode{
-						Value: w.gc.HL7ToFHIR(patient.Person.Gender),
+						Value: w.gc.HL7ToFHIR(person.Gender),
 					},
-					Text: w.narrative(patient.Person.Text()),
+					Text: w.narrative(person.Text()),
 				},
 			},
 		},
@@ -227,7 +227,7 @@ func (w *FHIRWriter) patient(patient *ir.PatientInfo) (*r4pb.Bundle_Entry, *dpb.
 
 	ref := &dpb.Reference{
 		Reference: &dpb.Reference_PatientId{&dpb.ReferenceId{Value: id}},
-		Display:   &dpb.String{Value: displayName},
+		Display:   &dpb.String{Value: person.AlternateText()},
 	}
 
 	return entry, ref
@@ -380,9 +380,12 @@ func (w *FHIRWriter) encounterLocation(locationRef *dpb.Reference, start ir.Null
 	}
 }
 
-func (w *FHIRWriter) encounterDiagnosis(conditionRef *dpb.Reference) *encounterpb.Encounter_Diagnosis {
+// encounterDiagnosis constructs the `Encounter.Diagnosis` field. `ref` must be a reference to
+// either a condition or procedure.
+// Reference: https://www.hl7.org/fhir/encounter-definitions.html#Encounter.diagnosis.condition
+func (w *FHIRWriter) encounterDiagnosis(ref *dpb.Reference) *encounterpb.Encounter_Diagnosis {
 	return &encounterpb.Encounter_Diagnosis{
-		Condition: conditionRef,
+		Condition: ref,
 	}
 }
 
@@ -507,9 +510,8 @@ func (w *FHIRWriter) dateTime(t ir.NullTime) *dpb.DateTime {
 	return &dpb.DateTime{ValueUs: unixMicro(t.Time), Precision: dpb.DateTime_SECOND}
 }
 
-func (w *FHIRWriter) procedure(procedure *ir.DiagnosisOrProcedure, practitionerRef *dpb.Reference, encounterRef *dpb.Reference) *r4pb.Bundle_Entry {
+func (w *FHIRWriter) procedure(procedure *ir.DiagnosisOrProcedure, patientRef *dpb.Reference, practitionerRef *dpb.Reference, encounterRef *dpb.Reference) (*r4pb.Bundle_Entry, *dpb.Reference) {
 	id := w.idGenerator.NewID()
-
 	p := &procedurepb.Procedure{
 		Id: &dpb.Id{Value: id},
 		Performed: &procedurepb.Procedure_PerformedX{
@@ -524,18 +526,26 @@ func (w *FHIRWriter) procedure(procedure *ir.DiagnosisOrProcedure, practitionerR
 		Performer: []*procedurepb.Procedure_Performer{{
 			Actor: practitionerRef,
 		}},
-		Text: w.narrative(procedure.Text()),
+		Text:    w.narrative(procedure.Text()),
+		Subject: patientRef,
 	}
 
 	if procedure.Description != nil {
 		p.Code = w.codeableConcept(*procedure.Description)
 	}
 
+	ref := &dpb.Reference{
+		Reference: &dpb.Reference_ProcedureId{
+			&dpb.ReferenceId{Value: id},
+		},
+		Display: &dpb.String{Value: procedure.Text()},
+	}
+
 	return &r4pb.Bundle_Entry{
 		Resource: &r4pb.ContainedResource{
 			OneofResource: &r4pb.ContainedResource_Procedure{p},
 		},
-	}
+	}, ref
 }
 
 func (w *FHIRWriter) condition(diagnosis *ir.DiagnosisOrProcedure, patientRef *dpb.Reference, practitionerRef *dpb.Reference, encounterRef *dpb.Reference) (*r4pb.Bundle_Entry, *dpb.Reference) {
@@ -600,6 +610,7 @@ func (w *FHIRWriter) practitioner(doctor *ir.Doctor) (*r4pb.Bundle_Entry, *dpb.R
 		Reference: &dpb.Reference_PractitionerId{
 			&dpb.ReferenceId{Value: id},
 		},
+		Display: &dpb.String{Value: person.AlternateText()},
 	}
 
 	w.doctors[*doctor] = ref

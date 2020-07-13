@@ -1212,6 +1212,7 @@ Currently, the following resources are supported:
     -   `status`
     -   `statusHistory`
     -   `period`
+    -   `diagnoses`
 -   [`Observation`](https://www.hl7.org/fhir/observation.html)
     -   `encounter`
     -   `status`
@@ -1223,6 +1224,7 @@ Currently, the following resources are supported:
 -   [`Procedure`](https://www.hl7.org/fhir/procedure.html)
     -   `code`
     -   `category`
+    -   `subject`
     -   `encounter`
     -   `performed`
     -   `performer`

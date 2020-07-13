@@ -49,6 +49,11 @@ func (p *Person) Text() string {
 	return joinNonEmpty([]string{p.Prefix, p.FirstName, p.MiddleName, p.Surname, p.Suffix}, " ")
 }
 
+// AlternateText returns a more concise representation of a person.
+func (p *Person) AlternateText() string {
+	return joinNonEmpty([]string{p.FirstName, p.Surname}, " ")
+}
+
 // CodedElement represents a HL7v2 Coded Element: https://hl7-definition.caristix.com/v2/HL7v2.2/DataTypes/CE.
 type CodedElement struct {
 	ID            string

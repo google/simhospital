@@ -396,6 +396,20 @@ func TestGenerate(t *testing.T) {
 							}},
 							Diagnosis: []*encounterpb.Encounter_Diagnosis{{
 								Condition: &dpb.Reference{
+									Reference: &dpb.Reference_ProcedureId{
+										&dpb.ReferenceId{Value: "10"},
+									},
+									Display: &dpb.String{Value: "PROCEDURE by Dr Doctor Doctorson"},
+								},
+							}, {
+								Condition: &dpb.Reference{
+									Reference: &dpb.Reference_ProcedureId{
+										&dpb.ReferenceId{Value: "11"},
+									},
+									Display: &dpb.String{Value: "PROCEDURE by Dr Doctor Doctorson"},
+								},
+							}, {
+								Condition: &dpb.Reference{
 									Reference: &dpb.Reference_ConditionId{
 										&dpb.ReferenceId{Value: "12"},
 									},
@@ -540,6 +554,7 @@ func TestGenerate(t *testing.T) {
 									Reference: &dpb.Reference_PractitionerId{
 										&dpb.ReferenceId{Value: "9"},
 									},
+									Display: &dpb.String{Value: "Doctor Doctorson"},
 								},
 							}},
 							Performed: &procedurepb.Procedure_PerformedX{
@@ -551,6 +566,12 @@ func TestGenerate(t *testing.T) {
 								Reference: &dpb.Reference_EncounterId{
 									&dpb.ReferenceId{Value: "4"},
 								},
+							},
+							Subject: &dpb.Reference{
+								Reference: &dpb.Reference_PatientId{
+									&dpb.ReferenceId{Value: "1"},
+								},
+								Display: &dpb.String{Value: "William Burr"},
 							},
 						},
 					},
@@ -578,6 +599,7 @@ func TestGenerate(t *testing.T) {
 									Reference: &dpb.Reference_PractitionerId{
 										&dpb.ReferenceId{Value: "9"},
 									},
+									Display: &dpb.String{Value: "Doctor Doctorson"},
 								},
 							}},
 							Performed: &procedurepb.Procedure_PerformedX{
@@ -589,6 +611,12 @@ func TestGenerate(t *testing.T) {
 								Reference: &dpb.Reference_EncounterId{
 									&dpb.ReferenceId{Value: "4"},
 								},
+							},
+							Subject: &dpb.Reference{
+								Reference: &dpb.Reference_PatientId{
+									&dpb.ReferenceId{Value: "1"},
+								},
+								Display: &dpb.String{Value: "William Burr"},
 							},
 						},
 					},
@@ -612,6 +640,7 @@ func TestGenerate(t *testing.T) {
 								Reference: &dpb.Reference_PractitionerId{
 									&dpb.ReferenceId{Value: "9"},
 								},
+								Display: &dpb.String{Value: "Doctor Doctorson"},
 							},
 							RecordedDate: &dpb.DateTime{ValueUs: laterMicros, Precision: dpb.DateTime_SECOND},
 							Encounter: &dpb.Reference{
