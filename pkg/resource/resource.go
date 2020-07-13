@@ -36,6 +36,7 @@ import (
 	dpb "google/fhir/proto/r4/core/datatypes_go_proto"
 	aipb "google/fhir/proto/r4/core/resources/allergy_intolerance_go_proto"
 	r4pb "google/fhir/proto/r4/core/resources/bundle_and_contained_resource_go_proto"
+	conditionpb "google/fhir/proto/r4/core/resources/condition_go_proto"
 	encounterpb "google/fhir/proto/r4/core/resources/encounter_go_proto"
 	locationpb "google/fhir/proto/r4/core/resources/location_go_proto"
 	observationpb "google/fhir/proto/r4/core/resources/observation_go_proto"
@@ -178,8 +179,15 @@ func (w *FHIRWriter) bundle(p *ir.PatientInfo) *r4pb.Bundle {
 
 			procedure := w.procedure(pr, practitionerRef, encounterRef)
 			addEntry(bundle, procedure)
+		}
 
-			// TODO: Emit diagnoses.
+		for _, d := range ec.Diagnoses {
+			practitioner, practitionerRef := w.practitioner(d.Clinician)
+			addEntry(bundle, practitioner)
+
+			condition, conditionRef := w.condition(d, patientRef, practitionerRef, encounterRef)
+			addEntry(bundle, condition)
+			e.Diagnosis = append(e.Diagnosis, w.encounterDiagnosis(conditionRef))
 		}
 	}
 	return bundle
@@ -372,6 +380,12 @@ func (w *FHIRWriter) encounterLocation(locationRef *dpb.Reference, start ir.Null
 	}
 }
 
+func (w *FHIRWriter) encounterDiagnosis(conditionRef *dpb.Reference) *encounterpb.Encounter_Diagnosis {
+	return &encounterpb.Encounter_Diagnosis{
+		Condition: conditionRef,
+	}
+}
+
 func (w *FHIRWriter) statusHistory(statusHistory []*ir.StatusHistory) []*encounterpb.Encounter_StatusHistory {
 	var sh []*encounterpb.Encounter_StatusHistory
 	for _, s := range statusHistory {
@@ -522,6 +536,36 @@ func (w *FHIRWriter) procedure(procedure *ir.DiagnosisOrProcedure, practitionerR
 			OneofResource: &r4pb.ContainedResource_Procedure{p},
 		},
 	}
+}
+
+func (w *FHIRWriter) condition(diagnosis *ir.DiagnosisOrProcedure, patientRef *dpb.Reference, practitionerRef *dpb.Reference, encounterRef *dpb.Reference) (*r4pb.Bundle_Entry, *dpb.Reference) {
+	id := w.idGenerator.NewID()
+
+	d := &conditionpb.Condition{
+		Id:           &dpb.Id{Value: id},
+		RecordedDate: w.dateTime(diagnosis.DateTime),
+		Recorder:     practitionerRef,
+		Encounter:    encounterRef,
+		Text:         w.narrative(diagnosis.Text()),
+		Subject:      patientRef,
+	}
+
+	if diagnosis.Description != nil {
+		d.Code = w.codeableConcept(*diagnosis.Description)
+	}
+
+	ref := &dpb.Reference{
+		Reference: &dpb.Reference_ConditionId{
+			&dpb.ReferenceId{Value: id},
+		},
+		Display: &dpb.String{Value: diagnosis.Text()},
+	}
+
+	return &r4pb.Bundle_Entry{
+		Resource: &r4pb.ContainedResource{
+			OneofResource: &r4pb.ContainedResource_Condition{d},
+		},
+	}, ref
 }
 
 func (w *FHIRWriter) practitioner(doctor *ir.Doctor) (*r4pb.Bundle_Entry, *dpb.Reference) {

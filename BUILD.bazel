@@ -29,6 +29,7 @@ gazelle(name = "gazelle")
 # Explicit mappings for Gazelle because google/fhir does not play nice with Gazelle and generates incorrect paths.
 # gazelle:resolve go google/fhir/proto/r4/core/resources/allergy_intolerance_go_proto @com_google_fhir//proto/r4/core/resources:allergy_intolerance_go_proto
 # gazelle:resolve go google/fhir/proto/r4/core/resources/bundle_and_contained_resource_go_proto @com_google_fhir//proto/r4/core/resources:bundle_and_contained_resource_go_proto
+# gazelle:resolve go google/fhir/proto/r4/core/resources/condition_go_proto @com_google_fhir//proto/r4/core/resources:condition_go_proto
 # gazelle:resolve go google/fhir/proto/r4/core/resources/encounter_go_proto @com_google_fhir//proto/r4/core/resources:encounter_go_proto
 # gazelle:resolve go google/fhir/proto/r4/core/resources/location_go_proto @com_google_fhir//proto/r4/core/resources:location_go_proto
 # gazelle:resolve go google/fhir/proto/r4/core/resources/patient_go_proto @com_google_fhir//proto/r4/core/resources:patient_go_proto

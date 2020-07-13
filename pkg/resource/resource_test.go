@@ -32,6 +32,7 @@ import (
 	dpb "google/fhir/proto/r4/core/datatypes_go_proto"
 	aipb "google/fhir/proto/r4/core/resources/allergy_intolerance_go_proto"
 	r4pb "google/fhir/proto/r4/core/resources/bundle_and_contained_resource_go_proto"
+	conditionpb "google/fhir/proto/r4/core/resources/condition_go_proto"
 	encounterpb "google/fhir/proto/r4/core/resources/encounter_go_proto"
 	locationpb "google/fhir/proto/r4/core/resources/location_go_proto"
 	observationpb "google/fhir/proto/r4/core/resources/observation_go_proto"
@@ -137,6 +138,22 @@ func TestGenerate(t *testing.T) {
 					Description: &ir.CodedElement{
 						ID:           "ID_2",
 						Text:         "PROCEDURE",
+						CodingSystem: "SYSTEM",
+					},
+					Type: "TYPE",
+					Clinician: &ir.Doctor{
+						ID:        "ID",
+						Prefix:    "Dr",
+						FirstName: "Doctor",
+						Surname:   "Doctorson",
+						Specialty: "Doctoring",
+					},
+					DateTime: later,
+				}},
+				Diagnoses: []*ir.DiagnosisOrProcedure{{
+					Description: &ir.CodedElement{
+						ID:           "ID",
+						Text:         "DIAGNOSIS",
 						CodingSystem: "SYSTEM",
 					},
 					Type: "TYPE",
@@ -377,6 +394,14 @@ func TestGenerate(t *testing.T) {
 									End:   &dpb.DateTime{ValueUs: evenLaterMicros, Precision: dpb.DateTime_SECOND},
 								},
 							}},
+							Diagnosis: []*encounterpb.Encounter_Diagnosis{{
+								Condition: &dpb.Reference{
+									Reference: &dpb.Reference_ConditionId{
+										&dpb.ReferenceId{Value: "12"},
+									},
+									Display: &dpb.String{Value: "DIAGNOSIS by Dr Doctor Doctorson"},
+								},
+							}},
 						},
 					},
 				},
@@ -570,9 +595,44 @@ func TestGenerate(t *testing.T) {
 				},
 			}, {
 				Resource: &r4pb.ContainedResource{
+					OneofResource: &r4pb.ContainedResource_Condition{
+						&conditionpb.Condition{
+							Id: &dpb.Id{Value: "12"},
+							Text: &dpb.Narrative{
+								Div: &dpb.Xhtml{Value: "<div><p>DIAGNOSIS by Dr Doctor Doctorson</p></div>"},
+							},
+							Code: &dpb.CodeableConcept{
+								Coding: []*dpb.Coding{{
+									Code:    &dpb.Code{Value: "ID"},
+									System:  &dpb.Uri{Value: "SYSTEM_URI"},
+									Display: &dpb.String{Value: "DIAGNOSIS"},
+								}},
+							},
+							Recorder: &dpb.Reference{
+								Reference: &dpb.Reference_PractitionerId{
+									&dpb.ReferenceId{Value: "9"},
+								},
+							},
+							RecordedDate: &dpb.DateTime{ValueUs: laterMicros, Precision: dpb.DateTime_SECOND},
+							Encounter: &dpb.Reference{
+								Reference: &dpb.Reference_EncounterId{
+									&dpb.ReferenceId{Value: "4"},
+								},
+							},
+							Subject: &dpb.Reference{
+								Reference: &dpb.Reference_PatientId{
+									PatientId: &dpb.ReferenceId{Value: "1"},
+								},
+								Display: &dpb.String{Value: "William Burr"},
+							},
+						},
+					},
+				},
+			}, {
+				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Encounter{
 						&encounterpb.Encounter{
-							Id:     &dpb.Id{Value: "12"},
+							Id:     &dpb.Id{Value: "13"},
 							Status: &encounterpb.Encounter_StatusCode{Value: cpb.EncounterStatusCode_IN_PROGRESS},
 							Period: &dpb.Period{
 								Start: &dpb.DateTime{ValueUs: evenLaterMicros, Precision: dpb.DateTime_SECOND},

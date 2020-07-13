@@ -1223,10 +1223,15 @@ Currently, the following resources are supported:
 -   [`Procedure`](https://www.hl7.org/fhir/procedure.html)
     -   `code`
     -   `category`
-    -   `subject`
     -   `encounter`
     -   `performed`
     -   `performer`
+-   [`Condition`](https://www.hl7.org/fhir/condition.html)
+    -   `code`
+    -   `subject`
+    -   `encounter`
+    -   `recordedDate`
+    -   `recorder`
 
 ## Order profiles
 
