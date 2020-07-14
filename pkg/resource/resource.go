@@ -93,8 +93,8 @@ func NewFHIRWriter(cfg GeneratorConfig) (*FHIRWriter, error) {
 		idGenerator: cfg.IDGenerator,
 		output:      cfg.Output,
 		marshaller:  cfg.Marshaller,
-		locations: make(map[ir.PatientLocation]*dpb.Reference),
-		doctors:   make(map[ir.Doctor]*dpb.Reference),
+		locations:   make(map[ir.PatientLocation]*dpb.Reference),
+		doctors:     make(map[ir.Doctor]*dpb.Reference),
 	}, nil
 }
 
@@ -158,7 +158,7 @@ func (w *FHIRWriter) bundle(p *ir.PatientInfo) *r4pb.Bundle {
 	addEntry(bundle, allergies...)
 
 	for _, ec := range p.Encounters {
-		encounter, encounterRef := w.encounter(ec)
+		encounter, encounterRef := w.encounter(ec, p.Class)
 
 		e := encounter.GetResource().GetEncounter()
 		for _, lh := range ec.LocationHistory {
@@ -243,13 +243,26 @@ func (w *FHIRWriter) allergies(allergies []*ir.Allergy, patientRef *dpb.Referenc
 				OneofResource: &r4pb.ContainedResource_AllergyIntolerance{
 					&aipb.AllergyIntolerance{
 						Id: &dpb.Id{Value: id},
+						// Simulated Hospital does not support the concept of ClinicalStatus, so we default to
+						// a hardcoded "active" value.
+						ClinicalStatus: &dpb.CodeableConcept{
+							Coding: []*dpb.Coding{{
+								Code: &dpb.Code{Value: "active"},
+								System: &dpb.Uri{
+									Value: "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+								},
+								Display: &dpb.String{Value: "Active"},
+							}},
+						},
 						// Simulated Hospital does not yet distinguish between allergies and intolerances.
 						Type: &aipb.AllergyIntolerance_TypeCode{Value: cpb.AllergyIntoleranceTypeCode_ALLERGY},
 						Category: []*aipb.AllergyIntolerance_CategoryCode{{
 							Value: w.ac.TypeHL7ToFHIR(a.Type),
 						}},
 						Reaction: []*aipb.AllergyIntolerance_Reaction{{
-							Description: &dpb.String{Value: a.Reaction},
+							Manifestation: []*dpb.CodeableConcept{{
+								Text: &dpb.String{Value: a.Reaction},
+							}},
 							Severity: &aipb.AllergyIntolerance_Reaction_SeverityCode{
 								Value: w.ac.SeverityHL7ToFHIR(a.Severity),
 							},
@@ -341,7 +354,7 @@ func (w *FHIRWriter) address(address *ir.Address) []*dpb.Address {
 	return []*dpb.Address{a}
 }
 
-func (w *FHIRWriter) encounter(encounter *ir.Encounter) (*r4pb.Bundle_Entry, *dpb.Reference) {
+func (w *FHIRWriter) encounter(encounter *ir.Encounter, class string) (*r4pb.Bundle_Entry, *dpb.Reference) {
 	id := w.idGenerator.NewID()
 
 	entry := &r4pb.Bundle_Entry{
@@ -350,6 +363,9 @@ func (w *FHIRWriter) encounter(encounter *ir.Encounter) (*r4pb.Bundle_Entry, *dp
 				&encounterpb.Encounter{
 					Id:   &dpb.Id{Value: id},
 					Text: w.narrative(encounter.Text()),
+					ClassValue: &dpb.Coding{
+						Code: &dpb.Code{Value: class},
+					},
 					Status: &encounterpb.Encounter_StatusCode{
 						Value: internalToFHIREncounterStatus[encounter.Status],
 					},
@@ -410,35 +426,40 @@ func (w *FHIRWriter) observations(encounterRef *dpb.Reference, patientRef *dpb.R
 	var observations []*r4pb.Bundle_Entry
 	for _, r := range order.Results {
 		id := w.idGenerator.NewID()
-		entry := &r4pb.Bundle_Entry{
-			Resource: &r4pb.ContainedResource{
-				OneofResource: &r4pb.ContainedResource_Observation{
-					&observationpb.Observation{
-						Encounter: encounterRef,
-						Subject:   patientRef,
-						Id:        &dpb.Id{Value: id},
-						Note:      w.notes(r.Notes),
-						Status: &observationpb.Observation_StatusCode{
-							Value: w.oc.HL7ToFHIR(r.Status),
-						},
-						Text: w.narrative(r.Text(), strings.Join(r.Notes, "; ")),
-						Effective: &observationpb.Observation_EffectiveX{
-							Choice: &observationpb.Observation_EffectiveX_DateTime{
-								DateTime: w.dateTime(order.OrderDateTime),
-							},
-						},
-						Value: &observationpb.Observation_ValueX{
-							Choice: &observationpb.Observation_ValueX_Quantity{
-								Quantity: &dpb.Quantity{
-									Value: &dpb.Decimal{Value: r.Value},
-									Unit:  &dpb.String{Value: r.Unit},
-								},
-							},
-						},
+		o := &observationpb.Observation{
+			Encounter: encounterRef,
+			Subject:   patientRef,
+			Id:        &dpb.Id{Value: id},
+			Note:      w.notes(r.Notes),
+			Status: &observationpb.Observation_StatusCode{
+				Value: w.oc.HL7ToFHIR(r.Status),
+			},
+			Text: w.narrative(r.Text(), strings.Join(r.Notes, "; ")),
+			Effective: &observationpb.Observation_EffectiveX{
+				Choice: &observationpb.Observation_EffectiveX_DateTime{
+					DateTime: w.dateTime(order.OrderDateTime),
+				},
+			},
+			Value: &observationpb.Observation_ValueX{
+				Choice: &observationpb.Observation_ValueX_Quantity{
+					Quantity: &dpb.Quantity{
+						Value: &dpb.Decimal{Value: r.Value},
+						Unit:  &dpb.String{Value: r.Unit},
 					},
 				},
 			},
 		}
+
+		if r.TestName != nil {
+			o.Code = w.codeableConcept(*r.TestName)
+		}
+
+		entry := &r4pb.Bundle_Entry{
+			Resource: &r4pb.ContainedResource{
+				OneofResource: &r4pb.ContainedResource_Observation{o},
+			},
+		}
+
 		observations = append(observations, entry)
 	}
 	return observations
@@ -456,7 +477,10 @@ func (w *FHIRWriter) narrative(paragraphs ...string) *dpb.Narrative {
 		}
 	}
 	sb.WriteString("</div>")
-	return &dpb.Narrative{Div: &dpb.Xhtml{Value: sb.String()}}
+	return &dpb.Narrative{
+		Div:    &dpb.Xhtml{Value: sb.String()},
+		Status: &dpb.Narrative_StatusCode{Value: cpb.NarrativeStatusCode_GENERATED},
+	}
 }
 
 func (w *FHIRWriter) location(location *ir.PatientLocation) (*r4pb.Bundle_Entry, *dpb.Reference) {
@@ -519,6 +543,7 @@ func (w *FHIRWriter) procedure(procedure *ir.DiagnosisOrProcedure, patientRef *d
 				w.dateTime(procedure.DateTime),
 			},
 		},
+		Status: &procedurepb.Procedure_StatusCode{Value: cpb.EventStatusCode_COMPLETED},
 		Category: &dpb.CodeableConcept{
 			Text: &dpb.String{Value: procedure.Type},
 		},

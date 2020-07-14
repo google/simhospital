@@ -78,6 +78,7 @@ func TestGenerate(t *testing.T) {
 					Type:       "HOME",
 				},
 			},
+			Class: "IMP",
 			Allergies: []*ir.Allergy{{
 				Description: ir.CodedElement{
 					ID:            "ID",
@@ -169,17 +170,25 @@ func TestGenerate(t *testing.T) {
 				Orders: []*ir.Order{{
 					OrderDateTime: later,
 					Results: []*ir.Result{{
-						TestName:     &ir.CodedElement{ID: "TEST_ID_1", Text: "TEST_NAME_1"},
+						TestName: &ir.CodedElement{
+							ID:           "TEST_ID_1",
+							Text:         "TEST_NAME_1",
+							CodingSystem: "SYSTEM",
+						},
 						Value:        "VALUE",
 						Unit:         "UNIT",
 						AbnormalFlag: "H",
 						Notes:        []string{"NOTE_1", "NOTE_2"},
 						Status:       "C",
 					}, {
-						TestName: &ir.CodedElement{ID: "TEST_ID_2", Text: "TEST_NAME_2"},
-						Value:    "VALUE",
-						Unit:     "UNIT",
-						Status:   "F",
+						TestName: &ir.CodedElement{
+							ID:           "TEST_ID_2",
+							Text:         "TEST_NAME_2",
+							CodingSystem: "SYSTEM",
+						},
+						Value:  "VALUE",
+						Unit:   "UNIT",
+						Status: "F",
 					}},
 				}},
 				LocationHistory: []*ir.LocationHistory{{
@@ -226,7 +235,8 @@ func TestGenerate(t *testing.T) {
 							Id:         &dpb.Id{Value: "1"},
 							Identifier: []*dpb.Identifier{{Value: &dpb.String{Value: "1234"}}},
 							Text: &dpb.Narrative{
-								Div: &dpb.Xhtml{Value: "<div><p>Dr William George Burr MD</p></div>"},
+								Div:    &dpb.Xhtml{Value: "<div><p>Dr William George Burr MD</p></div>"},
+								Status: &dpb.Narrative_StatusCode{Value: cpb.NarrativeStatusCode_GENERATED},
 							},
 							Name: []*dpb.HumanName{{
 								Prefix: []*dpb.String{{Value: "Dr"}},
@@ -264,8 +274,19 @@ func TestGenerate(t *testing.T) {
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_AllergyIntolerance{
 						&aipb.AllergyIntolerance{
-							Id:           &dpb.Id{Value: "2"},
-							Type:         &aipb.AllergyIntolerance_TypeCode{Value: cpb.AllergyIntoleranceTypeCode_ALLERGY},
+							Id:   &dpb.Id{Value: "2"},
+							Type: &aipb.AllergyIntolerance_TypeCode{Value: cpb.AllergyIntoleranceTypeCode_ALLERGY},
+							ClinicalStatus: &dpb.CodeableConcept{
+								Coding: []*dpb.Coding{{
+									Code: &dpb.Code{
+										Value: "active",
+									},
+									System: &dpb.Uri{
+										Value: "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+									},
+									Display: &dpb.String{Value: "Active"},
+								}},
+							},
 							RecordedDate: &dpb.DateTime{ValueUs: nowMicros, Precision: dpb.DateTime_SECOND},
 							Category: []*aipb.AllergyIntolerance_CategoryCode{{
 								Value: cpb.AllergyIntoleranceCategoryCode_FOOD,
@@ -284,7 +305,9 @@ func TestGenerate(t *testing.T) {
 								}},
 							},
 							Reaction: []*aipb.AllergyIntolerance_Reaction{{
-								Description: &dpb.String{Value: "REACTION"},
+								Manifestation: []*dpb.CodeableConcept{{
+									Text: &dpb.String{Value: "REACTION"},
+								}},
 								Severity: &aipb.AllergyIntolerance_Reaction_SeverityCode{
 									Value: cpb.AllergyIntoleranceSeverityCode_SEVERE,
 								},
@@ -296,7 +319,16 @@ func TestGenerate(t *testing.T) {
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_AllergyIntolerance{
 						&aipb.AllergyIntolerance{
-							Id:           &dpb.Id{Value: "3"},
+							Id: &dpb.Id{Value: "3"},
+							ClinicalStatus: &dpb.CodeableConcept{
+								Coding: []*dpb.Coding{{
+									Code: &dpb.Code{
+										Value: "active",
+									},
+									System:  &dpb.Uri{Value: "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical"},
+									Display: &dpb.String{Value: "Active"},
+								}},
+							},
 							Type:         &aipb.AllergyIntolerance_TypeCode{Value: cpb.AllergyIntoleranceTypeCode_ALLERGY},
 							RecordedDate: &dpb.DateTime{ValueUs: nowMicros, Precision: dpb.DateTime_SECOND},
 							Category: []*aipb.AllergyIntolerance_CategoryCode{{
@@ -318,7 +350,9 @@ func TestGenerate(t *testing.T) {
 								Display: &dpb.String{Value: "William Burr"},
 							},
 							Reaction: []*aipb.AllergyIntolerance_Reaction{{
-								Description: &dpb.String{Value: "REACTION"},
+								Manifestation: []*dpb.CodeableConcept{{
+									Text: &dpb.String{Value: "REACTION"},
+								}},
 								Severity: &aipb.AllergyIntolerance_Reaction_SeverityCode{
 									Value: cpb.AllergyIntoleranceSeverityCode_MODERATE,
 								},
@@ -336,6 +370,7 @@ func TestGenerate(t *testing.T) {
 								Div: &dpb.Xhtml{
 									Value: "<div><p>BED, POC, ROOM, FLOOR, BUILDING, FACILITY</p></div>",
 								},
+								Status: &dpb.Narrative_StatusCode{Value: cpb.NarrativeStatusCode_GENERATED},
 							},
 						},
 					},
@@ -347,7 +382,8 @@ func TestGenerate(t *testing.T) {
 							Id:   &dpb.Id{Value: "6"},
 							Name: &dpb.String{Value: "BUILDING"},
 							Text: &dpb.Narrative{
-								Div: &dpb.Xhtml{Value: "<div><p>BUILDING</p></div>"},
+								Div:    &dpb.Xhtml{Value: "<div><p>BUILDING</p></div>"},
+								Status: &dpb.Narrative_StatusCode{Value: cpb.NarrativeStatusCode_GENERATED},
 							},
 						},
 					},
@@ -361,7 +397,8 @@ func TestGenerate(t *testing.T) {
 								Value: &dpb.String{Value: "ID"},
 							}},
 							Text: &dpb.Narrative{
-								Div: &dpb.Xhtml{Value: "<div><p>Dr Doctor Doctorson</p></div>"},
+								Div:    &dpb.Xhtml{Value: "<div><p>Dr Doctor Doctorson</p></div>"},
+								Status: &dpb.Narrative_StatusCode{Value: cpb.NarrativeStatusCode_GENERATED},
 							},
 							Name: []*dpb.HumanName{{
 								Family: &dpb.String{Value: "Doctorson"},
@@ -377,7 +414,11 @@ func TestGenerate(t *testing.T) {
 						&procedurepb.Procedure{
 							Id: &dpb.Id{Value: "8"},
 							Text: &dpb.Narrative{
-								Div: &dpb.Xhtml{Value: "<div><p>PROCEDURE by Dr Doctor Doctorson</p></div>"},
+								Div:    &dpb.Xhtml{Value: "<div><p>PROCEDURE by Dr Doctor Doctorson</p></div>"},
+								Status: &dpb.Narrative_StatusCode{Value: cpb.NarrativeStatusCode_GENERATED},
+							},
+							Status: &procedurepb.Procedure_StatusCode{
+								Value: cpb.EventStatusCode_COMPLETED,
 							},
 							Category: &dpb.CodeableConcept{
 								Text: &dpb.String{Value: "TYPE"},
@@ -422,7 +463,11 @@ func TestGenerate(t *testing.T) {
 						&procedurepb.Procedure{
 							Id: &dpb.Id{Value: "9"},
 							Text: &dpb.Narrative{
-								Div: &dpb.Xhtml{Value: "<div><p>PROCEDURE by Dr Doctor Doctorson</p></div>"},
+								Div:    &dpb.Xhtml{Value: "<div><p>PROCEDURE by Dr Doctor Doctorson</p></div>"},
+								Status: &dpb.Narrative_StatusCode{Value: cpb.NarrativeStatusCode_GENERATED},
+							},
+							Status: &procedurepb.Procedure_StatusCode{
+								Value: cpb.EventStatusCode_COMPLETED,
 							},
 							Category: &dpb.CodeableConcept{
 								Text: &dpb.String{Value: "TYPE"},
@@ -467,7 +512,8 @@ func TestGenerate(t *testing.T) {
 						&conditionpb.Condition{
 							Id: &dpb.Id{Value: "10"},
 							Text: &dpb.Narrative{
-								Div: &dpb.Xhtml{Value: "<div><p>DIAGNOSIS by Dr Doctor Doctorson</p></div>"},
+								Div:    &dpb.Xhtml{Value: "<div><p>DIAGNOSIS by Dr Doctor Doctorson</p></div>"},
+								Status: &dpb.Narrative_StatusCode{Value: cpb.NarrativeStatusCode_GENERATED},
 							},
 							Code: &dpb.CodeableConcept{
 								Coding: []*dpb.Coding{{
@@ -501,12 +547,16 @@ func TestGenerate(t *testing.T) {
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Encounter{
 						&encounterpb.Encounter{
-							Id:     &dpb.Id{Value: "4"},
+							Id: &dpb.Id{Value: "4"},
+							ClassValue: &dpb.Coding{
+								Code: &dpb.Code{Value: "IMP"},
+							},
 							Status: &encounterpb.Encounter_StatusCode{Value: cpb.EncounterStatusCode_FINISHED},
 							Text: &dpb.Narrative{
 								Div: &dpb.Xhtml{
 									Value: "<div><p>Status: finished</p><p>Active from Mon Feb 12 00:00:00 2018 until Mon Feb 12 10:00:00 2018</p></div>",
 								},
+								Status: &dpb.Narrative_StatusCode{Value: cpb.NarrativeStatusCode_GENERATED},
 							},
 							Period: &dpb.Period{
 								Start: &dpb.DateTime{ValueUs: nowMicros, Precision: dpb.DateTime_SECOND},
@@ -595,6 +645,13 @@ func TestGenerate(t *testing.T) {
 					OneofResource: &r4pb.ContainedResource_Observation{
 						&observationpb.Observation{
 							Id: &dpb.Id{Value: "11"},
+							Code: &dpb.CodeableConcept{
+								Coding: []*dpb.Coding{{
+									Code:    &dpb.Code{Value: "TEST_ID_1"},
+									System:  &dpb.Uri{Value: "SYSTEM_URI"},
+									Display: &dpb.String{Value: "TEST_NAME_1"},
+								}},
+							},
 							Encounter: &dpb.Reference{
 								Reference: &dpb.Reference_EncounterId{&dpb.ReferenceId{Value: "4"}},
 							},
@@ -602,6 +659,7 @@ func TestGenerate(t *testing.T) {
 								Div: &dpb.Xhtml{
 									Value: "<div><p>TEST_NAME_1: VALUE UNIT (H)</p><p>NOTE_1; NOTE_2</p></div>",
 								},
+								Status: &dpb.Narrative_StatusCode{Value: cpb.NarrativeStatusCode_GENERATED},
 							},
 							Status: &observationpb.Observation_StatusCode{Value: cpb.ObservationStatusCode_AMENDED},
 							Subject: &dpb.Reference{
@@ -632,7 +690,14 @@ func TestGenerate(t *testing.T) {
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Observation{
 						&observationpb.Observation{
-							Id:     &dpb.Id{Value: "12"},
+							Id: &dpb.Id{Value: "12"},
+							Code: &dpb.CodeableConcept{
+								Coding: []*dpb.Coding{{
+									Code:    &dpb.Code{Value: "TEST_ID_2"},
+									System:  &dpb.Uri{Value: "SYSTEM_URI"},
+									Display: &dpb.String{Value: "TEST_NAME_2"},
+								}},
+							},
 							Status: &observationpb.Observation_StatusCode{Value: cpb.ObservationStatusCode_FINAL},
 							Encounter: &dpb.Reference{
 								Reference: &dpb.Reference_EncounterId{&dpb.ReferenceId{Value: "4"}},
@@ -641,6 +706,7 @@ func TestGenerate(t *testing.T) {
 								Div: &dpb.Xhtml{
 									Value: "<div><p>TEST_NAME_2: VALUE UNIT</p></div>",
 								},
+								Status: &dpb.Narrative_StatusCode{Value: cpb.NarrativeStatusCode_GENERATED},
 							},
 							Subject: &dpb.Reference{
 								Reference: &dpb.Reference_PatientId{
@@ -665,7 +731,10 @@ func TestGenerate(t *testing.T) {
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Encounter{
 						&encounterpb.Encounter{
-							Id:     &dpb.Id{Value: "13"},
+							Id: &dpb.Id{Value: "13"},
+							ClassValue: &dpb.Coding{
+								Code: &dpb.Code{Value: "IMP"},
+							},
 							Status: &encounterpb.Encounter_StatusCode{Value: cpb.EncounterStatusCode_IN_PROGRESS},
 							Period: &dpb.Period{
 								Start: &dpb.DateTime{ValueUs: evenLaterMicros, Precision: dpb.DateTime_SECOND},
@@ -674,6 +743,7 @@ func TestGenerate(t *testing.T) {
 								Div: &dpb.Xhtml{
 									Value: "<div><p>Status: in-progress</p><p>Active from Mon Feb 12 10:00:00 2018</p></div>",
 								},
+								Status: &dpb.Narrative_StatusCode{Value: cpb.NarrativeStatusCode_GENERATED},
 							},
 						},
 					},
@@ -704,7 +774,8 @@ func TestGenerate(t *testing.T) {
 							Id:         &dpb.Id{Value: "1"},
 							Identifier: []*dpb.Identifier{{Value: &dpb.String{Value: "8888"}}},
 							Text: &dpb.Narrative{
-								Div: &dpb.Xhtml{Value: "<div><p>Elisa Mogollon</p></div>"},
+								Div:    &dpb.Xhtml{Value: "<div><p>Elisa Mogollon</p></div>"},
+								Status: &dpb.Narrative_StatusCode{Value: cpb.NarrativeStatusCode_GENERATED},
 							},
 							Name: []*dpb.HumanName{{
 								Family: &dpb.String{Value: "Mogollon"},

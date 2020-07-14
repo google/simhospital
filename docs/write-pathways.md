@@ -1208,12 +1208,15 @@ Currently, the following resources are supported:
     -   `reaction`
     -   `code`
     -   `patient`
+    -   `clinicalStatus`
 -   [`Encounter`](https://www.hl7.org/fhir/encounter.html)
     -   `status`
     -   `statusHistory`
     -   `period`
     -   `diagnoses`
+    -   `class`
 -   [`Observation`](https://www.hl7.org/fhir/observation.html)
+    -   `code`
     -   `encounter`
     -   `status`
     -   `value`
@@ -1228,6 +1231,7 @@ Currently, the following resources are supported:
     -   `encounter`
     -   `performed`
     -   `performer`
+    -   `statusCode`
 -   [`Condition`](https://www.hl7.org/fhir/condition.html)
     -   `code`
     -   `subject`
