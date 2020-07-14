@@ -1195,6 +1195,9 @@ record (at the time of the event) for each pathway as FHIR resources.
 
 Currently, the following resources are supported:
 
+-   [`Bundle`](https://www.hl7.org/fhir/bundle.html)
+    -   `type`
+    -   `entry`
 -   [`Patient`](https://www.hl7.org/fhir/patient.html)
     -   `identifier`
     -   `name`

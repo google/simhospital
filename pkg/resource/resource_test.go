@@ -55,9 +55,11 @@ func TestGenerate(t *testing.T) {
 	tests := []struct {
 		name        string
 		patientInfo *ir.PatientInfo
+		bundleType  string
 		want        *r4pb.Bundle
 	}{{
-		name: "Patient with all fields",
+		name:       "Patient with all fields",
+		bundleType: Batch,
 		patientInfo: &ir.PatientInfo{
 			Person: &ir.Person{
 				MRN:         "1234",
@@ -227,8 +229,13 @@ func TestGenerate(t *testing.T) {
 			}},
 		},
 		want: &r4pb.Bundle{
-			Type: &r4pb.Bundle_TypeCode{Value: cpb.BundleTypeCode_COLLECTION},
+			Type: &r4pb.Bundle_TypeCode{Value: cpb.BundleTypeCode_BATCH},
 			Entry: []*r4pb.Bundle_Entry{{
+				FullUrl: &dpb.Uri{Value: "Patient/1"},
+				Request: &r4pb.Bundle_Entry_Request{
+					Method: &r4pb.Bundle_Entry_Request_MethodCode{Value: cpb.HTTPVerbCode_POST},
+					Url:    &dpb.Uri{Value: "Patient"},
+				},
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Patient{
 						&patientpb.Patient{
@@ -271,6 +278,11 @@ func TestGenerate(t *testing.T) {
 					},
 				},
 			}, {
+				FullUrl: &dpb.Uri{Value: "AllergyIntolerance/2"},
+				Request: &r4pb.Bundle_Entry_Request{
+					Method: &r4pb.Bundle_Entry_Request_MethodCode{Value: cpb.HTTPVerbCode_POST},
+					Url:    &dpb.Uri{Value: "AllergyIntolerance"},
+				},
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_AllergyIntolerance{
 						&aipb.AllergyIntolerance{
@@ -316,6 +328,11 @@ func TestGenerate(t *testing.T) {
 					},
 				},
 			}, {
+				FullUrl: &dpb.Uri{Value: "AllergyIntolerance/3"},
+				Request: &r4pb.Bundle_Entry_Request{
+					Method: &r4pb.Bundle_Entry_Request_MethodCode{Value: cpb.HTTPVerbCode_POST},
+					Url:    &dpb.Uri{Value: "AllergyIntolerance"},
+				},
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_AllergyIntolerance{
 						&aipb.AllergyIntolerance{
@@ -361,6 +378,11 @@ func TestGenerate(t *testing.T) {
 					},
 				},
 			}, {
+				FullUrl: &dpb.Uri{Value: "Location/5"},
+				Request: &r4pb.Bundle_Entry_Request{
+					Method: &r4pb.Bundle_Entry_Request_MethodCode{Value: cpb.HTTPVerbCode_POST},
+					Url:    &dpb.Uri{Value: "Location"},
+				},
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Location{
 						&locationpb.Location{
@@ -376,6 +398,11 @@ func TestGenerate(t *testing.T) {
 					},
 				},
 			}, {
+				FullUrl: &dpb.Uri{Value: "Location/6"},
+				Request: &r4pb.Bundle_Entry_Request{
+					Method: &r4pb.Bundle_Entry_Request_MethodCode{Value: cpb.HTTPVerbCode_POST},
+					Url:    &dpb.Uri{Value: "Location"},
+				},
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Location{
 						&locationpb.Location{
@@ -389,6 +416,11 @@ func TestGenerate(t *testing.T) {
 					},
 				},
 			}, {
+				FullUrl: &dpb.Uri{Value: "Practitioner/7"},
+				Request: &r4pb.Bundle_Entry_Request{
+					Method: &r4pb.Bundle_Entry_Request_MethodCode{Value: cpb.HTTPVerbCode_POST},
+					Url:    &dpb.Uri{Value: "Practitioner"},
+				},
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Practitioner{
 						&practitionerpb.Practitioner{
@@ -409,6 +441,11 @@ func TestGenerate(t *testing.T) {
 					},
 				},
 			}, {
+				FullUrl: &dpb.Uri{Value: "Procedure/8"},
+				Request: &r4pb.Bundle_Entry_Request{
+					Method: &r4pb.Bundle_Entry_Request_MethodCode{Value: cpb.HTTPVerbCode_POST},
+					Url:    &dpb.Uri{Value: "Procedure"},
+				},
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Procedure{
 						&procedurepb.Procedure{
@@ -458,6 +495,11 @@ func TestGenerate(t *testing.T) {
 					},
 				},
 			}, {
+				FullUrl: &dpb.Uri{Value: "Procedure/9"},
+				Request: &r4pb.Bundle_Entry_Request{
+					Method: &r4pb.Bundle_Entry_Request_MethodCode{Value: cpb.HTTPVerbCode_POST},
+					Url:    &dpb.Uri{Value: "Procedure"},
+				},
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Procedure{
 						&procedurepb.Procedure{
@@ -507,6 +549,11 @@ func TestGenerate(t *testing.T) {
 					},
 				},
 			}, {
+				FullUrl: &dpb.Uri{Value: "Condition/10"},
+				Request: &r4pb.Bundle_Entry_Request{
+					Method: &r4pb.Bundle_Entry_Request_MethodCode{Value: cpb.HTTPVerbCode_POST},
+					Url:    &dpb.Uri{Value: "Condition"},
+				},
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Condition{
 						&conditionpb.Condition{
@@ -544,6 +591,11 @@ func TestGenerate(t *testing.T) {
 					},
 				},
 			}, {
+				FullUrl: &dpb.Uri{Value: "Encounter/4"},
+				Request: &r4pb.Bundle_Entry_Request{
+					Method: &r4pb.Bundle_Entry_Request_MethodCode{Value: cpb.HTTPVerbCode_POST},
+					Url:    &dpb.Uri{Value: "Encounter"},
+				},
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Encounter{
 						&encounterpb.Encounter{
@@ -641,6 +693,11 @@ func TestGenerate(t *testing.T) {
 					},
 				},
 			}, {
+				FullUrl: &dpb.Uri{Value: "Observation/11"},
+				Request: &r4pb.Bundle_Entry_Request{
+					Method: &r4pb.Bundle_Entry_Request_MethodCode{Value: cpb.HTTPVerbCode_POST},
+					Url:    &dpb.Uri{Value: "Observation"},
+				},
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Observation{
 						&observationpb.Observation{
@@ -687,6 +744,11 @@ func TestGenerate(t *testing.T) {
 					},
 				},
 			}, {
+				FullUrl: &dpb.Uri{Value: "Observation/12"},
+				Request: &r4pb.Bundle_Entry_Request{
+					Method: &r4pb.Bundle_Entry_Request_MethodCode{Value: cpb.HTTPVerbCode_POST},
+					Url:    &dpb.Uri{Value: "Observation"},
+				},
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Observation{
 						&observationpb.Observation{
@@ -728,6 +790,11 @@ func TestGenerate(t *testing.T) {
 					},
 				},
 			}, {
+				FullUrl: &dpb.Uri{Value: "Encounter/13"},
+				Request: &r4pb.Bundle_Entry_Request{
+					Method: &r4pb.Bundle_Entry_Request_MethodCode{Value: cpb.HTTPVerbCode_POST},
+					Url:    &dpb.Uri{Value: "Encounter"},
+				},
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Encounter{
 						&encounterpb.Encounter{
@@ -751,7 +818,8 @@ func TestGenerate(t *testing.T) {
 			}},
 		},
 	}, {
-		name: "Patient with missing fields",
+		name:       "Patient with missing fields",
+		bundleType: Collection,
 		patientInfo: &ir.PatientInfo{
 			Person: &ir.Person{
 				MRN:       "8888",
@@ -768,6 +836,7 @@ func TestGenerate(t *testing.T) {
 		want: &r4pb.Bundle{
 			Type: &r4pb.Bundle_TypeCode{Value: cpb.BundleTypeCode_COLLECTION},
 			Entry: []*r4pb.Bundle_Entry{{
+				FullUrl: &dpb.Uri{Value: "Patient/1"},
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Patient{
 						&patientpb.Patient{
@@ -836,6 +905,7 @@ func TestGenerate(t *testing.T) {
 				IDGenerator: &testid.Generator{},
 				Output:      &testresource.ByteOutput{Bytes: &b},
 				Marshaller:  prototext.MarshalOptions{},
+				BundleType:  tc.bundleType,
 			}
 
 			w, err := NewFHIRWriter(cfg)

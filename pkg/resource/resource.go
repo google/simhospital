@@ -45,25 +45,43 @@ import (
 	procedurepb "google/fhir/proto/r4/core/resources/procedure_go_proto"
 )
 
-const microPerNano = int64(time.Microsecond / time.Nanosecond)
+const (
+	// Batch denotes the transaction bundle type: intended to be processed by a server as a group of
+	// independent actions.
+	// Reference: http://hl7.org/fhir/valueset-bundle-type.html
+	Batch = "BATCH"
+	// Collection denotes the collection bundle type: a set of resources collected into a single
+	// document for ease of distribution.
+	// Reference: http://hl7.org/fhir/valueset-bundle-type.html
+	Collection   = "COLLECTION"
+	microPerNano = int64(time.Microsecond / time.Nanosecond)
+)
 
-var log = logging.ForCallerPackage()
+var (
+	log = logging.ForCallerPackage()
 
-// Default value for cpb.AddressUseCode_Value is AddressUseCode_INVALID_UNINITIALIZED.
-var internalToFHIRAddressType = map[string]cpb.AddressUseCode_Value{
-	"HOME": cpb.AddressUseCode_HOME,
-	"WORK": cpb.AddressUseCode_WORK,
-}
+	bundleTypes = map[string]cpb.BundleTypeCode_Value{
+		Batch:      cpb.BundleTypeCode_BATCH,
+		Collection: cpb.BundleTypeCode_COLLECTION,
+		"":         cpb.BundleTypeCode_BATCH,
+	}
 
-// Default value for cpb.EncounterStatusCode is EncounterStatusCode_INVALID_UNINITIALIZED.
-var internalToFHIREncounterStatus = map[string]cpb.EncounterStatusCode_Value{
-	constants.EncounterStatusPlanned:    cpb.EncounterStatusCode_PLANNED,
-	constants.EncounterStatusInProgress: cpb.EncounterStatusCode_IN_PROGRESS,
-	constants.EncounterStatusArrived:    cpb.EncounterStatusCode_ARRIVED,
-	constants.EncounterStatusFinished:   cpb.EncounterStatusCode_FINISHED,
-	constants.EncounterStatusCancelled:  cpb.EncounterStatusCode_CANCELLED,
-	constants.EncounterStatusUnknown:    cpb.EncounterStatusCode_UNKNOWN,
-}
+	// Default value for cpb.AddressUseCode_Value is AddressUseCode_INVALID_UNINITIALIZED.
+	internalToFHIRAddressType = map[string]cpb.AddressUseCode_Value{
+		"HOME": cpb.AddressUseCode_HOME,
+		"WORK": cpb.AddressUseCode_WORK,
+	}
+
+	// Default value for cpb.EncounterStatusCode is EncounterStatusCode_INVALID_UNINITIALIZED.
+	internalToFHIREncounterStatus = map[string]cpb.EncounterStatusCode_Value{
+		constants.EncounterStatusPlanned:    cpb.EncounterStatusCode_PLANNED,
+		constants.EncounterStatusInProgress: cpb.EncounterStatusCode_IN_PROGRESS,
+		constants.EncounterStatusArrived:    cpb.EncounterStatusCode_ARRIVED,
+		constants.EncounterStatusFinished:   cpb.EncounterStatusCode_FINISHED,
+		constants.EncounterStatusCancelled:  cpb.EncounterStatusCode_CANCELLED,
+		constants.EncounterStatusUnknown:    cpb.EncounterStatusCode_UNKNOWN,
+	}
+)
 
 // Marshaller defines an object that can marshal a protocol buffer message.
 type Marshaller interface {
@@ -77,6 +95,8 @@ type GeneratorConfig struct {
 	IDGenerator id.Generator
 	Output      Output
 	Marshaller  Marshaller
+	// BundleType is the type of bundle to generate, and defaults to Batch if unspecified.
+	BundleType string
 }
 
 // NewFHIRWriter constructs and returns a new FHIRWriter.
@@ -85,17 +105,32 @@ func NewFHIRWriter(cfg GeneratorConfig) (*FHIRWriter, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	bundleTypeCode, err := bundleType(cfg.BundleType)
+	if err != nil {
+		return nil, err
+	}
+
 	return &FHIRWriter{
-		gc:          gender.NewConvertor(cfg.HL7Config),
-		oc:          order.NewConvertor(cfg.HL7Config),
-		ac:          ac,
-		cc:          codedelement.NewCodingSystemConvertor(cfg.HL7Config),
-		idGenerator: cfg.IDGenerator,
-		output:      cfg.Output,
-		marshaller:  cfg.Marshaller,
-		locations:   make(map[ir.PatientLocation]*dpb.Reference),
-		doctors:     make(map[ir.Doctor]*dpb.Reference),
+		gc:             gender.NewConvertor(cfg.HL7Config),
+		oc:             order.NewConvertor(cfg.HL7Config),
+		ac:             ac,
+		cc:             codedelement.NewCodingSystemConvertor(cfg.HL7Config),
+		idGenerator:    cfg.IDGenerator,
+		output:         cfg.Output,
+		marshaller:     cfg.Marshaller,
+		locations:      make(map[ir.PatientLocation]*dpb.Reference),
+		doctors:        make(map[ir.Doctor]*dpb.Reference),
+		bundleTypeCode: bundleTypeCode,
 	}, nil
+}
+
+func bundleType(bundleType string) (cpb.BundleTypeCode_Value, error) {
+	if bundleTypeCode, ok := bundleTypes[bundleType]; ok {
+		return bundleTypeCode, nil
+	}
+	return cpb.BundleTypeCode_INVALID_UNINITIALIZED,
+		fmt.Errorf("invalid bundle type, expected one of %+v", keys(bundleTypes))
 }
 
 // FHIRWriter generates FHIR resources as protocol buffers, and writes them to writer.
@@ -110,8 +145,9 @@ type FHIRWriter struct {
 	marshaller  Marshaller
 	// locationMap and doctorMap ensure that equivalent locations and doctors are only generated
 	// once, preventing duplicates.
-	locations map[ir.PatientLocation]*dpb.Reference
-	doctors   map[ir.Doctor]*dpb.Reference
+	locations      map[ir.PatientLocation]*dpb.Reference
+	doctors        map[ir.Doctor]*dpb.Reference
+	bundleTypeCode cpb.BundleTypeCode_Value
 }
 
 // Generate generates FHIR resources from PatientInfo.
@@ -147,9 +183,11 @@ func (w *FHIRWriter) Close() error {
 func (w *FHIRWriter) bundle(p *ir.PatientInfo) *r4pb.Bundle {
 	bundle := &r4pb.Bundle{
 		Type: &r4pb.Bundle_TypeCode{
-			Value: cpb.BundleTypeCode_COLLECTION,
+			Value: cpb.BundleTypeCode_BATCH,
 		},
 	}
+
+	bundle.Type = &r4pb.Bundle_TypeCode{Value: w.bundleTypeCode}
 
 	patient, patientRef := w.patient(p.Person)
 	addEntry(bundle, patient)
@@ -230,7 +268,7 @@ func (w *FHIRWriter) patient(person *ir.Person) (*r4pb.Bundle_Entry, *dpb.Refere
 		Display:   &dpb.String{Value: person.AlternateText()},
 	}
 
-	return entry, ref
+	return w.addURL(entry, id, "Patient"), ref
 }
 
 func (w *FHIRWriter) allergies(allergies []*ir.Allergy, patientRef *dpb.Reference) []*r4pb.Bundle_Entry {
@@ -274,7 +312,7 @@ func (w *FHIRWriter) allergies(allergies []*ir.Allergy, patientRef *dpb.Referenc
 				},
 			},
 		}
-		entries = append(entries, entry)
+		entries = append(entries, w.addURL(entry, id, "AllergyIntolerance"))
 	}
 	return entries
 }
@@ -383,7 +421,7 @@ func (w *FHIRWriter) encounter(encounter *ir.Encounter, class string) (*r4pb.Bun
 		Reference: &dpb.Reference_EncounterId{&dpb.ReferenceId{Value: id}},
 	}
 
-	return entry, ref
+	return w.addURL(entry, id, "Encounter"), ref
 }
 
 func (w *FHIRWriter) encounterLocation(locationRef *dpb.Reference, start ir.NullTime, end ir.NullTime) *encounterpb.Encounter_Location {
@@ -460,7 +498,7 @@ func (w *FHIRWriter) observations(encounterRef *dpb.Reference, patientRef *dpb.R
 			},
 		}
 
-		observations = append(observations, entry)
+		observations = append(observations, w.addURL(entry, id, "Observation"))
 	}
 	return observations
 }
@@ -515,7 +553,7 @@ func (w *FHIRWriter) location(location *ir.PatientLocation) (*r4pb.Bundle_Entry,
 
 	w.locations[*location] = ref
 
-	return entry, ref
+	return w.addURL(entry, id, "Location"), ref
 }
 
 func (w *FHIRWriter) notes(notes []string) []*dpb.Annotation {
@@ -559,6 +597,12 @@ func (w *FHIRWriter) procedure(procedure *ir.DiagnosisOrProcedure, patientRef *d
 		p.Code = w.codeableConcept(*procedure.Description)
 	}
 
+	entry := &r4pb.Bundle_Entry{
+		Resource: &r4pb.ContainedResource{
+			OneofResource: &r4pb.ContainedResource_Procedure{p},
+		},
+	}
+
 	ref := &dpb.Reference{
 		Reference: &dpb.Reference_ProcedureId{
 			&dpb.ReferenceId{Value: id},
@@ -566,11 +610,7 @@ func (w *FHIRWriter) procedure(procedure *ir.DiagnosisOrProcedure, patientRef *d
 		Display: &dpb.String{Value: procedure.Text()},
 	}
 
-	return &r4pb.Bundle_Entry{
-		Resource: &r4pb.ContainedResource{
-			OneofResource: &r4pb.ContainedResource_Procedure{p},
-		},
-	}, ref
+	return w.addURL(entry, id, "Procedure"), ref
 }
 
 func (w *FHIRWriter) condition(diagnosis *ir.DiagnosisOrProcedure, patientRef *dpb.Reference, practitionerRef *dpb.Reference, encounterRef *dpb.Reference) (*r4pb.Bundle_Entry, *dpb.Reference) {
@@ -589,6 +629,12 @@ func (w *FHIRWriter) condition(diagnosis *ir.DiagnosisOrProcedure, patientRef *d
 		d.Code = w.codeableConcept(*diagnosis.Description)
 	}
 
+	entry := &r4pb.Bundle_Entry{
+		Resource: &r4pb.ContainedResource{
+			OneofResource: &r4pb.ContainedResource_Condition{d},
+		},
+	}
+
 	ref := &dpb.Reference{
 		Reference: &dpb.Reference_ConditionId{
 			&dpb.ReferenceId{Value: id},
@@ -596,11 +642,7 @@ func (w *FHIRWriter) condition(diagnosis *ir.DiagnosisOrProcedure, patientRef *d
 		Display: &dpb.String{Value: diagnosis.Text()},
 	}
 
-	return &r4pb.Bundle_Entry{
-		Resource: &r4pb.ContainedResource{
-			OneofResource: &r4pb.ContainedResource_Condition{d},
-		},
-	}, ref
+	return w.addURL(entry, id, "Condition"), ref
 }
 
 func (w *FHIRWriter) practitioner(doctor *ir.Doctor) (*r4pb.Bundle_Entry, *dpb.Reference) {
@@ -640,9 +682,39 @@ func (w *FHIRWriter) practitioner(doctor *ir.Doctor) (*r4pb.Bundle_Entry, *dpb.R
 
 	w.doctors[*doctor] = ref
 
-	return entry, ref
+	return w.addURL(entry, id, "Practitioner"), ref
+}
+
+// addURL adds the FullURL field to the resource, and if the bundle type is set to Batch the
+// Request field is also set to provide execution information for the server. `url` is the HTTP URL
+// for the resource, and is usually the resource type. addURL should only be called from internal
+// methods where `entry` has already been constructed via a struct literal.
+func (w *FHIRWriter) addURL(entry *r4pb.Bundle_Entry, id, url string) *r4pb.Bundle_Entry {
+	if w.bundleTypeCode == cpb.BundleTypeCode_BATCH {
+		entry.Request = w.request(url)
+	}
+	entry.FullUrl = &dpb.Uri{Value: fmt.Sprintf("%s/%s", url, id)}
+	return entry
+}
+
+func (w *FHIRWriter) request(url string) *r4pb.Bundle_Entry_Request {
+	return &r4pb.Bundle_Entry_Request{
+		Url: &dpb.Uri{Value: url},
+		// Currently, we only support the creation of resources (POST).
+		Method: &r4pb.Bundle_Entry_Request_MethodCode{
+			Value: cpb.HTTPVerbCode_POST,
+		},
+	}
 }
 
 func unixMicro(t time.Time) int64 {
 	return t.UnixNano() / microPerNano
+}
+
+func keys(m map[string]cpb.BundleTypeCode_Value) []string {
+	var keys []string
+	for k := range m {
+		keys = append(keys, k)
+	}
+	return keys
 }
