@@ -328,6 +328,177 @@ func TestGenerate(t *testing.T) {
 				},
 			}, {
 				Resource: &r4pb.ContainedResource{
+					OneofResource: &r4pb.ContainedResource_Location{
+						&locationpb.Location{
+							Id:   &dpb.Id{Value: "5"},
+							Name: &dpb.String{Value: "BED, POC, ROOM, FLOOR, BUILDING, FACILITY"},
+							Text: &dpb.Narrative{
+								Div: &dpb.Xhtml{
+									Value: "<div><p>BED, POC, ROOM, FLOOR, BUILDING, FACILITY</p></div>",
+								},
+							},
+						},
+					},
+				},
+			}, {
+				Resource: &r4pb.ContainedResource{
+					OneofResource: &r4pb.ContainedResource_Location{
+						&locationpb.Location{
+							Id:   &dpb.Id{Value: "6"},
+							Name: &dpb.String{Value: "BUILDING"},
+							Text: &dpb.Narrative{
+								Div: &dpb.Xhtml{Value: "<div><p>BUILDING</p></div>"},
+							},
+						},
+					},
+				},
+			}, {
+				Resource: &r4pb.ContainedResource{
+					OneofResource: &r4pb.ContainedResource_Practitioner{
+						&practitionerpb.Practitioner{
+							Id: &dpb.Id{Value: "7"},
+							Identifier: []*dpb.Identifier{{
+								Value: &dpb.String{Value: "ID"},
+							}},
+							Text: &dpb.Narrative{
+								Div: &dpb.Xhtml{Value: "<div><p>Dr Doctor Doctorson</p></div>"},
+							},
+							Name: []*dpb.HumanName{{
+								Family: &dpb.String{Value: "Doctorson"},
+								Given:  []*dpb.String{{Value: "Doctor"}},
+								Prefix: []*dpb.String{{Value: "Dr"}},
+							}},
+						},
+					},
+				},
+			}, {
+				Resource: &r4pb.ContainedResource{
+					OneofResource: &r4pb.ContainedResource_Procedure{
+						&procedurepb.Procedure{
+							Id: &dpb.Id{Value: "8"},
+							Text: &dpb.Narrative{
+								Div: &dpb.Xhtml{Value: "<div><p>PROCEDURE by Dr Doctor Doctorson</p></div>"},
+							},
+							Category: &dpb.CodeableConcept{
+								Text: &dpb.String{Value: "TYPE"},
+							},
+							Code: &dpb.CodeableConcept{
+								Coding: []*dpb.Coding{{
+									Code:    &dpb.Code{Value: "ID_1"},
+									System:  &dpb.Uri{Value: "SYSTEM_URI"},
+									Display: &dpb.String{Value: "PROCEDURE"},
+								}},
+							},
+							Performer: []*procedurepb.Procedure_Performer{{
+								Actor: &dpb.Reference{
+									Reference: &dpb.Reference_PractitionerId{
+										&dpb.ReferenceId{Value: "7"},
+									},
+									Display: &dpb.String{Value: "Doctor Doctorson"},
+								},
+							}},
+							Performed: &procedurepb.Procedure_PerformedX{
+								Choice: &procedurepb.Procedure_PerformedX_DateTime{
+									&dpb.DateTime{ValueUs: nowMicros, Precision: dpb.DateTime_SECOND},
+								},
+							},
+							Encounter: &dpb.Reference{
+								Reference: &dpb.Reference_EncounterId{
+									&dpb.ReferenceId{Value: "4"},
+								},
+							},
+							Subject: &dpb.Reference{
+								Reference: &dpb.Reference_PatientId{
+									PatientId: &dpb.ReferenceId{Value: "1"},
+								},
+								Display: &dpb.String{Value: "William Burr"},
+							},
+						},
+					},
+				},
+			}, {
+				Resource: &r4pb.ContainedResource{
+					OneofResource: &r4pb.ContainedResource_Procedure{
+						&procedurepb.Procedure{
+							Id: &dpb.Id{Value: "9"},
+							Text: &dpb.Narrative{
+								Div: &dpb.Xhtml{Value: "<div><p>PROCEDURE by Dr Doctor Doctorson</p></div>"},
+							},
+							Category: &dpb.CodeableConcept{
+								Text: &dpb.String{Value: "TYPE"},
+							},
+							Code: &dpb.CodeableConcept{
+								Coding: []*dpb.Coding{{
+									Code:    &dpb.Code{Value: "ID_2"},
+									System:  &dpb.Uri{Value: "SYSTEM_URI"},
+									Display: &dpb.String{Value: "PROCEDURE"},
+								}},
+							},
+							Performer: []*procedurepb.Procedure_Performer{{
+								Actor: &dpb.Reference{
+									Reference: &dpb.Reference_PractitionerId{
+										&dpb.ReferenceId{Value: "7"},
+									},
+									Display: &dpb.String{Value: "Doctor Doctorson"},
+								},
+							}},
+							Performed: &procedurepb.Procedure_PerformedX{
+								Choice: &procedurepb.Procedure_PerformedX_DateTime{
+									&dpb.DateTime{ValueUs: laterMicros, Precision: dpb.DateTime_SECOND},
+								},
+							},
+							Encounter: &dpb.Reference{
+								Reference: &dpb.Reference_EncounterId{
+									&dpb.ReferenceId{Value: "4"},
+								},
+							},
+							Subject: &dpb.Reference{
+								Reference: &dpb.Reference_PatientId{
+									PatientId: &dpb.ReferenceId{Value: "1"},
+								},
+								Display: &dpb.String{Value: "William Burr"},
+							},
+						},
+					},
+				},
+			}, {
+				Resource: &r4pb.ContainedResource{
+					OneofResource: &r4pb.ContainedResource_Condition{
+						&conditionpb.Condition{
+							Id: &dpb.Id{Value: "10"},
+							Text: &dpb.Narrative{
+								Div: &dpb.Xhtml{Value: "<div><p>DIAGNOSIS by Dr Doctor Doctorson</p></div>"},
+							},
+							Code: &dpb.CodeableConcept{
+								Coding: []*dpb.Coding{{
+									Code:    &dpb.Code{Value: "ID"},
+									System:  &dpb.Uri{Value: "SYSTEM_URI"},
+									Display: &dpb.String{Value: "DIAGNOSIS"},
+								}},
+							},
+							Recorder: &dpb.Reference{
+								Reference: &dpb.Reference_PractitionerId{
+									&dpb.ReferenceId{Value: "7"},
+								},
+								Display: &dpb.String{Value: "Doctor Doctorson"},
+							},
+							RecordedDate: &dpb.DateTime{ValueUs: laterMicros, Precision: dpb.DateTime_SECOND},
+							Encounter: &dpb.Reference{
+								Reference: &dpb.Reference_EncounterId{
+									&dpb.ReferenceId{Value: "4"},
+								},
+							},
+							Subject: &dpb.Reference{
+								Reference: &dpb.Reference_PatientId{
+									PatientId: &dpb.ReferenceId{Value: "1"},
+								},
+								Display: &dpb.String{Value: "William Burr"},
+							},
+						},
+					},
+				},
+			}, {
+				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Encounter{
 						&encounterpb.Encounter{
 							Id:     &dpb.Id{Value: "4"},
@@ -397,21 +568,21 @@ func TestGenerate(t *testing.T) {
 							Diagnosis: []*encounterpb.Encounter_Diagnosis{{
 								Condition: &dpb.Reference{
 									Reference: &dpb.Reference_ProcedureId{
-										&dpb.ReferenceId{Value: "10"},
+										&dpb.ReferenceId{Value: "8"},
 									},
 									Display: &dpb.String{Value: "PROCEDURE by Dr Doctor Doctorson"},
 								},
 							}, {
 								Condition: &dpb.Reference{
 									Reference: &dpb.Reference_ProcedureId{
-										&dpb.ReferenceId{Value: "11"},
+										&dpb.ReferenceId{Value: "9"},
 									},
 									Display: &dpb.String{Value: "PROCEDURE by Dr Doctor Doctorson"},
 								},
 							}, {
 								Condition: &dpb.Reference{
 									Reference: &dpb.Reference_ConditionId{
-										&dpb.ReferenceId{Value: "12"},
+										&dpb.ReferenceId{Value: "10"},
 									},
 									Display: &dpb.String{Value: "DIAGNOSIS by Dr Doctor Doctorson"},
 								},
@@ -421,35 +592,9 @@ func TestGenerate(t *testing.T) {
 				},
 			}, {
 				Resource: &r4pb.ContainedResource{
-					OneofResource: &r4pb.ContainedResource_Location{
-						&locationpb.Location{
-							Id:   &dpb.Id{Value: "5"},
-							Name: &dpb.String{Value: "BED, POC, ROOM, FLOOR, BUILDING, FACILITY"},
-							Text: &dpb.Narrative{
-								Div: &dpb.Xhtml{
-									Value: "<div><p>BED, POC, ROOM, FLOOR, BUILDING, FACILITY</p></div>",
-								},
-							},
-						},
-					},
-				},
-			}, {
-				Resource: &r4pb.ContainedResource{
-					OneofResource: &r4pb.ContainedResource_Location{
-						&locationpb.Location{
-							Id:   &dpb.Id{Value: "6"},
-							Name: &dpb.String{Value: "BUILDING"},
-							Text: &dpb.Narrative{
-								Div: &dpb.Xhtml{Value: "<div><p>BUILDING</p></div>"},
-							},
-						},
-					},
-				},
-			}, {
-				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Observation{
 						&observationpb.Observation{
-							Id: &dpb.Id{Value: "7"},
+							Id: &dpb.Id{Value: "11"},
 							Encounter: &dpb.Reference{
 								Reference: &dpb.Reference_EncounterId{&dpb.ReferenceId{Value: "4"}},
 							},
@@ -460,8 +605,10 @@ func TestGenerate(t *testing.T) {
 							},
 							Status: &observationpb.Observation_StatusCode{Value: cpb.ObservationStatusCode_AMENDED},
 							Subject: &dpb.Reference{
-								Reference: &dpb.Reference_PatientId{&dpb.ReferenceId{Value: "1"}},
-								Display:   &dpb.String{Value: "William Burr"},
+								Reference: &dpb.Reference_PatientId{
+									&dpb.ReferenceId{Value: "1"},
+								},
+								Display: &dpb.String{Value: "William Burr"},
 							},
 							Value: &observationpb.Observation_ValueX{
 								Choice: &observationpb.Observation_ValueX_Quantity{
@@ -485,7 +632,7 @@ func TestGenerate(t *testing.T) {
 				Resource: &r4pb.ContainedResource{
 					OneofResource: &r4pb.ContainedResource_Observation{
 						&observationpb.Observation{
-							Id:     &dpb.Id{Value: "8"},
+							Id:     &dpb.Id{Value: "12"},
 							Status: &observationpb.Observation_StatusCode{Value: cpb.ObservationStatusCode_FINAL},
 							Encounter: &dpb.Reference{
 								Reference: &dpb.Reference_EncounterId{&dpb.ReferenceId{Value: "4"}},
@@ -496,8 +643,10 @@ func TestGenerate(t *testing.T) {
 								},
 							},
 							Subject: &dpb.Reference{
-								Reference: &dpb.Reference_PatientId{&dpb.ReferenceId{Value: "1"}},
-								Display:   &dpb.String{Value: "William Burr"},
+								Reference: &dpb.Reference_PatientId{
+									&dpb.ReferenceId{Value: "1"},
+								},
+								Display: &dpb.String{Value: "William Burr"},
 							},
 							Value: &observationpb.Observation_ValueX{
 								Choice: &observationpb.Observation_ValueX_Quantity{
@@ -508,151 +657,6 @@ func TestGenerate(t *testing.T) {
 								Choice: &observationpb.Observation_EffectiveX_DateTime{
 									&dpb.DateTime{ValueUs: laterMicros, Precision: dpb.DateTime_SECOND},
 								},
-							},
-						},
-					},
-				},
-			}, {
-				Resource: &r4pb.ContainedResource{
-					OneofResource: &r4pb.ContainedResource_Practitioner{
-						&practitionerpb.Practitioner{
-							Id: &dpb.Id{Value: "9"},
-							Identifier: []*dpb.Identifier{{
-								Value: &dpb.String{Value: "ID"},
-							}},
-							Text: &dpb.Narrative{
-								Div: &dpb.Xhtml{Value: "<div><p>Dr Doctor Doctorson</p></div>"},
-							},
-							Name: []*dpb.HumanName{{
-								Family: &dpb.String{Value: "Doctorson"},
-								Given:  []*dpb.String{{Value: "Doctor"}},
-								Prefix: []*dpb.String{{Value: "Dr"}},
-							}},
-						},
-					},
-				},
-			}, {
-				Resource: &r4pb.ContainedResource{
-					OneofResource: &r4pb.ContainedResource_Procedure{
-						&procedurepb.Procedure{
-							Id: &dpb.Id{Value: "10"},
-							Text: &dpb.Narrative{
-								Div: &dpb.Xhtml{Value: "<div><p>PROCEDURE by Dr Doctor Doctorson</p></div>"},
-							},
-							Category: &dpb.CodeableConcept{
-								Text: &dpb.String{Value: "TYPE"},
-							},
-							Code: &dpb.CodeableConcept{
-								Coding: []*dpb.Coding{{
-									Code:    &dpb.Code{Value: "ID_1"},
-									System:  &dpb.Uri{Value: "SYSTEM_URI"},
-									Display: &dpb.String{Value: "PROCEDURE"},
-								}},
-							},
-							Performer: []*procedurepb.Procedure_Performer{{
-								Actor: &dpb.Reference{
-									Reference: &dpb.Reference_PractitionerId{
-										&dpb.ReferenceId{Value: "9"},
-									},
-									Display: &dpb.String{Value: "Doctor Doctorson"},
-								},
-							}},
-							Performed: &procedurepb.Procedure_PerformedX{
-								Choice: &procedurepb.Procedure_PerformedX_DateTime{
-									&dpb.DateTime{ValueUs: nowMicros, Precision: dpb.DateTime_SECOND},
-								},
-							},
-							Encounter: &dpb.Reference{
-								Reference: &dpb.Reference_EncounterId{
-									&dpb.ReferenceId{Value: "4"},
-								},
-							},
-							Subject: &dpb.Reference{
-								Reference: &dpb.Reference_PatientId{
-									&dpb.ReferenceId{Value: "1"},
-								},
-								Display: &dpb.String{Value: "William Burr"},
-							},
-						},
-					},
-				},
-			}, {
-				Resource: &r4pb.ContainedResource{
-					OneofResource: &r4pb.ContainedResource_Procedure{
-						&procedurepb.Procedure{
-							Id: &dpb.Id{Value: "11"},
-							Text: &dpb.Narrative{
-								Div: &dpb.Xhtml{Value: "<div><p>PROCEDURE by Dr Doctor Doctorson</p></div>"},
-							},
-							Category: &dpb.CodeableConcept{
-								Text: &dpb.String{Value: "TYPE"},
-							},
-							Code: &dpb.CodeableConcept{
-								Coding: []*dpb.Coding{{
-									Code:    &dpb.Code{Value: "ID_2"},
-									System:  &dpb.Uri{Value: "SYSTEM_URI"},
-									Display: &dpb.String{Value: "PROCEDURE"},
-								}},
-							},
-							Performer: []*procedurepb.Procedure_Performer{{
-								Actor: &dpb.Reference{
-									Reference: &dpb.Reference_PractitionerId{
-										&dpb.ReferenceId{Value: "9"},
-									},
-									Display: &dpb.String{Value: "Doctor Doctorson"},
-								},
-							}},
-							Performed: &procedurepb.Procedure_PerformedX{
-								Choice: &procedurepb.Procedure_PerformedX_DateTime{
-									&dpb.DateTime{ValueUs: laterMicros, Precision: dpb.DateTime_SECOND},
-								},
-							},
-							Encounter: &dpb.Reference{
-								Reference: &dpb.Reference_EncounterId{
-									&dpb.ReferenceId{Value: "4"},
-								},
-							},
-							Subject: &dpb.Reference{
-								Reference: &dpb.Reference_PatientId{
-									&dpb.ReferenceId{Value: "1"},
-								},
-								Display: &dpb.String{Value: "William Burr"},
-							},
-						},
-					},
-				},
-			}, {
-				Resource: &r4pb.ContainedResource{
-					OneofResource: &r4pb.ContainedResource_Condition{
-						&conditionpb.Condition{
-							Id: &dpb.Id{Value: "12"},
-							Text: &dpb.Narrative{
-								Div: &dpb.Xhtml{Value: "<div><p>DIAGNOSIS by Dr Doctor Doctorson</p></div>"},
-							},
-							Code: &dpb.CodeableConcept{
-								Coding: []*dpb.Coding{{
-									Code:    &dpb.Code{Value: "ID"},
-									System:  &dpb.Uri{Value: "SYSTEM_URI"},
-									Display: &dpb.String{Value: "DIAGNOSIS"},
-								}},
-							},
-							Recorder: &dpb.Reference{
-								Reference: &dpb.Reference_PractitionerId{
-									&dpb.ReferenceId{Value: "9"},
-								},
-								Display: &dpb.String{Value: "Doctor Doctorson"},
-							},
-							RecordedDate: &dpb.DateTime{ValueUs: laterMicros, Precision: dpb.DateTime_SECOND},
-							Encounter: &dpb.Reference{
-								Reference: &dpb.Reference_EncounterId{
-									&dpb.ReferenceId{Value: "4"},
-								},
-							},
-							Subject: &dpb.Reference{
-								Reference: &dpb.Reference_PatientId{
-									PatientId: &dpb.ReferenceId{Value: "1"},
-								},
-								Display: &dpb.String{Value: "William Burr"},
 							},
 						},
 					},

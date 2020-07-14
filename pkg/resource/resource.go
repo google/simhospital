@@ -159,18 +159,12 @@ func (w *FHIRWriter) bundle(p *ir.PatientInfo) *r4pb.Bundle {
 
 	for _, ec := range p.Encounters {
 		encounter, encounterRef := w.encounter(ec)
-		addEntry(bundle, encounter)
 
 		e := encounter.GetResource().GetEncounter()
 		for _, lh := range ec.LocationHistory {
 			location, locationRef := w.location(lh.Location)
 			addEntry(bundle, location)
 			e.Location = append(e.Location, w.encounterLocation(locationRef, lh.Start, lh.End))
-		}
-
-		for _, o := range ec.Orders {
-			observations := w.observations(encounterRef, patientRef, o)
-			addEntry(bundle, observations...)
 		}
 
 		for _, pr := range ec.Procedures {
@@ -189,6 +183,12 @@ func (w *FHIRWriter) bundle(p *ir.PatientInfo) *r4pb.Bundle {
 			condition, conditionRef := w.condition(d, patientRef, practitionerRef, encounterRef)
 			addEntry(bundle, condition)
 			e.Diagnosis = append(e.Diagnosis, w.encounterDiagnosis(conditionRef))
+		}
+		addEntry(bundle, encounter)
+
+		for _, o := range ec.Orders {
+			observations := w.observations(encounterRef, patientRef, o)
+			addEntry(bundle, observations...)
 		}
 	}
 	return bundle
