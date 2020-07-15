@@ -35,6 +35,7 @@ go_library(
         "//pkg/clock:go_default_library",
         "//pkg/constants:go_default_library",
         "//pkg/doctor:go_default_library",
+        "//pkg/files:go_default_library",
         "//pkg/ir:go_default_library",
         "//pkg/location:go_default_library",
         "//pkg/logging:go_default_library",

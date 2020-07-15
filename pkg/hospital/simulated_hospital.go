@@ -16,6 +16,7 @@
 package hospital
 
 import (
+	"context"
 	"time"
 
 	"github.com/pkg/errors"
@@ -290,7 +291,7 @@ type AdditionalConfig struct {
 // DefaultConfig returns a default Config from Arguments.
 // Config may be only partially populated if some Arguments are not specified.
 // It is the responsibility of the caller to initialize missing components of the Config.
-func DefaultConfig(arguments Arguments) (Config, error) {
+func DefaultConfig(ctx context.Context, arguments Arguments) (Config, error) {
 	c := Config{
 		MessageControlGenerator:  &header.MessageControlGenerator{},
 		Clock:                    &clock.RealTimeClock{},
@@ -358,7 +359,7 @@ func DefaultConfig(arguments Arguments) (Config, error) {
 		c.PathwayParser = &pathway.Parser{Clock: c.Clock, OrderProfiles: c.OrderProfiles, Doctors: c.Doctors, LocationManager: c.LocationManager}
 
 		if arguments.PathwayArguments != nil {
-			if c.PathwayManager, err = pathwayManager(c.PathwayParser, *arguments.PathwayArguments); err != nil {
+			if c.PathwayManager, err = pathwayManager(ctx, c.PathwayParser, *arguments.PathwayArguments); err != nil {
 				return Config{}, errors.Wrap(err, "cannot create pathway manager")
 			}
 		}
@@ -426,8 +427,8 @@ func hl7Sender(arguments SenderArguments) (hl7.Sender, error) {
 	}
 }
 
-func pathwayManager(p *pathway.Parser, arguments PathwayArguments) (pathway.Manager, error) {
-	pathways, err := p.ParsePathways(arguments.Dir)
+func pathwayManager(ctx context.Context, p *pathway.Parser, arguments PathwayArguments) (pathway.Manager, error) {
+	pathways, err := p.ParsePathways(ctx, arguments.Dir)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to parse pathways for Pathway Manager")
 	}

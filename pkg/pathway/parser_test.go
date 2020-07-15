@@ -15,6 +15,7 @@
 package pathway
 
 import (
+	"context"
 	"fmt"
 	"math"
 	"math/rand"
@@ -47,6 +48,7 @@ func newDefaultParser(t *testing.T, now time.Time) *Parser {
 }
 
 func TestFileExtensionValidation(t *testing.T) {
+	ctx := context.Background()
 	p := []byte(`
 pathway1:
   persons:
@@ -79,7 +81,7 @@ pathway1:
 
 			p := newDefaultParser(t, time.Now())
 
-			pathways, err := p.ParsePathways(dir)
+			pathways, err := p.ParsePathways(ctx, dir)
 
 			// If a filename is valid, we expect its pathways to be parsed.
 			// Otherwise, we expect an error because no files were parsed.
@@ -100,6 +102,7 @@ pathway1:
 }
 
 func TestParsePathways_Valid(t *testing.T) {
+	ctx := context.Background()
 	p1 := []byte(`
 pathway1:
   persons:
@@ -309,7 +312,7 @@ pathway2:
 
 			p := newDefaultParser(t, time.Now())
 
-			pathways, err := p.ParsePathways(mainDir)
+			pathways, err := p.ParsePathways(ctx, mainDir)
 			if (err != nil) != tc.wantErr {
 				t.Errorf("ParsePathways(%s) got err=%v; want error? %t", mainDir, err, tc.wantErr)
 			}
@@ -322,6 +325,7 @@ pathway2:
 }
 
 func TestParsePathwaysUnmarshalStrict(t *testing.T) {
+	ctx := context.Background()
 	p := newDefaultParser(t, time.Now())
 	cases := []struct {
 		name              string
@@ -396,7 +400,7 @@ test_pathway:
 		t.Run(tc.name, func(t *testing.T) {
 			mainDir := writePathwayToDir(t, tc.pathwayDefinition)
 
-			_, err := p.ParsePathways(mainDir)
+			_, err := p.ParsePathways(ctx, mainDir)
 			gotErr := err != nil
 			if gotErr != tc.wantErr {
 				t.Errorf("ParsePathways(%s) got err %v, want err? %t", string(tc.pathwayDefinition), err, tc.wantErr)
@@ -1194,6 +1198,7 @@ func TestParseSinglePathwayInvalidDateTime(t *testing.T) {
 }
 
 func TestParseAutogenerate(t *testing.T) {
+	ctx := context.Background()
 	fourHoursAgo := -4 * time.Hour
 	threeHoursAgo := -3 * time.Hour
 	twoHoursAgo := -2 * time.Hour
@@ -1529,7 +1534,7 @@ random_pathway:
 	}
 
 	for _, tc := range cases {
-		for parseFunc, got := range parsePathwayDefinition(t, tc.pathwayDefinition) {
+		for parseFunc, got := range parsePathwayDefinition(ctx, t, tc.pathwayDefinition) {
 			t.Run(fmt.Sprintf("%s-%s", tc.name, parseFunc.name), func(t *testing.T) {
 				if diff := cmp.Diff(tc.want, got, cmpopts.IgnoreUnexported(Pathway{}, Step{})); diff != "" {
 					t.Errorf("%s got diff (-want, +got):\n%s", parseFunc.errMsg, diff)
@@ -1540,6 +1545,7 @@ random_pathway:
 }
 
 func TestParseAutoGenerateGetPathwayDifferentEveryTime(t *testing.T) {
+	ctx := context.Background()
 	rand.Seed(1)
 
 	pathwayDefinition := []byte(`
@@ -1562,7 +1568,7 @@ pathway_autogenerate:
 	mainDir := writePathwayToDir(t, pathwayDefinition)
 
 	p := newDefaultParser(t, time.Now())
-	pathways, err := p.ParsePathways(mainDir)
+	pathways, err := p.ParsePathways(ctx, mainDir)
 	if err != nil {
 		t.Fatalf("ParsePathways(%s failed with %v", string(pathwayDefinition), err)
 	}
@@ -1709,6 +1715,7 @@ pathway_autogenerate:
 }
 
 func TestRunnableOriginalNotModified(t *testing.T) {
+	ctx := context.Background()
 	twoSeconds := 2 * time.Second
 	pathwayDefinition := []byte(`
 random_pathway:
@@ -1723,7 +1730,7 @@ random_pathway:
 	mainDir := writePathwayToDir(t, pathwayDefinition)
 
 	p := newDefaultParser(t, time.Now())
-	pathways, err := p.ParsePathways(mainDir)
+	pathways, err := p.ParsePathways(ctx, mainDir)
 	if err != nil {
 		t.Fatalf("ParsePathways(%s) failed with %v", string(pathwayDefinition), err)
 	}
@@ -1768,6 +1775,7 @@ random_pathway:
 }
 
 func TestParseOverrideResultID(t *testing.T) {
+	ctx := context.Background()
 	pathwayDefinition := []byte(`
 random_pathway:
   pathway:
@@ -1781,7 +1789,7 @@ random_pathway:
             id: override id
 `)
 
-	for _, p := range parsePathwayDefinition(t, pathwayDefinition) {
+	for _, p := range parsePathwayDefinition(ctx, t, pathwayDefinition) {
 		if got, want := len(p.Pathway), 1; got != want {
 			t.Fatalf("len(p.Pathway) = %d, want %d", got, want)
 		}
@@ -1812,12 +1820,12 @@ type parseFunc struct {
 // Returns a map, where the key encapsulates the method used to parse the pathway and
 // an error message that can be used in the error message in the test to give more information
 // on how the pathway was parsed. The value in a map is a parsed pathway.
-func parsePathwayDefinition(t *testing.T, pathwayDefinition []byte) map[parseFunc]Pathway {
+func parsePathwayDefinition(ctx context.Context, t *testing.T, pathwayDefinition []byte) map[parseFunc]Pathway {
 	t.Helper()
 	mainDir := writePathwayToDir(t, pathwayDefinition)
 
 	p := newDefaultParser(t, time.Now())
-	pathways, err := p.ParsePathways(mainDir)
+	pathways, err := p.ParsePathways(ctx, mainDir)
 	if err != nil {
 		t.Fatalf("ParsePathways(%s) failed with %v", string(pathwayDefinition), err)
 	}

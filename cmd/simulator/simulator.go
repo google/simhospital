@@ -83,7 +83,7 @@ var (
 	outputFile            = flag.String("output_file", "messages.out", "File path to write messages if -output=file")
 
 	// Flags that control how pathways run.
-	pathwaysDir        = flag.String("pathways_dir", "configs/pathways", "Path to a directory with YAML files with definitions of pathways")
+	pathwaysDir        = flag.String("pathways_dir", "configs/pathways", "Path to a directory with YAML files with definitions of pathways. This directory can be on the local file system or GCS.")
 	pathwayManagerType = flag.String("pathway_manager_type", "distribution", "The way pathways are picked to be run. Supported: [distribution, deterministic]")
 	pathwayNames       = flag.String("pathway_names", "", "Comma-separated list of pathway names for pathways to run. If pathway_manager_type=deterministic, this must be specified, and the pathways will be run "+
 		"in this order. If pathway_manager_type=distribution, can include regular expressions, or be empty - if empty, all pathways are included. Pathways that are not included here can still be run from the dashboard.")
@@ -123,7 +123,7 @@ func main() {
 	rand.Seed(time.Now().Unix())
 
 	log.Info("Starting Simulated Hospital")
-	hr, err := createRunner()
+	hr, err := createRunner(ctx)
 	if err != nil {
 		log.WithError(err).Fatal("Cannot create Hospital Runner")
 	}
@@ -147,7 +147,7 @@ func onShutdown(cancel context.CancelFunc) {
 	}()
 }
 
-func createRunner() (*runner.Hospital, error) {
+func createRunner(ctx context.Context) (*runner.Hospital, error) {
 	flag.Visit(func(f *flag.Flag) { flagset[f.Name] = true })
 
 	var include []string
@@ -197,7 +197,7 @@ func createRunner() (*runner.Hospital, error) {
 		},
 	}
 
-	config, err := hospital.DefaultConfig(arguments)
+	config, err := hospital.DefaultConfig(ctx, arguments)
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot create default hospital config")
 	}

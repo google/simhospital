@@ -15,6 +15,7 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"os"
 	"path"
@@ -31,19 +32,20 @@ var (
 )
 
 func TestRunner(t *testing.T) {
+	ctx := context.Background()
 	// Prevent the connection to an MLLP server.
 	if err := flag.Set("output", "stdout"); err != nil {
 		t.Errorf("flag.Set(%v, %v) failed with %v", "output", "stdout", err)
 	}
 
-	if _, err := createRunner(); err == nil {
+	if _, err := createRunner(ctx); err == nil {
 		t.Error("createRunner() got nil error, want non nil error")
 	}
 
 	if err := flag.Set("local_path", base); err != nil {
 		t.Errorf("flag.Set(%v, %v) failed with %v", "local_path", base, err)
 	}
-	if _, err := createRunner(); err != nil {
+	if _, err := createRunner(ctx); err != nil {
 		t.Errorf("createRunner(local_path=%v) failed with %v", base, err)
 	}
 }

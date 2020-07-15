@@ -15,6 +15,7 @@
 package starter_test
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"io/ioutil"
@@ -115,6 +116,7 @@ func TestNewPathwayStarter(t *testing.T) {
 }
 
 func TestServeHTTP_AllProdPathwaysCanBeStartedByName(t *testing.T) {
+	ctx := context.Background()
 	hl7Config, err := config.LoadHL7Config(test.MessageConfigProd)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigProd, err)
@@ -133,7 +135,7 @@ func TestServeHTTP_AllProdPathwaysCanBeStartedByName(t *testing.T) {
 	}
 	// Get all of the pathways from the config files.
 	p := &pathway.Parser{Clock: testclock.New(time.Now()), OrderProfiles: op, Doctors: d, LocationManager: lm}
-	pathways, err := p.ParsePathways(test.PathwaysDirProd)
+	pathways, err := p.ParsePathways(ctx, test.PathwaysDirProd)
 	if err != nil {
 		t.Fatalf("ParsePathways(%s) failed with %v", test.PathwaysDirProd, err)
 	}
@@ -152,6 +154,7 @@ func TestServeHTTP_AllProdPathwaysCanBeStartedByName(t *testing.T) {
 }
 
 func TestServeHTTP_AllProdPathwaysCanBeStartedWithMRNAndPatientName(t *testing.T) {
+	ctx := context.Background()
 	hl7Config, err := config.LoadHL7Config(test.MessageConfigProd)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigProd, err)
@@ -170,7 +173,7 @@ func TestServeHTTP_AllProdPathwaysCanBeStartedWithMRNAndPatientName(t *testing.T
 	}
 	// Get all of the pathways from the config files.
 	p := &pathway.Parser{Clock: testclock.New(time.Now()), OrderProfiles: op, Doctors: d, LocationManager: lm}
-	pathways, err := p.ParsePathways(test.PathwaysDirProd)
+	pathways, err := p.ParsePathways(ctx, test.PathwaysDirProd)
 	if err != nil {
 		t.Fatalf("ParsePathways(%s) failed with %v", test.PathwaysDirProd, err)
 	}

@@ -15,6 +15,7 @@
 package pathway
 
 import (
+	"context"
 	"testing"
 	"time"
 
@@ -27,6 +28,7 @@ import (
 )
 
 func TestValidateProdPathways(t *testing.T) {
+	ctx := context.Background()
 	hl7Config, err := config.LoadHL7Config(test.MessageConfigProd)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigProd, err)
@@ -44,7 +46,7 @@ func TestValidateProdPathways(t *testing.T) {
 		t.Fatalf("location.NewManager(%s) failed with %v", test.LocationsConfigProd, err)
 	}
 	p := &Parser{Clock: testclock.New(time.Now()), OrderProfiles: op, Doctors: d, LocationManager: lm}
-	pathways, err := p.ParsePathways(test.PathwaysDirProd)
+	pathways, err := p.ParsePathways(ctx, test.PathwaysDirProd)
 	if err != nil {
 		t.Fatalf("ParsePathways(%s) failed with %v", test.PathwaysDirProd, err)
 	}

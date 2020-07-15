@@ -17,6 +17,7 @@
 package testhospital
 
 import (
+	"context"
 	"testing"
 	"time"
 
@@ -80,6 +81,7 @@ func New(t *testing.T, cfg Config) *Hospital {
 // WithTime creates a new Hospital for test initialised with the given time.
 func WithTime(t *testing.T, cfg Config, now time.Time) *Hospital {
 	t.Helper()
+	ctx := context.Background()
 
 	clock := testclock.New(now)
 
@@ -91,7 +93,7 @@ func WithTime(t *testing.T, cfg Config, now time.Time) *Hospital {
 	if cfg.Config.DataFiles != (config.DataFiles{}) {
 		cfg.Arguments.DataFiles = &cfg.Config.DataFiles
 	}
-	c, err := hospital.DefaultConfig(cfg.Arguments)
+	c, err := hospital.DefaultConfig(ctx, cfg.Arguments)
 	if err != nil {
 		t.Fatalf("hospital.DefaultConfig(%+v) failed with %v", cfg.Arguments, err)
 	}
