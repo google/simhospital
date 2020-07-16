@@ -39,6 +39,7 @@ import (
 	"github.com/google/simhospital/pkg/orderprofile"
 	"github.com/google/simhospital/pkg/pathway"
 	"github.com/google/simhospital/pkg/processor"
+	"github.com/google/simhospital/pkg/resource/cloud"
 	"github.com/google/simhospital/pkg/resource"
 	"github.com/google/simhospital/pkg/state/persist"
 	"github.com/google/simhospital/pkg/state"
@@ -197,6 +198,13 @@ type ResourceArguments struct {
 	Output    string
 	OutputDir string
 	Format    string
+
+	// Arguments to connect to a Cloud FHIR store.
+	// Only relevant if Output=cloud.
+	CloudProjectID string
+	CloudLocation  string
+	CloudDataset   string
+	CloudDatastore string
 }
 
 // Config contains the configuration for Simulated Hospital.
@@ -350,7 +358,7 @@ func DefaultConfig(ctx context.Context, arguments Arguments) (Config, error) {
 	}
 
 	if arguments.ResourceArguments != nil && c.HL7Config != nil {
-		if c.ResourceWriter, err = resourceWriter(*arguments.ResourceArguments, c.HL7Config); err != nil {
+		if c.ResourceWriter, err = resourceWriter(ctx, *arguments.ResourceArguments, c.HL7Config); err != nil {
 			return Config{}, errors.Wrap(err, "cannot create the resource writer")
 		}
 	}
@@ -372,8 +380,8 @@ func DefaultConfig(ctx context.Context, arguments Arguments) (Config, error) {
 	return c, nil
 }
 
-func resourceWriter(arguments ResourceArguments, hl7Config *config.HL7Config) (ResourceWriter, error) {
-	output, err := resourceOutput(arguments)
+func resourceWriter(ctx context.Context, arguments ResourceArguments, hl7Config *config.HL7Config) (ResourceWriter, error) {
+	output, err := resourceOutput(ctx, arguments)
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot create resource output")
 	}
@@ -392,12 +400,14 @@ func resourceWriter(arguments ResourceArguments, hl7Config *config.HL7Config) (R
 	return resource.NewFHIRWriter(cfg)
 }
 
-func resourceOutput(arguments ResourceArguments) (resource.Output, error) {
+func resourceOutput(ctx context.Context, arguments ResourceArguments) (resource.Output, error) {
 	switch arguments.Output {
 	case "stdout":
 		return &resource.StdOutput{}, nil
 	case "file":
 		return resource.NewDirectoryOutput(arguments.OutputDir)
+	case "cloud":
+		return cloud.NewOutput(ctx, arguments.CloudProjectID, arguments.CloudLocation, arguments.CloudDataset, arguments.CloudDatastore)
 	default:
 		return nil, errors.Errorf("unsupported output type %q", arguments.Output)
 	}

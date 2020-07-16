@@ -61,9 +61,15 @@ var (
 	orderProfilesFile      = flag.String("order_profile_file", "configs/hl7_messages/order_profiles.yml", "Path to a YAML file with the definition of the order profiles")
 
 	// Flags that control resource generation.
-	resourceOutput    = flag.String("resource_output", "stdout", "Where the generated resources will be written: [stdout, file]")
+	resourceOutput    = flag.String("resource_output", "stdout", "Where the generated resources will be written: [stdout, file, cloud]")
 	resourceOutputDir = flag.String("resource_output_dir", "resources", "Path to the output directory for resource files; only relevant if -resource_output=file")
 	resourceFormat    = flag.String("resource_format", "json", "The format in which to generate resources: [json, proto]")
+
+	// Flags for connecting to a Cloud FHIR store.
+	cloudProjectID = flag.String("cloud_project_id", "", "Project ID of the Cloud FHIR store; only relevant if -resource_output=cloud")
+	cloudLocation  = flag.String("cloud_location", "", "Location of the Cloud FHIR store; only relevant if -resource_output=cloud")
+	cloudDataset   = flag.String("cloud_dataset", "", "Dataset of the Cloud FHIR store; only relevant if -resource_output=cloud")
+	cloudDatastore = flag.String("cloud_datastore", "", "Datastore of the Cloud FHIR store; only relevant if -resource_output=cloud")
 
 	// Flags that control the behaviour of Simulated Hospital.
 	sleepFor                 = flag.Duration("sleep_for", time.Second, "How long Simulated Hospital sleeps before checking if any new messages need to be generated")
@@ -170,9 +176,13 @@ func createRunner(ctx context.Context) (*runner.Hospital, error) {
 			ExcludeNames: exclude,
 		},
 		ResourceArguments: &hospital.ResourceArguments{
-			Output:    *resourceOutput,
-			OutputDir: *resourceOutputDir,
-			Format:    *resourceFormat,
+			Output:         *resourceOutput,
+			OutputDir:      *resourceOutputDir,
+			Format:         *resourceFormat,
+			CloudProjectID: *cloudProjectID,
+			CloudLocation:  *cloudLocation,
+			CloudDataset:   *cloudDataset,
+			CloudDatastore: *cloudDatastore,
 		},
 		SenderArguments: &hospital.SenderArguments{
 			Output:                *output,

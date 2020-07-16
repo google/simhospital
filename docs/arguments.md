@@ -98,6 +98,7 @@ control where resources go once they're generated.
 
 *   `stdout`: Print the resources to the console.
 *   `file`: Store each resource in a separate file.
+*   `cloud`: Send resources to a Cloud FHIR store.
 
 If not set, Simulated Hospital uses _"stdout"_.
 
@@ -114,6 +115,28 @@ If not set, Simulated Hospital uses _"stdout"_.
 *   `proto`: Generate resources as text protocol buffers.
 
 If not set, Simulated Hospital uses _"json"_.
+
+The following arguments allow Simulated Hospital to directly populate a
+[Cloud FHIR store](https://cloud.google.com/healthcare/docs/how-tos/fhir). The
+appropriate
+[Application Default Credentials](https://cloud.google.com/sdk/gcloud/reference/auth/application-default)
+should be set prior to running Simulated Hospital with these arguments.
+
+`-cloud_project_id` (string)
+:   Project ID of the Cloud FHIR store; only relevant if -resource_output=cloud.
+    Simulated Hospital does not have a default value.
+
+`-cloud_location` (string)
+:   Location of the Cloud FHIR store; only relevant if -resource_output=cloud.
+    Simulated Hospital does not have a default value.
+
+`-cloud_dataset` (string)
+:   Dataset of the Cloud FHIR store; only relevant if -resource_output=cloud.
+    Simulated Hospital does not have a default value.
+
+`-cloud_datastore` (string)
+:   Datastore of the Cloud FHIR store; only relevant if -resource_output=cloud.
+    Simulated Hospital does not have a default value.
 
 ## Data configuration
 

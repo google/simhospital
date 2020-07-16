@@ -48,6 +48,7 @@ go_library(
         "//pkg/pathway:go_default_library",
         "//pkg/processor:go_default_library",
         "//pkg/resource:go_default_library",
+        "//pkg/resource/cloud:go_default_library",
         "//pkg/state:go_default_library",
         "//pkg/state/persist:go_default_library",
         "@com_github_pkg_errors//:go_default_library",

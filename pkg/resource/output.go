@@ -48,7 +48,8 @@ type DirectoryOutput struct {
 
 // New returns a new file as a writer for the given patient. It generates filenames as the
 // concatenation of the person's full name and MRN (to avoid the slim possibility of collisions).
-// If resources are generated more than once for the same Patient, a suffix is added.
+// If resources are generated more than once for the same Patient, a suffix is added. Consecutive
+// writes will append to the file.
 func (o *DirectoryOutput) New(p *ir.PatientInfo) (io.WriteCloser, error) {
 	pe := p.Person
 	filename := strings.Join([]string{pe.FirstName, pe.MiddleName, pe.Surname, pe.MRN}, "_")

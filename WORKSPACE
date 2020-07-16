@@ -229,8 +229,8 @@ go_repository(
     sum = "h1:UhZDfRO8JRQru4/+LlLE0BRKGF8L+PICnvYZmx/fEGA=",
     importpath = "google.golang.org/protobuf",
 )
-
 go_repository(
+
     name = "com_google_cloud_go",
     importpath = "cloud.google.com/go",
     sum = "h1:BM3svUDU3itpc2m5cu5wCyThIYNDlFlts9GASw31GW8=",
