@@ -116,11 +116,8 @@ If not set, Simulated Hospital uses _"stdout"_.
 
 If not set, Simulated Hospital uses _"json"_.
 
-The following arguments allow Simulated Hospital to directly populate a
-[Cloud FHIR store](https://cloud.google.com/healthcare/docs/how-tos/fhir). The
-appropriate
-[Application Default Credentials](https://cloud.google.com/sdk/gcloud/reference/auth/application-default)
-should be set prior to running Simulated Hospital with these arguments.
+The following arguments allow Simulated Hospital to directly populate a Cloud
+FHIR store.
 
 `-cloud_project_id` (string)
 :   Project ID of the Cloud FHIR store; only relevant if -resource_output=cloud.
@@ -137,6 +134,40 @@ should be set prior to running Simulated Hospital with these arguments.
 `-cloud_datastore` (string)
 :   Datastore of the Cloud FHIR store; only relevant if -resource_output=cloud.
     Simulated Hospital does not have a default value.
+
+Before using this functionality, you must have:
+
+*   Edit access for a
+    [Cloud FHIR store](https://cloud.google.com/healthcare/docs/how-tos/fhir),
+    You can create a new one by following the instructions at
+    [_"Creating and managing FHIR stores"_](https://cloud.google.com/healthcare/docs/how-tos/fhir#creating_a_fhir_store).
+*   Set
+    [Application Default Credentials](https://cloud.google.com/sdk/gcloud/reference/auth/application-default)
+    for the store. You can do this using `gcloud` with the following:
+
+    ```shell
+    $ gcloud auth application-default login
+    $ gcloud auth application-default set-quota-project <PROJECT_ID>
+    ```
+
+*   A `generate_resources` step in your pathway(s).
+
+Now Simulated Hospital will be able to write to the specified Cloud FHIR store.
+You will need to [mount a volume](https://docs.docker.com/storage/volumes/),
+mapping the host directory where your `gcloud` credentials are stored so that
+Docker can access them. For example:
+
+```shell
+$ docker run -v ~/.config/gcloud:/root/.config/gcloud --rm -it -p 8000:8000 bazel:simhospital_container_image health/simulator \
+--resource_output=cloud \
+--cloud_project_id=<PROJECT_ID> \
+--cloud_location=<LOCATION> \
+--cloud_dataset=<DATASET_ID> \
+--cloud_datastore=<DATASTORE_ID>
+```
+
+Note that if invalid arguments are passed, Simulated Hospital will display an
+error when attempting to write to the Cloud FHIR store.
 
 ## Data configuration
 
