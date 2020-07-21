@@ -16,6 +16,7 @@
 package testlocation
 
 import (
+	"context"
 	"fmt"
 	"testing"
 
@@ -48,14 +49,14 @@ var ManagerWithAAndE = &location.Manager{
 }
 
 // NewLocationManager creates a new location manager with the given locations.
-func NewLocationManager(t *testing.T, locations ...string) *location.Manager {
+func NewLocationManager(ctx context.Context, t *testing.T, locations ...string) *location.Manager {
 	var allLocations string
 	for _, l := range locations {
 		allLocations += fmt.Sprintf(roomMgrTmpl, l, l)
 	}
 	tmp := testwrite.BytesToFile(t, []byte(allLocations))
 
-	m, err := location.NewManager(tmp)
+	m, err := location.NewManager(ctx, tmp)
 	if err != nil {
 		t.Fatalf("location.NewManager(%s) failed with %v", tmp, err)
 	}

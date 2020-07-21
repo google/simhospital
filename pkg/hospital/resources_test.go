@@ -15,6 +15,7 @@
 package hospital_test
 
 import (
+	"context"
 	"fmt"
 	"testing"
 
@@ -33,6 +34,7 @@ import (
 // as this is all that is necessary to ensure that writing is happening as intended.
 // Population of the remaining fields is covered by other tests.
 func TestGenerateResources(t *testing.T) {
+	ctx := context.Background()
 	testPerson := pathway.Person{
 		FirstName: "FIRST_NAME_1",
 		Surname:   "SURNAME",
@@ -113,7 +115,7 @@ func TestGenerateResources(t *testing.T) {
 				testPathwayName: tc.pathway,
 			}
 
-			hospital := newHospital(t, Config{ResourceWriter: rw}, pathways)
+			hospital := newHospital(ctx, t, Config{ResourceWriter: rw}, pathways)
 			defer hospital.Close()
 
 			if err := hospital.StartNextPathway(); err != nil {
@@ -166,6 +168,7 @@ func pathwayPersonToIRPerson(p pathway.Person) *ir.Person {
 }
 
 func TestEncounters(t *testing.T) {
+	ctx := context.Background()
 	tests := []struct {
 		name    string
 		pathway pathway.Pathway
@@ -454,7 +457,7 @@ func TestEncounters(t *testing.T) {
 				testPathwayName: tc.pathway,
 			}
 
-			hospital := hospitalWithTime(t, Config{ResourceWriter: rw}, pathways, now)
+			hospital := hospitalWithTime(ctx, t, Config{ResourceWriter: rw}, pathways, now)
 			defer hospital.Close()
 
 			if err := hospital.StartNextPathway(); err != nil {

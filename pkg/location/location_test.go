@@ -15,6 +15,7 @@
 package location_test
 
 import (
+	"context"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -52,6 +53,7 @@ var (
 )
 
 func TestNewManager(t *testing.T) {
+	ctx := context.Background()
 	loc := []byte(`
 Ward 1:
   poc: Ward 1
@@ -142,7 +144,7 @@ room: Room-1`)
 		t.Run(tc.name, func(t *testing.T) {
 			fName := testwrite.BytesToFile(t, tc.locContent)
 
-			got, err := NewManager(fName)
+			got, err := NewManager(ctx, fName)
 			gotErr := err != nil
 			if gotErr != tc.wantErr {
 				t.Errorf("NewManager(%s) got err %v, want err? %t", string(tc.locContent), err, tc.wantErr)
@@ -159,6 +161,7 @@ room: Room-1`)
 }
 
 func TestManagerOccupyAvailableBed(t *testing.T) {
+	ctx := context.Background()
 	cases := []struct {
 		name    string
 		poc     string
@@ -178,7 +181,7 @@ func TestManagerOccupyAvailableBed(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			locationManager := testlocation.NewLocationManager(t, aAndEID)
+			locationManager := testlocation.NewLocationManager(ctx, t, aAndEID)
 
 			got, err := locationManager.OccupyAvailableBed(tc.poc)
 			gotErr := err != nil
@@ -193,7 +196,8 @@ func TestManagerOccupyAvailableBed(t *testing.T) {
 }
 
 func TestManagerOccupyAvailableBedReoccupyFreedBed(t *testing.T) {
-	locationManager := testlocation.NewLocationManager(t, aAndEID)
+	ctx := context.Background()
+	locationManager := testlocation.NewLocationManager(ctx, t, aAndEID)
 	want := aAndEBed1
 
 	got, err := locationManager.OccupyAvailableBed(aAndEID)
@@ -228,6 +232,7 @@ func TestManagerOccupyAvailableBedReoccupyFreedBed(t *testing.T) {
 }
 
 func TestManagerOccupySpecificBed(t *testing.T) {
+	ctx := context.Background()
 	cases := []struct {
 		name    string
 		poc     string
@@ -250,7 +255,7 @@ func TestManagerOccupySpecificBed(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			locationManager := testlocation.NewLocationManager(t, aAndEID)
+			locationManager := testlocation.NewLocationManager(ctx, t, aAndEID)
 
 			got, err := locationManager.OccupySpecificBed(tc.poc, tc.bed)
 			gotErr := err != nil
@@ -266,7 +271,8 @@ func TestManagerOccupySpecificBed(t *testing.T) {
 }
 
 func TestManagerOccupySpecificBedNoAvailableBed(t *testing.T) {
-	locationManager := testlocation.NewLocationManager(t, aAndEID)
+	ctx := context.Background()
+	locationManager := testlocation.NewLocationManager(ctx, t, aAndEID)
 
 	// Mark bed as occupied.
 	if _, err := locationManager.OccupySpecificBed(aAndEID, bed2); err != nil {
@@ -279,7 +285,8 @@ func TestManagerOccupySpecificBedNoAvailableBed(t *testing.T) {
 }
 
 func TestManagerOccupySpecificBedReoccupyFreedBed(t *testing.T) {
-	locationManager := testlocation.NewLocationManager(t, aAndEID)
+	ctx := context.Background()
+	locationManager := testlocation.NewLocationManager(ctx, t, aAndEID)
 
 	want := aAndEBed2
 
@@ -316,7 +323,8 @@ func TestManagerOccupySpecificBedReoccupyFreedBed(t *testing.T) {
 }
 
 func TestManagerFreeBed(t *testing.T) {
-	locationManager := testlocation.NewLocationManager(t, aAndEID)
+	ctx := context.Background()
+	locationManager := testlocation.NewLocationManager(ctx, t, aAndEID)
 
 	// We first occupy a bed.
 	got, err := locationManager.OccupyAvailableBed(aAndEID)
@@ -339,7 +347,8 @@ func TestManagerFreeBed(t *testing.T) {
 }
 
 func TestManagerFreeBedError(t *testing.T) {
-	locationManager := testlocation.NewLocationManager(t, aAndEID)
+	ctx := context.Background()
+	locationManager := testlocation.NewLocationManager(ctx, t, aAndEID)
 
 	// Get a location that is not a bed.
 	aAndELoc := locationManager.GetAAndELocation()
@@ -392,6 +401,7 @@ func TestManagerFreeBedError(t *testing.T) {
 }
 
 func TestManagerGetAAndELocation(t *testing.T) {
+	ctx := context.Background()
 	cases := []struct {
 		name    string
 		manager *Manager
@@ -399,7 +409,7 @@ func TestManagerGetAAndELocation(t *testing.T) {
 	}{
 		{
 			name:    "existing ED",
-			manager: testlocation.NewLocationManager(t, aAndEID),
+			manager: testlocation.NewLocationManager(ctx, t, aAndEID),
 			want: &ir.PatientLocation{
 				Poc:          aAndEID,
 				Facility:     "Simulated Hospital",
@@ -440,6 +450,7 @@ func TestManagerGetAAndELocation(t *testing.T) {
 }
 
 func TestManagerMatches(t *testing.T) {
+	ctx := context.Background()
 	cases := []struct {
 		name     string
 		location string
@@ -481,7 +492,7 @@ func TestManagerMatches(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			manager := testlocation.NewLocationManager(t, aAndEID)
+			manager := testlocation.NewLocationManager(ctx, t, aAndEID)
 			got, err := manager.Matches(tc.location, tc.pl)
 			gotErr := err != nil
 			if gotErr != tc.wantErr {

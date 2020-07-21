@@ -41,7 +41,7 @@ func TestValidateProdPathways(t *testing.T) {
 	if err != nil {
 		t.Fatalf("orderprofile.Load(%s, %+v) failed with %v", test.OrderProfilesConfigProd, hl7Config, err)
 	}
-	lm, err := location.NewManager(test.LocationsConfigProd)
+	lm, err := location.NewManager(ctx, test.LocationsConfigProd)
 	if err != nil {
 		t.Fatalf("location.NewManager(%s) failed with %v", test.LocationsConfigProd, err)
 	}

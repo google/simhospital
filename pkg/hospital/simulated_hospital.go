@@ -316,7 +316,7 @@ func DefaultConfig(ctx context.Context, arguments Arguments) (Config, error) {
 
 	var err error
 	if arguments.LocationsFile != nil {
-		if c.LocationManager, err = location.NewManager(*arguments.LocationsFile); err != nil {
+		if c.LocationManager, err = location.NewManager(ctx, *arguments.LocationsFile); err != nil {
 			return Config{}, errors.Wrap(err, "cannot create Location Manager")
 		}
 	}

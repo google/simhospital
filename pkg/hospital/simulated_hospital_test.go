@@ -15,6 +15,7 @@
 package hospital_test
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"math"
@@ -80,6 +81,7 @@ func TestMain(m *testing.M) {
 }
 
 func TestStartPathwayWithDelays(t *testing.T) {
+	ctx := context.Background()
 	type duration struct {
 		from time.Duration
 		to   time.Duration
@@ -213,7 +215,7 @@ func TestStartPathwayWithDelays(t *testing.T) {
 			pathways := map[string]pathway.Pathway{
 				testPathwayName: tc.pathway,
 			}
-			hospital := hospitalWithTime(t, Config{}, pathways, now)
+			hospital := hospitalWithTime(ctx, t, Config{}, pathways, now)
 			defer hospital.Close()
 
 			startPathway(t, hospital, testPathwayName)
@@ -251,6 +253,7 @@ func TestStartPathwayWithDelays(t *testing.T) {
 }
 
 func TestStartPathway_OrderAckAndResult(t *testing.T) {
+	ctx := context.Background()
 	results := []*pathway.Result{{
 		TestName: "Creatinine",
 		Value:    "52",
@@ -405,7 +408,7 @@ func TestStartPathway_OrderAckAndResult(t *testing.T) {
 			pathways := map[string]pathway.Pathway{
 				testPathwayName: {Pathway: tc.steps},
 			}
-			hospital := newHospital(t, Config{AdditionalConfig: AdditionalConfig{OrderAckDelay: &pathway.Delay{From: tc.orderAckDelay, To: tc.orderAckDelay}}}, pathways)
+			hospital := newHospital(ctx, t, Config{AdditionalConfig: AdditionalConfig{OrderAckDelay: &pathway.Delay{From: tc.orderAckDelay, To: tc.orderAckDelay}}}, pathways)
 
 			startPathway(t, hospital, testPathwayName)
 			_, messages := hospital.ConsumeQueues(t)
@@ -432,6 +435,7 @@ func TestStartPathway_OrderAckAndResult(t *testing.T) {
 }
 
 func TestStartPathway_OrderAckDelayIsRandom(t *testing.T) {
+	ctx := context.Background()
 	rand.Seed(1)
 	pathways := map[string]pathway.Pathway{
 		testPathwayName: {Pathway: []pathway.Step{{
@@ -449,7 +453,7 @@ func TestStartPathway_OrderAckDelayIsRandom(t *testing.T) {
 	for i := minOrderDelay.Seconds(); i <= maxOrderDelay.Seconds(); i++ {
 		delays[i] = 0
 	}
-	hospital := newHospital(t, Config{AdditionalConfig: AdditionalConfig{OrderAckDelay: &pathway.Delay{From: minOrderDelay, To: maxOrderDelay + time.Second}}}, pathways)
+	hospital := newHospital(ctx, t, Config{AdditionalConfig: AdditionalConfig{OrderAckDelay: &pathway.Delay{From: minOrderDelay, To: maxOrderDelay + time.Second}}}, pathways)
 	defer hospital.Close()
 	count := 1000
 	wantMessageTypes := []string{"ORM^O01", "ORR^O02"}
@@ -494,6 +498,7 @@ func TestStartPathway_OrderAckDelayIsRandom(t *testing.T) {
 }
 
 func TestRunPathwayWithMultipleHeaderFields(t *testing.T) {
+	ctx := context.Background()
 	sa1, sa2 := "sa-1", "sa-2"
 	sf1, sf2 := "sf-1", "sf-2"
 	pathways := map[string]pathway.Pathway{
@@ -517,7 +522,7 @@ func TestRunPathwayWithMultipleHeaderFields(t *testing.T) {
 		}},
 	}
 
-	hospital := newHospital(t, Config{}, pathways)
+	hospital := newHospital(ctx, t, Config{}, pathways)
 	defer hospital.Close()
 	startPathway(t, hospital, testPathwayName)
 	_, messages := hospital.ConsumeQueues(t)
@@ -544,6 +549,7 @@ func TestRunPathwayWithMultipleHeaderFields(t *testing.T) {
 }
 
 func TestRunPathway_StepTypes(t *testing.T) {
+	ctx := context.Background()
 	type metric struct {
 		name     string
 		labels   map[string]string
@@ -1746,7 +1752,7 @@ func TestRunPathway_StepTypes(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			mr := testmetrics.NewRetrieverFromGatherer(t)
 
-			hospital := newHospital(t, Config{}, map[string]pathway.Pathway{testPathwayName: tc.pathway})
+			hospital := newHospital(ctx, t, Config{}, map[string]pathway.Pathway{testPathwayName: tc.pathway})
 			defer hospital.Close()
 			startPathway(t, hospital, testPathwayName)
 			_, messages := hospital.ConsumeQueues(t)
@@ -1773,6 +1779,7 @@ func TestRunPathway_StepTypes(t *testing.T) {
 }
 
 func TestStartPathway_OccupiedBed(t *testing.T) {
+	ctx := context.Background()
 	type preoccupiedBed struct {
 		loc   string
 		bedID string
@@ -1866,9 +1873,9 @@ func TestStartPathway_OccupiedBed(t *testing.T) {
 				testPathwayName: {Pathway: tc.steps},
 			}
 			cfg := Config{
-				LocationManager: testlocation.NewLocationManager(t, testLoc, testLocAE),
+				LocationManager: testlocation.NewLocationManager(ctx, t, testLoc, testLocAE),
 			}
-			hospital := newHospital(t, cfg, pathways)
+			hospital := newHospital(ctx, t, cfg, pathways)
 			defer hospital.Close()
 			for _, preoccupiedBed := range tc.preoccupiedBeds {
 				if _, err := hospital.LocationManager.OccupySpecificBed(preoccupiedBed.loc, preoccupiedBed.bedID); err != nil {
@@ -1900,6 +1907,7 @@ func TestStartPathway_OccupiedBed(t *testing.T) {
 // TrackArrival in 'transit' mode, DeleteVisit, Merge and BedSwap require a complex setup and they cannot be run individually.
 // Given that there's a low chance that those steps will be used to update death information, they aren't tested.
 func TestRunPathway_UpdateDeathInformation(t *testing.T) {
+	ctx := context.Background()
 	now := time.Date(2018, 2, 12, 0, 30, 0, 0, time.UTC)
 	testTime := 3 * time.Minute
 	threeMinutes := 3 * time.Minute
@@ -1983,7 +1991,7 @@ func TestRunPathway_UpdateDeathInformation(t *testing.T) {
 					testPathwayName: {Pathway: []pathway.Step{step, {Result: &pathway.Results{}}}},
 				}
 
-				h := hospitalWithTime(t, Config{}, pathways, now)
+				h := hospitalWithTime(ctx, t, Config{}, pathways, now)
 				defer h.Close()
 				startPathway(t, h, testPathwayName)
 
@@ -2037,6 +2045,7 @@ func TestRunPathway_UpdateDeathInformation(t *testing.T) {
 }
 
 func TestRunPathwayMergeStep(t *testing.T) {
+	ctx := context.Background()
 	// Both "CURRENT" and the explicit MRN should work.
 	mergeSteps := []*pathway.Merge{
 		{Parent: "2", Children: toPatientIDs("1")},
@@ -2064,7 +2073,7 @@ func TestRunPathwayMergeStep(t *testing.T) {
 				}},
 			}
 
-			hospital := newHospital(t, Config{}, pathways)
+			hospital := newHospital(ctx, t, Config{}, pathways)
 			defer hospital.Close()
 			startPathway(t, hospital, "pathway1", "pathway2")
 			events, messages := hospital.ConsumeQueues(t)
@@ -2090,6 +2099,7 @@ func TestRunPathwayMergeStep(t *testing.T) {
 }
 
 func TestRunPathwayMergeStepWrongMRNSyncerInUse(t *testing.T) {
+	ctx := context.Background()
 	mr := testmetrics.NewRetrieverFromGatherer(t)
 
 	pathways := map[string]pathway.Pathway{
@@ -2116,7 +2126,7 @@ func TestRunPathwayMergeStepWrongMRNSyncerInUse(t *testing.T) {
 		}},
 	}
 
-	hospital := hospitalWithPatientSyncer(t, Config{}, pathways, teststate.NewItemSyncer())
+	hospital := hospitalWithPatientSyncer(ctx, t, Config{}, pathways, teststate.NewItemSyncer())
 	defer hospital.Close()
 	startPathway(t, hospital, "pathway1", "pathway2")
 	events, messages := hospital.ConsumeQueues(t)
@@ -2159,6 +2169,7 @@ func TestRunPathwayMergeStepWrongMRNSyncerInUse(t *testing.T) {
 }
 
 func TestRunPathwayMergeStepPersonsSection(t *testing.T) {
+	ctx := context.Background()
 	p1ID := pathway.PatientID("patient-1")
 	p2ID := pathway.PatientID("patient-2")
 
@@ -2178,7 +2189,7 @@ func TestRunPathwayMergeStepPersonsSection(t *testing.T) {
 		},
 	}
 
-	hospital := newHospital(t, Config{}, pathways)
+	hospital := newHospital(ctx, t, Config{}, pathways)
 	defer hospital.Close()
 	startPathway(t, hospital, testPathwayName)
 	events, messages := hospital.ConsumeQueues(t)
@@ -2207,6 +2218,7 @@ func TestRunPathwayMergeStepPersonsSection(t *testing.T) {
 }
 
 func TestRunPathwayUsePatientWithMRNs(t *testing.T) {
+	ctx := context.Background()
 	// An arbitrary pathway, it will create a new patient when it is run.
 	pathway1 := pathway.Pathway{
 		Pathway: []pathway.Step{
@@ -2235,7 +2247,7 @@ func TestRunPathwayUsePatientWithMRNs(t *testing.T) {
 			}
 
 			// In order to use a patient from a previous pathway we must allow for that patient to be saved in the syncer.
-			hospital := hospitalWithPatientSyncer(t, Config{}, pathways, teststate.NewItemSyncer())
+			hospital := hospitalWithPatientSyncer(ctx, t, Config{}, pathways, teststate.NewItemSyncer())
 			defer hospital.Close()
 			startPathway(t, hospital, "pathway1", "pathway2")
 			_, messages := hospital.ConsumeQueues(t)
@@ -2254,6 +2266,7 @@ func TestRunPathwayUsePatientWithMRNs(t *testing.T) {
 }
 
 func TestLoadPersonFromSyncer(t *testing.T) {
+	ctx := context.Background()
 	existingPatientMRN := "MRN-OF-EXISTING-PATIENT"
 	expectedFirstName := "Expected first name"
 	// Patient to be returned by syncer.
@@ -2299,7 +2312,7 @@ func TestLoadPersonFromSyncer(t *testing.T) {
 			if err := ps.Write(existingPatient); err != nil {
 				t.Fatalf("PatientSyncer.Write(%+v) failed with %v", existingPatient, err)
 			}
-			hospital := hospitalWithPatientSyncer(t, Config{}, pathways, ps)
+			hospital := hospitalWithPatientSyncer(ctx, t, Config{}, pathways, ps)
 			defer hospital.Close()
 			startPathway(t, hospital, testPathwayName)
 			_, messages := hospital.ConsumeQueues(t)
@@ -2318,6 +2331,7 @@ func TestLoadPersonFromSyncer(t *testing.T) {
 }
 
 func TestLoadExistingPatientUpdatePerson(t *testing.T) {
+	ctx := context.Background()
 	existingPatientMRN := "MRN-OF-EXISTING-PATIENT"
 	existingFirstName := "Existing first name"
 	existingSurname := "Existing surname"
@@ -2353,7 +2367,7 @@ func TestLoadExistingPatientUpdatePerson(t *testing.T) {
 		t.Fatalf("PatientSyncer.Write(%+v) failed with %v", existingPatient, err)
 	}
 
-	hospital := hospitalWithPatientSyncer(t, Config{}, pathways, ps)
+	hospital := hospitalWithPatientSyncer(ctx, t, Config{}, pathways, ps)
 	defer hospital.Close()
 	startPathway(t, hospital, testPathwayName)
 	_, messages := hospital.ConsumeQueues(t)
@@ -2372,6 +2386,7 @@ func TestLoadExistingPatientUpdatePerson(t *testing.T) {
 }
 
 func TestRunPathwayUsePatientWithPersonsAndMRNs(t *testing.T) {
+	ctx := context.Background()
 	// An arbitrary pathway, it will create a new patient when it is run.
 	pathway1 := pathway.Pathway{
 		Persons: &pathway.Persons{
@@ -2400,7 +2415,7 @@ func TestRunPathwayUsePatientWithPersonsAndMRNs(t *testing.T) {
 		"pathway1": pathway1,
 		"pathway2": pathway2,
 	}
-	hospital := hospitalWithPatientSyncer(t, Config{}, pathways, teststate.NewItemSyncer())
+	hospital := hospitalWithPatientSyncer(ctx, t, Config{}, pathways, teststate.NewItemSyncer())
 	defer hospital.Close()
 	startPathway(t, hospital, "pathway1", "pathway2")
 	_, messages := hospital.ConsumeQueues(t)
@@ -2418,6 +2433,7 @@ func TestRunPathwayUsePatientWithPersonsAndMRNs(t *testing.T) {
 }
 
 func TestStartPathway_InvalidPersonsSection(t *testing.T) {
+	ctx := context.Background()
 	mr := testmetrics.NewRetrieverFromGatherer(t)
 
 	pathways := map[string]pathway.Pathway{
@@ -2431,7 +2447,7 @@ func TestStartPathway_InvalidPersonsSection(t *testing.T) {
 		},
 	}
 
-	hospital := newHospital(t, Config{}, pathways)
+	hospital := newHospital(ctx, t, Config{}, pathways)
 	defer hospital.Close()
 	p, err := hospital.PathwayManager.GetPathway(testPathwayName)
 	if err != nil {
@@ -2457,12 +2473,13 @@ func TestStartPathway_InvalidPersonsSection(t *testing.T) {
 }
 
 func TestRunPathwayDeleteVisitNoPastVisit(t *testing.T) {
+	ctx := context.Background()
 	pathways := map[string]pathway.Pathway{
 		testPathwayName: {Pathway: []pathway.Step{
 			{DeleteVisit: &pathway.DeleteVisit{}},
 		}},
 	}
-	hospital := newHospital(t, Config{DeletePatientsFromMemory: true}, pathways)
+	hospital := newHospital(ctx, t, Config{DeletePatientsFromMemory: true}, pathways)
 	defer hospital.Close()
 	startPathway(t, hospital, testPathwayName)
 	events, messages := hospital.ConsumeQueues(t)
@@ -2481,6 +2498,7 @@ func TestRunPathwayDeleteVisitNoPastVisit(t *testing.T) {
 }
 
 func TestRunPathwayBedSwapStep(t *testing.T) {
+	ctx := context.Background()
 	// Both "CURRENT" and the explicit MRN should work.
 	swapSteps := []*pathway.BedSwap{
 		{Patient1: pathway.Current, Patient2: "1"},
@@ -2511,7 +2529,7 @@ func TestRunPathwayBedSwapStep(t *testing.T) {
 				}},
 			}
 
-			hospital := newHospital(t, Config{}, pathways)
+			hospital := newHospital(ctx, t, Config{}, pathways)
 			defer hospital.Close()
 			startPathway(t, hospital, "pathway1", "pathway2")
 			events, messages := hospital.ConsumeQueues(t)
@@ -2549,6 +2567,7 @@ func TestRunPathwayBedSwapStep(t *testing.T) {
 }
 
 func TestRunPathwayBedSwapStepPersonsSection(t *testing.T) {
+	ctx := context.Background()
 	p1ID := pathway.PatientID("patient-1")
 	p2ID := pathway.PatientID("patient-2")
 
@@ -2572,7 +2591,7 @@ func TestRunPathwayBedSwapStepPersonsSection(t *testing.T) {
 		},
 	}
 
-	hospital := newHospital(t, Config{}, pathways)
+	hospital := newHospital(ctx, t, Config{}, pathways)
 	defer hospital.Close()
 	startPathway(t, hospital, testPathwayName)
 	events, messages := hospital.ConsumeQueues(t)
@@ -2619,6 +2638,7 @@ func TestRunPathwayBedSwapStepPersonsSection(t *testing.T) {
 }
 
 func TestRunPathwayBedSwapStepWrongMRN(t *testing.T) {
+	ctx := context.Background()
 	mr := testmetrics.NewRetrieverFromGatherer(t)
 
 	pathways := map[string]pathway.Pathway{
@@ -2635,7 +2655,7 @@ func TestRunPathwayBedSwapStepWrongMRN(t *testing.T) {
 		}},
 	}
 
-	hospital := newHospital(t, Config{}, pathways)
+	hospital := newHospital(ctx, t, Config{}, pathways)
 	defer hospital.Close()
 	startPathway(t, hospital, "pathway1", "pathway2")
 	events, messages := hospital.ConsumeQueues(t)
@@ -2659,6 +2679,7 @@ func TestRunPathwayBedSwapStepWrongMRN(t *testing.T) {
 }
 
 func TestRunPathwayBedSwapPathwayBedSwapAfterPathwayFinished(t *testing.T) {
+	ctx := context.Background()
 	mr := testmetrics.NewRetrieverFromGatherer(t)
 
 	delay := &pathway.Delay{From: 5 * time.Second, To: 5 * time.Second}
@@ -2684,7 +2705,7 @@ func TestRunPathwayBedSwapPathwayBedSwapAfterPathwayFinished(t *testing.T) {
 		}},
 	}
 
-	hospital := hospitalWithPatientSyncer(t, Config{}, pathways, teststate.NewItemSyncer())
+	hospital := hospitalWithPatientSyncer(ctx, t, Config{}, pathways, teststate.NewItemSyncer())
 	defer hospital.Close()
 	startPathway(t, hospital, "pathway1", "pathway2")
 	events, messages := hospital.ConsumeQueues(t)
@@ -2718,6 +2739,7 @@ func TestRunPathwayBedSwapPathwayBedSwapAfterPathwayFinished(t *testing.T) {
 }
 
 func TestRunPathwayBedSwapPathwayBedSwapWithNilLocation(t *testing.T) {
+	ctx := context.Background()
 	mr := testmetrics.NewRetrieverFromGatherer(t)
 
 	delay := &pathway.Delay{From: 5 * time.Second, To: 5 * time.Second}
@@ -2742,7 +2764,7 @@ func TestRunPathwayBedSwapPathwayBedSwapWithNilLocation(t *testing.T) {
 		},
 	}
 
-	hospital := newHospital(t, Config{}, pathways)
+	hospital := newHospital(ctx, t, Config{}, pathways)
 	defer hospital.Close()
 	startPathway(t, hospital, "pathway1", "pathway2")
 	events, messages := hospital.ConsumeQueues(t)
@@ -2773,6 +2795,7 @@ func TestRunPathwayBedSwapPathwayBedSwapWithNilLocation(t *testing.T) {
 }
 
 func TestRunPathwayPathwayFinishesSinglePatient(t *testing.T) {
+	ctx := context.Background()
 	pathways := map[string]pathway.Pathway{
 		testPathwayName: {Pathway: []pathway.Step{
 			{Result: &pathway.Results{}},
@@ -2780,7 +2803,7 @@ func TestRunPathwayPathwayFinishesSinglePatient(t *testing.T) {
 		}},
 	}
 
-	hospital := newHospital(t, Config{DeletePatientsFromMemory: true}, pathways)
+	hospital := newHospital(ctx, t, Config{DeletePatientsFromMemory: true}, pathways)
 	defer hospital.Close()
 	startPathway(t, hospital, testPathwayName)
 	// The patient is added to the list when the pathway starts,
@@ -2796,6 +2819,7 @@ func TestRunPathwayPathwayFinishesSinglePatient(t *testing.T) {
 }
 
 func TestRunPathwayPathwayFinishesNoPatients(t *testing.T) {
+	ctx := context.Background()
 	shortDelay := &pathway.Delay{From: time.Second, To: time.Second}
 	longDelay := &pathway.Delay{From: 10 * time.Second, To: 10 * time.Second}
 
@@ -2813,7 +2837,7 @@ func TestRunPathwayPathwayFinishesNoPatients(t *testing.T) {
 		}},
 	}
 
-	hospital := newHospital(t, Config{DeletePatientsFromMemory: true}, pathways)
+	hospital := newHospital(ctx, t, Config{DeletePatientsFromMemory: true}, pathways)
 	defer hospital.Close()
 	startPathway(t, hospital, "pathway1", "pathway2")
 	// The patients are added to the list when the pathways start.
@@ -2836,6 +2860,7 @@ func TestRunPathwayPathwayFinishesNoPatients(t *testing.T) {
 }
 
 func TestRunPathwaySameVisitDifferentPathways(t *testing.T) {
+	ctx := context.Background()
 	pathways := map[string]pathway.Pathway{
 		testPathwayName: {Pathway: []pathway.Step{
 			{Admission: &pathway.Admission{Loc: testLoc}},
@@ -2846,7 +2871,7 @@ func TestRunPathwaySameVisitDifferentPathways(t *testing.T) {
 		}},
 	}
 
-	hospital := hospitalWithPatientSyncer(t, Config{}, pathways, teststate.NewItemSyncer())
+	hospital := hospitalWithPatientSyncer(ctx, t, Config{}, pathways, teststate.NewItemSyncer())
 	defer hospital.Close()
 	// Admission in one pathway.
 	startPathway(t, hospital, testPathwayName)
@@ -2904,6 +2929,7 @@ func TestRunPathwaySameVisitDifferentPathways(t *testing.T) {
 }
 
 func TestPersistence(t *testing.T) {
+	ctx := context.Background()
 	pathways := map[string]pathway.Pathway{
 		testPathwayName: {Pathway: []pathway.Step{
 			{Admission: &pathway.Admission{Loc: testLoc}},
@@ -2920,7 +2946,7 @@ func TestPersistence(t *testing.T) {
 		state.EventItemType:   es,
 		state.PatientItemType: ps,
 	}
-	hospital := newHospital(t, Config{AdditionalConfig: AdditionalConfig{ItemSyncers: syncers}}, pathways)
+	hospital := newHospital(ctx, t, Config{AdditionalConfig: AdditionalConfig{ItemSyncers: syncers}}, pathways)
 	defer hospital.Close()
 	// When a pathway starts, an event and a patient are persisted.
 	startPathway(t, hospital, testPathwayName)
@@ -2997,6 +3023,7 @@ func TestPersistence(t *testing.T) {
 }
 
 func TestPersistenceLoad(t *testing.T) {
+	ctx := context.Background()
 	// We test that we can load by first saving a few items.
 	// We use a Hospital for convenience.
 	// If there's nothing in the syncer, we don't load anything.
@@ -3017,7 +3044,7 @@ func TestPersistenceLoad(t *testing.T) {
 		state.EventItemType:   es,
 		state.PatientItemType: ps,
 	}
-	hospital := newHospital(t, Config{AdditionalConfig: AdditionalConfig{ItemSyncers: syncers}}, pathways)
+	hospital := newHospital(ctx, t, Config{AdditionalConfig: AdditionalConfig{ItemSyncers: syncers}}, pathways)
 	defer hospital.Close()
 	startPathway(t, hospital, testPathwayName)
 	// Run the first event, so that the first message is sent.
@@ -3036,7 +3063,7 @@ func TestPersistenceLoad(t *testing.T) {
 	}
 
 	// Create a new instance of Simulated Hospital with the same syncers.
-	hospital2 := newHospital(t, Config{AdditionalConfig: AdditionalConfig{ItemSyncers: syncers}}, pathways)
+	hospital2 := newHospital(ctx, t, Config{AdditionalConfig: AdditionalConfig{ItemSyncers: syncers}}, pathways)
 	defer hospital2.Close()
 	// We expect hospital.patients to be empty since we do not load patients regardless of load flag.
 	if got, want := hospital2.PatientsLen(), 0; got != want {
@@ -3090,6 +3117,7 @@ func (p *messageProcessor) Process(m *state.HL7Message) error {
 }
 
 func TestRunPathwayWithEventProcessor(t *testing.T) {
+	ctx := context.Background()
 	pathways := map[string]pathway.Pathway{
 		testPathwayName: {Pathway: []pathway.Step{
 			{Result: &pathway.Results{}},
@@ -3328,7 +3356,7 @@ func TestRunPathwayWithEventProcessor(t *testing.T) {
 					Processors: Processors{EventPost: tc.postProcessors, EventOverride: tc.overrideProcessors, EventPre: tc.preProcessors},
 				},
 			}
-			hospital := newHospital(t, cfg, pathways)
+			hospital := newHospital(ctx, t, cfg, pathways)
 			defer hospital.Close()
 			startPathway(t, hospital, testPathwayName)
 			eventCount, gotMsgs := hospital.ConsumeQueues(t)
@@ -3365,6 +3393,7 @@ func TestRunPathwayWithEventProcessor(t *testing.T) {
 }
 
 func TestRunPathwayWithMessageProcessor(t *testing.T) {
+	ctx := context.Background()
 	pathways := map[string]pathway.Pathway{
 		testPathwayName: {Pathway: []pathway.Step{
 			{Admission: &pathway.Admission{Loc: testLoc}},
@@ -3556,7 +3585,7 @@ func TestRunPathwayWithMessageProcessor(t *testing.T) {
 					Processors: Processors{MessagePost: tc.postProcessors, MessageOverride: tc.overrideProcessors, MessagePre: tc.preProcessors},
 				},
 			}
-			hospital := newHospital(t, cfg, pathways)
+			hospital := newHospital(ctx, t, cfg, pathways)
 			defer hospital.Close()
 
 			p, _ := hospital.PathwayManager.GetPathway(testPathwayName)
@@ -3592,6 +3621,7 @@ func TestRunPathwayWithMessageProcessor(t *testing.T) {
 }
 
 func TestGenericEventAndAdditionalData(t *testing.T) {
+	ctx := context.Background()
 	pathways := map[string]pathway.Pathway{
 		testPathwayName: {Pathway: []pathway.Step{
 			{
@@ -3628,7 +3658,7 @@ func TestGenericEventAndAdditionalData(t *testing.T) {
 			assertMedicationsProc.t = t
 			mr := testmetrics.NewRetrieverFromGatherer(t)
 			cfg := Config{AdditionalConfig: tc.ac}
-			hospital := newHospital(t, cfg, pathways)
+			hospital := newHospital(ctx, t, cfg, pathways)
 			defer hospital.Close()
 
 			p, _ := hospital.PathwayManager.GetPathway(testPathwayName)
@@ -3719,10 +3749,11 @@ func (tpm *testPathwayManager) NextPathway() (*pathway.Pathway, error) {
 }
 
 func TestRunPathwayCustomPathwayManager(t *testing.T) {
+	ctx := context.Background()
 	pm := &testPathwayManager{}
 	cfg := Config{
 		PathwayManager:  pm,
-		LocationManager: testlocation.NewLocationManager(t, testLoc, testLocAE),
+		LocationManager: testlocation.NewLocationManager(ctx, t, testLoc, testLocAE),
 		DataFiles:       test.DataFiles[test.Test],
 	}
 	hospital := testhospital.WithTime(t, testhospital.Config{Config: cfg, Arguments: testhospital.Arguments}, now)
@@ -3742,6 +3773,7 @@ func TestRunPathwayCustomPathwayManager(t *testing.T) {
 }
 
 func TestRunPathwayWithHardcodedMessage(t *testing.T) {
+	ctx := context.Background()
 	wantMessageTypes := []string{"ADT^A01", "ADT^A03"}
 	pathways := map[string]pathway.Pathway{
 		testPathwayName: {Pathway: []pathway.Step{
@@ -3758,7 +3790,7 @@ func TestRunPathwayWithHardcodedMessage(t *testing.T) {
 		t.Fatalf("NewManager(%s) failed with %v", hardcodedMessageYml, err)
 	}
 
-	hospital := newHospital(t, Config{MessagesManager: hardcodedMessagesManager, MessageControlGenerator: msgControlGen}, pathways)
+	hospital := newHospital(ctx, t, Config{MessagesManager: hardcodedMessagesManager, MessageControlGenerator: msgControlGen}, pathways)
 	defer hospital.Close()
 	startPathway(t, hospital, testPathwayName)
 	_, messages := hospital.ConsumeQueues(t)
@@ -3779,25 +3811,25 @@ func TestRunPathwayWithHardcodedMessage(t *testing.T) {
 	}
 }
 
-func newHospital(t *testing.T, cfg Config, pathways map[string]pathway.Pathway) *testhospital.Hospital {
+func newHospital(ctx context.Context, t *testing.T, cfg Config, pathways map[string]pathway.Pathway) *testhospital.Hospital {
 	t.Helper()
-	return hospitalWithTime(t, cfg, pathways, now)
+	return hospitalWithTime(ctx, t, cfg, pathways, now)
 }
 
-func hospitalWithPatientSyncer(t *testing.T, cfg Config, pathways map[string]pathway.Pathway, ps persist.ItemSyncer) *testhospital.Hospital {
+func hospitalWithPatientSyncer(ctx context.Context, t *testing.T, cfg Config, pathways map[string]pathway.Pathway, ps persist.ItemSyncer) *testhospital.Hospital {
 	t.Helper()
 	cfg.AdditionalConfig.ItemSyncers = map[string]persist.ItemSyncer{state.PatientItemType: ps}
-	return newHospital(t, cfg, pathways)
+	return newHospital(ctx, t, cfg, pathways)
 }
 
-func hospitalWithTime(t *testing.T, cfg Config, pathways map[string]pathway.Pathway, now time.Time) *testhospital.Hospital {
+func hospitalWithTime(ctx context.Context, t *testing.T, cfg Config, pathways map[string]pathway.Pathway, now time.Time) *testhospital.Hospital {
 	t.Helper()
 	pm, err := pathway.NewDistributionManager(pathways, nil, nil)
 	if err != nil {
 		t.Fatalf("pathway.NewDistributionManager(%v,%v,%v) failed with %v", pathways, nil, nil, err)
 	}
 	cfg.PathwayManager = pm
-	cfg.LocationManager = testlocation.NewLocationManager(t, testLoc, testLocAE)
+	cfg.LocationManager = testlocation.NewLocationManager(ctx, t, testLoc, testLocAE)
 	return testhospital.WithTime(t, testhospital.Config{Config: cfg, Arguments: testhospital.Arguments}, now)
 }
 
@@ -3824,6 +3856,7 @@ func toPatientIDs(strings ...string) []pathway.PatientID {
 }
 
 func TestRunPathwayResultsOnSameOrDifferentOrders(t *testing.T) {
+	ctx := context.Background()
 	now := time.Date(2018, 2, 12, 0, 0, 0, 0, time.UTC)
 	timeFromNow := -30 * time.Minute
 	orderProfile := "US Pelvis TA and transvaginal"
@@ -4023,7 +4056,7 @@ func TestRunPathwayResultsOnSameOrDifferentOrders(t *testing.T) {
 				testPathwayName: tt.pathway,
 			}
 
-			hospital := hospitalWithTime(t, Config{}, pathways, now)
+			hospital := hospitalWithTime(ctx, t, Config{}, pathways, now)
 			defer hospital.Close()
 			startPathway(t, hospital, testPathwayName)
 			_, messages := hospital.ConsumeQueues(t)
@@ -4045,6 +4078,7 @@ func TestRunPathwayResultsOnSameOrDifferentOrders(t *testing.T) {
 }
 
 func TestPathwayClinicalNote(t *testing.T) {
+	ctx := context.Background()
 	for _, tt := range []struct {
 		name                  string
 		steps                 []*pathway.ClinicalNote
@@ -4111,7 +4145,7 @@ func TestPathwayClinicalNote(t *testing.T) {
 				testPathwayName: {Pathway: steps},
 			}
 
-			hospital := hospitalWithTime(t, Config{}, pathways, now)
+			hospital := hospitalWithTime(ctx, t, Config{}, pathways, now)
 			defer hospital.Close()
 			startPathway(t, hospital, testPathwayName)
 
@@ -4157,12 +4191,13 @@ func TestPathwayClinicalNote(t *testing.T) {
 }
 
 func TestHasEvents_HasMessages_RunNextEventIfDue_ProcessNextMessageIfDue(t *testing.T) {
+	ctx := context.Background()
 	pathways := map[string]pathway.Pathway{
 		testPathwayName: {Pathway: []pathway.Step{
 			{Admission: &pathway.Admission{Loc: testLoc}},
 		}},
 	}
-	hospital := newHospital(t, Config{}, pathways)
+	hospital := newHospital(ctx, t, Config{}, pathways)
 	defer hospital.Close()
 
 	// At the beginning, there are no events and no messages.
@@ -4215,6 +4250,7 @@ func TestHasEvents_HasMessages_RunNextEventIfDue_ProcessNextMessageIfDue(t *test
 }
 
 func TestStartNextPathway(t *testing.T) {
+	ctx := context.Background()
 	rand.Seed(1)
 	pathways := map[string]pathway.Pathway{
 		"pathway1": {Pathway: []pathway.Step{
@@ -4226,7 +4262,7 @@ func TestStartNextPathway(t *testing.T) {
 			{Discharge: &pathway.Discharge{}},
 		}},
 	}
-	hospital := newHospital(t, Config{}, pathways)
+	hospital := newHospital(ctx, t, Config{}, pathways)
 	defer hospital.Close()
 	runs := 100
 	// We expect to have either 1 or 3 messages per pathway, depending on which one gets picked every time.

@@ -37,13 +37,13 @@ var (
 	july182006    = time.Date(2006, 7, 18, 0, 0, 0, 0, time.UTC)
 )
 
-func newDefaultParser(t *testing.T, now time.Time) *Parser {
+func newDefaultParser(ctx context.Context, t *testing.T, now time.Time) *Parser {
 	t.Helper()
 	return &Parser{
 		Clock:           testclock.New(now),
 		OrderProfiles:   emptyOrderProfiles,
 		Doctors:         emptyDoctors,
-		LocationManager: testlocation.NewLocationManager(t, "ED", "Renal"),
+		LocationManager: testlocation.NewLocationManager(ctx, t, "ED", "Renal"),
 	}
 }
 
@@ -79,7 +79,7 @@ pathway1:
 		t.Run(tc.name, func(t *testing.T) {
 			dir := testwrite.BytesToDir(t, []byte(p), tc.name)
 
-			p := newDefaultParser(t, time.Now())
+			p := newDefaultParser(ctx, t, time.Now())
 
 			pathways, err := p.ParsePathways(ctx, dir)
 
@@ -310,7 +310,7 @@ pathway2:
 			testwrite.BytesToFileInExistingDir(t, p1, mainDir, "pathway1.yml")
 			testwrite.BytesToFileInExistingDir(t, tc.p2, mainDir, "pathway2.yml")
 
-			p := newDefaultParser(t, time.Now())
+			p := newDefaultParser(ctx, t, time.Now())
 
 			pathways, err := p.ParsePathways(ctx, mainDir)
 			if (err != nil) != tc.wantErr {
@@ -326,7 +326,7 @@ pathway2:
 
 func TestParsePathwaysUnmarshalStrict(t *testing.T) {
 	ctx := context.Background()
-	p := newDefaultParser(t, time.Now())
+	p := newDefaultParser(ctx, t, time.Now())
 	cases := []struct {
 		name              string
 		pathwayDefinition []byte
@@ -417,6 +417,7 @@ test_pathway:
 }
 
 func TestParseSinglePathway(t *testing.T) {
+	ctx := context.Background()
 	delay := &Delay{
 		From: time.Second,
 		To:   5 * time.Second,
@@ -429,7 +430,7 @@ func TestParseSinglePathway(t *testing.T) {
 			{Discharge: &Discharge{}},
 		},
 	}
-	p := newDefaultParser(t, time.Now())
+	p := newDefaultParser(ctx, t, time.Now())
 
 	cases := []struct {
 		name              string
@@ -679,7 +680,8 @@ random_pathway:
 }
 
 func TestParseSinglePathwayWithPatients(t *testing.T) {
-	p := newDefaultParser(t, time.Now())
+	ctx := context.Background()
+	p := newDefaultParser(ctx, t, time.Now())
 	cases := []struct {
 		name              string
 		pathwayDefinition []byte
@@ -840,6 +842,7 @@ pathway:
 }
 
 func TestParseSinglePathwayDateTimeAllergies(t *testing.T) {
+	ctx := context.Background()
 	tests := []struct {
 		name              string
 		pathwayDefinition []byte
@@ -902,7 +905,7 @@ func TestParseSinglePathwayDateTimeAllergies(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			p := newDefaultParser(t, time.Now())
+			p := newDefaultParser(ctx, t, time.Now())
 			got, err := p.ParseSinglePathway(tt.pathwayDefinition)
 			if err != nil {
 				t.Fatalf("ParseSinglePathway(%s) failed with %v", string(tt.pathwayDefinition), err)
@@ -915,6 +918,7 @@ func TestParseSinglePathwayDateTimeAllergies(t *testing.T) {
 }
 
 func TestParseSinglePathwayDateTimeDiagnoses(t *testing.T) {
+	ctx := context.Background()
 	tests := []struct {
 		name              string
 		pathwayDefinition []byte
@@ -992,7 +996,7 @@ func TestParseSinglePathwayDateTimeDiagnoses(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			p := newDefaultParser(t, time.Now())
+			p := newDefaultParser(ctx, t, time.Now())
 			got, err := p.ParseSinglePathway(tt.pathwayDefinition)
 			if err != nil {
 				t.Fatalf("ParseSinglePathway(%s) failed with %v", string(tt.pathwayDefinition), err)
@@ -1005,6 +1009,7 @@ func TestParseSinglePathwayDateTimeDiagnoses(t *testing.T) {
 }
 
 func TestParseSinglePathwayDateTimeProcedures(t *testing.T) {
+	ctx := context.Background()
 	tests := []struct {
 		name              string
 		pathwayDefinition []byte
@@ -1082,7 +1087,7 @@ func TestParseSinglePathwayDateTimeProcedures(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			p := newDefaultParser(t, time.Now())
+			p := newDefaultParser(ctx, t, time.Now())
 			got, err := p.ParseSinglePathway(tt.pathwayDefinition)
 			if err != nil {
 				t.Fatalf("ParseSinglePathway(%s) failed with %v", string(tt.pathwayDefinition), err)
@@ -1095,6 +1100,7 @@ func TestParseSinglePathwayDateTimeProcedures(t *testing.T) {
 }
 
 func TestParseSinglePathwayInvalidDateTime(t *testing.T) {
+	ctx := context.Background()
 	tests := []struct {
 		name              string
 		pathwayDefinition []byte
@@ -1189,7 +1195,7 @@ func TestParseSinglePathwayInvalidDateTime(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			p := newDefaultParser(t, time.Now())
+			p := newDefaultParser(ctx, t, time.Now())
 			if _, err := p.ParseSinglePathway(tt.pathwayDefinition); err == nil {
 				t.Fatalf("ParseSinglePathway(%s) got err=<nil>, want non-nil err", string(tt.pathwayDefinition))
 			}
@@ -1567,7 +1573,7 @@ pathway_autogenerate:
 
 	mainDir := writePathwayToDir(t, pathwayDefinition)
 
-	p := newDefaultParser(t, time.Now())
+	p := newDefaultParser(ctx, t, time.Now())
 	pathways, err := p.ParsePathways(ctx, mainDir)
 	if err != nil {
 		t.Fatalf("ParsePathways(%s failed with %v", string(pathwayDefinition), err)
@@ -1729,7 +1735,7 @@ random_pathway:
 `)
 	mainDir := writePathwayToDir(t, pathwayDefinition)
 
-	p := newDefaultParser(t, time.Now())
+	p := newDefaultParser(ctx, t, time.Now())
 	pathways, err := p.ParsePathways(ctx, mainDir)
 	if err != nil {
 		t.Fatalf("ParsePathways(%s) failed with %v", string(pathwayDefinition), err)
@@ -1824,7 +1830,7 @@ func parsePathwayDefinition(ctx context.Context, t *testing.T, pathwayDefinition
 	t.Helper()
 	mainDir := writePathwayToDir(t, pathwayDefinition)
 
-	p := newDefaultParser(t, time.Now())
+	p := newDefaultParser(ctx, t, time.Now())
 	pathways, err := p.ParsePathways(ctx, mainDir)
 	if err != nil {
 		t.Fatalf("ParsePathways(%s) failed with %v", string(pathwayDefinition), err)

@@ -24,6 +24,7 @@ go_library(
     srcs = ["location.go"],
     importpath = "github.com/google/simhospital/pkg/location",
     deps = [
+        "//pkg/files:go_default_library",
         "//pkg/ir:go_default_library",
         "//pkg/logging:go_default_library",
         "//pkg/monitoring:go_default_library",

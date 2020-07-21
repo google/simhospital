@@ -41,7 +41,7 @@ var (
 
 	// Flags that control the data that is generated.
 	localPath              = flag.String("local_path", "", "Absolute path to the directory where Simulated Hospital is located. Set when running locally to use as a prefix to all default paths")
-	locationsFile          = flag.String("locations_file", "configs/hl7_messages/locations.yml", "Path to a YAML file with the definition of locations")
+	locationsFile          = flag.String("locations_file", "configs/hl7_messages/locations.yml", "Path to a YAML file with the definition of locations. This can be a local file or a GCS object.")
 	hardcodedMessagesDir   = flag.String("hardcoded_messages_dir", "configs/hardcoded_messages", "Path to a directory with YAML files that contain hardcoded messages")
 	hl7ConfigFile          = flag.String("hl7_config_file", "configs/hl7_messages/hl7.yml", "Path to a YAML file with the possible values of HL7 fields related to how the HL7 standard is used")
 	headerConfigFile       = flag.String("header_config_file", "configs/hl7_messages/header.yml", "Path to a YAML file with the configuration for the header of HL7 messages")

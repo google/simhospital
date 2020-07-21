@@ -16,12 +16,13 @@
 package location
 
 import (
+	"context"
 	"fmt"
-	"io/ioutil"
 
 	"github.com/pkg/errors"
 	"github.com/prometheus/client_golang/prometheus"
 	"gopkg.in/yaml.v2"
+	"github.com/google/simhospital/pkg/files"
 	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/logging"
 	"github.com/google/simhospital/pkg/monitoring"
@@ -67,10 +68,10 @@ func init() {
 }
 
 // NewManager returns a location Manager.
-func NewManager(fileName string) (*Manager, error) {
+func NewManager(ctx context.Context, fileName string) (*Manager, error) {
 	roomManagers := map[string]*RoomManager{}
 
-	data, err := ioutil.ReadFile(fileName)
+	data, err := files.Read(ctx, fileName)
 	if err != nil {
 		return nil, errors.Wrapf(err, "cannot parse locations file %s", fileName)
 	}

@@ -19,6 +19,7 @@ import (
 	"context"
 	"fmt"
 	"io/ioutil"
+	"os"
 	"path"
 	"strings"
 
@@ -41,6 +42,25 @@ func List(ctx context.Context, path string) ([]File, error) {
 		return listGCSFiles(ctx, path)
 	}
 	return listLocalFiles(path)
+}
+
+// Read reads the file specified by the path.
+func Read(ctx context.Context, path string) ([]byte, error) {
+	if strings.HasPrefix(path, gcsBucketPrefix) {
+		return readGCSFile(ctx, path)
+	}
+	return readLocalFile(path)
+}
+
+func readGCSFile(ctx context.Context, path string) ([]byte, error) {
+	f, err := listGCSFiles(ctx, path)
+	if err != nil {
+		return nil, err
+	}
+	if len(f) != 1 {
+		return nil, fmt.Errorf("%s does not identify a file", path)
+	}
+	return f[0].Read(ctx)
 }
 
 func listGCSFiles(ctx context.Context, path string) ([]File, error) {
@@ -134,5 +154,16 @@ func (f localFile) FullPath() string {
 }
 
 func (f localFile) Read(_ context.Context) ([]byte, error) {
-	return ioutil.ReadFile(f.FullPath())
+	return readLocalFile(f.FullPath())
+}
+
+func readLocalFile(path string) ([]byte, error) {
+	fi, err := os.Stat(path)
+	if err != nil {
+		return nil, err
+	}
+	if fi.IsDir() {
+		return nil, fmt.Errorf("can't read local file; %s is a directory", path)
+	}
+	return ioutil.ReadFile(path)
 }

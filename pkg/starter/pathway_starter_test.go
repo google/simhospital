@@ -104,7 +104,8 @@ func TestMain(m *testing.M) {
 }
 
 func TestNewPathwayStarter(t *testing.T) {
-	ps := newTestPathwayStarter(t, map[string]pathway.Pathway{}, hospital.Config{})
+	ctx := context.Background()
+	ps := newTestPathwayStarter(ctx, t, map[string]pathway.Pathway{}, hospital.Config{})
 	defer ps.Hospital.Close()
 	ts := httptest.NewServer(ps)
 	defer ts.Close()
@@ -129,7 +130,7 @@ func TestServeHTTP_AllProdPathwaysCanBeStartedByName(t *testing.T) {
 	if err != nil {
 		t.Fatalf("ParseOrderProfiles(%s, %+v) failed with %v", test.OrderProfilesConfigProd, hl7Config, err)
 	}
-	lm, err := location.NewManager(test.LocationsConfigProd)
+	lm, err := location.NewManager(ctx, test.LocationsConfigProd)
 	if err != nil {
 		t.Fatalf("location.NewManager(%s) failed with %v", test.LocationsConfigProd, err)
 	}
@@ -143,7 +144,7 @@ func TestServeHTTP_AllProdPathwaysCanBeStartedByName(t *testing.T) {
 	// Start each one by name.
 	for k := range pathways {
 		t.Run(k, func(t *testing.T) {
-			ps := newTestPathwayStarter(t, pathways, hospital.Config{}).PathwayStarter
+			ps := newTestPathwayStarter(ctx, t, pathways, hospital.Config{}).PathwayStarter
 			defer ps.Hospital.Close()
 			response := serveHTTP(t, ps, k)
 			if want := responseStarted(k); !strings.Contains(response, want) {
@@ -167,7 +168,7 @@ func TestServeHTTP_AllProdPathwaysCanBeStartedWithMRNAndPatientName(t *testing.T
 	if err != nil {
 		t.Fatalf("ParseOrderProfiles(%s, %+v) failed with %v", test.OrderProfilesConfigProd, hl7Config, err)
 	}
-	lm, err := location.NewManager(test.LocationsConfigProd)
+	lm, err := location.NewManager(ctx, test.LocationsConfigProd)
 	if err != nil {
 		t.Fatalf("location.NewManager(%s) failed with %v", test.LocationsConfigProd, err)
 	}
@@ -203,7 +204,7 @@ func TestServeHTTP_AllProdPathwaysCanBeStartedWithMRNAndPatientName(t *testing.T
 		for _, tc := range tests {
 			req := fmt.Sprintf("%s: %s", k, tc.reqParams)
 			t.Run(fmt.Sprintf("%s_%s", k, tc.name), func(t *testing.T) {
-				ps := newTestPathwayStarter(t, pathways, hospital.Config{}).PathwayStarter
+				ps := newTestPathwayStarter(ctx, t, pathways, hospital.Config{}).PathwayStarter
 				defer ps.Hospital.Close()
 				response := serveHTTP(t, ps, req)
 				gotStarted := strings.Contains(response, responseStarted(k))
@@ -228,6 +229,7 @@ func TestServeHTTP_AllProdPathwaysCanBeStartedWithMRNAndPatientName(t *testing.T
 }
 
 func TestServeHTTP_PathwayByName(t *testing.T) {
+	ctx := context.Background()
 	// Inject just one name to be chosen "randomly" so that we can make assertions later.
 	names := `
 RANK,1904
@@ -354,7 +356,7 @@ RANK,1904
 	}}
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			ps := newTestPathwayStarter(t, tc.pathways, cfg)
+			ps := newTestPathwayStarter(ctx, t, tc.pathways, cfg)
 			defer ps.Hospital.Close()
 			response := serveHTTP(t, ps.PathwayStarter, tc.req)
 
@@ -374,6 +376,7 @@ RANK,1904
 }
 
 func TestServeHTTP_PathwayByName_MRNRetrievesPreviousPatient(t *testing.T) {
+	ctx := context.Background()
 	// Inject just one name to be chosen "randomly" so that we can make assertions later.
 	names := `
 RANK,1904
@@ -411,7 +414,7 @@ RANK,1904
 			},
 		},
 	}
-	ps := newTestPathwayStarter(t, pathways, cfg)
+	ps := newTestPathwayStarter(ctx, t, pathways, cfg)
 	defer ps.Hospital.Close()
 	req1 := "pathway1: Jane Taylor-Swift"
 	response := serveHTTP(t, ps.PathwayStarter, req1)
@@ -453,10 +456,11 @@ RANK,1904
 }
 
 func TestServeHTTP_PathwayWithPatient_PatientNotPersisted(t *testing.T) {
+	ctx := context.Background()
 	pathways := map[string]pathway.Pathway{
 		"pathway1": pathway1,
 	}
-	ps := newTestPathwayStarter(t, pathways, hospital.Config{})
+	ps := newTestPathwayStarter(ctx, t, pathways, hospital.Config{})
 	defer ps.Hospital.Close()
 	req := "pathway1: Jane Taylor"
 	response := serveHTTP(t, ps.PathwayStarter, req)
@@ -484,6 +488,7 @@ func TestServeHTTP_PathwayWithPatient_PatientNotPersisted(t *testing.T) {
 }
 
 func TestServeHTTP_PathwayFromYml(t *testing.T) {
+	ctx := context.Background()
 	tests := []struct {
 		name         string
 		yml          string
@@ -550,7 +555,7 @@ random_pathway:
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
 
-			ps := newTestPathwayStarter(t, map[string]pathway.Pathway{}, hospital.Config{})
+			ps := newTestPathwayStarter(ctx, t, map[string]pathway.Pathway{}, hospital.Config{})
 			defer ps.Hospital.Close()
 			response := serveHTTP(t, ps.PathwayStarter, tc.req)
 
@@ -566,6 +571,7 @@ random_pathway:
 }
 
 func TestServeHTTP_SendMessage(t *testing.T) {
+	ctx := context.Background()
 	// In reality, the message definition comes from a text box in the UI which has literal new lines,
 	// so we use them in the tests too (as opposed to "\n" characters).
 	tests := []struct {
@@ -635,7 +641,7 @@ func TestServeHTTP_SendMessage(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			pathways := map[string]pathway.Pathway{}
 			sender := testhl7.SenderWithError(tc.senderErr)
-			ps := newTestPathwayStarter(t, pathways, hospital.Config{Sender: sender})
+			ps := newTestPathwayStarter(ctx, t, pathways, hospital.Config{Sender: sender})
 			defer ps.Hospital.Close()
 
 			response := serveHTTP(t, ps.PathwayStarter, tc.msgDefinition)
@@ -688,7 +694,7 @@ type pathwayStarter struct {
 	Hospital *testhospital.Hospital
 }
 
-func newTestPathwayStarter(t *testing.T, pathways map[string]pathway.Pathway, cfg hospital.Config) *pathwayStarter {
+func newTestPathwayStarter(ctx context.Context, t *testing.T, pathways map[string]pathway.Pathway, cfg hospital.Config) *pathwayStarter {
 	t.Helper()
 	pathwayManager, err := pathway.NewDistributionManager(pathways, nil, nil)
 	if err != nil {
@@ -696,7 +702,7 @@ func newTestPathwayStarter(t *testing.T, pathways map[string]pathway.Pathway, cf
 	}
 
 	cfg.PathwayManager = pathwayManager
-	cfg.LocationManager = testlocation.NewLocationManager(t, testLoc, testLocAE)
+	cfg.LocationManager = testlocation.NewLocationManager(ctx, t, testLoc, testLocAE)
 	h := testhospital.WithTime(t, testhospital.Config{Config: cfg, Arguments: testhospital.Arguments}, now)
 	p := &pathway.Parser{
 		Clock:           testclock.New(time.Now()),

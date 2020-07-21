@@ -16,6 +16,7 @@ package files
 
 import (
 	"context"
+	"strings"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -48,6 +49,50 @@ func TestListLocal(t *testing.T) {
 	}
 	if diff := cmp.Diff(fileData, gotFileData); diff != "" {
 		t.Errorf("List(%s) returned unexpected file data, diff (-want,+got):\n%s", dir, diff)
+	}
+}
+
+func TestReadLocal(t *testing.T) {
+	ctx := context.Background()
+	data := []byte("this is a test")
+	f := testwrite.BytesToFile(t, data)
+	v, err := Read(ctx, f)
+	if err != nil {
+		t.Fatalf("Read(%s) failed with %v", f, err)
+	}
+	if got, want := string(v), string(data); got != want {
+		t.Errorf("Read(%s) got: %v, want: %v", f, got, want)
+	}
+}
+
+func TestReadLocalErrors(t *testing.T) {
+	ctx := context.Background()
+	dir := testwrite.TempDir(t)
+	tests := []struct {
+		name   string
+		path   string
+		errStr string
+	}{
+		{
+			name:   "path is directory",
+			path:   dir,
+			errStr: "is a directory",
+		}, {
+			name:   "path doesn't exist",
+			path:   "path/to/anything.txt",
+			errStr: "no such file",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			data, err := Read(ctx, tt.path)
+			if err == nil {
+				t.Fatalf("Read(%s) = %v, want error", tt.path, data)
+			}
+			if !strings.Contains(err.Error(), tt.errStr) {
+				t.Errorf("Read(%s) = (%v, %v), want: (nil, ...%s...)", tt.path, data, err, tt.errStr)
+			}
+		})
 	}
 }
 
