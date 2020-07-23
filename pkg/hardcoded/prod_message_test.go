@@ -15,6 +15,7 @@
 package hardcoded
 
 import (
+	"context"
 	"testing"
 
 	"github.com/google/simhospital/pkg/generator/header"
@@ -22,7 +23,8 @@ import (
 )
 
 func TestValidateProdConfig(t *testing.T) {
-	_, err := NewManager(test.HardcodedMessagesDirProd, &header.MessageControlGenerator{})
+	ctx := context.Background()
+	_, err := NewManager(ctx, test.HardcodedMessagesDirProd, &header.MessageControlGenerator{})
 	if err != nil {
 		t.Fatalf("NewManager(path=%s) failed with %v", test.HardcodedMessagesDirProd, err)
 	}

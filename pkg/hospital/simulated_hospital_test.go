@@ -3785,7 +3785,7 @@ func TestRunPathwayWithHardcodedMessage(t *testing.T) {
 	seed := "hardcoded_messages.yml"
 	dir := testwrite.BytesToDir(t, []byte(hardcodedMessageYml), seed)
 	msgControlGen := &header.MessageControlGenerator{}
-	hardcodedMessagesManager, err := hardcoded.NewManager(dir, msgControlGen)
+	hardcodedMessagesManager, err := hardcoded.NewManager(ctx, dir, msgControlGen)
 	if err != nil {
 		t.Fatalf("NewManager(%s) failed with %v", hardcodedMessageYml, err)
 	}

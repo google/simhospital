@@ -322,7 +322,7 @@ func DefaultConfig(ctx context.Context, arguments Arguments) (Config, error) {
 	}
 
 	if arguments.HardcodedMessagesDir != nil {
-		if c.MessagesManager, err = hardcoded.NewManager(*arguments.HardcodedMessagesDir, c.MessageControlGenerator); err != nil {
+		if c.MessagesManager, err = hardcoded.NewManager(ctx, *arguments.HardcodedMessagesDir, c.MessageControlGenerator); err != nil {
 			return Config{}, errors.Wrap(err, "cannot create Hardcoded Messages Manager")
 		}
 	}

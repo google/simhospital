@@ -21,8 +21,8 @@
 package hardcoded
 
 import (
+	"context"
 	"fmt"
-	"io/ioutil"
 	"math/rand"
 	"path"
 	"regexp"
@@ -31,6 +31,7 @@ import (
 
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v2"
+	"github.com/google/simhospital/pkg/files"
 	"github.com/google/simhospital/pkg/generator/header"
 	"github.com/google/simhospital/pkg/hl7"
 	"github.com/google/simhospital/pkg/ir"
@@ -60,8 +61,8 @@ type hardcodedMessage struct {
 }
 
 // NewManager returns a Manager for the messages contained in the given directory.
-func NewManager(messageDir string, headerGenerator *header.MessageControlGenerator) (*Manager, error) {
-	files, err := ioutil.ReadDir(messageDir)
+func NewManager(ctx context.Context, messageDir string, headerGenerator *header.MessageControlGenerator) (*Manager, error) {
+	files, err := files.List(ctx, messageDir)
 	if err != nil {
 		return nil, errors.Wrapf(err, "cannot read hardcoded messages directory: %s", messageDir)
 	}
@@ -73,11 +74,9 @@ func NewManager(messageDir string, headerGenerator *header.MessageControlGenerat
 			continue
 		}
 
-		filePath := path.Join(messageDir, file.Name())
-
-		messagesInFile, err := parseFile(filePath)
+		messagesInFile, err := parseFile(ctx, file)
 		if err != nil {
-			return nil, errors.Wrapf(err, "cannot parse hardcoded messages file %s", filePath)
+			return nil, errors.Wrapf(err, "cannot parse hardcoded messages file %s", file.FullPath())
 		}
 
 		for name, msg := range messagesInFile {
@@ -103,15 +102,15 @@ func NewManager(messageDir string, headerGenerator *header.MessageControlGenerat
 	}, nil
 }
 
-func parseFile(fileName string) (map[string]string, error) {
+func parseFile(ctx context.Context, file files.File) (map[string]string, error) {
 	input := map[string]hardcodedMessage{}
-	data, err := ioutil.ReadFile(fileName)
+	data, err := file.Read(ctx)
 	if err != nil {
-		return nil, errors.Wrapf(err, "cannot read file: %s", fileName)
+		return nil, errors.Wrapf(err, "cannot read file: %s", file.FullPath())
 	}
 	err = yaml.UnmarshalStrict(data, &input)
 	if err != nil {
-		return nil, errors.Wrapf(err, "cannot unmarshal messages from file: %s", fileName)
+		return nil, errors.Wrapf(err, "cannot unmarshal messages from file: %s", file.FullPath())
 	}
 	messages := map[string]string{}
 	for k, v := range input {

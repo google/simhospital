@@ -24,6 +24,7 @@ go_library(
     srcs = ["message.go"],
     importpath = "github.com/google/simhospital/pkg/hardcoded",
     deps = [
+        "//pkg/files:go_default_library",
         "//pkg/generator/header:go_default_library",
         "//pkg/hl7:go_default_library",
         "//pkg/ir:go_default_library",

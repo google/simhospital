@@ -15,6 +15,7 @@
 package hardcoded
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"strings"
@@ -94,6 +95,7 @@ func TestMain(m *testing.M) {
 }
 
 func TestNewManager(t *testing.T) {
+	ctx := context.Background()
 	tests := []struct {
 		description string
 		yml         string
@@ -115,7 +117,7 @@ func TestNewManager(t *testing.T) {
 		t.Run(tc.description, func(t *testing.T) {
 			dir := writeYmlToFile(t, tc.yml)
 			mcg := &header.MessageControlGenerator{}
-			if _, err := NewManager(dir, mcg); (err != nil) != tc.wantErr {
+			if _, err := NewManager(ctx, dir, mcg); (err != nil) != tc.wantErr {
 				t.Errorf("NewManager(%q, %v) got err %v, want err? %t", tc.yml, mcg, err, tc.wantErr)
 			}
 		})
@@ -123,6 +125,7 @@ func TestNewManager(t *testing.T) {
 }
 
 func TestFileExtensionValidation(t *testing.T) {
+	ctx := context.Background()
 	tests := []struct {
 		name    string
 		wantErr bool
@@ -143,7 +146,7 @@ func TestFileExtensionValidation(t *testing.T) {
 			dir := testwrite.BytesToDir(t, []byte(nhsYML), tc.name)
 
 			mcg := &header.MessageControlGenerator{}
-			mgr, err := NewManager(dir, mcg)
+			mgr, err := NewManager(ctx, dir, mcg)
 
 			// If a filename is valid, we expect it to be parsed into messages.
 			// Otherwise, we expect an error because no files were parsed.
@@ -164,6 +167,7 @@ func TestFileExtensionValidation(t *testing.T) {
 }
 
 func TestMessage(t *testing.T) {
+	ctx := context.Background()
 	tests := []struct {
 		description string
 		yml         string
@@ -215,7 +219,7 @@ func TestMessage(t *testing.T) {
 		t.Run(tc.description, func(t *testing.T) {
 			dir := writeYmlToFile(t, tc.yml)
 			mcg := &header.MessageControlGenerator{}
-			mgr, err := NewManager(dir, mcg)
+			mgr, err := NewManager(ctx, dir, mcg)
 			if err != nil {
 				t.Fatalf("NewManager(%s, %v) failed with %v", tc.yml, mcg, err)
 			}
@@ -232,9 +236,10 @@ func TestMessage(t *testing.T) {
 }
 
 func TestMessageReturnsUniqueMessages(t *testing.T) {
+	ctx := context.Background()
 	dir := writeYmlToFile(t, missingPIDYml)
 	mcg := &header.MessageControlGenerator{}
-	mgr, err := NewManager(dir, mcg)
+	mgr, err := NewManager(ctx, dir, mcg)
 	if err != nil {
 		t.Fatalf("NewManager(%s, %v) failed with %v", missingPIDYml, mcg, err)
 	}
@@ -254,6 +259,7 @@ func TestMessageReturnsUniqueMessages(t *testing.T) {
 }
 
 func TestMessageErrors(t *testing.T) {
+	ctx := context.Background()
 	tests := []struct {
 		description string
 		yml         string
@@ -288,7 +294,7 @@ func TestMessageErrors(t *testing.T) {
 		t.Run(fmt.Sprintf("NewManager(%q)", tc.description), func(t *testing.T) {
 			dir := writeYmlToFile(t, tc.yml)
 			mcg := &header.MessageControlGenerator{}
-			mgr, err := NewManager(dir, mcg)
+			mgr, err := NewManager(ctx, dir, mcg)
 			if err != nil {
 				t.Fatalf("NewManager(%s, %v) failed with %v", tc.yml, mcg, err)
 			}
