@@ -15,6 +15,7 @@
 package codedelement
 
 import (
+	"context"
 	"fmt"
 	"math"
 	"math/rand"
@@ -37,9 +38,9 @@ var (
 )
 
 func TestAllergyGenerator_RandomNoItems(t *testing.T) {
+	ctx := context.Background()
 	fName := testwrite.BytesToFile(t, []byte(``))
-
-	configHL7, err := config.LoadHL7Config(test.MessageConfigTest)
+	configHL7, err := config.LoadHL7Config(ctx, test.MessageConfigTest)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
@@ -66,7 +67,8 @@ T78.1,Allergy4,23
 
 	codeToDesc := map[string]string{"J30.1": "Allergy1", "J45.0": "Allergy2", "J23.1": "Allergy3", "T78.1": "Allergy4"}
 
-	configHL7, err := config.LoadHL7Config(test.MessageConfigTest)
+	ctx := context.Background()
+	configHL7, err := config.LoadHL7Config(ctx, test.MessageConfigTest)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}

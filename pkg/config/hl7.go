@@ -15,10 +15,11 @@
 package config
 
 import (
-	"io/ioutil"
+	"context"
 
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v2"
+	"github.com/google/simhospital/pkg/files"
 )
 
 // HL7Config is the configuration for HL7 messages where the values are important for HL7 compliance or specific uses of the HL7 standard.
@@ -208,8 +209,8 @@ type PrimaryFacility struct {
 }
 
 // LoadHL7Config loads the HL7 configuration from the given file.
-func LoadHL7Config(fileName string) (*HL7Config, error) {
-	data, err := ioutil.ReadFile(fileName)
+func LoadHL7Config(ctx context.Context, fileName string) (*HL7Config, error) {
+	data, err := files.Read(ctx, fileName)
 	if err != nil {
 		return nil, errors.Wrapf(err, "cannot parse HL7 configuration file %s", fileName)
 	}
@@ -223,8 +224,8 @@ func LoadHL7Config(fileName string) (*HL7Config, error) {
 }
 
 // LoadHeaderConfig loads the Header configuration from the given file.
-func LoadHeaderConfig(fileName string) (*Header, error) {
-	data, err := ioutil.ReadFile(fileName)
+func LoadHeaderConfig(ctx context.Context, fileName string) (*Header, error) {
+	data, err := files.Read(ctx, fileName)
 	if err != nil {
 		return nil, errors.Wrapf(err, "cannot parse header configuration file %s", fileName)
 	}

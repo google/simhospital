@@ -29,7 +29,7 @@ import (
 
 func TestValidateProdPathways(t *testing.T) {
 	ctx := context.Background()
-	hl7Config, err := config.LoadHL7Config(test.MessageConfigProd)
+	hl7Config, err := config.LoadHL7Config(ctx, test.MessageConfigProd)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigProd, err)
 	}

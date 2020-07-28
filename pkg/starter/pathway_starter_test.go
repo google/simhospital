@@ -118,7 +118,7 @@ func TestNewPathwayStarter(t *testing.T) {
 
 func TestServeHTTP_AllProdPathwaysCanBeStartedByName(t *testing.T) {
 	ctx := context.Background()
-	hl7Config, err := config.LoadHL7Config(test.MessageConfigProd)
+	hl7Config, err := config.LoadHL7Config(ctx, test.MessageConfigProd)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigProd, err)
 	}
@@ -156,7 +156,7 @@ func TestServeHTTP_AllProdPathwaysCanBeStartedByName(t *testing.T) {
 
 func TestServeHTTP_AllProdPathwaysCanBeStartedWithMRNAndPatientName(t *testing.T) {
 	ctx := context.Background()
-	hl7Config, err := config.LoadHL7Config(test.MessageConfigProd)
+	hl7Config, err := config.LoadHL7Config(ctx, test.MessageConfigProd)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigProd, err)
 	}

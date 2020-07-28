@@ -15,6 +15,7 @@
 package config
 
 import (
+	"context"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -22,6 +23,7 @@ import (
 )
 
 func TestLoadHL7Config(t *testing.T) {
+	ctx := context.Background()
 	tests := []struct {
 		name    string
 		config  []byte
@@ -42,7 +44,7 @@ order_control:
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
 			tmp := testwrite.BytesToFile(t, []byte(tc.config))
-			c, err := LoadHL7Config(tmp)
+			c, err := LoadHL7Config(ctx, tmp)
 			gotErr := err != nil
 			if gotErr != tc.wantErr {
 				t.Errorf("LoadHL7Config(%s) got err %v; want error? %t", tmp, err, tc.wantErr)
@@ -58,6 +60,7 @@ order_control:
 }
 
 func TestLoadHeaderConfig(t *testing.T) {
+	ctx := context.Background()
 	tests := []struct {
 		name        string
 		header      []byte
@@ -222,7 +225,7 @@ default:
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
 			headerFile := testwrite.BytesToFile(t, tc.header)
-			h, err := LoadHeaderConfig(headerFile)
+			h, err := LoadHeaderConfig(ctx, headerFile)
 			gotErr := err != nil
 			if gotErr != tc.wantErr {
 				t.Errorf("LoadHeaderConfig(%s) got err %v; want error? %t", headerFile, err, tc.wantErr)

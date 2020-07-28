@@ -15,6 +15,7 @@
 package person
 
 import (
+	"context"
 	"fmt"
 	"regexp"
 	"strconv"
@@ -72,6 +73,7 @@ var (
 )
 
 func TestNewPerson(t *testing.T) {
+	ctx := context.Background()
 	cases := []struct {
 		name string
 		p    *pathway.Person
@@ -120,7 +122,7 @@ func TestNewPerson(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			g := simpleMaleGenerator(t, defaultNow)
+			g := simpleMaleGenerator(ctx, t, defaultNow)
 			got := g.NewPerson(tc.p)
 
 			ignoreFields := cmpopts.IgnoreFields(ir.Person{}, "Birth", "PhoneNumber", "NHS")
@@ -142,7 +144,8 @@ func TestNewPerson(t *testing.T) {
 }
 
 func TestNewPersonWithNHS(t *testing.T) {
-	g := simpleMaleGenerator(t, defaultNow)
+	ctx := context.Background()
+	g := simpleMaleGenerator(ctx, t, defaultNow)
 	want := "0714630667"
 	pathway := &pathway.Person{
 		NHS: want,
@@ -154,8 +157,9 @@ func TestNewPersonWithNHS(t *testing.T) {
 }
 
 func TestNewPersonWithDOB(t *testing.T) {
+	ctx := context.Background()
 	birthdate := time.Date(1984, 2, 12, 0, 0, 0, 0, time.UTC)
-	g, _, dataConfig := testGenerator(t, defaultNow)
+	g, _, dataConfig := testGenerator(ctx, t, defaultNow)
 	cases := []struct {
 		name          string
 		p             *pathway.Person
@@ -211,7 +215,8 @@ func TestNewPersonWithDOB(t *testing.T) {
 }
 
 func TestNewPersonWithGender(t *testing.T) {
-	g, hl7Config, dataConfig := testGeneratorWithCustomHL7Gender(t, defaultNow)
+	ctx := context.Background()
+	g, hl7Config, dataConfig := testGeneratorWithCustomHL7Gender(ctx, t, defaultNow)
 	cases := []struct {
 		name           string
 		p              *pathway.Person
@@ -281,6 +286,7 @@ func TestNewPersonWithGender(t *testing.T) {
 }
 
 func TestUpdatePersonFromPathway(t *testing.T) {
+	ctx := context.Background()
 	birthdate := time.Date(1984, 2, 12, 0, 0, 0, 0, time.UTC)
 	cases := []struct {
 		name    string
@@ -406,7 +412,7 @@ func TestUpdatePersonFromPathway(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			g := simpleMaleGenerator(t, defaultNow)
+			g := simpleMaleGenerator(ctx, t, defaultNow)
 			got := tc.person()
 			g.UpdatePersonFromPathway(got, tc.pathway)
 
@@ -418,6 +424,7 @@ func TestUpdatePersonFromPathway(t *testing.T) {
 }
 
 func TestUpdatePersonFromPathwayUpdateDateOfBirth(t *testing.T) {
+	ctx := context.Background()
 	birthdate := time.Date(1984, 2, 12, 0, 0, 0, 0, time.UTC)
 	cases := []struct {
 		name        string
@@ -459,7 +466,7 @@ func TestUpdatePersonFromPathwayUpdateDateOfBirth(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			g := simpleMaleGenerator(t, defaultNow)
+			g := simpleMaleGenerator(ctx, t, defaultNow)
 			got := tc.person()
 			g.UpdatePersonFromPathway(got, tc.pathway)
 
@@ -471,7 +478,8 @@ func TestUpdatePersonFromPathwayUpdateDateOfBirth(t *testing.T) {
 }
 
 func TestUpdatePersonFromPathwaySetNHSIfEmpty(t *testing.T) {
-	g := simpleMaleGenerator(t, defaultNow)
+	ctx := context.Background()
+	g := simpleMaleGenerator(ctx, t, defaultNow)
 	pathway := &pathway.Person{}
 	person := testperson.New()
 	person.NHS = ""
@@ -486,7 +494,8 @@ func TestUpdatePersonFromPathwaySetNHSIfEmpty(t *testing.T) {
 }
 
 func TestUpdatePersonFromPathwayNilPathway(t *testing.T) {
-	g := simpleMaleGenerator(t, defaultNow)
+	ctx := context.Background()
+	g := simpleMaleGenerator(ctx, t, defaultNow)
 	var pathway *pathway.Person
 	// Suffix, Degree,  Ethnicity and PhoneNumber cannot be set in the pathway,
 	// so they're never updated in UpdatePersonFromPathway.
@@ -571,10 +580,10 @@ func (f *fakeAddressGenerator) Random() *ir.Address {
 	return f.want
 }
 
-func simpleMaleGenerator(t *testing.T, date time.Time) *Generator {
+func simpleMaleGenerator(ctx context.Context, t *testing.T, date time.Time) *Generator {
 	t.Helper()
 
-	hl7Config, err := config.LoadHL7Config(test.MessageConfigTest)
+	hl7Config, err := config.LoadHL7Config(ctx, test.MessageConfigTest)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
@@ -632,9 +641,9 @@ patient_name:
 	}
 }
 
-func testGenerator(t *testing.T, date time.Time) (*Generator, *config.HL7Config, *config.Data) {
+func testGenerator(ctx context.Context, t *testing.T, date time.Time) (*Generator, *config.HL7Config, *config.Data) {
 	t.Helper()
-	hl7Config, err := config.LoadHL7Config(test.MessageConfigTest)
+	hl7Config, err := config.LoadHL7Config(ctx, test.MessageConfigTest)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
@@ -654,9 +663,9 @@ func testGenerator(t *testing.T, date time.Time) (*Generator, *config.HL7Config,
 	}, hl7Config, dataCFG
 }
 
-func testGeneratorWithCustomHL7Gender(t *testing.T, date time.Time) (*Generator, *config.HL7Config, *config.Data) {
+func testGeneratorWithCustomHL7Gender(ctx context.Context, t *testing.T, date time.Time) (*Generator, *config.HL7Config, *config.Data) {
 	t.Helper()
-	hl7Config, err := config.LoadHL7Config(test.MessageConfigTest)
+	hl7Config, err := config.LoadHL7Config(ctx, test.MessageConfigTest)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}

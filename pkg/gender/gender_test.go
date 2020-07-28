@@ -15,6 +15,7 @@
 package gender
 
 import (
+	"context"
 	"fmt"
 	"math"
 	"os"
@@ -36,7 +37,8 @@ func TestMain(m *testing.M) {
 }
 
 func TestConvertorPathwayToHL7(t *testing.T) {
-	hl7Config, err := config.LoadHL7Config(test.MessageConfigTest)
+	ctx := context.Background()
+	hl7Config, err := config.LoadHL7Config(ctx, test.MessageConfigTest)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
@@ -58,7 +60,8 @@ func TestConvertorPathwayToHL7(t *testing.T) {
 }
 
 func TestConvertorInternalToHL7(t *testing.T) {
-	hl7Config, err := config.LoadHL7Config(test.MessageConfigTest)
+	ctx := context.Background()
+	hl7Config, err := config.LoadHL7Config(ctx, test.MessageConfigTest)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
@@ -80,7 +83,8 @@ func TestConvertorInternalToHL7(t *testing.T) {
 }
 
 func TestConvertorHL7ToInternal(t *testing.T) {
-	hl7Config, err := config.LoadHL7Config(test.MessageConfigTest)
+	ctx := context.Background()
+	hl7Config, err := config.LoadHL7Config(ctx, test.MessageConfigTest)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}

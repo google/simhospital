@@ -15,6 +15,7 @@
 package order
 
 import (
+	"context"
 	"fmt"
 	"testing"
 
@@ -24,7 +25,8 @@ import (
 )
 
 func TestToHL7(t *testing.T) {
-	c, err := config.LoadHL7Config(test.MessageConfigProd)
+	ctx := context.Background()
+	c, err := config.LoadHL7Config(ctx, test.MessageConfigProd)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigProd, err)
 	}

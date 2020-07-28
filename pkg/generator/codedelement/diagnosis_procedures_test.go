@@ -15,6 +15,7 @@
 package codedelement
 
 import (
+	"context"
 	"math"
 	"math/rand"
 	"testing"
@@ -31,6 +32,7 @@ import (
 )
 
 func TestDiagOrProcGenerator_Random(t *testing.T) {
+	ctx := context.Background()
 	rand.Seed(1)
 	diagnosisFilename := testwrite.BytesToFile(t, []byte(`
 A01.1,Diagnosis1,1
@@ -49,7 +51,7 @@ P04.1,Procedure4,1
 	f.Diagnoses = diagnosisFilename
 	f.Procedures = procedureFilename
 
-	c, err := config.LoadHL7Config(test.MessageConfigTest)
+	c, err := config.LoadHL7Config(ctx, test.MessageConfigTest)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
@@ -174,6 +176,7 @@ P04.1,Procedure4,1
 }
 
 func TestDiagOrProcGenerator_Random_EmptyFile_NoDate(t *testing.T) {
+	ctx := context.Background()
 	rand.Seed(1)
 
 	emptyFilename := testwrite.BytesToFile(t, []byte(``))
@@ -182,7 +185,7 @@ func TestDiagOrProcGenerator_Random_EmptyFile_NoDate(t *testing.T) {
 	f.Diagnoses = emptyFilename
 	f.Procedures = emptyFilename
 
-	c, err := config.LoadHL7Config(test.MessageConfigTest)
+	c, err := config.LoadHL7Config(ctx, test.MessageConfigTest)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}

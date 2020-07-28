@@ -15,6 +15,7 @@
 package header
 
 import (
+	"context"
 	"os"
 	"testing"
 
@@ -39,7 +40,8 @@ func TestMain(m *testing.M) {
 }
 
 func TestMessageControlIDsAreIncremental(t *testing.T) {
-	headerCFG, err := config.LoadHeaderConfig(test.HeaderConfigTest)
+	ctx := context.Background()
+	headerCFG, err := config.LoadHeaderConfig(ctx, test.HeaderConfigTest)
 	if err != nil {
 		t.Fatalf("LoadHeaderConfig(%s) failed with %v", test.HeaderConfigTest, err)
 	}
@@ -74,7 +76,8 @@ oru:
   receiving_facility: oru_rf
 `))
 
-	headerCFG, err := config.LoadHeaderConfig(headerFile)
+	ctx := context.Background()
+	headerCFG, err := config.LoadHeaderConfig(ctx, headerFile)
 	if err != nil {
 		t.Fatalf("LoadHeaderConfig(%s) failed with %v", test.HeaderConfigTest, err)
 	}

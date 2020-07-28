@@ -15,6 +15,7 @@
 package order
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"strconv"
@@ -74,7 +75,8 @@ UREA AND ELECTROLYTES:
       ref_range: 49 - 92`)
 	op := testwrite.BytesToFile(t, b)
 
-	g, hl7Config := testGeneratorWithOrderProfile(t, op)
+	ctx := context.Background()
+	g, hl7Config := testGeneratorWithOrderProfile(ctx, t, op)
 
 	cases := []struct {
 		name            string
@@ -126,7 +128,8 @@ UREA AND ELECTROLYTES:
 }
 
 func TestOrderWithClinicalNote(t *testing.T) {
-	hl7Config, err := config.LoadHL7Config(test.MessageConfigTest)
+	ctx := context.Background()
+	hl7Config, err := config.LoadHL7Config(ctx, test.MessageConfigTest)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
@@ -296,7 +299,8 @@ func TestOrderWithClinicalNote(t *testing.T) {
 }
 
 func TestSetResultsOverrideDates(t *testing.T) {
-	g, hl7Config := testGenerator(t)
+	ctx := context.Background()
+	g, hl7Config := testGenerator(ctx, t)
 
 	cases := []struct {
 		name                      string
@@ -416,7 +420,9 @@ func TestSetResultsOverrideDates(t *testing.T) {
 func TestSetResultsDifferentDates(t *testing.T) {
 	orderTime := time.Date(2018, 2, 12, 1, 25, 0, 0, time.UTC)
 	reportTime := time.Date(2018, 2, 12, 16, 50, 0, 0, time.UTC)
-	g, hl7Config := testGenerator(t)
+
+	ctx := context.Background()
+	g, hl7Config := testGenerator(ctx, t)
 
 	cases := []struct {
 		name              string
@@ -496,7 +502,8 @@ func TestSetResultsDifferentDates(t *testing.T) {
 }
 
 func TestSetResultsOverrideStatus(t *testing.T) {
-	g, hl7Config := testGenerator(t)
+	ctx := context.Background()
+	g, hl7Config := testGenerator(ctx, t)
 
 	cases := []struct {
 		name              string
@@ -598,7 +605,8 @@ func TestSetResultsOverrideStatus(t *testing.T) {
 }
 
 func TestSetResultsAbnormalFlag(t *testing.T) {
-	g, hl7Config := testGenerator(t)
+	ctx := context.Background()
+	g, hl7Config := testGenerator(ctx, t)
 
 	cases := []struct {
 		name       string
@@ -708,7 +716,8 @@ func TestSetResultsAbnormalFlag(t *testing.T) {
 }
 
 func TestSetResultsSetValueType(t *testing.T) {
-	g, hl7Config := testGeneratorWithOrderProfile(t, test.ComplexOrderProfilesConfigTest)
+	ctx := context.Background()
+	g, hl7Config := testGeneratorWithOrderProfile(ctx, t, test.ComplexOrderProfilesConfigTest)
 
 	cases := []struct {
 		name     string
@@ -843,9 +852,10 @@ type valueRange struct {
 }
 
 func TestSetResultsRandomValue(t *testing.T) {
+	ctx := context.Background()
 	// Note: the simple order profile used here has only one TestType (Creatinine)
 	// for UREA AND ELECTROLYTES OrderProfile.
-	g, hl7Config := testGenerator(t)
+	g, hl7Config := testGenerator(ctx, t)
 
 	cases := []struct {
 		name             string
@@ -989,7 +999,8 @@ func TestSetResultsRandomValue(t *testing.T) {
 }
 
 func TestSetResultsWithCompexOrderProfiles(t *testing.T) {
-	g, hl7Config := testGeneratorWithOrderProfile(t, test.ComplexOrderProfilesConfigTest)
+	ctx := context.Background()
+	g, hl7Config := testGeneratorWithOrderProfile(ctx, t, test.ComplexOrderProfilesConfigTest)
 
 	cases := []struct {
 		name          string
@@ -1067,7 +1078,8 @@ func TestSetResultsWithCompexOrderProfiles(t *testing.T) {
 }
 
 func TestSetResultsUnknownTestTypeOrOrderProfile(t *testing.T) {
-	g, hl7Config := testGenerator(t)
+	ctx := context.Background()
+	g, hl7Config := testGenerator(ctx, t)
 
 	tests := []struct {
 		name     string
@@ -1234,7 +1246,9 @@ func TestSetResultsCorrectedResults(t *testing.T) {
 	// availableOrderStatus means that some, but not all, results are available.
 	availableOrderStatus := "A"
 	before := eventTime.Add(-24 * time.Hour)
-	g, hl7Config := testGenerator(t)
+
+	ctx := context.Background()
+	g, hl7Config := testGenerator(ctx, t)
 
 	cases := []struct {
 		name             string
@@ -1382,7 +1396,8 @@ func TestSetResultsOverrideNotes(t *testing.T) {
 	defaultNotes := []string{"note-1", "note-2"}
 	pathwayNotes := []string{"note", "from", "pathway"}
 
-	g, hl7Config := testGenerator(t)
+	ctx := context.Background()
+	g, hl7Config := testGenerator(ctx, t)
 	g.NoteGenerator = &fakeNoteGenerator{
 		wantNotes: defaultNotes,
 	}
@@ -1470,7 +1485,8 @@ func TestSetResultsOverrideNotes(t *testing.T) {
 }
 
 func TestConvertorHL7ToFHIR(t *testing.T) {
-	hl7Config, err := config.LoadHL7Config(test.MessageConfigTest)
+	ctx := context.Background()
+	hl7Config, err := config.LoadHL7Config(ctx, test.MessageConfigTest)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
@@ -1491,14 +1507,14 @@ func TestConvertorHL7ToFHIR(t *testing.T) {
 	}
 }
 
-func testGenerator(t *testing.T) (*Generator, *config.HL7Config) {
+func testGenerator(ctx context.Context, t *testing.T) (*Generator, *config.HL7Config) {
 	t.Helper()
-	return testGeneratorWithOrderProfile(t, test.OrderProfilesConfigTest)
+	return testGeneratorWithOrderProfile(ctx, t, test.OrderProfilesConfigTest)
 }
 
-func testGeneratorWithOrderProfile(t *testing.T, orderProfileConfig string) (*Generator, *config.HL7Config) {
+func testGeneratorWithOrderProfile(ctx context.Context, t *testing.T, orderProfileConfig string) (*Generator, *config.HL7Config) {
 	t.Helper()
-	hl7Config, err := config.LoadHL7Config(test.MessageConfigTest)
+	hl7Config, err := config.LoadHL7Config(ctx, test.MessageConfigTest)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}

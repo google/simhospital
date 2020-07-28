@@ -15,6 +15,7 @@
 package generator
 
 import (
+	"context"
 	"math"
 	"math/rand"
 	"testing"
@@ -51,12 +52,13 @@ var (
 )
 
 func TestNewGeneratorPublicMessageConfiguration(t *testing.T) {
+	ctx := context.Background()
 	// If some files are not parsable or accessible, things will crash.
-	c, err := config.LoadHL7Config(test.MessageConfigProd)
+	c, err := config.LoadHL7Config(ctx, test.MessageConfigProd)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigProd, err)
 	}
-	h, err := config.LoadHeaderConfig(test.HeaderConfigProd)
+	h, err := config.LoadHeaderConfig(ctx, test.HeaderConfigProd)
 	if err != nil {
 		t.Fatalf("LoadHeaderConfig(%s) failed with %v", test.HeaderConfigProd, err)
 	}
@@ -86,7 +88,8 @@ func TestNewGeneratorPublicMessageConfiguration(t *testing.T) {
 }
 
 func TestNewPerson(t *testing.T) {
-	g := testGenerator(t, Config{})
+	ctx := context.Background()
+	g := testGenerator(ctx, t, Config{})
 	pathway := &pathway.Person{}
 	got := g.NewPerson(pathway)
 	if got == nil {
@@ -104,7 +107,8 @@ func originalPatientInfo() *ir.PatientInfo {
 }
 
 func TestUpdateFromPathway(t *testing.T) {
-	g := testGenerator(t, Config{})
+	ctx := context.Background()
+	g := testGenerator(ctx, t, Config{})
 
 	cases := []struct {
 		name    string
@@ -183,7 +187,8 @@ func TestUpdateFromPathway(t *testing.T) {
 }
 
 func TestNewPerson_MRNsAreIncremental(t *testing.T) {
-	g := testGenerator(t, Config{})
+	ctx := context.Background()
+	g := testGenerator(ctx, t, Config{})
 
 	person := g.NewPerson(&pathway.Person{})
 
@@ -200,6 +205,7 @@ func TestNewPerson_MRNsAreIncremental(t *testing.T) {
 }
 
 func TestUpdateFromPathwaySetProceduresAndDiagnoses(t *testing.T) {
+	ctx := context.Background()
 	// Allow only one doctor to be "randomly" chosen for testing purposes.
 	fName := testwrite.BytesToFile(t, []byte(`
 - id: "id-1"
@@ -248,7 +254,7 @@ P24.9,Procedure1,1
 A01.1,Diagnosis1,1
 `))
 
-	c, err := config.LoadHL7Config(tmpConfig)
+	c, err := config.LoadHL7Config(ctx, tmpConfig)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", tmpConfig, err)
 	}
@@ -585,7 +591,7 @@ A01.1,Diagnosis1,1
 			pathway := &pathway.UpdatePerson{Procedures: tc.procedures, Diagnoses: tc.diagnoses}
 
 			dg := &testdate.Generator{}
-			g := testGeneratorWithDate(t, now, Config{HL7Config: c, Data: dc, Doctors: d, DateGenerator: dg})
+			g := testGeneratorWithDate(ctx, t, now, Config{HL7Config: c, Data: dc, Doctors: d, DateGenerator: dg})
 			g.UpdateFromPathway(got, pathway)
 
 			if diff := cmp.Diff(want, got); diff != "" {
@@ -596,6 +602,7 @@ A01.1,Diagnosis1,1
 }
 
 func TestNewPatient(t *testing.T) {
+	ctx := context.Background()
 	dName := testwrite.BytesToFile(t, []byte(`
 - id: "id-1"
   surname: "surname-1"
@@ -619,7 +626,7 @@ func TestNewPatient(t *testing.T) {
 	// This empty configuration file simulates a nil primary facility and nil patient class.
 	nilHL7Name := testwrite.BytesToFile(t, []byte(``))
 
-	nilHL7Config, err := config.LoadHL7Config(nilHL7Name)
+	nilHL7Config, err := config.LoadHL7Config(ctx, nilHL7Name)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", nilHL7Name, err)
 	}
@@ -634,7 +641,7 @@ primary_facility:
 hospital_service: "180"
 `))
 
-	hl7Config, err := config.LoadHL7Config(hl7Name)
+	hl7Config, err := config.LoadHL7Config(ctx, hl7Name)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", hl7Name, err)
 	}
@@ -736,7 +743,7 @@ hospital_service: "180"
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			g := testGenerator(t, tc.conf)
+			g := testGenerator(ctx, t, tc.conf)
 
 			got := g.NewPatient(person, tc.doctor)
 			if diff := cmp.Diff(tc.want, got); diff != "" {
@@ -747,11 +754,12 @@ hospital_service: "180"
 }
 
 func TestNewDoctor(t *testing.T) {
+	ctx := context.Background()
 	hl7Name := testwrite.BytesToFile(t, []byte(`
 hospital_service: "180"
 `))
 
-	hl7Config, err := config.LoadHL7Config(hl7Name)
+	hl7Config, err := config.LoadHL7Config(ctx, hl7Name)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", hl7Name, err)
 	}
@@ -816,7 +824,7 @@ hospital_service: "180"
 			if err != nil {
 				t.Fatalf("LoadDoctors(%s) failed with %v", dName, err)
 			}
-			g := testGenerator(t, Config{HL7Config: hl7Config, Doctors: d})
+			g := testGenerator(ctx, t, Config{HL7Config: hl7Config, Doctors: d})
 			got := g.NewDoctor(tc.consultant)
 			if diff := cmp.Diff(tc.want, got); diff != "" {
 				t.Errorf("g.NewDoctor(%+v) diff: (-want, +got):\n%s", tc.consultant, diff)
@@ -836,7 +844,8 @@ func TestNewDoctorAddDoctorsForFutureUse(t *testing.T) {
 hospital_service: "180"
 `))
 
-	hl7Config, err := config.LoadHL7Config(hl7Name)
+	ctx := context.Background()
+	hl7Config, err := config.LoadHL7Config(ctx, hl7Name)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", hl7Name, err)
 	}
@@ -860,7 +869,7 @@ hospital_service: "180"
 		FirstName: &newName,
 	}
 
-	g := testGenerator(t, Config{HL7Config: hl7Config, Doctors: d})
+	g := testGenerator(ctx, t, Config{HL7Config: hl7Config, Doctors: d})
 	got := g.NewDoctor(consultant)
 	if diff := cmp.Diff(want, got); diff != "" {
 		t.Errorf("g.NewDoctor(%+v) diff: (-want, +got):\n%s", consultant, diff)
@@ -900,7 +909,8 @@ allergy:
   maximum_allergies: 1
 `))
 
-	hl7Config, err := config.LoadHL7Config(fHL7Config)
+	ctx := context.Background()
+	hl7Config, err := config.LoadHL7Config(ctx, fHL7Config)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", fHL7Config, err)
 	}
@@ -914,7 +924,7 @@ allergy:
 
 	dg := &testdate.Generator{}
 
-	g := testGeneratorWithDate(t, now, Config{HL7Config: hl7Config, Data: dataConfig, DateGenerator: dg, Clock: testclock.New(now)})
+	g := testGeneratorWithDate(ctx, t, now, Config{HL7Config: hl7Config, Data: dataConfig, DateGenerator: dg, Clock: testclock.New(now)})
 
 	pathwayA1 := pathway.Allergy{Type: "MEDICATION", Code: "J301", Description: "Allergic rhinitis due to pollen", Severity: "MODERATE", Reaction: "Skin rash"}
 	pathwayA2 := pathway.Allergy{Type: "FOOD", Code: "E", Description: "egg-containing compound", Severity: "SEVERE", Reaction: "Rash"}
@@ -1078,8 +1088,9 @@ allergy:
 }
 
 func TestNewOrder(t *testing.T) {
+	ctx := context.Background()
 	eventTime := time.Date(2018, 2, 12, 1, 25, 0, 0, time.UTC)
-	g := testGenerator(t, Config{})
+	g := testGenerator(ctx, t, Config{})
 
 	wantOp := "UREA AND ELECTROLYTES"
 	p := &pathway.Order{OrderProfile: wantOp}
@@ -1098,7 +1109,8 @@ func TestOrderWithClinicalNote(t *testing.T) {
 	wantID := "note1.rtf"
 	wantTitle := "document-title"
 
-	g := testGenerator(t, Config{})
+	ctx := context.Background()
+	g := testGenerator(ctx, t, Config{})
 	eventTime := time.Date(2018, 2, 12, 1, 25, 0, 0, time.UTC)
 	pw := &pathway.ClinicalNote{
 		ContentType:   wantContentType,
@@ -1116,12 +1128,13 @@ func TestOrderWithClinicalNote(t *testing.T) {
 }
 
 func TestSetResults(t *testing.T) {
+	ctx := context.Background()
 	eventTime := time.Date(2018, 2, 12, 1, 25, 0, 0, time.UTC)
-	hl7Config, err := config.LoadHL7Config(test.MessageConfigTest)
+	hl7Config, err := config.LoadHL7Config(ctx, test.MessageConfigTest)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
-	g := testGenerator(t, Config{HL7Config: hl7Config})
+	g := testGenerator(ctx, t, Config{HL7Config: hl7Config})
 
 	pathwayR := &pathway.Results{
 		OrderProfile: "UREA AND ELECTROLYTES",
@@ -1147,17 +1160,19 @@ func TestSetResults(t *testing.T) {
 }
 
 func TestNewDocument(t *testing.T) {
-	hl7Config, err := config.LoadHL7Config(test.MessageConfigTest)
+	ctx := context.Background()
+	hl7Config, err := config.LoadHL7Config(ctx, test.MessageConfigTest)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
-	g := testGenerator(t, Config{HL7Config: hl7Config})
+	g := testGenerator(ctx, t, Config{HL7Config: hl7Config})
 	if got := g.NewDocument(defaultDate, &pathway.Document{}); got == nil {
 		t.Errorf("g.NewDocument() = %v, want not nil value", got)
 	}
 }
 
 func TestNewRegistrationPatientClassAndTypeRandom(t *testing.T) {
+	ctx := context.Background()
 	rand.Seed(1)
 
 	fPatientClass := testwrite.BytesToFile(t, []byte(`
@@ -1166,7 +1181,7 @@ OUTPATIENT,OUTPATIENT,4
 RECURRING,RECURRING,5
 `))
 
-	hl7Config, err := config.LoadHL7Config(test.MessageConfigTest)
+	hl7Config, err := config.LoadHL7Config(ctx, test.MessageConfigTest)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
@@ -1177,7 +1192,7 @@ RECURRING,RECURRING,5
 		t.Fatalf("LoadData(%+v, %+v) failed with %v", f, hl7Config, err)
 	}
 
-	g := testGenerator(t, Config{Data: dataConfig})
+	g := testGenerator(ctx, t, Config{Data: dataConfig})
 
 	wantFreq := map[config.PatientClassAndType]int{
 		{Class: "EMERGENCY", Type: "EMERGENCY"}:   1,
@@ -1207,7 +1222,8 @@ RECURRING,RECURRING,5
 func TestNewVisitID(t *testing.T) {
 	rand.Seed(1)
 
-	g := testGenerator(t, Config{})
+	ctx := context.Background()
+	g := testGenerator(ctx, t, Config{})
 
 	gotFirst := g.NewVisitID()
 	gotSecond := g.NewVisitID()
@@ -1220,7 +1236,8 @@ func TestNewVisitID(t *testing.T) {
 func TestNewHeader(t *testing.T) {
 	rand.Seed(1)
 
-	g := testGenerator(t, Config{})
+	ctx := context.Background()
+	g := testGenerator(ctx, t, Config{})
 
 	pathway := &pathway.Step{Result: &pathway.Results{}}
 	got := g.NewHeader(pathway)
@@ -1230,11 +1247,12 @@ func TestNewHeader(t *testing.T) {
 }
 
 func TestGeneratorResetPatientInfo(t *testing.T) {
-	hl7Config, err := config.LoadHL7Config(test.MessageConfigTest)
+	ctx := context.Background()
+	hl7Config, err := config.LoadHL7Config(ctx, test.MessageConfigTest)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
-	g := testGenerator(t, Config{HL7Config: hl7Config})
+	g := testGenerator(ctx, t, Config{HL7Config: hl7Config})
 	now := ir.NewValidTime(time.Date(2018, 2, 12, 0, 0, 0, 0, time.UTC))
 
 	doctor := &ir.Doctor{
@@ -1330,22 +1348,22 @@ func urineOrder(eventTime time.Time, c *config.HL7Config) *ir.Order {
 	}
 }
 
-func testGenerator(t *testing.T, cfg Config) *Generator {
+func testGenerator(ctx context.Context, t *testing.T, cfg Config) *Generator {
 	t.Helper()
-	return testGeneratorWithDate(t, defaultDate, cfg)
+	return testGeneratorWithDate(ctx, t, defaultDate, cfg)
 }
 
-func populateConfig(t *testing.T, now time.Time, cfg Config) Config {
+func populateConfig(ctx context.Context, t *testing.T, now time.Time, cfg Config) Config {
 	t.Helper()
 	if cfg.HL7Config == nil {
-		c, err := config.LoadHL7Config(test.MessageConfigTest)
+		c, err := config.LoadHL7Config(ctx, test.MessageConfigTest)
 		if err != nil {
 			t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 		}
 		cfg.HL7Config = c
 	}
 	if cfg.Header == nil {
-		h, err := config.LoadHeaderConfig(test.HeaderConfigTest)
+		h, err := config.LoadHeaderConfig(ctx, test.HeaderConfigTest)
 		if err != nil {
 			t.Fatalf("LoadHeaderConfig(%s) failed with %v", test.HeaderConfigTest, err)
 		}
@@ -1385,8 +1403,8 @@ func populateConfig(t *testing.T, now time.Time, cfg Config) Config {
 	return cfg
 }
 
-func testGeneratorWithDate(t *testing.T, now time.Time, cfg Config) *Generator {
+func testGeneratorWithDate(ctx context.Context, t *testing.T, now time.Time, cfg Config) *Generator {
 	t.Helper()
-	cfg = populateConfig(t, now, cfg)
+	cfg = populateConfig(ctx, t, now, cfg)
 	return NewGenerator(cfg)
 }

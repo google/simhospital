@@ -15,6 +15,7 @@
 package orderprofile
 
 import (
+	"context"
 	"fmt"
 	"math"
 	"strconv"
@@ -144,7 +145,8 @@ Vital Signs:
 )
 
 func TestLoad(t *testing.T) {
-	hl7Config := loadHL7Config(t)
+	ctx := context.Background()
+	hl7Config := loadHL7Config(ctx, t)
 	cases := []struct {
 		name          string
 		opFileContent []byte
@@ -229,7 +231,8 @@ func TestLoad(t *testing.T) {
 }
 
 func TestRandomisedValueWithFlag_NumericalValue(t *testing.T) {
-	hl7Config := loadHL7Config(t)
+	ctx := context.Background()
+	hl7Config := loadHL7Config(ctx, t)
 	ureaKey := "UREA AND ELECTROLYTES"
 	creaKey := "Creatinine"
 
@@ -304,7 +307,8 @@ func TestRandomisedValueWithFlag_NumericalValue(t *testing.T) {
 }
 
 func TestRandomisedValueWithFlag_NonNumericalValue(t *testing.T) {
-	hl7Config := loadHL7Config(t)
+	ctx := context.Background()
+	hl7Config := loadHL7Config(ctx, t)
 	ohKey := "17-OH Prog"
 	hydKey := "17-Hydroxy Progesterone"
 	wantUS := ir.CodedElement{ID: "OHPROG", Text: "17-OH Prog", CodingSystem: "WinPath"}
@@ -396,7 +400,8 @@ func TestRandomisedValueWithFlag_NonNumericalValue(t *testing.T) {
 }
 
 func TestRandomisedValueWithFlagRange_Error(t *testing.T) {
-	hl7Config := loadHL7Config(t)
+	ctx := context.Background()
+	hl7Config := loadHL7Config(ctx, t)
 	ohKey := "17-OH Prog"
 	hydKey := "17-Hydroxy Progesterone"
 
@@ -459,7 +464,8 @@ func TestRandomisedValueWithFlagRange_Error(t *testing.T) {
 }
 
 func TestGenerate(t *testing.T) {
-	hl7Config := loadHL7Config(t)
+	ctx := context.Background()
+	hl7Config := loadHL7Config(ctx, t)
 	fName := testwrite.BytesToFile(t, ureaOP)
 
 	orderProfiles, err := Load(fName, hl7Config)
@@ -494,7 +500,8 @@ func TestGenerate(t *testing.T) {
 }
 
 func TestGenerateRandom(t *testing.T) {
-	hl7Config := loadHL7Config(t)
+	ctx := context.Background()
+	hl7Config := loadHL7Config(ctx, t)
 	orderProfiles, err := Load(test.ComplexOrderProfilesConfigTest, hl7Config)
 	if err != nil {
 		t.Fatalf("Load(%s, %+v) failed with %v", test.ComplexOrderProfilesConfigTest, hl7Config, err)
@@ -528,10 +535,10 @@ func TestGenerateRandom(t *testing.T) {
 	}
 }
 
-func loadHL7Config(t *testing.T) *config.HL7Config {
+func loadHL7Config(ctx context.Context, t *testing.T) *config.HL7Config {
 	t.Helper()
 	fConfig := testwrite.BytesToFile(t, hl7ConfigFile)
-	hl7Config, err := config.LoadHL7Config(fConfig)
+	hl7Config, err := config.LoadHL7Config(ctx, fConfig)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", fConfig, err)
 	}

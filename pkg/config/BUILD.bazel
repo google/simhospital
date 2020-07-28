@@ -31,6 +31,7 @@ go_library(
     ],
     importpath = "github.com/google/simhospital/pkg/config",
     deps = [
+        "//pkg/files:go_default_library",
         "//pkg/ir:go_default_library",
         "//pkg/logging:go_default_library",
         "//pkg/sample:go_default_library",

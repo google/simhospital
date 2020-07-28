@@ -15,6 +15,7 @@
 package person
 
 import (
+	"context"
 	"math"
 	"testing"
 
@@ -24,7 +25,8 @@ import (
 )
 
 func TestEthnicityGenerator(t *testing.T) {
-	hl7Config, err := config.LoadHL7Config(test.MessageConfigTest)
+	ctx := context.Background()
+	hl7Config, err := config.LoadHL7Config(ctx, test.MessageConfigTest)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}

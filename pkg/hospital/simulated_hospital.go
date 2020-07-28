@@ -328,13 +328,13 @@ func DefaultConfig(ctx context.Context, arguments Arguments) (Config, error) {
 	}
 
 	if arguments.Hl7ConfigFile != nil {
-		if c.HL7Config, err = config.LoadHL7Config(*arguments.Hl7ConfigFile); err != nil {
+		if c.HL7Config, err = config.LoadHL7Config(ctx, *arguments.Hl7ConfigFile); err != nil {
 			return Config{}, errors.Wrap(err, "cannot load the message HL7 configuration")
 		}
 	}
 
 	if arguments.HeaderConfigFile != nil {
-		if c.Header, err = config.LoadHeaderConfig(*arguments.HeaderConfigFile); err != nil {
+		if c.Header, err = config.LoadHeaderConfig(ctx, *arguments.HeaderConfigFile); err != nil {
 			return Config{}, errors.Wrap(err, "cannot load the header configuration")
 		}
 	}
