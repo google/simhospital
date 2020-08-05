@@ -172,17 +172,18 @@ const (
 )
 
 const (
-	locationTemplate   = "LocationTmpl"
-	doctorTemplate     = "DoctorTmpl"
-	personNameTemplate = "PersonNameTmpl"
-	addressTemplate    = "AddressTmpl"
-	homeNumberTemplate = "HomeNumberTmpl"
-	ceTemplate         = "CETmpl"
-	ceNoteTemplate     = "CENoteTmpl"
-	cxVisitTemplate    = "CXVisitTmpl"
-	cxMRNTemplate      = "CXMRNTmpl"
-	primFacTemplate    = "PrimFacTmpl"
-	noteTemplate       = "NoteTmpl"
+	locationTemplate      = "LocationTmpl"
+	doctorTemplate        = "DoctorTmpl"
+	personNameTemplate    = "PersonNameTmpl"
+	addressTemplate       = "AddressTmpl"
+	homeNumberTemplate    = "HomeNumberTmpl"
+	ceTemplate            = "CETmpl"
+	ceNoteTemplate        = "CENoteTmpl"
+	ceAdmitReasonTemplate = "CEAdmitReasonTmpl"
+	cxVisitTemplate       = "CXVisitTmpl"
+	cxMRNTemplate         = "CXMRNTmpl"
+	primFacTemplate       = "PrimFacTmpl"
+	noteTemplate          = "NoteTmpl"
 )
 
 var (
@@ -212,6 +213,8 @@ var (
 	// ceNoteTmpl is the CE template for notes.
 	// When the OBX.Observation Identifier field is used to send Notes, this is the Document Type; e.g. ECG/Discharge Summary.
 	ceNoteTmpl = "{{.DocumentType}}^{{.DocumentType}}"
+	// ceAdmitReasonTmpl is CE template for Admit Reason in PV2.3 field.
+	ceAdmitReasonTmpl = "^{{.}}"
 
 	// primFacTmpl represents the data type XON: Extended Composite Name And Identification Number For Organizations
 	// http://hl7-definition.caristix.com:9010/HL7%20v2.3.1/segment/PD1?version=HL7%20v2.3.1&dataType=XON
@@ -276,8 +279,9 @@ var templates = map[string]*template.Template{
 		PV1:              `PV1|1|{{.Class}}|{{template "LocationTmpl" .Location}}|28b||{{template "LocationTmpl" .PriorLocation}}|{{template "DoctorTmpl" .AttendingDoctor}}|||{{.HospitalService}}|{{template "LocationTmpl" .TemporaryLocation}}|||||||{{.Type}}|{{template "CXVisitTmpl" .VisitID}}||||||||||||||||||||||{{.AccountStatus}}|{{template "LocationTmpl" .PendingLocation}}|{{template "LocationTmpl" .PriorTemporaryLocation}}|{{HL7_date .AdmissionDate}}|{{HL7_date .DischargeDate}}|`,
 	}),
 	PV2: mustParseTemplates(PV2, map[string]string{
-		locationTemplate: locationTmpl,
-		PV2:              `PV2|{{template "LocationTmpl" .PriorPendingLocation}}|||||||{{HL7_date .ExpectedAdmitDateTime}}|{{HL7_date .ExpectedDischargeDateTime}}`,
+		locationTemplate:      locationTmpl,
+		ceAdmitReasonTemplate: ceAdmitReasonTmpl,
+		PV2:                   `PV2|{{template "LocationTmpl" .PriorPendingLocation}}||{{template "CEAdmitReasonTmpl" .AdmitReason}}|||||{{HL7_date .ExpectedAdmitDateTime}}|{{HL7_date .ExpectedDischargeDateTime}}`,
 	}),
 	NK1: mustParseTemplates(NK1, map[string]string{
 		personNameTemplate: personNameTmpl,
@@ -608,6 +612,11 @@ func BuildAdmissionADTA01(h *HeaderInfo, p *ir.PatientInfo, eventTime time.Time,
 		return nil, errors.Wrap(err, "cannot build PV1 segment")
 	}
 	segments = append(segments, pv1)
+	pv2, err := BuildPV2(p)
+	if err != nil {
+		return nil, errors.Wrap(err, "cannot build PV2 segment")
+	}
+	segments = append(segments, pv2)
 	for id, ap := range p.AssociatedParties {
 		nk1, err := BuildNK1(id, ap)
 		if err != nil {

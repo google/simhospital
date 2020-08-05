@@ -65,6 +65,7 @@ func (h *Hospital) processAdmission(e *state.Event, logLocal *logging.SimulatedH
 		patientInfo.AddEncounter(patientInfo.AdmissionDate, constants.EncounterStatusArrived, patientInfo.Location)
 	}
 
+	patientInfo.AdmitReason = e.Step.Admission.AdmitReason
 	patientInfo.PendingLocation = nil
 	patientInfo.ExpectedAdmitDateTime = ir.NewInvalidTime()
 	patientInfo.Class = h.messageConfig.PatientClass.Inpatient

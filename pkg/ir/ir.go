@@ -276,6 +276,7 @@ type PatientInfo struct {
 	Type            string // values are defined per-trust if this field is used
 	VisitID         uint64
 	HospitalService string
+	AdmitReason     string
 	// Location is the current patient location.
 	Location      *PatientLocation
 	PriorLocation *PatientLocation

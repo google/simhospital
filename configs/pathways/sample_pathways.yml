@@ -21,6 +21,7 @@ simple_admission:
   pathway:
     - admission:
         loc: Renal
+        admit_reason: Kidney problems
 
 discharge_at_timestamp:
   percentage_of_patients: 0

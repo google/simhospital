@@ -386,6 +386,17 @@ admission_only:
         loc: Renal
 ```
 
+Optionally you can specify an admit reason for the patient. This will add the
+admission reason to the PV2.3 Admit Reason field, for example:
+
+```yaml
+admission_with_reason:
+  pathway:
+    - admission:
+        loc: Renal
+        admit_reason: Kidney problems
+```
+
 The point of care must be one of the locations available in the hospital, see
 the [Locations section](#locations).
 

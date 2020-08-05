@@ -534,11 +534,12 @@ func TestBuildPV2(t *testing.T) {
 			Building:     "RFH",
 			Floor:        "Floor1",
 		},
+		AdmitReason:               "Eye Problems",
 		ExpectedAdmitDateTime:     ir.NewValidTime(time.Date(2018, 4, 28, 22, 38, 44, 0, time.UTC)),
 		ExpectedDischargeDateTime: ir.NewValidTime(time.Date(2018, 4, 29, 21, 45, 30, 0, time.UTC)),
 	}
 
-	want := "PV2|RAL 12 West^Bay01^Bed10^RAL RF^^BED^RFH^Floor1|||||||20180428233844|20180429224530"
+	want := "PV2|RAL 12 West^Bay01^Bed10^RAL RF^^BED^RFH^Floor1||^Eye Problems|||||20180428233844|20180429224530"
 	got, err := BuildPV2(patientInfo)
 	if err != nil {
 		t.Fatalf("BuildPV2(%v) failed with %v", patientInfo, err)
@@ -947,6 +948,18 @@ func TestBuildAdmissionADTA01(t *testing.T) {
 	}
 	if nk1 == nil {
 		t.Error("NK1() got nil NK1 segment, want non nil")
+	}
+
+	pv2, err := m.PV2()
+	if err != nil {
+		t.Errorf("PV1() failed with %v", err)
+	}
+	if pv2 == nil {
+		t.Errorf("PV2() got <nil> PV2 segment, want non nil")
+	}
+	want := &hl7.CE{Text: hl7.NewST("Eye problems")}
+	if diff := cmp.Diff(want, pv2.AdmitReason); diff != "" {
+		t.Errorf("pv2.AdmitReason mismatch (-want, +got)=\n%s", diff)
 	}
 }
 
@@ -3339,6 +3352,7 @@ func testPatientInfo() *ir.PatientInfo {
 		Allergies:                 []*ir.Allergy{al},
 		Diagnoses:                 []*ir.DiagnosisOrProcedure{testDiagnosis()},
 		Procedures:                []*ir.DiagnosisOrProcedure{testProcedure()},
+		AdmitReason:               "Eye problems",
 	}
 	return patientInfo
 }

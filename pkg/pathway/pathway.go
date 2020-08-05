@@ -323,9 +323,10 @@ type Result struct {
 type Admission struct {
 	// Loc is a location (point of care) the patient is admitted to.
 	// Required.
-	Loc       string
-	Bed       string    `yaml:",omitempty"`
-	Allergies []Allergy `yaml:",omitempty"`
+	Loc         string
+	Bed         string    `yaml:",omitempty"`
+	Allergies   []Allergy `yaml:",omitempty"`
+	AdmitReason string    `yaml:"admit_reason,omitempty"`
 }
 
 // Transfer is a step to transfer the patient to a different location.
