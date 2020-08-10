@@ -367,7 +367,7 @@ RANK,1904
 				t.Errorf("ServeHTTP(%s) got response=%v, want response to contain %q", tc.req, response, want)
 			}
 
-			got, _ := ps.Hospital.ConsumeQueues(t)
+			got, _ := ps.Hospital.ConsumeQueues(ctx, t)
 			if want := tc.wantEvents; got != want {
 				t.Errorf("ServeHTTP(%s) numEvents = %d, want %d", tc.req, got, want)
 			}
@@ -449,7 +449,7 @@ RANK,1904
 	if want := responseStartedWithParams("pathway_with_dave_grohl", "Jane", "Taylor-Swift", "(MRN 1)"); !strings.Contains(response, want) {
 		t.Errorf("ServeHTTP(%s) got response=%v, want response to contain %q", req4, response, want)
 	}
-	got, _ := ps.Hospital.ConsumeQueues(t)
+	got, _ := ps.Hospital.ConsumeQueues(ctx, t)
 	if want := 13; got != want {
 		t.Errorf("ServeHTTP(%s) numEvents = %d, want %d", req4, got, want)
 	}
@@ -465,7 +465,7 @@ func TestServeHTTP_PathwayWithPatient_PatientNotPersisted(t *testing.T) {
 	req := "pathway1: Jane Taylor"
 	response := serveHTTP(t, ps.PathwayStarter, req)
 
-	got, _ := ps.Hospital.ConsumeQueues(t)
+	got, _ := ps.Hospital.ConsumeQueues(ctx, t)
 	if want := 3; got != want {
 		t.Errorf("ServeHTTP(%s) numEvents = %d, want %d", req, got, want)
 	}
@@ -478,7 +478,7 @@ func TestServeHTTP_PathwayWithPatient_PatientNotPersisted(t *testing.T) {
 	req = "pathway1"
 	response = serveHTTP(t, ps.PathwayStarter, req)
 
-	got, _ = ps.Hospital.ConsumeQueues(t)
+	got, _ = ps.Hospital.ConsumeQueues(ctx, t)
 	if want := 3; got != want {
 		t.Errorf("ServeHTTP(%s) numEvents = %d, want %d", req, got, want)
 	}
@@ -559,7 +559,7 @@ random_pathway:
 			defer ps.Hospital.Close()
 			response := serveHTTP(t, ps.PathwayStarter, tc.req)
 
-			got, _ := ps.Hospital.ConsumeQueues(t)
+			got, _ := ps.Hospital.ConsumeQueues(ctx, t)
 			if want := tc.wantEvents; got != want {
 				t.Errorf("ServeHTTP(%s) numEvents = %d, want %d", tc.req, got, want)
 			}
@@ -703,7 +703,7 @@ func newTestPathwayStarter(ctx context.Context, t *testing.T, pathways map[strin
 
 	cfg.PathwayManager = pathwayManager
 	cfg.LocationManager = testlocation.NewLocationManager(ctx, t, testLoc, testLocAE)
-	h := testhospital.WithTime(t, testhospital.Config{Config: cfg, Arguments: testhospital.Arguments}, now)
+	h := testhospital.WithTime(ctx, t, testhospital.Config{Config: cfg, Arguments: testhospital.Arguments}, now)
 	p := &pathway.Parser{
 		Clock:           testclock.New(time.Now()),
 		OrderProfiles:   cfg.OrderProfiles,

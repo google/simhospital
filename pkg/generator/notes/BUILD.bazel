@@ -25,6 +25,7 @@ go_library(
     importpath = "github.com/google/simhospital/pkg/generator/notes",
     deps = [
         "//pkg/config:go_default_library",
+        "//pkg/files:go_default_library",
         "//pkg/generator/text:go_default_library",
         "//pkg/ir:go_default_library",
         "//pkg/pathway:go_default_library",

@@ -506,11 +506,11 @@ func init() {
 // RunNextEventIfDue checks if there is an event available on the event queue and if it is due,
 // and if so, it runs the next event.
 // Returns true it there was an event for processing and the event ran successfully, false otherwise.
-func (h *Hospital) RunNextEventIfDue() (bool, error) {
+func (h *Hospital) RunNextEventIfDue(ctx context.Context) (bool, error) {
 	if !h.hasDueEvent() {
 		return false, nil
 	}
-	err := h.runNextEvent()
+	err := h.runNextEvent(ctx)
 	return err == nil, err
 }
 
@@ -662,7 +662,7 @@ func calculateTimes(now time.Time, params *pathway.Parameters) (eventTime time.T
 }
 
 // NewHospital creates a new Hospital.
-func NewHospital(c Config) (*Hospital, error) {
+func NewHospital(ctx context.Context, c Config) (*Hospital, error) {
 	if c.MessagesManager == nil {
 		return nil, errors.New("Config.MessagesManager not provided; this is required")
 	}
@@ -698,7 +698,7 @@ func NewHospital(c Config) (*Hospital, error) {
 	}
 	ac := c.AdditionalConfig
 
-	dataConfig, err := config.LoadData(c.DataFiles, c.HL7Config)
+	dataConfig, err := config.LoadData(ctx, c.DataFiles, c.HL7Config)
 	if err != nil {
 		return nil, errors.Wrap(err, "Failed to load the message data configuration")
 	}

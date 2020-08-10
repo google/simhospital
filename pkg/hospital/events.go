@@ -15,6 +15,8 @@
 package hospital
 
 import (
+	"context"
+
 	"github.com/pkg/errors"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/google/simhospital/pkg/ir"
@@ -31,7 +33,7 @@ func (h *Hospital) HasEvents() bool {
 
 // runNextEvent consumes the next event from the Events queue and runs it.
 // runNextEvent returns an error if the queue is empty or there was any problem running the event.
-func (h *Hospital) runNextEvent() error {
+func (h *Hospital) runNextEvent(ctx context.Context) error {
 	if !h.HasEvents() {
 		return errors.New("runNextEvent() was invoked on an empty Event queue")
 	}
@@ -60,7 +62,7 @@ func (h *Hospital) runNextEvent() error {
 		return nil
 	}
 
-	h.runEvent(event)
+	h.runEvent(ctx, event)
 
 	if consistentAfter := h.eventQ.IsConsistent(); !consistentAfter && consistentBefore {
 		counters.SimulatedHospital.ErrorsTotal.With(prometheus.Labels{
@@ -123,7 +125,7 @@ func (h *Hospital) queueFirstEvent(p pathway.Pathway, patientIDs map[pathway.Pat
 // If there's an error (e.g. event pre/override/default/post processing logic fails, the message cannot be added
 // to the queue, etc.), the next event isn't added to the queue, and thus the entire pathway is stopped. In that
 // case the patient is deleted from the internal map.
-func (h *Hospital) runEvent(e state.Event) {
+func (h *Hospital) runEvent(ctx context.Context, e state.Event) {
 	pathwayName := e.PathwayName
 	mrn := e.PatientMRN
 	logLocal := log.WithField(keyPathwayName, pathwayName).
@@ -171,7 +173,7 @@ func (h *Hospital) runEvent(e state.Event) {
 	}
 
 	if !processed {
-		if err := h.processEventType(&e, logLocal, now); err != nil {
+		if err := h.processEventType(ctx, &e, logLocal, now); err != nil {
 			logLocal.WithError(err).Errorf("cannot process event type %v, deleting patient", e.Step.StepType())
 			counters.SimulatedHospital.ErrorsTotal.With(prometheus.Labels{
 				"pathway_name": pathwayName,

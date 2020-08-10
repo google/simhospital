@@ -287,7 +287,7 @@ func TestOrderWithClinicalNote(t *testing.T) {
 				Doctors:               d,
 			}
 
-			got, err := g.OrderWithClinicalNote(tc.existingOrder, cn, eventTime)
+			got, err := g.OrderWithClinicalNote(ctx, tc.existingOrder, cn, eventTime)
 			if gotErr := err != nil; gotErr != tc.wantErr {
 				t.Fatalf("g.OrderWithClinicalNote(%v, %+v, %v) got err %v, want ?err=%t", tc.existingOrder, cn, eventTime, err, tc.wantErr)
 			}
@@ -1592,7 +1592,7 @@ func (ng *fakeNoteGenerator) RandomNotesForResult() []string {
 	return ng.wantNotes
 }
 
-func (ng *fakeNoteGenerator) RandomDocumentForClinicalNote(*pathway.ClinicalNote, *ir.ClinicalNote, time.Time) (*ir.ClinicalNote, error) {
+func (ng *fakeNoteGenerator) RandomDocumentForClinicalNote(context.Context, *pathway.ClinicalNote, *ir.ClinicalNote, time.Time) (*ir.ClinicalNote, error) {
 	return ng.wantClinicalNote, ng.wantErr
 }
 

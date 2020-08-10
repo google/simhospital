@@ -122,7 +122,7 @@ func TestGenerateResources(t *testing.T) {
 				t.Fatalf("StartNextPathway() failed with %v", err)
 			}
 
-			hospital.ConsumeQueues(t)
+			hospital.ConsumeQueues(ctx, t)
 
 			if got, want := len(rw.Resources), len(tc.want); got != want {
 				t.Fatalf("len(rw.Resources) = %d, want %v", got, want)
@@ -464,7 +464,7 @@ func TestEncounters(t *testing.T) {
 				t.Fatalf("StartNextPathway() failed with %v", err)
 			}
 
-			hospital.ConsumeQueues(t)
+			hospital.ConsumeQueues(ctx, t)
 
 			if got, want := len(rw.Resources), 1; got != want {
 				t.Fatalf("len(rw.Resources) = %d, want %d", got, want)

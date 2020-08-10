@@ -45,18 +45,18 @@ var (
 	hardcodedMessagesDir   = flag.String("hardcoded_messages_dir", "configs/hardcoded_messages", "Path to a directory with YAML files that contain hardcoded messages. This directory can be on the local file system or GCS.")
 	hl7ConfigFile          = flag.String("hl7_config_file", "configs/hl7_messages/hl7.yml", "Path to a YAML file with the possible values of HL7 fields related to how the HL7 standard is used. This file can be a local file or a GCS object.")
 	headerConfigFile       = flag.String("header_config_file", "configs/hl7_messages/header.yml", "Path to a YAML file with the configuration for the header of HL7 messages. This file can be a local file or a GCS object.")
-	nounsFile              = flag.String("nouns_file", "configs/hl7_messages/third_party/nouns.txt", "Path to a text file containing english nouns")
-	surnamesFile           = flag.String("surnames_file", "configs/hl7_messages/third_party/surnames.txt", "Path to a text file containing surnames")
+	nounsFile              = flag.String("nouns_file", "configs/hl7_messages/third_party/nouns.txt", "Path to a text file containing english nouns. This file can be a local file or a GCS object.")
+	surnamesFile           = flag.String("surnames_file", "configs/hl7_messages/third_party/surnames.txt", "Path to a text file containing surnames. This file can be a local file or a GCS object.")
 	girlsHistoricNamesFile = flag.String("girls_names", "configs/hl7_messages/third_party/historicname_tcm77-254032-girls.csv", "Path to a CSV file containing historical girls names")
 	boysHistoricNamesFile  = flag.String("boys_names", "configs/hl7_messages/third_party/historicname_tcm77-254032-boys.csv", "Path to a CSV file containing historical boys names")
 	dataConfigFile         = flag.String("data_config_file", "configs/hl7_messages/data.yml", "Path to a YAML file with the configuration for data to populate HL7 fields that are not relevant to the use of the HL7 standard")
-	sampleNotesDir         = flag.String("sample_notes_directory", "configs/hl7_messages/third_party/notes", "Path to a directory with the sample notes")
-	clinicalNoteTypesFile  = flag.String("clinical_note_types_file", "configs/hl7_messages/third_party/note_types.txt", "Path to a text file with the Clinical Note types")
-	diagnosesFile          = flag.String("diagnoses_file", "configs/hl7_messages/diagnoses.csv", "Path to a CSV file with the diagnoses and how often they occur")
-	proceduresFile         = flag.String("procedures_file", "configs/hl7_messages/procedures.csv", "Path to a CSV file with the procedures and how often they occur")
-	allergiesFile          = flag.String("allergies_file", "configs/hl7_messages/allergies.csv", "Path to a CSV file with the allergies and how often they occur")
-	ethnicityFile          = flag.String("ethnicity_file", "configs/hl7_messages/ethnicity.csv", "Path to a CSV file with the ethnicities and how often they occur")
-	patientClassFile       = flag.String("patient_class_file", "configs/hl7_messages/patient_class.csv", "Path to a CSV file with the patient classes and types and how often they occur")
+	sampleNotesDir         = flag.String("sample_notes_directory", "configs/hl7_messages/third_party/notes", "Path to a directory with the sample notes. This directory can be on the local file system or GCS.")
+	clinicalNoteTypesFile  = flag.String("clinical_note_types_file", "configs/hl7_messages/third_party/note_types.txt", "Path to a text file with the Clinical Note types. This file can be a local file or a GCS object.")
+	diagnosesFile          = flag.String("diagnoses_file", "configs/hl7_messages/diagnoses.csv", "Path to a CSV file with the diagnoses and how often they occur. This file can be a local file or a GCS object.")
+	proceduresFile         = flag.String("procedures_file", "configs/hl7_messages/procedures.csv", "Path to a CSV file with the procedures and how often they occur. This file can be a local file or a GCS object.")
+	allergiesFile          = flag.String("allergies_file", "configs/hl7_messages/allergies.csv", "Path to a CSV file with the allergies and how often they occur. This file can be a local file or a GCS object.")
+	ethnicityFile          = flag.String("ethnicity_file", "configs/hl7_messages/ethnicity.csv", "Path to a CSV file with the ethnicities and how often they occur. This file can be a local file or a GCS object.")
+	patientClassFile       = flag.String("patient_class_file", "configs/hl7_messages/patient_class.csv", "Path to a CSV file with the patient classes and types and how often they occur. This file can be a local file or a GCS object.")
 	doctorsFile            = flag.String("doctors_file", "configs/hl7_messages/doctors.yml", "Path to a YAML file with the doctors")
 	orderProfilesFile      = flag.String("order_profile_file", "configs/hl7_messages/order_profiles.yml", "Path to a YAML file with the definition of the order profiles")
 
@@ -211,7 +211,7 @@ func createRunner(ctx context.Context) (*runner.Hospital, error) {
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot create default hospital config")
 	}
-	h, err := hospital.NewHospital(config)
+	h, err := hospital.NewHospital(ctx, config)
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot instantiate Hospital")
 	}

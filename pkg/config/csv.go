@@ -15,13 +15,15 @@
 package config
 
 import (
+	"bytes"
+	"context"
 	"encoding/csv"
 	"fmt"
 	"io"
-	"os"
 	"strconv"
 
 	"github.com/pkg/errors"
+	"github.com/google/simhospital/pkg/files"
 	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/sample"
 )
@@ -64,13 +66,12 @@ type RecordWithFreq struct {
 //	},
 //  (etc).
 //}
-func loadCSVWithFrequency(fName string, columnKeys []string) ([]RecordWithFreq, error) {
-	f, err := os.Open(fName)
+func loadCSVWithFrequency(ctx context.Context, fName string, columnKeys []string) ([]RecordWithFreq, error) {
+	b, err := files.Read(ctx, fName)
 	if err != nil {
 		return nil, errors.Wrapf(err, "cannot open file %s", fName)
 	}
-	defer f.Close()
-	reader := csv.NewReader(f)
+	reader := csv.NewReader(bytes.NewReader(b))
 	reader.Comment = '#'
 	var records []RecordWithFreq
 	nColumns := len(columnKeys) + 1
@@ -111,11 +112,11 @@ func loadCSVWithFrequency(fName string, columnKeys []string) ([]RecordWithFreq, 
 // The first element of each row is the code of the coded element, the second is its description,
 // and the last one is the frequency.
 // allowNil specifies whether nil rows are allowed. A nil row is of the form "nil,nil,<frequency>".
-func loadCodedElements(fileName string, codingSystem string, allowNil bool) ([]MappableWeightedValue, error) {
+func loadCodedElements(ctx context.Context, fileName string, codingSystem string, allowNil bool) ([]MappableWeightedValue, error) {
 	idKey := "id"
 	textKey := "text"
 
-	recordsWithFrequency, err := loadCSVWithFrequency(fileName, []string{idKey, textKey})
+	recordsWithFrequency, err := loadCSVWithFrequency(ctx, fileName, []string{idKey, textKey})
 	if err != nil {
 		return nil, err
 	}
@@ -142,11 +143,11 @@ func loadCodedElements(fileName string, codingSystem string, allowNil bool) ([]M
 	return values, nil
 }
 
-func ethnicities(fileName string) ([]sample.WeightedValue, error) {
+func ethnicities(ctx context.Context, fileName string) ([]sample.WeightedValue, error) {
 	idKey := "id"
 	textKey := "text"
 
-	recordsWithFrequency, err := loadCSVWithFrequency(fileName, []string{idKey, textKey})
+	recordsWithFrequency, err := loadCSVWithFrequency(ctx, fileName, []string{idKey, textKey})
 	if err != nil {
 		return nil, err
 	}
@@ -174,11 +175,11 @@ type PatientClassAndType struct {
 	Type  string
 }
 
-func patientClass(fileName string) ([]sample.WeightedValue, error) {
+func patientClass(ctx context.Context, fileName string) ([]sample.WeightedValue, error) {
 	classKey := "class"
 	typeKey := "type"
 
-	recordsWithFrequency, err := loadCSVWithFrequency(fileName, []string{classKey, typeKey})
+	recordsWithFrequency, err := loadCSVWithFrequency(ctx, fileName, []string{classKey, typeKey})
 	if err != nil {
 		return nil, err
 	}

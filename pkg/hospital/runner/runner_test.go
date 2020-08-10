@@ -146,6 +146,7 @@ func TestNewRunner(t *testing.T) {
 
 // This test only covers the case when Run() stops.
 func TestRunner_Run(t *testing.T) {
+	ctx := context.Background()
 	// test_pathway is an arbitrary pathway that sends 4 (arbitrary number) messages.
 	// This pathway refers to values in the files in the pkg/test/data package,
 	// more specifically the order profiles and the locations.
@@ -196,7 +197,7 @@ test_pathway:
 		t.Run(fmt.Sprintf("%d", tc.maxPathways), func(t *testing.T) {
 			clock := testclock.WithTick(now, time.Second)
 
-			h := testhospital.New(t, testhospital.Config{
+			h := testhospital.New(ctx, t, testhospital.Config{
 				Config:    hospital.Config{Clock: clock},
 				Arguments: args,
 			})

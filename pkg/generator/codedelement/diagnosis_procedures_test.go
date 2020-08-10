@@ -55,7 +55,7 @@ P04.1,Procedure4,1
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
-	data, err := config.LoadData(f, c)
+	data, err := config.LoadData(ctx, f, c)
 	if err != nil {
 		t.Fatalf("LoadData(%+v, %+v) failed with %v", f, c, err)
 	}
@@ -189,7 +189,7 @@ func TestDiagOrProcGenerator_Random_EmptyFile_NoDate(t *testing.T) {
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
-	data, err := config.LoadData(f, c)
+	data, err := config.LoadData(ctx, f, c)
 	if err != nil {
 		t.Fatalf("LoadData(%+v, %+v) failed with %v", f, c, err)
 	}

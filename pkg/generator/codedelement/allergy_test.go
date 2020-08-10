@@ -46,7 +46,7 @@ func TestAllergyGenerator_RandomNoItems(t *testing.T) {
 	}
 	f := test.DataFiles[test.Test]
 	f.Allergies = fName
-	data, err := config.LoadData(f, configHL7)
+	data, err := config.LoadData(ctx, f, configHL7)
 	if err != nil {
 		t.Fatalf("LoadData(%+v, %+v) failed with %v", f, configHL7, err)
 	}
@@ -74,7 +74,7 @@ T78.1,Allergy4,23
 	}
 	f := test.DataFiles[test.Test]
 	f.Allergies = fName
-	data, err := config.LoadData(f, configHL7)
+	data, err := config.LoadData(ctx, f, configHL7)
 	if err != nil {
 		t.Fatalf("LoadData(%+v, %+v) failed with %v", f, configHL7, err)
 	}

@@ -16,11 +16,11 @@
 package config
 
 import (
-	"io/ioutil"
-	"path/filepath"
+	"context"
 	"strings"
 
 	"github.com/pkg/errors"
+	"github.com/google/simhospital/pkg/files"
 )
 
 // ClinicalNote represents a document that contains a clinical note.
@@ -33,14 +33,14 @@ type ClinicalNote struct {
 // LoadNotesConfig loads all the files in the sample notes directory. Each sample note in the directory have to be named
 // in the <filename>.<extension> format. We rely on this formatting to extract the ContentType of the
 // document. Files not named in the right format will be skipped.
-func LoadNotesConfig(directory string) (map[string][]ClinicalNote, error) {
-	fileNames, err := ioutil.ReadDir(directory)
+func LoadNotesConfig(ctx context.Context, directory string) (map[string][]ClinicalNote, error) {
+	files, err := files.List(ctx, directory)
 	if err != nil {
 		return nil, errors.Wrapf(err, "Error reading Sample Notes directory %s", directory)
 	}
 
 	typeToNotes := make(map[string][]ClinicalNote)
-	for _, f := range fileNames {
+	for _, f := range files {
 		split := strings.Split(f.Name(), ".")
 		if len(split) <= 1 {
 			log.WithField("sample_notes_directory", directory).
@@ -51,7 +51,7 @@ func LoadNotesConfig(directory string) (map[string][]ClinicalNote, error) {
 
 		typeToNotes[ext] = append(typeToNotes[ext], ClinicalNote{
 			DocumentFileName: f.Name(),
-			Path:             filepath.Join(directory, f.Name()),
+			Path:             f.FullPath(),
 			ContentType:      ext,
 		})
 	}

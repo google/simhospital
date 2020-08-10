@@ -16,6 +16,7 @@
 package order
 
 import (
+	"context"
 	"fmt"
 	"time"
 
@@ -39,7 +40,7 @@ type NotesGenerator interface {
 	// RandomNotesForResult generates textual notes for a Result, to be set in NTE segments related to the result.
 	RandomNotesForResult() []string
 	// RandomDocumentForClinicalNote generates a document that contains a clinical note.
-	RandomDocumentForClinicalNote(*pathway.ClinicalNote, *ir.ClinicalNote, time.Time) (*ir.ClinicalNote, error)
+	RandomDocumentForClinicalNote(context.Context, *pathway.ClinicalNote, *ir.ClinicalNote, time.Time) (*ir.ClinicalNote, error)
 }
 
 // Generator is a generator of orders and results.
@@ -71,7 +72,7 @@ func (g Generator) NewOrder(o *pathway.Order, eventTime time.Time) *ir.Order {
 // OrderWithClinicalNote updates an order with a Clinical Note. If the supplied order is nil, a new order is created.
 // This order will contain a single result with the Clinical Note generated/updated based on the pathway.
 // The DiagnosticServID section is set to DiagnosticServIDMDOC, which indicates that the corresponding HL7 is a Clinical Note.
-func (g Generator) OrderWithClinicalNote(order *ir.Order, n *pathway.ClinicalNote, eventTime time.Time) (*ir.Order, error) {
+func (g Generator) OrderWithClinicalNote(ctx context.Context, order *ir.Order, n *pathway.ClinicalNote, eventTime time.Time) (*ir.Order, error) {
 	var existingNote *ir.ClinicalNote
 	if order != nil {
 		if len(order.Results) != 1 {
@@ -83,7 +84,7 @@ func (g Generator) OrderWithClinicalNote(order *ir.Order, n *pathway.ClinicalNot
 		existingNote = order.Results[0].ClinicalNote
 	}
 
-	note, err := g.NoteGenerator.RandomDocumentForClinicalNote(n, existingNote, eventTime)
+	note, err := g.NoteGenerator.RandomDocumentForClinicalNote(ctx, n, existingNote, eventTime)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to generate a random note")
 	}

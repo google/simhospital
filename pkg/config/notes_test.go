@@ -15,6 +15,7 @@
 package config
 
 import (
+	"context"
 	"path/filepath"
 	"testing"
 
@@ -28,6 +29,7 @@ type note struct {
 }
 
 func TestLoadNotesConfigFromDir(t *testing.T) {
+	ctx := context.Background()
 	mainDir := testwrite.TempDir(t)
 
 	testCases := []struct {
@@ -131,7 +133,7 @@ func TestLoadNotesConfigFromDir(t *testing.T) {
 				content := []byte(n.content)
 				testwrite.BytesToFileInExistingDir(t, content, mainDir, n.filename)
 			}
-			got, err := LoadNotesConfig(mainDir)
+			got, err := LoadNotesConfig(ctx, mainDir)
 			if err != nil {
 				t.Fatalf("LoadNotesConfig(%s) failed with error %v", mainDir, err)
 			}

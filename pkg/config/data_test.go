@@ -15,6 +15,7 @@
 package config
 
 import (
+	"context"
 	"path/filepath"
 	"testing"
 
@@ -136,6 +137,7 @@ OUTPATIENT,OUTPATIENT,40
 )
 
 func TestLoadDataConfig(t *testing.T) {
+	ctx := context.Background()
 	tmpData := testwrite.BytesToFile(t, defaultData)
 	tmpInvalidData := testwrite.BytesToFile(t, invalidData)
 	tmpNouns := testwrite.BytesToFile(t, defaultNouns)
@@ -218,7 +220,7 @@ func TestLoadDataConfig(t *testing.T) {
 				Diagnosis: HL7Diagnosis{CodingSystem: "diagnosis-cs"},
 				Procedure: HL7Procedure{CodingSystem: "procedure-cs"},
 			}
-			c, err := LoadData(f, &hl7Config)
+			c, err := LoadData(ctx, f, &hl7Config)
 			gotErr := err != nil
 			if gotErr != tc.wantErr {
 				t.Fatalf("LoadData(%+v, %+v) got err=%v; want err? %t", f, hl7Config, err, tc.wantErr)
@@ -377,6 +379,7 @@ func TestLoadDataConfig(t *testing.T) {
 // Coded elements are Diagnoses, Procedures and Allergies. We load other files too in order to use the
 // exposed method LoadData.
 func TestLoadData_CodedElements(t *testing.T) {
+	ctx := context.Background()
 	tmpData := testwrite.BytesToFile(t, defaultData)
 	tmpNouns := testwrite.BytesToFile(t, defaultNouns)
 	tmpNoteTypes := testwrite.BytesToFile(t, defaultNotetypes)
@@ -524,7 +527,7 @@ J45.0,Value2,2556.6`)
 				Diagnosis: HL7Diagnosis{CodingSystem: defaultCS},
 				Procedure: HL7Procedure{CodingSystem: defaultCS},
 			}
-			c, err := LoadData(f, &hl7Config)
+			c, err := LoadData(ctx, f, &hl7Config)
 			gotErr := err != nil
 			if gotErr != tc.wantErr {
 				t.Fatalf("LoadData(%+v, %+v) got err=%v; want err? %t", f, hl7Config, err, tc.wantErr)

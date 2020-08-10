@@ -15,6 +15,7 @@
 package notes
 
 import (
+	"context"
 	"encoding/base64"
 	"fmt"
 	"math"
@@ -54,7 +55,8 @@ type tuple struct {
 
 func TestRandomDocumentForClinicalNote(t *testing.T) {
 	rand.Seed(1)
-	nc, fc := testSetup(t)
+	ctx := context.Background()
+	nc, fc := testSetup(ctx, t)
 	g := &Generator{
 		textGenerator: &text.NounGenerator{Nouns: nouns},
 		config:        nc,
@@ -243,7 +245,7 @@ func TestRandomDocumentForClinicalNote(t *testing.T) {
 			)
 			for index, tuple := range tt.tuples {
 				t.Run(fmt.Sprintf("pair index: %d", index), func(t *testing.T) {
-					got, err = g.RandomDocumentForClinicalNote(tuple.pathway, got, tuple.eventDateTime)
+					got, err = g.RandomDocumentForClinicalNote(ctx, tuple.pathway, got, tuple.eventDateTime)
 					if err != nil {
 						t.Fatalf("g.RandomDocumentForClinicalNote(%v) failed with error %v", tuple.pathway, err)
 					}
@@ -336,7 +338,8 @@ func TestRandomNotesForResult(t *testing.T) {
 }
 
 func TestRandomInvalidContentTypeError(t *testing.T) {
-	nc, _ := testSetup(t)
+	ctx := context.Background()
+	nc, _ := testSetup(ctx, t)
 	g := &Generator{
 		textGenerator: &text.NounGenerator{Nouns: nouns},
 		config:        nc,
@@ -360,7 +363,7 @@ func TestRandomInvalidContentTypeError(t *testing.T) {
 		},
 	}} {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := g.RandomDocumentForClinicalNote(tt.pathway, nil, time.Time{})
+			got, err := g.RandomDocumentForClinicalNote(ctx, tt.pathway, nil, time.Time{})
 			if err == nil {
 				t.Errorf("g.RandomDocumentForClinicalNote(%q) = %v, %v; want <nil>, error", tt.pathway, got, err)
 			}
@@ -370,7 +373,8 @@ func TestRandomInvalidContentTypeError(t *testing.T) {
 
 func TestRandomUniformDistribution(t *testing.T) {
 	rand.Seed(1)
-	nc, fc := testSetup(t)
+	ctx := context.Background()
+	nc, fc := testSetup(ctx, t)
 	g := &Generator{
 		textGenerator: &text.NounGenerator{Nouns: nouns},
 		config:        nc,
@@ -388,7 +392,7 @@ func TestRandomUniformDistribution(t *testing.T) {
 	typesDistr := map[string]int{}
 	for _, acn := range arbitraryClinicalNotes {
 		for i := 0; i < int(runs); i++ {
-			n, err := g.RandomDocumentForClinicalNote(acn, nil, time.Time{})
+			n, err := g.RandomDocumentForClinicalNote(ctx, acn, nil, time.Time{})
 			if err != nil {
 				t.Fatalf("g.RandomDocumentForClinicalNote(%v) failed with %v", acn, err)
 			}
@@ -438,7 +442,7 @@ func TestRandomUniformDistribution(t *testing.T) {
 	}
 }
 
-func testSetup(t *testing.T) (map[string][]config.ClinicalNote, map[string][]string) {
+func testSetup(ctx context.Context, t *testing.T) (map[string][]config.ClinicalNote, map[string][]string) {
 	t.Helper()
 	mainDir := testwrite.TempDir(t)
 	fileContents := make(map[string][]string)
@@ -473,7 +477,7 @@ func testSetup(t *testing.T) (map[string][]config.ClinicalNote, map[string][]str
 		}
 		testwrite.BytesToFileInExistingDir(t, contentBytes, mainDir, n.filename)
 	}
-	nc, err := config.LoadNotesConfig(mainDir)
+	nc, err := config.LoadNotesConfig(ctx, mainDir)
 	if err != nil {
 		t.Fatalf("config.LoadNotesConfig(%s) failed with error %v", mainDir, err)
 	}

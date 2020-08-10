@@ -17,9 +17,9 @@ package notes
 
 import (
 	"bytes"
+	"context"
 	"encoding/base64"
 	"fmt"
-	"io/ioutil"
 	"math/rand"
 	"strconv"
 	"strings"
@@ -27,6 +27,7 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/google/simhospital/pkg/config"
+	"github.com/google/simhospital/pkg/files"
 	"github.com/google/simhospital/pkg/generator/text"
 	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/pathway"
@@ -65,7 +66,7 @@ func NewGenerator(d *config.Data, t text.Generator) *Generator {
 // If note is nil, it generates a new ClinicalNote object. If note is not nil, it updates it. If the content type is a txt,
 // random text is generated as the content. Otherwise a random file matching the content type is read from the list of sample files as the content.
 // If there is an existing note, the document type and title are only updated if a new type or title is specified in the pathway.
-func (g *Generator) RandomDocumentForClinicalNote(np *pathway.ClinicalNote, note *ir.ClinicalNote, eventTime time.Time) (*ir.ClinicalNote, error) {
+func (g *Generator) RandomDocumentForClinicalNote(ctx context.Context, np *pathway.ClinicalNote, note *ir.ClinicalNote, eventTime time.Time) (*ir.ClinicalNote, error) {
 	if note == nil {
 		note = &ir.ClinicalNote{
 			DocumentID: g.id(np.DocumentID),
@@ -80,7 +81,7 @@ func (g *Generator) RandomDocumentForClinicalNote(np *pathway.ClinicalNote, note
 		note.DocumentTitle = np.DocumentTitle
 	}
 
-	documentContent, encoding, err := g.contentAndEncoding(np.ContentType, np.DocumentContent)
+	documentContent, encoding, err := g.contentAndEncoding(ctx, np.ContentType, np.DocumentContent)
 	if err != nil {
 		return nil, err
 	}
@@ -94,7 +95,7 @@ func (g *Generator) RandomDocumentForClinicalNote(np *pathway.ClinicalNote, note
 	return note, nil
 }
 
-func (g *Generator) contentAndEncoding(contentType string, documentContent string) (string, string, error) {
+func (g *Generator) contentAndEncoding(ctx context.Context, contentType string, documentContent string) (string, string, error) {
 	if documentContent != "" {
 		if contentType != txt {
 			return "", "", fmt.Errorf("cannot give explicit content for ContentType %q, only ContentType %q is supported",
@@ -110,14 +111,14 @@ func (g *Generator) contentAndEncoding(contentType string, documentContent strin
 	// pdf, jpg and png document contents can contain delimiters used in HL7 messages eg, pipes.
 	// So these files are encoded in base64 to make sure the HL7 messages are parsable.
 	case pdf, jpg, png:
-		content, err := g.note(contentType)
+		content, err := g.note(ctx, contentType)
 		if err != nil {
 			return "", "", errors.Wrapf(err, "generate note for ContentType %q", contentType)
 		}
 		return base64.StdEncoding.EncodeToString(content), "base64", nil
 	// rtf, xhtml etc
 	default:
-		content, err := g.note(contentType)
+		content, err := g.note(ctx, contentType)
 		if err != nil {
 			return "", "", errors.Wrapf(err, "generate note for ContentType %q", contentType)
 		}
@@ -141,13 +142,13 @@ func (g *Generator) RandomNotesForResult() []string {
 	}
 }
 
-func (g *Generator) note(contentType string) ([]byte, error) {
+func (g *Generator) note(ctx context.Context, contentType string) ([]byte, error) {
 	notes, ok := g.config[contentType]
 	if !ok || len(notes) == 0 {
 		return nil, fmt.Errorf("no sample Notes found for %s ContentType: ContentType not supported", contentType)
 	}
 	clinicalNote := notes[rand.Intn(len(notes))]
-	return ioutil.ReadFile(clinicalNote.Path)
+	return files.Read(ctx, clinicalNote.Path)
 }
 
 // id returns the given ID if not empty, otherwise generates a random string with "random-" prefix.

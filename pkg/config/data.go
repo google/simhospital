@@ -16,12 +16,13 @@ package config
 
 import (
 	"bufio"
-	"io/ioutil"
-	"os"
+	"bytes"
+	"context"
 	"strings"
 
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v2"
+	"github.com/google/simhospital/pkg/files"
 	"github.com/google/simhospital/pkg/logging"
 	"github.com/google/simhospital/pkg/sample"
 )
@@ -125,8 +126,8 @@ type DataFiles struct {
 }
 
 // LoadData loads the data configuration from the given data files.
-func LoadData(f DataFiles, hc *HL7Config) (*Data, error) {
-	data, err := ioutil.ReadFile(f.DataConfig)
+func LoadData(ctx context.Context, f DataFiles, hc *HL7Config) (*Data, error) {
+	data, err := files.Read(ctx, f.DataConfig)
 	if err != nil {
 		return nil, err
 	}
@@ -136,7 +137,7 @@ func LoadData(f DataFiles, hc *HL7Config) (*Data, error) {
 	if err != nil {
 		return nil, errors.Wrapf(err, "cannot unmarshal configuration file %q", f.DataConfig)
 	}
-	nouns, err := textFileToList(f.Nouns)
+	nouns, err := textFileToList(ctx, f.Nouns)
 	if err != nil {
 		return nil, errors.Wrapf(err, "cannot load nouns from file %q", f.Nouns)
 	}
@@ -144,47 +145,47 @@ func LoadData(f DataFiles, hc *HL7Config) (*Data, error) {
 	if err != nil {
 		return nil, errors.Wrapf(err, "cannot load first names from files girls=%s, boys=%s", f.Girls, f.Boys)
 	}
-	surnames, err := textFileToList(f.Surnames)
+	surnames, err := textFileToList(ctx, f.Surnames)
 	if err != nil {
 		return nil, errors.Wrapf(err, "cannot load surnames from file %q", f.Surnames)
 	}
-	allergies, err := loadCodedElements(f.Allergies, hc.Allergy.CodingSystem, false)
+	allergies, err := loadCodedElements(ctx, f.Allergies, hc.Allergy.CodingSystem, false)
 	if err != nil {
 		return nil, errors.Wrapf(err, "cannot load allergies from file %q", f.Allergies)
 	}
 	log.WithField("file", f.Allergies).Infof("Loaded %d allergies", len(allergies))
 
-	diagnoses, err := loadCodedElements(f.Diagnoses, hc.Diagnosis.CodingSystem, true)
+	diagnoses, err := loadCodedElements(ctx, f.Diagnoses, hc.Diagnosis.CodingSystem, true)
 	if err != nil {
 		return nil, errors.Wrapf(err, "cannot load diagnoses from file %q", f.Diagnoses)
 	}
 	log.WithField("file", f.Diagnoses).Infof("Loaded %d diagnoses", len(diagnoses))
 
-	procedures, err := loadCodedElements(f.Procedures, hc.Procedure.CodingSystem, true)
+	procedures, err := loadCodedElements(ctx, f.Procedures, hc.Procedure.CodingSystem, true)
 	if err != nil {
 		return nil, errors.Wrapf(err, "cannot load procedures from file %q", f.Procedures)
 	}
 	log.WithField("file", f.Procedures).Infof("Loaded %d procedures", len(procedures))
 
-	ethnicities, err := ethnicities(f.Ethnicities)
+	ethnicities, err := ethnicities(ctx, f.Ethnicities)
 	if err != nil {
 		return nil, errors.Wrapf(err, "cannot load ethnicities from file %q", f.Ethnicities)
 	}
 	log.WithField("file", f.Ethnicities).Infof("Loaded %d ethnicities", len(ethnicities))
 
-	patientClass, err := patientClass(f.PatientClass)
+	patientClass, err := patientClass(ctx, f.PatientClass)
 	if err != nil {
 		return nil, errors.Wrapf(err, "cannot load patient classes from file %q", f.PatientClass)
 	}
 	log.WithField("file", f.PatientClass).Infof("Loaded %d patient classes", len(patientClass))
 
-	noteTypes, err := textFileToList(f.ClinicalNoteTypes)
+	noteTypes, err := textFileToList(ctx, f.ClinicalNoteTypes)
 	if err != nil {
 		return nil, errors.Wrapf(err, "cannot load Clinical Note types from file %q", f.ClinicalNoteTypes)
 	}
 	log.WithField("file", f.ClinicalNoteTypes).Infof("Loaded %d Clinical Note types", len(noteTypes))
 
-	notesConfig, err := LoadNotesConfig(f.SampleNotesDir)
+	notesConfig, err := LoadNotesConfig(ctx, f.SampleNotesDir)
 	if err != nil {
 		return nil, errors.Wrapf(err, "cannot load NotesConfig from directory %q", f.SampleNotesDir)
 	}
@@ -210,15 +211,14 @@ func LoadData(f DataFiles, hc *HL7Config) (*Data, error) {
 // textFileToList takes a filename as input and returns a list of strings where each
 // string is a line in the input file.
 // Lines that start with # are ignored.
-func textFileToList(fileName string) ([]string, error) {
-	file, err := os.Open(fileName)
+func textFileToList(ctx context.Context, fileName string) ([]string, error) {
+	b, err := files.Read(ctx, fileName)
 	if err != nil {
 		return nil, errors.Wrapf(err, "cannot open file: %q", fileName)
 	}
-	defer file.Close()
 
 	var lines []string
-	scanner := bufio.NewScanner(file)
+	scanner := bufio.NewScanner(bytes.NewReader(b))
 	for scanner.Scan() {
 		line := scanner.Text()
 		if !strings.HasPrefix(line, "#") && line != "" {

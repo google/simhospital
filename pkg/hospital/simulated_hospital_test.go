@@ -219,7 +219,7 @@ func TestStartPathwayWithDelays(t *testing.T) {
 			defer hospital.Close()
 
 			startPathway(t, hospital, testPathwayName)
-			_, messages := hospital.ConsumeQueues(t)
+			_, messages := hospital.ConsumeQueues(ctx, t)
 			if got, want := len(messages), len(tc.wantMessageTypes); got != want {
 				t.Errorf("StartPathway(%v) generated %v messages, want %v", testPathwayName, got, want)
 			}
@@ -411,7 +411,7 @@ func TestStartPathway_OrderAckAndResult(t *testing.T) {
 			hospital := newHospital(ctx, t, Config{AdditionalConfig: AdditionalConfig{OrderAckDelay: &pathway.Delay{From: tc.orderAckDelay, To: tc.orderAckDelay}}}, pathways)
 
 			startPathway(t, hospital, testPathwayName)
-			_, messages := hospital.ConsumeQueues(t)
+			_, messages := hospital.ConsumeQueues(ctx, t)
 			if got, want := len(messages), len(tc.wantMessageTypes); got != want {
 				t.Errorf("StartPathway(%v) generated %v messages, want %v", testPathwayName, got, want)
 			}
@@ -460,7 +460,7 @@ func TestStartPathway_OrderAckDelayIsRandom(t *testing.T) {
 	for i := 0; i < count; i++ {
 		t.Run(fmt.Sprintf("%d", i), func(t *testing.T) {
 			startPathway(t, hospital, testPathwayName)
-			_, messages := hospital.ConsumeQueues(t)
+			_, messages := hospital.ConsumeQueues(ctx, t)
 			gotMessageTypes := testhl7.Fields(t, messages, testhl7.MessageType)
 			if diff := cmp.Diff(wantMessageTypes, gotMessageTypes); diff != "" {
 				t.Fatalf("StartPathway(%v) generated message types with diff (-want, +got):\n%s", testPathwayName, diff)
@@ -525,7 +525,7 @@ func TestRunPathwayWithMultipleHeaderFields(t *testing.T) {
 	hospital := newHospital(ctx, t, Config{}, pathways)
 	defer hospital.Close()
 	startPathway(t, hospital, testPathwayName)
-	_, messages := hospital.ConsumeQueues(t)
+	_, messages := hospital.ConsumeQueues(ctx, t)
 	if got, want := len(messages), 3; got != want {
 		t.Fatalf("len(messages) = %d, want %d", got, want)
 	}
@@ -1762,7 +1762,7 @@ func TestRunPathway_StepTypes(t *testing.T) {
 			hospital := newHospital(ctx, t, Config{}, map[string]pathway.Pathway{testPathwayName: tc.pathway})
 			defer hospital.Close()
 			startPathway(t, hospital, testPathwayName)
-			_, messages := hospital.ConsumeQueues(t)
+			_, messages := hospital.ConsumeQueues(ctx, t)
 			if got, want := len(messages), len(tc.wantMessageTypes); got != want {
 				t.Errorf("StartPathway(%v) generated %v messages, want %v", testPathwayName, got, want)
 			}
@@ -1891,7 +1891,7 @@ func TestStartPathway_OccupiedBed(t *testing.T) {
 			}
 
 			startPathway(t, hospital, testPathwayName)
-			_, messages := hospital.ConsumeQueues(t)
+			_, messages := hospital.ConsumeQueues(ctx, t)
 			if got, want := len(messages), len(tc.wantMessageTypes); got != want {
 				t.Errorf("StartPathway(%v) generated %v messages, want %v", testPathwayName, got, want)
 			}
@@ -2002,7 +2002,7 @@ func TestRunPathway_UpdateDeathInformation(t *testing.T) {
 				defer h.Close()
 				startPathway(t, h, testPathwayName)
 
-				_, messages := h.ConsumeQueues(t)
+				_, messages := h.ConsumeQueues(ctx, t)
 				if got, want := len(messages), 2; got != want {
 					t.Errorf("StartPathway(%v) generated %v messages, want %v", testPathwayName, got, want)
 				}
@@ -2083,7 +2083,7 @@ func TestRunPathwayMergeStep(t *testing.T) {
 			hospital := newHospital(ctx, t, Config{}, pathways)
 			defer hospital.Close()
 			startPathway(t, hospital, "pathway1", "pathway2")
-			events, messages := hospital.ConsumeQueues(t)
+			events, messages := hospital.ConsumeQueues(ctx, t)
 			if got, want := events, 8; got != want {
 				t.Errorf("StartPathway(%v) and StartPathway(%v) generated %v events, want %v", "pathway1", "pathway2", got, want)
 			}
@@ -2136,7 +2136,7 @@ func TestRunPathwayMergeStepWrongMRNSyncerInUse(t *testing.T) {
 	hospital := hospitalWithPatientSyncer(ctx, t, Config{}, pathways, teststate.NewItemSyncer())
 	defer hospital.Close()
 	startPathway(t, hospital, "pathway1", "pathway2")
-	events, messages := hospital.ConsumeQueues(t)
+	events, messages := hospital.ConsumeQueues(ctx, t)
 	// The last two events aren't run due to the failure in the Merge step.
 	if got, want := events, 5; got != want {
 		t.Errorf("StartPathway(%v) and StartPathway(%v) generated %v events, want %v", "pathway1", "pathway2", got, want)
@@ -2146,7 +2146,7 @@ func TestRunPathwayMergeStepWrongMRNSyncerInUse(t *testing.T) {
 	}
 
 	startPathway(t, hospital, "pathway2-use-patient")
-	events, messages = hospital.ConsumeQueues(t)
+	events, messages = hospital.ConsumeQueues(ctx, t)
 	if got, want := events, 5; got != want {
 		t.Errorf("StartPathway(%v) generated %v events, want %v", "pathway2-use-patient", got, want)
 	}
@@ -2199,7 +2199,7 @@ func TestRunPathwayMergeStepPersonsSection(t *testing.T) {
 	hospital := newHospital(ctx, t, Config{}, pathways)
 	defer hospital.Close()
 	startPathway(t, hospital, testPathwayName)
-	events, messages := hospital.ConsumeQueues(t)
+	events, messages := hospital.ConsumeQueues(ctx, t)
 	if got, want := events, 5; got != want {
 		t.Errorf("StartPathway(%v) generated %v events, want %v", testPathwayName, got, want)
 	}
@@ -2257,7 +2257,7 @@ func TestRunPathwayUsePatientWithMRNs(t *testing.T) {
 			hospital := hospitalWithPatientSyncer(ctx, t, Config{}, pathways, teststate.NewItemSyncer())
 			defer hospital.Close()
 			startPathway(t, hospital, "pathway1", "pathway2")
-			_, messages := hospital.ConsumeQueues(t)
+			_, messages := hospital.ConsumeQueues(ctx, t)
 
 			discharge := messages[len(messages)-1]
 			if got, want := testhl7.MessageType(t, discharge), "ADT^A03"; got != want {
@@ -2322,7 +2322,7 @@ func TestLoadPersonFromSyncer(t *testing.T) {
 			hospital := hospitalWithPatientSyncer(ctx, t, Config{}, pathways, ps)
 			defer hospital.Close()
 			startPathway(t, hospital, testPathwayName)
-			_, messages := hospital.ConsumeQueues(t)
+			_, messages := hospital.ConsumeQueues(ctx, t)
 			if got, want := len(messages), 1; got != want {
 				t.Fatalf("StartPathway(%v) generated %v messages, want %v", testPathwayName, got, want)
 			}
@@ -2377,7 +2377,7 @@ func TestLoadExistingPatientUpdatePerson(t *testing.T) {
 	hospital := hospitalWithPatientSyncer(ctx, t, Config{}, pathways, ps)
 	defer hospital.Close()
 	startPathway(t, hospital, testPathwayName)
-	_, messages := hospital.ConsumeQueues(t)
+	_, messages := hospital.ConsumeQueues(ctx, t)
 	if got, want := len(messages), 1; got != want {
 		t.Fatalf("StartPathway(%v) generated %v messages, want %v", testPathwayName, got, want)
 	}
@@ -2425,7 +2425,7 @@ func TestRunPathwayUsePatientWithPersonsAndMRNs(t *testing.T) {
 	hospital := hospitalWithPatientSyncer(ctx, t, Config{}, pathways, teststate.NewItemSyncer())
 	defer hospital.Close()
 	startPathway(t, hospital, "pathway1", "pathway2")
-	_, messages := hospital.ConsumeQueues(t)
+	_, messages := hospital.ConsumeQueues(ctx, t)
 
 	wantMessageTypes := []string{"ADT^A01", "ADT^A01", "ADT^A03"}
 	gotMessageTypes := testhl7.Fields(t, messages, testhl7.MessageType)
@@ -2463,7 +2463,7 @@ func TestStartPathway_InvalidPersonsSection(t *testing.T) {
 	if _, err := hospital.StartPathway(p); err == nil {
 		t.Errorf("StartPathway(%v) got nil error, want non nil error", testPathwayName)
 	}
-	_, messages := hospital.ConsumeQueues(t)
+	_, messages := hospital.ConsumeQueues(ctx, t)
 	if got, want := len(messages), 0; got != want {
 		t.Errorf("StartPathway(%v) generated %v messages, want %v", testPathwayName, got, want)
 	}
@@ -2489,7 +2489,7 @@ func TestRunPathwayDeleteVisitNoPastVisit(t *testing.T) {
 	hospital := newHospital(ctx, t, Config{DeletePatientsFromMemory: true}, pathways)
 	defer hospital.Close()
 	startPathway(t, hospital, testPathwayName)
-	events, messages := hospital.ConsumeQueues(t)
+	events, messages := hospital.ConsumeQueues(ctx, t)
 
 	// The second delete should fail because there are no visits to delete.
 	if got, want := events, 1; got != want {
@@ -2539,7 +2539,7 @@ func TestRunPathwayBedSwapStep(t *testing.T) {
 			hospital := newHospital(ctx, t, Config{}, pathways)
 			defer hospital.Close()
 			startPathway(t, hospital, "pathway1", "pathway2")
-			events, messages := hospital.ConsumeQueues(t)
+			events, messages := hospital.ConsumeQueues(ctx, t)
 			if got, want := events, 11; got != want {
 				t.Errorf("StartPathway(%v) and StartPathway(%v) generated %v events, want %v", "pathway1", "pathway2", got, want)
 			}
@@ -2601,7 +2601,7 @@ func TestRunPathwayBedSwapStepPersonsSection(t *testing.T) {
 	hospital := newHospital(ctx, t, Config{}, pathways)
 	defer hospital.Close()
 	startPathway(t, hospital, testPathwayName)
-	events, messages := hospital.ConsumeQueues(t)
+	events, messages := hospital.ConsumeQueues(ctx, t)
 	if got, want := events, 9; got != want {
 		t.Errorf("StartPathway(%v) generated %v events, want %v", testPathwayName, got, want)
 	}
@@ -2665,7 +2665,7 @@ func TestRunPathwayBedSwapStepWrongMRN(t *testing.T) {
 	hospital := newHospital(ctx, t, Config{}, pathways)
 	defer hospital.Close()
 	startPathway(t, hospital, "pathway1", "pathway2")
-	events, messages := hospital.ConsumeQueues(t)
+	events, messages := hospital.ConsumeQueues(ctx, t)
 	// The last two events aren't run due to the failure in the Bed Swap event.
 	if got, want := events, 5; got != want {
 		t.Errorf("StartPathway(%v) and StartPathway(%v) generated %v events, want %v", "pathway1", "pathway2", got, want)
@@ -2715,7 +2715,7 @@ func TestRunPathwayBedSwapPathwayBedSwapAfterPathwayFinished(t *testing.T) {
 	hospital := hospitalWithPatientSyncer(ctx, t, Config{}, pathways, teststate.NewItemSyncer())
 	defer hospital.Close()
 	startPathway(t, hospital, "pathway1", "pathway2")
-	events, messages := hospital.ConsumeQueues(t)
+	events, messages := hospital.ConsumeQueues(ctx, t)
 
 	// The BedSwap event fails to complete as one location is already nil, so the last event of
 	// pathway2 doesn't run, and the last two messages aren't sent.
@@ -2774,7 +2774,7 @@ func TestRunPathwayBedSwapPathwayBedSwapWithNilLocation(t *testing.T) {
 	hospital := newHospital(ctx, t, Config{}, pathways)
 	defer hospital.Close()
 	startPathway(t, hospital, "pathway1", "pathway2")
-	events, messages := hospital.ConsumeQueues(t)
+	events, messages := hospital.ConsumeQueues(ctx, t)
 	// The BedSwap event fails to complete, so such message isn't sent.
 	if got, want := events, 5; got != want {
 		t.Errorf("StartPathway(%v) and StartPathway(%v) generated %v events, want %v", "pathway1", "pathway2", got, want)
@@ -2819,7 +2819,7 @@ func TestRunPathwayPathwayFinishesSinglePatient(t *testing.T) {
 	}
 
 	// The patient should not be left in the map after all events run.
-	hospital.ConsumeQueues(t)
+	hospital.ConsumeQueues(ctx, t)
 	if got, want := hospital.PatientsLen(), 0; got != want {
 		t.Errorf("hospital.PatientsLen()=%v, want %v", got, want)
 	}
@@ -2853,14 +2853,14 @@ func TestRunPathwayPathwayFinishesNoPatients(t *testing.T) {
 	}
 
 	for i := 0; i < 5; i++ {
-		hospital.ConsumeQueuesWithLimit(t, 5, true)
+		hospital.ConsumeQueuesWithLimit(ctx, t, 5, true)
 		if got, want := hospital.PatientsLen(), 2; got != want {
 			t.Errorf("hospital.PatientsLen()=%v, want %v", got, want)
 		}
 	}
 
 	// All patients are deleted after the pathways finish.
-	hospital.ConsumeQueues(t)
+	hospital.ConsumeQueues(ctx, t)
 	if got, want := hospital.PatientsLen(), 0; got != want {
 		t.Errorf("hospital.PatientsLen()=%v, want %v", got, want)
 	}
@@ -2882,7 +2882,7 @@ func TestRunPathwaySameVisitDifferentPathways(t *testing.T) {
 	defer hospital.Close()
 	// Admission in one pathway.
 	startPathway(t, hospital, testPathwayName)
-	events, messages := hospital.ConsumeQueues(t)
+	events, messages := hospital.ConsumeQueues(ctx, t)
 	if got, want := events, 1; got != want {
 		t.Errorf("StartPathway(%v) generated %v events, want %v", testPathwayName, got, want)
 	}
@@ -2903,7 +2903,7 @@ func TestRunPathwaySameVisitDifferentPathways(t *testing.T) {
 
 	// Discharge in another pathway.
 	startPathway(t, hospital, "dischargePathway")
-	secondEvents, secondMessages := hospital.ConsumeQueues(t)
+	secondEvents, secondMessages := hospital.ConsumeQueues(ctx, t)
 	if got, want := secondEvents, 2; got != want {
 		t.Errorf("secondEvents=%v, want %v", got, want)
 	}
@@ -2975,7 +2975,7 @@ func TestPersistence(t *testing.T) {
 
 	// The event runs and it's removed from the syncer, but it generates a message and queues the next event.
 	// The message is sent so it's removed from the syncer as well.
-	hospital.ConsumeQueuesWithLimit(t, 1, true)
+	hospital.ConsumeQueuesWithLimit(ctx, t, 1, true)
 	if got, want := ps.Count(), 1; got != want {
 		t.Errorf("Patient Syncer Count()=%v, want %v", got, want)
 	}
@@ -2993,7 +2993,7 @@ func TestPersistence(t *testing.T) {
 	}
 
 	// Another event runs, it generates another message.
-	hospital.ConsumeQueuesWithLimit(t, 1, true)
+	hospital.ConsumeQueuesWithLimit(ctx, t, 1, true)
 	if got, want := ps.Count(), 1; got != want {
 		t.Errorf("Patient Syncer Count()=%v, want %v", got, want)
 	}
@@ -3011,7 +3011,7 @@ func TestPersistence(t *testing.T) {
 	}
 
 	// When the last event runs, there are no more events pending.
-	hospital.ConsumeQueuesWithLimit(t, -1, true)
+	hospital.ConsumeQueuesWithLimit(ctx, t, -1, true)
 	if got, want := ps.Count(), 1; got != want {
 		t.Errorf("Patient Syncer Count()=%v, want %v", got, want)
 	}
@@ -3055,7 +3055,7 @@ func TestPersistenceLoad(t *testing.T) {
 	defer hospital.Close()
 	startPathway(t, hospital, testPathwayName)
 	// Run the first event, so that the first message is sent.
-	hospital.ConsumeQueuesWithLimit(t, 1, true)
+	hospital.ConsumeQueuesWithLimit(ctx, t, 1, true)
 	if got, want := ps.Count(), 1; got != want {
 		t.Errorf("Patient Syncer Count()=%v, want %v", got, want)
 	}
@@ -3083,7 +3083,7 @@ func TestPersistenceLoad(t *testing.T) {
 		t.Fatalf("hospital2.MessagesLen()=%v, want %v", got, want)
 	}
 
-	events, messages := hospital2.ConsumeQueues(t)
+	events, messages := hospital2.ConsumeQueues(ctx, t)
 	// The first event was already run in the first Hospital.
 	if got, want := events, 3; got != want {
 		t.Fatalf("StartPathway(%v) generated %v events, want %v", testPathwayName, got, want)
@@ -3366,7 +3366,7 @@ func TestRunPathwayWithEventProcessor(t *testing.T) {
 			hospital := newHospital(ctx, t, cfg, pathways)
 			defer hospital.Close()
 			startPathway(t, hospital, testPathwayName)
-			eventCount, gotMsgs := hospital.ConsumeQueues(t)
+			eventCount, gotMsgs := hospital.ConsumeQueues(ctx, t)
 
 			if got, want := len(gotMsgs), len(tc.wantMsgIDs); got != want {
 				t.Fatalf("StartPathway(%v) got %d messages; want %d", testPathwayName, got, want)
@@ -3601,7 +3601,7 @@ func TestRunPathwayWithMessageProcessor(t *testing.T) {
 			}
 
 			// Allow failures - that's exactly what we want to test.
-			_, gotMsgs := hospital.ConsumeQueuesWithLimit(t, -1, false)
+			_, gotMsgs := hospital.ConsumeQueuesWithLimit(ctx, t, -1, false)
 
 			if got, want := len(gotMsgs), tc.wantMsgs; got != want {
 				t.Errorf("StartPathway(%v) got %d messages; want %d", testPathwayName, got, want)
@@ -3673,7 +3673,7 @@ func TestGenericEventAndAdditionalData(t *testing.T) {
 				t.Fatalf("startPathway(%v) failed with %v", testPathwayName, err)
 			}
 
-			hospital.ConsumeQueues(t)
+			hospital.ConsumeQueues(ctx, t)
 
 			metric := "simulated_hospital_errors_total"
 			labels := map[string]string{
@@ -3763,14 +3763,14 @@ func TestRunPathwayCustomPathwayManager(t *testing.T) {
 		LocationManager: testlocation.NewLocationManager(ctx, t, testLoc, testLocAE),
 		DataFiles:       test.DataFiles[test.Test],
 	}
-	hospital := testhospital.WithTime(t, testhospital.Config{Config: cfg, Arguments: testhospital.Arguments}, now)
+	hospital := testhospital.WithTime(ctx, t, testhospital.Config{Config: cfg, Arguments: testhospital.Arguments}, now)
 	defer hospital.Close()
 	p, err := pm.NextPathway()
 	if err != nil {
 		t.Fatalf("pathwayManager.NextPathway() failed with %v", err)
 	}
 	startPathway(t, hospital, p.Name())
-	_, messages := hospital.ConsumeQueues(t)
+	_, messages := hospital.ConsumeQueues(ctx, t)
 
 	wantMessageTypes := []string{"ADT^A01", "ADT^A03"}
 	gotMessageTypes := testhl7.Fields(t, messages, testhl7.MessageType)
@@ -3800,7 +3800,7 @@ func TestRunPathwayWithHardcodedMessage(t *testing.T) {
 	hospital := newHospital(ctx, t, Config{MessagesManager: hardcodedMessagesManager, MessageControlGenerator: msgControlGen}, pathways)
 	defer hospital.Close()
 	startPathway(t, hospital, testPathwayName)
-	_, messages := hospital.ConsumeQueues(t)
+	_, messages := hospital.ConsumeQueues(ctx, t)
 	if got, want := len(messages), len(wantMessageTypes); got != want {
 		t.Fatalf("len(messages) = %d, want %d", got, want)
 	}
@@ -3837,7 +3837,7 @@ func hospitalWithTime(ctx context.Context, t *testing.T, cfg Config, pathways ma
 	}
 	cfg.PathwayManager = pm
 	cfg.LocationManager = testlocation.NewLocationManager(ctx, t, testLoc, testLocAE)
-	return testhospital.WithTime(t, testhospital.Config{Config: cfg, Arguments: testhospital.Arguments}, now)
+	return testhospital.WithTime(ctx, t, testhospital.Config{Config: cfg, Arguments: testhospital.Arguments}, now)
 }
 
 // startPathway starts pathways in the hospital by queuing their first events.
@@ -4066,7 +4066,7 @@ func TestRunPathwayResultsOnSameOrDifferentOrders(t *testing.T) {
 			hospital := hospitalWithTime(ctx, t, Config{}, pathways, now)
 			defer hospital.Close()
 			startPathway(t, hospital, testPathwayName)
-			_, messages := hospital.ConsumeQueues(t)
+			_, messages := hospital.ConsumeQueues(ctx, t)
 			if got, want := len(messages), len(tt.wantResultStatus); got != want {
 				t.Errorf("StartPathway(%v) generated %v messages, want %v", testPathwayName, got, want)
 			}
@@ -4156,7 +4156,7 @@ func TestPathwayClinicalNote(t *testing.T) {
 			defer hospital.Close()
 			startPathway(t, hospital, testPathwayName)
 
-			_, msgs := hospital.ConsumeQueues(t)
+			_, msgs := hospital.ConsumeQueues(ctx, t)
 			if got, want := len(msgs), len(tt.steps); got != want {
 				t.Fatalf("len(msgs)=%d, want %d", got, want)
 			}
@@ -4211,7 +4211,7 @@ func TestHasEvents_HasMessages_RunNextEventIfDue_ProcessNextMessageIfDue(t *test
 	if got, want := hospital.HasEvents(), false; got != want {
 		t.Errorf("hospital.HasEvents() got %t, want %t", got, want)
 	}
-	if ran, err := hospital.RunNextEventIfDue(); ran || err != nil {
+	if ran, err := hospital.RunNextEventIfDue(ctx); ran || err != nil {
 		t.Errorf("hospital.RunNextEventIfDue() got (%v, %v), want (false, nil)", ran, err)
 	}
 	if got, want := hospital.HasMessages(), false; got != want {
@@ -4234,7 +4234,7 @@ func TestHasEvents_HasMessages_RunNextEventIfDue_ProcessNextMessageIfDue(t *test
 	}
 
 	// When the event runs, there are messages.
-	if ran, err := hospital.RunNextEventIfDue(); !ran || err != nil {
+	if ran, err := hospital.RunNextEventIfDue(ctx); !ran || err != nil {
 		t.Errorf("hospital.RunNextEventIfDue() got (%v, %v), want (true, nil)", ran, err)
 	}
 	if got, want := hospital.HasEvents(), false; got != want {
@@ -4278,7 +4278,7 @@ func TestStartNextPathway(t *testing.T) {
 		if err := hospital.StartNextPathway(); err != nil {
 			t.Fatalf("StartNextPathway() failed with %v", err)
 		}
-		_, messages := hospital.ConsumeQueues(t)
+		_, messages := hospital.ConsumeQueues(ctx, t)
 		got := len(messages)
 		if _, ok := countMessageLen[got]; !ok {
 			t.Errorf("StartPathway(%v) generated %v messages, want 1 or 3", testPathwayName, got)

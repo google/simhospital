@@ -338,7 +338,10 @@ func (h *Hospital) RunEvents(ctx context.Context) error {
 // ProcessMessages processes (e.g. sends) the HL7 messages.
 // Returns an error if the context is Done.
 func (h *Hospital) ProcessMessages(ctx context.Context) error {
-	err := h.processItems(ctx, h.hospital.ProcessNextMessageIfDue, h.hospital.HasMessages, h.processingEvents, h.processingMessages, "Failed to process the due message")
+	f := func(_ context.Context) (bool, error) {
+		return h.hospital.ProcessNextMessageIfDue()
+	}
+	err := h.processItems(ctx, f, h.hospital.HasMessages, h.processingEvents, h.processingMessages, "Failed to process the due message")
 	if err != nil {
 		return err
 	}
@@ -354,7 +357,7 @@ func (h *Hospital) ProcessMessages(ctx context.Context) error {
 // creatingItems is a channel that signals whether items are still being created outside this method.
 // After all items are processed, processItems writes "false" in the processingItems channel and closes the channel.
 // Send a nil creatingItems channel to run indefinitely.
-func (h *Hospital) processItems(ctx context.Context, f func() (bool, error), hasItems func() bool, creatingItems <-chan bool, processingItems chan bool, errMsg string) error {
+func (h *Hospital) processItems(ctx context.Context, f func(context.Context) (bool, error), hasItems func() bool, creatingItems <-chan bool, processingItems chan bool, errMsg string) error {
 	stillCreating := true
 	for stillCreating || hasItems() {
 		select {
@@ -363,7 +366,7 @@ func (h *Hospital) processItems(ctx context.Context, f func() (bool, error), has
 		case <-time.After(h.sleepFor):
 			// Process everything that is due now.
 			for {
-				ran, err := f()
+				ran, err := f(ctx)
 				if err != nil {
 					log.WithContext(ctx).WithError(err).Error(errMsg)
 				}

@@ -40,7 +40,7 @@ nil,nil,3
 	fEthnicity := testwrite.BytesToFile(t, []byte(ethnicity))
 	dataF := test.DataFiles[test.Test]
 	dataF.Ethnicities = fEthnicity
-	dataConfig, err := config.LoadData(dataF, hl7Config)
+	dataConfig, err := config.LoadData(ctx, dataF, hl7Config)
 	if err != nil {
 		t.Fatalf("LoadData(%+v, %+v) failed with %v", dataF, hl7Config, err)
 	}

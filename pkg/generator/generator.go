@@ -24,6 +24,7 @@
 package generator
 
 import (
+	"context"
 	"fmt"
 	"math/rand"
 	"time"
@@ -258,8 +259,8 @@ func (g Generator) NewOrder(o *pathway.Order, eventTime time.Time) *ir.Order {
 }
 
 // OrderWithClinicalNote creates an order with a Clinical Note based on the pathway.
-func (g Generator) OrderWithClinicalNote(o *ir.Order, n *pathway.ClinicalNote, eventTime time.Time) (*ir.Order, error) {
-	return g.orderGenerator.OrderWithClinicalNote(o, n, eventTime)
+func (g Generator) OrderWithClinicalNote(ctx context.Context, o *ir.Order, n *pathway.ClinicalNote, eventTime time.Time) (*ir.Order, error) {
+	return g.orderGenerator.OrderWithClinicalNote(ctx, o, n, eventTime)
 }
 
 // SetResults sets results on an existing Order based on the results information from the pathway.

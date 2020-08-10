@@ -73,15 +73,14 @@ type Config struct {
 }
 
 // New creates a new Hospital for test.
-func New(t *testing.T, cfg Config) *Hospital {
+func New(ctx context.Context, t *testing.T, cfg Config) *Hospital {
 	t.Helper()
-	return WithTime(t, cfg, now)
+	return WithTime(ctx, t, cfg, now)
 }
 
 // WithTime creates a new Hospital for test initialised with the given time.
-func WithTime(t *testing.T, cfg Config, now time.Time) *Hospital {
+func WithTime(ctx context.Context, t *testing.T, cfg Config, now time.Time) *Hospital {
 	t.Helper()
-	ctx := context.Background()
 
 	clock := testclock.New(now)
 
@@ -136,7 +135,7 @@ func WithTime(t *testing.T, cfg Config, now time.Time) *Hospital {
 	c.AdditionalConfig.PlacerGenerator = &testid.Generator{}
 	c.AdditionalConfig.FillerGenerator = &testid.Generator{}
 
-	h, err := hospital.NewHospital(c)
+	h, err := hospital.NewHospital(ctx, c)
 	if err != nil {
 		t.Fatalf("NewHospital(%+v) failed with %v", c, err)
 	}
@@ -155,9 +154,9 @@ func WithTime(t *testing.T, cfg Config, now time.Time) *Hospital {
 // and the messages that were sent.
 // ConsumeQueues fails if processing a message or an event fails.
 // See ConsumeQueuesWithLimit for the order in which events and messages are processed.
-func (h *Hospital) ConsumeQueues(t *testing.T) (events int, messages []string) {
+func (h *Hospital) ConsumeQueues(ctx context.Context, t *testing.T) (events int, messages []string) {
 	t.Helper()
-	return h.ConsumeQueuesWithLimit(t, -1, true)
+	return h.ConsumeQueuesWithLimit(ctx, t, -1, true)
 }
 
 // ConsumeQueuesWithLimit consumes limit events and their corresponding messages, and returns the number of events that were run
@@ -173,10 +172,10 @@ func (h *Hospital) ConsumeQueues(t *testing.T) (events int, messages []string) {
 //    to the existing messages before running new events.
 // 4. If there are still events in the queue, go back to step 1.
 // 5. After all events are consumed, process all of the remaining messages advancing the clock if needed.
-func (h *Hospital) ConsumeQueuesWithLimit(t *testing.T, limit int, failIfError bool) (events int, messages []string) {
+func (h *Hospital) ConsumeQueuesWithLimit(ctx context.Context, t *testing.T, limit int, failIfError bool) (events int, messages []string) {
 	t.Helper()
 	for h.HasEvents() {
-		ran, err := h.RunNextEventIfDue()
+		ran, err := h.RunNextEventIfDue(ctx)
 		if err != nil && failIfError {
 			t.Fatalf("hospital.RunNextEventIfDue() failed with %v", err)
 		}

@@ -624,7 +624,7 @@ patient_name:
 	df.Ethnicities = fEthnicity
 	df.DataConfig = fData
 
-	dataCFG, err := config.LoadData(df, hl7Config)
+	dataCFG, err := config.LoadData(ctx, df, hl7Config)
 	if err != nil {
 		t.Fatalf("LoadData(%+v, %+v) failed with %v", df, hl7Config, err)
 	}
@@ -648,7 +648,7 @@ func testGenerator(ctx context.Context, t *testing.T, date time.Time) (*Generato
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
 	dataF := test.DataFiles[test.Test]
-	dataCFG, err := config.LoadData(dataF, hl7Config)
+	dataCFG, err := config.LoadData(ctx, dataF, hl7Config)
 	if err != nil {
 		t.Fatalf("LoadData(%+v, %+v) failed with %v", dataF, hl7Config, err)
 	}
@@ -673,7 +673,7 @@ func testGeneratorWithCustomHL7Gender(ctx context.Context, t *testing.T, date ti
 	hl7Config.Gender.Female = "HL7_F"
 	hl7Config.Gender.Unknown = "HL7_U"
 	dataF := test.DataFiles[test.Test]
-	dataCFG, err := config.LoadData(dataF, hl7Config)
+	dataCFG, err := config.LoadData(ctx, dataF, hl7Config)
 	if err != nil {
 		t.Fatalf("LoadData(%+v, %+v) failed with %v", dataF, hl7Config, err)
 	}

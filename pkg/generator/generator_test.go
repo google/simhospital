@@ -63,7 +63,7 @@ func TestNewGeneratorPublicMessageConfiguration(t *testing.T) {
 		t.Fatalf("LoadHeaderConfig(%s) failed with %v", test.HeaderConfigProd, err)
 	}
 	f := test.DataFiles[test.Prod]
-	dc, err := config.LoadData(f, c)
+	dc, err := config.LoadData(ctx, f, c)
 	if err != nil {
 		t.Fatalf("LoadData(%+v, %+v) failed with %v", f, c, err)
 	}
@@ -261,7 +261,7 @@ A01.1,Diagnosis1,1
 	f := test.DataFiles[test.Test]
 	f.Procedures = tmpProcedures
 	f.Diagnoses = tmpDiagnoses
-	dc, err := config.LoadData(f, c)
+	dc, err := config.LoadData(ctx, f, c)
 	if err != nil {
 		t.Fatalf("LoadData(%+v, %+v) failed with %v", f, c, err)
 	}
@@ -917,7 +917,7 @@ allergy:
 	f := test.DataFiles[test.Test]
 	f.Allergies = fAllergies
 	f.DataConfig = fData
-	dataConfig, err := config.LoadData(f, hl7Config)
+	dataConfig, err := config.LoadData(ctx, f, hl7Config)
 	if err != nil {
 		t.Fatalf("LoadData(%+v, %+v) failed with %v", f, hl7Config, err)
 	}
@@ -1118,7 +1118,7 @@ func TestOrderWithClinicalNote(t *testing.T) {
 		DocumentTitle: wantTitle,
 	}
 
-	got, err := g.OrderWithClinicalNote(nil, pw, eventTime)
+	got, err := g.OrderWithClinicalNote(ctx, nil, pw, eventTime)
 	if err != nil {
 		t.Fatalf("g.OrderWithClinicalNote(nil, %+v, %v) failed with %v", pw, eventTime, err)
 	}
@@ -1187,7 +1187,7 @@ RECURRING,RECURRING,5
 	}
 	f := test.DataFiles[test.Test]
 	f.PatientClass = fPatientClass
-	dataConfig, err := config.LoadData(f, hl7Config)
+	dataConfig, err := config.LoadData(ctx, f, hl7Config)
 	if err != nil {
 		t.Fatalf("LoadData(%+v, %+v) failed with %v", f, hl7Config, err)
 	}
@@ -1371,7 +1371,7 @@ func populateConfig(ctx context.Context, t *testing.T, now time.Time, cfg Config
 	}
 	if cfg.Data == nil {
 		f := test.DataFiles[test.Test]
-		dataCFG, err := config.LoadData(f, cfg.HL7Config)
+		dataCFG, err := config.LoadData(ctx, f, cfg.HL7Config)
 		if err != nil {
 			t.Fatalf("LoadData(%+v, %+v) failed with %v", f, cfg.HL7Config, err)
 		}

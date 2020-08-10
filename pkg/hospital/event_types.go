@@ -15,6 +15,7 @@
 package hospital
 
 import (
+	"context"
 	"fmt"
 	"strings"
 	"time"
@@ -154,14 +155,14 @@ func (h *Hospital) processResults(e *state.Event, logLocal *logging.SimulatedHos
 	return h.queueMessage(logLocal, msg, e)
 }
 
-func (h *Hospital) processClinicalNote(e *state.Event, logLocal *logging.SimulatedHospitalLogger, now time.Time) error {
+func (h *Hospital) processClinicalNote(ctx context.Context, e *state.Event, logLocal *logging.SimulatedHospitalLogger, now time.Time) error {
 	msgHeader := h.generator.NewHeader(&e.Step)
 	patient := h.patients.Get(e.PatientMRN)
 	patientInfo := patient.PatientInfo
 	h.setAdmissionDetailsIfMissing(patientInfo, e.EventTime)
 
 	o := patient.GetOrder(e.Step.ClinicalNote.DocumentID)
-	o, err := h.generator.OrderWithClinicalNote(o, e.Step.ClinicalNote, e.EventTime)
+	o, err := h.generator.OrderWithClinicalNote(ctx, o, e.Step.ClinicalNote, e.EventTime)
 	if err != nil {
 		return errors.Wrap(err, "cannot generate a Clinical Note")
 	}
@@ -790,7 +791,7 @@ func (h *Hospital) generateResources(e *state.Event, logLocal *logging.Simulated
 
 // processEventType processes the given event type.
 // Most events create HL7 messages that are added to the message queue.
-func (h *Hospital) processEventType(e *state.Event, logLocal *logging.SimulatedHospitalLogger, now time.Time) error {
+func (h *Hospital) processEventType(ctx context.Context, e *state.Event, logLocal *logging.SimulatedHospitalLogger, now time.Time) error {
 	*logLocal = *logLocal.WithField(keyEventType, e.Step.StepType()).
 		WithField(keyIsHistorical, e.IsHistorical).
 		WithField(keyIndex, e.Index).
@@ -813,7 +814,7 @@ func (h *Hospital) processEventType(e *state.Event, logLocal *logging.SimulatedH
 	case pathway.StepResults:
 		return h.processResults(e, logLocal, now)
 	case pathway.StepClinicalNote:
-		return h.processClinicalNote(e, logLocal, now)
+		return h.processClinicalNote(ctx, e, logLocal, now)
 	case pathway.StepDocument:
 		return h.processDocument(e, logLocal, now)
 	case pathway.StepDischarge:
