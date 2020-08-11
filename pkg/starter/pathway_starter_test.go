@@ -122,11 +122,11 @@ func TestServeHTTP_AllProdPathwaysCanBeStartedByName(t *testing.T) {
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigProd, err)
 	}
-	d, err := doctor.LoadDoctors(test.DoctorsConfigProd)
+	d, err := doctor.LoadDoctors(ctx, test.DoctorsConfigProd)
 	if err != nil {
 		t.Fatalf("LoadDoctors(%s) failed with %v", test.DoctorsConfigProd, err)
 	}
-	op, err := orderprofile.Load(test.OrderProfilesConfigProd, hl7Config)
+	op, err := orderprofile.Load(ctx, test.OrderProfilesConfigProd, hl7Config)
 	if err != nil {
 		t.Fatalf("ParseOrderProfiles(%s, %+v) failed with %v", test.OrderProfilesConfigProd, hl7Config, err)
 	}
@@ -160,11 +160,11 @@ func TestServeHTTP_AllProdPathwaysCanBeStartedWithMRNAndPatientName(t *testing.T
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigProd, err)
 	}
-	d, err := doctor.LoadDoctors(test.DoctorsConfigProd)
+	d, err := doctor.LoadDoctors(ctx, test.DoctorsConfigProd)
 	if err != nil {
 		t.Fatalf("LoadDoctors(%s) failed with %v", test.DoctorsConfigProd, err)
 	}
-	op, err := orderprofile.Load(test.OrderProfilesConfigProd, hl7Config)
+	op, err := orderprofile.Load(ctx, test.OrderProfilesConfigProd, hl7Config)
 	if err != nil {
 		t.Fatalf("ParseOrderProfiles(%s, %+v) failed with %v", test.OrderProfilesConfigProd, hl7Config, err)
 	}

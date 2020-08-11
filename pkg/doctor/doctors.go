@@ -16,13 +16,14 @@
 package doctor
 
 import (
+	"context"
 	"fmt"
-	"io/ioutil"
 	"math/rand"
 	"reflect"
 
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v2"
+	"github.com/google/simhospital/pkg/files"
 	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/logging"
 )
@@ -37,9 +38,9 @@ type Doctors struct {
 
 // LoadDoctors loads the doctors from the given file.
 // Returns an error if any entry is invalid.
-func LoadDoctors(filename string) (*Doctors, error) {
+func LoadDoctors(ctx context.Context, filename string) (*Doctors, error) {
 	logLocal := log.WithField("file", filename)
-	data, err := ioutil.ReadFile(filename)
+	data, err := files.Read(ctx, filename)
 	if err != nil {
 		return nil, errors.Wrapf(err, "cannot parse doctors from file %q", filename)
 	}

@@ -340,13 +340,13 @@ func DefaultConfig(ctx context.Context, arguments Arguments) (Config, error) {
 	}
 
 	if arguments.DoctorsFile != nil {
-		if c.Doctors, err = doctor.LoadDoctors(*arguments.DoctorsFile); err != nil {
+		if c.Doctors, err = doctor.LoadDoctors(ctx, *arguments.DoctorsFile); err != nil {
 			return Config{}, errors.Wrap(err, "cannot load the doctors configuration")
 		}
 	}
 
 	if arguments.OrderProfilesFile != nil && c.HL7Config != nil {
-		if c.OrderProfiles, err = orderprofile.Load(*arguments.OrderProfilesFile, c.HL7Config); err != nil {
+		if c.OrderProfiles, err = orderprofile.Load(ctx, *arguments.OrderProfilesFile, c.HL7Config); err != nil {
 			return Config{}, errors.Wrap(err, "cannot load the order profiles")
 		}
 	}

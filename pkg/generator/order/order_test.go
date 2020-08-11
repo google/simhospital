@@ -133,14 +133,14 @@ func TestOrderWithClinicalNote(t *testing.T) {
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
-	op, err := orderprofile.Load(test.OrderProfilesConfigTest, hl7Config)
+	op, err := orderprofile.Load(ctx, test.OrderProfilesConfigTest, hl7Config)
 	if err != nil {
 		t.Fatalf("orderprofile.Load(%s, %+v) failed with %v", test.OrderProfilesConfigTest, hl7Config, err)
 	}
 
 	// Loading single doctor to eliminate randomness.
 	tmpDoctors := testwrite.BytesToFile(t, singleDoctorData)
-	d, err := doctor.LoadDoctors(tmpDoctors)
+	d, err := doctor.LoadDoctors(ctx, tmpDoctors)
 	if err != nil {
 		t.Fatalf("LoadDoctors(%s) failed with %v", tmpDoctors, err)
 	}
@@ -1518,11 +1518,11 @@ func testGeneratorWithOrderProfile(ctx context.Context, t *testing.T, orderProfi
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", test.MessageConfigTest, err)
 	}
-	op, err := orderprofile.Load(orderProfileConfig, hl7Config)
+	op, err := orderprofile.Load(ctx, orderProfileConfig, hl7Config)
 	if err != nil {
 		t.Fatalf("orderprofile.Load(%s, %+v) failed with %v", orderProfileConfig, hl7Config, err)
 	}
-	d, err := doctor.LoadDoctors(test.DoctorsConfigTest)
+	d, err := doctor.LoadDoctors(ctx, test.DoctorsConfigTest)
 	if err != nil {
 		t.Fatalf("LoadDoctors(%s) failed with %v", test.DoctorsConfigTest, err)
 	}

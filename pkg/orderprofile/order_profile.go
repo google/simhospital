@@ -16,14 +16,15 @@
 package orderprofile
 
 import (
+	"context"
 	"fmt"
-	"io/ioutil"
 	"math/rand"
 
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v2"
 	"github.com/google/simhospital/pkg/config"
 	"github.com/google/simhospital/pkg/constants"
+	"github.com/google/simhospital/pkg/files"
 	"github.com/google/simhospital/pkg/ir"
 )
 
@@ -195,8 +196,8 @@ func testType(ttName string, ttValue tt, codingSystem string) *TestType {
 }
 
 // Load parses the order profiles from the given file.
-func Load(filename string, hl7Config *config.HL7Config) (*OrderProfiles, error) {
-	data, err := ioutil.ReadFile(filename)
+func Load(ctx context.Context, filename string, hl7Config *config.HL7Config) (*OrderProfiles, error) {
+	data, err := files.Read(ctx, filename)
 	if err != nil {
 		return nil, errors.Wrapf(err, "cannot parse order profiles file %s", filename)
 	}

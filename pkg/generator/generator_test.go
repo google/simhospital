@@ -67,11 +67,11 @@ func TestNewGeneratorPublicMessageConfiguration(t *testing.T) {
 	if err != nil {
 		t.Fatalf("LoadData(%+v, %+v) failed with %v", f, c, err)
 	}
-	d, err := doctor.LoadDoctors(test.DoctorsConfigProd)
+	d, err := doctor.LoadDoctors(ctx, test.DoctorsConfigProd)
 	if err != nil {
 		t.Fatalf("LoadDoctors(%s) failed with %v", test.DoctorsConfigProd, err)
 	}
-	op, err := orderprofile.Load(test.OrderProfilesConfigProd, c)
+	op, err := orderprofile.Load(ctx, test.OrderProfilesConfigProd, c)
 	if err != nil {
 		t.Fatalf("orderprofile.Load(%s, %+v) failed with %v", test.OrderProfilesConfigProd, c, err)
 	}
@@ -214,7 +214,7 @@ func TestUpdateFromPathwaySetProceduresAndDiagnoses(t *testing.T) {
   prefix: "prefix-1"
   specialty: "specialty-1"`))
 
-	d, err := doctor.LoadDoctors(fName)
+	d, err := doctor.LoadDoctors(ctx, fName)
 	if err != nil {
 		t.Fatalf("LoadDoctors() failed with %v", err)
 	}
@@ -610,7 +610,7 @@ func TestNewPatient(t *testing.T) {
   prefix: "prefix-1"
   specialty: "specialty-1"`))
 
-	d, err := doctor.LoadDoctors(dName)
+	d, err := doctor.LoadDoctors(ctx, dName)
 	if err != nil {
 		t.Fatalf("LoadDoctors(%s) failed with %v", dName, err)
 	}
@@ -820,7 +820,7 @@ hospital_service: "180"
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			d, err := doctor.LoadDoctors(dName)
+			d, err := doctor.LoadDoctors(ctx, dName)
 			if err != nil {
 				t.Fatalf("LoadDoctors(%s) failed with %v", dName, err)
 			}
@@ -834,9 +834,10 @@ hospital_service: "180"
 }
 
 func TestNewDoctorAddDoctorsForFutureUse(t *testing.T) {
+	ctx := context.Background()
 	// No doctors defined.
 	dName := testwrite.BytesToFile(t, []byte(``))
-	d, err := doctor.LoadDoctors(dName)
+	d, err := doctor.LoadDoctors(ctx, dName)
 	if err != nil {
 		t.Fatalf("LoadDoctors(%s) failed with %v", dName, err)
 	}
@@ -844,7 +845,6 @@ func TestNewDoctorAddDoctorsForFutureUse(t *testing.T) {
 hospital_service: "180"
 `))
 
-	ctx := context.Background()
 	hl7Config, err := config.LoadHL7Config(ctx, hl7Name)
 	if err != nil {
 		t.Fatalf("LoadHL7Config(%s) failed with %v", hl7Name, err)
@@ -1378,14 +1378,14 @@ func populateConfig(ctx context.Context, t *testing.T, now time.Time, cfg Config
 		cfg.Data = dataCFG
 	}
 	if cfg.Doctors == nil {
-		d, err := doctor.LoadDoctors(test.DoctorsConfigTest)
+		d, err := doctor.LoadDoctors(ctx, test.DoctorsConfigTest)
 		if err != nil {
 			t.Fatalf("LoadDoctors(%s) failed with %v", test.DoctorsConfigTest, err)
 		}
 		cfg.Doctors = d
 	}
 	if cfg.OrderProfiles == nil {
-		op, err := orderprofile.Load(test.OrderProfilesConfigTest, cfg.HL7Config)
+		op, err := orderprofile.Load(ctx, test.OrderProfilesConfigTest, cfg.HL7Config)
 		if err != nil {
 			t.Fatalf("orderprofile.Load(%s, %+v) failed with %v", test.OrderProfilesConfigTest, cfg.HL7Config, err)
 		}

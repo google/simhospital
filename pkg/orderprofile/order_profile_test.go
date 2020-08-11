@@ -203,7 +203,7 @@ func TestLoad(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			fName := testwrite.BytesToFile(t, tc.opFileContent)
 
-			ops, err := Load(fName, hl7Config)
+			ops, err := Load(ctx, fName, hl7Config)
 			if gotErr := err != nil; gotErr != tc.wantLoadErr {
 				t.Fatalf("Load(%s, %+v) got err %v, want err? %t", fName, hl7Config, err, tc.wantLoadErr)
 			}
@@ -256,7 +256,7 @@ func TestRandomisedValueWithFlag_NumericalValue(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			fName := testwrite.BytesToFile(t, tc.opFileContent)
 
-			ops, err := Load(fName, hl7Config)
+			ops, err := Load(ctx, fName, hl7Config)
 			if err != nil {
 				t.Fatalf("Load(%s, %+v) failed with %v", fName, hl7Config, err)
 			}
@@ -352,7 +352,7 @@ func TestRandomisedValueWithFlag_NonNumericalValue(t *testing.T) {
 	for _, tc := range cases {
 		fName := testwrite.BytesToFile(t, tc.opFileContent)
 
-		ops, err := Load(fName, hl7Config)
+		ops, err := Load(ctx, fName, hl7Config)
 		if err != nil {
 			t.Fatalf("Load(%s, %+v) failed with %v", fName, hl7Config, err)
 		}
@@ -424,7 +424,7 @@ func TestRandomisedValueWithFlagRange_Error(t *testing.T) {
 
 			fName := testwrite.BytesToFile(t, tc.opFileContent)
 
-			ops, err := Load(fName, hl7Config)
+			ops, err := Load(ctx, fName, hl7Config)
 			if err != nil {
 				t.Fatalf("Load(%s, %+v) failed with %v", fName, hl7Config, err)
 			}
@@ -468,7 +468,7 @@ func TestGenerate(t *testing.T) {
 	hl7Config := loadHL7Config(ctx, t)
 	fName := testwrite.BytesToFile(t, ureaOP)
 
-	orderProfiles, err := Load(fName, hl7Config)
+	orderProfiles, err := Load(ctx, fName, hl7Config)
 	if err != nil {
 		t.Fatalf("Load(%s, %+v) failed with %v", fName, hl7Config, err)
 	}
@@ -502,7 +502,7 @@ func TestGenerate(t *testing.T) {
 func TestGenerateRandom(t *testing.T) {
 	ctx := context.Background()
 	hl7Config := loadHL7Config(ctx, t)
-	orderProfiles, err := Load(test.ComplexOrderProfilesConfigTest, hl7Config)
+	orderProfiles, err := Load(ctx, test.ComplexOrderProfilesConfigTest, hl7Config)
 	if err != nil {
 		t.Fatalf("Load(%s, %+v) failed with %v", test.ComplexOrderProfilesConfigTest, hl7Config, err)
 	}

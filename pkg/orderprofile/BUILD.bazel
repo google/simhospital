@@ -30,6 +30,7 @@ go_library(
     deps = [
         "//pkg/config:go_default_library",
         "//pkg/constants:go_default_library",
+        "//pkg/files:go_default_library",
         "//pkg/ir:go_default_library",
         "//pkg/logging:go_default_library",
         "@com_github_pkg_errors//:go_default_library",

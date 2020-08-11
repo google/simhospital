@@ -15,15 +15,17 @@
 package config
 
 import (
+	"bytes"
+	"context"
 	"encoding/csv"
 	"fmt"
 	"io"
-	"os"
 	"regexp"
 	"strconv"
 	"strings"
 
 	"github.com/pkg/errors"
+	"github.com/google/simhospital/pkg/files"
 )
 
 var digitsPattern = regexp.MustCompile("^\\d+$")
@@ -44,16 +46,15 @@ var digitsPattern = regexp.MustCompile("^\\d+$")
 // and the 2nd most popular name was FLORENCE.
 // This allows generating the random name which was popular among people born
 // in a given year.
-func names(filename string) (*Names, error) {
+func names(ctx context.Context, filename string) (*Names, error) {
 	namesByYear := map[int][]string{}
 	allNames := map[string]bool{}
 	var years []int
-	f, err := os.Open(filename)
+	b, err := files.Read(ctx, filename)
 	if err != nil {
 		return nil, err
 	}
-	defer f.Close()
-	r := csv.NewReader(f)
+	r := csv.NewReader(bytes.NewReader(b))
 	r.Comment = '#'
 	headerParsed := false
 	for {
@@ -141,12 +142,12 @@ type FirstNamesByCensus struct {
 
 // census loads Girls and Boys first Names from bytes files specified by
 // the respective parameters.
-func census(fileNameGirls string, fileNameBoys string) (*FirstNamesByCensus, error) {
-	girls, err := names(fileNameGirls)
+func census(ctx context.Context, fileNameGirls string, fileNameBoys string) (*FirstNamesByCensus, error) {
+	girls, err := names(ctx, fileNameGirls)
 	if err != nil {
 		return nil, err
 	}
-	boys, err := names(fileNameBoys)
+	boys, err := names(ctx, fileNameBoys)
 	if err != nil {
 		return nil, err
 	}

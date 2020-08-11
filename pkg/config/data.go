@@ -141,7 +141,7 @@ func LoadData(ctx context.Context, f DataFiles, hc *HL7Config) (*Data, error) {
 	if err != nil {
 		return nil, errors.Wrapf(err, "cannot load nouns from file %q", f.Nouns)
 	}
-	firstNames, err := census(f.Girls, f.Boys)
+	firstNames, err := census(ctx, f.Girls, f.Boys)
 	if err != nil {
 		return nil, errors.Wrapf(err, "cannot load first names from files girls=%s, boys=%s", f.Girls, f.Boys)
 	}

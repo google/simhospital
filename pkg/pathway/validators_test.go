@@ -15,6 +15,7 @@
 package pathway
 
 import (
+	"context"
 	"fmt"
 	"testing"
 	"time"
@@ -860,7 +861,8 @@ func TestPathwayValidPathway(t *testing.T) {
 	usePatientSecond := Step{UsePatient: &UsePatient{Patient: PatientID("second")}}
 	twoPersonsOneInvalid := &Persons{"first": {Gender: "invalid"}, "second": {}}
 
-	doctors, err := doctor.LoadDoctors(test.DoctorsConfigTest)
+	ctx := context.Background()
+	doctors, err := doctor.LoadDoctors(ctx, test.DoctorsConfigTest)
 	if err != nil {
 		t.Fatalf("LoadDoctors(%s) failed with %v", test.DoctorsConfigTest, err)
 	}
@@ -1089,6 +1091,7 @@ func TestPathwayValidPerson(t *testing.T) {
 }
 
 func TestPathwayValidConsultant(t *testing.T) {
+	ctx := context.Background()
 	doctorsFile := []byte(`
 - id: "id-1"
   surname: "surname-1"
@@ -1103,7 +1106,7 @@ func TestPathwayValidConsultant(t *testing.T) {
 
 	fName := testwrite.BytesToFile(t, doctorsFile)
 
-	doctors, err := doctor.LoadDoctors(fName)
+	doctors, err := doctor.LoadDoctors(ctx, fName)
 	if err != nil {
 		t.Fatalf("LoadDoctors(%s) failed with %v", string(doctorsFile), err)
 	}

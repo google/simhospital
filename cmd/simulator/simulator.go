@@ -47,9 +47,9 @@ var (
 	headerConfigFile       = flag.String("header_config_file", "configs/hl7_messages/header.yml", "Path to a YAML file with the configuration for the header of HL7 messages. This file can be a local file or a GCS object.")
 	nounsFile              = flag.String("nouns_file", "configs/hl7_messages/third_party/nouns.txt", "Path to a text file containing english nouns. This file can be a local file or a GCS object.")
 	surnamesFile           = flag.String("surnames_file", "configs/hl7_messages/third_party/surnames.txt", "Path to a text file containing surnames. This file can be a local file or a GCS object.")
-	girlsHistoricNamesFile = flag.String("girls_names", "configs/hl7_messages/third_party/historicname_tcm77-254032-girls.csv", "Path to a CSV file containing historical girls names")
-	boysHistoricNamesFile  = flag.String("boys_names", "configs/hl7_messages/third_party/historicname_tcm77-254032-boys.csv", "Path to a CSV file containing historical boys names")
-	dataConfigFile         = flag.String("data_config_file", "configs/hl7_messages/data.yml", "Path to a YAML file with the configuration for data to populate HL7 fields that are not relevant to the use of the HL7 standard")
+	girlsHistoricNamesFile = flag.String("girls_names", "configs/hl7_messages/third_party/historicname_tcm77-254032-girls.csv", "Path to a CSV file containing historical girls names. This file can be a local file or a GCS object.")
+	boysHistoricNamesFile  = flag.String("boys_names", "configs/hl7_messages/third_party/historicname_tcm77-254032-boys.csv", "Path to a CSV file containing historical boys names. This file can be a local file or a GCS object.")
+	dataConfigFile         = flag.String("data_config_file", "configs/hl7_messages/data.yml", "Path to a YAML file with the configuration for data to populate HL7 fields that are not relevant to the use of the HL7 standard. This file can be a local file or a GCS object.")
 	sampleNotesDir         = flag.String("sample_notes_directory", "configs/hl7_messages/third_party/notes", "Path to a directory with the sample notes. This directory can be on the local file system or GCS.")
 	clinicalNoteTypesFile  = flag.String("clinical_note_types_file", "configs/hl7_messages/third_party/note_types.txt", "Path to a text file with the Clinical Note types. This file can be a local file or a GCS object.")
 	diagnosesFile          = flag.String("diagnoses_file", "configs/hl7_messages/diagnoses.csv", "Path to a CSV file with the diagnoses and how often they occur. This file can be a local file or a GCS object.")
@@ -57,8 +57,8 @@ var (
 	allergiesFile          = flag.String("allergies_file", "configs/hl7_messages/allergies.csv", "Path to a CSV file with the allergies and how often they occur. This file can be a local file or a GCS object.")
 	ethnicityFile          = flag.String("ethnicity_file", "configs/hl7_messages/ethnicity.csv", "Path to a CSV file with the ethnicities and how often they occur. This file can be a local file or a GCS object.")
 	patientClassFile       = flag.String("patient_class_file", "configs/hl7_messages/patient_class.csv", "Path to a CSV file with the patient classes and types and how often they occur. This file can be a local file or a GCS object.")
-	doctorsFile            = flag.String("doctors_file", "configs/hl7_messages/doctors.yml", "Path to a YAML file with the doctors")
-	orderProfilesFile      = flag.String("order_profile_file", "configs/hl7_messages/order_profiles.yml", "Path to a YAML file with the definition of the order profiles")
+	doctorsFile            = flag.String("doctors_file", "configs/hl7_messages/doctors.yml", "Path to a YAML file with the doctors. This file can be a local file or a GCS object.")
+	orderProfilesFile      = flag.String("order_profile_file", "configs/hl7_messages/order_profiles.yml", "Path to a YAML file with the definition of the order profiles. This file can be a local file or a GCS object.")
 
 	// Flags that control resource generation.
 	resourceOutput    = flag.String("resource_output", "stdout", "Where the generated resources will be written: [stdout, file, cloud]")

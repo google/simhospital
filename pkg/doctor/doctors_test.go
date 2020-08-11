@@ -15,6 +15,7 @@
 package doctor
 
 import (
+	"context"
 	"math"
 	"testing"
 
@@ -45,6 +46,7 @@ var (
 )
 
 func TestLoadDoctors(t *testing.T) {
+	ctx := context.Background()
 	cases := []struct {
 		name    string
 		input   string
@@ -89,7 +91,7 @@ func TestLoadDoctors(t *testing.T) {
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
 			fName := testwrite.BytesToFile(t, []byte(tc.input))
-			if _, err := LoadDoctors(fName); (err == nil) == tc.wantErr {
+			if _, err := LoadDoctors(ctx, fName); (err == nil) == tc.wantErr {
 				t.Errorf("LoadDoctors(%s) got err %v; want err: %t", tc.input, err, tc.wantErr)
 			}
 		})
@@ -97,8 +99,9 @@ func TestLoadDoctors(t *testing.T) {
 }
 
 func TestDoctorsGet(t *testing.T) {
+	ctx := context.Background()
 	fName := testwrite.BytesToFile(t, []byte(singleDoctor))
-	d, err := LoadDoctors(fName)
+	d, err := LoadDoctors(ctx, fName)
 	if err != nil {
 		t.Fatalf("LoadDoctors() failed with %v", err)
 	}
@@ -147,8 +150,9 @@ func TestDoctorsGet(t *testing.T) {
 }
 
 func TestDoctorsAdd(t *testing.T) {
+	ctx := context.Background()
 	fName := testwrite.BytesToFile(t, []byte(singleDoctor))
-	d, err := LoadDoctors(fName)
+	d, err := LoadDoctors(ctx, fName)
 	if err != nil {
 		t.Fatalf("LoadDoctors(%s) failed with %v", singleDoctor, err)
 	}
@@ -174,13 +178,14 @@ func TestDoctorsAdd(t *testing.T) {
 }
 
 func TestDoctorsGetRandomDoctor(t *testing.T) {
+	ctx := context.Background()
 	// Somewhat arbitrary number of doctors and runs, but chosen in a way that the probability that
 	// all doctors are picked is large: small number of doctors, large number of runs.
 	nDoctors := 2
 	runs := 1000
 
 	fName := testwrite.BytesToFile(t, []byte(twoDoctors))
-	d, err := LoadDoctors(fName)
+	d, err := LoadDoctors(ctx, fName)
 	if err != nil {
 		t.Fatalf("LoadDoctors(%s) failed with %v", twoDoctors, err)
 	}
