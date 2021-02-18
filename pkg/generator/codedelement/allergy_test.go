@@ -29,7 +29,7 @@ import (
 	"github.com/google/simhospital/pkg/test/testdate"
 	"github.com/google/simhospital/pkg/test/testwrite"
 
-	cpb "google/fhir/proto/r4/core/codes_go_proto"
+	cpb "github.com/google/fhir/go/proto/google/fhir/proto/r4/core/codes_go_proto"
 )
 
 var (

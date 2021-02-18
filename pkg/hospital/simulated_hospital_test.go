@@ -28,7 +28,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/Sirupsen/logrus"
-	"github.com/golang/protobuf/proto"
+	"google.golang.org/protobuf/testing/protocmp"
 	"github.com/google/simhospital/pkg/generator/header"
 	"github.com/google/simhospital/pkg/hardcoded"
 	"github.com/google/simhospital/pkg/hl7"
@@ -2170,7 +2170,7 @@ func TestRunPathwayMergeStepWrongMRNSyncerInUse(t *testing.T) {
 	}
 	beforeH, afterH := mr.GetHistogramBuckets(t, metric, labels)
 	wantAfter := mr.IncrementBucketsCumulatively(beforeH, 1, 1)
-	if diff := cmp.Diff(wantAfter, afterH, cmp.Comparer(proto.Equal)); diff != "" {
+	if diff := cmp.Diff(wantAfter, afterH, protocmp.Transform()); diff != "" {
 		t.Errorf("Metric %s[%v] histogram buckets not incremented as expected (-want/+got):\n%s", metric, labels, diff)
 	}
 }
@@ -2730,7 +2730,7 @@ func TestRunPathwayBedSwapPathwayBedSwapAfterPathwayFinished(t *testing.T) {
 	labels := map[string]string{"pathway_name": "pathway1"}
 	beforeH, afterH := mr.GetHistogramBuckets(t, metric, labels)
 	wantFinal := mr.IncrementBucketsCumulatively(beforeH, 10, 1)
-	if diff := cmp.Diff(wantFinal, afterH, cmp.Comparer(proto.Equal)); diff != "" {
+	if diff := cmp.Diff(wantFinal, afterH, protocmp.Transform()); diff != "" {
 		t.Errorf("Metric %s[%v] histogram buckets not incremented as expected (-want/+got):\n%s", metric, labels, diff)
 	}
 
@@ -2787,7 +2787,7 @@ func TestRunPathwayBedSwapPathwayBedSwapWithNilLocation(t *testing.T) {
 	labels := map[string]string{"pathway_name": "pathway1"}
 	beforeH, afterH := mr.GetHistogramBuckets(t, metric, labels)
 	wantAfter := mr.IncrementBucketsCumulatively(beforeH, 720, 1)
-	if diff := cmp.Diff(wantAfter, afterH, cmp.Comparer(proto.Equal)); diff != "" {
+	if diff := cmp.Diff(wantAfter, afterH, protocmp.Transform()); diff != "" {
 		t.Errorf("Metric %s[%v] histogram buckets not incremented as expected (-want/+got):\n%s", metric, labels, diff)
 	}
 	metric = "simulated_hospital_errors_total"

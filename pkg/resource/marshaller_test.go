@@ -21,10 +21,10 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 
-	cpb "google/fhir/proto/r4/core/codes_go_proto"
-	dpb "google/fhir/proto/r4/core/datatypes_go_proto"
-	r4pb "google/fhir/proto/r4/core/resources/bundle_and_contained_resource_go_proto"
-	patientpb "google/fhir/proto/r4/core/resources/patient_go_proto"
+	cpb "github.com/google/fhir/go/proto/google/fhir/proto/r4/core/codes_go_proto"
+	dpb "github.com/google/fhir/go/proto/google/fhir/proto/r4/core/datatypes_go_proto"
+	r4pb "github.com/google/fhir/go/proto/google/fhir/proto/r4/core/resources/bundle_and_contained_resource_go_proto"
+	patientpb "github.com/google/fhir/go/proto/google/fhir/proto/r4/core/resources/patient_go_proto"
 )
 
 type caseInsensitiveString string

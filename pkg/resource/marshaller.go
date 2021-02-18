@@ -15,10 +15,8 @@
 package resource
 
 import (
-	"google/fhir/jsonformat/jsonformat"
+	"github.com/google/fhir/go/jsonformat"
 	"google.golang.org/protobuf/proto"
-
-	protoV1 "github.com/golang/protobuf/proto"
 )
 
 // JSONMarshaller is a resource.Marshaller that wraps jsonformat.Marshaller.
@@ -28,7 +26,7 @@ type JSONMarshaller struct {
 
 // Marshal marshalls the given FHIR protocol buffer message as JSON.
 func (m *JSONMarshaller) Marshal(message proto.Message) ([]byte, error) {
-	return m.marshaller.MarshalResource(protoV1.MessageV1(message))
+	return m.marshaller.MarshalResource(message)
 }
 
 // NewJSONMarshaller creates and returns a new JSONMarshaller.

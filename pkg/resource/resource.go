@@ -32,17 +32,17 @@ import (
 	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/logging"
 
-	cpb "google/fhir/proto/r4/core/codes_go_proto"
-	dpb "google/fhir/proto/r4/core/datatypes_go_proto"
-	aipb "google/fhir/proto/r4/core/resources/allergy_intolerance_go_proto"
-	r4pb "google/fhir/proto/r4/core/resources/bundle_and_contained_resource_go_proto"
-	conditionpb "google/fhir/proto/r4/core/resources/condition_go_proto"
-	encounterpb "google/fhir/proto/r4/core/resources/encounter_go_proto"
-	locationpb "google/fhir/proto/r4/core/resources/location_go_proto"
-	observationpb "google/fhir/proto/r4/core/resources/observation_go_proto"
-	patientpb "google/fhir/proto/r4/core/resources/patient_go_proto"
-	practitionerpb "google/fhir/proto/r4/core/resources/practitioner_go_proto"
-	procedurepb "google/fhir/proto/r4/core/resources/procedure_go_proto"
+	cpb "github.com/google/fhir/go/proto/google/fhir/proto/r4/core/codes_go_proto"
+	dpb "github.com/google/fhir/go/proto/google/fhir/proto/r4/core/datatypes_go_proto"
+	aipb "github.com/google/fhir/go/proto/google/fhir/proto/r4/core/resources/allergy_intolerance_go_proto"
+	r4pb "github.com/google/fhir/go/proto/google/fhir/proto/r4/core/resources/bundle_and_contained_resource_go_proto"
+	conditionpb "github.com/google/fhir/go/proto/google/fhir/proto/r4/core/resources/condition_go_proto"
+	encounterpb "github.com/google/fhir/go/proto/google/fhir/proto/r4/core/resources/encounter_go_proto"
+	locationpb "github.com/google/fhir/go/proto/google/fhir/proto/r4/core/resources/location_go_proto"
+	observationpb "github.com/google/fhir/go/proto/google/fhir/proto/r4/core/resources/observation_go_proto"
+	patientpb "github.com/google/fhir/go/proto/google/fhir/proto/r4/core/resources/patient_go_proto"
+	practitionerpb "github.com/google/fhir/go/proto/google/fhir/proto/r4/core/resources/practitioner_go_proto"
+	procedurepb "github.com/google/fhir/go/proto/google/fhir/proto/r4/core/resources/procedure_go_proto"
 )
 
 const (

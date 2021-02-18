@@ -2,10 +2,10 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 http_archive(
     name = "io_bazel_rules_go",
-    sha256 = "a8d6b1b354d371a646d2f7927319974e0f9e52f73a2452d2b3877118169eb6bb",
+    sha256 = "d1ffd055969c8f8d431e2d439813e42326961d0942bdf734d2c95dc30c369566",
     urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/rules_go/releases/download/v0.23.3/rules_go-v0.23.3.tar.gz",
-        "https://github.com/bazelbuild/rules_go/releases/download/v0.23.3/rules_go-v0.23.3.tar.gz",
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_go/releases/download/v0.24.5/rules_go-v0.24.5.tar.gz",
+        "https://github.com/bazelbuild/rules_go/releases/download/v0.24.5/rules_go-v0.24.5.tar.gz",
     ],
 )
 
@@ -214,9 +214,9 @@ go_repository(
 go_repository(
     name = "com_google_fhir",
     importpath = "google/fhir",
-    urls = ["https://github.com/google/fhir/archive/869537a45757be9fe0011d742873c02721aa7d97.zip"],
-    sha256 = "ad8828aee2effbec79b543ff027680be3e4618339325d281e2a60af6c548ccf0",
-    strip_prefix = "fhir-869537a45757be9fe0011d742873c02721aa7d97",
+    urls = ["https://github.com/google/fhir/archive/bc3fe21af307a0a8c4cca00bb24995137ee9a683.zip"],
+    sha256 = "86766ce2cb54aff6c9ade6c09618c2527fba6b33816255c66289352a63eef3b8",
+    strip_prefix = "fhir-bc3fe21af307a0a8c4cca00bb24995137ee9a683",
     type = "zip",
 )
 
@@ -225,12 +225,12 @@ fhir_go_dependencies()
 
 go_repository(
     name = "org_golang_google_protobuf",
-    version = "v1.24.0",
-    sum = "h1:UhZDfRO8JRQru4/+LlLE0BRKGF8L+PICnvYZmx/fEGA=",
+    version = "v1.25.0",
+    sum = "h1:Ejskq+SyPohKW+1uil0JJMtmHCgJPJ/qWTxr8qp+R4c=123",
     importpath = "google.golang.org/protobuf",
 )
-go_repository(
 
+go_repository(
     name = "com_google_cloud_go",
     importpath = "cloud.google.com/go",
     sum = "h1:BM3svUDU3itpc2m5cu5wCyThIYNDlFlts9GASw31GW8=",

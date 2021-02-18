@@ -22,7 +22,7 @@ import (
 	"testing"
 	"time"
 
-	cpb "google/fhir/proto/r4/core/codes_go_proto"
+	cpb "github.com/google/fhir/go/proto/google/fhir/proto/r4/core/codes_go_proto"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/simhospital/pkg/config"
 	"github.com/google/simhospital/pkg/constants"

@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"time"
 
-	cpb "google/fhir/proto/r4/core/codes_go_proto"
+	cpb "github.com/google/fhir/go/proto/google/fhir/proto/r4/core/codes_go_proto"
 	"github.com/pkg/errors"
 	"github.com/google/simhospital/pkg/config"
 	"github.com/google/simhospital/pkg/constants"

@@ -23,7 +23,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/prometheus/client_golang/prometheus"
-	"github.com/golang/protobuf/proto"
+	"google.golang.org/protobuf/testing/protocmp"
 	pb "github.com/prometheus/client_model/go"
 )
 
@@ -170,7 +170,7 @@ func maybeGetMetric(t *testing.T, metrics map[string]*pb.MetricFamily, metricNam
 	var availableLabels []string
 	for _, metric := range family.Metric {
 		metricLabels := getLabels(metric)
-		if cmp.Equal(metricLabels, labels, cmp.Comparer(proto.Equal)) {
+		if cmp.Equal(metricLabels, labels, protocmp.Transform()) {
 			return metric
 		}
 		availableLabels = append(availableLabels, fmt.Sprint(metricLabels))

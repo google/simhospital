@@ -24,7 +24,7 @@ import (
 	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/pathway"
 
-	cpb "google/fhir/proto/r4/core/codes_go_proto"
+	cpb "github.com/google/fhir/go/proto/google/fhir/proto/r4/core/codes_go_proto"
 )
 
 // AllergyGenerator provides functionality to generate an allergy.
