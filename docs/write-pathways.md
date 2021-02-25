@@ -1733,7 +1733,7 @@ event types for which a location needs to be specified (e.g., an `admission`
 event) need to refer to an existing location from that configuration file.
 
 A pathway that refers to an unknown location fails validation. See
-[configure locations](./configure-data.md#locations) for more information.
+[configure data](./arguments.md#data-configuration) for more information.
 
 ## Appendix
 
