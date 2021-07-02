@@ -15,6 +15,7 @@
 package resource
 
 import (
+	"github.com/google/fhir/go/fhirversion"
 	"github.com/google/fhir/go/jsonformat"
 	"google.golang.org/protobuf/proto"
 )
@@ -31,7 +32,7 @@ func (m *JSONMarshaller) Marshal(message proto.Message) ([]byte, error) {
 
 // NewJSONMarshaller creates and returns a new JSONMarshaller.
 func NewJSONMarshaller() (*JSONMarshaller, error) {
-	m, err := jsonformat.NewPrettyMarshaller(jsonformat.R4)
+	m, err := jsonformat.NewPrettyMarshaller(fhirversion.R4)
 	if err != nil {
 		return nil, err
 	}
