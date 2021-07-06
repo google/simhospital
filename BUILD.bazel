@@ -39,6 +39,7 @@ gazelle(name = "gazelle")
 # gazelle:resolve go github.com/google/fhir/go/proto/google/fhir/proto/r4/core/datatypes_go_proto @com_google_fhir//proto/google/fhir/proto/r4/core:datatypes_go_proto
 # gazelle:resolve go github.com/google/fhir/go/proto/google/fhir/proto/r4/core/codes_go_proto @com_google_fhir//proto/google/fhir/proto/r4/core:codes_go_proto
 # gazelle:resolve go github.com/google/fhir/go/jsonformat @com_google_fhir//go/jsonformat:jsonformat
+# gazelle:resolve go github.com/google/fhir/go/fhirversion @com_google_fhir//go/fhirversion:fhirversion
 
 container_layer(
     name = "configs_hardcoded_messages_layer",
