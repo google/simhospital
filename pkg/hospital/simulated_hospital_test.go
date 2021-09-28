@@ -1440,8 +1440,8 @@ func TestRunPathway_StepTypes(t *testing.T) {
 		wantMessageTypes: []string{"ADT^A01", "ADT^A03", "ADT^A23"},
 		want: func(t *testing.T, messages []string, hospital *testhospital.Hospital) {
 			admit, deleteVisit := messages[0], messages[2]
-			visitID := testhl7.PV1(t, admit).VisitNumber.ID.SanitizedString()
-			deleteVisitID := testhl7.PV1(t, deleteVisit).VisitNumber.ID.SanitizedString()
+			visitID := testhl7.PV1(t, admit).VisitNumber.IDNumber.SanitizedString()
+			deleteVisitID := testhl7.PV1(t, deleteVisit).VisitNumber.IDNumber.SanitizedString()
 			if got, want := deleteVisitID, visitID; got != want {
 				t.Errorf("deleteVisitID=%v, want %v", got, want)
 			}
@@ -1474,8 +1474,8 @@ func TestRunPathway_StepTypes(t *testing.T) {
 		want: func(t *testing.T, messages []string, hospital *testhospital.Hospital) {
 			admit, deleteVisit := messages[0], messages[2]
 
-			visitID := testhl7.PV1(t, admit).VisitNumber.ID.SanitizedString()
-			deleteVisitID := testhl7.PV1(t, deleteVisit).VisitNumber.ID.SanitizedString()
+			visitID := testhl7.PV1(t, admit).VisitNumber.IDNumber.SanitizedString()
+			deleteVisitID := testhl7.PV1(t, deleteVisit).VisitNumber.IDNumber.SanitizedString()
 			if got, want := deleteVisitID, visitID; got != want {
 				t.Errorf("deleteVisitID=%v, want %v", got, want)
 			}
@@ -1502,14 +1502,14 @@ func TestRunPathway_StepTypes(t *testing.T) {
 			// The first visit has been deleted, and the second is correctly discharged.
 			admit, admit2, deleteVisit, discharge2 := messages[0], messages[2], messages[3], messages[4]
 
-			visitID := testhl7.PV1(t, admit).VisitNumber.ID.SanitizedString()
-			deleteVisitID := testhl7.PV1(t, deleteVisit).VisitNumber.ID.SanitizedString()
+			visitID := testhl7.PV1(t, admit).VisitNumber.IDNumber.SanitizedString()
+			deleteVisitID := testhl7.PV1(t, deleteVisit).VisitNumber.IDNumber.SanitizedString()
 			if got, want := deleteVisitID, visitID; got != want {
 				t.Errorf("deleteVisitID=%v, want %v", got, want)
 			}
 
-			admit2VisitID := testhl7.PV1(t, admit2).VisitNumber.ID.SanitizedString()
-			discharge2VisitID := testhl7.PV1(t, discharge2).VisitNumber.ID.SanitizedString()
+			admit2VisitID := testhl7.PV1(t, admit2).VisitNumber.IDNumber.SanitizedString()
+			discharge2VisitID := testhl7.PV1(t, discharge2).VisitNumber.IDNumber.SanitizedString()
 			if got, want := discharge2VisitID, admit2VisitID; got != want {
 				t.Errorf("discharge2VisitID=%v, want %v", got, want)
 			}
@@ -4089,7 +4089,7 @@ func TestPathwayClinicalNote(t *testing.T) {
 	for _, tt := range []struct {
 		name                  string
 		steps                 []*pathway.ClinicalNote
-		wantFillerOrderNumber []*hl7.CE
+		wantFillerOrderNumber []*hl7.CWE
 		wantObservationValues [][]string
 	}{{
 		name: "single ClinicalNote step",
@@ -4099,7 +4099,7 @@ func TestPathwayClinicalNote(t *testing.T) {
 			DocumentID:      "id",
 			DocumentContent: "content",
 		}},
-		wantFillerOrderNumber: []*hl7.CE{{Identifier: hl7.NewST("type"), Text: hl7.NewST("type")}},
+		wantFillerOrderNumber: []*hl7.CWE{{Identifier: hl7.NewST("type"), Text: hl7.NewST("type")}},
 		wantObservationValues: [][]string{{"^^txt^^content"}},
 	}, {
 		name: "two ClinicalNote step",
@@ -4116,7 +4116,7 @@ func TestPathwayClinicalNote(t *testing.T) {
 			DocumentType:    "second-type",
 			DocumentContent: "second-content",
 		}},
-		wantFillerOrderNumber: []*hl7.CE{
+		wantFillerOrderNumber: []*hl7.CWE{
 			{Identifier: hl7.NewST("new-type"), Text: hl7.NewST("new-type"), AlternateText: hl7.NewST("title")},
 			{Identifier: hl7.NewST("second-type"), Text: hl7.NewST("second-type"), AlternateText: hl7.NewST("new-title")},
 		},
@@ -4136,7 +4136,7 @@ func TestPathwayClinicalNote(t *testing.T) {
 			DocumentType:    "new-type",
 			DocumentContent: "new-content",
 		}},
-		wantFillerOrderNumber: []*hl7.CE{
+		wantFillerOrderNumber: []*hl7.CWE{
 			{Identifier: hl7.NewST("type"), Text: hl7.NewST("type"), AlternateText: hl7.NewST("title")},
 			{Identifier: hl7.NewST("new-type"), Text: hl7.NewST("new-type"), AlternateText: hl7.NewST("new-title")},
 		},

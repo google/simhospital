@@ -298,16 +298,22 @@ func (p TSPrecision) formatString() string {
 
 // TS represents a HL7 TS value (Timestamp).
 type TS struct {
-	IsHL7Null bool
-	Time      time.Time
-	Precision TSPrecision
+	IsHL7Null     bool
+	Time          time.Time
+	Precision     TSPrecision
+	ElideTimezone bool
 }
 
 var _ Primitive = (*TS)(nil)
 
-// Marshal marshals the TS value.
+// Marshal marshals a TS value.
 func (ts *TS) Marshal(c *Context) ([]byte, error) {
-	return []byte(ts.Time.In(c.TimezoneLoc).Format(ts.Precision.formatString())), nil
+	time := ts.Time.In(c.TimezoneLoc)
+	format := ts.Precision.formatString()
+	if c.IncludeTimezone && !ts.ElideTimezone {
+		format += "-0700"
+	}
+	return []byte(time.Format(format)), nil
 }
 
 // Unmarshal unmarshals a TS value, as described in 2.8.42 of the HL7 2.3
@@ -485,7 +491,7 @@ func (hd *HD) String() string {
 
 	c := &Context{
 		Decoder:     unicode.UTF8.NewDecoder(),
-		Delimiters:  defaultDelimiters,
+		Delimiters:  DefaultDelimiters,
 		Nesting:     0,
 		TimezoneLoc: Location,
 	}
@@ -517,6 +523,38 @@ func (cm *CM) Marshal(_ *Context) ([]byte, error) {
 // Unmarshal unmarshals the CM value.
 func (cm *CM) Unmarshal(field []byte, _ *Context) error {
 	*cm = CM(field)
+	return nil
+}
+
+// GTS represents a HL7 GTS value (General Timing Specification).
+type GTS string
+
+var _ Primitive = (*GTS)(nil)
+
+// Marshal a GTS value.
+func (gts *GTS) Marshal(_ *Context) ([]byte, error) {
+	return []byte(string(*gts)), nil
+}
+
+// Unmarshal a GTS value.
+func (gts *GTS) Unmarshal(field []byte, _ *Context) error {
+	*gts = GTS(field)
+	return nil
+}
+
+// NUL represents a HL7 NUL value (Null).
+type NUL string
+
+var _ Primitive = (*NUL)(nil)
+
+// Marshal a NUL value.
+func (nul *NUL) Marshal(_ *Context) ([]byte, error) {
+	return []byte(string(*nul)), nil
+}
+
+// Unmarshal a NUL value.
+func (nul *NUL) Unmarshal(field []byte, _ *Context) error {
+	*nul = NUL(field)
 	return nil
 }
 

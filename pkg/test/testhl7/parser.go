@@ -396,7 +396,7 @@ func PatientClass(t *testing.T, message string) string {
 func VisitNumber(t *testing.T, message string) string {
 	t.Helper()
 	pv1 := PV1(t, message)
-	return pv1.VisitNumber.ID.String()
+	return pv1.VisitNumber.IDNumber.String()
 }
 
 // EventDateTime returns the event's date time.
@@ -417,7 +417,7 @@ func FirstName(t *testing.T, message string) string {
 func MRN(t *testing.T, message string) string {
 	t.Helper()
 	pid := PID(t, message)
-	return pid.PatientID.ID.String()
+	return pid.PatientID.IDNumber.String()
 }
 
 // PriorPatientIdentifierList returns the PriorPatientIdentifierList from the MRG segment.
@@ -426,7 +426,7 @@ func PriorPatientIdentifierList(t *testing.T, message string) []string {
 	mrg := MRG(t, message)
 	var ids []string
 	for _, id := range mrg.PriorPatientIdentifierList {
-		ids = append(ids, id.ID.String())
+		ids = append(ids, id.IDNumber.String())
 	}
 	return ids
 }
@@ -447,7 +447,7 @@ func SendingFacility(t *testing.T, message string) string {
 func MessageType(t *testing.T, message string) string {
 	t.Helper()
 	msh := MSH(t, message)
-	return fmt.Sprintf("%s^%s", msh.MessageType.MessageType.String(), msh.MessageType.TriggerEvent.String())
+	return fmt.Sprintf("%s^%s", msh.MessageType.MessageCode.String(), msh.MessageType.TriggerEvent.String())
 }
 
 // ObservationValue returns this message's OBX observation value.

@@ -38,10 +38,10 @@ var (
 	// wantPID is the representation of the "pid" variable as a *PID struct.
 	wantPID = &PID{
 		SetIDPID:  NewSI(1),
-		PatientID: &CX{ID: NewST("843124"), AssigningAuthority: &HD{NamespaceID: NewIS("RAL MRN")}, IdentifierTypeCode: NewID("MRN")},
+		PatientID: &CX{IDNumber: NewST("843124"), AssigningAuthority: &HD{NamespaceID: NewIS("RAL MRN")}, IdentifierTypeCode: NewID("MRN")},
 		PatientIdentifierList: []CX{
-			{ID: NewST("843124"), AssigningAuthority: &HD{NamespaceID: NewIS("RAL MRN")}, IdentifierTypeCode: NewID("MRN"), AssigningFacility: &HD{NamespaceID: NewIS("CD:5294405")}},
-			{ID: NewST("1231231235"), AssigningAuthority: &HD{NamespaceID: NewIS("NHSNBR")}, IdentifierTypeCode: NewID("NHSNMBR")},
+			{IDNumber: NewST("843124"), AssigningAuthority: &HD{NamespaceID: NewIS("RAL MRN")}, IdentifierTypeCode: NewID("MRN"), AssigningFacility: &HD{NamespaceID: NewIS("CD:5294405")}},
+			{IDNumber: NewST("1231231235"), AssigningAuthority: &HD{NamespaceID: NewIS("NHSNBR")}, IdentifierTypeCode: NewID("NHSNMBR")},
 		},
 		PatientName: []XPN{
 			{FamilyName: &FN{Surname: NewST("ZZZTEST")}, GivenName: NewST("PAUL"), PrefixEGDR: NewST("MR"), NameTypeCode: NewID("CURRENT")},
@@ -56,11 +56,11 @@ var (
 			{StreetAddress: &SAD{StreetOrMailingAddress: NewST("100 The Street")}, OtherDesignation: NewST("Any Square"), City: NewST("LONDON"), ZipOrPostalCode: NewST("ZZ99 1BA"), Country: NewID("GBR"), AddressType: NewID("HOME")},
 		},
 		PhoneNumberHome: []XTN{
-			{Number: NewTN("0205551234"), TelecommunicationUseCode: NewID("HOME"), TelecommunicationEquipmentType: NewID("CD:4072430")},
-			{Number: NewTN("0205551234"), TelecommunicationUseCode: NewID("CD:4580206")},
+			{Number: NewST("0205551234"), TelecommunicationUseCode: NewID("HOME"), TelecommunicationEquipmentType: NewID("CD:4072430")},
+			{Number: NewST("0205551234"), TelecommunicationUseCode: NewID("CD:4580206")},
 		},
-		PatientAccountNumber: &CX{ID: NewST("3393034"), AssigningAuthority: &HD{NamespaceID: NewIS("RAL Encounter Num")}, IdentifierTypeCode: NewID("FINNBR")},
-		EthnicGroup:          []CE{{Identifier: NewST("C")}},
+		PatientAccountNumber: &CX{IDNumber: NewST("3393034"), AssigningAuthority: &HD{NamespaceID: NewIS("RAL Encounter Num")}, IdentifierTypeCode: NewID("FINNBR")},
+		EthnicGroup:          []CWE{{Identifier: NewST("C")}},
 		BirthOrder:           NewNM(0),
 	}
 

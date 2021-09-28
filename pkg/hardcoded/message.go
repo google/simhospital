@@ -214,7 +214,7 @@ func messageType(msg string) (*message.Type, error) {
 		return nil, errors.New("MSH.MessageType is not present in parsed message")
 	}
 	return &message.Type{
-		MessageType:  msh.MessageType.MessageType.String(),
+		MessageType:  msh.MessageType.MessageCode.String(),
 		TriggerEvent: msh.MessageType.TriggerEvent.String(),
 	}, nil
 }

@@ -34,6 +34,7 @@ import (
 	"github.com/pkg/errors"
 	"golang.org/x/text/encoding/charmap"
 	"golang.org/x/text/encoding"
+	"golang.org/x/text/encoding/unicode"
 	"github.com/google/simhospital/pkg/constants"
 )
 
@@ -44,7 +45,8 @@ const (
 	// SegmentTerminatorStr is the string representation of SegmentTerminator.
 	SegmentTerminatorStr = constants.SegmentTerminatorStr
 
-	asciiNewLine byte = 0xa
+	asciiNewLine    byte = 0xa
+	DefaultTimezone      = "Europe/London"
 )
 
 var (
@@ -96,14 +98,30 @@ var (
 	// messageTypeRegex is a regex to parse the main type for a message.
 	messageTypeRegex = regexp.MustCompile(`^[a-zA-Z0-9]{3}_[a-zA-Z0-9]{3}$`)
 
-	defaultDelimiters = &Delimiters{
+	DefaultDelimiters = &Delimiters{
 		Field:        '|',
 		Component:    '^',
 		Subcomponent: '&',
 		Repetition:   '~',
 		Escape:       '\\',
 	}
+	DefaultContext = &Context{
+		Decoder:     unicode.UTF8.NewDecoder(),
+		Delimiters:  DefaultDelimiters,
+		Rewrite:     []Rewrite{NopRewrite},
+		Nesting:     0,
+		TimezoneLoc: timezoneLocation(DefaultTimezone),
+	}
 )
+
+// timezoneLocation will convert the provided timezone in to a time.Location. Invalid timezones will panic.
+func timezoneLocation(timezone string) *time.Location {
+	loc, err := time.LoadLocation(timezone)
+	if err != nil {
+		panic(err)
+	}
+	return loc
+}
 
 // TimezoneAndLocation sets the Timezone and Location based on tz provided.
 // Returns an error if the location for the given timezone cannot be loaded.
@@ -135,7 +153,8 @@ type Context struct {
 	// `0` represents the initial nesting level.
 	Nesting int
 	// Timezone that TS values will be parsed in.
-	TimezoneLoc *time.Location
+	TimezoneLoc     *time.Location
+	IncludeTimezone bool
 }
 
 // Nested returns a Context identical to the original one, but where the nesting level is
@@ -272,12 +291,29 @@ type BadMessageTypeError struct {
 	Name string
 }
 
+// MessageType is an interface implemented by the generated structs that
+// represent HL7 message types, eg ADT_A01, ORU_R01, etc.
+type MessageType interface {
+	MessageTypeName() string
+}
+
 func (e *BadMessageTypeError) Error() string {
 	errMsg := "bad message type"
 	if segmentTypeRegex.MatchString(e.Name) || messageTypeRegex.MatchString(e.Name) {
 		return fmt.Sprintf("%s: %s", errMsg, e.Name)
 	}
 	return errMsg
+}
+
+func toSegment(v reflect.Value) (Segment, bool) {
+	segment := reflect.ValueOf((*Segment)(nil)).Type().Elem()
+	if v.Type().Implements(segment) {
+		return v.Interface().(Segment), true
+	}
+	if reflect.PtrTo(v.Type()).Implements(segment) {
+		return v.Addr().Interface().(Segment), true
+	}
+	return nil, false
 }
 
 // ErrBadValue occurs when we can't parse the value for a primitive HL7 type.
@@ -366,6 +402,23 @@ type Message struct {
 	msh      MSH
 }
 
+// messageTypeName will return the name of the message struct that corresponds
+// to this message, via the type specified in the MSH segment.
+// Returns a BadMessageTypeError if there is no MessageType.
+func (m *Message) messageTypeName() (string, error) {
+	if m.msh.MessageType == nil || m.msh.MessageType.MessageCode == nil {
+		return "", &BadMessageTypeError{}
+	}
+	name := string(*m.msh.MessageType.MessageCode)
+	// The ACK message type won't have a TriggerEvent.
+	if m.msh.MessageType.TriggerEvent != nil {
+		name += "_" + string(*m.msh.MessageType.TriggerEvent)
+	}
+	return name, nil
+}
+
+type StringSet map[string]bool
+
 // ParseMessage returns an object representing the HL7 message in input,
 // ensuring it has a correct header, and returning an error if not.
 func ParseMessage(input []byte) (*Message, error) {
@@ -390,7 +443,7 @@ func ParseMessageWithOptions(input []byte, options *ParseMessageOptions) (*Messa
 	m := &Message{
 		Context: &Context{
 			Decoder:     encoding.Nop.NewDecoder(),
-			Delimiters:  defaultDelimiters,
+			Delimiters:  DefaultDelimiters,
 			Nesting:     0,
 			TimezoneLoc: options.TimezoneLoc,
 			Rewrite:     *options.Rewrites,
@@ -614,6 +667,10 @@ func isSegment(s Token, expected string, d *Delimiters) bool {
 	return err == nil && name == expected
 }
 
+func (m *Message) Parse(name string) (interface{}, error) {
+	return m.parse(name)
+}
+
 // parse returns a pointer to the parsed representation of the first segment
 // of the specified segmentType.
 func (m *Message) parse(name string) (interface{}, error) {
@@ -726,6 +783,11 @@ type Primitive interface {
 	Unmarshal([]byte, *Context) error
 }
 
+// MarshalValue marshalls an HL7 type to a byte slice.
+func MarshalValue(v reflect.Value, c *Context) ([]byte, error) {
+	return marshalValue(v, c)
+}
+
 func marshalValue(v reflect.Value, c *Context) ([]byte, error) {
 	var primitive Primitive
 	primitiveType := reflect.TypeOf((*Primitive)(nil)).Elem()
@@ -752,6 +814,92 @@ func marshalValue(v reflect.Value, c *Context) ([]byte, error) {
 		// Implies a bug in the marshaller.
 		panic("Unexpected kind: " + string(v.Kind()) + " type: " + v.Type().Name())
 	}
+}
+
+// MarshalMessage marshals the given message into bytes, using the character
+// encoding, delimiters, etc defined by Context.
+func MarshalMessage(m MessageType, c *Context) ([]byte, error) {
+	segments := make([]Segment, 0)
+	type entry struct {
+		v reflect.Value
+		i int
+	}
+	stack := []entry{{reflect.ValueOf(m).Elem(), 0}}
+	for len(stack) > 0 {
+		end := len(stack) - 1
+		var v reflect.Value
+		switch stack[end].v.Kind() {
+		case reflect.Struct:
+			if stack[end].i >= stack[end].v.NumField() {
+				stack = stack[0:end]
+				continue
+			}
+			v = stack[end].v.Field(stack[end].i)
+		case reflect.Slice:
+			if stack[end].i >= stack[end].v.Len() {
+				stack = stack[0:end]
+				continue
+			}
+			v = stack[end].v.Index(stack[end].i)
+		default:
+			panic("Unexpected kind")
+		}
+		if !(v.Kind() == reflect.Ptr || v.Kind() == reflect.Slice) || !v.IsNil() {
+			if segment, ok := toSegment(v); ok {
+				segments = append(segments, segment)
+			} else if v.Kind() == reflect.Struct {
+				stack = append(stack, entry{v, 0})
+			} else if v.Kind() == reflect.Ptr {
+				stack = append(stack, entry{v.Elem(), 0})
+			} else if v.Kind() == reflect.Slice {
+				stack = append(stack, entry{v, 0})
+			} else {
+				panic("Unexpected type")
+			}
+		}
+		stack[end].i++
+	}
+	result, err := MarshalSegments(segments, c)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
+// MarshalSegment marshals the given segment into bytes, using the character
+// encoding, delimiters, etc defined by Context.
+func MarshalSegment(s Segment, c *Context) ([]byte, error) {
+	v := reflect.ValueOf(s).Elem()
+	end := endOfFieldsWithValues(v)
+	fields := make([][]byte, end+1) // +1 for segment name
+	fields[0] = []byte(s.SegmentName())
+	var err error
+	for i := 0; i < end; i++ {
+		fields[i+1], err = MarshalValue(v.Field(i), c)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return c.Delimiters.joinFields(fields), nil
+}
+
+func (d Delimiters) joinFields(fields [][]byte) []byte {
+	return bytes.Join(fields, []byte{d.Field})
+}
+
+func MarshalSegments(segments []Segment, c *Context) ([]byte, error) {
+	result := make([]byte, 0)
+	for _, s := range segments {
+		marshalled, err := MarshalSegment(s, c)
+		if err != nil {
+			return nil, err
+		}
+		if len(result) > 0 {
+			result = append(result, '\r')
+		}
+		result = append(result, marshalled...)
+	}
+	return result, nil
 }
 
 func marshalCompositeValue(v reflect.Value, c *Context) ([]byte, error) {
@@ -817,4 +965,225 @@ func marshalText(field []byte, c *Context) []byte {
 		}
 	}
 	return dst
+}
+
+// stack represents one specific traversal through the fields nested within a
+// message struct, terminating at a concrete Segment type, with each entry
+// specifying the field chosen within each struct at each step.
+type stack []entry
+
+type entry struct {
+	// A type nested within a message struct (eg ADT_A01).
+	t reflect.Type
+	// The field within t chosen during this traversal, by index.
+	f int
+	// If repeat is true, traversal will repeat t from field 0 rather than
+	// causing the stack to be popped.
+	repeat bool
+}
+
+// traverse makes a depth first traversal of a message struct, calling f for
+// each concrete leaf Segment type encountered.
+// When traversing through an ORU^R01 structure, at the segment representing
+// a patient note, the stack will look like this:
+// [{ORU_R01, 1}, {ORU_R01_PATIENT_RESULT, 0}, {ORU_R01_PATIENT, 3}, {NTE, 0}]
+func traverse(s stack, f func(stack) stack) {
+	for ; ; s[len(s)-1].f++ {
+		done := false
+		top := s[len(s)-1]
+		if isSegmentType(top.t) {
+			s = f(s)
+			if len(s) == 0 {
+				break
+			}
+			done = true
+		} else {
+			// We're done if we've reached the last but one field, as the
+			// last one is Other
+			if top.f >= top.t.Elem().NumField()-1 {
+				done = true
+			} else {
+				f := top.t.Elem().Field(top.f)
+				s = append(s, entry{f.Type, -1, false})
+			}
+		}
+		if done {
+			// Repeat this struct if we need to, otherwise pop the stack and continue
+			// from the next field there.
+			if s[len(s)-1].repeat {
+				s[len(s)-1].repeat = false
+				s[len(s)-1].f = -1
+			} else {
+				s = s[0 : len(s)-1]
+				if len(s) == 0 {
+					break
+				}
+			}
+		}
+	}
+}
+
+// isSegmentType returns true if t represents a leaf segment type within
+// a message struct, eg *OBX or []OBX.
+func isSegmentType(t reflect.Type) bool {
+	segment := reflect.ValueOf((*Segment)(nil)).Type().Elem()
+	pointerToSegment := t.Kind() == reflect.Ptr && t.Implements(segment)
+	sliceOfSegment := t.Kind() == reflect.Slice && reflect.PtrTo(t.Elem()).Implements(segment)
+	sliceOfPointerToSegment := t.Kind() == reflect.Slice && t.Elem().Implements(segment)
+	return pointerToSegment || sliceOfSegment || sliceOfPointerToSegment
+}
+
+// isRequired returns true if the segment corresponding to the message struct
+// field at the top of the stack is required to be present by the HL7
+// specification.
+func isRequired(s stack) bool {
+	if len(s) < 2 {
+		return false
+	}
+	f := s[len(s)-2].t.Elem().Field(s[len(s)-2].f)
+	_, required := parseTag(f)
+	return required
+}
+
+// follow returns the set of segments that could legitimately follow the segment
+// for the field described by state. If strict is true, we assume that segments
+// marked as required by the HL7 specification must be present. If strict is
+// false, we assume they're optional, and any following segment is also valid.
+func follow(state stack, strict bool) []reflect.Type {
+	s := make([]entry, len(state))
+	copy(s, state)
+	for i := range s {
+		s[i].repeat = s[i].t.Kind() == reflect.Slice
+	}
+	var follow []reflect.Type
+	traverse(s, func(s stack) stack {
+		follow = append(follow, s[len(s)-1].t.Elem())
+		if strict && isRequired(s) {
+			return s[0 : len(s)-2]
+		}
+		return s
+	})
+	return follow
+}
+
+// inFollow returns true if t is present within follow
+func inFollow(t reflect.Type, follow []reflect.Type) bool {
+	for _, element := range follow {
+		if t == element {
+			return true
+		}
+	}
+	return false
+}
+
+// setField assigns v to the message struct field at the top of s. Any
+// intermediate structs & slices that haven't been created will be. Makes use
+// of entry.repeat to decide whether a new value should be appended to a slice
+// or not.
+func setField(dst reflect.Value, s stack, v reflect.Value) {
+	for i := 0; i < len(s)-1; i++ {
+		if dst.Type().Kind() == reflect.Ptr {
+			if dst.IsNil() {
+				dst.Set(reflect.New(dst.Type().Elem()))
+			}
+			dst = dst.Elem()
+		} else { // dst is a Slice
+			if dst.IsNil() {
+				dst.Set(reflect.MakeSlice(dst.Type(), 0, 0))
+			}
+			if !s[i].repeat {
+				n := reflect.New(dst.Type().Elem()).Elem()
+				dst.Set(reflect.Append(dst, n))
+			}
+			dst = dst.Index(dst.Len() - 1)
+		}
+		dst = dst.Field(s[i].f)
+	}
+	if s[len(s)-1].t.Kind() == reflect.Slice {
+		if dst.IsNil() {
+			dst.Set(reflect.MakeSlice(dst.Type(), 0, 1))
+		}
+		dst.Set(reflect.Append(dst, v.Elem()))
+	} else {
+		dst.Set(v)
+	}
+}
+
+// appendOther appends v to the Other field on the last nested message struct
+// along s that isn't nil (ie appending to other never causes the creation of
+// otherwise empty structs & slices).
+func appendOther(dst reflect.Value, s stack, v reflect.Value) {
+	dst = dst.Elem()
+	// The last element of the stack represents the segment we're currently
+	// looking for (eg OBX), so we need to stop before then to find the last
+	// struct that would have an Other member.
+	for i := 0; i < len(s)-2; i++ {
+		next := dst.Field(s[i].f)
+		if next.IsNil() {
+			break
+		}
+		dst = next
+		if dst.Type().Kind() == reflect.Ptr {
+			dst = dst.Elem()
+		} else { // Slice
+			dst = dst.Index(dst.Len() - 1)
+		}
+	}
+	other := dst.FieldByName("Other")
+	if other.IsValid() {
+		if other.IsNil() {
+			other.Set(reflect.MakeSlice(other.Type(), 0, 1))
+		}
+		other.Set(reflect.Append(other, v))
+	}
+}
+
+// ParseMessageType will return a message type struct containing all segments
+// that were matched against its fields.
+func (m *Message) ParseMessageType() (interface{}, error) {
+	name, err := m.messageTypeName()
+	if err != nil {
+		return nil, err
+	}
+	t, ok := Types[name]
+	if !ok {
+		return nil, &BadMessageTypeError{Name: name}
+	}
+
+	segments, err := m.All()
+	if err != nil {
+		return nil, err
+	}
+
+	result := reflect.New(t)
+	i := 0
+	s := []entry{{reflect.PtrTo(t), 0, false}}
+	traverse(s, func(s stack) stack {
+
+		top := s[len(s)-1]
+		for {
+			if i >= len(segments) {
+				return stack{}
+			}
+			st := reflect.TypeOf(segments[i]).Elem()
+			if st == top.t.Elem() {
+				setField(result, s, reflect.ValueOf(segments[i]))
+				for j := range s {
+					// We've matched at least one segment from this type, so if it's
+					// repreated at any level of the hierarchy, we should try to match
+					// the type again.
+					s[j].repeat = s[j].t.Kind() == reflect.Slice
+				}
+				i++
+				return s
+			}
+			fs := follow(s, false)
+			if inFollow(st, fs) {
+				return s
+			}
+			appendOther(result, s, reflect.ValueOf(segments[i]))
+			i++
+		}
+	})
+	return result.Interface(), nil
 }

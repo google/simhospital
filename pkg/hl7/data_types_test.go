@@ -27,7 +27,7 @@ func TestPrimitive(t *testing.T) {
 	TimezoneAndLocation("UTC")
 	c := &Context{
 		Decoder:     unicode.UTF8.NewDecoder(),
-		Delimiters:  defaultDelimiters,
+		Delimiters:  DefaultDelimiters,
 		Nesting:     0,
 		TimezoneLoc: Location,
 	}

@@ -823,7 +823,7 @@ func TestBuildPathologyORRO02(t *testing.T) {
 	if msh == nil {
 		t.Fatal("MSH() got nil MSH segment, want non nil")
 	}
-	if got, want := msh.MessageType.MessageType.String(), "ORR"; got != want {
+	if got, want := msh.MessageType.MessageCode.String(), "ORR"; got != want {
 		t.Errorf("msh.MessageType.MessageType.String()=%v, want %v", got, want)
 	}
 	if got, want := msh.MessageType.TriggerEvent.String(), "O02"; got != want {
@@ -840,7 +840,7 @@ func TestBuildPathologyORRO02(t *testing.T) {
 	if msa == nil {
 		t.Fatal("MSA() got nil MSA segment, want non nil")
 	}
-	if got, want := msa.AcknowledgementCode.String(), "AA"; got != want {
+	if got, want := msa.AcknowledgmentCode.String(), "AA"; got != want {
 		t.Errorf("msa.AcknowledgementCode.String()=%v, want %v", got, want)
 	}
 
@@ -886,7 +886,7 @@ func TestBuildAdmissionADTA01(t *testing.T) {
 	if msh == nil {
 		t.Fatal("MSH() got nil MSH segment, want non nil")
 	}
-	if got, want := msh.MessageType.MessageType.String(), "ADT"; got != want {
+	if got, want := msh.MessageType.MessageCode.String(), "ADT"; got != want {
 		t.Errorf("msh.MessageType.MessageType.String()=%v, want %v", got, want)
 	}
 	if got, want := msh.MessageType.TriggerEvent.String(), "A01"; got != want {
@@ -987,7 +987,7 @@ func TestBuildTransferADTA02(t *testing.T) {
 	if msh == nil {
 		t.Fatal("MSH() got nil MSH segment, want non nil")
 	}
-	if got, want := msh.MessageType.MessageType.String(), "ADT"; got != want {
+	if got, want := msh.MessageType.MessageCode.String(), "ADT"; got != want {
 		t.Errorf("msh.MessageType.MessageType.String()=%v, want %v", got, want)
 	}
 	if got, want := msh.MessageType.TriggerEvent.String(), "A02"; got != want {
@@ -1072,7 +1072,7 @@ func TestBuildDischargeADTA03(t *testing.T) {
 	if msh == nil {
 		t.Fatal("MSH() got nil MSH segment, want non nil")
 	}
-	if got, want := msh.MessageType.MessageType.String(), "ADT"; got != want {
+	if got, want := msh.MessageType.MessageCode.String(), "ADT"; got != want {
 		t.Errorf("msh.MessageType.MessageType.String()=%v, want %v", got, want)
 	}
 	if got, want := msh.MessageType.TriggerEvent.String(), "A03"; got != want {
@@ -1145,7 +1145,7 @@ func TestBuildRegistrationADTA04(t *testing.T) {
 	if msh == nil {
 		t.Fatal("MSH() got nil MSH segment, want non nil")
 	}
-	if got, want := msh.MessageType.MessageType.String(), "ADT"; got != want {
+	if got, want := msh.MessageType.MessageCode.String(), "ADT"; got != want {
 		t.Errorf("msh.MessageType.MessageType.String()=%v, want %v", got, want)
 	}
 	if got, want := msh.MessageType.TriggerEvent.String(), "A04"; got != want {
@@ -1226,7 +1226,7 @@ func TestBuildTrackDepartureADTA09(t *testing.T) {
 	if msh == nil {
 		t.Fatal("MSH() got nil MSH segment, want non nil")
 	}
-	if got, want := msh.MessageType.MessageType.String(), "ADT"; got != want {
+	if got, want := msh.MessageType.MessageCode.String(), "ADT"; got != want {
 		t.Errorf("msh.MessageType.MessageType.String()=%v, want %v", got, want)
 	}
 	if got, want := msh.MessageType.TriggerEvent.String(), "A09"; got != want {
@@ -1299,7 +1299,7 @@ func TestBuildTrackArrivalADTA10(t *testing.T) {
 	if msh == nil {
 		t.Fatal("MSH() got nil MSH segment, want non nil")
 	}
-	if got, want := msh.MessageType.MessageType.String(), "ADT"; got != want {
+	if got, want := msh.MessageType.MessageCode.String(), "ADT"; got != want {
 		t.Errorf("msh.MessageType.MessageType.String()=%v, want %v", got, want)
 	}
 	if got, want := msh.MessageType.TriggerEvent.String(), "A10"; got != want {
@@ -1372,7 +1372,7 @@ func TestBuildCancelVisitADTA11(t *testing.T) {
 	if msh == nil {
 		t.Fatal("MSH() got nil MSH segment, want non nil")
 	}
-	if got, want := msh.MessageType.MessageType.String(), "ADT"; got != want {
+	if got, want := msh.MessageType.MessageCode.String(), "ADT"; got != want {
 		t.Errorf("msh.MessageType.MessageType.String()=%v, want %v", got, want)
 	}
 	if got, want := msh.MessageType.TriggerEvent.String(), "A11"; got != want {
@@ -1454,7 +1454,7 @@ func TestBuildCancelTransferADTA12(t *testing.T) {
 	if msh == nil {
 		t.Fatal("MSH() got nil MSH segment, want non nil")
 	}
-	if got, want := msh.MessageType.MessageType.String(), "ADT"; got != want {
+	if got, want := msh.MessageType.MessageCode.String(), "ADT"; got != want {
 		t.Errorf("msh.MessageType.MessageType.String()=%v, want %v", got, want)
 	}
 	if got, want := msh.MessageType.TriggerEvent.String(), "A12"; got != want {
@@ -1533,7 +1533,7 @@ func TestBuildCancelDischargeADTA13(t *testing.T) {
 	if msh == nil {
 		t.Fatal("MSH() got nil MSH segment, want non nil")
 	}
-	if got, want := msh.MessageType.MessageType.String(), "ADT"; got != want {
+	if got, want := msh.MessageType.MessageCode.String(), "ADT"; got != want {
 		t.Errorf("msh.MessageType.MessageType.String()=%v, want %v", got, want)
 	}
 	if got, want := msh.MessageType.TriggerEvent.String(), "A13"; got != want {
@@ -1618,7 +1618,7 @@ func TestBuildPendingAdmissionA14(t *testing.T) {
 	if msh == nil {
 		t.Fatal("MSH() got nil MSH segment, want non nil")
 	}
-	if got, want := msh.MessageType.MessageType.String(), "ADT"; got != want {
+	if got, want := msh.MessageType.MessageCode.String(), "ADT"; got != want {
 		t.Errorf("msh.MessageType.MessageType.String()=%v, want %v", got, want)
 	}
 	if got, want := msh.MessageType.TriggerEvent.String(), "A14"; got != want {
@@ -1702,7 +1702,7 @@ func TestBuildPreAdmitA05(t *testing.T) {
 	if msh == nil {
 		t.Fatal("MSH() got nil MSH segment, want non nil")
 	}
-	if got, want := msh.MessageType.MessageType.String(), "ADT"; got != want {
+	if got, want := msh.MessageType.MessageCode.String(), "ADT"; got != want {
 		t.Errorf("msh.MessageType.MessageType.String()=%v, want %v", got, want)
 	}
 	if got, want := msh.MessageType.TriggerEvent.String(), "A05"; got != want {
@@ -1787,7 +1787,7 @@ func TestBuildPendingDischargeA16(t *testing.T) {
 	if msh == nil {
 		t.Fatal("MSH() got nil MSH segment, want non nil")
 	}
-	if got, want := msh.MessageType.MessageType.String(), "ADT"; got != want {
+	if got, want := msh.MessageType.MessageCode.String(), "ADT"; got != want {
 		t.Errorf("msh.MessageType.MessageType.String()=%v, want %v", got, want)
 	}
 	if got, want := msh.MessageType.TriggerEvent.String(), "A16"; got != want {
@@ -1871,7 +1871,7 @@ func TestBuildPendingTransferADTA15(t *testing.T) {
 	if msh == nil {
 		t.Fatal("MSH() got nil MSH segment, want non nil")
 	}
-	if got, want := msh.MessageType.MessageType.String(), "ADT"; got != want {
+	if got, want := msh.MessageType.MessageCode.String(), "ADT"; got != want {
 		t.Errorf("msh.MessageType.MessageType.String()=%v, want %v", got, want)
 	}
 
@@ -1948,7 +1948,7 @@ func TestBuildDeleteVisitA23(t *testing.T) {
 	if msh == nil {
 		t.Fatal("MSH() got nil MSH segment, want non nil")
 	}
-	if got, want := msh.MessageType.MessageType.String(), "ADT"; got != want {
+	if got, want := msh.MessageType.MessageCode.String(), "ADT"; got != want {
 		t.Errorf("msh.MessageType.MessageType.String()=%v, want %v", got, want)
 	}
 	if got, want := msh.MessageType.TriggerEvent.String(), "A23"; got != want {
@@ -2014,7 +2014,7 @@ func TestBuildCancelPendingDischargeA25(t *testing.T) {
 	if msh == nil {
 		t.Fatal("MSH() got nil MSH segment, want non nil")
 	}
-	if got, want := msh.MessageType.MessageType.String(), "ADT"; got != want {
+	if got, want := msh.MessageType.MessageCode.String(), "ADT"; got != want {
 		t.Errorf("msh.MessageType.MessageType.String()=%v, want %v", got, want)
 	}
 	if got, want := msh.MessageType.TriggerEvent.String(), "A25"; got != want {
@@ -2098,7 +2098,7 @@ func TestBuildCancelPendingTransferADTA26(t *testing.T) {
 	if msh == nil {
 		t.Fatal("MSH() got nil MSH segment, want non nil")
 	}
-	if got, want := msh.MessageType.MessageType.String(), "ADT"; got != want {
+	if got, want := msh.MessageType.MessageCode.String(), "ADT"; got != want {
 		t.Errorf("msh.MessageType.MessageType.String()=%v, want %v", got, want)
 	}
 	if got, want := msh.MessageType.TriggerEvent.String(), "A26"; got != want {
@@ -2183,7 +2183,7 @@ func TestBuildCancelPendingAdmitADTA27(t *testing.T) {
 	if msh == nil {
 		t.Fatal("MSH() got nil MSH segment, want non nil")
 	}
-	if got, want := msh.MessageType.MessageType.String(), "ADT"; got != want {
+	if got, want := msh.MessageType.MessageCode.String(), "ADT"; got != want {
 		t.Errorf("msh.MessageType.MessageType.String()=%v, want %v", got, want)
 	}
 	if got, want := msh.MessageType.TriggerEvent.String(), "A27"; got != want {
@@ -2268,7 +2268,7 @@ func TestBuildUpdatePatientA08(t *testing.T) {
 	if msh == nil {
 		t.Fatal("MSH() got nil MSH segment, want non nil")
 	}
-	if got, want := msh.MessageType.MessageType.String(), "ADT"; got != want {
+	if got, want := msh.MessageType.MessageCode.String(), "ADT"; got != want {
 		t.Errorf("msh.MessageType.MessageType.String()=%v, want %v", got, want)
 	}
 	if got, want := msh.MessageType.TriggerEvent.String(), "A08"; got != want {
@@ -2341,7 +2341,7 @@ func TestBuildUpdatePatientA08(t *testing.T) {
 			FamilyName:         &hl7.FN{Surname: hl7.NewST(defaultDoctorSurname)},
 			AssigningAuthority: &hl7.HD{NamespaceID: hl7.NewIS("DRNBR")},
 			NameTypeCode:       hl7.NewID("PRSNL"),
-			IdentifierTypeCode: hl7.NewIS("ORGDR"),
+			IdentifierTypeCode: hl7.NewID("ORGDR"),
 		}},
 	}
 	if diff := cmp.Diff(wantPR1, pr1); diff != "" {
@@ -2382,7 +2382,7 @@ func TestBuildAddPersonADTA28(t *testing.T) {
 	if msh == nil {
 		t.Fatal("MSH() got nil MSH segment, want non nil")
 	}
-	if got, want := msh.MessageType.MessageType.String(), "ADT"; got != want {
+	if got, want := msh.MessageType.MessageCode.String(), "ADT"; got != want {
 		t.Errorf("msh.MessageType.MessageType.String()=%v, want %v", got, want)
 	}
 	if got, want := msh.MessageType.TriggerEvent.String(), "A28"; got != want {
@@ -2466,7 +2466,7 @@ func TestBuildUpdatePersonADTA31(t *testing.T) {
 	if msh == nil {
 		t.Fatal("MSH() got nil MSH segment, want non nil")
 	}
-	if got, want := msh.MessageType.MessageType.String(), "ADT"; got != want {
+	if got, want := msh.MessageType.MessageCode.String(), "ADT"; got != want {
 		t.Errorf("msh.MessageType.MessageType.String()=%v, want %v", got, want)
 	}
 	if got, want := msh.MessageType.TriggerEvent.String(), "A31"; got != want {
@@ -2539,7 +2539,7 @@ func TestBuildUpdatePersonADTA31(t *testing.T) {
 			FamilyName:         &hl7.FN{Surname: hl7.NewST(defaultDoctorSurname)},
 			AssigningAuthority: &hl7.HD{NamespaceID: hl7.NewIS("DRNBR")},
 			NameTypeCode:       hl7.NewID("PRSNL"),
-			IdentifierTypeCode: hl7.NewIS("ORGDR"),
+			IdentifierTypeCode: hl7.NewID("ORGDR"),
 		}},
 	}
 	if diff := cmp.Diff(wantPR1, pr1); diff != "" {
@@ -2617,7 +2617,7 @@ func TestBuildResultORU(t *testing.T) {
 			if msh == nil {
 				t.Fatal("MSH() got nil MSH segment, want non nil")
 			}
-			if got, want := msh.MessageType.MessageType.String(), "ORU"; got != want {
+			if got, want := msh.MessageType.MessageCode.String(), "ORU"; got != want {
 				t.Errorf("msh.MessageType.MessageType.String()=%v, want %v", got, want)
 			}
 			if got, want := msh.MessageType.TriggerEvent.String(), tt.wantTriggerEvent; got != want {
@@ -2787,7 +2787,7 @@ func TestBuildOrderORMO01(t *testing.T) {
 	if msh == nil {
 		t.Fatal("MSH() got nil MSH segment, want non nil")
 	}
-	if got, want := msh.MessageType.MessageType.String(), "ORM"; got != want {
+	if got, want := msh.MessageType.MessageCode.String(), "ORM"; got != want {
 		t.Errorf("msh.MessageType.MessageType.String()=%v, want %v", got, want)
 	}
 	if got, want := msh.MessageType.TriggerEvent.String(), "O01"; got != want {
@@ -2895,7 +2895,7 @@ func TestBuildBedSwapADTA17(t *testing.T) {
 	if msh == nil {
 		t.Fatal("MSH() got nil MSH segment, want non nil")
 	}
-	if got, want := msh.MessageType.MessageType.String(), "ADT"; got != want {
+	if got, want := msh.MessageType.MessageCode.String(), "ADT"; got != want {
 		t.Errorf("msh.MessageType.MessageType.String()=%v, want %v", got, want)
 	}
 	if got, want := msh.MessageType.TriggerEvent.String(), "A17"; got != want {
@@ -2965,7 +2965,7 @@ func TestBuildMergeADTA34(t *testing.T) {
 	if msh == nil {
 		t.Fatal("MSH() got nil MSH segment, want non nil")
 	}
-	if got, want := msh.MessageType.MessageType.String(), "ADT"; got != want {
+	if got, want := msh.MessageType.MessageCode.String(), "ADT"; got != want {
 		t.Errorf("msh.MessageType.MessageType.String()=%v, want %v", got, want)
 	}
 	if got, want := msh.MessageType.TriggerEvent.String(), "A34"; got != want {
@@ -3015,7 +3015,7 @@ func TestBuildMergeADTA34(t *testing.T) {
 	if got, want := len(mrg.PriorPatientIdentifierList), 1; got != want {
 		t.Errorf("len(mrg.PriorPatientIdentifierList)=%v, want %v", got, want)
 	}
-	if got, want := mrg.PriorPatientIdentifierList[0].ID.String(), mrn; got != want {
+	if got, want := mrg.PriorPatientIdentifierList[0].IDNumber.String(), mrn; got != want {
 		t.Errorf("mrg.PriorPatientIdentifierList[0].ID.String()=%v, want %v", got, want)
 	}
 }
@@ -3046,7 +3046,7 @@ func TestBuildMergeADTA40(t *testing.T) {
 	if msh == nil {
 		t.Fatal("MSH() got nil MSH segment, want non nil")
 	}
-	if got, want := msh.MessageType.MessageType.String(), "ADT"; got != want {
+	if got, want := msh.MessageType.MessageCode.String(), "ADT"; got != want {
 		t.Errorf("msh.MessageType.MessageType.String()=%v, want %v", got, want)
 	}
 	if got, want := msh.MessageType.TriggerEvent.String(), "A40"; got != want {
@@ -3096,10 +3096,10 @@ func TestBuildMergeADTA40(t *testing.T) {
 	if got, want := len(mrg.PriorPatientIdentifierList), 2; got != want {
 		t.Errorf("len(mrg.PriorPatientIdentifierList)=%v, want %v", got, want)
 	}
-	if got, want := mrg.PriorPatientIdentifierList[0].ID.String(), "123"; got != want {
+	if got, want := mrg.PriorPatientIdentifierList[0].IDNumber.String(), "123"; got != want {
 		t.Errorf("mrg.PriorPatientIdentifierList[0].ID.String()=%v, want %v", got, want)
 	}
-	if got, want := mrg.PriorPatientIdentifierList[1].ID.String(), "456"; got != want {
+	if got, want := mrg.PriorPatientIdentifierList[1].IDNumber.String(), "456"; got != want {
 		t.Errorf("mrg.PriorPatientIdentifierList[1].ID.String()=%v, want %v", got, want)
 	}
 }
@@ -3130,7 +3130,7 @@ func TestBuildDocumentNotificationMDMT02(t *testing.T) {
 	if msh == nil {
 		t.Fatal("MSH() got nil MSH segment, want non nil")
 	}
-	if got, want := msh.MessageType.MessageType.String(), "MDM"; got != want {
+	if got, want := msh.MessageType.MessageCode.String(), "MDM"; got != want {
 		t.Errorf("msh.MessageType.MessageType.String()=%v, want %v", got, want)
 	}
 	if got, want := msh.MessageType.TriggerEvent.String(), "T02"; got != want {
