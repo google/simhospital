@@ -45,8 +45,7 @@ const (
 	// SegmentTerminatorStr is the string representation of SegmentTerminator.
 	SegmentTerminatorStr = constants.SegmentTerminatorStr
 
-	asciiNewLine    byte = 0xa
-	DefaultTimezone      = "Europe/London"
+	asciiNewLine byte = 0xa
 )
 
 var (
@@ -105,23 +104,22 @@ var (
 		Repetition:   '~',
 		Escape:       '\\',
 	}
-	DefaultContext = &Context{
-		Decoder:     unicode.UTF8.NewDecoder(),
-		Delimiters:  DefaultDelimiters,
-		Rewrite:     []Rewrite{NopRewrite},
-		Nesting:     0,
-		TimezoneLoc: timezoneLocation(DefaultTimezone),
+	// DefaultContextWithoutLocation doesn't use a default location, because locations generally need to be known and loaded in advance.
+	// Use time.LoadLocation from the "time" package to create a location and assign it to TimezoneLoc later, like the following code does:
+	//
+	// shContext := hl7.DefaultContextWithoutLocation
+	// location, err := time.LoadLocation("Europe/London")
+	// if err != nil {
+	// 	 panic(err) // Or use your own error handling code.
+	// }
+	// shContext.TimezoneLoc = location
+	DefaultContextWithoutLocation = &Context{
+		Decoder:    unicode.UTF8.NewDecoder(),
+		Delimiters: DefaultDelimiters,
+		Rewrite:    []Rewrite{NopRewrite},
+		Nesting:    0,
 	}
 )
-
-// timezoneLocation will convert the provided timezone in to a time.Location. Invalid timezones will panic.
-func timezoneLocation(timezone string) *time.Location {
-	loc, err := time.LoadLocation(timezone)
-	if err != nil {
-		panic(err)
-	}
-	return loc
-}
 
 // TimezoneAndLocation sets the Timezone and Location based on tz provided.
 // Returns an error if the location for the given timezone cannot be loaded.
