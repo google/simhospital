@@ -40,7 +40,7 @@ func TestLoggingSource(t *testing.T) {
 	l := logging.ForCallerPackage()
 	logger := l.Entry.Logger
 
-	const want = `logging_source_test.TestLoggingSource\(.*pkg/logging/logging_source_test.go:\d+`
+	const want = `logging_source_test.TestLoggingSource\(.*pkg/logging/logging_source_test/logging_source_test.go:\d+`
 	wantRE, err := regexp.Compile(want)
 	if err != nil {
 		t.Fatalf("regexp.Compile(%s) failed with %v", want, err)
@@ -74,7 +74,7 @@ func TestLoggingSourceFormatted(t *testing.T) {
 	l := logging.ForCallerPackage()
 	logger := l.Entry.Logger
 
-	const want = `logging_source_test.TestLoggingSourceFormatted\(pkg/logging/logging_source_test.go:\d+`
+	const want = `logging_source_test.TestLoggingSourceFormatted\(pkg/logging/logging_source_test/logging_source_test.go:\d+`
 	wantRE, err := regexp.Compile(want)
 	if err != nil {
 		t.Fatalf("regexp.Compile(%s) failed with %v", want, err)
