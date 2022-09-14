@@ -81,8 +81,8 @@ container_pull(
 
 go_repository(
     name = "com_github_sirupsen_logrus",
-    importpath = "github.com/Sirupsen/logrus",
-    sum = "h1:cWjBmzJnL1sO88XdqJYmq7aiWClqXIQQMJ3Utgy1f+I=",
+    importpath = "github.com/sirupsen/logrus",
+    sum = "h1:SPIRibHv4MatM3XXNO2BJeFLZwZ2LvZgfQ5+UNI2im4=",
     version = "v1.4.2",
 )
 

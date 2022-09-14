@@ -21,7 +21,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/Sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 	"github.com/google/simhospital/pkg/config"
 	"github.com/google/simhospital/pkg/logging"
 	"github.com/google/simhospital/pkg/pathway"

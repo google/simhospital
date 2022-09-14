@@ -26,7 +26,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 	"github.com/google/simhospital/pkg/config"
 	"github.com/google/simhospital/pkg/doctor"
 	"github.com/google/simhospital/pkg/hl7"
