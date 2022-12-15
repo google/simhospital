@@ -277,6 +277,8 @@ type PatientInfo struct {
 	VisitID         uint64
 	HospitalService string
 	AdmitReason     string
+	ReadmissionIndicator  string // R is the only value suggested in the hl7 specification
+
 	// Location is the current patient location.
 	Location      *PatientLocation
 	PriorLocation *PatientLocation

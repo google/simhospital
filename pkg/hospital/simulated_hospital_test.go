@@ -572,11 +572,18 @@ func TestRunPathway_StepTypes(t *testing.T) {
 	}{{
 		name: "Admission with Discharge",
 		pathway: pathway.Pathway{Pathway: []pathway.Step{
-			{Admission: &pathway.Admission{Loc: testLoc, AdmitReason: "Eye problems"}},
+			{Admission: &pathway.Admission{Loc: testLoc, AdmitReason: "Eye problems", Readmission: "R"}},
 			{Discharge: &pathway.Discharge{DischargeTime: &yesterday}},
 		}},
 		wantMessageTypes: []string{"ADT^A01", "ADT^A03"},
 		want: func(t *testing.T, messages []string, hospital *testhospital.Hospital) {
+			admitPV1 := testhl7.PV1(t, messages[0])
+			if admitPV1.ReAdmissionIndicator == nil {
+				t.Fatal("admitPV1.ReAdmissionIndicator=<nil>; want non nil")
+			}
+      if got, want := admitPV1.ReAdmissionIndicator.String(), "R"; got != want {
+				t.Errorf("admitPV1.ReAdmissionIndicator.String()=%q, want %q", got, want)
+			}
 			admitPV2 := testhl7.PV2(t, messages[0])
 			if admitPV2.AdmitReason == nil {
 				t.Fatal("admitPV2.AdmitReason=<nil>; want non nil")

@@ -57,6 +57,7 @@ func (h *Hospital) processAdmission(e *state.Event, logLocal *logging.SimulatedH
 		}
 		patientInfo.Location = loc
 	}
+	patientInfo.ReadmissionIndicator = e.Step.Admission.Readmission
 
 	if ec := patientInfo.LatestEncounter(); ec != nil && ec.IsPending {
 		ec.UpdateStatus(patientInfo.AdmissionDate, constants.EncounterStatusArrived)

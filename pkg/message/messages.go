@@ -276,7 +276,7 @@ var templates = map[string]*template.Template{
 		locationTemplate: locationTmpl,
 		doctorTemplate:   doctorTmpl,
 		cxVisitTemplate:  cxVisitTmpl,
-		PV1:              `PV1|1|{{.Class}}|{{template "LocationTmpl" .Location}}|28b||{{template "LocationTmpl" .PriorLocation}}|{{template "DoctorTmpl" .AttendingDoctor}}|||{{.HospitalService}}|{{template "LocationTmpl" .TemporaryLocation}}|||||||{{.Type}}|{{template "CXVisitTmpl" .VisitID}}||||||||||||||||||||||{{.AccountStatus}}|{{template "LocationTmpl" .PendingLocation}}|{{template "LocationTmpl" .PriorTemporaryLocation}}|{{HL7_date .AdmissionDate}}|{{HL7_date .DischargeDate}}|`,
+		PV1:              `PV1|1|{{.Class}}|{{template "LocationTmpl" .Location}}|28b||{{template "LocationTmpl" .PriorLocation}}|{{template "DoctorTmpl" .AttendingDoctor}}|||{{.HospitalService}}|{{template "LocationTmpl" .TemporaryLocation}}||{{.ReadmissionIndicator}}|||||{{.Type}}|{{template "CXVisitTmpl" .VisitID}}||||||||||||||||||||||{{.AccountStatus}}|{{template "LocationTmpl" .PendingLocation}}|{{template "LocationTmpl" .PriorTemporaryLocation}}|{{HL7_date .AdmissionDate}}|{{HL7_date .DischargeDate}}|`,
 	}),
 	PV2: mustParseTemplates(PV2, map[string]string{
 		locationTemplate:      locationTmpl,

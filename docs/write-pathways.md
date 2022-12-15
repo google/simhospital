@@ -400,6 +400,21 @@ admission_with_reason:
 The point of care must be one of the locations available in the hospital, see
 the [Locations section](#locations).
 
+Optionally you can also specify that this admission is a readmission for the 
+patient. The string you provide in the readmission statement will then be 
+passed in the readmission indicator field in PV1.13. While field allows for a
+user defined table, the spec does suggest using the value "R" to denote a 
+readmission.
+
+```yaml
+admission_with_reason:
+  pathway:
+    - admission:
+        loc: Renal
+        admit_reason: Kidney problems
+        readmission: R
+```
+
 An admission does the following:
 
 *   Generate a location in the given point of care

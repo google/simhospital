@@ -327,7 +327,9 @@ type Admission struct {
 	Bed         string    `yaml:",omitempty"`
 	Allergies   []Allergy `yaml:",omitempty"`
 	AdmitReason string    `yaml:"admit_reason,omitempty"`
+	Readmission string    `yaml:"readmission,omitempty"`
 }
+
 
 // Transfer is a step to transfer the patient to a different location.
 // It produces an ADT^A02 message.

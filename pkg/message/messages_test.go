@@ -445,6 +445,7 @@ func TestBuildPV1(t *testing.T) {
 				Type:            "EMERGENCY",
 				VisitID:         12341234,
 				HospitalService: "180",
+				ReadmissionIndicator: "R",
 				Location: &ir.PatientLocation{
 					Poc:          "RAL 12 West",
 					Room:         "Bay01",
@@ -489,7 +490,7 @@ func TestBuildPV1(t *testing.T) {
 				DischargeDate:   ir.NewValidTime(time.Date(2018, 4, 29, 21, 45, 30, 0, time.UTC)),
 			}
 		},
-		want: "PV1|1|INPATIENT|RAL 12 West^Bay01^Bed10^RAL RF^^BED^RFH^Floor1|28b||RAL 11 East^Bay02^Bed11^RAL RF^^BED^RFH^Floor1|216865551019^Osman^Arthur^^^Dr^^^DRNBR^PRSNL^^^ORGDR|||180|X-RAY^^^RAL RF^^^RFH^Floor1|||||||EMERGENCY|12341234^^^^visitid|||||||||||||||||||||||RAL 12 West^Bay01^Bed10^RAL RF^^BED^RFH^Floor1|Hallway^^^RAL RF^^^RFH^Floor1|20180428233844|20180429224530|",
+		want: "PV1|1|INPATIENT|RAL 12 West^Bay01^Bed10^RAL RF^^BED^RFH^Floor1|28b||RAL 11 East^Bay02^Bed11^RAL RF^^BED^RFH^Floor1|216865551019^Osman^Arthur^^^Dr^^^DRNBR^PRSNL^^^ORGDR|||180|X-RAY^^^RAL RF^^^RFH^Floor1||R|||||EMERGENCY|12341234^^^^visitid|||||||||||||||||||||||RAL 12 West^Bay01^Bed10^RAL RF^^BED^RFH^Floor1|Hallway^^^RAL RF^^^RFH^Floor1|20180428233844|20180429224530|",
 	}, {
 		name: "Missing Data",
 		setup: func() *ir.PatientInfo {
