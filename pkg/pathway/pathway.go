@@ -140,6 +140,7 @@ type UpdatePerson struct {
 	Diagnoses  []*DiagnosisOrProcedure
 	Procedures []*DiagnosisOrProcedure
 	Allergies  []Allergy
+	IncludeFullPV1 bool   `yaml:"include_full_pv1,omitempty"`
 }
 
 // OptionalRandomString is a string that can be set to a normal string, or RANDOM,

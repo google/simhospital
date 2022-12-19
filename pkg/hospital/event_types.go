@@ -585,7 +585,7 @@ func (h *Hospital) updatePerson(e *state.Event, logLocal *logging.SimulatedHospi
 	var msg *message.HL7Message
 	var err error
 	if patientInfo.Class == h.messageConfig.PatientClass.Inpatient {
-		msg, err = message.BuildUpdatePatientADTA08(msgHeader, patientInfo, e.EventTime, e.MessageTime)
+		msg, err = message.BuildUpdatePatientADTA08(msgHeader, patientInfo, e.Step.UpdatePerson.IncludeFullPV1, e.EventTime, e.MessageTime)
 	} else {
 		msg, err = message.BuildUpdatePersonADTA31(msgHeader, patientInfo, e.EventTime, e.MessageTime)
 	}

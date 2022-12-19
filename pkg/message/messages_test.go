@@ -441,10 +441,10 @@ func TestBuildPV1(t *testing.T) {
 		name: "Regular",
 		setup: func() *ir.PatientInfo {
 			return &ir.PatientInfo{
-				Class:           "INPATIENT",
-				Type:            "EMERGENCY",
-				VisitID:         12341234,
-				HospitalService: "180",
+				Class:                "INPATIENT",
+				Type:                 "EMERGENCY",
+				VisitID:              12341234,
+				HospitalService:      "180",
 				ReadmissionIndicator: "R",
 				Location: &ir.PatientLocation{
 					Poc:          "RAL 12 West",
@@ -957,10 +957,11 @@ func TestBuildAdmissionADTA01(t *testing.T) {
 	}
 	if pv2 == nil {
 		t.Errorf("PV2() got <nil> PV2 segment, want non nil")
-	}
-	want := &hl7.CE{Text: hl7.NewST("Eye problems")}
-	if diff := cmp.Diff(want, pv2.AdmitReason); diff != "" {
-		t.Errorf("pv2.AdmitReason mismatch (-want, +got)=\n%s", diff)
+	} else {
+		want := &hl7.CE{Text: hl7.NewST("Eye problems")}
+		if diff := cmp.Diff(want, pv2.AdmitReason); diff != "" {
+			t.Errorf("pv2.AdmitReason mismatch (-want, +got)=\n%s", diff)
+		}
 	}
 }
 
@@ -2249,10 +2250,11 @@ func TestBuildUpdatePatientA08(t *testing.T) {
 	msgTime := time.Date(2018, 4, 28, 22, 39, 14, 0, time.UTC)
 	patientInfo := testPatientInfo()
 	header := testHeader()
+	includeFullPV1 := false
 
-	adt, err := BuildUpdatePatientADTA08(header, patientInfo, now, msgTime)
+	adt, err := BuildUpdatePatientADTA08(header, patientInfo, includeFullPV1, now, msgTime)
 	if err != nil {
-		t.Errorf("BuildUpdatePatientADTA08(%v, %v, %v, %v) failed with %v", header, patientInfo, now, msgTime, err)
+		t.Errorf("BuildUpdatePatientADTA08(%v, %v, %v, %v, %v) failed with %v", header, patientInfo, includeFullPV1, now, msgTime, err)
 	}
 
 	mo := hl7.NewParseMessageOptions()
@@ -2307,9 +2309,10 @@ func TestBuildUpdatePatientA08(t *testing.T) {
 	}
 	if pv1 == nil {
 		t.Error("PV1() got nil PV1 segment, want non nil")
-	}
-	if got, want := pv1.PatientClass.String(), "N"; got != want {
-		t.Errorf("pv1.PatientClass.String()=%v, want %v", got, want)
+	} else {
+		if got, want := pv1.PatientClass.String(), "N"; got != want {
+			t.Errorf("pv1.PatientClass.String()=%v, want %v", got, want)
+		}
 	}
 
 	dg1, err := m.DG1()
@@ -2355,6 +2358,37 @@ func TestBuildUpdatePatientA08(t *testing.T) {
 	}
 	if al1 == nil {
 		t.Error("AL1() got nil AL1 segment, want non nil")
+	}
+}
+
+func TestBuildUpdatePatientA08WithFullPV1(t *testing.T) {
+	now := time.Date(2018, 4, 28, 22, 38, 14, 0, time.UTC)
+	msgTime := time.Date(2018, 4, 28, 22, 39, 14, 0, time.UTC)
+	patientInfo := testPatientInfo()
+	header := testHeader()
+	includeFullPV1 := true
+
+	adt, err := BuildUpdatePatientADTA08(header, patientInfo, includeFullPV1, now, msgTime)
+	if err != nil {
+		t.Errorf("BuildUpdatePatientADTA08(%v, %v, ,%v, %v, %v) failed with %v", header, patientInfo, includeFullPV1, now, msgTime, err)
+	}
+	mo := hl7.NewParseMessageOptions()
+	mo.TimezoneLoc = time.UTC
+
+	m, err := hl7.ParseMessageWithOptions([]byte(adt.Message), mo)
+	if err != nil {
+		t.Fatalf("ParseMessageWithOptions(%v, %v) failed with %v", adt.Message, mo, err)
+	}
+	pv1, err := m.PV1()
+	if err != nil {
+		t.Fatalf("PV1() failed with %v", err)
+	}
+	if pv1 == nil {
+		t.Error("PV1() got nil PV1 segment, want non nil")
+	} else {
+		if got, want := pv1.PatientClass.String(), "INPATIENT"; got != want {
+			t.Errorf("pv1.PatientClass.String()=%v, want %v", got, want)
+		}
 	}
 }
 
@@ -2429,9 +2463,10 @@ func TestBuildAddPersonADTA28(t *testing.T) {
 	}
 	if pv1 == nil {
 		t.Error("PV1() got nil PV1 segment, want non nil")
-	}
-	if got, want := pv1.PatientClass.String(), "N"; got != want {
-		t.Errorf("pv1.PatientClass.String()=%v, want %v", got, want)
+	} else {
+		if got, want := pv1.PatientClass.String(), "N"; got != want {
+			t.Errorf("pv1.PatientClass.String()=%v, want %v", got, want)
+		}
 	}
 
 	al1, err := m.AL1()
@@ -2505,9 +2540,10 @@ func TestBuildUpdatePersonADTA31(t *testing.T) {
 	}
 	if pv1 == nil {
 		t.Error("PV1() got nil PV1 segment, want non nil")
-	}
-	if got, want := pv1.PatientClass.String(), "N"; got != want {
-		t.Errorf("pv1.PatientClass.String()=%v, want %v", got, want)
+	} else {
+		if got, want := pv1.PatientClass.String(), "N"; got != want {
+			t.Errorf("pv1.PatientClass.String()=%v, want %v", got, want)
+		}
 	}
 
 	dg1, err := m.DG1()

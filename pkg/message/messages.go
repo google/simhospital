@@ -844,7 +844,7 @@ func BuildPreAdmitADTA05(h *HeaderInfo, p *ir.PatientInfo, eventTime time.Time, 
 }
 
 // BuildUpdatePatientADTA08 builds and returns a HL7 ADT^A08 message.
-func BuildUpdatePatientADTA08(h *HeaderInfo, p *ir.PatientInfo, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
+func BuildUpdatePatientADTA08(h *HeaderInfo, p *ir.PatientInfo, includeFullPV1 bool, eventTime time.Time, msgTime time.Time) (*HL7Message, error) {
 	msgType := &Type{
 		MessageType:  ADT,
 		TriggerEvent: "A08",
@@ -866,7 +866,15 @@ func BuildUpdatePatientADTA08(h *HeaderInfo, p *ir.PatientInfo, eventTime time.T
 		return nil, errors.Wrap(err, "cannot build PID segment")
 	}
 	segments = append(segments, pid)
-	segments = append(segments, BuildPseudoPV1())
+	if (includeFullPV1) {
+		pv1, err := BuildPV1(p)
+		if err != nil {
+			return nil, errors.Wrap(err, "cannot build PV1 segment")
+		}
+		segments = append(segments, pv1)
+	} else {
+		segments = append(segments, BuildPseudoPV1())
+	}
 	for id, al := range p.Allergies {
 		al1, err := BuildAL1(id, al)
 		if err != nil {

@@ -698,6 +698,12 @@ If only code is set for the given diagnosis / procedure, and it matches one of
 the diagnosis / procedure loaded, the description is also populated. Same works
 the other way round (i.e., if only description is specified in the pathway).
 
+The default behavior is to assume an A08 messages is being generated outside the
+context of a patient visit and so a minimal "PseudoPV1" is added to the A08.
+For `update_person` that is in the context of a patient visit, add the (optional)
+flag `include_full_pv1: true` and a full PV1 segment will be inserted into the
+A08.
+
 Example:
 
 ```yaml
@@ -717,6 +723,7 @@ Example:
      - code: RANDOM
        datetime:
          time_from_now: -24h
+   include_full_pv1: true
 ```
 
 ### Pre Admission
