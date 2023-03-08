@@ -36,7 +36,7 @@ func TestRandom(t *testing.T) {
 	nouns := []string{"aardvark", "abacus", "abbey"}
 	wantNouns := []string{"Aardvark", "Abacus", "Abbey"}
 
-	g := NewGenerator(nouns, config.Address{Cities: cities, Country: country, Streets: streets, Types: types})
+	g := &Generator{Nouns: nouns, Address: config.Address{Cities: cities, Country: country, Streets: streets, Types: types}}
 
 	gotSecondLine := 0
 	runs := 100
@@ -84,7 +84,10 @@ func TestRandom_PostcodeFromList(t *testing.T) {
 
 	postalcodes := []string{"12345", "45678"}
 
-	g := NewGenerator([]string{"irrelevant"}, config.Address{Cities: []string{"irrelevant"}, Country: "GBR", Streets: []string{"irrelevant"}, Postalcodes: postalcodes})
+	g := &Generator{
+		Nouns:   []string{"irrelevant"},
+		Address: config.Address{Cities: []string{"irrelevant"}, Country: "GBR", Streets: []string{"irrelevant"}, Postalcodes: postalcodes},
+	}
 
 	runs := 100
 
@@ -126,7 +129,10 @@ func TestRandom_PostcodeFromCountry(t *testing.T) {
 	}}
 
 	for _, tc := range tests {
-		g := NewGenerator([]string{"irrelevant"}, config.Address{Cities: []string{"irrelevant"}, Streets: []string{"irrelevant"}, Country: tc.country})
+		g := &Generator{
+			Nouns:   []string{"irrelevant"},
+			Address: config.Address{Cities: []string{"irrelevant"}, Streets: []string{"irrelevant"}, Country: tc.country},
+		}
 		// Get the name of the function, to print if the test fails.
 		functionFullName := strings.Split(runtime.FuncForPC(reflect.ValueOf(tc.wantFunction).Pointer()).Name(), ".")
 		functionShortName := functionFullName[len(functionFullName)-1]

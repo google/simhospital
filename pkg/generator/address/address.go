@@ -26,28 +26,8 @@ import (
 
 // Generator is a generator of addresses.
 type Generator struct {
-	nouns   []string
-	address config.Address
-	// PostcodeGenerator is only used if Address.Postalcodes is empty.
-	postcodeGenerator PostcodeGenerator
-}
-
-// PostcodeGenerator is a generator of postcodes.
-type PostcodeGenerator interface {
-	Random() string
-}
-
-// NewGenerator returns a new Generator of addresses.
-func NewGenerator(nouns []string, config config.Address) *Generator {
-	g := &Generator{nouns: nouns, address: config}
-	if len(config.Postalcodes) == 0 {
-		if config.Country == "USA" || config.Country == "US" {
-			g.postcodeGenerator = &USPostcode{}
-		} else {
-			g.postcodeGenerator = &UKPostcode{}
-		}
-	}
-	return g
+	Nouns   []string
+	Address config.Address
 }
 
 // Random generates a random address. The address will be in one of the following formats with equal probabilities:
@@ -75,7 +55,7 @@ func (g *Generator) Random() *ir.Address {
 	a := &ir.Address{
 		City:       g.city(),
 		PostalCode: g.postcode(),
-		Country:    g.address.Country,
+		Country:    g.Address.Country,
 		Type:       "HOME",
 	}
 
@@ -91,25 +71,32 @@ func (g *Generator) Random() *ir.Address {
 }
 
 func (g *Generator) postcode() string {
-	if len(g.address.Postalcodes) > 0 {
-		return random(g.address.Postalcodes)
+	if len(g.Address.Postalcodes) > 0 {
+		return random(g.Address.Postalcodes)
 	}
-	return g.postcodeGenerator.Random()
+	if isUSA(g.Address.Country) {
+		return postcodeUS()
+	}
+	return postcodeUK()
 }
 
 func (g *Generator) city() string {
-	return random(g.address.Cities)
+	return random(g.Address.Cities)
 }
 
 func (g *Generator) street() string {
-	return random(g.address.Streets)
+	return random(g.Address.Streets)
 }
 
 func (g *Generator) noun() string {
-	return random(g.nouns)
+	return random(g.Nouns)
 }
 
 // random returns a random item from the given slice.
 func random(s []string) string {
 	return s[rand.Intn(len(s))]
+}
+
+func isUSA(country string) bool {
+	return country == "USA" || country == "US"
 }

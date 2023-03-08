@@ -312,7 +312,7 @@ type Config struct {
 func NewGenerator(cfg Config) *Generator {
 	ag := cfg.AddressGenerator
 	if ag == nil {
-		ag = address.NewGenerator(cfg.Data.Nouns, cfg.Data.Address)
+		ag = &address.Generator{Nouns: cfg.Data.Nouns, Address: cfg.Data.Address}
 	}
 
 	mrnGenerator := cfg.MRNGenerator
