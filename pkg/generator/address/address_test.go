@@ -17,6 +17,9 @@ package address
 import (
 	"math"
 	"math/rand"
+	"reflect"
+	"regexp"
+	"runtime"
 	"strings"
 	"testing"
 
@@ -33,11 +36,7 @@ func TestRandom(t *testing.T) {
 	nouns := []string{"aardvark", "abacus", "abbey"}
 	wantNouns := []string{"Aardvark", "Abacus", "Abbey"}
 
-	g := Generator{
-		Address:           config.Address{Cities: cities, Country: country, Streets: streets, Types: types},
-		Nouns:             nouns,
-		PostcodeGenerator: &UKPostcode{},
-	}
+	g := NewGenerator(nouns, config.Address{Cities: cities, Country: country, Streets: streets, Types: types})
 
 	gotSecondLine := 0
 	runs := 100
@@ -78,6 +77,79 @@ func TestRandom(t *testing.T) {
 	if want := runs / 2.0; math.Abs(float64(gotSecondLine)-float64(want)) >= delta {
 		t.Errorf("gotSecondLine=%d, want within %.1f of %d", gotSecondLine, delta, want)
 	}
+}
+
+func TestRandom_PostcodeFromList(t *testing.T) {
+	rand.Seed(1)
+
+	postalcodes := []string{"12345", "45678"}
+
+	g := NewGenerator([]string{"irrelevant"}, config.Address{Cities: []string{"irrelevant"}, Country: "GBR", Streets: []string{"irrelevant"}, Postalcodes: postalcodes})
+
+	runs := 100
+
+	for i := 0; i < runs; i++ {
+		got := g.Random()
+		if got == nil {
+			t.Fatal("g.Random() = <nil>, want non-nil value")
+		}
+		if got.PostalCode == "" {
+			t.Error("g.Random().PostalCode is empty, want non empty")
+		}
+		if !contains(postalcodes, got.PostalCode) {
+			t.Errorf("g.Random().PostalCode = %q, want one of data config postal codes %v", got.PostalCode, postalcodes)
+		}
+	}
+}
+
+func TestRandom_PostcodeFromCountry(t *testing.T) {
+	rand.Seed(1)
+
+	tests := []struct {
+		country      string
+		wantFunction func(string) bool
+	}{{
+		country:      "UK",
+		wantFunction: isUKPostcode,
+	}, {
+		country:      "GB",
+		wantFunction: isUKPostcode,
+	}, {
+		country:      "USA",
+		wantFunction: isUSAPostcode,
+	}, {
+		country:      "US",
+		wantFunction: isUSAPostcode,
+	}, {
+		country:      "default",
+		wantFunction: isUKPostcode,
+	}}
+
+	for _, tc := range tests {
+		g := NewGenerator([]string{"irrelevant"}, config.Address{Cities: []string{"irrelevant"}, Streets: []string{"irrelevant"}, Country: tc.country})
+		// Get the name of the function, to print if the test fails.
+		functionFullName := strings.Split(runtime.FuncForPC(reflect.ValueOf(tc.wantFunction).Pointer()).Name(), ".")
+		functionShortName := functionFullName[len(functionFullName)-1]
+
+		t.Run(tc.country, func(t *testing.T) {
+			for i := 0; i < 50; i++ {
+				got := g.Random().PostalCode
+				if !tc.wantFunction(got) {
+					t.Errorf(`g.Random().Postcode = %q, want matching function %v`, got, functionShortName)
+				}
+			}
+		})
+	}
+}
+
+func isUKPostcode(postcode string) bool {
+	r := regexp.MustCompile(`^[A-Z]{2}[0-9][0-9]?\s?[0-9][A-Z]{2}$`)
+	return r.MatchString(postcode)
+}
+
+func isUSAPostcode(postcode string) bool {
+	r := regexp.MustCompile(`^[0-9]{5}$`)
+	return r.MatchString(postcode)
 }
 
 func contains(set []string, target string) bool {

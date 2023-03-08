@@ -101,6 +101,9 @@ type Address struct {
 	Cities []string
 	// Streets contains a list of street suffixes for addresses.
 	Streets []string
+	// Postalcodes contains a list of postal codes for addresses.
+	// If this is not specified, postal codes will be generated based on the country.
+	Postalcodes []string
 	// Country is the Country to set in the XAD.6 Country field.
 	Country string
 	// Types contains a list of types of addresses to be set in the

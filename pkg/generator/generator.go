@@ -168,13 +168,13 @@ func (g Generator) ResetPatient(p *state.Patient) *state.Patient {
 }
 
 // AddAllergies adds allergies specified in the pathway to the patientInfo:
-// * If there are any allergies specified in the pathways, they are always added to existing allergies on the patientInfo.
-// * If the allergies were not specified in the pathway (ie. allergies is nil) and the allergies on the patientInfo
-//   have not been initialised yet (ie are also nil), initialise them to an empty slice (to make sure we'll not make an
-//   attempt to generate them on the next ADT-like event, as that would increase the likelihood of the patient having
-//   allergies), and then generate them.
-// * If the allergies from the pathway are explicitly set to empty slice, the allergies on the patient info are also set
-//   to empty slice.
+//   - If there are any allergies specified in the pathways, they are always added to existing allergies on the patientInfo.
+//   - If the allergies were not specified in the pathway (ie. allergies is nil) and the allergies on the patientInfo
+//     have not been initialised yet (ie are also nil), initialise them to an empty slice (to make sure we'll not make an
+//     attempt to generate them on the next ADT-like event, as that would increase the likelihood of the patient having
+//     allergies), and then generate them.
+//   - If the allergies from the pathway are explicitly set to empty slice, the allergies on the patient info are also set
+//     to empty slice.
 func (g Generator) AddAllergies(patientInfo *ir.PatientInfo, allergies []pathway.Allergy) {
 	switch {
 	case len(allergies) > 0:
@@ -312,7 +312,7 @@ type Config struct {
 func NewGenerator(cfg Config) *Generator {
 	ag := cfg.AddressGenerator
 	if ag == nil {
-		ag = &address.Generator{Nouns: cfg.Data.Nouns, Address: cfg.Data.Address, PostcodeGenerator: &address.UKPostcode{}}
+		ag = address.NewGenerator(cfg.Data.Nouns, cfg.Data.Address)
 	}
 
 	mrnGenerator := cfg.MRNGenerator

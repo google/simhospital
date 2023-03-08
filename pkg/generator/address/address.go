@@ -26,9 +26,10 @@ import (
 
 // Generator is a generator of addresses.
 type Generator struct {
-	Nouns             []string
-	Address           config.Address
-	PostcodeGenerator PostcodeGenerator
+	nouns   []string
+	address config.Address
+	// PostcodeGenerator is only used if Address.Postalcodes is empty.
+	postcodeGenerator PostcodeGenerator
 }
 
 // PostcodeGenerator is a generator of postcodes.
@@ -36,31 +37,45 @@ type PostcodeGenerator interface {
 	Random() string
 }
 
+// NewGenerator returns a new Generator of addresses.
+func NewGenerator(nouns []string, config config.Address) *Generator {
+	g := &Generator{nouns: nouns, address: config}
+	if len(config.Postalcodes) == 0 {
+		if config.Country == "USA" || config.Country == "US" {
+			g.postcodeGenerator = &USPostcode{}
+		} else {
+			g.postcodeGenerator = &UKPostcode{}
+		}
+	}
+	return g
+}
+
 // Random generates a random address. The address will be in one of the following formats with equal probabilities:
-// 1) 1 line address:
-// 		222 XXX StreetSuffix
-// 		PostCode
-//		City
-//		Country
-// 2) 2 lines address:
-// 		111 XXX House
-//		XXX StreetSuffix
-// 		PostCode
-//		City
-//		Country
+//  1. 1 line address:
+//     222 XXX StreetSuffix
+//     PostCode
+//     City
+//     Country
+//  2. 2 lines address:
+//     111 XXX House
+//     XXX StreetSuffix
+//     PostCode
+//     City
+//     Country
 //
 // Where:
 // 222 is a random number between [1, 200]
 // 111 is a random number between [1, 100]
 // XXX is a random noun
 // StreetSuffix is a street suffix, eg.: Road, Street, Place etc.
-// PostCode is a random post code.
+// PostCode is a random post code. If the data configuration file contains a list of postcodes, it
+// is chosen randomly among them. Otherwise, it is generated based on the country.
 // City is a random city.
 func (g *Generator) Random() *ir.Address {
 	a := &ir.Address{
 		City:       g.city(),
-		PostalCode: g.PostcodeGenerator.Random(),
-		Country:    g.Address.Country,
+		PostalCode: g.postcode(),
+		Country:    g.address.Country,
 		Type:       "HOME",
 	}
 
@@ -75,16 +90,23 @@ func (g *Generator) Random() *ir.Address {
 	return a
 }
 
+func (g *Generator) postcode() string {
+	if len(g.address.Postalcodes) > 0 {
+		return random(g.address.Postalcodes)
+	}
+	return g.postcodeGenerator.Random()
+}
+
 func (g *Generator) city() string {
-	return random(g.Address.Cities)
+	return random(g.address.Cities)
 }
 
 func (g *Generator) street() string {
-	return random(g.Address.Streets)
+	return random(g.address.Streets)
 }
 
 func (g *Generator) noun() string {
-	return random(g.Nouns)
+	return random(g.nouns)
 }
 
 // random returns a random item from the given slice.

@@ -41,6 +41,9 @@ address:
   cities:
     - "London"
     - "Croydon"
+  postalcodes:
+    - "11111"
+    - "22222"
   `)
 
 	invalidData = []byte(`
@@ -238,8 +241,9 @@ func TestLoadDataConfig(t *testing.T) {
 				t.Errorf("LoadData(%+v, %+v) PatientName.Degrees mismatch (-want +got):\n%s", f, hl7Config, diff)
 			}
 			wantAddress := Address{
-				Country: "UK",
-				Cities:  []string{"London", "Croydon"},
+				Country:     "UK",
+				Cities:      []string{"London", "Croydon"},
+				Postalcodes: []string{"11111", "22222"},
 			}
 			if diff := cmp.Diff(wantAddress, c.Address); diff != "" {
 				t.Errorf("LoadData(%+v, %+v) Address mismatch (-want +got):\n%s", f, hl7Config, diff)
