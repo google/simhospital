@@ -59,7 +59,7 @@ func (g *Generator) Random() *ir.Address {
 		Type:       "HOME",
 	}
 
-	if rand.Intn(2) == 0 {
+	if isUSA(g.Address.Country) || rand.Intn(2) == 0 {
 		// 1 line address
 		a.FirstLine = fmt.Sprintf("%d %s %s", rand.Intn(200)+1, strings.Title(g.noun()), g.street())
 	} else {

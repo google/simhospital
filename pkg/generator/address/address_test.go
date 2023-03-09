@@ -79,6 +79,23 @@ func TestRandom(t *testing.T) {
 	}
 }
 
+func TestRandom_OneLineAddressIfUSA(t *testing.T) {
+	country := "USA"
+	g := &Generator{Nouns: []string{"irrelevant"}, Address: config.Address{Cities: []string{"irrelevant"}, Country: country, Streets: []string{"irrelevant"}}}
+
+	runs := 100
+
+	for i := 0; i < runs; i++ {
+		got := g.Random()
+		if got == nil {
+			t.Fatal("g.Random() = <nil>, want non-nil value")
+		}
+		if got.SecondLine != "" {
+			t.Error("g.Random().SecondLine is set for country " + country + ", want empty")
+		}
+	}
+}
+
 func TestRandom_PostcodeFromList(t *testing.T) {
 	rand.Seed(1)
 

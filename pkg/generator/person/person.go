@@ -44,6 +44,7 @@ type Generator struct {
 	EthnicityGenerator EthnicityGenerator
 	AddressGenerator   AddressGenerator
 	MRNGenerator       id.Generator
+	Country            string
 }
 
 // NewPerson returns a new person based on pathway.Person.
@@ -54,7 +55,10 @@ func (g Generator) NewPerson(pathwayPerson *pathway.Person) *ir.Person {
 		Suffix:      g.NameGenerator.Suffix(),
 		Degree:      g.NameGenerator.Degree(),
 		Ethnicity:   g.EthnicityGenerator.Random(),
-		PhoneNumber: g.phoneNumber(),
+		PhoneNumber: g.phoneNumberUK(),
+	}
+	if isUSA(g.Country) {
+		person.PhoneNumber = g.phoneNumberUS()
 	}
 	g.UpdatePersonFromPathway(person, pathwayPerson)
 	return person
@@ -194,13 +198,17 @@ func (g Generator) chooseGenderValue(pathwayGender pathway.Gender, originalHL7 s
 	}
 }
 
-func (g Generator) phoneNumber() string {
+func (g Generator) phoneNumberUK() string {
 	if rand.Intn(2) == 0 {
 		// London home phone number
 		return fmt.Sprintf("020 %04d %04d", rand.Intn(10000), rand.Intn(10000))
 	}
 	// UK mobile number
 	return fmt.Sprintf("07%d %04d %04d", rand.Intn(10), rand.Intn(10000), rand.Intn(10000))
+}
+
+func (g Generator) phoneNumberUS() string {
+	return fmt.Sprintf("1 %03d %04d", rand.Intn(1000), rand.Intn(10000))
 }
 
 // Return a newly minted NHS number that will pass validation rules. See:
@@ -222,4 +230,9 @@ func newNHSNumber() string {
 			return fmt.Sprintf("%010d", n+check)
 		}
 	}
+}
+
+// TODO: extract `isUSA` to a common package; the same check is used in other places.
+func isUSA(country string) bool {
+	return country == "USA" || country == "US"
 }

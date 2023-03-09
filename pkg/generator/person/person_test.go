@@ -133,11 +133,40 @@ func TestNewPerson(t *testing.T) {
 			if got, want := got.Birth.Year(), defaultNow.Year(); got > want {
 				t.Errorf("g.NewPerson(%v) got person.Birth.Year() = %d, want at most %v", tc.p, got, want)
 			}
-			if err := validatePhoneNumber(got.PhoneNumber); err != nil {
+			if err := validatePhoneNumberUK(got.PhoneNumber); err != nil {
 				t.Errorf("g.NewPerson(%v) got person.PhoneNumber = %s is invalid: %q", tc.p, got.PhoneNumber, err)
 			}
 			if err := validateNHS(got.NHS); err != nil {
 				t.Errorf("g.NewPerson(%v) got person.NHS = %s is invalid: %q", tc.p, got.NHS, err)
+			}
+		})
+	}
+}
+
+func TestNewPerson_PhoneNumberByCountry(t *testing.T) {
+	ctx := context.Background()
+	cases := []struct {
+		country       string
+		validatePhone func(string) error
+	}{{
+		country:       "US",
+		validatePhone: validatePhoneNumberUS,
+	}, {
+		country:       "USA",
+		validatePhone: validatePhoneNumberUS,
+	}, {
+		country:       "GB",
+		validatePhone: validatePhoneNumberUK,
+	}}
+
+	for _, tc := range cases {
+		t.Run(tc.country, func(t *testing.T) {
+			g := simpleMaleGenerator(ctx, t, defaultNow)
+			g.Country = tc.country
+			got := g.NewPerson(&pathway.Person{})
+
+			if err := tc.validatePhone(got.PhoneNumber); err != nil {
+				t.Errorf("g.NewPerson(%v) got invalid person.PhoneNumber = %s: %q", tc.country, got.PhoneNumber, err)
 			}
 		})
 	}
@@ -524,11 +553,10 @@ func TestUpdatePersonFromPathwayNilPathway(t *testing.T) {
 	}
 }
 
-func validatePhoneNumber(num string) error {
+func validatePhoneNumber(num string, regex string) error {
 	if num == "" {
 		return fmt.Errorf("got empty phone number %q, want it to be nonempty", num)
 	}
-	regex := "^[0-9]{3} [0-9]{4} [0-9]{4}$"
 	m, err := regexp.MatchString(regex, num)
 	if err != nil {
 		return fmt.Errorf("regexp.MatchString(%q, %q) got err=%q, want no error", regex, num, err)
@@ -537,6 +565,16 @@ func validatePhoneNumber(num string) error {
 		return fmt.Errorf("got phone number %q, want it to match %q", num, regex)
 	}
 	return nil
+}
+
+func validatePhoneNumberUK(num string) error {
+	regex := "^[0-9]{3} [0-9]{4} [0-9]{4}$"
+	return validatePhoneNumber(num, regex)
+}
+
+func validatePhoneNumberUS(num string) error {
+	regex := "^1 [0-9]{3} [0-9]{4}$"
+	return validatePhoneNumber(num, regex)
 }
 
 // validateNHS is a helper to check NHS number for validity; see

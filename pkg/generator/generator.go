@@ -352,6 +352,7 @@ func NewGenerator(cfg Config) *Generator {
 		EthnicityGenerator: person.NewEthnicityGenerator(cfg.Data),
 		AddressGenerator:   ag,
 		MRNGenerator:       mrnGenerator,
+		Country:            cfg.Data.Address.Country,
 	}
 
 	orderGenerator := &order.Generator{
