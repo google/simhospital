@@ -504,3 +504,23 @@ func TestParseMessageWithOptions_AllowNullHeader(t *testing.T) {
 		})
 	}
 }
+
+func TestParseMessageType_NestingTooDeep(t *testing.T) {
+	// An OBX containing a XCN,DR,TS stack.
+	inputObx := []byte("OBX|1|FT||||||||||||||C3333333^Doe^Jane^Dr^^^^^HOSPITAL^CD:444444^^^CD:2222^^^^2016&2017")
+	m, err := ParseMessage(bytes.Join([][]byte{msh, pid, inputObx}, []byte("\r")))
+	if err != nil {
+		t.Fatalf("ParseMessage() failed with %v", err)
+	}
+	// Shouldn't return an error, as we special case the XPN,DR,TS stack.
+	if _, err := m.ParseMessageType(); err != nil {
+		t.Fatalf("ParseMessageType() failed with %v", err)
+	}
+	obx, _ := m.OBX()
+	if got, want := obx.ResponsibleObserver[0].NameValidityRange.RangeStartDateTime.Time.Year(), 2016; got != want {
+		t.Errorf("RangeStartDateTime got %d, want %d", got, want)
+	}
+	if got, want := obx.ResponsibleObserver[0].NameValidityRange.RangeEndDateTime.Time.Year(), 2017; got != want {
+		t.Errorf("RangeEndDateTime got %d, want %d", got, want)
+	}
+}
