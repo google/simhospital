@@ -41,7 +41,7 @@ func (st *ST) Marshal(_ *Context) ([]byte, error) {
 
 // Unmarshal unmarshals the ST value.
 func (st *ST) Unmarshal(field []byte, c *Context) error {
-	parsed, err := parseText(field, c)
+	parsed, err := parseText(field, c, true)
 	if err != nil {
 		*st = ""
 		return err
@@ -318,7 +318,9 @@ func (ts *TS) Marshal(c *Context) ([]byte, error) {
 
 // Unmarshal unmarshals a TS value, as described in 2.8.42 of the HL7 2.3
 // specification. Values have the following format:
-//     YYYY[MM[DD[HHMM[SS[.S[S[S[S]]]]]]]][+/-ZZZZ]^<degree of precision>
+//
+//	YYYY[MM[DD[HHMM[SS[.S[S[S[S]]]]]]]][+/-ZZZZ]^<degree of precision>
+//
 // Paraphrasing the comments on precision: In the current and future
 // versions of HL7, the precision is indicated by limiting the number
 // of digits used, unless the optional second component is present. In
@@ -448,7 +450,7 @@ func (ft *FT) Marshal(c *Context) ([]byte, error) {
 
 // Unmarshal unmarshals the FT value.
 func (ft *FT) Unmarshal(field []byte, c *Context) error {
-	parsed, err := parseText(field, c)
+	parsed, err := parseText(field, c, false)
 	if err != nil {
 		*ft = ""
 		return err
@@ -473,8 +475,13 @@ func (tx *TX) Marshal(_ *Context) ([]byte, error) {
 }
 
 // Unmarshal unmarshals the TX value.
-func (tx *TX) Unmarshal(field []byte, _ *Context) error {
-	*tx = TX(field)
+func (tx *TX) Unmarshal(field []byte, c *Context) error {
+	parsed, err := parseText(field, c, false)
+	if err != nil {
+		*tx = ""
+		return err
+	}
+	*tx = TX(parsed)
 	return nil
 }
 

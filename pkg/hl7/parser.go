@@ -20,7 +20,6 @@
 //
 // The MLLP specification is defined here:
 // http://www.hl7.org/documentcenter/public/wg/inm/mllp_transport_specification.PDF
-//
 package hl7
 
 import (
@@ -508,8 +507,9 @@ func parseCompositeValue(input Token, c *Context, v reflect.Value) error {
 
 // parseSegment parses a HL7 segment, ef PID. v should be a pointer to an
 // instance of the corresponding struct, for example:
-//   var pid PID
-//   _, err := parseSegment(segment, c, &pid)
+//
+//	var pid PID
+//	_, err := parseSegment(segment, c, &pid)
 func parseSegment(input []byte, c *Context, v interface{}) (*RewriteResult, error) {
 	return parseSegmentValue(Token{input, 0, ""}, c, reflect.ValueOf(v).Elem())
 }
@@ -926,14 +926,19 @@ func marshalRepeatedValue(v reflect.Value, c *Context) ([]byte, error) {
 }
 
 // parseText parses a text field.
-func parseText(field []byte, c *Context) (string, error) {
+// The `isST` parameter indicates whether the text is part of an ST field, so that it can be unescaped properly.
+func parseText(field []byte, c *Context, isST bool) (string, error) {
 	if c == nil {
 		panic("nil context")
 	}
 	if c.Decoder == nil {
 		panic("nil decoder")
 	}
-	decoded, err := c.Decoder.String(string(field))
+	unescaped, err := unescapeText(field, c.Delimiters, isST)
+	if err != nil {
+		return "", err
+	}
+	decoded, err := c.Decoder.String(string(unescaped))
 	if err != nil {
 		return "", err
 	}

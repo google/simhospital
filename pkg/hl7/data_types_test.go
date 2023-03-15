@@ -474,6 +474,104 @@ func TestParseNM_Error(t *testing.T) {
 	}
 }
 
+func TestParseST_UnescapesText(t *testing.T) {
+	tests := []struct {
+		in  string
+		out string
+	}{
+		{`One\F\Escape`, "One|Escape"},
+		{`Two\F\Escapes\S\`, "Two|Escapes^"},
+		{`No spaces\F\\R\between escapes`, "No spaces|~between escapes"},
+		{`\F\Escape at index zero`, "|Escape at index zero"},
+		// Technically the following string is invalid, as raw delimiters
+		// are not allowed, but choose to be more permissive.
+		{`Escaped\F\and|^&~not escaped`, "Escaped|and|^&~not escaped"},
+		{"", ""},
+	}
+	for _, test := range tests {
+		var st ST
+		err := st.Unmarshal([]byte(test.in), testContext)
+		if err != nil {
+			t.Fatalf("Unmarshal(%v) failed with %v", test.in, err)
+		}
+		if got, want := st, ST(test.out); got != want {
+			t.Errorf("Unmarshal(%v) got %s, want %s", test.in, got, want)
+		}
+	}
+}
+
+// Test escape sequences that are technically invalid, but choose to be more permissive (STR-2993).
+func TestParseST_UnescapesText_InvalidPermittedSequences(t *testing.T) {
+	tests := []struct {
+		in  string
+		out string
+	}{
+		{`Unterminated\escape`, "Unterminated escape"},
+		{`\Unterminated escape`, " Unterminated escape"},
+		{`Empty\\escape`, "Empty escape"},
+		{`\\Empty escape`, " Empty escape"},
+		// This is supported in fields of type FT, but not in ST.
+		{`New\.br\line`, "New line"},
+	}
+	for _, test := range tests {
+		var st ST
+		err := st.Unmarshal([]byte(test.in), testContext)
+		if err != nil {
+			t.Fatalf("Unmarshal(%v) failed with %v", test.in, err)
+		}
+		if got, want := st, ST(test.out); got != want {
+			t.Errorf("Unmarshal(%v) got %s, want %s", test.in, got, want)
+		}
+	}
+}
+
+func TestParseST_UnescapesTextWithErrors(t *testing.T) {
+	tests := []string{
+		`Unknown\X\escape`,
+		`Unknown\XX\multi character escape`,
+		// Sequences not allowed in ST fields but valid in other text fields.
+		`Highlighting \H\escape`,
+		`Hexadecimal \X9\value`,
+	}
+	for _, test := range tests {
+		var st ST
+		err := st.Unmarshal([]byte(test), testContext)
+		if err == nil {
+			t.Errorf("Unmarshal(%v) got err=<nil>, want error", test)
+		}
+	}
+}
+
+func TestParseFT_UnescapesText(t *testing.T) {
+	tests := []struct {
+		in  string
+		out string
+	}{
+		{`One\F\Escape`, "One|Escape"},
+		{"", ""},
+		{`Highlighting \H\escape`, "Highlighting escape"},
+		{`Normal \N\text escape`, "Normal text escape"},
+		{`Custom \Zarbitrary.Chars\escape`, "Custom escape"},
+		{`Hexadecimal value\X000a\with X000a`, "Hexadecimal value\nwith X000a"},
+		{`Hexadecimal value\X000d\with X000d`, "Hexadecimal value\rwith X000d"},
+		{`Hexadecimal \X09Af\value`, "Hexadecimal value"},
+		{`New\.br\line`, "New\nline"},
+		{`New\.sp\line`, "New\nline"},
+		{`Two\.sp2\new lines`, "Two\n\nnew lines"},
+		{`Two\.sp+2\new lines`, "Two\n\nnew lines"},
+	}
+	for _, test := range tests {
+		var ft FT
+		err := ft.Unmarshal([]byte(test.in), testContext)
+		if err != nil {
+			t.Fatalf("Unmarshal(%v) failed with %v", test.in, err)
+		}
+		if got, want := ft, FT(test.out); got != want {
+			t.Errorf("Unmarshal(%v) got %v, want %v", test.in, got, want)
+		}
+	}
+}
+
 func TestParseFT_EscapesText(t *testing.T) {
 	tests := []struct {
 		in   string
@@ -497,6 +595,72 @@ func TestParseFT_EscapesText(t *testing.T) {
 		if got, want := string(out), test.want; got != want {
 			t.Errorf("Marshal(%q) got %v, want %v", test.in, got, want)
 		}
+	}
+}
+
+// Test escape sequences that are technically invalid, but choose to be more permissive (STR-2993).
+func TestParseFT_UnescapesText_InvalidPermittedSequences(t *testing.T) {
+	tests := []struct {
+		in  string
+		out string
+	}{
+		{`Unterminated\escape`, "Unterminated escape"},
+		{`\Unterminated escape`, " Unterminated escape"},
+		{`Empty\\escape`, "Empty escape"},
+		{`\\Empty escape`, " Empty escape"},
+	}
+	for _, test := range tests {
+		var ft FT
+		err := ft.Unmarshal([]byte(test.in), testContext)
+		if err != nil {
+			t.Fatalf("Unmarshal(%v) failed with %v", test.in, err)
+		}
+		if got, want := ft, FT(test.out); got != want {
+			t.Errorf("Unmarshal(%v) got %v, want %v", test.in, got, want)
+		}
+	}
+}
+
+func TestParseFT_UnescapesTextWithErrors(t *testing.T) {
+	tests := []string{
+		`Unknown\X\escape`,
+		`Unknown\XX\multi character escape`,
+		`Incomplete\X\hexadecimal`,
+		`Wrong\Xg\hexadecimal`,
+		`Incomplete\Z\custom`,
+		`SP\.sp-4\with negative count`,
+	}
+	for _, test := range tests {
+		var ft FT
+		err := ft.Unmarshal([]byte(test), testContext)
+		if err == nil {
+			t.Errorf("Unmarshal(%v) got err=<nil>, want error", test)
+		}
+	}
+}
+
+func TestTX_UnescapesText(t *testing.T) {
+	for _, tt := range []struct {
+		in   string
+		want string
+	}{
+		{`One\F\Escape`, "One|Escape"},
+		{`Two\F\Escapes\S\`, "Two|Escapes^"},
+		{`No spaces\F\\R\between escapes`, "No spaces|~between escapes"},
+		{`\F\Escape at index zero`, "|Escape at index zero"},
+		{`Escaped\F\and|^&~not escaped`, "Escaped|and|^&~not escaped"},
+		{`result\.br\result`, "result\nresult"},
+		{"", ""},
+	} {
+		t.Run(tt.in, func(t *testing.T) {
+			var tx TX
+			if err := tx.Unmarshal([]byte(tt.in), testContext); err != nil {
+				t.Errorf("tx.Unmarshal(%q, testContext) failed with error %+v", tt.in, err)
+			}
+			if got, want := string(tx), tt.want; got != want {
+				t.Errorf("tx.Unmarshal(%q, testContext)=%q, want %q", tt.in, got, want)
+			}
+		})
 	}
 }
 

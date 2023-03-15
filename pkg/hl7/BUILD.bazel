@@ -29,6 +29,7 @@ go_library(
         "rewrite.go",
         "schema.go",
         "sender.go",
+        "unescape.go",
     ],
     importpath = "github.com/google/simhospital/pkg/hl7",
     deps = [
