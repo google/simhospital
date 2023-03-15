@@ -49,12 +49,14 @@ go_test(
         "parser_test.go",
         "parserv2_test.go",
         "rewrite_test.go",
+        "schema_test.go",
         "sender_test.go",
     ],
     embed = [":go_default_library"],
     deps = [
         "//pkg/test/testwrite:go_default_library",
         "@com_github_google_go_cmp//cmp:go_default_library",
+        "@com_github_google_go_cmp//cmp/cmpopts:go_default_library",
         "@org_golang_x_text//encoding/unicode:go_default_library",
     ],
 )
