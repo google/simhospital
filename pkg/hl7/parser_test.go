@@ -22,6 +22,7 @@ import (
 	"time"
 
 	"github.com/google/go-cmp/cmp"
+	"golang.org/x/text/encoding/unicode"
 )
 
 var (
@@ -65,10 +66,27 @@ var (
 	}
 
 	segmentTerminatorBytes = []byte(SegmentTerminatorStr)
+
+	testContext  *Context
+	testLocation *time.Location
 )
 
 func TestMain(m *testing.M) {
-	TimezoneAndLocation("Europe/London")
+	locationStr := "Europe/London"
+	TimezoneAndLocation(locationStr)
+
+	var err error
+	testLocation, err = time.LoadLocation(locationStr)
+	if err != nil {
+		log.Fatal(err)
+	}
+	testContext = &Context{
+		Decoder:     unicode.UTF8.NewDecoder(),
+		Delimiters:  DefaultDelimiters,
+		Rewrite:     []Rewrite{NopRewrite},
+		Nesting:     0,
+		TimezoneLoc: testLocation,
+	}
 	retCode := m.Run()
 	os.Exit(retCode)
 }
