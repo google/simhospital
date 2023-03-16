@@ -19,8 +19,8 @@ package hl7
 
 import "reflect"
 
-//  AD represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// AD represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type AD struct {
 	StreetAddress              *ST `hl7:"false,Street Address"`
 	OtherDesignation           *ST `hl7:"false,Other Designation"`
@@ -32,31 +32,31 @@ type AD struct {
 	OtherGeographicDesignation *ST `hl7:"false,Other Geographic Designation"`
 }
 
-//  AUI represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// AUI represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type AUI struct {
 	AuthorizationNumber *ST `hl7:"false,Authorization Number"`
 	Date                *DT `hl7:"false,Date"`
 	Source              *ST `hl7:"false,Source"`
 }
 
-//  CCD represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// CCD represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type CCD struct {
 	InvocationEvent *ID `hl7:"false,Invocation Event"`
 	DateTime        *TS `hl7:"false,Date/Time"`
 }
 
-//  CCP represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// CCP represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type CCP struct {
 	ChannelCalibrationSensitivityCorrectionFactor *NM `hl7:"false,Channel Calibration Sensitivity Correction Factor"`
 	ChannelCalibrationBaseline                    *NM `hl7:"false,Channel Calibration Baseline"`
 	ChannelCalibrationTimeSkew                    *NM `hl7:"false,Channel Calibration Time Skew"`
 }
 
-//  CD represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// CD represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type CD struct {
 	ChannelIdentifier            *WVI `hl7:"false,Channel Identifier"`
 	WaveformSource               *WVS `hl7:"false,Waveform Source"`
@@ -66,8 +66,8 @@ type CD struct {
 	MinimumMaximumDataValues     *NR  `hl7:"false,Minimum/Maximum Data Values"`
 }
 
-//  CE represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// CE represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type CE struct {
 	Identifier                  *ST `hl7:"false,Identifier"`
 	Text                        *ST `hl7:"false,Text"`
@@ -77,8 +77,8 @@ type CE struct {
 	NameOfAlternateCodingSystem *ID `hl7:"false,Name Of Alternate Coding System"`
 }
 
-//  CF represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// CF represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type CF struct {
 	Identifier                  *ST `hl7:"false,Identifier"`
 	FormattedText               *FT `hl7:"false,Formatted Text"`
@@ -88,8 +88,8 @@ type CF struct {
 	NameOfAlternateCodingSystem *ID `hl7:"false,Name Of Alternate Coding System"`
 }
 
-//  CK represents the corresponding HL7 datatype.
-//  Definition from HL7 2.4
+// CK represents the corresponding HL7 datatype.
+// Definition from HL7 2.4
 type CK struct {
 	IDNumber                                   *NM `hl7:"false,ID Number"`
 	CheckDigit                                 *NM `hl7:"false,Check Digit"`
@@ -97,8 +97,8 @@ type CK struct {
 	AssigningAuthority                         *HD `hl7:"false,Assigning Authority"`
 }
 
-//  CK_ACCOUNT_NO represents the corresponding HL7 datatype.
-//  Definition from HL7 2.2
+// CK_ACCOUNT_NO represents the corresponding HL7 datatype.
+// Definition from HL7 2.2
 type CK_ACCOUNT_NO struct {
 	AccountNumber    *NM `hl7:"false,Account Number"`
 	CheckDigit       *NM `hl7:"false,Check Digit"`
@@ -106,8 +106,8 @@ type CK_ACCOUNT_NO struct {
 	FacilityID       *ID `hl7:"false,Facility ID"`
 }
 
-//  CK_PAT_ID represents the corresponding HL7 datatype.
-//  Definition from HL7 2.2
+// CK_PAT_ID represents the corresponding HL7 datatype.
+// Definition from HL7 2.2
 type CK_PAT_ID struct {
 	PatientID        *ST `hl7:"false,Patient ID"`
 	CheckDigit       *NM `hl7:"false,Check Digit"`
@@ -115,8 +115,8 @@ type CK_PAT_ID struct {
 	FacilityID       *ID `hl7:"false,Facility ID"`
 }
 
-//  CM_ABS_RANGE represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_ABS_RANGE represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_ABS_RANGE struct {
 	Range            *CM `hl7:"false,Range"`
 	NumericChange    *NM `hl7:"false,Numeric Change"`
@@ -124,52 +124,52 @@ type CM_ABS_RANGE struct {
 	Days             *NM `hl7:"false,Days"`
 }
 
-//  CM_AUI represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_AUI represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_AUI struct {
 	AuthorizationNumber *ST `hl7:"false,Authorization Number"`
 	Date                *TS `hl7:"false,Date"`
 	Source              *ST `hl7:"false,Source"`
 }
 
-//  CM_BATCH_TOTAL represents the corresponding HL7 datatype.
-//  Definition from HL7 2.2
+// CM_BATCH_TOTAL represents the corresponding HL7 datatype.
+// Definition from HL7 2.2
 type CM_BATCH_TOTAL struct {
 	BatchTotal1 *NM `hl7:"false,Batch Total 1"`
 	BatchTotal2 *NM `hl7:"false,Batch Total 2"`
 }
 
-//  CM_CCD represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_CCD represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_CCD struct {
 	WhenToChargeCode *ID `hl7:"false,When To Charge Code"`
 	DateTime         *TS `hl7:"false,Date/Time"`
 }
 
-//  CM_DDI represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_DDI represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_DDI struct {
 	DelayDays    *NM `hl7:"false,Delay Days"`
 	Amount       *NM `hl7:"false,Amount"`
 	NumberOfDays *NM `hl7:"false,Number Of Days"`
 }
 
-//  CM_DIN represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_DIN represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_DIN struct {
 	Date            *TS `hl7:"false,Date"`
 	InstitutionName *CE `hl7:"false,Institution Name"`
 }
 
-//  CM_DLD represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_DLD represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_DLD struct {
 	DischargeLocation *ID `hl7:"false,Discharge Location"`
 	EffectiveDate     *TS `hl7:"false,Effective Date"`
 }
 
-//  CM_DLT represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_DLT represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_DLT struct {
 	Range            *CM `hl7:"false,Range"`
 	NumericThreshold *NM `hl7:"false,Numeric Threshold"`
@@ -177,22 +177,22 @@ type CM_DLT struct {
 	LengthOfTimeDays *NM `hl7:"false,Length Of Time-Days"`
 }
 
-//  CM_DTN represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_DTN represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_DTN struct {
 	DayType      *IS `hl7:"false,Day Type"`
 	NumberOfDays *NM `hl7:"false,Number Of Days"`
 }
 
-//  CM_EIP represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_EIP represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_EIP struct {
 	ParentSPlacerOrderNumber *EI `hl7:"false,Parent´s Placer Order Number"`
 	ParentSFillerOrderNumber *EI `hl7:"false,Parent´s Filler Order Number"`
 }
 
-//  CM_ELD represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_ELD represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_ELD struct {
 	SegmentID            *ST `hl7:"false,Segment ID"`
 	Sequence             *NM `hl7:"false,Sequence"`
@@ -200,29 +200,29 @@ type CM_ELD struct {
 	CodeIdentifyingError *CE `hl7:"false,Code Identifying Error"`
 }
 
-//  CM_FILLER represents the corresponding HL7 datatype.
-//  Definition from HL7 2.2
+// CM_FILLER represents the corresponding HL7 datatype.
+// Definition from HL7 2.2
 type CM_FILLER struct {
 	UniqueFillerId      *ID `hl7:"false,Unique Filler Id"`
 	FillerApplicationID *ID `hl7:"false,Filler Application ID"`
 }
 
-//  CM_FINANCE represents the corresponding HL7 datatype.
-//  Definition from HL7 2.2
+// CM_FINANCE represents the corresponding HL7 datatype.
+// Definition from HL7 2.2
 type CM_FINANCE struct {
 	FinancialClassID *ID `hl7:"false,Financial Class ID"`
 	EffectiveDate    *TS `hl7:"false,Effective Date"`
 }
 
-//  CM_GROUP_ID represents the corresponding HL7 datatype.
-//  Definition from HL7 2.2
+// CM_GROUP_ID represents the corresponding HL7 datatype.
+// Definition from HL7 2.2
 type CM_GROUP_ID struct {
 	UniqueGroupId       *ID `hl7:"false,Unique Group Id"`
 	PlacerApplicationId *ID `hl7:"false,Placer Application Id"`
 }
 
-//  CM_INTERNAL_LOCATION represents the corresponding HL7 datatype.
-//  Definition from HL7 2.2
+// CM_INTERNAL_LOCATION represents the corresponding HL7 datatype.
+// Definition from HL7 2.2
 type CM_INTERNAL_LOCATION struct {
 	NurseUnitStation *ID `hl7:"false,Nurse Unit (Station)"`
 	Room             *ID `hl7:"false,Room"`
@@ -234,15 +234,15 @@ type CM_INTERNAL_LOCATION struct {
 	Zentrum          *ID `hl7:"false,Zentrum"`
 }
 
-//  CM_JOB_CODE represents the corresponding HL7 datatype.
-//  Definition from HL7 2.2
+// CM_JOB_CODE represents the corresponding HL7 datatype.
+// Definition from HL7 2.2
 type CM_JOB_CODE struct {
 	JobCode                *ID `hl7:"false,Job Code"`
 	EmployeeClassification *ID `hl7:"false,Employee Classification"`
 }
 
-//  CM_LA1 represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_LA1 represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_LA1 struct {
 	PointOfCare                *ST `hl7:"false,Point Of Care"`
 	Room                       *IS `hl7:"false,Room"`
@@ -262,29 +262,29 @@ type CM_LA1 struct {
 	OtherGeographicDesignation *ST `hl7:"false,Other Geographic Designation"`
 }
 
-//  CM_LICENSE_NO represents the corresponding HL7 datatype.
-//  Definition from HL7 2.2
+// CM_LICENSE_NO represents the corresponding HL7 datatype.
+// Definition from HL7 2.2
 type CM_LICENSE_NO struct {
 	LicenseNumber               *ST `hl7:"false,License Number"`
 	IssuingStateProvinceCountry *ST `hl7:"false,Issuing State,Province,Country"`
 }
 
-//  CM_MOC represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_MOC represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_MOC struct {
 	DollarAmount *MO `hl7:"false,Dollar Amount"`
 	ChargeCode   *CE `hl7:"false,Charge Code"`
 }
 
-//  CM_MSG represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_MSG represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_MSG struct {
 	MessageType  *ID `hl7:"false,Message Type"`
 	TriggerEvent *ID `hl7:"false,Trigger Event"`
 }
 
-//  CM_NDL represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_NDL represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_NDL struct {
 	Name               *CN `hl7:"false,Name"`
 	StartDateTime      *TS `hl7:"false,Start Date/Time"`
@@ -299,23 +299,23 @@ type CM_NDL struct {
 	Floor              *ST `hl7:"false,Floor"`
 }
 
-//  CM_OCD represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_OCD represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_OCD struct {
 	OccurrenceCode *CE `hl7:"false,Occurrence Code"`
 	OccurrenceDate *DT `hl7:"false,Occurrence Date"`
 }
 
-//  CM_OSP represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_OSP represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_OSP struct {
 	OccurrenceSpanCode      *CE `hl7:"false,Occurrence Span Code"`
 	OccurrenceSpanStartDate *DT `hl7:"false,Occurrence Span Start Date"`
 	OccurrenceSpanStopDate  *DT `hl7:"false,Occurrence Span Stop Date"`
 }
 
-//  CM_PAT_ID represents the corresponding HL7 datatype.
-//  Definition from HL7 2.2
+// CM_PAT_ID represents the corresponding HL7 datatype.
+// Definition from HL7 2.2
 type CM_PAT_ID struct {
 	PatientID        *ST `hl7:"false,Patient ID"`
 	CheckDigit       *NM `hl7:"false,Check Digit"`
@@ -324,8 +324,8 @@ type CM_PAT_ID struct {
 	Type             *ID `hl7:"false,Type"`
 }
 
-//  CM_PAT_ID_0192 represents the corresponding HL7 datatype.
-//  Definition from HL7 2.2
+// CM_PAT_ID_0192 represents the corresponding HL7 datatype.
+// Definition from HL7 2.2
 type CM_PAT_ID_0192 struct {
 	PatientID        *ST `hl7:"false,Patient ID"`
 	CheckDigit       *NM `hl7:"false,Check Digit"`
@@ -334,31 +334,31 @@ type CM_PAT_ID_0192 struct {
 	Type             *ID `hl7:"false,Type"`
 }
 
-//  CM_PCF represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_PCF represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_PCF struct {
 	PreCertificationPatientType *IS `hl7:"false,Pre-Certification Patient Type"`
 	PreCertificationRequired    *ID `hl7:"false,Pre-Certification Required"`
 	PreCertificationWindwow     *TS `hl7:"false,Pre-Certification Windwow"`
 }
 
-//  CM_PEN represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_PEN represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_PEN struct {
 	PenaltyType   *IS `hl7:"false,Penalty Type"`
 	PenaltyAmount *NM `hl7:"false,Penalty Amount"`
 }
 
-//  CM_PI represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_PI represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_PI struct {
 	IDNumber            *ST `hl7:"false,ID Number"`
 	TypeOfIDNumber      *IS `hl7:"false,Type Of ID Number"`
 	OtherQualifyingInfo *ST `hl7:"false,Other Qualifying Info"`
 }
 
-//  CM_PIP represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_PIP represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_PIP struct {
 	Privilege      *CE `hl7:"false,Privilege"`
 	PrivilegeClass *CE `hl7:"false,Privilege Class"`
@@ -366,15 +366,15 @@ type CM_PIP struct {
 	ActivationDate *DT `hl7:"false,Activation Date"`
 }
 
-//  CM_PLACER represents the corresponding HL7 datatype.
-//  Definition from HL7 2.2
+// CM_PLACER represents the corresponding HL7 datatype.
+// Definition from HL7 2.2
 type CM_PLACER struct {
 	UniquePlacerId    *ID `hl7:"false,Unique Placer Id"`
 	PlacerApplication *ID `hl7:"false,Placer Application"`
 }
 
-//  CM_PLN represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_PLN represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_PLN struct {
 	IDNumber                 *ST `hl7:"false,ID Number"`
 	TypeOfIDNumber           *IS `hl7:"false,Type Of ID Number"`
@@ -382,46 +382,46 @@ type CM_PLN struct {
 	ExpirationDate           *DT `hl7:"false,Expiration Date"`
 }
 
-//  CM_POSITION represents the corresponding HL7 datatype.
-//  Definition from HL7 2.2
+// CM_POSITION represents the corresponding HL7 datatype.
+// Definition from HL7 2.2
 type CM_POSITION struct {
 	Saal  *ST `hl7:"false,Saal"`
 	Tisch *ST `hl7:"false,Tisch"`
 	Stuhl *ST `hl7:"false,Stuhl"`
 }
 
-//  CM_PRACTITIONER represents the corresponding HL7 datatype.
-//  Definition from HL7 2.2
+// CM_PRACTITIONER represents the corresponding HL7 datatype.
+// Definition from HL7 2.2
 type CM_PRACTITIONER struct {
 	ProcedurePractitionerID   *CN `hl7:"false,Procedure Practitioner  ID"`
 	ProcedurePractitionerType *ID `hl7:"false,Procedure Practitioner Type"`
 }
 
-//  CM_PRL represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_PRL represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_PRL struct {
 	OBX3ObservationIdentifierOfParentResult *CE `hl7:"false,OBX-3 Observation Identifier Of Parent Result"`
 	OBX4SubIDOfParentResult                 *ST `hl7:"false,OBX-4 Sub-ID Of Parent Result"`
 	PartOfOBX5ObservationResultFromParent   *TX `hl7:"false,Part Of OBX-5 Observation Result From Parent"`
 }
 
-//  CM_PTA represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_PTA represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_PTA struct {
 	PolicyType  *IS `hl7:"false,Policy Type"`
 	AmountClass *IS `hl7:"false,Amount Class"`
 	Amount      *NM `hl7:"false,Amount"`
 }
 
-//  CM_RANGE represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_RANGE represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_RANGE struct {
 	LowValue  *CE `hl7:"false,Low Value"`
 	HighValue *CE `hl7:"false,High Value"`
 }
 
-//  CM_RFR represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_RFR represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_RFR struct {
 	ReferenceRange *CM `hl7:"false,Reference Range"`
 	Sex            *IS `hl7:"false,Sex"`
@@ -432,23 +432,23 @@ type CM_RFR struct {
 	Conditions     *TX `hl7:"false,Conditions"`
 }
 
-//  CM_RI represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_RI represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_RI struct {
 	RepeatPattern        *IS `hl7:"false,Repeat Pattern"`
 	ExplicitTimeInterval *ST `hl7:"false,Explicit Time Interval"`
 }
 
-//  CM_RMC represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_RMC represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_RMC struct {
 	RoomType       *IS `hl7:"false,Room Type"`
 	AmountType     *IS `hl7:"false,Amount Type"`
 	CoverageAmount *NM `hl7:"false,Coverage Amount"`
 }
 
-//  CM_SPD represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_SPD represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_SPD struct {
 	SpecialtyName       *ST `hl7:"false,Specialty Name"`
 	GoverningBoard      *ST `hl7:"false,Governing Board"`
@@ -456,8 +456,8 @@ type CM_SPD struct {
 	DateOfCertification *DT `hl7:"false,Date Of Certification"`
 }
 
-//  CM_SPS represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_SPS represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_SPS struct {
 	SpecimenSourceNameOrCode     *CE `hl7:"false,Specimen Source Name Or Code"`
 	Additives                    *TX `hl7:"false,Additives"`
@@ -467,29 +467,29 @@ type CM_SPS struct {
 	CollectionModifierMethodCode *CE `hl7:"false,Collection Modifier Method Code"`
 }
 
-//  CM_UVC represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_UVC represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_UVC struct {
 	ValueCode   *IS `hl7:"false,Value Code"`
 	ValueAmount *NM `hl7:"false,Value Amount"`
 }
 
-//  CM_VR represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_VR represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_VR struct {
 	FirstDataCodeValue *ST `hl7:"false,First Data Code Value"`
 	LastDataCodeCalue  *ST `hl7:"false,Last Data Code Calue"`
 }
 
-//  CM_WVI represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3
+// CM_WVI represents the corresponding HL7 datatype.
+// Definition from HL7 2.3
 type CM_WVI struct {
 	ChannelNumber *NM `hl7:"false,Channel Number"`
 	ChannelName   *ST `hl7:"false,Channel Name"`
 }
 
-//  CN represents the corresponding HL7 datatype.
-//  Definition from HL7 2.4
+// CN represents the corresponding HL7 datatype.
+// Definition from HL7 2.4
 type CN struct {
 	IDNumber                                    *ST `hl7:"false,ID Number"`
 	FamilyName                                  *FN `hl7:"false,Family Name"`
@@ -502,8 +502,8 @@ type CN struct {
 	AssigningAuthority                          *HD `hl7:"false,Assigning Authority"`
 }
 
-//  CNE represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// CNE represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type CNE struct {
 	Identifier                     *ST `hl7:"false,Identifier"`
 	Text                           *ST `hl7:"false,Text"`
@@ -516,8 +516,8 @@ type CNE struct {
 	OriginalText                   *ST `hl7:"false,Original Text"`
 }
 
-//  CNN represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// CNN represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type CNN struct {
 	IDNumber                                    *ST `hl7:"false,ID Number"`
 	FamilyName                                  *ST `hl7:"false,Family Name"`
@@ -532,8 +532,8 @@ type CNN struct {
 	AssigningAuthorityUniversalIDType           *ID `hl7:"false,Assigning Authority  - Universal ID Type"`
 }
 
-//  CNS231 represents the corresponding HL7 datatype.
-//  Definition from HL7 2.3.1
+// CNS231 represents the corresponding HL7 datatype.
+// Definition from HL7 2.3.1
 type CNS231 struct {
 	StartingNotificationReferenceNumber *NM `hl7:"false,Starting Notification Reference Number"`
 	EndingNotificationReferenceNumber   *NM `hl7:"false,Ending Notification Reference Number"`
@@ -548,8 +548,8 @@ type CNS231 struct {
 	AssigningAuthorityUniversalIDType   *ID `hl7:"false,Assigning Authority Universal ID Type"`
 }
 
-//  CN_PERSON represents the corresponding HL7 datatype.
-//  Definition from HL7 2.2
+// CN_PERSON represents the corresponding HL7 datatype.
+// Definition from HL7 2.2
 type CN_PERSON struct {
 	IDNumber            *ID `hl7:"false,ID Number"`
 	FamiliyName         *ST `hl7:"false,Familiy Name"`
@@ -561,8 +561,8 @@ type CN_PERSON struct {
 	SourceTableId       *ID `hl7:"false,Source Table Id"`
 }
 
-//  CN_PHYSICIAN represents the corresponding HL7 datatype.
-//  Definition from HL7 2.2
+// CN_PHYSICIAN represents the corresponding HL7 datatype.
+// Definition from HL7 2.2
 type CN_PHYSICIAN struct {
 	PhysicianID         *ID `hl7:"false,Physician ID"`
 	FamiliyName         *ST `hl7:"false,Familiy Name"`
@@ -579,8 +579,8 @@ type CN_PHYSICIAN struct {
 	EMail               *ST `hl7:"false,E-Mail"`
 }
 
-//  CP represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// CP represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type CP struct {
 	Price      *MO `hl7:"false,Price"`
 	PriceType  *ID `hl7:"false,Price Type"`
@@ -590,22 +590,22 @@ type CP struct {
 	RangeType  *ID `hl7:"false,Range Type"`
 }
 
-//  CQ represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// CQ represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type CQ struct {
 	Quantity *NM `hl7:"false,Quantity"`
 	Units    *CE `hl7:"false,Units"`
 }
 
-//  CQ_QUANTITY represents the corresponding HL7 datatype.
-//  Definition from HL7 2.2
+// CQ_QUANTITY represents the corresponding HL7 datatype.
+// Definition from HL7 2.2
 type CQ_QUANTITY struct {
 	Quantity *ST `hl7:"false,Quantity"`
 	Units    *ST `hl7:"false,Units"`
 }
 
-//  CSU represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// CSU represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type CSU struct {
 	ChannelSensitivity                 *NM `hl7:"false,Channel Sensitivity"`
 	UnitOfMeasureIdentifier            *ST `hl7:"false,Unit Of Measure Identifier"`
@@ -616,8 +616,8 @@ type CSU struct {
 	AlternateUnitOfMeasureCodingSystem *ID `hl7:"false,Alternate Unit Of Measure Coding System"`
 }
 
-//  CWE represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// CWE represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type CWE struct {
 	Identifier                     *ST `hl7:"false,Identifier"`
 	Text                           *ST `hl7:"false,Text"`
@@ -630,8 +630,8 @@ type CWE struct {
 	OriginalText                   *ST `hl7:"false,Original Text"`
 }
 
-//  CX represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// CX represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type CX struct {
 	IDNumber                    *ST  `hl7:"false,ID Number"`
 	CheckDigit                  *ST  `hl7:"false,Check Digit"`
@@ -645,38 +645,38 @@ type CX struct {
 	AssigningAgencyOrDepartment *CWE `hl7:"false,Assigning Agency Or Department"`
 }
 
-//  DDI represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// DDI represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type DDI struct {
 	DelayDays      *NM `hl7:"false,Delay Days"`
 	MonetaryAmount *MO `hl7:"false,Monetary Amount"`
 	NumberOfDays   *NM `hl7:"false,Number Of Days"`
 }
 
-//  DIN represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// DIN represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type DIN struct {
 	Date            *TS `hl7:"false,Date"`
 	InstitutionName *CE `hl7:"false,Institution Name"`
 }
 
-//  DLD represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// DLD represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type DLD struct {
 	DischargeLocation *IS `hl7:"false,Discharge Location"`
 	EffectiveDate     *TS `hl7:"false,Effective Date"`
 }
 
-//  DLN represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// DLN represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type DLN struct {
 	LicenseNumber               *ST `hl7:"false,License Number"`
 	IssuingStateProvinceCountry *IS `hl7:"false,Issuing State, Province, Country"`
 	ExpirationDate              *DT `hl7:"false,Expiration Date"`
 }
 
-//  DLT represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// DLT represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type DLT struct {
 	NormalRange       *NR `hl7:"false,Normal Range"`
 	NumericThreshold  *NM `hl7:"false,Numeric Threshold"`
@@ -684,22 +684,22 @@ type DLT struct {
 	DaysRetained      *NM `hl7:"false,Days Retained"`
 }
 
-//  DR represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// DR represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type DR struct {
 	RangeStartDateTime *TS `hl7:"false,Range Start Date/Time"`
 	RangeEndDateTime   *TS `hl7:"false,Range End Date/Time"`
 }
 
-//  DTN represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// DTN represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type DTN struct {
 	DayType      *IS `hl7:"false,Day Type"`
 	NumberOfDays *NM `hl7:"false,Number Of Days"`
 }
 
-//  ED represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// ED represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type ED struct {
 	SourceApplication *HD `hl7:"false,Source Application"`
 	TypeOfData        *ID `hl7:"false,Type Of Data"`
@@ -708,8 +708,8 @@ type ED struct {
 	Data              *TX `hl7:"false,Data"`
 }
 
-//  EI represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// EI represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type EI struct {
 	EntityIdentifier *ST `hl7:"false,Entity Identifier"`
 	NamespaceID      *IS `hl7:"false,Namespace ID"`
@@ -717,15 +717,15 @@ type EI struct {
 	UniversalIDType  *ID `hl7:"false,Universal ID Type"`
 }
 
-//  EIP represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// EIP represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type EIP struct {
 	PlacerAssignedIdentifier *EI `hl7:"false,Placer Assigned Identifier"`
 	FillerAssignedIdentifier *EI `hl7:"false,Filler Assigned Identifier"`
 }
 
-//  ELD represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// ELD represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type ELD struct {
 	SegmentID            *ST `hl7:"false,Segment ID"`
 	SegmentSequence      *NM `hl7:"false,Segment Sequence"`
@@ -733,8 +733,8 @@ type ELD struct {
 	CodeIdentifyingError *CE `hl7:"false,Code Identifying Error"`
 }
 
-//  ERL represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// ERL represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type ERL struct {
 	SegmentID          *ST `hl7:"false,Segment ID"`
 	SegmentSequence    *NM `hl7:"false,Segment Sequence"`
@@ -744,15 +744,15 @@ type ERL struct {
 	SubComponentNumber *NM `hl7:"false,Sub-Component Number"`
 }
 
-//  FC represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// FC represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type FC struct {
 	FinancialClassCode *IS `hl7:"false,Financial Class Code"`
 	EffectiveDate      *TS `hl7:"false,Effective Date"`
 }
 
-//  FN represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// FN represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type FN struct {
 	Surname                        *ST `hl7:"false,Surname"`
 	OwnSurnamePrefix               *ST `hl7:"false,Own Surname Prefix"`
@@ -761,32 +761,32 @@ type FN struct {
 	SurnameFromPartnerSpouse       *ST `hl7:"false,Surname From Partner/Spouse"`
 }
 
-//  HD represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// HD represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type HD struct {
 	NamespaceID     *IS `hl7:"false,Namespace ID"`
 	UniversalID     *ST `hl7:"false,Universal ID"`
 	UniversalIDType *ID `hl7:"false,Universal ID Type"`
 }
 
-//  ICD represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// ICD represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type ICD struct {
 	CertificationPatientType      *IS `hl7:"false,Certification Patient Type"`
 	CertificationRequired         *ID `hl7:"false,Certification Required"`
 	DateTimeCertificationRequired *TS `hl7:"false,Date/Time Certification Required"`
 }
 
-//  JCC represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// JCC represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type JCC struct {
 	JobCode            *IS `hl7:"false,Job Code"`
 	JobClass           *IS `hl7:"false,Job Class"`
 	JobDescriptionText *TX `hl7:"false,Job Description Text"`
 }
 
-//  LA1 represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// LA1 represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type LA1 struct {
 	PointOfCare         *IS `hl7:"false,Point Of Care"`
 	Room                *IS `hl7:"false,Room"`
@@ -799,8 +799,8 @@ type LA1 struct {
 	Address             *AD `hl7:"false,Address"`
 }
 
-//  LA2 represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// LA2 represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type LA2 struct {
 	PointOfCare                *IS `hl7:"false,Point Of Care"`
 	Room                       *IS `hl7:"false,Room"`
@@ -820,8 +820,8 @@ type LA2 struct {
 	OtherGeographicDesignation *ST `hl7:"false,Other Geographic Designation"`
 }
 
-//  MA represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// MA represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type MA struct {
 	Sample1FromChannel1 *NM `hl7:"false,Sample 1 From Channel 1"`
 	Sample1FromChannel2 *NM `hl7:"false,Sample 1 From Channel 2"`
@@ -831,38 +831,38 @@ type MA struct {
 	SampleNFromChannelN *NM `hl7:"false,Sample N From Channel N"`
 }
 
-//  MO represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// MO represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type MO struct {
 	Quantity     *NM `hl7:"false,Quantity"`
 	Denomination *ID `hl7:"false,Denomination"`
 }
 
-//  MOC represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// MOC represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type MOC struct {
 	MonetaryAmount *MO `hl7:"false,Monetary Amount"`
 	ChargeCode     *CE `hl7:"false,Charge Code"`
 }
 
-//  MOP represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// MOP represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type MOP struct {
 	MoneyOrPercentageIndicator *ID `hl7:"false,Money Or Percentage Indicator"`
 	MoneyOrPercentageQuantity  *NM `hl7:"false,Money Or Percentage Quantity"`
 	CurrencyDenomination       *ID `hl7:"false,Currency Denomination"`
 }
 
-//  MSG represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// MSG represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type MSG struct {
 	MessageCode      *ID `hl7:"false,Message Code"`
 	TriggerEvent     *ID `hl7:"false,Trigger Event"`
 	MessageStructure *ID `hl7:"false,Message Structure"`
 }
 
-//  NA represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// NA represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type NA struct {
 	Value1 *NM `hl7:"false,Value1"`
 	Value2 *NM `hl7:"false,Value2"`
@@ -870,8 +870,8 @@ type NA struct {
 	Value4 *NM `hl7:"false,Value4"`
 }
 
-//  NDL represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// NDL represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type NDL struct {
 	Name                *CNN `hl7:"false,Name"`
 	StartDateTime       *TS  `hl7:"false,Start Date/Time"`
@@ -886,22 +886,22 @@ type NDL struct {
 	Floor               *IS  `hl7:"false,Floor"`
 }
 
-//  NR represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// NR represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type NR struct {
 	LowValue  *NM `hl7:"false,Low Value"`
 	HighValue *NM `hl7:"false,High Value"`
 }
 
-//  OCD represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// OCD represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type OCD struct {
 	OccurrenceCode *CNE `hl7:"false,Occurrence Code"`
 	OccurrenceDate *DT  `hl7:"false,Occurrence Date"`
 }
 
-//  OSD represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// OSD represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type OSD struct {
 	SequenceResultsFlag               *ID `hl7:"false,Sequence/Results Flag"`
 	PlacerOrderNumberEntityIdentifier *ST `hl7:"false,Placer Order Number: Entity Identifier"`
@@ -916,32 +916,32 @@ type OSD struct {
 	FillerOrderNumberUniversalIDType  *ID `hl7:"false,Filler Order Number: Universal ID Type"`
 }
 
-//  OSP represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// OSP represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type OSP struct {
 	OccurrenceSpanCode      *CNE `hl7:"false,Occurrence Span Code"`
 	OccurrenceSpanStartDate *DT  `hl7:"false,Occurrence Span Start Date"`
 	OccurrenceSpanStopDate  *DT  `hl7:"false,Occurrence Span Stop Date"`
 }
 
-//  PCF represents the corresponding HL7 datatype.
-//  Definition from HL7 2.4
+// PCF represents the corresponding HL7 datatype.
+// Definition from HL7 2.4
 type PCF struct {
 	PreCertificationPatientType *IS `hl7:"false,Pre-Certification Patient Type"`
 	PreCertificationRequired    *ID `hl7:"false,Pre-Certification Required"`
 	PreCertificationWindow      *TS `hl7:"false,Pre-Certification Window"`
 }
 
-//  PI represents the corresponding HL7 datatype.
-//  Definition from HL7 2.4
+// PI represents the corresponding HL7 datatype.
+// Definition from HL7 2.4
 type PI struct {
 	IDNumber            *ST `hl7:"false,ID Number"`
 	TypeOfIDNumber      *IS `hl7:"false,Type Of ID Number"`
 	OtherQualifyingInfo *ST `hl7:"false,Other Qualifying Info"`
 }
 
-//  PIP represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// PIP represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type PIP struct {
 	Privilege      *CE `hl7:"false,Privilege"`
 	PrivilegeClass *CE `hl7:"false,Privilege Class"`
@@ -950,8 +950,8 @@ type PIP struct {
 	Facility       *EI `hl7:"false,Facility"`
 }
 
-//  PL represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// PL represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type PL struct {
 	PointOfCare                     *IS `hl7:"false,Point Of Care"`
 	Room                            *IS `hl7:"false,Room"`
@@ -966,8 +966,8 @@ type PL struct {
 	AssigningAuthorityForLocation   *HD `hl7:"false,Assigning Authority For Location"`
 }
 
-//  PLN represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// PLN represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type PLN struct {
 	IDNumber                        *ST `hl7:"false,ID Number"`
 	TypeOfIDNumber                  *IS `hl7:"false,Type Of ID Number"`
@@ -975,8 +975,8 @@ type PLN struct {
 	ExpirationDate                  *DT `hl7:"false,Expiration Date"`
 }
 
-//  PN represents the corresponding HL7 datatype.
-//  Definition from HL7 2.4
+// PN represents the corresponding HL7 datatype.
+// Definition from HL7 2.4
 type PN struct {
 	FamilyName                                  *FN `hl7:"false,Family Name"`
 	GivenName                                   *ST `hl7:"false,Given Name"`
@@ -986,8 +986,8 @@ type PN struct {
 	DegreeEGMD                                  *IS `hl7:"false,Degree (E.G., MD)"`
 }
 
-//  PPN represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// PPN represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type PPN struct {
 	IDNumber                                    *ST  `hl7:"false,ID Number"`
 	FamilyName                                  *FN  `hl7:"false,Family Name"`
@@ -1015,23 +1015,23 @@ type PPN struct {
 	AssigningAgencyOrDepartment                 *CWE `hl7:"false,Assigning Agency Or Department"`
 }
 
-//  PRL represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// PRL represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type PRL struct {
 	ParentObservationIdentifier      *CE `hl7:"false,Parent Observation Identifier"`
 	ParentObservationSubIdentifier   *ST `hl7:"false,Parent Observation Sub-Identifier"`
 	ParentObservationValueDescriptor *TX `hl7:"false,Parent Observation Value Descriptor"`
 }
 
-//  PT represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// PT represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type PT struct {
 	ProcessingID   *ID `hl7:"false,Processing ID"`
 	ProcessingMode *ID `hl7:"false,Processing Mode"`
 }
 
-//  PTA represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// PTA represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type PTA struct {
 	PolicyType                *IS  `hl7:"false,Policy Type"`
 	AmountClass               *IS  `hl7:"false,Amount Class"`
@@ -1039,15 +1039,15 @@ type PTA struct {
 	MoneyOrPercentage         *MOP `hl7:"false,Money Or Percentage"`
 }
 
-//  QIP represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// QIP represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type QIP struct {
 	SegmentFieldName *ST `hl7:"false,Segment Field Name"`
 	Values           *ST `hl7:"false,Values"`
 }
 
-//  QSC represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// QSC represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type QSC struct {
 	SegmentFieldName      *ST `hl7:"false,Segment Field Name"`
 	RelationalOperator    *ID `hl7:"false,Relational Operator"`
@@ -1055,16 +1055,16 @@ type QSC struct {
 	RelationalConjunction *ID `hl7:"false,Relational Conjunction"`
 }
 
-//  RCD represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// RCD represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type RCD struct {
 	SegmentFieldName   *ST `hl7:"false,Segment Field Name"`
 	HL7DataType        *ID `hl7:"false,HL7 Data Type"`
 	MaximumColumnWidth *NM `hl7:"false,Maximum Column Width"`
 }
 
-//  RFR represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// RFR represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type RFR struct {
 	NumericRange        *NR `hl7:"false,Numeric Range"`
 	AdministrativeSex   *IS `hl7:"false,Administrative Sex"`
@@ -1075,15 +1075,15 @@ type RFR struct {
 	Conditions          *TX `hl7:"false,Conditions"`
 }
 
-//  RI represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// RI represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type RI struct {
 	RepeatPattern        *IS `hl7:"false,Repeat Pattern"`
 	ExplicitTimeInterval *ST `hl7:"false,Explicit Time Interval"`
 }
 
-//  RMC represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// RMC represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type RMC struct {
 	RoomType          *IS  `hl7:"false,Room Type"`
 	AmountType        *IS  `hl7:"false,Amount Type"`
@@ -1091,8 +1091,8 @@ type RMC struct {
 	MoneyOrPercentage *MOP `hl7:"false,Money Or Percentage"`
 }
 
-//  RP represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// RP represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type RP struct {
 	Pointer       *ST `hl7:"false,Pointer"`
 	ApplicationID *HD `hl7:"false,Application ID"`
@@ -1100,8 +1100,8 @@ type RP struct {
 	Subtype       *ID `hl7:"false,Subtype"`
 }
 
-//  RPT represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// RPT represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type RPT struct {
 	RepeatPatternCode          *CWE `hl7:"false,Repeat Pattern Code"`
 	CalendarAlignment          *ID  `hl7:"false,Calendar Alignment"`
@@ -1116,23 +1116,23 @@ type RPT struct {
 	GeneralTimingSpecification *GTS `hl7:"false,General Timing Specification"`
 }
 
-//  SAD represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// SAD represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type SAD struct {
 	StreetOrMailingAddress *ST `hl7:"false,Street Or Mailing Address"`
 	StreetName             *ST `hl7:"false,Street Name"`
 	DwellingNumber         *ST `hl7:"false,Dwelling Number"`
 }
 
-//  SCV represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// SCV represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type SCV struct {
 	ParameterClass *CWE `hl7:"false,Parameter Class"`
 	ParameterValue *ST  `hl7:"false,Parameter Value"`
 }
 
-//  SN represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// SN represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type SN struct {
 	Comparator      *ST `hl7:"false,Comparator"`
 	Num1            *NM `hl7:"false,Num1"`
@@ -1140,8 +1140,8 @@ type SN struct {
 	Num2            *NM `hl7:"false,Num2"`
 }
 
-//  SPD represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// SPD represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type SPD struct {
 	SpecialtyName       *ST `hl7:"false,Specialty Name"`
 	GoverningBoard      *ST `hl7:"false,Governing Board"`
@@ -1149,8 +1149,8 @@ type SPD struct {
 	DateOfCertification *DT `hl7:"false,Date Of Certification"`
 }
 
-//  SPS represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// SPS represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type SPS struct {
 	SpecimenSourceNameOrCode     *CWE `hl7:"false,Specimen Source Name Or Code"`
 	Additives                    *CWE `hl7:"false,Additives"`
@@ -1161,15 +1161,15 @@ type SPS struct {
 	SpecimenRole                 *CWE `hl7:"false,Specimen Role"`
 }
 
-//  SRT represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// SRT represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type SRT struct {
 	SortByField *ST `hl7:"false,Sort-By Field"`
 	Sequencing  *ID `hl7:"false,Sequencing"`
 }
 
-//  TQ represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// TQ represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type TQ struct {
 	Quantity           *CQ  `hl7:"false,Quantity"`
 	Interval           *RI  `hl7:"false,Interval"`
@@ -1185,15 +1185,15 @@ type TQ struct {
 	TotalOccurrences   *NM  `hl7:"false,Total Occurrences"`
 }
 
-//  UVC represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// UVC represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type UVC struct {
 	ValueCode   *CNE `hl7:"false,Value Code"`
 	ValueAmount *MO  `hl7:"false,Value Amount"`
 }
 
-//  VH represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// VH represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type VH struct {
 	StartDayRange  *ID `hl7:"false,Start Day Range"`
 	EndDayRange    *ID `hl7:"false,End Day Range"`
@@ -1201,37 +1201,37 @@ type VH struct {
 	EndHourRange   *TM `hl7:"false,End Hour Range"`
 }
 
-//  VID represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// VID represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type VID struct {
 	VersionID                *ID `hl7:"false,Version ID"`
 	InternationalizationCode *CE `hl7:"false,Internationalization Code"`
 	InternationalVersionID   *CE `hl7:"false,International Version ID"`
 }
 
-//  VR represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// VR represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type VR struct {
 	FirstDataCodeValue *ST `hl7:"false,First Data Code Value"`
 	LastDataCodeValue  *ST `hl7:"false,Last Data Code Value"`
 }
 
-//  WVI represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// WVI represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type WVI struct {
 	ChannelNumber *NM `hl7:"false,Channel Number"`
 	ChannelName   *ST `hl7:"false,Channel Name"`
 }
 
-//  WVS represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// WVS represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type WVS struct {
 	SourceOneName *ST `hl7:"false,Source One Name"`
 	SourceTwoName *ST `hl7:"false,Source Two Name"`
 }
 
-//  XAD represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// XAD represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type XAD struct {
 	StreetAddress              *SAD `hl7:"false,Street Address"`
 	OtherDesignation           *ST  `hl7:"false,Other Designation"`
@@ -1249,8 +1249,8 @@ type XAD struct {
 	ExpirationDate             *TS  `hl7:"false,Expiration Date"`
 }
 
-//  XCN represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// XCN represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type XCN struct {
 	IDNumber                                    *ST  `hl7:"false,ID Number"`
 	FamilyName                                  *FN  `hl7:"false,Family Name"`
@@ -1277,8 +1277,8 @@ type XCN struct {
 	AssigningAgencyOrDepartment                 *CWE `hl7:"false,Assigning Agency Or Department"`
 }
 
-//  XON represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// XON represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type XON struct {
 	OrganizationName         *ST `hl7:"false,Organization Name"`
 	OrganizationNameTypeCode *IS `hl7:"false,Organization Name Type Code"`
@@ -1292,8 +1292,8 @@ type XON struct {
 	OrganizationIdentifier   *ST `hl7:"false,Organization Identifier"`
 }
 
-//  XPN represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// XPN represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type XPN struct {
 	FamilyName                                  *FN `hl7:"false,Family Name"`
 	GivenName                                   *ST `hl7:"false,Given Name"`
@@ -1311,8 +1311,8 @@ type XPN struct {
 	ProfessionalSuffix                          *ST `hl7:"false,Professional Suffix"`
 }
 
-//  XTN represents the corresponding HL7 datatype.
-//  Definition from HL7 2.5.1
+// XTN represents the corresponding HL7 datatype.
+// Definition from HL7 2.5.1
 type XTN struct {
 	Number                         *ST `hl7:"false,Number"`
 	TelecommunicationUseCode       *ID `hl7:"false,Telecommunication Use Code"`
@@ -1328,8 +1328,8 @@ type XTN struct {
 	UnformattedTelephoneNumber     *ST `hl7:"false,Unformatted Telephone Number"`
 }
 
-//  ABS represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// ABS represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type ABS struct {
 	DischargeCareProvider      *XCN `hl7:"false,Discharge Care Provider"`       // ABS-1
 	TransferMedicalServiceCode *CE  `hl7:"false,Transfer Medical Service Code"` // ABS-2
@@ -1351,8 +1351,8 @@ func (s *ABS) SegmentName() string {
 	return "ABS"
 }
 
-//  ACC represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// ACC represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type ACC struct {
 	AccidentDateTime            *TS  `hl7:"false,Accident Date/Time"`             // ACC-1
 	AccidentCode                *CE  `hl7:"false,Accident Code"`                  // ACC-2
@@ -1371,8 +1371,8 @@ func (s *ACC) SegmentName() string {
 	return "ACC"
 }
 
-//  ADD represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// ADD represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type ADD struct {
 	AddendumContinuationPointer *ST `hl7:"false,Addendum Continuation Pointer"` // ADD-1
 }
@@ -1381,8 +1381,8 @@ func (s *ADD) SegmentName() string {
 	return "ADD"
 }
 
-//  AFF represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// AFF represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type AFF struct {
 	SetIDAFF                                     *SI  `hl7:"true,Set ID - AFF"`                                      // AFF-1
 	ProfessionalOrganization                     *XON `hl7:"true,Professional Organization"`                         // AFF-2
@@ -1395,8 +1395,8 @@ func (s *AFF) SegmentName() string {
 	return "AFF"
 }
 
-//  AIG represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// AIG represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type AIG struct {
 	SetIDAIG                 *SI  `hl7:"true,Set ID - AIG"`                  // AIG-1
 	SegmentActionCode        *ID  `hl7:"false,Segment Action Code"`          // AIG-2
@@ -1418,8 +1418,8 @@ func (s *AIG) SegmentName() string {
 	return "AIG"
 }
 
-//  AIL represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// AIL represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type AIL struct {
 	SetIDAIL                 *SI  `hl7:"true,Set ID - AIL"`                  // AIL-1
 	SegmentActionCode        *ID  `hl7:"false,Segment Action Code"`          // AIL-2
@@ -1439,8 +1439,8 @@ func (s *AIL) SegmentName() string {
 	return "AIL"
 }
 
-//  AIP represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// AIP represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type AIP struct {
 	SetIDAIP                 *SI   `hl7:"true,Set ID - AIP"`                  // AIP-1
 	SegmentActionCode        *ID   `hl7:"false,Segment Action Code"`          // AIP-2
@@ -1460,8 +1460,8 @@ func (s *AIP) SegmentName() string {
 	return "AIP"
 }
 
-//  AIS represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// AIS represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type AIS struct {
 	SetIDAIS                             *SI  `hl7:"true,Set ID - AIS"`                             // AIS-1
 	SegmentActionCode                    *ID  `hl7:"false,Segment Action Code"`                     // AIS-2
@@ -1481,8 +1481,8 @@ func (s *AIS) SegmentName() string {
 	return "AIS"
 }
 
-//  AL1 represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// AL1 represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type AL1 struct {
 	SetIDAL1                        *SI  `hl7:"true,Set ID - AL1"`                       // AL1-1
 	AllergenTypeCode                *CE  `hl7:"false,Allergen Type Code"`                // AL1-2
@@ -1496,8 +1496,8 @@ func (s *AL1) SegmentName() string {
 	return "AL1"
 }
 
-//  APR represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// APR represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type APR struct {
 	TimeSelectionCriteria     []SCV `hl7:"false,Time Selection Criteria"`     // APR-1
 	ResourceSelectionCriteria []SCV `hl7:"false,Resource Selection Criteria"` // APR-2
@@ -1510,8 +1510,8 @@ func (s *APR) SegmentName() string {
 	return "APR"
 }
 
-//  ARQ represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// ARQ represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type ARQ struct {
 	PlacerAppointmentID         *EI   `hl7:"true,Placer Appointment ID"`            // ARQ-1
 	FillerAppointmentID         *EI   `hl7:"false,Filler Appointment ID"`           // ARQ-2
@@ -1544,8 +1544,8 @@ func (s *ARQ) SegmentName() string {
 	return "ARQ"
 }
 
-//  AUT represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// AUT represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type AUT struct {
 	AuthorizingPayorPlanID       *CE `hl7:"false,Authorizing Payor, Plan ID"`      // AUT-1
 	AuthorizingPayorCompanyID    *CE `hl7:"true,Authorizing Payor, Company ID"`    // AUT-2
@@ -1563,8 +1563,8 @@ func (s *AUT) SegmentName() string {
 	return "AUT"
 }
 
-//  BHS represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// BHS represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type BHS struct {
 	BatchFieldSeparator       *ST `hl7:"true,Batch Field Separator"`        // BHS-1
 	BatchEncodingCharacters   *ST `hl7:"true,Batch Encoding Characters"`    // BHS-2
@@ -1584,8 +1584,8 @@ func (s *BHS) SegmentName() string {
 	return "BHS"
 }
 
-//  BLC represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// BLC represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type BLC struct {
 	BloodProductCode *CE `hl7:"false,Blood Product Code"` // BLC-1
 	BloodAmount      *CQ `hl7:"false,Blood Amount"`       // BLC-2
@@ -1595,8 +1595,8 @@ func (s *BLC) SegmentName() string {
 	return "BLC"
 }
 
-//  BLG represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// BLG represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type BLG struct {
 	WhenToCharge     *CCD `hl7:"false,When To Charge"`     // BLG-1
 	ChargeType       *ID  `hl7:"false,Charge Type"`        // BLG-2
@@ -1608,8 +1608,8 @@ func (s *BLG) SegmentName() string {
 	return "BLG"
 }
 
-//  BPO represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// BPO represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type BPO struct {
 	SetIDBPO                       *SI   `hl7:"true,Set ID - BPO"`                        // BPO-1
 	BPUniversalServiceID           *CWE  `hl7:"true,BP Universal Service ID"`             // BPO-2
@@ -1631,8 +1631,8 @@ func (s *BPO) SegmentName() string {
 	return "BPO"
 }
 
-//  BPX represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// BPX represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type BPX struct {
 	SetIDBPX                    *SI   `hl7:"true,Set ID - BPX"`                     // BPX-1
 	BPDispenseStatus            *CWE  `hl7:"true,BP Dispense Status"`               // BPX-2
@@ -1661,8 +1661,8 @@ func (s *BPX) SegmentName() string {
 	return "BPX"
 }
 
-//  BTS represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// BTS represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type BTS struct {
 	BatchMessageCount *ST  `hl7:"false,Batch Message Count"` // BTS-1
 	BatchComment      *ST  `hl7:"false,Batch Comment"`       // BTS-2
@@ -1673,8 +1673,8 @@ func (s *BTS) SegmentName() string {
 	return "BTS"
 }
 
-//  BTX represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// BTX represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type BTX struct {
 	SetIDBTX                           *SI   `hl7:"true,Set ID - BTX"`                              // BTX-1
 	BCDonationID                       *EI   `hl7:"false,BC Donation ID"`                           // BTX-2
@@ -1701,8 +1701,8 @@ func (s *BTX) SegmentName() string {
 	return "BTX"
 }
 
-//  CDM represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// CDM represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type CDM struct {
 	PrimaryKeyValueCDM           *CE   `hl7:"true,Primary Key Value - CDM"`         // CDM-1
 	ChargeCodeAlias              []CE  `hl7:"false,Charge Code Alias"`              // CDM-2
@@ -1723,8 +1723,8 @@ func (s *CDM) SegmentName() string {
 	return "CDM"
 }
 
-//  CER represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// CER represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type CER struct {
 	SetIDCER                                                 *SI   `hl7:"true,Set ID - CER"`                                                      // CER-1
 	SerialNumber                                             *ST   `hl7:"false,Serial Number"`                                                    // CER-2
@@ -1763,8 +1763,8 @@ func (s *CER) SegmentName() string {
 	return "CER"
 }
 
-//  CM0 represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// CM0 represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type CM0 struct {
 	SetIDCM0                *SI   `hl7:"false,Set ID - CM0"`               // CM0-1
 	SponsorStudyID          *EI   `hl7:"true,Sponsor Study ID"`            // CM0-2
@@ -1783,8 +1783,8 @@ func (s *CM0) SegmentName() string {
 	return "CM0"
 }
 
-//  CM1 represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// CM1 represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type CM1 struct {
 	SetIDCM1                *SI `hl7:"true,Set ID - CM1"`               // CM1-1
 	StudyPhaseIdentifier    *CE `hl7:"true,Study Phase Identifier"`     // CM1-2
@@ -1795,8 +1795,8 @@ func (s *CM1) SegmentName() string {
 	return "CM1"
 }
 
-//  CM2 represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// CM2 represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type CM2 struct {
 	SetIDCM2                     *SI  `hl7:"false,Set ID - CM2"`                    // CM2-1
 	ScheduledTimePoint           *CE  `hl7:"true,Scheduled Time Point"`             // CM2-2
@@ -1808,8 +1808,8 @@ func (s *CM2) SegmentName() string {
 	return "CM2"
 }
 
-//  CNS represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// CNS represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type CNS struct {
 	StartingNotificationReferenceNumber *NM `hl7:"false,Starting Notification Reference Number"` // CNS-1
 	EndingNotificationReferenceNumber   *NM `hl7:"false,Ending Notification Reference Number"`   // CNS-2
@@ -1823,8 +1823,8 @@ func (s *CNS) SegmentName() string {
 	return "CNS"
 }
 
-//  CON represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// CON represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type CON struct {
 	SetIDCON                               *SI   `hl7:"true,Set ID - CON"`                               // CON-1
 	ConsentType                            *CWE  `hl7:"false,Consent Type"`                              // CON-2
@@ -1857,8 +1857,8 @@ func (s *CON) SegmentName() string {
 	return "CON"
 }
 
-//  CSP represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// CSP represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type CSP struct {
 	StudyPhaseIdentifier    *CE `hl7:"true,Study Phase Identifier"`       // CSP-1
 	DateTimeStudyPhaseBegan *TS `hl7:"true,Date/Time Study Phase Began"`  // CSP-2
@@ -1870,8 +1870,8 @@ func (s *CSP) SegmentName() string {
 	return "CSP"
 }
 
-//  CSR represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// CSR represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type CSR struct {
 	SponsorStudyID                     *EI   `hl7:"true,Sponsor Study ID"`                        // CSR-1
 	AlternateStudyID                   *EI   `hl7:"false,Alternate Study ID"`                     // CSR-2
@@ -1895,8 +1895,8 @@ func (s *CSR) SegmentName() string {
 	return "CSR"
 }
 
-//  CSS represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// CSS represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type CSS struct {
 	StudyScheduledTimePoint        *CE  `hl7:"true,Study Scheduled Time Point"`          // CSS-1
 	StudyScheduledPatientTimePoint *TS  `hl7:"false,Study Scheduled Patient Time Point"` // CSS-2
@@ -1907,8 +1907,8 @@ func (s *CSS) SegmentName() string {
 	return "CSS"
 }
 
-//  CTD represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// CTD represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type CTD struct {
 	ContactRole                     []CE  `hl7:"true,Contact Role"`                       // CTD-1
 	ContactName                     []XPN `hl7:"false,Contact Name"`                      // CTD-2
@@ -1923,8 +1923,8 @@ func (s *CTD) SegmentName() string {
 	return "CTD"
 }
 
-//  CTI represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// CTI represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type CTI struct {
 	SponsorStudyID          *EI `hl7:"true,Sponsor Study ID"`            // CTI-1
 	StudyPhaseIdentifier    *CE `hl7:"false,Study Phase Identifier"`     // CTI-2
@@ -1935,8 +1935,8 @@ func (s *CTI) SegmentName() string {
 	return "CTI"
 }
 
-//  DB1 represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// DB1 represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type DB1 struct {
 	SetIDDB1                   *SI  `hl7:"true,Set ID - DB1"`                    // DB1-1
 	DisabledPersonCode         *IS  `hl7:"false,Disabled Person Code"`           // DB1-2
@@ -1952,8 +1952,8 @@ func (s *DB1) SegmentName() string {
 	return "DB1"
 }
 
-//  DG1 represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// DG1 represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type DG1 struct {
 	SetIDDG1                *SI   `hl7:"true,Set ID - DG1"`               // DG1-1
 	DiagnosisCodingMethod   *ID   `hl7:"false,Diagnosis Coding Method"`   // DG1-2
@@ -1982,8 +1982,8 @@ func (s *DG1) SegmentName() string {
 	return "DG1"
 }
 
-//  DRG represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// DRG represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type DRG struct {
 	DiagnosticRelatedGroup *CE `hl7:"false,Diagnostic Related Group"` // DRG-1
 	DRGAssignedDateTime    *TS `hl7:"false,DRG Assigned Date/Time"`   // DRG-2
@@ -2002,8 +2002,8 @@ func (s *DRG) SegmentName() string {
 	return "DRG"
 }
 
-//  DSC represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// DSC represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type DSC struct {
 	ContinuationPointer *ST `hl7:"false,Continuation Pointer"` // DSC-1
 	ContinuationStyle   *ID `hl7:"false,Continuation Style"`   // DSC-2
@@ -2013,8 +2013,8 @@ func (s *DSC) SegmentName() string {
 	return "DSC"
 }
 
-//  DSP represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// DSP represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type DSP struct {
 	SetIDDSP          *SI `hl7:"false,Set ID - DSP"`        // DSP-1
 	DisplayLevel      *SI `hl7:"false,Display Level"`       // DSP-2
@@ -2027,8 +2027,8 @@ func (s *DSP) SegmentName() string {
 	return "DSP"
 }
 
-//  ECD represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// ECD represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type ECD struct {
 	ReferenceCommandNumber  *NM  `hl7:"true,Reference Command Number"`   // ECD-1
 	RemoteControlCommand    *CE  `hl7:"true,Remote Control Command"`     // ECD-2
@@ -2041,8 +2041,8 @@ func (s *ECD) SegmentName() string {
 	return "ECD"
 }
 
-//  ECR represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// ECR represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type ECR struct {
 	CommandResponse           *CE  `hl7:"true,Command Response"`             // ECR-1
 	DateTimeCompleted         *TS  `hl7:"true,Date/Time Completed"`          // ECR-2
@@ -2053,8 +2053,8 @@ func (s *ECR) SegmentName() string {
 	return "ECR"
 }
 
-//  EDU represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// EDU represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type EDU struct {
 	SetIDEDU                                    *SI   `hl7:"true,Set ID - EDU"`                                      // EDU-1
 	AcademicDegree                              *IS   `hl7:"false,Academic Degree"`                                  // EDU-2
@@ -2071,8 +2071,8 @@ func (s *EDU) SegmentName() string {
 	return "EDU"
 }
 
-//  EQL represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// EQL represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type EQL struct {
 	QueryTag                *ST `hl7:"false,Query Tag"`                 // EQL-1
 	QueryResponseFormatCode *ID `hl7:"true,Query/Response Format Code"` // EQL-2
@@ -2084,8 +2084,8 @@ func (s *EQL) SegmentName() string {
 	return "EQL"
 }
 
-//  EQP represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// EQP represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type EQP struct {
 	EventType       *CE `hl7:"true,Event Type"`       // EQP-1
 	FileName        *ST `hl7:"false,File Name"`       // EQP-2
@@ -2098,8 +2098,8 @@ func (s *EQP) SegmentName() string {
 	return "EQP"
 }
 
-//  EQU represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// EQU represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type EQU struct {
 	EquipmentInstanceIdentifier *EI `hl7:"true,Equipment Instance Identifier"` // EQU-1
 	EventDateTime               *TS `hl7:"true,Event Date/Time"`               // EQU-2
@@ -2112,8 +2112,8 @@ func (s *EQU) SegmentName() string {
 	return "EQU"
 }
 
-//  ERQ represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// ERQ represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type ERQ struct {
 	QueryTag           *ST   `hl7:"false,Query Tag"`            // ERQ-1
 	EventIdentifier    *CE   `hl7:"true,Event Identifier"`      // ERQ-2
@@ -2124,8 +2124,8 @@ func (s *ERQ) SegmentName() string {
 	return "ERQ"
 }
 
-//  ERR represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// ERR represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type ERR struct {
 	ErrorCodeAndLocation      []ELD `hl7:"false,Error Code And Location"`     // ERR-1
 	ErrorLocation             []ERL `hl7:"false,Error Location"`              // ERR-2
@@ -2145,8 +2145,8 @@ func (s *ERR) SegmentName() string {
 	return "ERR"
 }
 
-//  EVN represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// EVN represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type EVN struct {
 	EventTypeCode        *ID   `hl7:"false,Event Type Code"`         // EVN-1
 	RecordedDateTime     *TS   `hl7:"true,Recorded Date/Time"`       // EVN-2
@@ -2161,8 +2161,8 @@ func (s *EVN) SegmentName() string {
 	return "EVN"
 }
 
-//  FAC represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// FAC represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type FAC struct {
 	FacilityIDFAC                       *EI   `hl7:"true,Facility ID-FAC"`                        // FAC-1
 	FacilityType                        *ID   `hl7:"false,Facility Type"`                         // FAC-2
@@ -2182,8 +2182,8 @@ func (s *FAC) SegmentName() string {
 	return "FAC"
 }
 
-//  FHS represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// FHS represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type FHS struct {
 	FileFieldSeparator       *ST `hl7:"true,File Field Separator"`        // FHS-1
 	FileEncodingCharacters   *ST `hl7:"true,File Encoding Characters"`    // FHS-2
@@ -2203,8 +2203,8 @@ func (s *FHS) SegmentName() string {
 	return "FHS"
 }
 
-//  FT1 represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// FT1 represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type FT1 struct {
 	SetIDFT1                                   *SI   `hl7:"false,Set ID - FT1"`                                    // FT1-1
 	TransactionID                              *ST   `hl7:"false,Transaction ID"`                                  // FT1-2
@@ -2243,8 +2243,8 @@ func (s *FT1) SegmentName() string {
 	return "FT1"
 }
 
-//  FTS represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// FTS represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type FTS struct {
 	FileBatchCount     *NM `hl7:"false,File Batch Count"`     // FTS-1
 	FileTrailerComment *ST `hl7:"false,File Trailer Comment"` // FTS-2
@@ -2254,8 +2254,8 @@ func (s *FTS) SegmentName() string {
 	return "FTS"
 }
 
-//  GOL represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// GOL represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type GOL struct {
 	ActionCode                  *ID   `hl7:"true,Action Code"`                       // GOL-1
 	ActionDateTime              *TS   `hl7:"true,Action Date/Time"`                  // GOL-2
@@ -2284,8 +2284,8 @@ func (s *GOL) SegmentName() string {
 	return "GOL"
 }
 
-//  GP1 represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// GP1 represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type GP1 struct {
 	TypeOfBillCode              *IS  `hl7:"true,Type Of Bill Code"`               // GP1-1
 	RevenueCode                 []IS `hl7:"false,Revenue Code"`                   // GP1-2
@@ -2298,8 +2298,8 @@ func (s *GP1) SegmentName() string {
 	return "GP1"
 }
 
-//  GP2 represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// GP2 represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type GP2 struct {
 	RevenueCode                         *IS  `hl7:"false,Revenue Code"`                           // GP2-1
 	NumberOfServiceUnits                *NM  `hl7:"false,Number Of Service Units"`                // GP2-2
@@ -2321,8 +2321,8 @@ func (s *GP2) SegmentName() string {
 	return "GP2"
 }
 
-//  GT1 represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// GT1 represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type GT1 struct {
 	SetIDGT1                           *SI   `hl7:"true,Set ID - GT1"`                            // GT1-1
 	GuarantorNumber                    []CX  `hl7:"false,Guarantor Number"`                       // GT1-2
@@ -2387,8 +2387,8 @@ func (s *GT1) SegmentName() string {
 	return "GT1"
 }
 
-//  IAM represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// IAM represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type IAM struct {
 	SetIDIAM                             *SI  `hl7:"true,Set ID - IAM"`                              // IAM-1
 	AllergenTypeCode                     *CE  `hl7:"false,Allergen Type Code"`                       // IAM-2
@@ -2416,8 +2416,8 @@ func (s *IAM) SegmentName() string {
 	return "IAM"
 }
 
-//  IIM represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// IIM represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type IIM struct {
 	PrimaryKeyValueIIM            *CWE `hl7:"true,Primary Key Value - IIM"`           // IIM-1
 	ServiceItemCode               *CWE `hl7:"true,Service Item Code"`                 // IIM-2
@@ -2440,8 +2440,8 @@ func (s *IIM) SegmentName() string {
 	return "IIM"
 }
 
-//  IN1 represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// IN1 represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type IN1 struct {
 	SetIDIN1                      *SI   `hl7:"true,Set ID - IN1"`                       // IN1-1
 	InsurancePlanID               *CE   `hl7:"true,Insurance Plan ID"`                  // IN1-2
@@ -2502,8 +2502,8 @@ func (s *IN1) SegmentName() string {
 	return "IN1"
 }
 
-//  IN2 represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// IN2 represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type IN2 struct {
 	InsuredSEmployeeID                   []CX  `hl7:"false,Insured'S Employee ID"`                     // IN2-1
 	InsuredSSocialSecurityNumber         *ST   `hl7:"false,Insured'S Social Security Number"`          // IN2-2
@@ -2583,8 +2583,8 @@ func (s *IN2) SegmentName() string {
 	return "IN2"
 }
 
-//  IN3 represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// IN3 represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type IN3 struct {
 	SetIDIN3                           *SI   `hl7:"true,Set ID - IN3"`                           // IN3-1
 	CertificationNumber                *CX   `hl7:"false,Certification Number"`                  // IN3-2
@@ -2617,8 +2617,8 @@ func (s *IN3) SegmentName() string {
 	return "IN3"
 }
 
-//  INV represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// INV represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type INV struct {
 	SubstanceIdentifier          *CE  `hl7:"true,Substance Identifier"`            // INV-1
 	SubstanceStatus              []CE `hl7:"true,Substance Status"`                // INV-2
@@ -2646,8 +2646,8 @@ func (s *INV) SegmentName() string {
 	return "INV"
 }
 
-//  IPC represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// IPC represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type IPC struct {
 	AccessionIdentifier            *EI  `hl7:"true,Accession Identifier"`               // IPC-1
 	RequestedProcedureID           *EI  `hl7:"true,Requested Procedure ID"`             // IPC-2
@@ -2664,8 +2664,8 @@ func (s *IPC) SegmentName() string {
 	return "IPC"
 }
 
-//  ISD represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// ISD represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type ISD struct {
 	ReferenceInteractionNumberUniqueIdentifier *NM `hl7:"true,Reference Interaction Number (Unique Identifier)"` // ISD-1
 	InteractionTypeIdentifier                  *CE `hl7:"false,Interaction Type Identifier"`                     // ISD-2
@@ -2676,8 +2676,8 @@ func (s *ISD) SegmentName() string {
 	return "ISD"
 }
 
-//  LAN represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// LAN represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type LAN struct {
 	SetIDLAN                *SI  `hl7:"true,Set ID - LAN"`               // LAN-1
 	LanguageCode            *CE  `hl7:"true,Language Code"`              // LAN-2
@@ -2689,8 +2689,8 @@ func (s *LAN) SegmentName() string {
 	return "LAN"
 }
 
-//  LCC represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// LCC represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type LCC struct {
 	PrimaryKeyValueLCC *PL  `hl7:"true,Primary Key Value - LCC"` // LCC-1
 	LocationDepartment *CE  `hl7:"true,Location Department"`     // LCC-2
@@ -2702,8 +2702,8 @@ func (s *LCC) SegmentName() string {
 	return "LCC"
 }
 
-//  LCH represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// LCH represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type LCH struct {
 	PrimaryKeyValueLCH             *PL `hl7:"true,Primary Key Value - LCH"`           // LCH-1
 	SegmentActionCode              *ID `hl7:"false,Segment Action Code"`              // LCH-2
@@ -2716,8 +2716,8 @@ func (s *LCH) SegmentName() string {
 	return "LCH"
 }
 
-//  LDP represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// LDP represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type LDP struct {
 	PrimaryKeyValueLDP  *PL  `hl7:"true,Primary Key Value - LDP"`  // LDP-1
 	LocationDepartment  *CE  `hl7:"true,Location Department"`      // LDP-2
@@ -2737,8 +2737,8 @@ func (s *LDP) SegmentName() string {
 	return "LDP"
 }
 
-//  LOC represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// LOC represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type LOC struct {
 	PrimaryKeyValueLOC  *PL   `hl7:"true,Primary Key Value - LOC"`  // LOC-1
 	LocationDescription *ST   `hl7:"false,Location Description"`    // LOC-2
@@ -2755,8 +2755,8 @@ func (s *LOC) SegmentName() string {
 	return "LOC"
 }
 
-//  LRL represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// LRL represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type LRL struct {
 	PrimaryKeyValueLRL                      *PL   `hl7:"true,Primary Key Value - LRL"`                     // LRL-1
 	SegmentActionCode                       *ID   `hl7:"false,Segment Action Code"`                        // LRL-2
@@ -2770,8 +2770,8 @@ func (s *LRL) SegmentName() string {
 	return "LRL"
 }
 
-//  MFA represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// MFA represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type MFA struct {
 	RecordLevelEventCode      *ID   `hl7:"true,Record-Level Event Code"`       // MFA-1
 	MFNControlID              *ST   `hl7:"false,MFN Control ID"`               // MFA-2
@@ -2785,8 +2785,8 @@ func (s *MFA) SegmentName() string {
 	return "MFA"
 }
 
-//  MFE represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// MFE represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type MFE struct {
 	RecordLevelEventCode *ID   `hl7:"true,Record-Level Event Code"` // MFE-1
 	MFNControlID         *ST   `hl7:"false,MFN Control ID"`         // MFE-2
@@ -2799,8 +2799,8 @@ func (s *MFE) SegmentName() string {
 	return "MFE"
 }
 
-//  MFI represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// MFI represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type MFI struct {
 	MasterFileIdentifier            *CE `hl7:"true,Master File Identifier"`              // MFI-1
 	MasterFileApplicationIdentifier *HD `hl7:"false,Master File Application Identifier"` // MFI-2
@@ -2814,8 +2814,8 @@ func (s *MFI) SegmentName() string {
 	return "MFI"
 }
 
-//  MRG represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// MRG represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type MRG struct {
 	PriorPatientIdentifierList []CX  `hl7:"true,Prior Patient Identifier List"` // MRG-1
 	PriorAlternatePatientID    []CX  `hl7:"false,Prior Alternate Patient ID"`   // MRG-2
@@ -2830,8 +2830,8 @@ func (s *MRG) SegmentName() string {
 	return "MRG"
 }
 
-//  MSA represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// MSA represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type MSA struct {
 	AcknowledgmentCode        *ID  `hl7:"true,Acknowledgment Code"`          // MSA-1
 	MessageControlID          *ST  `hl7:"true,Message Control ID"`           // MSA-2
@@ -2845,10 +2845,10 @@ func (s *MSA) SegmentName() string {
 	return "MSA"
 }
 
-//  MSH represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// MSH represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type MSH struct {
-	//  Missing: MSH.1
+	// Missing: MSH.1
 	EncodingCharacters                  *Delimiters `hl7:"true,Encoding Characters"`                      // MSH-2
 	SendingApplication                  *HD         `hl7:"false,Sending Application"`                     // MSH-3
 	SendingFacility                     *HD         `hl7:"false,Sending Facility"`                        // MSH-4
@@ -2875,8 +2875,8 @@ func (s *MSH) SegmentName() string {
 	return "MSH"
 }
 
-//  NCK represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// NCK represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type NCK struct {
 	SystemDateTime *TS `hl7:"true,System Date/Time"` // NCK-1
 }
@@ -2885,8 +2885,8 @@ func (s *NCK) SegmentName() string {
 	return "NCK"
 }
 
-//  NDS represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// NDS represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type NDS struct {
 	NotificationReferenceNumber *NM `hl7:"true,Notification Reference Number"` // NDS-1
 	NotificationDateTime        *TS `hl7:"true,Notification Date/Time"`        // NDS-2
@@ -2898,8 +2898,8 @@ func (s *NDS) SegmentName() string {
 	return "NDS"
 }
 
-//  NK1 represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// NK1 represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type NK1 struct {
 	SetIDNK1                                 *SI   `hl7:"true,Set ID - NK1"`                                      // NK1-1
 	Name                                     []XPN `hl7:"false,Name"`                                             // NK1-2
@@ -2946,8 +2946,8 @@ func (s *NK1) SegmentName() string {
 	return "NK1"
 }
 
-//  NPU represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// NPU represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type NPU struct {
 	BedLocation *PL `hl7:"true,Bed Location"` // NPU-1
 	BedStatus   *IS `hl7:"false,Bed Status"`  // NPU-2
@@ -2957,8 +2957,8 @@ func (s *NPU) SegmentName() string {
 	return "NPU"
 }
 
-//  NSC represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// NSC represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type NSC struct {
 	ApplicationChangeType *IS `hl7:"true,Application Change Type"` // NSC-1
 	CurrentCPU            *ST `hl7:"false,Current CPU"`            // NSC-2
@@ -2975,8 +2975,8 @@ func (s *NSC) SegmentName() string {
 	return "NSC"
 }
 
-//  NST represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// NST represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type NST struct {
 	StatisticsAvailable           *ID `hl7:"true,Statistics Available"`              // NST-1
 	SourceIdentifier              *ST `hl7:"false,Source Identifier"`                // NST-2
@@ -2999,8 +2999,8 @@ func (s *NST) SegmentName() string {
 	return "NST"
 }
 
-//  NTE represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// NTE represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type NTE struct {
 	SetIDNTE        *SI  `hl7:"false,Set ID - NTE"`      // NTE-1
 	SourceOfComment *ID  `hl7:"false,Source Of Comment"` // NTE-2
@@ -3012,8 +3012,8 @@ func (s *NTE) SegmentName() string {
 	return "NTE"
 }
 
-//  OBR represents the corresponding HL7 segment.
-//  Definition from HL7 SYNTHETIC
+// OBR represents the corresponding HL7 segment.
+// Definition from HL7 SYNTHETIC
 type OBR struct {
 	SetIDOBR                                   *SI   `hl7:"false,Set ID - OBR"`                                    // OBR-1
 	PlacerOrderNumber                          *EI   `hl7:"false,Placer Order Number"`                             // OBR-2
@@ -3071,8 +3071,8 @@ func (s *OBR) SegmentName() string {
 	return "OBR"
 }
 
-//  OBX represents the corresponding HL7 segment.
-//  Definition from HL7 SYNTHETIC
+// OBX represents the corresponding HL7 segment.
+// Definition from HL7 SYNTHETIC
 type OBX struct {
 	SetIDOBX                               *SI   `hl7:"false,Set ID - OBX"`                                  // OBX-1
 	ValueType                              *ID   `hl7:"false,Value Type"`                                    // OBX-2
@@ -3105,8 +3105,8 @@ func (s *OBX) SegmentName() string {
 	return "OBX"
 }
 
-//  ODS represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// ODS represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type ODS struct {
 	Type                           *ID  `hl7:"true,Type"`                                 // ODS-1
 	ServicePeriod                  []CE `hl7:"false,Service Period"`                      // ODS-2
@@ -3118,8 +3118,8 @@ func (s *ODS) SegmentName() string {
 	return "ODS"
 }
 
-//  ODT represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// ODT represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type ODT struct {
 	TrayType        *CE  `hl7:"true,Tray Type"`         // ODT-1
 	ServicePeriod   []CE `hl7:"false,Service Period"`   // ODT-2
@@ -3130,8 +3130,8 @@ func (s *ODT) SegmentName() string {
 	return "ODT"
 }
 
-//  OM1 represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// OM1 represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type OM1 struct {
 	SequenceNumberTestObservationMasterFile                *NM   `hl7:"true,Sequence Number - Test/Observation Master File"`                    // OM1-1
 	ProducerSServiceTestObservationID                      *CE   `hl7:"true,Producer'S Service/Test/Observation ID"`                            // OM1-2
@@ -3186,8 +3186,8 @@ func (s *OM1) SegmentName() string {
 	return "OM1"
 }
 
-//  OM2 represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// OM2 represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type OM2 struct {
 	SequenceNumberTestObservationMasterFile              *NM   `hl7:"false,Sequence Number - Test/Observation Master File"`                 // OM2-1
 	UnitsOfMeasure                                       *CE   `hl7:"false,Units Of Measure"`                                               // OM2-2
@@ -3205,8 +3205,8 @@ func (s *OM2) SegmentName() string {
 	return "OM2"
 }
 
-//  OM3 represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// OM3 represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type OM3 struct {
 	SequenceNumberTestObservationMasterFile     *NM  `hl7:"false,Sequence Number - Test/Observation Master File"`   // OM3-1
 	PreferredCodingSystem                       *CE  `hl7:"false,Preferred Coding System"`                          // OM3-2
@@ -3221,8 +3221,8 @@ func (s *OM3) SegmentName() string {
 	return "OM3"
 }
 
-//  OM4 represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// OM4 represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type OM4 struct {
 	SequenceNumberTestObservationMasterFile *NM  `hl7:"false,Sequence Number - Test/Observation Master File"` // OM4-1
 	DerivedSpecimen                         *ID  `hl7:"false,Derived Specimen"`                               // OM4-2
@@ -3244,8 +3244,8 @@ func (s *OM4) SegmentName() string {
 	return "OM4"
 }
 
-//  OM5 represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// OM5 represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type OM5 struct {
 	SequenceNumberTestObservationMasterFile            *NM  `hl7:"false,Sequence Number - Test/Observation Master File"`            // OM5-1
 	TestObservationsIncludedWithinAnOrderedTestBattery []CE `hl7:"false,Test/Observations Included Within An Ordered Test Battery"` // OM5-2
@@ -3256,8 +3256,8 @@ func (s *OM5) SegmentName() string {
 	return "OM5"
 }
 
-//  OM6 represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// OM6 represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type OM6 struct {
 	SequenceNumberTestObservationMasterFile *NM `hl7:"false,Sequence Number - Test/Observation Master File"` // OM6-1
 	DerivationRule                          *TX `hl7:"false,Derivation Rule"`                                // OM6-2
@@ -3267,8 +3267,8 @@ func (s *OM6) SegmentName() string {
 	return "OM6"
 }
 
-//  OM7 represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// OM7 represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type OM7 struct {
 	SequenceNumberTestObservationMasterFile *NM  `hl7:"true,Sequence Number - Test/Observation Master File"` // OM7-1
 	UniversalServiceIdentifier              *CE  `hl7:"true,Universal Service Identifier"`                   // OM7-2
@@ -3300,8 +3300,8 @@ func (s *OM7) SegmentName() string {
 	return "OM7"
 }
 
-//  ORC represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// ORC represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type ORC struct {
 	OrderControl                            *ID   `hl7:"true,Order Control"`                                // ORC-1
 	PlacerOrderNumber                       *EI   `hl7:"false,Placer Order Number"`                         // ORC-2
@@ -3340,8 +3340,8 @@ func (s *ORC) SegmentName() string {
 	return "ORC"
 }
 
-//  ORG represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// ORG represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type ORG struct {
 	SetIDORG                                   *SI `hl7:"true,Set ID - ORG"`                                      // ORG-1
 	OrganizationUnitCode                       *CE `hl7:"false,Organization Unit Code"`                           // ORG-2
@@ -3361,8 +3361,8 @@ func (s *ORG) SegmentName() string {
 	return "ORG"
 }
 
-//  ORO represents the corresponding HL7 segment.
-//  Definition from HL7 2.1
+// ORO represents the corresponding HL7 segment.
+// Definition from HL7 2.1
 type ORO struct {
 	ORDERITEMID       *CE  `hl7:"false,ORDER ITEM ID"`      // ORO-1
 	SUBSTITUTEALLOWED *ID  `hl7:"false,SUBSTITUTE ALLOWED"` // ORO-2
@@ -3374,8 +3374,8 @@ func (s *ORO) SegmentName() string {
 	return "ORO"
 }
 
-//  OVR represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// OVR represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type OVR struct {
 	BusinessRuleOverrideType *CWE `hl7:"false,Business Rule Override Type"` // OVR-1
 	BusinessRuleOverrideCode *CWE `hl7:"false,Business Rule Override Code"` // OVR-2
@@ -3388,8 +3388,8 @@ func (s *OVR) SegmentName() string {
 	return "OVR"
 }
 
-//  PCR represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// PCR represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type PCR struct {
 	ImplicatedProduct                 *CE  `hl7:"true,Implicated Product"`                     // PCR-1
 	GenericProduct                    *IS  `hl7:"false,Generic Product"`                       // PCR-2
@@ -3420,8 +3420,8 @@ func (s *PCR) SegmentName() string {
 	return "PCR"
 }
 
-//  PD1 represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// PD1 represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type PD1 struct {
 	LivingDependency                        []IS  `hl7:"false,Living Dependency"`                           // PD1-1
 	LivingArrangement                       *IS   `hl7:"false,Living Arrangement"`                          // PD1-2
@@ -3450,8 +3450,8 @@ func (s *PD1) SegmentName() string {
 	return "PD1"
 }
 
-//  PDA represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// PDA represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type PDA struct {
 	DeathCauseCode                 []CE `hl7:"false,Death Cause Code"`                   // PDA-1
 	DeathLocation                  *PL  `hl7:"false,Death Location"`                     // PDA-2
@@ -3468,8 +3468,8 @@ func (s *PDA) SegmentName() string {
 	return "PDA"
 }
 
-//  PDC represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// PDC represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type PDC struct {
 	ManufacturerDistributor []XON `hl7:"true,Manufacturer/Distributor"` // PDC-1
 	Country                 *CE   `hl7:"true,Country"`                  // PDC-2
@@ -3492,8 +3492,8 @@ func (s *PDC) SegmentName() string {
 	return "PDC"
 }
 
-//  PEO represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// PEO represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type PEO struct {
 	EventIdentifiersUsed                  []CE  `hl7:"false,Event Identifiers Used"`                      // PEO-1
 	EventSymptomDiagnosisCode             []CE  `hl7:"false,Event Symptom/Diagnosis Code"`                // PEO-2
@@ -3526,8 +3526,8 @@ func (s *PEO) SegmentName() string {
 	return "PEO"
 }
 
-//  PES represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// PES represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type PES struct {
 	SenderOrganizationName []XON `hl7:"false,Sender Organization Name"` // PES-1
 	SenderIndividualName   []XCN `hl7:"false,Sender Individual Name"`   // PES-2
@@ -3548,8 +3548,8 @@ func (s *PES) SegmentName() string {
 	return "PES"
 }
 
-//  PID represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// PID represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type PID struct {
 	SetIDPID                    *SI   `hl7:"false,Set ID - PID"`                      // PID-1
 	PatientID                   *CX   `hl7:"false,Patient ID"`                        // PID-2
@@ -3596,8 +3596,8 @@ func (s *PID) SegmentName() string {
 	return "PID"
 }
 
-//  PR1 represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// PR1 represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type PR1 struct {
 	SetIDPR1                *SI   `hl7:"true,Set ID - PR1"`               // PR1-1
 	ProcedureCodingMethod   *IS   `hl7:"false,Procedure Coding Method"`   // PR1-2
@@ -3625,8 +3625,8 @@ func (s *PR1) SegmentName() string {
 	return "PR1"
 }
 
-//  PRA represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// PRA represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type PRA struct {
 	PrimaryKeyValuePRA                        *CE   `hl7:"false,Primary Key Value - PRA"`                      // PRA-1
 	PractitionerGroup                         []CE  `hl7:"false,Practitioner Group"`                           // PRA-2
@@ -3646,8 +3646,8 @@ func (s *PRA) SegmentName() string {
 	return "PRA"
 }
 
-//  PRB represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// PRB represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type PRB struct {
 	ActionCode                                        *ID  `hl7:"true,Action Code"`                                              // PRB-1
 	ActionDateTime                                    *TS  `hl7:"true,Action Date/Time"`                                         // PRB-2
@@ -3680,8 +3680,8 @@ func (s *PRB) SegmentName() string {
 	return "PRB"
 }
 
-//  PRC represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// PRC represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type PRC struct {
 	PrimaryKeyValuePRC  *CE  `hl7:"true,Primary Key Value - PRC"` // PRC-1
 	FacilityIDPRC       []CE `hl7:"false,Facility ID - PRC"`      // PRC-2
@@ -3707,8 +3707,8 @@ func (s *PRC) SegmentName() string {
 	return "PRC"
 }
 
-//  PRD represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// PRD represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type PRD struct {
 	ProviderRole                     []CE  `hl7:"true,Provider Role"`                          // PRD-1
 	ProviderName                     []XPN `hl7:"false,Provider Name"`                         // PRD-2
@@ -3725,8 +3725,8 @@ func (s *PRD) SegmentName() string {
 	return "PRD"
 }
 
-//  PSH represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// PSH represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type PSH struct {
 	ReportType                                         *ST  `hl7:"true,Report Type"`                                                // PSH-1
 	ReportFormIdentifier                               *ST  `hl7:"false,Report Form Identifier"`                                    // PSH-2
@@ -3748,8 +3748,8 @@ func (s *PSH) SegmentName() string {
 	return "PSH"
 }
 
-//  PTH represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// PTH represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type PTH struct {
 	ActionCode                           *ID `hl7:"true,Action Code"`                                 // PTH-1
 	PathwayID                            *CE `hl7:"true,Pathway ID"`                                  // PTH-2
@@ -3763,8 +3763,8 @@ func (s *PTH) SegmentName() string {
 	return "PTH"
 }
 
-//  PV1 represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// PV1 represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type PV1 struct {
 	SetIDPV1                *SI   `hl7:"false,Set ID - PV1"`              // PV1-1
 	PatientClass            *IS   `hl7:"true,Patient Class"`              // PV1-2
@@ -3824,8 +3824,8 @@ func (s *PV1) SegmentName() string {
 	return "PV1"
 }
 
-//  PV2 represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// PV2 represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type PV2 struct {
 	PriorPendingLocation                *PL   `hl7:"false,Prior Pending Location"`                   // PV2-1
 	AccommodationCode                   *CE   `hl7:"false,Accommodation Code"`                       // PV2-2
@@ -3882,8 +3882,8 @@ func (s *PV2) SegmentName() string {
 	return "PV2"
 }
 
-//  QAK represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// QAK represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type QAK struct {
 	QueryTag            *ST `hl7:"false,Query Tag"`             // QAK-1
 	QueryResponseStatus *ID `hl7:"false,Query Response Status"` // QAK-2
@@ -3897,8 +3897,8 @@ func (s *QAK) SegmentName() string {
 	return "QAK"
 }
 
-//  QID represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// QID represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type QID struct {
 	QueryTag         *ST `hl7:"true,Query Tag"`          // QID-1
 	MessageQueryName *CE `hl7:"true,Message Query Name"` // QID-2
@@ -3908,8 +3908,8 @@ func (s *QID) SegmentName() string {
 	return "QID"
 }
 
-//  QPD represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// QPD represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type QPD struct {
 	MessageQueryName                 *CE  `hl7:"true,Message Query Name"`                      // QPD-1
 	QueryTag                         *ST  `hl7:"false,Query Tag"`                              // QPD-2
@@ -3920,8 +3920,8 @@ func (s *QPD) SegmentName() string {
 	return "QPD"
 }
 
-//  QRD represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// QRD represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type QRD struct {
 	QueryDateTime            *TS   `hl7:"true,Query Date/Time"`              // QRD-1
 	QueryFormatCode          *ID   `hl7:"true,Query Format Code"`            // QRD-2
@@ -3941,8 +3941,8 @@ func (s *QRD) SegmentName() string {
 	return "QRD"
 }
 
-//  QRF represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// QRF represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type QRF struct {
 	WhereSubjectFilter           []ST `hl7:"true,Where Subject Filter"`              // QRF-1
 	WhenDataStartDateTime        *TS  `hl7:"false,When Data Start Date/Time"`        // QRF-2
@@ -3960,8 +3960,8 @@ func (s *QRF) SegmentName() string {
 	return "QRF"
 }
 
-//  QRI represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// QRI represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type QRI struct {
 	CandidateConfidence *NM  `hl7:"false,Candidate Confidence"` // QRI-1
 	MatchReasonCode     []IS `hl7:"false,Match Reason Code"`    // QRI-2
@@ -3972,8 +3972,8 @@ func (s *QRI) SegmentName() string {
 	return "QRI"
 }
 
-//  RCP represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// RCP represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type RCP struct {
 	QueryPriority            *ID   `hl7:"false,Query Priority"`              // RCP-1
 	QuantityLimitedRequest   *CQ   `hl7:"false,Quantity Limited Request"`    // RCP-2
@@ -3988,8 +3988,8 @@ func (s *RCP) SegmentName() string {
 	return "RCP"
 }
 
-//  RDF represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// RDF represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type RDF struct {
 	NumberOfColumnsPerRow *NM   `hl7:"true,Number Of Columns Per Row"` // RDF-1
 	ColumnDescription     []RCD `hl7:"true,Column Description"`        // RDF-2
@@ -3999,8 +3999,8 @@ func (s *RDF) SegmentName() string {
 	return "RDF"
 }
 
-//  RDT represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// RDT represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type RDT struct {
 	ColumnValue *Any `hl7:"true,Column Value"` // RDT-1
 }
@@ -4009,8 +4009,8 @@ func (s *RDT) SegmentName() string {
 	return "RDT"
 }
 
-//  RF1 represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// RF1 represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type RF1 struct {
 	ReferralStatus                *CE  `hl7:"false,Referral Status"`                // RF1-1
 	ReferralPriority              *CE  `hl7:"false,Referral Priority"`              // RF1-2
@@ -4029,8 +4029,8 @@ func (s *RF1) SegmentName() string {
 	return "RF1"
 }
 
-//  RGS represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// RGS represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type RGS struct {
 	SetIDRGS          *SI `hl7:"true,Set ID - RGS"`         // RGS-1
 	SegmentActionCode *ID `hl7:"false,Segment Action Code"` // RGS-2
@@ -4041,8 +4041,8 @@ func (s *RGS) SegmentName() string {
 	return "RGS"
 }
 
-//  RMI represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// RMI represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type RMI struct {
 	RiskManagementIncidentCode *CE `hl7:"false,Risk Management Incident Code"` // RMI-1
 	DateTimeIncident           *TS `hl7:"false,Date/Time Incident"`            // RMI-2
@@ -4053,8 +4053,8 @@ func (s *RMI) SegmentName() string {
 	return "RMI"
 }
 
-//  ROL represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// ROL represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type ROL struct {
 	RoleInstanceID              *EI   `hl7:"false,Role Instance ID"`               // ROL-1
 	ActionCode                  *ID   `hl7:"true,Action Code"`                     // ROL-2
@@ -4074,8 +4074,8 @@ func (s *ROL) SegmentName() string {
 	return "ROL"
 }
 
-//  RQ1 represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// RQ1 represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type RQ1 struct {
 	AnticipatedPrice       *ST `hl7:"false,Anticipated Price"`       // RQ1-1
 	ManufacturerIdentifier *CE `hl7:"false,Manufacturer Identifier"` // RQ1-2
@@ -4090,8 +4090,8 @@ func (s *RQ1) SegmentName() string {
 	return "RQ1"
 }
 
-//  RQD represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// RQD represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type RQD struct {
 	RequisitionLineNumber    *SI `hl7:"false,Requisition Line Number"`     // RQD-1
 	ItemCodeInternal         *CE `hl7:"false,Item Code - Internal"`        // RQD-2
@@ -4109,8 +4109,8 @@ func (s *RQD) SegmentName() string {
 	return "RQD"
 }
 
-//  RX1 represents the corresponding HL7 segment.
-//  Definition from HL7 2.1
+// RX1 represents the corresponding HL7 segment.
+// Definition from HL7 2.1
 type RX1 struct {
 	UNUSED1              *ST  `hl7:"false,UNUSED"`                   // RX1-1
 	UNUSED2              *ST  `hl7:"false,UNUSED"`                   // RX1-2
@@ -4148,8 +4148,8 @@ func (s *RX1) SegmentName() string {
 	return "RX1"
 }
 
-//  RXA represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// RXA represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type RXA struct {
 	GiveSubIDCounter                    *NM   `hl7:"true,Give Sub-ID Counter"`                      // RXA-1
 	AdministrationSubIDCounter          *NM   `hl7:"true,Administration Sub-ID Counter"`            // RXA-2
@@ -4183,8 +4183,8 @@ func (s *RXA) SegmentName() string {
 	return "RXA"
 }
 
-//  RXC represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// RXC represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type RXC struct {
 	RXComponentType                  *ID  `hl7:"true,RX Component Type"`                     // RXC-1
 	ComponentCode                    *CE  `hl7:"true,Component Code"`                        // RXC-2
@@ -4201,8 +4201,8 @@ func (s *RXC) SegmentName() string {
 	return "RXC"
 }
 
-//  RXD represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// RXD represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type RXD struct {
 	DispenseSubIDCounter                                    *NM   `hl7:"true,Dispense Sub-ID Counter"`                                        // RXD-1
 	DispenseGiveCode                                        *CE   `hl7:"true,Dispense/Give Code"`                                             // RXD-2
@@ -4243,8 +4243,8 @@ func (s *RXD) SegmentName() string {
 	return "RXD"
 }
 
-//  RXE represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// RXE represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type RXE struct {
 	QuantityTiming                                          *TQ   `hl7:"false,Quantity/Timing"`                                               // RXE-1
 	GiveCode                                                *CE   `hl7:"true,Give Code"`                                                      // RXE-2
@@ -4296,8 +4296,8 @@ func (s *RXE) SegmentName() string {
 	return "RXE"
 }
 
-//  RXG represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// RXG represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type RXG struct {
 	GiveSubIDCounter                                            *NM  `hl7:"true,Give Sub-ID Counter"`                                                // RXG-1
 	DispenseSubIDCounter                                        *NM  `hl7:"false,Dispense Sub-ID Counter"`                                           // RXG-2
@@ -4331,8 +4331,8 @@ func (s *RXG) SegmentName() string {
 	return "RXG"
 }
 
-//  RXO represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// RXO represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type RXO struct {
 	RequestedGiveCode                      *CE   `hl7:"false,Requested Give Code"`                         // RXO-1
 	RequestedGiveAmountMinimum             *NM   `hl7:"false,Requested Give Amount - Minimum"`             // RXO-2
@@ -4368,8 +4368,8 @@ func (s *RXO) SegmentName() string {
 	return "RXO"
 }
 
-//  RXR represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// RXR represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type RXR struct {
 	Route                      *CE  `hl7:"true,Route"`                         // RXR-1
 	AdministrationSite         *CWE `hl7:"false,Administration Site"`          // RXR-2
@@ -4383,8 +4383,8 @@ func (s *RXR) SegmentName() string {
 	return "RXR"
 }
 
-//  SAC represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// SAC represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type SAC struct {
 	ExternalAccessionIdentifier       *EI   `hl7:"false,External Accession Identifier"`         // SAC-1
 	AccessionIdentifier               *EI   `hl7:"false,Accession Identifier"`                  // SAC-2
@@ -4436,8 +4436,8 @@ func (s *SAC) SegmentName() string {
 	return "SAC"
 }
 
-//  SCH represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// SCH represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type SCH struct {
 	PlacerAppointmentID       *EI   `hl7:"false,Placer Appointment ID"`        // SCH-1
 	FillerAppointmentID       *EI   `hl7:"false,Filler Appointment ID"`        // SCH-2
@@ -4472,8 +4472,8 @@ func (s *SCH) SegmentName() string {
 	return "SCH"
 }
 
-//  SFT represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// SFT represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type SFT struct {
 	SoftwareVendorOrganization              *XON `hl7:"true,Software Vendor Organization"`                 // SFT-1
 	SoftwareCertifiedVersionOrReleaseNumber *ST  `hl7:"true,Software Certified Version Or Release Number"` // SFT-2
@@ -4487,8 +4487,8 @@ func (s *SFT) SegmentName() string {
 	return "SFT"
 }
 
-//  SID represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// SID represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type SID struct {
 	ApplicationMethodIdentifier     *CE `hl7:"false,Application / Method Identifier"`   // SID-1
 	SubstanceLotNumber              *ST `hl7:"false,Substance Lot Number"`              // SID-2
@@ -4500,8 +4500,8 @@ func (s *SID) SegmentName() string {
 	return "SID"
 }
 
-//  SPM represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// SPM represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type SPM struct {
 	SetIDSPM                   *SI   `hl7:"false,Set ID - SPM"`                  // SPM-1
 	SpecimenID                 *EIP  `hl7:"false,Specimen ID"`                   // SPM-2
@@ -4538,8 +4538,8 @@ func (s *SPM) SegmentName() string {
 	return "SPM"
 }
 
-//  SPR represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// SPR represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type SPR struct {
 	QueryTag                *ST   `hl7:"false,Query Tag"`                 // SPR-1
 	QueryResponseFormatCode *ID   `hl7:"true,Query/Response Format Code"` // SPR-2
@@ -4551,8 +4551,8 @@ func (s *SPR) SegmentName() string {
 	return "SPR"
 }
 
-//  STF represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// STF represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type STF struct {
 	PrimaryKeyValueSTF              *CE   `hl7:"false,Primary Key Value - STF"`            // STF-1
 	StaffIdentifierList             []CX  `hl7:"false,Staff Identifier List"`              // STF-2
@@ -4598,8 +4598,8 @@ func (s *STF) SegmentName() string {
 	return "STF"
 }
 
-//  TCC represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// TCC represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type TCC struct {
 	UniversalServiceIdentifier            *CE  `hl7:"true,Universal Service Identifier"`                // TCC-1
 	TestApplicationIdentifier             *EI  `hl7:"true,Test Application Identifier"`                 // TCC-2
@@ -4621,8 +4621,8 @@ func (s *TCC) SegmentName() string {
 	return "TCC"
 }
 
-//  TCD represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// TCD represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type TCD struct {
 	UniversalServiceIdentifier            *CE `hl7:"true,Universal Service Identifier"`                // TCD-1
 	AutoDilutionFactor                    *SN `hl7:"false,Auto-Dilution Factor"`                       // TCD-2
@@ -4638,8 +4638,8 @@ func (s *TCD) SegmentName() string {
 	return "TCD"
 }
 
-//  TQ1 represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// TQ1 represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type TQ1 struct {
 	SetIDTQ1             *SI   `hl7:"false,Set ID - TQ1"`            // TQ1-1
 	Quantity             *CQ   `hl7:"false,Quantity"`                // TQ1-2
@@ -4661,8 +4661,8 @@ func (s *TQ1) SegmentName() string {
 	return "TQ1"
 }
 
-//  TQ2 represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// TQ2 represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type TQ2 struct {
 	SetIDTQ2                          *SI  `hl7:"false,Set ID - TQ2"`                           // TQ2-1
 	SequenceResultsFlag               *ID  `hl7:"false,Sequence/Results Flag"`                  // TQ2-2
@@ -4680,8 +4680,8 @@ func (s *TQ2) SegmentName() string {
 	return "TQ2"
 }
 
-//  TXA represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// TXA represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type TXA struct {
 	SetIDTXA                                 *SI   `hl7:"true,Set ID - TXA"`                                      // TXA-1
 	DocumentType                             *IS   `hl7:"true,Document Type"`                                     // TXA-2
@@ -4712,8 +4712,8 @@ func (s *TXA) SegmentName() string {
 	return "TXA"
 }
 
-//  UB1 represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// UB1 represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type UB1 struct {
 	SetIDUB1                  *SI   `hl7:"false,Set ID - UB1"`                    // UB1-1
 	BloodDeductible43         *NM   `hl7:"false,Blood Deductible  (43)"`          // UB1-2
@@ -4744,8 +4744,8 @@ func (s *UB1) SegmentName() string {
 	return "UB1"
 }
 
-//  UB2 represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// UB2 represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type UB2 struct {
 	SetIDUB2                  *SI   `hl7:"false,Set ID - UB2"`                    // UB2-1
 	CoInsuranceDays9          *ST   `hl7:"false,Co-Insurance Days (9)"`           // UB2-2
@@ -4770,8 +4770,8 @@ func (s *UB2) SegmentName() string {
 	return "UB2"
 }
 
-//  URD represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// URD represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type URD struct {
 	RUDateTime              *TS   `hl7:"false,R/U Date/Time"`               // URD-1
 	ReportPriority          *ID   `hl7:"false,Report Priority"`             // URD-2
@@ -4786,8 +4786,8 @@ func (s *URD) SegmentName() string {
 	return "URD"
 }
 
-//  URS represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// URS represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type URS struct {
 	RUWhereSubjectDefinition        []ST `hl7:"true,R/U Where Subject Definition"`          // URS-1
 	RUWhenDataStartDateTime         *TS  `hl7:"false,R/U When Data Start Date/Time"`        // URS-2
@@ -4804,8 +4804,8 @@ func (s *URS) SegmentName() string {
 	return "URS"
 }
 
-//  VAR represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// VAR represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type VAR struct {
 	VarianceInstanceID     *EI   `hl7:"true,Variance Instance ID"`       // VAR-1
 	DocumentedDateTime     *TS   `hl7:"true,Documented Date/Time"`       // VAR-2
@@ -4819,8 +4819,8 @@ func (s *VAR) SegmentName() string {
 	return "VAR"
 }
 
-//  VTQ represents the corresponding HL7 segment.
-//  Definition from HL7 2.5.1
+// VTQ represents the corresponding HL7 segment.
+// Definition from HL7 2.5.1
 type VTQ struct {
 	QueryTag                *ST   `hl7:"false,Query Tag"`                 // VTQ-1
 	QueryResponseFormatCode *ID   `hl7:"true,Query/Response Format Code"` // VTQ-2
@@ -4833,8 +4833,8 @@ func (s *VTQ) SegmentName() string {
 	return "VTQ"
 }
 
-//  ACK represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ACK represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ACK struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -4847,8 +4847,8 @@ func (s *ACK) MessageTypeName() string {
 	return "ACK"
 }
 
-//  ACK_N02 represents the corresponding HL7 message type.
-//  Definition from HL7 2.4
+// ACK_N02 represents the corresponding HL7 message type.
+// Definition from HL7 2.4
 type ACK_N02 struct {
 	MSH   *MSH `hl7:"true,MSH"`
 	MSA   *MSA `hl7:"true,MSA"`
@@ -4859,8 +4859,8 @@ func (s *ACK_N02) MessageTypeName() string {
 	return "ACK_N02"
 }
 
-//  ADR_A19 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADR_A19 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADR_A19 struct {
 	MSH            *MSH                     `hl7:"true,MSH"`
 	SFT            []SFT                    `hl7:"false,SFT"`
@@ -4878,8 +4878,8 @@ func (s *ADR_A19) MessageTypeName() string {
 	return "ADR_A19"
 }
 
-//  ADR_A19_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADR_A19_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADR_A19_INSURANCE struct {
 	IN1   *IN1  `hl7:"true,IN1"`
 	IN2   *IN2  `hl7:"false,IN2"`
@@ -4892,8 +4892,8 @@ func (s *ADR_A19_INSURANCE) MessageTypeSubStructName() string {
 	return "ADR_A19_INSURANCE"
 }
 
-//  ADR_A19_PROCEDURE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADR_A19_PROCEDURE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADR_A19_PROCEDURE struct {
 	PR1   *PR1  `hl7:"true,PR1"`
 	ROL   []ROL `hl7:"false,ROL"`
@@ -4904,8 +4904,8 @@ func (s *ADR_A19_PROCEDURE) MessageTypeSubStructName() string {
 	return "ADR_A19_PROCEDURE"
 }
 
-//  ADR_A19_QUERY_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADR_A19_QUERY_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADR_A19_QUERY_RESPONSE struct {
 	EVN       *EVN                `hl7:"false,EVN"`
 	PID       *PID                `hl7:"true,PID"`
@@ -4933,8 +4933,8 @@ func (s *ADR_A19_QUERY_RESPONSE) MessageTypeSubStructName() string {
 	return "ADR_A19_QUERY_RESPONSE"
 }
 
-//  ADT_A01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A01 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A01 struct {
 	MSH       *MSH                `hl7:"true,MSH"`
 	SFT       []SFT               `hl7:"false,SFT"`
@@ -4965,8 +4965,8 @@ func (s *ADT_A01) MessageTypeName() string {
 	return "ADT_A01"
 }
 
-//  ADT_A01_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A01_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A01_INSURANCE struct {
 	IN1   *IN1  `hl7:"true,IN1"`
 	IN2   *IN2  `hl7:"false,IN2"`
@@ -4979,8 +4979,8 @@ func (s *ADT_A01_INSURANCE) MessageTypeSubStructName() string {
 	return "ADT_A01_INSURANCE"
 }
 
-//  ADT_A01_PROCEDURE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A01_PROCEDURE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A01_PROCEDURE struct {
 	PR1   *PR1  `hl7:"true,PR1"`
 	ROL   []ROL `hl7:"false,ROL"`
@@ -4991,8 +4991,8 @@ func (s *ADT_A01_PROCEDURE) MessageTypeSubStructName() string {
 	return "ADT_A01_PROCEDURE"
 }
 
-//  ADT_A02 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A02 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A02 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -5013,8 +5013,8 @@ func (s *ADT_A02) MessageTypeName() string {
 	return "ADT_A02"
 }
 
-//  ADT_A03 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A03 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A03 struct {
 	MSH       *MSH                `hl7:"true,MSH"`
 	SFT       []SFT               `hl7:"false,SFT"`
@@ -5043,8 +5043,8 @@ func (s *ADT_A03) MessageTypeName() string {
 	return "ADT_A03"
 }
 
-//  ADT_A03_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A03_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A03_INSURANCE struct {
 	IN1   *IN1  `hl7:"true,IN1"`
 	IN2   *IN2  `hl7:"false,IN2"`
@@ -5057,8 +5057,8 @@ func (s *ADT_A03_INSURANCE) MessageTypeSubStructName() string {
 	return "ADT_A03_INSURANCE"
 }
 
-//  ADT_A03_PROCEDURE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A03_PROCEDURE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A03_PROCEDURE struct {
 	PR1   *PR1  `hl7:"true,PR1"`
 	ROL   []ROL `hl7:"false,ROL"`
@@ -5069,8 +5069,8 @@ func (s *ADT_A03_PROCEDURE) MessageTypeSubStructName() string {
 	return "ADT_A03_PROCEDURE"
 }
 
-//  ADT_A04 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// ADT_A04 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type ADT_A04 struct {
 	MSH       *MSH                `hl7:"true,MSH"`
 	EVN       *EVN                `hl7:"true,EVN"`
@@ -5094,8 +5094,8 @@ func (s *ADT_A04) MessageTypeName() string {
 	return "ADT_A04"
 }
 
-//  ADT_A04_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// ADT_A04_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type ADT_A04_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -5107,8 +5107,8 @@ func (s *ADT_A04_INSURANCE) MessageTypeSubStructName() string {
 	return "ADT_A04_INSURANCE"
 }
 
-//  ADT_A05 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A05 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A05 struct {
 	MSH       *MSH                `hl7:"true,MSH"`
 	SFT       []SFT               `hl7:"false,SFT"`
@@ -5138,8 +5138,8 @@ func (s *ADT_A05) MessageTypeName() string {
 	return "ADT_A05"
 }
 
-//  ADT_A05_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A05_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A05_INSURANCE struct {
 	IN1   *IN1  `hl7:"true,IN1"`
 	IN2   *IN2  `hl7:"false,IN2"`
@@ -5152,8 +5152,8 @@ func (s *ADT_A05_INSURANCE) MessageTypeSubStructName() string {
 	return "ADT_A05_INSURANCE"
 }
 
-//  ADT_A05_PROCEDURE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A05_PROCEDURE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A05_PROCEDURE struct {
 	PR1   *PR1  `hl7:"true,PR1"`
 	ROL   []ROL `hl7:"false,ROL"`
@@ -5164,8 +5164,8 @@ func (s *ADT_A05_PROCEDURE) MessageTypeSubStructName() string {
 	return "ADT_A05_PROCEDURE"
 }
 
-//  ADT_A06 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A06 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A06 struct {
 	MSH       *MSH                `hl7:"true,MSH"`
 	SFT       []SFT               `hl7:"false,SFT"`
@@ -5196,8 +5196,8 @@ func (s *ADT_A06) MessageTypeName() string {
 	return "ADT_A06"
 }
 
-//  ADT_A06_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A06_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A06_INSURANCE struct {
 	IN1   *IN1  `hl7:"true,IN1"`
 	IN2   *IN2  `hl7:"false,IN2"`
@@ -5210,8 +5210,8 @@ func (s *ADT_A06_INSURANCE) MessageTypeSubStructName() string {
 	return "ADT_A06_INSURANCE"
 }
 
-//  ADT_A06_PROCEDURE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A06_PROCEDURE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A06_PROCEDURE struct {
 	PR1   *PR1  `hl7:"true,PR1"`
 	ROL   []ROL `hl7:"false,ROL"`
@@ -5222,8 +5222,8 @@ func (s *ADT_A06_PROCEDURE) MessageTypeSubStructName() string {
 	return "ADT_A06_PROCEDURE"
 }
 
-//  ADT_A07 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// ADT_A07 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type ADT_A07 struct {
 	MSH       *MSH                `hl7:"true,MSH"`
 	EVN       *EVN                `hl7:"true,EVN"`
@@ -5248,8 +5248,8 @@ func (s *ADT_A07) MessageTypeName() string {
 	return "ADT_A07"
 }
 
-//  ADT_A07_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// ADT_A07_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type ADT_A07_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -5261,8 +5261,8 @@ func (s *ADT_A07_INSURANCE) MessageTypeSubStructName() string {
 	return "ADT_A07_INSURANCE"
 }
 
-//  ADT_A08 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// ADT_A08 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type ADT_A08 struct {
 	MSH       *MSH                `hl7:"true,MSH"`
 	EVN       *EVN                `hl7:"true,EVN"`
@@ -5286,8 +5286,8 @@ func (s *ADT_A08) MessageTypeName() string {
 	return "ADT_A08"
 }
 
-//  ADT_A08_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// ADT_A08_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type ADT_A08_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -5299,8 +5299,8 @@ func (s *ADT_A08_INSURANCE) MessageTypeSubStructName() string {
 	return "ADT_A08_INSURANCE"
 }
 
-//  ADT_A09 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A09 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A09 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -5319,8 +5319,8 @@ func (s *ADT_A09) MessageTypeName() string {
 	return "ADT_A09"
 }
 
-//  ADT_A10 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// ADT_A10 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type ADT_A10 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	EVN   *EVN  `hl7:"true,EVN"`
@@ -5336,8 +5336,8 @@ func (s *ADT_A10) MessageTypeName() string {
 	return "ADT_A10"
 }
 
-//  ADT_A11 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// ADT_A11 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type ADT_A11 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	EVN   *EVN  `hl7:"true,EVN"`
@@ -5353,8 +5353,8 @@ func (s *ADT_A11) MessageTypeName() string {
 	return "ADT_A11"
 }
 
-//  ADT_A12 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A12 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A12 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -5373,8 +5373,8 @@ func (s *ADT_A12) MessageTypeName() string {
 	return "ADT_A12"
 }
 
-//  ADT_A13 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// ADT_A13 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type ADT_A13 struct {
 	MSH       *MSH                `hl7:"true,MSH"`
 	EVN       *EVN                `hl7:"true,EVN"`
@@ -5398,8 +5398,8 @@ func (s *ADT_A13) MessageTypeName() string {
 	return "ADT_A13"
 }
 
-//  ADT_A13_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// ADT_A13_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type ADT_A13_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -5411,8 +5411,8 @@ func (s *ADT_A13_INSURANCE) MessageTypeSubStructName() string {
 	return "ADT_A13_INSURANCE"
 }
 
-//  ADT_A14 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// ADT_A14 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type ADT_A14 struct {
 	MSH       *MSH                `hl7:"true,MSH"`
 	EVN       *EVN                `hl7:"true,EVN"`
@@ -5436,8 +5436,8 @@ func (s *ADT_A14) MessageTypeName() string {
 	return "ADT_A14"
 }
 
-//  ADT_A14_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// ADT_A14_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type ADT_A14_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -5449,8 +5449,8 @@ func (s *ADT_A14_INSURANCE) MessageTypeSubStructName() string {
 	return "ADT_A14_INSURANCE"
 }
 
-//  ADT_A15 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A15 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A15 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -5471,8 +5471,8 @@ func (s *ADT_A15) MessageTypeName() string {
 	return "ADT_A15"
 }
 
-//  ADT_A16 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A16 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A16 struct {
 	MSH       *MSH                `hl7:"true,MSH"`
 	SFT       []SFT               `hl7:"false,SFT"`
@@ -5500,8 +5500,8 @@ func (s *ADT_A16) MessageTypeName() string {
 	return "ADT_A16"
 }
 
-//  ADT_A16_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A16_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A16_INSURANCE struct {
 	IN1   *IN1  `hl7:"true,IN1"`
 	IN2   *IN2  `hl7:"false,IN2"`
@@ -5514,8 +5514,8 @@ func (s *ADT_A16_INSURANCE) MessageTypeSubStructName() string {
 	return "ADT_A16_INSURANCE"
 }
 
-//  ADT_A16_PROCEDURE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A16_PROCEDURE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A16_PROCEDURE struct {
 	PR1   *PR1  `hl7:"true,PR1"`
 	ROL   []ROL `hl7:"false,ROL"`
@@ -5526,8 +5526,8 @@ func (s *ADT_A16_PROCEDURE) MessageTypeSubStructName() string {
 	return "ADT_A16_PROCEDURE"
 }
 
-//  ADT_A17 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A17 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A17 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -5551,8 +5551,8 @@ func (s *ADT_A17) MessageTypeName() string {
 	return "ADT_A17"
 }
 
-//  ADT_A17_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.1
+// ADT_A17_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.1
 type ADT_A17_PATIENT struct {
 	PID   *PID `hl7:"true,PID"`
 	PV1   *PV1 `hl7:"true,PV1"`
@@ -5563,8 +5563,8 @@ func (s *ADT_A17_PATIENT) MessageTypeSubStructName() string {
 	return "ADT_A17_PATIENT"
 }
 
-//  ADT_A18 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A18 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A18 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -5580,8 +5580,8 @@ func (s *ADT_A18) MessageTypeName() string {
 	return "ADT_A18"
 }
 
-//  ADT_A20 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A20 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A20 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -5594,8 +5594,8 @@ func (s *ADT_A20) MessageTypeName() string {
 	return "ADT_A20"
 }
 
-//  ADT_A21 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A21 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A21 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -5613,8 +5613,8 @@ func (s *ADT_A21) MessageTypeName() string {
 	return "ADT_A21"
 }
 
-//  ADT_A22 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// ADT_A22 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type ADT_A22 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	EVN   *EVN  `hl7:"true,EVN"`
@@ -5629,8 +5629,8 @@ func (s *ADT_A22) MessageTypeName() string {
 	return "ADT_A22"
 }
 
-//  ADT_A23 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// ADT_A23 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type ADT_A23 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	EVN   *EVN  `hl7:"true,EVN"`
@@ -5645,8 +5645,8 @@ func (s *ADT_A23) MessageTypeName() string {
 	return "ADT_A23"
 }
 
-//  ADT_A24 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A24 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A24 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -5666,8 +5666,8 @@ func (s *ADT_A24) MessageTypeName() string {
 	return "ADT_A24"
 }
 
-//  ADT_A25 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// ADT_A25 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type ADT_A25 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	EVN   *EVN  `hl7:"true,EVN"`
@@ -5682,8 +5682,8 @@ func (s *ADT_A25) MessageTypeName() string {
 	return "ADT_A25"
 }
 
-//  ADT_A26 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// ADT_A26 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type ADT_A26 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	EVN   *EVN  `hl7:"true,EVN"`
@@ -5698,8 +5698,8 @@ func (s *ADT_A26) MessageTypeName() string {
 	return "ADT_A26"
 }
 
-//  ADT_A27 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// ADT_A27 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type ADT_A27 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	EVN   *EVN  `hl7:"true,EVN"`
@@ -5714,8 +5714,8 @@ func (s *ADT_A27) MessageTypeName() string {
 	return "ADT_A27"
 }
 
-//  ADT_A28 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// ADT_A28 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type ADT_A28 struct {
 	MSH       *MSH                `hl7:"true,MSH"`
 	EVN       *EVN                `hl7:"true,EVN"`
@@ -5739,8 +5739,8 @@ func (s *ADT_A28) MessageTypeName() string {
 	return "ADT_A28"
 }
 
-//  ADT_A28_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// ADT_A28_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type ADT_A28_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -5752,8 +5752,8 @@ func (s *ADT_A28_INSURANCE) MessageTypeSubStructName() string {
 	return "ADT_A28_INSURANCE"
 }
 
-//  ADT_A29 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// ADT_A29 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type ADT_A29 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	EVN   *EVN  `hl7:"true,EVN"`
@@ -5768,8 +5768,8 @@ func (s *ADT_A29) MessageTypeName() string {
 	return "ADT_A29"
 }
 
-//  ADT_A30 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A30 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A30 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -5784,8 +5784,8 @@ func (s *ADT_A30) MessageTypeName() string {
 	return "ADT_A30"
 }
 
-//  ADT_A31 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// ADT_A31 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type ADT_A31 struct {
 	MSH       *MSH                `hl7:"true,MSH"`
 	EVN       *EVN                `hl7:"true,EVN"`
@@ -5809,8 +5809,8 @@ func (s *ADT_A31) MessageTypeName() string {
 	return "ADT_A31"
 }
 
-//  ADT_A31_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// ADT_A31_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type ADT_A31_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -5822,8 +5822,8 @@ func (s *ADT_A31_INSURANCE) MessageTypeSubStructName() string {
 	return "ADT_A31_INSURANCE"
 }
 
-//  ADT_A32 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// ADT_A32 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type ADT_A32 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	EVN   *EVN  `hl7:"true,EVN"`
@@ -5838,8 +5838,8 @@ func (s *ADT_A32) MessageTypeName() string {
 	return "ADT_A32"
 }
 
-//  ADT_A33 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// ADT_A33 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type ADT_A33 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	EVN   *EVN  `hl7:"true,EVN"`
@@ -5854,8 +5854,8 @@ func (s *ADT_A33) MessageTypeName() string {
 	return "ADT_A33"
 }
 
-//  ADT_A34 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// ADT_A34 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type ADT_A34 struct {
 	MSH   *MSH `hl7:"true,MSH"`
 	EVN   *EVN `hl7:"true,EVN"`
@@ -5868,8 +5868,8 @@ func (s *ADT_A34) MessageTypeName() string {
 	return "ADT_A34"
 }
 
-//  ADT_A35 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// ADT_A35 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type ADT_A35 struct {
 	MSH   *MSH `hl7:"true,MSH"`
 	EVN   *EVN `hl7:"true,EVN"`
@@ -5882,8 +5882,8 @@ func (s *ADT_A35) MessageTypeName() string {
 	return "ADT_A35"
 }
 
-//  ADT_A36 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// ADT_A36 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type ADT_A36 struct {
 	MSH   *MSH `hl7:"true,MSH"`
 	EVN   *EVN `hl7:"true,EVN"`
@@ -5896,8 +5896,8 @@ func (s *ADT_A36) MessageTypeName() string {
 	return "ADT_A36"
 }
 
-//  ADT_A37 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A37 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A37 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -5917,8 +5917,8 @@ func (s *ADT_A37) MessageTypeName() string {
 	return "ADT_A37"
 }
 
-//  ADT_A38 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A38 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A38 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -5938,8 +5938,8 @@ func (s *ADT_A38) MessageTypeName() string {
 	return "ADT_A38"
 }
 
-//  ADT_A39 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A39 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A39 struct {
 	MSH     *MSH              `hl7:"true,MSH"`
 	SFT     []SFT             `hl7:"false,SFT"`
@@ -5952,8 +5952,8 @@ func (s *ADT_A39) MessageTypeName() string {
 	return "ADT_A39"
 }
 
-//  ADT_A39_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A39_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A39_PATIENT struct {
 	PID   *PID `hl7:"true,PID"`
 	PD1   *PD1 `hl7:"false,PD1"`
@@ -5966,8 +5966,8 @@ func (s *ADT_A39_PATIENT) MessageTypeSubStructName() string {
 	return "ADT_A39_PATIENT"
 }
 
-//  ADT_A40 represents the corresponding HL7 message type.
-//  Definition from HL7 SYNTHETIC
+// ADT_A40 represents the corresponding HL7 message type.
+// Definition from HL7 SYNTHETIC
 type ADT_A40 struct {
 	MSH     *MSH              `hl7:"true,MSH"`
 	EVN     *EVN              `hl7:"true,EVN"`
@@ -5979,8 +5979,8 @@ func (s *ADT_A40) MessageTypeName() string {
 	return "ADT_A40"
 }
 
-//  ADT_A40_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 SYNTHETIC
+// ADT_A40_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 SYNTHETIC
 type ADT_A40_PATIENT struct {
 	PID   *PID `hl7:"true,PID"`
 	PD1   *PD1 `hl7:"false,PD1"`
@@ -5993,8 +5993,8 @@ func (s *ADT_A40_PATIENT) MessageTypeSubStructName() string {
 	return "ADT_A40_PATIENT"
 }
 
-//  ADT_A43 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A43 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A43 struct {
 	MSH     *MSH              `hl7:"true,MSH"`
 	SFT     []SFT             `hl7:"false,SFT"`
@@ -6007,8 +6007,8 @@ func (s *ADT_A43) MessageTypeName() string {
 	return "ADT_A43"
 }
 
-//  ADT_A43_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A43_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A43_PATIENT struct {
 	PID   *PID `hl7:"true,PID"`
 	PD1   *PD1 `hl7:"false,PD1"`
@@ -6020,8 +6020,8 @@ func (s *ADT_A43_PATIENT) MessageTypeSubStructName() string {
 	return "ADT_A43_PATIENT"
 }
 
-//  ADT_A44 represents the corresponding HL7 message type.
-//  Definition from HL7 SYNTHETIC
+// ADT_A44 represents the corresponding HL7 message type.
+// Definition from HL7 SYNTHETIC
 type ADT_A44 struct {
 	MSH     *MSH              `hl7:"true,MSH"`
 	EVN     *EVN              `hl7:"true,EVN"`
@@ -6033,8 +6033,8 @@ func (s *ADT_A44) MessageTypeName() string {
 	return "ADT_A44"
 }
 
-//  ADT_A44_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 SYNTHETIC
+// ADT_A44_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 SYNTHETIC
 type ADT_A44_PATIENT struct {
 	PID   *PID `hl7:"true,PID"`
 	PD1   *PD1 `hl7:"false,PD1"`
@@ -6046,8 +6046,8 @@ func (s *ADT_A44_PATIENT) MessageTypeSubStructName() string {
 	return "ADT_A44_PATIENT"
 }
 
-//  ADT_A45 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A45 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A45 struct {
 	MSH        *MSH                 `hl7:"true,MSH"`
 	SFT        []SFT                `hl7:"false,SFT"`
@@ -6062,8 +6062,8 @@ func (s *ADT_A45) MessageTypeName() string {
 	return "ADT_A45"
 }
 
-//  ADT_A45_MERGE_INFO represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A45_MERGE_INFO represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A45_MERGE_INFO struct {
 	MRG   *MRG `hl7:"true,MRG"`
 	PV1   *PV1 `hl7:"true,PV1"`
@@ -6074,8 +6074,8 @@ func (s *ADT_A45_MERGE_INFO) MessageTypeSubStructName() string {
 	return "ADT_A45_MERGE_INFO"
 }
 
-//  ADT_A50 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A50 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A50 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -6091,8 +6091,8 @@ func (s *ADT_A50) MessageTypeName() string {
 	return "ADT_A50"
 }
 
-//  ADT_A52 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A52 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A52 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -6108,8 +6108,8 @@ func (s *ADT_A52) MessageTypeName() string {
 	return "ADT_A52"
 }
 
-//  ADT_A54 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A54 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A54 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -6127,8 +6127,8 @@ func (s *ADT_A54) MessageTypeName() string {
 	return "ADT_A54"
 }
 
-//  ADT_A60 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A60 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A60 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -6144,8 +6144,8 @@ func (s *ADT_A60) MessageTypeName() string {
 	return "ADT_A60"
 }
 
-//  ADT_A61 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ADT_A61 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ADT_A61 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -6162,8 +6162,8 @@ func (s *ADT_A61) MessageTypeName() string {
 	return "ADT_A61"
 }
 
-//  ARD_A19 represents the corresponding HL7 message type.
-//  Definition from HL7 2.3
+// ARD_A19 represents the corresponding HL7 message type.
+// Definition from HL7 2.3
 type ARD_A19 struct {
 	MSH            *MSH                     `hl7:"true,MSH"`
 	MSA            *MSA                     `hl7:"true,MSA"`
@@ -6179,8 +6179,8 @@ func (s *ARD_A19) MessageTypeName() string {
 	return "ARD_A19"
 }
 
-//  ARD_A19_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.3
+// ARD_A19_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.3
 type ARD_A19_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -6192,8 +6192,8 @@ func (s *ARD_A19_INSURANCE) MessageTypeSubStructName() string {
 	return "ARD_A19_INSURANCE"
 }
 
-//  ARD_A19_PROCEDURE represents the corresponding HL7 message type.
-//  Definition from HL7 2.3
+// ARD_A19_PROCEDURE represents the corresponding HL7 message type.
+// Definition from HL7 2.3
 type ARD_A19_PROCEDURE struct {
 	PR1   *PR1  `hl7:"true,PR1"`
 	ROL   []ROL `hl7:"false,ROL"`
@@ -6204,8 +6204,8 @@ func (s *ARD_A19_PROCEDURE) MessageTypeSubStructName() string {
 	return "ARD_A19_PROCEDURE"
 }
 
-//  ARD_A19_QUERY_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.3
+// ARD_A19_QUERY_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.3
 type ARD_A19_QUERY_RESPONSE struct {
 	EVN       *EVN                `hl7:"false,EVN"`
 	PID       *PID                `hl7:"true,PID"`
@@ -6231,8 +6231,8 @@ func (s *ARD_A19_QUERY_RESPONSE) MessageTypeSubStructName() string {
 	return "ARD_A19_QUERY_RESPONSE"
 }
 
-//  BAR_P01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BAR_P01 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BAR_P01 struct {
 	MSH   *MSH            `hl7:"true,MSH"`
 	SFT   []SFT           `hl7:"false,SFT"`
@@ -6248,8 +6248,8 @@ func (s *BAR_P01) MessageTypeName() string {
 	return "BAR_P01"
 }
 
-//  BAR_P01_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BAR_P01_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BAR_P01_INSURANCE struct {
 	IN1   *IN1  `hl7:"true,IN1"`
 	IN2   *IN2  `hl7:"false,IN2"`
@@ -6262,8 +6262,8 @@ func (s *BAR_P01_INSURANCE) MessageTypeSubStructName() string {
 	return "BAR_P01_INSURANCE"
 }
 
-//  BAR_P01_PROCEDURE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BAR_P01_PROCEDURE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BAR_P01_PROCEDURE struct {
 	PR1   *PR1  `hl7:"true,PR1"`
 	ROL   []ROL `hl7:"false,ROL"`
@@ -6274,8 +6274,8 @@ func (s *BAR_P01_PROCEDURE) MessageTypeSubStructName() string {
 	return "BAR_P01_PROCEDURE"
 }
 
-//  BAR_P01_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BAR_P01_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BAR_P01_VISIT struct {
 	PV1       *PV1                `hl7:"false,PV1"`
 	PV2       *PV2                `hl7:"false,PV2"`
@@ -6299,8 +6299,8 @@ func (s *BAR_P01_VISIT) MessageTypeSubStructName() string {
 	return "BAR_P01_VISIT"
 }
 
-//  BAR_P02 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BAR_P02 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BAR_P02 struct {
 	MSH     *MSH              `hl7:"true,MSH"`
 	SFT     []SFT             `hl7:"false,SFT"`
@@ -6313,8 +6313,8 @@ func (s *BAR_P02) MessageTypeName() string {
 	return "BAR_P02"
 }
 
-//  BAR_P02_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BAR_P02_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BAR_P02_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	PD1   *PD1  `hl7:"false,PD1"`
@@ -6327,8 +6327,8 @@ func (s *BAR_P02_PATIENT) MessageTypeSubStructName() string {
 	return "BAR_P02_PATIENT"
 }
 
-//  BAR_P05 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BAR_P05 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BAR_P05 struct {
 	MSH   *MSH            `hl7:"true,MSH"`
 	SFT   []SFT           `hl7:"false,SFT"`
@@ -6344,8 +6344,8 @@ func (s *BAR_P05) MessageTypeName() string {
 	return "BAR_P05"
 }
 
-//  BAR_P05_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BAR_P05_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BAR_P05_INSURANCE struct {
 	IN1   *IN1  `hl7:"true,IN1"`
 	IN2   *IN2  `hl7:"false,IN2"`
@@ -6358,8 +6358,8 @@ func (s *BAR_P05_INSURANCE) MessageTypeSubStructName() string {
 	return "BAR_P05_INSURANCE"
 }
 
-//  BAR_P05_PROCEDURE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BAR_P05_PROCEDURE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BAR_P05_PROCEDURE struct {
 	PR1   *PR1  `hl7:"true,PR1"`
 	ROL   []ROL `hl7:"false,ROL"`
@@ -6370,8 +6370,8 @@ func (s *BAR_P05_PROCEDURE) MessageTypeSubStructName() string {
 	return "BAR_P05_PROCEDURE"
 }
 
-//  BAR_P05_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BAR_P05_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BAR_P05_VISIT struct {
 	PV1       *PV1                `hl7:"false,PV1"`
 	PV2       *PV2                `hl7:"false,PV2"`
@@ -6398,8 +6398,8 @@ func (s *BAR_P05_VISIT) MessageTypeSubStructName() string {
 	return "BAR_P05_VISIT"
 }
 
-//  BAR_P06 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BAR_P06 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BAR_P06 struct {
 	MSH     *MSH              `hl7:"true,MSH"`
 	SFT     []SFT             `hl7:"false,SFT"`
@@ -6412,8 +6412,8 @@ func (s *BAR_P06) MessageTypeName() string {
 	return "BAR_P06"
 }
 
-//  BAR_P06_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BAR_P06_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BAR_P06_PATIENT struct {
 	PID   *PID `hl7:"true,PID"`
 	PV1   *PV1 `hl7:"false,PV1"`
@@ -6424,8 +6424,8 @@ func (s *BAR_P06_PATIENT) MessageTypeSubStructName() string {
 	return "BAR_P06_PATIENT"
 }
 
-//  BAR_P10 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BAR_P10 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BAR_P10 struct {
 	MSH       *MSH                `hl7:"true,MSH"`
 	SFT       []SFT               `hl7:"false,SFT"`
@@ -6442,8 +6442,8 @@ func (s *BAR_P10) MessageTypeName() string {
 	return "BAR_P10"
 }
 
-//  BAR_P10_PROCEDURE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BAR_P10_PROCEDURE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BAR_P10_PROCEDURE struct {
 	PR1   *PR1 `hl7:"true,PR1"`
 	GP2   *GP2 `hl7:"false,GP2"`
@@ -6454,8 +6454,8 @@ func (s *BAR_P10_PROCEDURE) MessageTypeSubStructName() string {
 	return "BAR_P10_PROCEDURE"
 }
 
-//  BAR_P12 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BAR_P12 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BAR_P12 struct {
 	MSH       *MSH                `hl7:"true,MSH"`
 	SFT       []SFT               `hl7:"false,SFT"`
@@ -6472,8 +6472,8 @@ func (s *BAR_P12) MessageTypeName() string {
 	return "BAR_P12"
 }
 
-//  BAR_P12_PROCEDURE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BAR_P12_PROCEDURE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BAR_P12_PROCEDURE struct {
 	PR1   *PR1  `hl7:"true,PR1"`
 	ROL   []ROL `hl7:"false,ROL"`
@@ -6484,8 +6484,8 @@ func (s *BAR_P12_PROCEDURE) MessageTypeSubStructName() string {
 	return "BAR_P12_PROCEDURE"
 }
 
-//  BPS_O29 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BPS_O29 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BPS_O29 struct {
 	MSH     *MSH             `hl7:"true,MSH"`
 	SFT     []SFT            `hl7:"false,SFT"`
@@ -6499,8 +6499,8 @@ func (s *BPS_O29) MessageTypeName() string {
 	return "BPS_O29"
 }
 
-//  BPS_O29_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BPS_O29_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BPS_O29_ORDER struct {
 	ORC     *ORC              `hl7:"true,ORC"`
 	TIMING  []BPS_O29_TIMING  `hl7:"false,TIMING"`
@@ -6514,8 +6514,8 @@ func (s *BPS_O29_ORDER) MessageTypeSubStructName() string {
 	return "BPS_O29_ORDER"
 }
 
-//  BPS_O29_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BPS_O29_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BPS_O29_PATIENT struct {
 	PID           *PID                   `hl7:"true,PID"`
 	PD1           *PD1                   `hl7:"false,PD1"`
@@ -6528,8 +6528,8 @@ func (s *BPS_O29_PATIENT) MessageTypeSubStructName() string {
 	return "BPS_O29_PATIENT"
 }
 
-//  BPS_O29_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BPS_O29_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BPS_O29_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -6540,8 +6540,8 @@ func (s *BPS_O29_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "BPS_O29_PATIENT_VISIT"
 }
 
-//  BPS_O29_PRODUCT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BPS_O29_PRODUCT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BPS_O29_PRODUCT struct {
 	BPX   *BPX  `hl7:"true,BPX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -6552,8 +6552,8 @@ func (s *BPS_O29_PRODUCT) MessageTypeSubStructName() string {
 	return "BPS_O29_PRODUCT"
 }
 
-//  BPS_O29_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BPS_O29_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BPS_O29_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -6564,8 +6564,8 @@ func (s *BPS_O29_TIMING) MessageTypeSubStructName() string {
 	return "BPS_O29_TIMING"
 }
 
-//  BRP_O30 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BRP_O30 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BRP_O30 struct {
 	MSH      *MSH              `hl7:"true,MSH"`
 	MSA      *MSA              `hl7:"true,MSA"`
@@ -6580,8 +6580,8 @@ func (s *BRP_O30) MessageTypeName() string {
 	return "BRP_O30"
 }
 
-//  BRP_O30_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BRP_O30_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BRP_O30_ORDER struct {
 	ORC    *ORC             `hl7:"true,ORC"`
 	TIMING []BRP_O30_TIMING `hl7:"false,TIMING"`
@@ -6594,8 +6594,8 @@ func (s *BRP_O30_ORDER) MessageTypeSubStructName() string {
 	return "BRP_O30_ORDER"
 }
 
-//  BRP_O30_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BRP_O30_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BRP_O30_PATIENT struct {
 	PID   *PID            `hl7:"true,PID"`
 	ORDER []BRP_O30_ORDER `hl7:"false,ORDER"`
@@ -6606,8 +6606,8 @@ func (s *BRP_O30_PATIENT) MessageTypeSubStructName() string {
 	return "BRP_O30_PATIENT"
 }
 
-//  BRP_O30_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BRP_O30_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BRP_O30_RESPONSE struct {
 	PATIENT *BRP_O30_PATIENT `hl7:"false,PATIENT"`
 	Other   []interface{}
@@ -6617,8 +6617,8 @@ func (s *BRP_O30_RESPONSE) MessageTypeSubStructName() string {
 	return "BRP_O30_RESPONSE"
 }
 
-//  BRP_O30_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BRP_O30_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BRP_O30_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -6629,8 +6629,8 @@ func (s *BRP_O30_TIMING) MessageTypeSubStructName() string {
 	return "BRP_O30_TIMING"
 }
 
-//  BRT_O32 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BRT_O32 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BRT_O32 struct {
 	MSH      *MSH              `hl7:"true,MSH"`
 	MSA      *MSA              `hl7:"true,MSA"`
@@ -6645,8 +6645,8 @@ func (s *BRT_O32) MessageTypeName() string {
 	return "BRT_O32"
 }
 
-//  BRT_O32_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BRT_O32_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BRT_O32_ORDER struct {
 	ORC    *ORC             `hl7:"true,ORC"`
 	TIMING []BRT_O32_TIMING `hl7:"false,TIMING"`
@@ -6659,8 +6659,8 @@ func (s *BRT_O32_ORDER) MessageTypeSubStructName() string {
 	return "BRT_O32_ORDER"
 }
 
-//  BRT_O32_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BRT_O32_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BRT_O32_RESPONSE struct {
 	PID   *PID            `hl7:"false,PID"`
 	ORDER []BRT_O32_ORDER `hl7:"false,ORDER"`
@@ -6671,8 +6671,8 @@ func (s *BRT_O32_RESPONSE) MessageTypeSubStructName() string {
 	return "BRT_O32_RESPONSE"
 }
 
-//  BRT_O32_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BRT_O32_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BRT_O32_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -6683,8 +6683,8 @@ func (s *BRT_O32_TIMING) MessageTypeSubStructName() string {
 	return "BRT_O32_TIMING"
 }
 
-//  BTS_O31 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BTS_O31 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BTS_O31 struct {
 	MSH     *MSH             `hl7:"true,MSH"`
 	SFT     []SFT            `hl7:"false,SFT"`
@@ -6698,8 +6698,8 @@ func (s *BTS_O31) MessageTypeName() string {
 	return "BTS_O31"
 }
 
-//  BTS_O31_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BTS_O31_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BTS_O31_ORDER struct {
 	ORC            *ORC                     `hl7:"true,ORC"`
 	TIMING         []BTS_O31_TIMING         `hl7:"false,TIMING"`
@@ -6713,8 +6713,8 @@ func (s *BTS_O31_ORDER) MessageTypeSubStructName() string {
 	return "BTS_O31_ORDER"
 }
 
-//  BTS_O31_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BTS_O31_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BTS_O31_PATIENT struct {
 	PID           *PID                   `hl7:"true,PID"`
 	PD1           *PD1                   `hl7:"false,PD1"`
@@ -6727,8 +6727,8 @@ func (s *BTS_O31_PATIENT) MessageTypeSubStructName() string {
 	return "BTS_O31_PATIENT"
 }
 
-//  BTS_O31_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BTS_O31_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BTS_O31_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -6739,8 +6739,8 @@ func (s *BTS_O31_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "BTS_O31_PATIENT_VISIT"
 }
 
-//  BTS_O31_PRODUCT_STATUS represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BTS_O31_PRODUCT_STATUS represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BTS_O31_PRODUCT_STATUS struct {
 	BTX   *BTX  `hl7:"true,BTX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -6751,8 +6751,8 @@ func (s *BTS_O31_PRODUCT_STATUS) MessageTypeSubStructName() string {
 	return "BTS_O31_PRODUCT_STATUS"
 }
 
-//  BTS_O31_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// BTS_O31_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type BTS_O31_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -6763,8 +6763,8 @@ func (s *BTS_O31_TIMING) MessageTypeSubStructName() string {
 	return "BTS_O31_TIMING"
 }
 
-//  CRM_C01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// CRM_C01 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type CRM_C01 struct {
 	MSH     *MSH              `hl7:"true,MSH"`
 	SFT     []SFT             `hl7:"false,SFT"`
@@ -6776,8 +6776,8 @@ func (s *CRM_C01) MessageTypeName() string {
 	return "CRM_C01"
 }
 
-//  CRM_C01_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// CRM_C01_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type CRM_C01_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	PV1   *PV1  `hl7:"false,PV1"`
@@ -6790,8 +6790,8 @@ func (s *CRM_C01_PATIENT) MessageTypeSubStructName() string {
 	return "CRM_C01_PATIENT"
 }
 
-//  CSU_C09 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// CSU_C09 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type CSU_C09 struct {
 	MSH     *MSH              `hl7:"true,MSH"`
 	SFT     []SFT             `hl7:"false,SFT"`
@@ -6803,8 +6803,8 @@ func (s *CSU_C09) MessageTypeName() string {
 	return "CSU_C09"
 }
 
-//  CSU_C09_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// CSU_C09_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type CSU_C09_PATIENT struct {
 	PID         *PID                  `hl7:"true,PID"`
 	PD1         *PD1                  `hl7:"false,PD1"`
@@ -6819,8 +6819,8 @@ func (s *CSU_C09_PATIENT) MessageTypeSubStructName() string {
 	return "CSU_C09_PATIENT"
 }
 
-//  CSU_C09_RX_ADMIN represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// CSU_C09_RX_ADMIN represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type CSU_C09_RX_ADMIN struct {
 	RXA   *RXA `hl7:"true,RXA"`
 	RXR   *RXR `hl7:"true,RXR"`
@@ -6831,8 +6831,8 @@ func (s *CSU_C09_RX_ADMIN) MessageTypeSubStructName() string {
 	return "CSU_C09_RX_ADMIN"
 }
 
-//  CSU_C09_STUDY_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// CSU_C09_STUDY_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type CSU_C09_STUDY_OBSERVATION struct {
 	ORC        *ORC                 `hl7:"false,ORC"`
 	OBR        *OBR                 `hl7:"true,OBR"`
@@ -6845,8 +6845,8 @@ func (s *CSU_C09_STUDY_OBSERVATION) MessageTypeSubStructName() string {
 	return "CSU_C09_STUDY_OBSERVATION"
 }
 
-//  CSU_C09_STUDY_PHARM represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// CSU_C09_STUDY_PHARM represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type CSU_C09_STUDY_PHARM struct {
 	ORC      *ORC               `hl7:"false,ORC"`
 	RX_ADMIN []CSU_C09_RX_ADMIN `hl7:"true,RX_ADMIN"`
@@ -6857,8 +6857,8 @@ func (s *CSU_C09_STUDY_PHARM) MessageTypeSubStructName() string {
 	return "CSU_C09_STUDY_PHARM"
 }
 
-//  CSU_C09_STUDY_PHASE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// CSU_C09_STUDY_PHASE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type CSU_C09_STUDY_PHASE struct {
 	CSP            *CSP                     `hl7:"false,CSP"`
 	STUDY_SCHEDULE []CSU_C09_STUDY_SCHEDULE `hl7:"true,STUDY_SCHEDULE"`
@@ -6869,8 +6869,8 @@ func (s *CSU_C09_STUDY_PHASE) MessageTypeSubStructName() string {
 	return "CSU_C09_STUDY_PHASE"
 }
 
-//  CSU_C09_STUDY_SCHEDULE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// CSU_C09_STUDY_SCHEDULE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type CSU_C09_STUDY_SCHEDULE struct {
 	CSS               *CSS                        `hl7:"false,CSS"`
 	STUDY_OBSERVATION []CSU_C09_STUDY_OBSERVATION `hl7:"true,STUDY_OBSERVATION"`
@@ -6882,8 +6882,8 @@ func (s *CSU_C09_STUDY_SCHEDULE) MessageTypeSubStructName() string {
 	return "CSU_C09_STUDY_SCHEDULE"
 }
 
-//  CSU_C09_TIMING_QTY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// CSU_C09_TIMING_QTY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type CSU_C09_TIMING_QTY struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -6894,8 +6894,8 @@ func (s *CSU_C09_TIMING_QTY) MessageTypeSubStructName() string {
 	return "CSU_C09_TIMING_QTY"
 }
 
-//  CSU_C09_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// CSU_C09_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type CSU_C09_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -6906,8 +6906,8 @@ func (s *CSU_C09_VISIT) MessageTypeSubStructName() string {
 	return "CSU_C09_VISIT"
 }
 
-//  DFT_P03_COMMON_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// DFT_P03_COMMON_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type DFT_P03_COMMON_ORDER struct {
 	ORC             *ORC                      `hl7:"false,ORC"`
 	TIMING_QUANTITY []DFT_P03_TIMING_QUANTITY `hl7:"false,TIMING_QUANTITY"`
@@ -6920,8 +6920,8 @@ func (s *DFT_P03_COMMON_ORDER) MessageTypeSubStructName() string {
 	return "DFT_P03_COMMON_ORDER"
 }
 
-//  DFT_P03 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// DFT_P03 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type DFT_P03 struct {
 	MSH          *MSH                   `hl7:"true,MSH"`
 	SFT          []SFT                  `hl7:"false,SFT"`
@@ -6947,8 +6947,8 @@ func (s *DFT_P03) MessageTypeName() string {
 	return "DFT_P03"
 }
 
-//  DFT_P03_FINANCIAL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// DFT_P03_FINANCIAL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type DFT_P03_FINANCIAL struct {
 	FT1                    *FT1                             `hl7:"true,FT1"`
 	NTE                    *NTE                             `hl7:"false,NTE"`
@@ -6961,8 +6961,8 @@ func (s *DFT_P03_FINANCIAL) MessageTypeSubStructName() string {
 	return "DFT_P03_FINANCIAL"
 }
 
-//  DFT_P03_FINANCIAL_COMMON_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// DFT_P03_FINANCIAL_COMMON_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type DFT_P03_FINANCIAL_COMMON_ORDER struct {
 	ORC                       *ORC                                `hl7:"false,ORC"`
 	FINANCIAL_TIMING_QUANTITY []DFT_P03_FINANCIAL_TIMING_QUANTITY `hl7:"false,FINANCIAL_TIMING_QUANTITY"`
@@ -6975,8 +6975,8 @@ func (s *DFT_P03_FINANCIAL_COMMON_ORDER) MessageTypeSubStructName() string {
 	return "DFT_P03_FINANCIAL_COMMON_ORDER"
 }
 
-//  DFT_P03_FINANCIAL_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// DFT_P03_FINANCIAL_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type DFT_P03_FINANCIAL_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -6987,8 +6987,8 @@ func (s *DFT_P03_FINANCIAL_OBSERVATION) MessageTypeSubStructName() string {
 	return "DFT_P03_FINANCIAL_OBSERVATION"
 }
 
-//  DFT_P03_FINANCIAL_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// DFT_P03_FINANCIAL_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type DFT_P03_FINANCIAL_ORDER struct {
 	OBR   *OBR  `hl7:"true,OBR"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -6999,8 +6999,8 @@ func (s *DFT_P03_FINANCIAL_ORDER) MessageTypeSubStructName() string {
 	return "DFT_P03_FINANCIAL_ORDER"
 }
 
-//  DFT_P03_FINANCIAL_PROCEDURE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// DFT_P03_FINANCIAL_PROCEDURE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type DFT_P03_FINANCIAL_PROCEDURE struct {
 	PR1   *PR1  `hl7:"true,PR1"`
 	ROL   []ROL `hl7:"false,ROL"`
@@ -7011,8 +7011,8 @@ func (s *DFT_P03_FINANCIAL_PROCEDURE) MessageTypeSubStructName() string {
 	return "DFT_P03_FINANCIAL_PROCEDURE"
 }
 
-//  DFT_P03_FINANCIAL_TIMING_QUANTITY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// DFT_P03_FINANCIAL_TIMING_QUANTITY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type DFT_P03_FINANCIAL_TIMING_QUANTITY struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -7023,8 +7023,8 @@ func (s *DFT_P03_FINANCIAL_TIMING_QUANTITY) MessageTypeSubStructName() string {
 	return "DFT_P03_FINANCIAL_TIMING_QUANTITY"
 }
 
-//  DFT_P03_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// DFT_P03_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type DFT_P03_INSURANCE struct {
 	IN1   *IN1  `hl7:"true,IN1"`
 	IN2   *IN2  `hl7:"false,IN2"`
@@ -7037,8 +7037,8 @@ func (s *DFT_P03_INSURANCE) MessageTypeSubStructName() string {
 	return "DFT_P03_INSURANCE"
 }
 
-//  DFT_P03_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// DFT_P03_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type DFT_P03_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -7049,8 +7049,8 @@ func (s *DFT_P03_OBSERVATION) MessageTypeSubStructName() string {
 	return "DFT_P03_OBSERVATION"
 }
 
-//  DFT_P03_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// DFT_P03_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type DFT_P03_ORDER struct {
 	OBR   *OBR  `hl7:"true,OBR"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -7061,8 +7061,8 @@ func (s *DFT_P03_ORDER) MessageTypeSubStructName() string {
 	return "DFT_P03_ORDER"
 }
 
-//  DFT_P03_TIMING_QUANTITY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// DFT_P03_TIMING_QUANTITY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type DFT_P03_TIMING_QUANTITY struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -7073,8 +7073,8 @@ func (s *DFT_P03_TIMING_QUANTITY) MessageTypeSubStructName() string {
 	return "DFT_P03_TIMING_QUANTITY"
 }
 
-//  DFT_P11_COMMON_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// DFT_P11_COMMON_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type DFT_P11_COMMON_ORDER struct {
 	ORC             *ORC                      `hl7:"false,ORC"`
 	TIMING_QUANTITY []DFT_P11_TIMING_QUANTITY `hl7:"false,TIMING_QUANTITY"`
@@ -7087,8 +7087,8 @@ func (s *DFT_P11_COMMON_ORDER) MessageTypeSubStructName() string {
 	return "DFT_P11_COMMON_ORDER"
 }
 
-//  DFT_P11 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// DFT_P11 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type DFT_P11 struct {
 	MSH          *MSH                   `hl7:"true,MSH"`
 	SFT          []SFT                  `hl7:"false,SFT"`
@@ -7114,8 +7114,8 @@ func (s *DFT_P11) MessageTypeName() string {
 	return "DFT_P11"
 }
 
-//  DFT_P11_FINANCIAL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// DFT_P11_FINANCIAL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type DFT_P11_FINANCIAL struct {
 	FT1                    *FT1                             `hl7:"true,FT1"`
 	FINANCIAL_PROCEDURE    []DFT_P11_FINANCIAL_PROCEDURE    `hl7:"false,FINANCIAL_PROCEDURE"`
@@ -7131,8 +7131,8 @@ func (s *DFT_P11_FINANCIAL) MessageTypeSubStructName() string {
 	return "DFT_P11_FINANCIAL"
 }
 
-//  DFT_P11_FINANCIAL_COMMON_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// DFT_P11_FINANCIAL_COMMON_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type DFT_P11_FINANCIAL_COMMON_ORDER struct {
 	ORC                       *ORC                                `hl7:"false,ORC"`
 	FINANCIAL_TIMING_QUANTITY []DFT_P11_FINANCIAL_TIMING_QUANTITY `hl7:"false,FINANCIAL_TIMING_QUANTITY"`
@@ -7145,8 +7145,8 @@ func (s *DFT_P11_FINANCIAL_COMMON_ORDER) MessageTypeSubStructName() string {
 	return "DFT_P11_FINANCIAL_COMMON_ORDER"
 }
 
-//  DFT_P11_FINANCIAL_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// DFT_P11_FINANCIAL_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type DFT_P11_FINANCIAL_INSURANCE struct {
 	IN1   *IN1  `hl7:"true,IN1"`
 	IN2   *IN2  `hl7:"false,IN2"`
@@ -7159,8 +7159,8 @@ func (s *DFT_P11_FINANCIAL_INSURANCE) MessageTypeSubStructName() string {
 	return "DFT_P11_FINANCIAL_INSURANCE"
 }
 
-//  DFT_P11_FINANCIAL_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// DFT_P11_FINANCIAL_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type DFT_P11_FINANCIAL_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -7171,8 +7171,8 @@ func (s *DFT_P11_FINANCIAL_OBSERVATION) MessageTypeSubStructName() string {
 	return "DFT_P11_FINANCIAL_OBSERVATION"
 }
 
-//  DFT_P11_FINANCIAL_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// DFT_P11_FINANCIAL_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type DFT_P11_FINANCIAL_ORDER struct {
 	OBR   *OBR  `hl7:"true,OBR"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -7183,8 +7183,8 @@ func (s *DFT_P11_FINANCIAL_ORDER) MessageTypeSubStructName() string {
 	return "DFT_P11_FINANCIAL_ORDER"
 }
 
-//  DFT_P11_FINANCIAL_PROCEDURE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// DFT_P11_FINANCIAL_PROCEDURE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type DFT_P11_FINANCIAL_PROCEDURE struct {
 	PR1   *PR1  `hl7:"true,PR1"`
 	ROL   []ROL `hl7:"false,ROL"`
@@ -7195,8 +7195,8 @@ func (s *DFT_P11_FINANCIAL_PROCEDURE) MessageTypeSubStructName() string {
 	return "DFT_P11_FINANCIAL_PROCEDURE"
 }
 
-//  DFT_P11_FINANCIAL_TIMING_QUANTITY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// DFT_P11_FINANCIAL_TIMING_QUANTITY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type DFT_P11_FINANCIAL_TIMING_QUANTITY struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -7207,8 +7207,8 @@ func (s *DFT_P11_FINANCIAL_TIMING_QUANTITY) MessageTypeSubStructName() string {
 	return "DFT_P11_FINANCIAL_TIMING_QUANTITY"
 }
 
-//  DFT_P11_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// DFT_P11_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type DFT_P11_INSURANCE struct {
 	IN1   *IN1  `hl7:"true,IN1"`
 	IN2   *IN2  `hl7:"false,IN2"`
@@ -7221,8 +7221,8 @@ func (s *DFT_P11_INSURANCE) MessageTypeSubStructName() string {
 	return "DFT_P11_INSURANCE"
 }
 
-//  DFT_P11_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// DFT_P11_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type DFT_P11_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -7233,8 +7233,8 @@ func (s *DFT_P11_OBSERVATION) MessageTypeSubStructName() string {
 	return "DFT_P11_OBSERVATION"
 }
 
-//  DFT_P11_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// DFT_P11_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type DFT_P11_ORDER struct {
 	OBR   *OBR  `hl7:"true,OBR"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -7245,8 +7245,8 @@ func (s *DFT_P11_ORDER) MessageTypeSubStructName() string {
 	return "DFT_P11_ORDER"
 }
 
-//  DFT_P11_TIMING_QUANTITY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// DFT_P11_TIMING_QUANTITY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type DFT_P11_TIMING_QUANTITY struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -7257,8 +7257,8 @@ func (s *DFT_P11_TIMING_QUANTITY) MessageTypeSubStructName() string {
 	return "DFT_P11_TIMING_QUANTITY"
 }
 
-//  DOC_T12 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// DOC_T12 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type DOC_T12 struct {
 	MSH    *MSH             `hl7:"true,MSH"`
 	MSA    *MSA             `hl7:"true,MSA"`
@@ -7274,8 +7274,8 @@ func (s *DOC_T12) MessageTypeName() string {
 	return "DOC_T12"
 }
 
-//  DOC_T12_RESULT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// DOC_T12_RESULT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type DOC_T12_RESULT struct {
 	EVN   *EVN  `hl7:"false,EVN"`
 	PID   *PID  `hl7:"true,PID"`
@@ -7289,8 +7289,8 @@ func (s *DOC_T12_RESULT) MessageTypeSubStructName() string {
 	return "DOC_T12_RESULT"
 }
 
-//  DSR_P04 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// DSR_P04 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type DSR_P04 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	MSA   *MSA  `hl7:"true,MSA"`
@@ -7306,8 +7306,8 @@ func (s *DSR_P04) MessageTypeName() string {
 	return "DSR_P04"
 }
 
-//  DSR_Q01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// DSR_Q01 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type DSR_Q01 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -7325,8 +7325,8 @@ func (s *DSR_Q01) MessageTypeName() string {
 	return "DSR_Q01"
 }
 
-//  DSR_Q03 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// DSR_Q03 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type DSR_Q03 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -7344,8 +7344,8 @@ func (s *DSR_Q03) MessageTypeName() string {
 	return "DSR_Q03"
 }
 
-//  DSR_R03 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// DSR_R03 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type DSR_R03 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	MSA   *MSA  `hl7:"false,MSA"`
@@ -7360,8 +7360,8 @@ func (s *DSR_R03) MessageTypeName() string {
 	return "DSR_R03"
 }
 
-//  EAC_U07_COMMAND represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// EAC_U07_COMMAND represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type EAC_U07_COMMAND struct {
 	ECD                *ECD                        `hl7:"true,ECD"`
 	TQ1                *TQ1                        `hl7:"false,TQ1"`
@@ -7374,8 +7374,8 @@ func (s *EAC_U07_COMMAND) MessageTypeSubStructName() string {
 	return "EAC_U07_COMMAND"
 }
 
-//  EAC_U07 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// EAC_U07 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type EAC_U07 struct {
 	MSH     *MSH              `hl7:"true,MSH"`
 	SFT     []SFT             `hl7:"false,SFT"`
@@ -7389,8 +7389,8 @@ func (s *EAC_U07) MessageTypeName() string {
 	return "EAC_U07"
 }
 
-//  EAC_U07_SPECIMEN_CONTAINER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// EAC_U07_SPECIMEN_CONTAINER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type EAC_U07_SPECIMEN_CONTAINER struct {
 	SAC   *SAC  `hl7:"true,SAC"`
 	SPM   []SPM `hl7:"false,SPM"`
@@ -7401,8 +7401,8 @@ func (s *EAC_U07_SPECIMEN_CONTAINER) MessageTypeSubStructName() string {
 	return "EAC_U07_SPECIMEN_CONTAINER"
 }
 
-//  EAN_U09 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// EAN_U09 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type EAN_U09 struct {
 	MSH          *MSH                   `hl7:"true,MSH"`
 	SFT          []SFT                  `hl7:"false,SFT"`
@@ -7416,8 +7416,8 @@ func (s *EAN_U09) MessageTypeName() string {
 	return "EAN_U09"
 }
 
-//  EAN_U09_NOTIFICATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// EAN_U09_NOTIFICATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type EAN_U09_NOTIFICATION struct {
 	NDS   *NDS `hl7:"true,NDS"`
 	NTE   *NTE `hl7:"false,NTE"`
@@ -7428,8 +7428,8 @@ func (s *EAN_U09_NOTIFICATION) MessageTypeSubStructName() string {
 	return "EAN_U09_NOTIFICATION"
 }
 
-//  EAR_U08_COMMAND_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// EAR_U08_COMMAND_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type EAR_U08_COMMAND_RESPONSE struct {
 	ECD                *ECD                        `hl7:"true,ECD"`
 	SPECIMEN_CONTAINER *EAR_U08_SPECIMEN_CONTAINER `hl7:"false,SPECIMEN_CONTAINER"`
@@ -7441,8 +7441,8 @@ func (s *EAR_U08_COMMAND_RESPONSE) MessageTypeSubStructName() string {
 	return "EAR_U08_COMMAND_RESPONSE"
 }
 
-//  EAR_U08 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// EAR_U08 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type EAR_U08 struct {
 	MSH              *MSH                       `hl7:"true,MSH"`
 	SFT              []SFT                      `hl7:"false,SFT"`
@@ -7456,8 +7456,8 @@ func (s *EAR_U08) MessageTypeName() string {
 	return "EAR_U08"
 }
 
-//  EAR_U08_SPECIMEN_CONTAINER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// EAR_U08_SPECIMEN_CONTAINER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type EAR_U08_SPECIMEN_CONTAINER struct {
 	SAC   *SAC  `hl7:"true,SAC"`
 	SPM   []SPM `hl7:"false,SPM"`
@@ -7468,8 +7468,8 @@ func (s *EAR_U08_SPECIMEN_CONTAINER) MessageTypeSubStructName() string {
 	return "EAR_U08_SPECIMEN_CONTAINER"
 }
 
-//  EDR_Q01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.3
+// EDR_Q01 represents the corresponding HL7 message type.
+// Definition from HL7 2.3
 type EDR_Q01 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	MSA   *MSA  `hl7:"true,MSA"`
@@ -7484,8 +7484,8 @@ func (s *EDR_Q01) MessageTypeName() string {
 	return "EDR_Q01"
 }
 
-//  EDR_R07 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// EDR_R07 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type EDR_R07 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -7501,8 +7501,8 @@ func (s *EDR_R07) MessageTypeName() string {
 	return "EDR_R07"
 }
 
-//  EQQ_Q01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.3
+// EQQ_Q01 represents the corresponding HL7 message type.
+// Definition from HL7 2.3
 type EQQ_Q01 struct {
 	MSH   *MSH `hl7:"true,MSH"`
 	EQL   *EQL `hl7:"true,EQL"`
@@ -7514,8 +7514,8 @@ func (s *EQQ_Q01) MessageTypeName() string {
 	return "EQQ_Q01"
 }
 
-//  EQQ_Q04 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// EQQ_Q04 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type EQQ_Q04 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -7528,8 +7528,8 @@ func (s *EQQ_Q04) MessageTypeName() string {
 	return "EQQ_Q04"
 }
 
-//  ERP_Q01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.3
+// ERP_Q01 represents the corresponding HL7 message type.
+// Definition from HL7 2.3
 type ERP_Q01 struct {
 	MSH   *MSH `hl7:"true,MSH"`
 	MSA   *MSA `hl7:"true,MSA"`
@@ -7544,8 +7544,8 @@ func (s *ERP_Q01) MessageTypeName() string {
 	return "ERP_Q01"
 }
 
-//  ERP_R09 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ERP_R09 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ERP_R09 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -7561,8 +7561,8 @@ func (s *ERP_R09) MessageTypeName() string {
 	return "ERP_R09"
 }
 
-//  ESR_U02 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ESR_U02 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ESR_U02 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -7575,8 +7575,8 @@ func (s *ESR_U02) MessageTypeName() string {
 	return "ESR_U02"
 }
 
-//  ESU_U01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ESU_U01 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ESU_U01 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -7590,8 +7590,8 @@ func (s *ESU_U01) MessageTypeName() string {
 	return "ESU_U01"
 }
 
-//  INR_U06 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// INR_U06 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type INR_U06 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -7605,8 +7605,8 @@ func (s *INR_U06) MessageTypeName() string {
 	return "INR_U06"
 }
 
-//  INU_U05 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// INU_U05 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type INU_U05 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -7620,8 +7620,8 @@ func (s *INU_U05) MessageTypeName() string {
 	return "INU_U05"
 }
 
-//  LSU_U12 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// LSU_U12 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type LSU_U12 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -7635,8 +7635,8 @@ func (s *LSU_U12) MessageTypeName() string {
 	return "LSU_U12"
 }
 
-//  MCF_Q02 represents the corresponding HL7 message type.
-//  Definition from HL7 2.1
+// MCF_Q02 represents the corresponding HL7 message type.
+// Definition from HL7 2.1
 type MCF_Q02 struct {
 	MSH   *MSH `hl7:"true,MSH"`
 	MSA   *MSA `hl7:"true,MSA"`
@@ -7647,8 +7647,8 @@ func (s *MCF_Q02) MessageTypeName() string {
 	return "MCF_Q02"
 }
 
-//  MDM_T01_COMMON_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MDM_T01_COMMON_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MDM_T01_COMMON_ORDER struct {
 	ORC    *ORC             `hl7:"true,ORC"`
 	TIMING []MDM_T01_TIMING `hl7:"false,TIMING"`
@@ -7661,8 +7661,8 @@ func (s *MDM_T01_COMMON_ORDER) MessageTypeSubStructName() string {
 	return "MDM_T01_COMMON_ORDER"
 }
 
-//  MDM_T01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MDM_T01 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MDM_T01 struct {
 	MSH          *MSH                   `hl7:"true,MSH"`
 	SFT          []SFT                  `hl7:"false,SFT"`
@@ -7678,8 +7678,8 @@ func (s *MDM_T01) MessageTypeName() string {
 	return "MDM_T01"
 }
 
-//  MDM_T01_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MDM_T01_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MDM_T01_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -7690,8 +7690,8 @@ func (s *MDM_T01_TIMING) MessageTypeSubStructName() string {
 	return "MDM_T01_TIMING"
 }
 
-//  MDM_T02_COMMON_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MDM_T02_COMMON_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MDM_T02_COMMON_ORDER struct {
 	ORC    *ORC             `hl7:"true,ORC"`
 	TIMING []MDM_T02_TIMING `hl7:"false,TIMING"`
@@ -7704,8 +7704,8 @@ func (s *MDM_T02_COMMON_ORDER) MessageTypeSubStructName() string {
 	return "MDM_T02_COMMON_ORDER"
 }
 
-//  MDM_T02 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MDM_T02 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MDM_T02 struct {
 	MSH          *MSH                   `hl7:"true,MSH"`
 	SFT          []SFT                  `hl7:"false,SFT"`
@@ -7722,8 +7722,8 @@ func (s *MDM_T02) MessageTypeName() string {
 	return "MDM_T02"
 }
 
-//  MDM_T02_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MDM_T02_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MDM_T02_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -7734,8 +7734,8 @@ func (s *MDM_T02_OBSERVATION) MessageTypeSubStructName() string {
 	return "MDM_T02_OBSERVATION"
 }
 
-//  MDM_T02_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MDM_T02_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MDM_T02_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -7746,8 +7746,8 @@ func (s *MDM_T02_TIMING) MessageTypeSubStructName() string {
 	return "MDM_T02_TIMING"
 }
 
-//  MFD_M01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// MFD_M01 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type MFD_M01 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	MFI   *MFI  `hl7:"true,MFI"`
@@ -7759,8 +7759,8 @@ func (s *MFD_M01) MessageTypeName() string {
 	return "MFD_M01"
 }
 
-//  MFD_M02 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// MFD_M02 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type MFD_M02 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	MFI   *MFI  `hl7:"true,MFI"`
@@ -7772,8 +7772,8 @@ func (s *MFD_M02) MessageTypeName() string {
 	return "MFD_M02"
 }
 
-//  MFD_M03 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// MFD_M03 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type MFD_M03 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	MFI   *MFI  `hl7:"true,MFI"`
@@ -7785,8 +7785,8 @@ func (s *MFD_M03) MessageTypeName() string {
 	return "MFD_M03"
 }
 
-//  MFK_M01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFK_M01 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFK_M01 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -7801,8 +7801,8 @@ func (s *MFK_M01) MessageTypeName() string {
 	return "MFK_M01"
 }
 
-//  MFK_M02 represents the corresponding HL7 message type.
-//  Definition from HL7 2.3
+// MFK_M02 represents the corresponding HL7 message type.
+// Definition from HL7 2.3
 type MFK_M02 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	MSA   *MSA  `hl7:"true,MSA"`
@@ -7815,8 +7815,8 @@ func (s *MFK_M02) MessageTypeName() string {
 	return "MFK_M02"
 }
 
-//  MFK_M03 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// MFK_M03 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type MFK_M03 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	MSA   *MSA  `hl7:"true,MSA"`
@@ -7830,8 +7830,8 @@ func (s *MFK_M03) MessageTypeName() string {
 	return "MFK_M03"
 }
 
-//  MFN_M01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M01 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M01 struct {
 	MSH   *MSH         `hl7:"true,MSH"`
 	SFT   []SFT        `hl7:"false,SFT"`
@@ -7844,11 +7844,11 @@ func (s *MFN_M01) MessageTypeName() string {
 	return "MFN_M01"
 }
 
-//  MFN_M01_MF represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M01_MF represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M01_MF struct {
 	MFE *MFE `hl7:"true,MFE"`
-	//  Missing: anyHL7Segment
+	// Missing: anyHL7Segment
 	Other []interface{}
 }
 
@@ -7856,8 +7856,8 @@ func (s *MFN_M01_MF) MessageTypeSubStructName() string {
 	return "MFN_M01_MF"
 }
 
-//  MFN_M02 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M02 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M02 struct {
 	MSH      *MSH               `hl7:"true,MSH"`
 	SFT      []SFT              `hl7:"false,SFT"`
@@ -7870,8 +7870,8 @@ func (s *MFN_M02) MessageTypeName() string {
 	return "MFN_M02"
 }
 
-//  MFN_M02_MF_STAFF represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M02_MF_STAFF represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M02_MF_STAFF struct {
 	MFE   *MFE  `hl7:"true,MFE"`
 	STF   *STF  `hl7:"true,STF"`
@@ -7889,8 +7889,8 @@ func (s *MFN_M02_MF_STAFF) MessageTypeSubStructName() string {
 	return "MFN_M02_MF_STAFF"
 }
 
-//  MFN_M03 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M03 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M03 struct {
 	MSH     *MSH              `hl7:"true,MSH"`
 	SFT     []SFT             `hl7:"false,SFT"`
@@ -7903,12 +7903,12 @@ func (s *MFN_M03) MessageTypeName() string {
 	return "MFN_M03"
 }
 
-//  MFN_M03_MF_TEST represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M03_MF_TEST represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M03_MF_TEST struct {
 	MFE *MFE `hl7:"true,MFE"`
 	OM1 *OM1 `hl7:"true,OM1"`
-	//  Missing: anyHL7Segment
+	// Missing: anyHL7Segment
 	Other []interface{}
 }
 
@@ -7916,8 +7916,8 @@ func (s *MFN_M03_MF_TEST) MessageTypeSubStructName() string {
 	return "MFN_M03_MF_TEST"
 }
 
-//  MFN_M04 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M04 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M04 struct {
 	MSH    *MSH             `hl7:"true,MSH"`
 	SFT    []SFT            `hl7:"false,SFT"`
@@ -7930,8 +7930,8 @@ func (s *MFN_M04) MessageTypeName() string {
 	return "MFN_M04"
 }
 
-//  MFN_M04_MF_CDM represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M04_MF_CDM represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M04_MF_CDM struct {
 	MFE   *MFE  `hl7:"true,MFE"`
 	CDM   *CDM  `hl7:"true,CDM"`
@@ -7943,8 +7943,8 @@ func (s *MFN_M04_MF_CDM) MessageTypeSubStructName() string {
 	return "MFN_M04_MF_CDM"
 }
 
-//  MFN_M05 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M05 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M05 struct {
 	MSH         *MSH                  `hl7:"true,MSH"`
 	SFT         []SFT                 `hl7:"false,SFT"`
@@ -7957,8 +7957,8 @@ func (s *MFN_M05) MessageTypeName() string {
 	return "MFN_M05"
 }
 
-//  MFN_M05_MF_LOCATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M05_MF_LOCATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M05_MF_LOCATION struct {
 	MFE         *MFE                  `hl7:"true,MFE"`
 	LOC         *LOC                  `hl7:"true,LOC"`
@@ -7972,8 +7972,8 @@ func (s *MFN_M05_MF_LOCATION) MessageTypeSubStructName() string {
 	return "MFN_M05_MF_LOCATION"
 }
 
-//  MFN_M05_MF_LOC_DEPT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M05_MF_LOC_DEPT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M05_MF_LOC_DEPT struct {
 	LDP   *LDP  `hl7:"true,LDP"`
 	LCH   []LCH `hl7:"false,LCH"`
@@ -7985,8 +7985,8 @@ func (s *MFN_M05_MF_LOC_DEPT) MessageTypeSubStructName() string {
 	return "MFN_M05_MF_LOC_DEPT"
 }
 
-//  MFN_M06 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M06 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M06 struct {
 	MSH           *MSH                    `hl7:"true,MSH"`
 	SFT           []SFT                   `hl7:"false,SFT"`
@@ -7999,8 +7999,8 @@ func (s *MFN_M06) MessageTypeName() string {
 	return "MFN_M06"
 }
 
-//  MFN_M06_MF_CDM represents the corresponding HL7 message type.
-//  Definition from HL7 2.3
+// MFN_M06_MF_CDM represents the corresponding HL7 message type.
+// Definition from HL7 2.3
 type MFN_M06_MF_CDM struct {
 	MFE   *MFE  `hl7:"true,MFE"`
 	CDM   *CDM  `hl7:"true,CDM"`
@@ -8012,8 +8012,8 @@ func (s *MFN_M06_MF_CDM) MessageTypeSubStructName() string {
 	return "MFN_M06_MF_CDM"
 }
 
-//  MFN_M06_MF_CLIN_STUDY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M06_MF_CLIN_STUDY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M06_MF_CLIN_STUDY struct {
 	MFE                   *MFE                            `hl7:"true,MFE"`
 	CM0                   *CM0                            `hl7:"true,CM0"`
@@ -8025,8 +8025,8 @@ func (s *MFN_M06_MF_CLIN_STUDY) MessageTypeSubStructName() string {
 	return "MFN_M06_MF_CLIN_STUDY"
 }
 
-//  MFN_M06_MF_PHASE_SCHED_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M06_MF_PHASE_SCHED_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M06_MF_PHASE_SCHED_DETAIL struct {
 	CM1   *CM1  `hl7:"true,CM1"`
 	CM2   []CM2 `hl7:"false,CM2"`
@@ -8037,8 +8037,8 @@ func (s *MFN_M06_MF_PHASE_SCHED_DETAIL) MessageTypeSubStructName() string {
 	return "MFN_M06_MF_PHASE_SCHED_DETAIL"
 }
 
-//  MFN_M07 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M07 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M07 struct {
 	MSH                 *MSH                          `hl7:"true,MSH"`
 	SFT                 []SFT                         `hl7:"false,SFT"`
@@ -8051,8 +8051,8 @@ func (s *MFN_M07) MessageTypeName() string {
 	return "MFN_M07"
 }
 
-//  MFN_M07_MF_CLIN_STUDY represents the corresponding HL7 message type.
-//  Definition from HL7 2.3
+// MFN_M07_MF_CLIN_STUDY represents the corresponding HL7 message type.
+// Definition from HL7 2.3
 type MFN_M07_MF_CLIN_STUDY struct {
 	MFE                   *MFE                            `hl7:"true,MFE"`
 	CM0                   *CM0                            `hl7:"true,CM0"`
@@ -8064,8 +8064,8 @@ func (s *MFN_M07_MF_CLIN_STUDY) MessageTypeSubStructName() string {
 	return "MFN_M07_MF_CLIN_STUDY"
 }
 
-//  MFN_M07_MF_CLIN_STUDY_SCHED represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M07_MF_CLIN_STUDY_SCHED represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M07_MF_CLIN_STUDY_SCHED struct {
 	MFE   *MFE  `hl7:"true,MFE"`
 	CM0   *CM0  `hl7:"true,CM0"`
@@ -8077,8 +8077,8 @@ func (s *MFN_M07_MF_CLIN_STUDY_SCHED) MessageTypeSubStructName() string {
 	return "MFN_M07_MF_CLIN_STUDY_SCHED"
 }
 
-//  MFN_M07_MF_PHASE_SCHED_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.3
+// MFN_M07_MF_PHASE_SCHED_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.3
 type MFN_M07_MF_PHASE_SCHED_DETAIL struct {
 	CM1   *CM1  `hl7:"true,CM1"`
 	CM2   []CM2 `hl7:"false,CM2"`
@@ -8089,8 +8089,8 @@ func (s *MFN_M07_MF_PHASE_SCHED_DETAIL) MessageTypeSubStructName() string {
 	return "MFN_M07_MF_PHASE_SCHED_DETAIL"
 }
 
-//  MFN_M08 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M08 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M08 struct {
 	MSH             *MSH                      `hl7:"true,MSH"`
 	SFT             []SFT                     `hl7:"false,SFT"`
@@ -8103,8 +8103,8 @@ func (s *MFN_M08) MessageTypeName() string {
 	return "MFN_M08"
 }
 
-//  MFN_M08_MF_NUMERIC_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// MFN_M08_MF_NUMERIC_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type MFN_M08_MF_NUMERIC_OBSERVATION struct {
 	OM2   *OM2 `hl7:"false,OM2"`
 	OM3   *OM3 `hl7:"false,OM3"`
@@ -8116,8 +8116,8 @@ func (s *MFN_M08_MF_NUMERIC_OBSERVATION) MessageTypeSubStructName() string {
 	return "MFN_M08_MF_NUMERIC_OBSERVATION"
 }
 
-//  MFN_M08_MF_TEST_NUMERIC represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M08_MF_TEST_NUMERIC represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M08_MF_TEST_NUMERIC struct {
 	MFE   *MFE `hl7:"true,MFE"`
 	OM1   *OM1 `hl7:"true,OM1"`
@@ -8131,8 +8131,8 @@ func (s *MFN_M08_MF_TEST_NUMERIC) MessageTypeSubStructName() string {
 	return "MFN_M08_MF_TEST_NUMERIC"
 }
 
-//  MFN_M09 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M09 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M09 struct {
 	MSH                 *MSH                          `hl7:"true,MSH"`
 	SFT                 []SFT                         `hl7:"false,SFT"`
@@ -8145,8 +8145,8 @@ func (s *MFN_M09) MessageTypeName() string {
 	return "MFN_M09"
 }
 
-//  MFN_M09_MF_TEST_CATEGORICAL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M09_MF_TEST_CATEGORICAL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M09_MF_TEST_CATEGORICAL struct {
 	MFE                *MFE                        `hl7:"true,MFE"`
 	OM1                *OM1                        `hl7:"true,OM1"`
@@ -8158,8 +8158,8 @@ func (s *MFN_M09_MF_TEST_CATEGORICAL) MessageTypeSubStructName() string {
 	return "MFN_M09_MF_TEST_CATEGORICAL"
 }
 
-//  MFN_M09_MF_TEST_CAT_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M09_MF_TEST_CAT_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M09_MF_TEST_CAT_DETAIL struct {
 	OM3   *OM3  `hl7:"true,OM3"`
 	OM4   []OM4 `hl7:"false,OM4"`
@@ -8170,8 +8170,8 @@ func (s *MFN_M09_MF_TEST_CAT_DETAIL) MessageTypeSubStructName() string {
 	return "MFN_M09_MF_TEST_CAT_DETAIL"
 }
 
-//  MFN_M10 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M10 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M10 struct {
 	MSH               *MSH                        `hl7:"true,MSH"`
 	SFT               []SFT                       `hl7:"false,SFT"`
@@ -8184,8 +8184,8 @@ func (s *MFN_M10) MessageTypeName() string {
 	return "MFN_M10"
 }
 
-//  MFN_M10_MF_TEST_BATTERIES represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M10_MF_TEST_BATTERIES represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M10_MF_TEST_BATTERIES struct {
 	MFE                 *MFE                         `hl7:"true,MFE"`
 	OM1                 *OM1                         `hl7:"true,OM1"`
@@ -8197,8 +8197,8 @@ func (s *MFN_M10_MF_TEST_BATTERIES) MessageTypeSubStructName() string {
 	return "MFN_M10_MF_TEST_BATTERIES"
 }
 
-//  MFN_M10_MF_TEST_BATT_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M10_MF_TEST_BATT_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M10_MF_TEST_BATT_DETAIL struct {
 	OM5   *OM5  `hl7:"true,OM5"`
 	OM4   []OM4 `hl7:"false,OM4"`
@@ -8209,8 +8209,8 @@ func (s *MFN_M10_MF_TEST_BATT_DETAIL) MessageTypeSubStructName() string {
 	return "MFN_M10_MF_TEST_BATT_DETAIL"
 }
 
-//  MFN_M11 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M11 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M11 struct {
 	MSH                *MSH                         `hl7:"true,MSH"`
 	SFT                []SFT                        `hl7:"false,SFT"`
@@ -8223,8 +8223,8 @@ func (s *MFN_M11) MessageTypeName() string {
 	return "MFN_M11"
 }
 
-//  MFN_M11_MF_TEST_CALCULATED represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M11_MF_TEST_CALCULATED represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M11_MF_TEST_CALCULATED struct {
 	MFE                 *MFE                         `hl7:"true,MFE"`
 	OM1                 *OM1                         `hl7:"true,OM1"`
@@ -8236,8 +8236,8 @@ func (s *MFN_M11_MF_TEST_CALCULATED) MessageTypeSubStructName() string {
 	return "MFN_M11_MF_TEST_CALCULATED"
 }
 
-//  MFN_M11_MF_TEST_CALC_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M11_MF_TEST_CALC_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M11_MF_TEST_CALC_DETAIL struct {
 	OM6   *OM6 `hl7:"true,OM6"`
 	OM2   *OM2 `hl7:"true,OM2"`
@@ -8248,8 +8248,8 @@ func (s *MFN_M11_MF_TEST_CALC_DETAIL) MessageTypeSubStructName() string {
 	return "MFN_M11_MF_TEST_CALC_DETAIL"
 }
 
-//  MFN_M12 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M12 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M12 struct {
 	MSH               *MSH                        `hl7:"true,MSH"`
 	SFT               []SFT                       `hl7:"false,SFT"`
@@ -8262,8 +8262,8 @@ func (s *MFN_M12) MessageTypeName() string {
 	return "MFN_M12"
 }
 
-//  MFN_M12_MF_OBS_ATTRIBUTES represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M12_MF_OBS_ATTRIBUTES represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M12_MF_OBS_ATTRIBUTES struct {
 	MFE   *MFE `hl7:"true,MFE"`
 	OM1   *OM1 `hl7:"true,OM1"`
@@ -8275,8 +8275,8 @@ func (s *MFN_M12_MF_OBS_ATTRIBUTES) MessageTypeSubStructName() string {
 	return "MFN_M12_MF_OBS_ATTRIBUTES"
 }
 
-//  MFN_M13 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M13 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M13 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -8289,8 +8289,8 @@ func (s *MFN_M13) MessageTypeName() string {
 	return "MFN_M13"
 }
 
-//  MFN_M15 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M15 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M15 struct {
 	MSH         *MSH                  `hl7:"true,MSH"`
 	SFT         []SFT                 `hl7:"false,SFT"`
@@ -8303,8 +8303,8 @@ func (s *MFN_M15) MessageTypeName() string {
 	return "MFN_M15"
 }
 
-//  MFN_M15_MF_INV_ITEM represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_M15_MF_INV_ITEM represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_M15_MF_INV_ITEM struct {
 	MFE   *MFE `hl7:"true,MFE"`
 	IIM   *IIM `hl7:"true,IIM"`
@@ -8315,8 +8315,8 @@ func (s *MFN_M15_MF_INV_ITEM) MessageTypeSubStructName() string {
 	return "MFN_M15_MF_INV_ITEM"
 }
 
-//  MFN_Znn represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_Znn represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_Znn struct {
 	MSH             *MSH                      `hl7:"true,MSH"`
 	SFT             []SFT                     `hl7:"false,SFT"`
@@ -8329,11 +8329,11 @@ func (s *MFN_Znn) MessageTypeName() string {
 	return "MFN_Znn"
 }
 
-//  MFN_Znn_MF_SITE_DEFINED represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFN_Znn_MF_SITE_DEFINED represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFN_Znn_MF_SITE_DEFINED struct {
 	MFE *MFE `hl7:"true,MFE"`
-	//  Missing: anyHL7Segment
+	// Missing: anyHL7Segment
 	Other []interface{}
 }
 
@@ -8341,8 +8341,8 @@ func (s *MFN_Znn_MF_SITE_DEFINED) MessageTypeSubStructName() string {
 	return "MFN_Znn_MF_SITE_DEFINED"
 }
 
-//  MFQ_M01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFQ_M01 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFQ_M01 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -8356,8 +8356,8 @@ func (s *MFQ_M01) MessageTypeName() string {
 	return "MFQ_M01"
 }
 
-//  MFQ_M02 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// MFQ_M02 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type MFQ_M02 struct {
 	MSH   *MSH `hl7:"true,MSH"`
 	QRD   *QRD `hl7:"true,QRD"`
@@ -8370,8 +8370,8 @@ func (s *MFQ_M02) MessageTypeName() string {
 	return "MFQ_M02"
 }
 
-//  MFQ_M03 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// MFQ_M03 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type MFQ_M03 struct {
 	MSH   *MSH `hl7:"true,MSH"`
 	QRD   *QRD `hl7:"true,QRD"`
@@ -8384,8 +8384,8 @@ func (s *MFQ_M03) MessageTypeName() string {
 	return "MFQ_M03"
 }
 
-//  MFR_M01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFR_M01 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFR_M01 struct {
 	MSH      *MSH               `hl7:"true,MSH"`
 	SFT      []SFT              `hl7:"false,SFT"`
@@ -8404,11 +8404,11 @@ func (s *MFR_M01) MessageTypeName() string {
 	return "MFR_M01"
 }
 
-//  MFR_M01_MF represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// MFR_M01_MF represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type MFR_M01_MF struct {
 	MFE *MFE `hl7:"true,MFE"`
-	//  Missing: anyZSegment
+	// Missing: anyZSegment
 	Other []interface{}
 }
 
@@ -8416,11 +8416,11 @@ func (s *MFR_M01_MF) MessageTypeSubStructName() string {
 	return "MFR_M01_MF"
 }
 
-//  MFR_M01_MF_QUERY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFR_M01_MF_QUERY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFR_M01_MF_QUERY struct {
 	MFE *MFE `hl7:"true,MFE"`
-	//  Missing: anyHL7Segment
+	// Missing: anyHL7Segment
 	Other []interface{}
 }
 
@@ -8428,8 +8428,8 @@ func (s *MFR_M01_MF_QUERY) MessageTypeSubStructName() string {
 	return "MFR_M01_MF_QUERY"
 }
 
-//  MFR_M02 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// MFR_M02 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type MFR_M02 struct {
 	MSH      *MSH               `hl7:"true,MSH"`
 	MSA      *MSA               `hl7:"true,MSA"`
@@ -8446,11 +8446,11 @@ func (s *MFR_M02) MessageTypeName() string {
 	return "MFR_M02"
 }
 
-//  MFR_M02_MF_STAFF represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// MFR_M02_MF_STAFF represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type MFR_M02_MF_STAFF struct {
 	MFE *MFE `hl7:"true,MFE"`
-	//  Missing: anyZSegment
+	// Missing: anyZSegment
 	Other []interface{}
 }
 
@@ -8458,8 +8458,8 @@ func (s *MFR_M02_MF_STAFF) MessageTypeSubStructName() string {
 	return "MFR_M02_MF_STAFF"
 }
 
-//  MFR_M03 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// MFR_M03 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type MFR_M03 struct {
 	MSH     *MSH              `hl7:"true,MSH"`
 	MSA     *MSA              `hl7:"true,MSA"`
@@ -8476,11 +8476,11 @@ func (s *MFR_M03) MessageTypeName() string {
 	return "MFR_M03"
 }
 
-//  MFR_M03_MF_TEST represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// MFR_M03_MF_TEST represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type MFR_M03_MF_TEST struct {
 	MFE *MFE `hl7:"true,MFE"`
-	//  Missing: anyZSegment
+	// Missing: anyZSegment
 	Other []interface{}
 }
 
@@ -8488,8 +8488,8 @@ func (s *MFR_M03_MF_TEST) MessageTypeSubStructName() string {
 	return "MFR_M03_MF_TEST"
 }
 
-//  MFR_M04 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFR_M04 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFR_M04 struct {
 	MSH      *MSH               `hl7:"true,MSH"`
 	SFT      []SFT              `hl7:"false,SFT"`
@@ -8508,8 +8508,8 @@ func (s *MFR_M04) MessageTypeName() string {
 	return "MFR_M04"
 }
 
-//  MFR_M04_MF_QUERY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFR_M04_MF_QUERY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFR_M04_MF_QUERY struct {
 	MFE   *MFE  `hl7:"true,MFE"`
 	CDM   *CDM  `hl7:"true,CDM"`
@@ -8521,8 +8521,8 @@ func (s *MFR_M04_MF_QUERY) MessageTypeSubStructName() string {
 	return "MFR_M04_MF_QUERY"
 }
 
-//  MFR_M05 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFR_M05 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFR_M05 struct {
 	MSH      *MSH               `hl7:"true,MSH"`
 	SFT      []SFT              `hl7:"false,SFT"`
@@ -8541,8 +8541,8 @@ func (s *MFR_M05) MessageTypeName() string {
 	return "MFR_M05"
 }
 
-//  MFR_M05_MF_QUERY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFR_M05_MF_QUERY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFR_M05_MF_QUERY struct {
 	MFE   *MFE  `hl7:"true,MFE"`
 	LOC   *LOC  `hl7:"true,LOC"`
@@ -8558,8 +8558,8 @@ func (s *MFR_M05_MF_QUERY) MessageTypeSubStructName() string {
 	return "MFR_M05_MF_QUERY"
 }
 
-//  MFR_M06 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFR_M06 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFR_M06 struct {
 	MSH      *MSH               `hl7:"true,MSH"`
 	SFT      []SFT              `hl7:"false,SFT"`
@@ -8578,8 +8578,8 @@ func (s *MFR_M06) MessageTypeName() string {
 	return "MFR_M06"
 }
 
-//  MFR_M06_MF_QUERY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFR_M06_MF_QUERY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFR_M06_MF_QUERY struct {
 	MFE   *MFE  `hl7:"true,MFE"`
 	CM0   *CM0  `hl7:"true,CM0"`
@@ -8592,8 +8592,8 @@ func (s *MFR_M06_MF_QUERY) MessageTypeSubStructName() string {
 	return "MFR_M06_MF_QUERY"
 }
 
-//  MFR_M07 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFR_M07 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFR_M07 struct {
 	MSH      *MSH               `hl7:"true,MSH"`
 	SFT      []SFT              `hl7:"false,SFT"`
@@ -8612,8 +8612,8 @@ func (s *MFR_M07) MessageTypeName() string {
 	return "MFR_M07"
 }
 
-//  MFR_M07_MF_QUERY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// MFR_M07_MF_QUERY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type MFR_M07_MF_QUERY struct {
 	MFE   *MFE  `hl7:"true,MFE"`
 	CM0   *CM0  `hl7:"true,CM0"`
@@ -8625,8 +8625,8 @@ func (s *MFR_M07_MF_QUERY) MessageTypeSubStructName() string {
 	return "MFR_M07_MF_QUERY"
 }
 
-//  NMD_N01_APP_STATS represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// NMD_N01_APP_STATS represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type NMD_N01_APP_STATS struct {
 	NST   *NST  `hl7:"true,NST"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -8637,8 +8637,8 @@ func (s *NMD_N01_APP_STATS) MessageTypeSubStructName() string {
 	return "NMD_N01_APP_STATS"
 }
 
-//  NMD_N01_APP_STATUS represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// NMD_N01_APP_STATUS represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type NMD_N01_APP_STATUS struct {
 	NSC   *NSC  `hl7:"true,NSC"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -8649,8 +8649,8 @@ func (s *NMD_N01_APP_STATUS) MessageTypeSubStructName() string {
 	return "NMD_N01_APP_STATUS"
 }
 
-//  NMD_N01_CLOCK represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// NMD_N01_CLOCK represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type NMD_N01_CLOCK struct {
 	NCK   *NCK  `hl7:"true,NCK"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -8661,8 +8661,8 @@ func (s *NMD_N01_CLOCK) MessageTypeSubStructName() string {
 	return "NMD_N01_CLOCK"
 }
 
-//  NMD_N01_CLOCK_AND_STATS_WITH_NOTES represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// NMD_N01_CLOCK_AND_STATS_WITH_NOTES represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type NMD_N01_CLOCK_AND_STATS_WITH_NOTES struct {
 	CLOCK      *NMD_N01_CLOCK      `hl7:"false,CLOCK"`
 	APP_STATS  *NMD_N01_APP_STATS  `hl7:"false,APP_STATS"`
@@ -8674,8 +8674,8 @@ func (s *NMD_N01_CLOCK_AND_STATS_WITH_NOTES) MessageTypeSubStructName() string {
 	return "NMD_N01_CLOCK_AND_STATS_WITH_NOTES"
 }
 
-//  NMD_N01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// NMD_N01 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type NMD_N01 struct {
 	MSH                        *MSH                                 `hl7:"true,MSH"`
 	CLOCK_AND_STATS_WITH_NOTES []NMD_N01_CLOCK_AND_STATS_WITH_NOTES `hl7:"true,CLOCK_AND_STATS_WITH_NOTES"`
@@ -8686,8 +8686,8 @@ func (s *NMD_N01) MessageTypeName() string {
 	return "NMD_N01"
 }
 
-//  NMD_N02_APP_STATS represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// NMD_N02_APP_STATS represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type NMD_N02_APP_STATS struct {
 	NST   *NST  `hl7:"true,NST"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -8698,8 +8698,8 @@ func (s *NMD_N02_APP_STATS) MessageTypeSubStructName() string {
 	return "NMD_N02_APP_STATS"
 }
 
-//  NMD_N02_APP_STATUS represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// NMD_N02_APP_STATUS represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type NMD_N02_APP_STATUS struct {
 	NSC   *NSC  `hl7:"true,NSC"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -8710,8 +8710,8 @@ func (s *NMD_N02_APP_STATUS) MessageTypeSubStructName() string {
 	return "NMD_N02_APP_STATUS"
 }
 
-//  NMD_N02_CLOCK represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// NMD_N02_CLOCK represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type NMD_N02_CLOCK struct {
 	NCK   *NCK  `hl7:"true,NCK"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -8722,8 +8722,8 @@ func (s *NMD_N02_CLOCK) MessageTypeSubStructName() string {
 	return "NMD_N02_CLOCK"
 }
 
-//  NMD_N02_CLOCK_AND_STATS_WITH_NOTES represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// NMD_N02_CLOCK_AND_STATS_WITH_NOTES represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type NMD_N02_CLOCK_AND_STATS_WITH_NOTES struct {
 	CLOCK      *NMD_N02_CLOCK      `hl7:"false,CLOCK"`
 	APP_STATS  *NMD_N02_APP_STATS  `hl7:"false,APP_STATS"`
@@ -8735,8 +8735,8 @@ func (s *NMD_N02_CLOCK_AND_STATS_WITH_NOTES) MessageTypeSubStructName() string {
 	return "NMD_N02_CLOCK_AND_STATS_WITH_NOTES"
 }
 
-//  NMD_N02 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// NMD_N02 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type NMD_N02 struct {
 	MSH                        *MSH                                 `hl7:"true,MSH"`
 	SFT                        []SFT                                `hl7:"false,SFT"`
@@ -8748,8 +8748,8 @@ func (s *NMD_N02) MessageTypeName() string {
 	return "NMD_N02"
 }
 
-//  NMQ_N01_CLOCK_AND_STATISTICS represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// NMQ_N01_CLOCK_AND_STATISTICS represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type NMQ_N01_CLOCK_AND_STATISTICS struct {
 	NCK   *NCK `hl7:"false,NCK"`
 	NST   *NST `hl7:"false,NST"`
@@ -8761,8 +8761,8 @@ func (s *NMQ_N01_CLOCK_AND_STATISTICS) MessageTypeSubStructName() string {
 	return "NMQ_N01_CLOCK_AND_STATISTICS"
 }
 
-//  NMQ_N01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// NMQ_N01 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type NMQ_N01 struct {
 	MSH                  *MSH                           `hl7:"true,MSH"`
 	SFT                  []SFT                          `hl7:"false,SFT"`
@@ -8775,8 +8775,8 @@ func (s *NMQ_N01) MessageTypeName() string {
 	return "NMQ_N01"
 }
 
-//  NMQ_N01_QRY_WITH_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// NMQ_N01_QRY_WITH_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type NMQ_N01_QRY_WITH_DETAIL struct {
 	QRD   *QRD `hl7:"true,QRD"`
 	QRF   *QRF `hl7:"false,QRF"`
@@ -8787,8 +8787,8 @@ func (s *NMQ_N01_QRY_WITH_DETAIL) MessageTypeSubStructName() string {
 	return "NMQ_N01_QRY_WITH_DETAIL"
 }
 
-//  NMQ_N02_CLOCK_AND_STATISTICS represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// NMQ_N02_CLOCK_AND_STATISTICS represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type NMQ_N02_CLOCK_AND_STATISTICS struct {
 	NCK   *NCK `hl7:"false,NCK"`
 	NST   *NST `hl7:"false,NST"`
@@ -8800,8 +8800,8 @@ func (s *NMQ_N02_CLOCK_AND_STATISTICS) MessageTypeSubStructName() string {
 	return "NMQ_N02_CLOCK_AND_STATISTICS"
 }
 
-//  NMQ_N02 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// NMQ_N02 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type NMQ_N02 struct {
 	MSH                  *MSH                           `hl7:"true,MSH"`
 	QRY_WITH_DETAIL      *NMQ_N02_QRY_WITH_DETAIL       `hl7:"false,QRY_WITH_DETAIL"`
@@ -8813,8 +8813,8 @@ func (s *NMQ_N02) MessageTypeName() string {
 	return "NMQ_N02"
 }
 
-//  NMQ_N02_QRY_WITH_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// NMQ_N02_QRY_WITH_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type NMQ_N02_QRY_WITH_DETAIL struct {
 	QRD   *QRD `hl7:"true,QRD"`
 	QRF   *QRF `hl7:"false,QRF"`
@@ -8825,8 +8825,8 @@ func (s *NMQ_N02_QRY_WITH_DETAIL) MessageTypeSubStructName() string {
 	return "NMQ_N02_QRY_WITH_DETAIL"
 }
 
-//  NMR_N01_CLOCK_AND_STATS_WITH_NOTES_ALT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// NMR_N01_CLOCK_AND_STATS_WITH_NOTES_ALT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type NMR_N01_CLOCK_AND_STATS_WITH_NOTES_ALT struct {
 	NCK   *NCK  `hl7:"false,NCK"`
 	NTE1  []NTE `hl7:"false,NTE1"`
@@ -8841,8 +8841,8 @@ func (s *NMR_N01_CLOCK_AND_STATS_WITH_NOTES_ALT) MessageTypeSubStructName() stri
 	return "NMR_N01_CLOCK_AND_STATS_WITH_NOTES_ALT"
 }
 
-//  NMR_N01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// NMR_N01 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type NMR_N01 struct {
 	MSH                            *MSH                                     `hl7:"true,MSH"`
 	SFT                            []SFT                                    `hl7:"false,SFT"`
@@ -8857,8 +8857,8 @@ func (s *NMR_N01) MessageTypeName() string {
 	return "NMR_N01"
 }
 
-//  NMR_N02_CLOCK_AND_STATS_WITH_NOTES_ALT represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// NMR_N02_CLOCK_AND_STATS_WITH_NOTES_ALT represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type NMR_N02_CLOCK_AND_STATS_WITH_NOTES_ALT struct {
 	NCK   *NCK  `hl7:"false,NCK"`
 	NTE1  []NTE `hl7:"false,NTE1"`
@@ -8873,8 +8873,8 @@ func (s *NMR_N02_CLOCK_AND_STATS_WITH_NOTES_ALT) MessageTypeSubStructName() stri
 	return "NMR_N02_CLOCK_AND_STATS_WITH_NOTES_ALT"
 }
 
-//  NMR_N02 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// NMR_N02 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type NMR_N02 struct {
 	MSH                            *MSH                                     `hl7:"true,MSH"`
 	MSA                            *MSA                                     `hl7:"true,MSA"`
@@ -8888,8 +8888,8 @@ func (s *NMR_N02) MessageTypeName() string {
 	return "NMR_N02"
 }
 
-//  OMB_O27 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMB_O27 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMB_O27 struct {
 	MSH     *MSH             `hl7:"true,MSH"`
 	SFT     []SFT            `hl7:"false,SFT"`
@@ -8903,8 +8903,8 @@ func (s *OMB_O27) MessageTypeName() string {
 	return "OMB_O27"
 }
 
-//  OMB_O27_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMB_O27_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMB_O27_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -8916,8 +8916,8 @@ func (s *OMB_O27_INSURANCE) MessageTypeSubStructName() string {
 	return "OMB_O27_INSURANCE"
 }
 
-//  OMB_O27_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMB_O27_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMB_O27_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -8928,8 +8928,8 @@ func (s *OMB_O27_OBSERVATION) MessageTypeSubStructName() string {
 	return "OMB_O27_OBSERVATION"
 }
 
-//  OMB_O27_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMB_O27_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMB_O27_ORDER struct {
 	ORC         *ORC                  `hl7:"true,ORC"`
 	TIMING      []OMB_O27_TIMING      `hl7:"false,TIMING"`
@@ -8947,8 +8947,8 @@ func (s *OMB_O27_ORDER) MessageTypeSubStructName() string {
 	return "OMB_O27_ORDER"
 }
 
-//  OMB_O27_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMB_O27_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMB_O27_PATIENT struct {
 	PID           *PID                   `hl7:"true,PID"`
 	PD1           *PD1                   `hl7:"false,PD1"`
@@ -8964,8 +8964,8 @@ func (s *OMB_O27_PATIENT) MessageTypeSubStructName() string {
 	return "OMB_O27_PATIENT"
 }
 
-//  OMB_O27_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMB_O27_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMB_O27_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -8976,8 +8976,8 @@ func (s *OMB_O27_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "OMB_O27_PATIENT_VISIT"
 }
 
-//  OMB_O27_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMB_O27_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMB_O27_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -8988,8 +8988,8 @@ func (s *OMB_O27_TIMING) MessageTypeSubStructName() string {
 	return "OMB_O27_TIMING"
 }
 
-//  OMD_O01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// OMD_O01 represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type OMD_O01 struct {
 	MSH        *MSH                 `hl7:"true,MSH"`
 	NTE        []NTE                `hl7:"false,NTE"`
@@ -9003,8 +9003,8 @@ func (s *OMD_O01) MessageTypeName() string {
 	return "OMD_O01"
 }
 
-//  OMD_O01_DIET represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// OMD_O01_DIET represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type OMD_O01_DIET struct {
 	ODS         []ODS                 `hl7:"true,ODS"`
 	NTE         []NTE                 `hl7:"false,NTE"`
@@ -9016,8 +9016,8 @@ func (s *OMD_O01_DIET) MessageTypeSubStructName() string {
 	return "OMD_O01_DIET"
 }
 
-//  OMD_O01_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// OMD_O01_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type OMD_O01_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -9029,8 +9029,8 @@ func (s *OMD_O01_INSURANCE) MessageTypeSubStructName() string {
 	return "OMD_O01_INSURANCE"
 }
 
-//  OMD_O01_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// OMD_O01_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type OMD_O01_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -9041,8 +9041,8 @@ func (s *OMD_O01_OBSERVATION) MessageTypeSubStructName() string {
 	return "OMD_O01_OBSERVATION"
 }
 
-//  OMD_O01_ORDER_DIET represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// OMD_O01_ORDER_DIET represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type OMD_O01_ORDER_DIET struct {
 	ORC   *ORC          `hl7:"true,ORC"`
 	DIET  *OMD_O01_DIET `hl7:"false,DIET"`
@@ -9053,8 +9053,8 @@ func (s *OMD_O01_ORDER_DIET) MessageTypeSubStructName() string {
 	return "OMD_O01_ORDER_DIET"
 }
 
-//  OMD_O01_ORDER_TRAY represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// OMD_O01_ORDER_TRAY represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type OMD_O01_ORDER_TRAY struct {
 	ORC   *ORC  `hl7:"true,ORC"`
 	ODT   []ODT `hl7:"true,ODT"`
@@ -9066,8 +9066,8 @@ func (s *OMD_O01_ORDER_TRAY) MessageTypeSubStructName() string {
 	return "OMD_O01_ORDER_TRAY"
 }
 
-//  OMD_O01_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// OMD_O01_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type OMD_O01_PATIENT struct {
 	PID           *PID                   `hl7:"true,PID"`
 	PD1           *PD1                   `hl7:"false,PD1"`
@@ -9083,8 +9083,8 @@ func (s *OMD_O01_PATIENT) MessageTypeSubStructName() string {
 	return "OMD_O01_PATIENT"
 }
 
-//  OMD_O01_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// OMD_O01_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type OMD_O01_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -9095,8 +9095,8 @@ func (s *OMD_O01_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "OMD_O01_PATIENT_VISIT"
 }
 
-//  OMD_O03 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMD_O03 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMD_O03 struct {
 	MSH        *MSH                 `hl7:"true,MSH"`
 	SFT        []SFT                `hl7:"false,SFT"`
@@ -9111,8 +9111,8 @@ func (s *OMD_O03) MessageTypeName() string {
 	return "OMD_O03"
 }
 
-//  OMD_O03_DIET represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMD_O03_DIET represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMD_O03_DIET struct {
 	ODS         []ODS                 `hl7:"true,ODS"`
 	NTE         []NTE                 `hl7:"false,NTE"`
@@ -9124,8 +9124,8 @@ func (s *OMD_O03_DIET) MessageTypeSubStructName() string {
 	return "OMD_O03_DIET"
 }
 
-//  OMD_O03_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMD_O03_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMD_O03_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -9137,8 +9137,8 @@ func (s *OMD_O03_INSURANCE) MessageTypeSubStructName() string {
 	return "OMD_O03_INSURANCE"
 }
 
-//  OMD_O03_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMD_O03_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMD_O03_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -9149,8 +9149,8 @@ func (s *OMD_O03_OBSERVATION) MessageTypeSubStructName() string {
 	return "OMD_O03_OBSERVATION"
 }
 
-//  OMD_O03_ORDER_DIET represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMD_O03_ORDER_DIET represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMD_O03_ORDER_DIET struct {
 	ORC         *ORC                  `hl7:"true,ORC"`
 	TIMING_DIET []OMD_O03_TIMING_DIET `hl7:"false,TIMING_DIET"`
@@ -9162,8 +9162,8 @@ func (s *OMD_O03_ORDER_DIET) MessageTypeSubStructName() string {
 	return "OMD_O03_ORDER_DIET"
 }
 
-//  OMD_O03_ORDER_TRAY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMD_O03_ORDER_TRAY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMD_O03_ORDER_TRAY struct {
 	ORC         *ORC                  `hl7:"true,ORC"`
 	TIMING_TRAY []OMD_O03_TIMING_TRAY `hl7:"false,TIMING_TRAY"`
@@ -9176,8 +9176,8 @@ func (s *OMD_O03_ORDER_TRAY) MessageTypeSubStructName() string {
 	return "OMD_O03_ORDER_TRAY"
 }
 
-//  OMD_O03_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMD_O03_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMD_O03_PATIENT struct {
 	PID           *PID                   `hl7:"true,PID"`
 	PD1           *PD1                   `hl7:"false,PD1"`
@@ -9193,8 +9193,8 @@ func (s *OMD_O03_PATIENT) MessageTypeSubStructName() string {
 	return "OMD_O03_PATIENT"
 }
 
-//  OMD_O03_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMD_O03_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMD_O03_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -9205,8 +9205,8 @@ func (s *OMD_O03_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "OMD_O03_PATIENT_VISIT"
 }
 
-//  OMD_O03_TIMING_DIET represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMD_O03_TIMING_DIET represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMD_O03_TIMING_DIET struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -9217,8 +9217,8 @@ func (s *OMD_O03_TIMING_DIET) MessageTypeSubStructName() string {
 	return "OMD_O03_TIMING_DIET"
 }
 
-//  OMD_O03_TIMING_TRAY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMD_O03_TIMING_TRAY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMD_O03_TIMING_TRAY struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -9229,8 +9229,8 @@ func (s *OMD_O03_TIMING_TRAY) MessageTypeSubStructName() string {
 	return "OMD_O03_TIMING_TRAY"
 }
 
-//  OMG_O19_CONTAINER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMG_O19_CONTAINER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMG_O19_CONTAINER struct {
 	SAC   *SAC  `hl7:"true,SAC"`
 	OBX   []OBX `hl7:"false,OBX"`
@@ -9241,8 +9241,8 @@ func (s *OMG_O19_CONTAINER) MessageTypeSubStructName() string {
 	return "OMG_O19_CONTAINER"
 }
 
-//  OMG_O19 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMG_O19 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMG_O19 struct {
 	MSH     *MSH             `hl7:"true,MSH"`
 	SFT     []SFT            `hl7:"false,SFT"`
@@ -9256,8 +9256,8 @@ func (s *OMG_O19) MessageTypeName() string {
 	return "OMG_O19"
 }
 
-//  OMG_O19_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMG_O19_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMG_O19_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -9269,8 +9269,8 @@ func (s *OMG_O19_INSURANCE) MessageTypeSubStructName() string {
 	return "OMG_O19_INSURANCE"
 }
 
-//  OMG_O19_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMG_O19_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMG_O19_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -9281,8 +9281,8 @@ func (s *OMG_O19_OBSERVATION) MessageTypeSubStructName() string {
 	return "OMG_O19_OBSERVATION"
 }
 
-//  OMG_O19_OBSERVATION_PRIOR represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMG_O19_OBSERVATION_PRIOR represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMG_O19_OBSERVATION_PRIOR struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -9293,8 +9293,8 @@ func (s *OMG_O19_OBSERVATION_PRIOR) MessageTypeSubStructName() string {
 	return "OMG_O19_OBSERVATION_PRIOR"
 }
 
-//  OMG_O19_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMG_O19_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMG_O19_ORDER struct {
 	ORC          *ORC                   `hl7:"true,ORC"`
 	TIMING       []OMG_O19_TIMING       `hl7:"false,TIMING"`
@@ -9315,8 +9315,8 @@ func (s *OMG_O19_ORDER) MessageTypeSubStructName() string {
 	return "OMG_O19_ORDER"
 }
 
-//  OMG_O19_ORDER_PRIOR represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMG_O19_ORDER_PRIOR represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMG_O19_ORDER_PRIOR struct {
 	ORC               *ORC                        `hl7:"false,ORC"`
 	OBR               *OBR                        `hl7:"true,OBR"`
@@ -9331,8 +9331,8 @@ func (s *OMG_O19_ORDER_PRIOR) MessageTypeSubStructName() string {
 	return "OMG_O19_ORDER_PRIOR"
 }
 
-//  OMG_O19_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMG_O19_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMG_O19_PATIENT struct {
 	PID           *PID                   `hl7:"true,PID"`
 	PD1           *PD1                   `hl7:"false,PD1"`
@@ -9349,8 +9349,8 @@ func (s *OMG_O19_PATIENT) MessageTypeSubStructName() string {
 	return "OMG_O19_PATIENT"
 }
 
-//  OMG_O19_PATIENT_PRIOR represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMG_O19_PATIENT_PRIOR represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMG_O19_PATIENT_PRIOR struct {
 	PID   *PID `hl7:"true,PID"`
 	PD1   *PD1 `hl7:"false,PD1"`
@@ -9361,8 +9361,8 @@ func (s *OMG_O19_PATIENT_PRIOR) MessageTypeSubStructName() string {
 	return "OMG_O19_PATIENT_PRIOR"
 }
 
-//  OMG_O19_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMG_O19_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMG_O19_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -9373,8 +9373,8 @@ func (s *OMG_O19_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "OMG_O19_PATIENT_VISIT"
 }
 
-//  OMG_O19_PATIENT_VISIT_PRIOR represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMG_O19_PATIENT_VISIT_PRIOR represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMG_O19_PATIENT_VISIT_PRIOR struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -9385,8 +9385,8 @@ func (s *OMG_O19_PATIENT_VISIT_PRIOR) MessageTypeSubStructName() string {
 	return "OMG_O19_PATIENT_VISIT_PRIOR"
 }
 
-//  OMG_O19_PRIOR_RESULT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMG_O19_PRIOR_RESULT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMG_O19_PRIOR_RESULT struct {
 	PATIENT_PRIOR       *OMG_O19_PATIENT_PRIOR       `hl7:"false,PATIENT_PRIOR"`
 	PATIENT_VISIT_PRIOR *OMG_O19_PATIENT_VISIT_PRIOR `hl7:"false,PATIENT_VISIT_PRIOR"`
@@ -9399,8 +9399,8 @@ func (s *OMG_O19_PRIOR_RESULT) MessageTypeSubStructName() string {
 	return "OMG_O19_PRIOR_RESULT"
 }
 
-//  OMG_O19_SPECIMEN represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMG_O19_SPECIMEN represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMG_O19_SPECIMEN struct {
 	SPM       *SPM                `hl7:"true,SPM"`
 	OBX       []OBX               `hl7:"false,OBX"`
@@ -9412,8 +9412,8 @@ func (s *OMG_O19_SPECIMEN) MessageTypeSubStructName() string {
 	return "OMG_O19_SPECIMEN"
 }
 
-//  OMG_O19_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMG_O19_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMG_O19_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -9424,8 +9424,8 @@ func (s *OMG_O19_TIMING) MessageTypeSubStructName() string {
 	return "OMG_O19_TIMING"
 }
 
-//  OMG_O19_TIMING_PRIOR represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMG_O19_TIMING_PRIOR represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMG_O19_TIMING_PRIOR struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -9436,8 +9436,8 @@ func (s *OMG_O19_TIMING_PRIOR) MessageTypeSubStructName() string {
 	return "OMG_O19_TIMING_PRIOR"
 }
 
-//  OMI_O23 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMI_O23 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMI_O23 struct {
 	MSH     *MSH             `hl7:"true,MSH"`
 	SFT     []SFT            `hl7:"false,SFT"`
@@ -9451,8 +9451,8 @@ func (s *OMI_O23) MessageTypeName() string {
 	return "OMI_O23"
 }
 
-//  OMI_O23_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMI_O23_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMI_O23_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -9464,8 +9464,8 @@ func (s *OMI_O23_INSURANCE) MessageTypeSubStructName() string {
 	return "OMI_O23_INSURANCE"
 }
 
-//  OMI_O23_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMI_O23_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMI_O23_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -9476,8 +9476,8 @@ func (s *OMI_O23_OBSERVATION) MessageTypeSubStructName() string {
 	return "OMI_O23_OBSERVATION"
 }
 
-//  OMI_O23_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMI_O23_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMI_O23_ORDER struct {
 	ORC         *ORC                  `hl7:"true,ORC"`
 	TIMING      []OMI_O23_TIMING      `hl7:"false,TIMING"`
@@ -9494,8 +9494,8 @@ func (s *OMI_O23_ORDER) MessageTypeSubStructName() string {
 	return "OMI_O23_ORDER"
 }
 
-//  OMI_O23_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMI_O23_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMI_O23_PATIENT struct {
 	PID           *PID                   `hl7:"true,PID"`
 	PD1           *PD1                   `hl7:"false,PD1"`
@@ -9511,8 +9511,8 @@ func (s *OMI_O23_PATIENT) MessageTypeSubStructName() string {
 	return "OMI_O23_PATIENT"
 }
 
-//  OMI_O23_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMI_O23_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMI_O23_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -9523,8 +9523,8 @@ func (s *OMI_O23_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "OMI_O23_PATIENT_VISIT"
 }
 
-//  OMI_O23_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMI_O23_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMI_O23_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -9535,8 +9535,8 @@ func (s *OMI_O23_TIMING) MessageTypeSubStructName() string {
 	return "OMI_O23_TIMING"
 }
 
-//  OML_O21_CONTAINER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O21_CONTAINER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O21_CONTAINER struct {
 	SAC   *SAC  `hl7:"true,SAC"`
 	OBX   []OBX `hl7:"false,OBX"`
@@ -9547,8 +9547,8 @@ func (s *OML_O21_CONTAINER) MessageTypeSubStructName() string {
 	return "OML_O21_CONTAINER"
 }
 
-//  OML_O21_CONTAINER_1 represents the corresponding HL7 message type.
-//  Definition from HL7 2.4
+// OML_O21_CONTAINER_1 represents the corresponding HL7 message type.
+// Definition from HL7 2.4
 type OML_O21_CONTAINER_1 struct {
 	SAC   *SAC  `hl7:"true,SAC"`
 	OBX   []OBX `hl7:"false,OBX"`
@@ -9559,8 +9559,8 @@ func (s *OML_O21_CONTAINER_1) MessageTypeSubStructName() string {
 	return "OML_O21_CONTAINER_1"
 }
 
-//  OML_O21_CONTAINER_2 represents the corresponding HL7 message type.
-//  Definition from HL7 2.4
+// OML_O21_CONTAINER_2 represents the corresponding HL7 message type.
+// Definition from HL7 2.4
 type OML_O21_CONTAINER_2 struct {
 	SAC   *SAC  `hl7:"true,SAC"`
 	OBX   []OBX `hl7:"false,OBX"`
@@ -9571,8 +9571,8 @@ func (s *OML_O21_CONTAINER_2) MessageTypeSubStructName() string {
 	return "OML_O21_CONTAINER_2"
 }
 
-//  OML_O21 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O21 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O21 struct {
 	MSH     *MSH             `hl7:"true,MSH"`
 	SFT     []SFT            `hl7:"false,SFT"`
@@ -9586,8 +9586,8 @@ func (s *OML_O21) MessageTypeName() string {
 	return "OML_O21"
 }
 
-//  OML_O21_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O21_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O21_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -9599,8 +9599,8 @@ func (s *OML_O21_INSURANCE) MessageTypeSubStructName() string {
 	return "OML_O21_INSURANCE"
 }
 
-//  OML_O21_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O21_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O21_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	TCD   *TCD  `hl7:"false,TCD"`
@@ -9612,8 +9612,8 @@ func (s *OML_O21_OBSERVATION) MessageTypeSubStructName() string {
 	return "OML_O21_OBSERVATION"
 }
 
-//  OML_O21_OBSERVATION_PRIOR represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O21_OBSERVATION_PRIOR represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O21_OBSERVATION_PRIOR struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -9624,8 +9624,8 @@ func (s *OML_O21_OBSERVATION_PRIOR) MessageTypeSubStructName() string {
 	return "OML_O21_OBSERVATION_PRIOR"
 }
 
-//  OML_O21_OBSERVATION_REQUEST represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O21_OBSERVATION_REQUEST represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O21_OBSERVATION_REQUEST struct {
 	OBR          *OBR                   `hl7:"true,OBR"`
 	TCD          *TCD                   `hl7:"false,TCD"`
@@ -9642,8 +9642,8 @@ func (s *OML_O21_OBSERVATION_REQUEST) MessageTypeSubStructName() string {
 	return "OML_O21_OBSERVATION_REQUEST"
 }
 
-//  OML_O21_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O21_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O21_ORDER struct {
 	ORC                 *ORC                         `hl7:"true,ORC"`
 	TIMING              []OML_O21_TIMING             `hl7:"false,TIMING"`
@@ -9658,8 +9658,8 @@ func (s *OML_O21_ORDER) MessageTypeSubStructName() string {
 	return "OML_O21_ORDER"
 }
 
-//  OML_O21_ORDER_GENERAL represents the corresponding HL7 message type.
-//  Definition from HL7 2.4
+// OML_O21_ORDER_GENERAL represents the corresponding HL7 message type.
+// Definition from HL7 2.4
 type OML_O21_ORDER_GENERAL struct {
 	CONTAINER_1 *OML_O21_CONTAINER_1 `hl7:"false,CONTAINER_1"`
 	ORDER       []OML_O21_ORDER      `hl7:"true,ORDER"`
@@ -9670,8 +9670,8 @@ func (s *OML_O21_ORDER_GENERAL) MessageTypeSubStructName() string {
 	return "OML_O21_ORDER_GENERAL"
 }
 
-//  OML_O21_ORDER_PRIOR represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O21_ORDER_PRIOR represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O21_ORDER_PRIOR struct {
 	ORC               *ORC                        `hl7:"false,ORC"`
 	OBR               *OBR                        `hl7:"true,OBR"`
@@ -9685,8 +9685,8 @@ func (s *OML_O21_ORDER_PRIOR) MessageTypeSubStructName() string {
 	return "OML_O21_ORDER_PRIOR"
 }
 
-//  OML_O21_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O21_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O21_PATIENT struct {
 	PID           *PID                   `hl7:"true,PID"`
 	PD1           *PD1                   `hl7:"false,PD1"`
@@ -9703,8 +9703,8 @@ func (s *OML_O21_PATIENT) MessageTypeSubStructName() string {
 	return "OML_O21_PATIENT"
 }
 
-//  OML_O21_PATIENT_PRIOR represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O21_PATIENT_PRIOR represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O21_PATIENT_PRIOR struct {
 	PID   *PID `hl7:"true,PID"`
 	PD1   *PD1 `hl7:"false,PD1"`
@@ -9715,8 +9715,8 @@ func (s *OML_O21_PATIENT_PRIOR) MessageTypeSubStructName() string {
 	return "OML_O21_PATIENT_PRIOR"
 }
 
-//  OML_O21_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O21_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O21_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -9727,8 +9727,8 @@ func (s *OML_O21_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "OML_O21_PATIENT_VISIT"
 }
 
-//  OML_O21_PATIENT_VISIT_PRIOR represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O21_PATIENT_VISIT_PRIOR represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O21_PATIENT_VISIT_PRIOR struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -9739,8 +9739,8 @@ func (s *OML_O21_PATIENT_VISIT_PRIOR) MessageTypeSubStructName() string {
 	return "OML_O21_PATIENT_VISIT_PRIOR"
 }
 
-//  OML_O21_PRIOR_RESULT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O21_PRIOR_RESULT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O21_PRIOR_RESULT struct {
 	PATIENT_PRIOR       *OML_O21_PATIENT_PRIOR       `hl7:"false,PATIENT_PRIOR"`
 	PATIENT_VISIT_PRIOR *OML_O21_PATIENT_VISIT_PRIOR `hl7:"false,PATIENT_VISIT_PRIOR"`
@@ -9753,8 +9753,8 @@ func (s *OML_O21_PRIOR_RESULT) MessageTypeSubStructName() string {
 	return "OML_O21_PRIOR_RESULT"
 }
 
-//  OML_O21_SPECIMEN represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O21_SPECIMEN represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O21_SPECIMEN struct {
 	SPM       *SPM                `hl7:"true,SPM"`
 	OBX       []OBX               `hl7:"false,OBX"`
@@ -9766,8 +9766,8 @@ func (s *OML_O21_SPECIMEN) MessageTypeSubStructName() string {
 	return "OML_O21_SPECIMEN"
 }
 
-//  OML_O21_TIIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5
+// OML_O21_TIIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5
 type OML_O21_TIIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -9778,8 +9778,8 @@ func (s *OML_O21_TIIMING) MessageTypeSubStructName() string {
 	return "OML_O21_TIIMING"
 }
 
-//  OML_O21_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O21_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O21_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -9790,8 +9790,8 @@ func (s *OML_O21_TIMING) MessageTypeSubStructName() string {
 	return "OML_O21_TIMING"
 }
 
-//  OML_O21_TIMING_PRIOR represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O21_TIMING_PRIOR represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O21_TIMING_PRIOR struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -9802,8 +9802,8 @@ func (s *OML_O21_TIMING_PRIOR) MessageTypeSubStructName() string {
 	return "OML_O21_TIMING_PRIOR"
 }
 
-//  OML_O33 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O33 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O33 struct {
 	MSH      *MSH               `hl7:"true,MSH"`
 	SFT      []SFT              `hl7:"false,SFT"`
@@ -9817,8 +9817,8 @@ func (s *OML_O33) MessageTypeName() string {
 	return "OML_O33"
 }
 
-//  OML_O33_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O33_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O33_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -9830,8 +9830,8 @@ func (s *OML_O33_INSURANCE) MessageTypeSubStructName() string {
 	return "OML_O33_INSURANCE"
 }
 
-//  OML_O33_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O33_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O33_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	TCD   *TCD  `hl7:"false,TCD"`
@@ -9843,8 +9843,8 @@ func (s *OML_O33_OBSERVATION) MessageTypeSubStructName() string {
 	return "OML_O33_OBSERVATION"
 }
 
-//  OML_O33_OBSERVATION_PRIOR represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O33_OBSERVATION_PRIOR represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O33_OBSERVATION_PRIOR struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -9855,8 +9855,8 @@ func (s *OML_O33_OBSERVATION_PRIOR) MessageTypeSubStructName() string {
 	return "OML_O33_OBSERVATION_PRIOR"
 }
 
-//  OML_O33_OBSERVATION_REQUEST represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O33_OBSERVATION_REQUEST represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O33_OBSERVATION_REQUEST struct {
 	OBR          *OBR                   `hl7:"true,OBR"`
 	TCD          *TCD                   `hl7:"false,TCD"`
@@ -9871,8 +9871,8 @@ func (s *OML_O33_OBSERVATION_REQUEST) MessageTypeSubStructName() string {
 	return "OML_O33_OBSERVATION_REQUEST"
 }
 
-//  OML_O33_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O33_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O33_ORDER struct {
 	ORC                 *ORC                         `hl7:"true,ORC"`
 	TIMING              []OML_O33_TIMING             `hl7:"false,TIMING"`
@@ -9887,8 +9887,8 @@ func (s *OML_O33_ORDER) MessageTypeSubStructName() string {
 	return "OML_O33_ORDER"
 }
 
-//  OML_O33_ORDER_PRIOR represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O33_ORDER_PRIOR represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O33_ORDER_PRIOR struct {
 	ORC               *ORC                        `hl7:"false,ORC"`
 	OBR               *OBR                        `hl7:"true,OBR"`
@@ -9902,8 +9902,8 @@ func (s *OML_O33_ORDER_PRIOR) MessageTypeSubStructName() string {
 	return "OML_O33_ORDER_PRIOR"
 }
 
-//  OML_O33_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O33_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O33_PATIENT struct {
 	PID           *PID                   `hl7:"true,PID"`
 	PD1           *PD1                   `hl7:"false,PD1"`
@@ -9920,8 +9920,8 @@ func (s *OML_O33_PATIENT) MessageTypeSubStructName() string {
 	return "OML_O33_PATIENT"
 }
 
-//  OML_O33_PATIENT_PRIOR represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O33_PATIENT_PRIOR represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O33_PATIENT_PRIOR struct {
 	PID   *PID `hl7:"true,PID"`
 	PD1   *PD1 `hl7:"false,PD1"`
@@ -9932,8 +9932,8 @@ func (s *OML_O33_PATIENT_PRIOR) MessageTypeSubStructName() string {
 	return "OML_O33_PATIENT_PRIOR"
 }
 
-//  OML_O33_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O33_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O33_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -9944,8 +9944,8 @@ func (s *OML_O33_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "OML_O33_PATIENT_VISIT"
 }
 
-//  OML_O33_PATIENT_VISIT_PRIOR represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O33_PATIENT_VISIT_PRIOR represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O33_PATIENT_VISIT_PRIOR struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -9956,8 +9956,8 @@ func (s *OML_O33_PATIENT_VISIT_PRIOR) MessageTypeSubStructName() string {
 	return "OML_O33_PATIENT_VISIT_PRIOR"
 }
 
-//  OML_O33_PRIOR_RESULT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O33_PRIOR_RESULT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O33_PRIOR_RESULT struct {
 	PATIENT_PRIOR       *OML_O33_PATIENT_PRIOR       `hl7:"false,PATIENT_PRIOR"`
 	PATIENT_VISIT_PRIOR *OML_O33_PATIENT_VISIT_PRIOR `hl7:"false,PATIENT_VISIT_PRIOR"`
@@ -9970,8 +9970,8 @@ func (s *OML_O33_PRIOR_RESULT) MessageTypeSubStructName() string {
 	return "OML_O33_PRIOR_RESULT"
 }
 
-//  OML_O33_SPECIMEN represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O33_SPECIMEN represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O33_SPECIMEN struct {
 	SPM   *SPM            `hl7:"true,SPM"`
 	OBX   []OBX           `hl7:"false,OBX"`
@@ -9984,8 +9984,8 @@ func (s *OML_O33_SPECIMEN) MessageTypeSubStructName() string {
 	return "OML_O33_SPECIMEN"
 }
 
-//  OML_O33_TIIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5
+// OML_O33_TIIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5
 type OML_O33_TIIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -9996,8 +9996,8 @@ func (s *OML_O33_TIIMING) MessageTypeSubStructName() string {
 	return "OML_O33_TIIMING"
 }
 
-//  OML_O33_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O33_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O33_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -10008,8 +10008,8 @@ func (s *OML_O33_TIMING) MessageTypeSubStructName() string {
 	return "OML_O33_TIMING"
 }
 
-//  OML_O33_TIMING_PRIOR represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O33_TIMING_PRIOR represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O33_TIMING_PRIOR struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -10020,8 +10020,8 @@ func (s *OML_O33_TIMING_PRIOR) MessageTypeSubStructName() string {
 	return "OML_O33_TIMING_PRIOR"
 }
 
-//  OML_O35 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O35 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O35 struct {
 	MSH      *MSH               `hl7:"true,MSH"`
 	SFT      []SFT              `hl7:"false,SFT"`
@@ -10035,8 +10035,8 @@ func (s *OML_O35) MessageTypeName() string {
 	return "OML_O35"
 }
 
-//  OML_O35_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O35_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O35_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -10048,8 +10048,8 @@ func (s *OML_O35_INSURANCE) MessageTypeSubStructName() string {
 	return "OML_O35_INSURANCE"
 }
 
-//  OML_O35_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O35_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O35_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	TCD   *TCD  `hl7:"false,TCD"`
@@ -10061,8 +10061,8 @@ func (s *OML_O35_OBSERVATION) MessageTypeSubStructName() string {
 	return "OML_O35_OBSERVATION"
 }
 
-//  OML_O35_OBSERVATION_PRIOR represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O35_OBSERVATION_PRIOR represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O35_OBSERVATION_PRIOR struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -10073,8 +10073,8 @@ func (s *OML_O35_OBSERVATION_PRIOR) MessageTypeSubStructName() string {
 	return "OML_O35_OBSERVATION_PRIOR"
 }
 
-//  OML_O35_OBSERVATION_REQUEST represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O35_OBSERVATION_REQUEST represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O35_OBSERVATION_REQUEST struct {
 	OBR          *OBR                   `hl7:"true,OBR"`
 	TCD          *TCD                   `hl7:"false,TCD"`
@@ -10089,8 +10089,8 @@ func (s *OML_O35_OBSERVATION_REQUEST) MessageTypeSubStructName() string {
 	return "OML_O35_OBSERVATION_REQUEST"
 }
 
-//  OML_O35_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O35_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O35_ORDER struct {
 	ORC                 *ORC                         `hl7:"true,ORC"`
 	TIMING              []OML_O35_TIMING             `hl7:"false,TIMING"`
@@ -10105,8 +10105,8 @@ func (s *OML_O35_ORDER) MessageTypeSubStructName() string {
 	return "OML_O35_ORDER"
 }
 
-//  OML_O35_ORDER_PRIOR represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O35_ORDER_PRIOR represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O35_ORDER_PRIOR struct {
 	ORC               *ORC                        `hl7:"false,ORC"`
 	OBR               *OBR                        `hl7:"true,OBR"`
@@ -10120,8 +10120,8 @@ func (s *OML_O35_ORDER_PRIOR) MessageTypeSubStructName() string {
 	return "OML_O35_ORDER_PRIOR"
 }
 
-//  OML_O35_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O35_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O35_PATIENT struct {
 	PID           *PID                   `hl7:"true,PID"`
 	PD1           *PD1                   `hl7:"false,PD1"`
@@ -10138,8 +10138,8 @@ func (s *OML_O35_PATIENT) MessageTypeSubStructName() string {
 	return "OML_O35_PATIENT"
 }
 
-//  OML_O35_PATIENT_PRIOR represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O35_PATIENT_PRIOR represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O35_PATIENT_PRIOR struct {
 	PID   *PID `hl7:"true,PID"`
 	PD1   *PD1 `hl7:"false,PD1"`
@@ -10150,8 +10150,8 @@ func (s *OML_O35_PATIENT_PRIOR) MessageTypeSubStructName() string {
 	return "OML_O35_PATIENT_PRIOR"
 }
 
-//  OML_O35_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O35_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O35_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -10162,8 +10162,8 @@ func (s *OML_O35_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "OML_O35_PATIENT_VISIT"
 }
 
-//  OML_O35_PATIENT_VISIT_PRIOR represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O35_PATIENT_VISIT_PRIOR represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O35_PATIENT_VISIT_PRIOR struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -10174,8 +10174,8 @@ func (s *OML_O35_PATIENT_VISIT_PRIOR) MessageTypeSubStructName() string {
 	return "OML_O35_PATIENT_VISIT_PRIOR"
 }
 
-//  OML_O35_PRIOR_RESULT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O35_PRIOR_RESULT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O35_PRIOR_RESULT struct {
 	PATIENT_PRIOR       *OML_O35_PATIENT_PRIOR       `hl7:"false,PATIENT_PRIOR"`
 	PATIENT_VISIT_PRIOR *OML_O35_PATIENT_VISIT_PRIOR `hl7:"false,PATIENT_VISIT_PRIOR"`
@@ -10188,8 +10188,8 @@ func (s *OML_O35_PRIOR_RESULT) MessageTypeSubStructName() string {
 	return "OML_O35_PRIOR_RESULT"
 }
 
-//  OML_O35_SPECIMEN represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O35_SPECIMEN represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O35_SPECIMEN struct {
 	SPM                *SPM                         `hl7:"true,SPM"`
 	OBX                []OBX                        `hl7:"false,OBX"`
@@ -10201,8 +10201,8 @@ func (s *OML_O35_SPECIMEN) MessageTypeSubStructName() string {
 	return "OML_O35_SPECIMEN"
 }
 
-//  OML_O35_SPECIMEN_CONTAINER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O35_SPECIMEN_CONTAINER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O35_SPECIMEN_CONTAINER struct {
 	SAC   *SAC            `hl7:"true,SAC"`
 	ORDER []OML_O35_ORDER `hl7:"true,ORDER"`
@@ -10213,8 +10213,8 @@ func (s *OML_O35_SPECIMEN_CONTAINER) MessageTypeSubStructName() string {
 	return "OML_O35_SPECIMEN_CONTAINER"
 }
 
-//  OML_O35_TIIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5
+// OML_O35_TIIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5
 type OML_O35_TIIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -10225,8 +10225,8 @@ func (s *OML_O35_TIIMING) MessageTypeSubStructName() string {
 	return "OML_O35_TIIMING"
 }
 
-//  OML_O35_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O35_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O35_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -10237,8 +10237,8 @@ func (s *OML_O35_TIMING) MessageTypeSubStructName() string {
 	return "OML_O35_TIMING"
 }
 
-//  OML_O35_TIMING_PRIOR represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OML_O35_TIMING_PRIOR represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OML_O35_TIMING_PRIOR struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -10249,8 +10249,8 @@ func (s *OML_O35_TIMING_PRIOR) MessageTypeSubStructName() string {
 	return "OML_O35_TIMING_PRIOR"
 }
 
-//  OMN_O01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// OMN_O01 represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type OMN_O01 struct {
 	MSH     *MSH             `hl7:"true,MSH"`
 	NTE     []NTE            `hl7:"false,NTE"`
@@ -10263,8 +10263,8 @@ func (s *OMN_O01) MessageTypeName() string {
 	return "OMN_O01"
 }
 
-//  OMN_O01_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// OMN_O01_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type OMN_O01_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -10276,8 +10276,8 @@ func (s *OMN_O01_INSURANCE) MessageTypeSubStructName() string {
 	return "OMN_O01_INSURANCE"
 }
 
-//  OMN_O01_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// OMN_O01_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type OMN_O01_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -10288,8 +10288,8 @@ func (s *OMN_O01_OBSERVATION) MessageTypeSubStructName() string {
 	return "OMN_O01_OBSERVATION"
 }
 
-//  OMN_O01_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// OMN_O01_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type OMN_O01_ORDER struct {
 	ORC          *ORC                  `hl7:"true,ORC"`
 	ORDER_DETAIL *OMN_O01_ORDER_DETAIL `hl7:"false,ORDER_DETAIL"`
@@ -10301,8 +10301,8 @@ func (s *OMN_O01_ORDER) MessageTypeSubStructName() string {
 	return "OMN_O01_ORDER"
 }
 
-//  OMN_O01_ORDER_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// OMN_O01_ORDER_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type OMN_O01_ORDER_DETAIL struct {
 	RQD         *RQD                  `hl7:"true,RQD"`
 	RQ1         *RQ1                  `hl7:"false,RQ1"`
@@ -10315,8 +10315,8 @@ func (s *OMN_O01_ORDER_DETAIL) MessageTypeSubStructName() string {
 	return "OMN_O01_ORDER_DETAIL"
 }
 
-//  OMN_O01_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// OMN_O01_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type OMN_O01_PATIENT struct {
 	PID           *PID                   `hl7:"true,PID"`
 	PD1           *PD1                   `hl7:"false,PD1"`
@@ -10332,8 +10332,8 @@ func (s *OMN_O01_PATIENT) MessageTypeSubStructName() string {
 	return "OMN_O01_PATIENT"
 }
 
-//  OMN_O01_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// OMN_O01_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type OMN_O01_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -10344,8 +10344,8 @@ func (s *OMN_O01_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "OMN_O01_PATIENT_VISIT"
 }
 
-//  OMN_O07 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMN_O07 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMN_O07 struct {
 	MSH     *MSH             `hl7:"true,MSH"`
 	SFT     []SFT            `hl7:"false,SFT"`
@@ -10359,8 +10359,8 @@ func (s *OMN_O07) MessageTypeName() string {
 	return "OMN_O07"
 }
 
-//  OMN_O07_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMN_O07_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMN_O07_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -10372,8 +10372,8 @@ func (s *OMN_O07_INSURANCE) MessageTypeSubStructName() string {
 	return "OMN_O07_INSURANCE"
 }
 
-//  OMN_O07_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMN_O07_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMN_O07_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -10384,8 +10384,8 @@ func (s *OMN_O07_OBSERVATION) MessageTypeSubStructName() string {
 	return "OMN_O07_OBSERVATION"
 }
 
-//  OMN_O07_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMN_O07_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMN_O07_ORDER struct {
 	ORC         *ORC                  `hl7:"true,ORC"`
 	TIMING      []OMN_O07_TIMING      `hl7:"false,TIMING"`
@@ -10401,8 +10401,8 @@ func (s *OMN_O07_ORDER) MessageTypeSubStructName() string {
 	return "OMN_O07_ORDER"
 }
 
-//  OMN_O07_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMN_O07_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMN_O07_PATIENT struct {
 	PID           *PID                   `hl7:"true,PID"`
 	PD1           *PD1                   `hl7:"false,PD1"`
@@ -10418,8 +10418,8 @@ func (s *OMN_O07_PATIENT) MessageTypeSubStructName() string {
 	return "OMN_O07_PATIENT"
 }
 
-//  OMN_O07_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMN_O07_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMN_O07_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -10430,8 +10430,8 @@ func (s *OMN_O07_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "OMN_O07_PATIENT_VISIT"
 }
 
-//  OMN_O07_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMN_O07_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMN_O07_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -10442,8 +10442,8 @@ func (s *OMN_O07_TIMING) MessageTypeSubStructName() string {
 	return "OMN_O07_TIMING"
 }
 
-//  OMP_O09_COMPONENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMP_O09_COMPONENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMP_O09_COMPONENT struct {
 	RXC   *RXC  `hl7:"true,RXC"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -10454,8 +10454,8 @@ func (s *OMP_O09_COMPONENT) MessageTypeSubStructName() string {
 	return "OMP_O09_COMPONENT"
 }
 
-//  OMP_O09 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMP_O09 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMP_O09 struct {
 	MSH     *MSH             `hl7:"true,MSH"`
 	SFT     []SFT            `hl7:"false,SFT"`
@@ -10469,8 +10469,8 @@ func (s *OMP_O09) MessageTypeName() string {
 	return "OMP_O09"
 }
 
-//  OMP_O09_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMP_O09_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMP_O09_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -10482,8 +10482,8 @@ func (s *OMP_O09_INSURANCE) MessageTypeSubStructName() string {
 	return "OMP_O09_INSURANCE"
 }
 
-//  OMP_O09_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMP_O09_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMP_O09_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -10494,8 +10494,8 @@ func (s *OMP_O09_OBSERVATION) MessageTypeSubStructName() string {
 	return "OMP_O09_OBSERVATION"
 }
 
-//  OMP_O09_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMP_O09_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMP_O09_ORDER struct {
 	ORC         *ORC                  `hl7:"true,ORC"`
 	TIMING      []OMP_O09_TIMING      `hl7:"false,TIMING"`
@@ -10513,8 +10513,8 @@ func (s *OMP_O09_ORDER) MessageTypeSubStructName() string {
 	return "OMP_O09_ORDER"
 }
 
-//  OMP_O09_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMP_O09_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMP_O09_PATIENT struct {
 	PID           *PID                   `hl7:"true,PID"`
 	PD1           *PD1                   `hl7:"false,PD1"`
@@ -10530,8 +10530,8 @@ func (s *OMP_O09_PATIENT) MessageTypeSubStructName() string {
 	return "OMP_O09_PATIENT"
 }
 
-//  OMP_O09_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMP_O09_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMP_O09_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -10542,8 +10542,8 @@ func (s *OMP_O09_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "OMP_O09_PATIENT_VISIT"
 }
 
-//  OMP_O09_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMP_O09_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMP_O09_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -10554,8 +10554,8 @@ func (s *OMP_O09_TIMING) MessageTypeSubStructName() string {
 	return "OMP_O09_TIMING"
 }
 
-//  OMS_O01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// OMS_O01 represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type OMS_O01 struct {
 	MSH     *MSH             `hl7:"true,MSH"`
 	NTE     []NTE            `hl7:"false,NTE"`
@@ -10568,8 +10568,8 @@ func (s *OMS_O01) MessageTypeName() string {
 	return "OMS_O01"
 }
 
-//  OMS_O01_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// OMS_O01_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type OMS_O01_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -10581,8 +10581,8 @@ func (s *OMS_O01_INSURANCE) MessageTypeSubStructName() string {
 	return "OMS_O01_INSURANCE"
 }
 
-//  OMS_O01_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// OMS_O01_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type OMS_O01_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -10593,8 +10593,8 @@ func (s *OMS_O01_OBSERVATION) MessageTypeSubStructName() string {
 	return "OMS_O01_OBSERVATION"
 }
 
-//  OMS_O01_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// OMS_O01_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type OMS_O01_ORDER struct {
 	ORC          *ORC                  `hl7:"true,ORC"`
 	ORDER_DETAIL *OMS_O01_ORDER_DETAIL `hl7:"false,ORDER_DETAIL"`
@@ -10606,8 +10606,8 @@ func (s *OMS_O01_ORDER) MessageTypeSubStructName() string {
 	return "OMS_O01_ORDER"
 }
 
-//  OMS_O01_ORDER_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// OMS_O01_ORDER_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type OMS_O01_ORDER_DETAIL struct {
 	RQD         *RQD                  `hl7:"true,RQD"`
 	NTE         []NTE                 `hl7:"false,NTE"`
@@ -10619,8 +10619,8 @@ func (s *OMS_O01_ORDER_DETAIL) MessageTypeSubStructName() string {
 	return "OMS_O01_ORDER_DETAIL"
 }
 
-//  OMS_O01_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// OMS_O01_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type OMS_O01_PATIENT struct {
 	PID           *PID                   `hl7:"true,PID"`
 	PD1           *PD1                   `hl7:"false,PD1"`
@@ -10636,8 +10636,8 @@ func (s *OMS_O01_PATIENT) MessageTypeSubStructName() string {
 	return "OMS_O01_PATIENT"
 }
 
-//  OMS_O01_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// OMS_O01_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type OMS_O01_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -10648,8 +10648,8 @@ func (s *OMS_O01_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "OMS_O01_PATIENT_VISIT"
 }
 
-//  OMS_O05 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMS_O05 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMS_O05 struct {
 	MSH     *MSH             `hl7:"true,MSH"`
 	SFT     []SFT            `hl7:"false,SFT"`
@@ -10663,8 +10663,8 @@ func (s *OMS_O05) MessageTypeName() string {
 	return "OMS_O05"
 }
 
-//  OMS_O05_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMS_O05_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMS_O05_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -10676,8 +10676,8 @@ func (s *OMS_O05_INSURANCE) MessageTypeSubStructName() string {
 	return "OMS_O05_INSURANCE"
 }
 
-//  OMS_O05_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMS_O05_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMS_O05_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -10688,8 +10688,8 @@ func (s *OMS_O05_OBSERVATION) MessageTypeSubStructName() string {
 	return "OMS_O05_OBSERVATION"
 }
 
-//  OMS_O05_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMS_O05_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMS_O05_ORDER struct {
 	ORC         *ORC                  `hl7:"true,ORC"`
 	TIMING      []OMS_O05_TIMING      `hl7:"false,TIMING"`
@@ -10705,8 +10705,8 @@ func (s *OMS_O05_ORDER) MessageTypeSubStructName() string {
 	return "OMS_O05_ORDER"
 }
 
-//  OMS_O05_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMS_O05_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMS_O05_PATIENT struct {
 	PID           *PID                   `hl7:"true,PID"`
 	PD1           *PD1                   `hl7:"false,PD1"`
@@ -10722,8 +10722,8 @@ func (s *OMS_O05_PATIENT) MessageTypeSubStructName() string {
 	return "OMS_O05_PATIENT"
 }
 
-//  OMS_O05_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMS_O05_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMS_O05_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -10734,8 +10734,8 @@ func (s *OMS_O05_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "OMS_O05_PATIENT_VISIT"
 }
 
-//  OMS_O05_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OMS_O05_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OMS_O05_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -10746,8 +10746,8 @@ func (s *OMS_O05_TIMING) MessageTypeSubStructName() string {
 	return "OMS_O05_TIMING"
 }
 
-//  ORB_O28 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORB_O28 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORB_O28 struct {
 	MSH      *MSH              `hl7:"true,MSH"`
 	MSA      *MSA              `hl7:"true,MSA"`
@@ -10762,8 +10762,8 @@ func (s *ORB_O28) MessageTypeName() string {
 	return "ORB_O28"
 }
 
-//  ORB_O28_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORB_O28_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORB_O28_ORDER struct {
 	ORC    *ORC             `hl7:"true,ORC"`
 	TIMING []ORB_O28_TIMING `hl7:"false,TIMING"`
@@ -10775,8 +10775,8 @@ func (s *ORB_O28_ORDER) MessageTypeSubStructName() string {
 	return "ORB_O28_ORDER"
 }
 
-//  ORB_O28_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORB_O28_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORB_O28_PATIENT struct {
 	PID   *PID            `hl7:"true,PID"`
 	ORDER []ORB_O28_ORDER `hl7:"false,ORDER"`
@@ -10787,8 +10787,8 @@ func (s *ORB_O28_PATIENT) MessageTypeSubStructName() string {
 	return "ORB_O28_PATIENT"
 }
 
-//  ORB_O28_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORB_O28_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORB_O28_RESPONSE struct {
 	PATIENT *ORB_O28_PATIENT `hl7:"false,PATIENT"`
 	Other   []interface{}
@@ -10798,8 +10798,8 @@ func (s *ORB_O28_RESPONSE) MessageTypeSubStructName() string {
 	return "ORB_O28_RESPONSE"
 }
 
-//  ORB_O28_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORB_O28_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORB_O28_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -10810,8 +10810,8 @@ func (s *ORB_O28_TIMING) MessageTypeSubStructName() string {
 	return "ORB_O28_TIMING"
 }
 
-//  ORD_O02 represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// ORD_O02 represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type ORD_O02 struct {
 	MSH      *MSH              `hl7:"true,MSH"`
 	MSA      *MSA              `hl7:"true,MSA"`
@@ -10825,8 +10825,8 @@ func (s *ORD_O02) MessageTypeName() string {
 	return "ORD_O02"
 }
 
-//  ORD_O02_ORDER_DIET represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// ORD_O02_ORDER_DIET represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type ORD_O02_ORDER_DIET struct {
 	ORC   *ORC  `hl7:"true,ORC"`
 	ODS   []ODS `hl7:"false,ODS"`
@@ -10838,8 +10838,8 @@ func (s *ORD_O02_ORDER_DIET) MessageTypeSubStructName() string {
 	return "ORD_O02_ORDER_DIET"
 }
 
-//  ORD_O02_ORDER_TRAY represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// ORD_O02_ORDER_TRAY represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type ORD_O02_ORDER_TRAY struct {
 	ORC   *ORC  `hl7:"true,ORC"`
 	ODT   []ODT `hl7:"false,ODT"`
@@ -10851,8 +10851,8 @@ func (s *ORD_O02_ORDER_TRAY) MessageTypeSubStructName() string {
 	return "ORD_O02_ORDER_TRAY"
 }
 
-//  ORD_O02_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// ORD_O02_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type ORD_O02_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -10863,8 +10863,8 @@ func (s *ORD_O02_PATIENT) MessageTypeSubStructName() string {
 	return "ORD_O02_PATIENT"
 }
 
-//  ORD_O02_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// ORD_O02_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type ORD_O02_RESPONSE struct {
 	PATIENT    *ORD_O02_PATIENT     `hl7:"false,PATIENT"`
 	ORDER_DIET []ORD_O02_ORDER_DIET `hl7:"true,ORDER_DIET"`
@@ -10876,8 +10876,8 @@ func (s *ORD_O02_RESPONSE) MessageTypeSubStructName() string {
 	return "ORD_O02_RESPONSE"
 }
 
-//  ORD_O04 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORD_O04 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORD_O04 struct {
 	MSH      *MSH              `hl7:"true,MSH"`
 	MSA      *MSA              `hl7:"true,MSA"`
@@ -10892,8 +10892,8 @@ func (s *ORD_O04) MessageTypeName() string {
 	return "ORD_O04"
 }
 
-//  ORD_O04_ORDER_DIET represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORD_O04_ORDER_DIET represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORD_O04_ORDER_DIET struct {
 	ORC         *ORC                  `hl7:"true,ORC"`
 	TIMING_DIET []ORD_O04_TIMING_DIET `hl7:"false,TIMING_DIET"`
@@ -10906,8 +10906,8 @@ func (s *ORD_O04_ORDER_DIET) MessageTypeSubStructName() string {
 	return "ORD_O04_ORDER_DIET"
 }
 
-//  ORD_O04_ORDER_TRAY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORD_O04_ORDER_TRAY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORD_O04_ORDER_TRAY struct {
 	ORC         *ORC                  `hl7:"true,ORC"`
 	TIMING_TRAY []ORD_O04_TIMING_TRAY `hl7:"false,TIMING_TRAY"`
@@ -10920,8 +10920,8 @@ func (s *ORD_O04_ORDER_TRAY) MessageTypeSubStructName() string {
 	return "ORD_O04_ORDER_TRAY"
 }
 
-//  ORD_O04_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORD_O04_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORD_O04_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -10932,8 +10932,8 @@ func (s *ORD_O04_PATIENT) MessageTypeSubStructName() string {
 	return "ORD_O04_PATIENT"
 }
 
-//  ORD_O04_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORD_O04_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORD_O04_RESPONSE struct {
 	PATIENT    *ORD_O04_PATIENT     `hl7:"false,PATIENT"`
 	ORDER_DIET []ORD_O04_ORDER_DIET `hl7:"true,ORDER_DIET"`
@@ -10945,8 +10945,8 @@ func (s *ORD_O04_RESPONSE) MessageTypeSubStructName() string {
 	return "ORD_O04_RESPONSE"
 }
 
-//  ORD_O04_TIMING_DIET represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORD_O04_TIMING_DIET represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORD_O04_TIMING_DIET struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -10957,8 +10957,8 @@ func (s *ORD_O04_TIMING_DIET) MessageTypeSubStructName() string {
 	return "ORD_O04_TIMING_DIET"
 }
 
-//  ORD_O04_TIMING_TRAY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORD_O04_TIMING_TRAY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORD_O04_TIMING_TRAY struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -10969,8 +10969,8 @@ func (s *ORD_O04_TIMING_TRAY) MessageTypeSubStructName() string {
 	return "ORD_O04_TIMING_TRAY"
 }
 
-//  ORF_R04 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORF_R04 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORF_R04 struct {
 	MSH            *MSH                     `hl7:"true,MSH"`
 	SFT            []SFT                    `hl7:"false,SFT"`
@@ -10988,8 +10988,8 @@ func (s *ORF_R04) MessageTypeName() string {
 	return "ORF_R04"
 }
 
-//  ORF_R04_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORF_R04_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORF_R04_OBSERVATION struct {
 	OBX   *OBX  `hl7:"false,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -11000,8 +11000,8 @@ func (s *ORF_R04_OBSERVATION) MessageTypeSubStructName() string {
 	return "ORF_R04_OBSERVATION"
 }
 
-//  ORF_R04_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORF_R04_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORF_R04_ORDER struct {
 	ORC         *ORC                  `hl7:"false,ORC"`
 	OBR         *OBR                  `hl7:"true,OBR"`
@@ -11017,8 +11017,8 @@ func (s *ORF_R04_ORDER) MessageTypeSubStructName() string {
 	return "ORF_R04_ORDER"
 }
 
-//  ORF_R04_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORF_R04_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORF_R04_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -11029,8 +11029,8 @@ func (s *ORF_R04_PATIENT) MessageTypeSubStructName() string {
 	return "ORF_R04_PATIENT"
 }
 
-//  ORF_R04_QUERY_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORF_R04_QUERY_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORF_R04_QUERY_RESPONSE struct {
 	PATIENT *ORF_R04_PATIENT `hl7:"false,PATIENT"`
 	ORDER   []ORF_R04_ORDER  `hl7:"true,ORDER"`
@@ -11041,8 +11041,8 @@ func (s *ORF_R04_QUERY_RESPONSE) MessageTypeSubStructName() string {
 	return "ORF_R04_QUERY_RESPONSE"
 }
 
-//  ORF_R04_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.4
+// ORF_R04_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.4
 type ORF_R04_RESPONSE struct {
 	PATIENT *ORF_R04_PATIENT `hl7:"false,PATIENT"`
 	ORDER   []ORF_R04_ORDER  `hl7:"true,ORDER"`
@@ -11053,8 +11053,8 @@ func (s *ORF_R04_RESPONSE) MessageTypeSubStructName() string {
 	return "ORF_R04_RESPONSE"
 }
 
-//  ORF_R04_TIMING_QTY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORF_R04_TIMING_QTY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORF_R04_TIMING_QTY struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -11065,8 +11065,8 @@ func (s *ORF_R04_TIMING_QTY) MessageTypeSubStructName() string {
 	return "ORF_R04_TIMING_QTY"
 }
 
-//  ORG_O20 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORG_O20 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORG_O20 struct {
 	MSH      *MSH              `hl7:"true,MSH"`
 	MSA      *MSA              `hl7:"true,MSA"`
@@ -11081,8 +11081,8 @@ func (s *ORG_O20) MessageTypeName() string {
 	return "ORG_O20"
 }
 
-//  ORG_O20_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORG_O20_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORG_O20_ORDER struct {
 	ORC      *ORC               `hl7:"true,ORC"`
 	TIMING   []ORG_O20_TIMING   `hl7:"false,TIMING"`
@@ -11097,8 +11097,8 @@ func (s *ORG_O20_ORDER) MessageTypeSubStructName() string {
 	return "ORG_O20_ORDER"
 }
 
-//  ORG_O20_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORG_O20_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORG_O20_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -11109,8 +11109,8 @@ func (s *ORG_O20_PATIENT) MessageTypeSubStructName() string {
 	return "ORG_O20_PATIENT"
 }
 
-//  ORG_O20_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORG_O20_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORG_O20_RESPONSE struct {
 	PATIENT *ORG_O20_PATIENT `hl7:"false,PATIENT"`
 	ORDER   []ORG_O20_ORDER  `hl7:"true,ORDER"`
@@ -11121,8 +11121,8 @@ func (s *ORG_O20_RESPONSE) MessageTypeSubStructName() string {
 	return "ORG_O20_RESPONSE"
 }
 
-//  ORG_O20_SPECIMEN represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORG_O20_SPECIMEN represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORG_O20_SPECIMEN struct {
 	SPM   *SPM  `hl7:"true,SPM"`
 	SAC   []SAC `hl7:"false,SAC"`
@@ -11133,8 +11133,8 @@ func (s *ORG_O20_SPECIMEN) MessageTypeSubStructName() string {
 	return "ORG_O20_SPECIMEN"
 }
 
-//  ORG_O20_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORG_O20_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORG_O20_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -11145,8 +11145,8 @@ func (s *ORG_O20_TIMING) MessageTypeSubStructName() string {
 	return "ORG_O20_TIMING"
 }
 
-//  ORI_O24 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORI_O24 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORI_O24 struct {
 	MSH      *MSH              `hl7:"true,MSH"`
 	MSA      *MSA              `hl7:"true,MSA"`
@@ -11161,8 +11161,8 @@ func (s *ORI_O24) MessageTypeName() string {
 	return "ORI_O24"
 }
 
-//  ORI_O24_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORI_O24_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORI_O24_ORDER struct {
 	ORC    *ORC             `hl7:"true,ORC"`
 	TIMING []ORI_O24_TIMING `hl7:"false,TIMING"`
@@ -11176,8 +11176,8 @@ func (s *ORI_O24_ORDER) MessageTypeSubStructName() string {
 	return "ORI_O24_ORDER"
 }
 
-//  ORI_O24_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORI_O24_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORI_O24_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -11188,8 +11188,8 @@ func (s *ORI_O24_PATIENT) MessageTypeSubStructName() string {
 	return "ORI_O24_PATIENT"
 }
 
-//  ORI_O24_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORI_O24_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORI_O24_RESPONSE struct {
 	PATIENT *ORI_O24_PATIENT `hl7:"false,PATIENT"`
 	ORDER   []ORI_O24_ORDER  `hl7:"true,ORDER"`
@@ -11200,8 +11200,8 @@ func (s *ORI_O24_RESPONSE) MessageTypeSubStructName() string {
 	return "ORI_O24_RESPONSE"
 }
 
-//  ORI_O24_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORI_O24_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORI_O24_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -11212,8 +11212,8 @@ func (s *ORI_O24_TIMING) MessageTypeSubStructName() string {
 	return "ORI_O24_TIMING"
 }
 
-//  ORL_O22_CONTAINER represents the corresponding HL7 message type.
-//  Definition from HL7 2.4
+// ORL_O22_CONTAINER represents the corresponding HL7 message type.
+// Definition from HL7 2.4
 type ORL_O22_CONTAINER struct {
 	SAC   *SAC  `hl7:"true,SAC"`
 	OBX   []OBX `hl7:"false,OBX"`
@@ -11224,8 +11224,8 @@ func (s *ORL_O22_CONTAINER) MessageTypeSubStructName() string {
 	return "ORL_O22_CONTAINER"
 }
 
-//  ORL_O22 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORL_O22 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORL_O22 struct {
 	MSH      *MSH              `hl7:"true,MSH"`
 	MSA      *MSA              `hl7:"true,MSA"`
@@ -11240,8 +11240,8 @@ func (s *ORL_O22) MessageTypeName() string {
 	return "ORL_O22"
 }
 
-//  ORL_O22_GENERAL_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.4
+// ORL_O22_GENERAL_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.4
 type ORL_O22_GENERAL_ORDER struct {
 	CONTAINER *ORL_O22_CONTAINER `hl7:"false,CONTAINER"`
 	ORDER     []ORL_O22_ORDER    `hl7:"false,ORDER"`
@@ -11252,8 +11252,8 @@ func (s *ORL_O22_GENERAL_ORDER) MessageTypeSubStructName() string {
 	return "ORL_O22_GENERAL_ORDER"
 }
 
-//  ORL_O22_OBSERVATION_REQUEST represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORL_O22_OBSERVATION_REQUEST represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORL_O22_OBSERVATION_REQUEST struct {
 	OBR      *OBR               `hl7:"true,OBR"`
 	SPECIMEN []ORL_O22_SPECIMEN `hl7:"false,SPECIMEN"`
@@ -11264,8 +11264,8 @@ func (s *ORL_O22_OBSERVATION_REQUEST) MessageTypeSubStructName() string {
 	return "ORL_O22_OBSERVATION_REQUEST"
 }
 
-//  ORL_O22_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORL_O22_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORL_O22_ORDER struct {
 	ORC                 *ORC                         `hl7:"true,ORC"`
 	TIMING              []ORL_O22_TIMING             `hl7:"false,TIMING"`
@@ -11277,8 +11277,8 @@ func (s *ORL_O22_ORDER) MessageTypeSubStructName() string {
 	return "ORL_O22_ORDER"
 }
 
-//  ORL_O22_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORL_O22_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORL_O22_PATIENT struct {
 	PID   *PID            `hl7:"true,PID"`
 	ORDER []ORL_O22_ORDER `hl7:"false,ORDER"`
@@ -11289,8 +11289,8 @@ func (s *ORL_O22_PATIENT) MessageTypeSubStructName() string {
 	return "ORL_O22_PATIENT"
 }
 
-//  ORL_O22_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORL_O22_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORL_O22_RESPONSE struct {
 	PATIENT *ORL_O22_PATIENT `hl7:"false,PATIENT"`
 	Other   []interface{}
@@ -11300,8 +11300,8 @@ func (s *ORL_O22_RESPONSE) MessageTypeSubStructName() string {
 	return "ORL_O22_RESPONSE"
 }
 
-//  ORL_O22_SPECIMEN represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORL_O22_SPECIMEN represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORL_O22_SPECIMEN struct {
 	SPM   *SPM  `hl7:"true,SPM"`
 	SAC   []SAC `hl7:"false,SAC"`
@@ -11312,8 +11312,8 @@ func (s *ORL_O22_SPECIMEN) MessageTypeSubStructName() string {
 	return "ORL_O22_SPECIMEN"
 }
 
-//  ORL_O22_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORL_O22_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORL_O22_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -11324,8 +11324,8 @@ func (s *ORL_O22_TIMING) MessageTypeSubStructName() string {
 	return "ORL_O22_TIMING"
 }
 
-//  ORL_O34 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORL_O34 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORL_O34 struct {
 	MSH      *MSH              `hl7:"true,MSH"`
 	MSA      *MSA              `hl7:"true,MSA"`
@@ -11340,8 +11340,8 @@ func (s *ORL_O34) MessageTypeName() string {
 	return "ORL_O34"
 }
 
-//  ORL_O34_OBSERVATION_REQUEST represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORL_O34_OBSERVATION_REQUEST represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORL_O34_OBSERVATION_REQUEST struct {
 	OBR             *OBR                      `hl7:"true,OBR"`
 	SPMSAC_SUPPGRP2 []ORL_O34_SPMSAC_SUPPGRP2 `hl7:"false,SPMSAC_SUPPGRP2"`
@@ -11352,8 +11352,8 @@ func (s *ORL_O34_OBSERVATION_REQUEST) MessageTypeSubStructName() string {
 	return "ORL_O34_OBSERVATION_REQUEST"
 }
 
-//  ORL_O34_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORL_O34_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORL_O34_ORDER struct {
 	ORC                 *ORC                         `hl7:"true,ORC"`
 	TIMING              []ORL_O34_TIMING             `hl7:"false,TIMING"`
@@ -11365,8 +11365,8 @@ func (s *ORL_O34_ORDER) MessageTypeSubStructName() string {
 	return "ORL_O34_ORDER"
 }
 
-//  ORL_O34_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORL_O34_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORL_O34_PATIENT struct {
 	PID      *PID               `hl7:"true,PID"`
 	SPECIMEN []ORL_O34_SPECIMEN `hl7:"true,SPECIMEN"`
@@ -11377,8 +11377,8 @@ func (s *ORL_O34_PATIENT) MessageTypeSubStructName() string {
 	return "ORL_O34_PATIENT"
 }
 
-//  ORL_O34_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORL_O34_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORL_O34_RESPONSE struct {
 	PATIENT *ORL_O34_PATIENT `hl7:"false,PATIENT"`
 	Other   []interface{}
@@ -11388,8 +11388,8 @@ func (s *ORL_O34_RESPONSE) MessageTypeSubStructName() string {
 	return "ORL_O34_RESPONSE"
 }
 
-//  ORL_O34_SPECIMEN represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORL_O34_SPECIMEN represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORL_O34_SPECIMEN struct {
 	SPM   *SPM            `hl7:"true,SPM"`
 	OBX   []OBX           `hl7:"false,OBX"`
@@ -11402,8 +11402,8 @@ func (s *ORL_O34_SPECIMEN) MessageTypeSubStructName() string {
 	return "ORL_O34_SPECIMEN"
 }
 
-//  ORL_O34_SPECIMEN_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5
+// ORL_O34_SPECIMEN_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.5
 type ORL_O34_SPECIMEN_DETAIL struct {
 	SPM   *SPM  `hl7:"true,SPM"`
 	SAC   []SAC `hl7:"false,SAC"`
@@ -11414,8 +11414,8 @@ func (s *ORL_O34_SPECIMEN_DETAIL) MessageTypeSubStructName() string {
 	return "ORL_O34_SPECIMEN_DETAIL"
 }
 
-//  ORL_O34_SPMSAC_SUPPGRP2 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORL_O34_SPMSAC_SUPPGRP2 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORL_O34_SPMSAC_SUPPGRP2 struct {
 	SPM   *SPM  `hl7:"true,SPM"`
 	SAC   []SAC `hl7:"false,SAC"`
@@ -11426,8 +11426,8 @@ func (s *ORL_O34_SPMSAC_SUPPGRP2) MessageTypeSubStructName() string {
 	return "ORL_O34_SPMSAC_SUPPGRP2"
 }
 
-//  ORL_O34_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORL_O34_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORL_O34_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -11438,8 +11438,8 @@ func (s *ORL_O34_TIMING) MessageTypeSubStructName() string {
 	return "ORL_O34_TIMING"
 }
 
-//  ORL_O36 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORL_O36 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORL_O36 struct {
 	MSH      *MSH              `hl7:"true,MSH"`
 	MSA      *MSA              `hl7:"true,MSA"`
@@ -11454,8 +11454,8 @@ func (s *ORL_O36) MessageTypeName() string {
 	return "ORL_O36"
 }
 
-//  ORL_O36_OBSERVATION_REQUEST represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORL_O36_OBSERVATION_REQUEST represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORL_O36_OBSERVATION_REQUEST struct {
 	OBR   *OBR `hl7:"true,OBR"`
 	Other []interface{}
@@ -11465,8 +11465,8 @@ func (s *ORL_O36_OBSERVATION_REQUEST) MessageTypeSubStructName() string {
 	return "ORL_O36_OBSERVATION_REQUEST"
 }
 
-//  ORL_O36_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORL_O36_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORL_O36_ORDER struct {
 	ORC                 *ORC                         `hl7:"true,ORC"`
 	TIMING              []ORL_O36_TIMING             `hl7:"false,TIMING"`
@@ -11478,8 +11478,8 @@ func (s *ORL_O36_ORDER) MessageTypeSubStructName() string {
 	return "ORL_O36_ORDER"
 }
 
-//  ORL_O36_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORL_O36_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORL_O36_PATIENT struct {
 	PID      *PID               `hl7:"true,PID"`
 	SPECIMEN []ORL_O36_SPECIMEN `hl7:"true,SPECIMEN"`
@@ -11490,8 +11490,8 @@ func (s *ORL_O36_PATIENT) MessageTypeSubStructName() string {
 	return "ORL_O36_PATIENT"
 }
 
-//  ORL_O36_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORL_O36_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORL_O36_RESPONSE struct {
 	PATIENT *ORL_O36_PATIENT `hl7:"false,PATIENT"`
 	Other   []interface{}
@@ -11501,8 +11501,8 @@ func (s *ORL_O36_RESPONSE) MessageTypeSubStructName() string {
 	return "ORL_O36_RESPONSE"
 }
 
-//  ORL_O36_SPECIMEN represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORL_O36_SPECIMEN represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORL_O36_SPECIMEN struct {
 	SPM                *SPM                         `hl7:"true,SPM"`
 	OBX                []OBX                        `hl7:"false,OBX"`
@@ -11514,8 +11514,8 @@ func (s *ORL_O36_SPECIMEN) MessageTypeSubStructName() string {
 	return "ORL_O36_SPECIMEN"
 }
 
-//  ORL_O36_SPECIMEN_CONTAINER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORL_O36_SPECIMEN_CONTAINER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORL_O36_SPECIMEN_CONTAINER struct {
 	SAC   *SAC            `hl7:"true,SAC"`
 	ORDER []ORL_O36_ORDER `hl7:"false,ORDER"`
@@ -11526,8 +11526,8 @@ func (s *ORL_O36_SPECIMEN_CONTAINER) MessageTypeSubStructName() string {
 	return "ORL_O36_SPECIMEN_CONTAINER"
 }
 
-//  ORL_O36_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORL_O36_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORL_O36_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -11538,10 +11538,10 @@ func (s *ORL_O36_TIMING) MessageTypeSubStructName() string {
 	return "ORL_O36_TIMING"
 }
 
-//  ORM_O01_CHOICE represents the corresponding HL7 message type.
-//  Definition from HL7 2.4
+// ORM_O01_CHOICE represents the corresponding HL7 message type.
+// Definition from HL7 2.4
 type ORM_O01_CHOICE struct {
-	//  Only one of the following fields will be set.
+	// Only one of the following fields will be set.
 	OBR   *OBR `hl7:"true,OBR"`
 	RQD   *RQD `hl7:"true,RQD"`
 	RQ1   *RQ1 `hl7:"true,RQ1"`
@@ -11555,8 +11555,8 @@ func (s *ORM_O01_CHOICE) MessageTypeSubStructName() string {
 	return "ORM_O01_CHOICE"
 }
 
-//  ORM_O01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORM_O01 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORM_O01 struct {
 	MSH     *MSH             `hl7:"true,MSH"`
 	NTE     []NTE            `hl7:"false,NTE"`
@@ -11569,8 +11569,8 @@ func (s *ORM_O01) MessageTypeName() string {
 	return "ORM_O01"
 }
 
-//  ORM_O01_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORM_O01_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORM_O01_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -11582,8 +11582,8 @@ func (s *ORM_O01_INSURANCE) MessageTypeSubStructName() string {
 	return "ORM_O01_INSURANCE"
 }
 
-//  ORM_O01_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORM_O01_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORM_O01_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -11594,8 +11594,8 @@ func (s *ORM_O01_OBSERVATION) MessageTypeSubStructName() string {
 	return "ORM_O01_OBSERVATION"
 }
 
-//  ORM_O01_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORM_O01_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORM_O01_ORDER struct {
 	ORC          *ORC                  `hl7:"true,ORC"`
 	ORDER_DETAIL *ORM_O01_ORDER_DETAIL `hl7:"false,ORDER_DETAIL"`
@@ -11609,8 +11609,8 @@ func (s *ORM_O01_ORDER) MessageTypeSubStructName() string {
 	return "ORM_O01_ORDER"
 }
 
-//  ORM_O01_ORDER_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORM_O01_ORDER_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORM_O01_ORDER_DETAIL struct {
 	ORDER_DETAIL_SEGMENT *ORM_O01_ORDER_DETAIL_SEGMENT `hl7:"true,ORDER_DETAIL_SEGMENT"`
 	NTE                  []NTE                         `hl7:"false,NTE"`
@@ -11624,10 +11624,10 @@ func (s *ORM_O01_ORDER_DETAIL) MessageTypeSubStructName() string {
 	return "ORM_O01_ORDER_DETAIL"
 }
 
-//  ORM_O01_ORDER_DETAIL_SEGMENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORM_O01_ORDER_DETAIL_SEGMENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORM_O01_ORDER_DETAIL_SEGMENT struct {
-	//  Only one of the following fields will be set.
+	// Only one of the following fields will be set.
 	OBR   *OBR `hl7:"true,OBR"`
 	RQD   *RQD `hl7:"true,RQD"`
 	RQ1   *RQ1 `hl7:"true,RQ1"`
@@ -11641,8 +11641,8 @@ func (s *ORM_O01_ORDER_DETAIL_SEGMENT) MessageTypeSubStructName() string {
 	return "ORM_O01_ORDER_DETAIL_SEGMENT"
 }
 
-//  ORM_O01_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORM_O01_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORM_O01_PATIENT struct {
 	PID           *PID                   `hl7:"true,PID"`
 	PD1           *PD1                   `hl7:"false,PD1"`
@@ -11658,8 +11658,8 @@ func (s *ORM_O01_PATIENT) MessageTypeSubStructName() string {
 	return "ORM_O01_PATIENT"
 }
 
-//  ORM_O01_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORM_O01_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORM_O01_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -11670,8 +11670,8 @@ func (s *ORM_O01_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "ORM_O01_PATIENT_VISIT"
 }
 
-//  ORN_O02 represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// ORN_O02 represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type ORN_O02 struct {
 	MSH      *MSH              `hl7:"true,MSH"`
 	MSA      *MSA              `hl7:"true,MSA"`
@@ -11685,8 +11685,8 @@ func (s *ORN_O02) MessageTypeName() string {
 	return "ORN_O02"
 }
 
-//  ORN_O02_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// ORN_O02_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type ORN_O02_ORDER struct {
 	ORC   *ORC  `hl7:"true,ORC"`
 	RQD   *RQD  `hl7:"true,RQD"`
@@ -11699,8 +11699,8 @@ func (s *ORN_O02_ORDER) MessageTypeSubStructName() string {
 	return "ORN_O02_ORDER"
 }
 
-//  ORN_O02_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// ORN_O02_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type ORN_O02_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -11711,8 +11711,8 @@ func (s *ORN_O02_PATIENT) MessageTypeSubStructName() string {
 	return "ORN_O02_PATIENT"
 }
 
-//  ORN_O02_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// ORN_O02_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type ORN_O02_RESPONSE struct {
 	PATIENT *ORN_O02_PATIENT `hl7:"false,PATIENT"`
 	ORDER   []ORN_O02_ORDER  `hl7:"true,ORDER"`
@@ -11723,8 +11723,8 @@ func (s *ORN_O02_RESPONSE) MessageTypeSubStructName() string {
 	return "ORN_O02_RESPONSE"
 }
 
-//  ORN_O08 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORN_O08 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORN_O08 struct {
 	MSH      *MSH              `hl7:"true,MSH"`
 	MSA      *MSA              `hl7:"true,MSA"`
@@ -11739,8 +11739,8 @@ func (s *ORN_O08) MessageTypeName() string {
 	return "ORN_O08"
 }
 
-//  ORN_O08_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORN_O08_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORN_O08_ORDER struct {
 	ORC    *ORC             `hl7:"true,ORC"`
 	TIMING []ORN_O08_TIMING `hl7:"false,TIMING"`
@@ -11754,8 +11754,8 @@ func (s *ORN_O08_ORDER) MessageTypeSubStructName() string {
 	return "ORN_O08_ORDER"
 }
 
-//  ORN_O08_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORN_O08_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORN_O08_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -11766,8 +11766,8 @@ func (s *ORN_O08_PATIENT) MessageTypeSubStructName() string {
 	return "ORN_O08_PATIENT"
 }
 
-//  ORN_O08_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORN_O08_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORN_O08_RESPONSE struct {
 	PATIENT *ORN_O08_PATIENT `hl7:"false,PATIENT"`
 	ORDER   []ORN_O08_ORDER  `hl7:"true,ORDER"`
@@ -11778,8 +11778,8 @@ func (s *ORN_O08_RESPONSE) MessageTypeSubStructName() string {
 	return "ORN_O08_RESPONSE"
 }
 
-//  ORN_O08_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORN_O08_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORN_O08_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -11790,8 +11790,8 @@ func (s *ORN_O08_TIMING) MessageTypeSubStructName() string {
 	return "ORN_O08_TIMING"
 }
 
-//  ORP_O10_COMPONENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORP_O10_COMPONENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORP_O10_COMPONENT struct {
 	RXC   *RXC  `hl7:"true,RXC"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -11802,8 +11802,8 @@ func (s *ORP_O10_COMPONENT) MessageTypeSubStructName() string {
 	return "ORP_O10_COMPONENT"
 }
 
-//  ORP_O10 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORP_O10 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORP_O10 struct {
 	MSH      *MSH              `hl7:"true,MSH"`
 	MSA      *MSA              `hl7:"true,MSA"`
@@ -11818,8 +11818,8 @@ func (s *ORP_O10) MessageTypeName() string {
 	return "ORP_O10"
 }
 
-//  ORP_O10_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORP_O10_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORP_O10_ORDER struct {
 	ORC          *ORC                  `hl7:"true,ORC"`
 	TIMING       []ORP_O10_TIMING      `hl7:"false,TIMING"`
@@ -11831,8 +11831,8 @@ func (s *ORP_O10_ORDER) MessageTypeSubStructName() string {
 	return "ORP_O10_ORDER"
 }
 
-//  ORP_O10_ORDER_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORP_O10_ORDER_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORP_O10_ORDER_DETAIL struct {
 	RXO       *RXO                `hl7:"true,RXO"`
 	NTE       []NTE               `hl7:"false,NTE"`
@@ -11845,8 +11845,8 @@ func (s *ORP_O10_ORDER_DETAIL) MessageTypeSubStructName() string {
 	return "ORP_O10_ORDER_DETAIL"
 }
 
-//  ORP_O10_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORP_O10_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORP_O10_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -11857,8 +11857,8 @@ func (s *ORP_O10_PATIENT) MessageTypeSubStructName() string {
 	return "ORP_O10_PATIENT"
 }
 
-//  ORP_O10_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORP_O10_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORP_O10_RESPONSE struct {
 	PATIENT *ORP_O10_PATIENT `hl7:"false,PATIENT"`
 	ORDER   []ORP_O10_ORDER  `hl7:"true,ORDER"`
@@ -11869,8 +11869,8 @@ func (s *ORP_O10_RESPONSE) MessageTypeSubStructName() string {
 	return "ORP_O10_RESPONSE"
 }
 
-//  ORP_O10_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORP_O10_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORP_O10_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -11881,10 +11881,10 @@ func (s *ORP_O10_TIMING) MessageTypeSubStructName() string {
 	return "ORP_O10_TIMING"
 }
 
-//  ORR_O02_CHOICE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5
+// ORR_O02_CHOICE represents the corresponding HL7 message type.
+// Definition from HL7 2.5
 type ORR_O02_CHOICE struct {
-	//  Only one of the following fields will be set.
+	// Only one of the following fields will be set.
 	OBR   *OBR `hl7:"true,OBR"`
 	RQD   *RQD `hl7:"true,RQD"`
 	RQ1   *RQ1 `hl7:"true,RQ1"`
@@ -11898,8 +11898,8 @@ func (s *ORR_O02_CHOICE) MessageTypeSubStructName() string {
 	return "ORR_O02_CHOICE"
 }
 
-//  ORR_O02 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORR_O02 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORR_O02 struct {
 	MSH      *MSH              `hl7:"true,MSH"`
 	MSA      *MSA              `hl7:"true,MSA"`
@@ -11913,8 +11913,8 @@ func (s *ORR_O02) MessageTypeName() string {
 	return "ORR_O02"
 }
 
-//  ORR_O02_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORR_O02_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORR_O02_ORDER struct {
 	ORC                  *ORC                          `hl7:"true,ORC"`
 	ORDER_DETAIL_SEGMENT *ORR_O02_ORDER_DETAIL_SEGMENT `hl7:"true,ORDER_DETAIL_SEGMENT"`
@@ -11927,10 +11927,10 @@ func (s *ORR_O02_ORDER) MessageTypeSubStructName() string {
 	return "ORR_O02_ORDER"
 }
 
-//  ORR_O02_ORDER_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.4
+// ORR_O02_ORDER_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.4
 type ORR_O02_ORDER_DETAIL struct {
-	//  Only one of the following fields will be set.
+	// Only one of the following fields will be set.
 	OBR   *OBR `hl7:"true,OBR"`
 	RQD   *RQD `hl7:"true,RQD"`
 	RQ1   *RQ1 `hl7:"true,RQ1"`
@@ -11944,10 +11944,10 @@ func (s *ORR_O02_ORDER_DETAIL) MessageTypeSubStructName() string {
 	return "ORR_O02_ORDER_DETAIL"
 }
 
-//  ORR_O02_ORDER_DETAIL_SEGMENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORR_O02_ORDER_DETAIL_SEGMENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORR_O02_ORDER_DETAIL_SEGMENT struct {
-	//  Only one of the following fields will be set.
+	// Only one of the following fields will be set.
 	OBR   *OBR `hl7:"true,OBR"`
 	RQD   *RQD `hl7:"true,RQD"`
 	RQ1   *RQ1 `hl7:"true,RQ1"`
@@ -11961,8 +11961,8 @@ func (s *ORR_O02_ORDER_DETAIL_SEGMENT) MessageTypeSubStructName() string {
 	return "ORR_O02_ORDER_DETAIL_SEGMENT"
 }
 
-//  ORR_O02_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORR_O02_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORR_O02_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -11973,8 +11973,8 @@ func (s *ORR_O02_PATIENT) MessageTypeSubStructName() string {
 	return "ORR_O02_PATIENT"
 }
 
-//  ORR_O02_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORR_O02_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORR_O02_RESPONSE struct {
 	PATIENT *ORR_O02_PATIENT `hl7:"false,PATIENT"`
 	ORDER   []ORR_O02_ORDER  `hl7:"true,ORDER"`
@@ -11985,8 +11985,8 @@ func (s *ORR_O02_RESPONSE) MessageTypeSubStructName() string {
 	return "ORR_O02_RESPONSE"
 }
 
-//  ORS_O02 represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// ORS_O02 represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type ORS_O02 struct {
 	MSH      *MSH              `hl7:"true,MSH"`
 	MSA      *MSA              `hl7:"true,MSA"`
@@ -12000,8 +12000,8 @@ func (s *ORS_O02) MessageTypeName() string {
 	return "ORS_O02"
 }
 
-//  ORS_O02_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// ORS_O02_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type ORS_O02_ORDER struct {
 	ORC   *ORC  `hl7:"true,ORC"`
 	RQD   *RQD  `hl7:"true,RQD"`
@@ -12013,8 +12013,8 @@ func (s *ORS_O02_ORDER) MessageTypeSubStructName() string {
 	return "ORS_O02_ORDER"
 }
 
-//  ORS_O02_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// ORS_O02_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type ORS_O02_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -12025,8 +12025,8 @@ func (s *ORS_O02_PATIENT) MessageTypeSubStructName() string {
 	return "ORS_O02_PATIENT"
 }
 
-//  ORS_O02_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// ORS_O02_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type ORS_O02_RESPONSE struct {
 	PATIENT *ORS_O02_PATIENT `hl7:"false,PATIENT"`
 	ORDER   []ORS_O02_ORDER  `hl7:"true,ORDER"`
@@ -12037,8 +12037,8 @@ func (s *ORS_O02_RESPONSE) MessageTypeSubStructName() string {
 	return "ORS_O02_RESPONSE"
 }
 
-//  ORS_O06 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORS_O06 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORS_O06 struct {
 	MSH      *MSH              `hl7:"true,MSH"`
 	MSA      *MSA              `hl7:"true,MSA"`
@@ -12053,8 +12053,8 @@ func (s *ORS_O06) MessageTypeName() string {
 	return "ORS_O06"
 }
 
-//  ORS_O06_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORS_O06_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORS_O06_ORDER struct {
 	ORC    *ORC             `hl7:"true,ORC"`
 	TIMING []ORS_O06_TIMING `hl7:"false,TIMING"`
@@ -12068,8 +12068,8 @@ func (s *ORS_O06_ORDER) MessageTypeSubStructName() string {
 	return "ORS_O06_ORDER"
 }
 
-//  ORS_O06_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORS_O06_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORS_O06_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -12080,8 +12080,8 @@ func (s *ORS_O06_PATIENT) MessageTypeSubStructName() string {
 	return "ORS_O06_PATIENT"
 }
 
-//  ORS_O06_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORS_O06_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORS_O06_RESPONSE struct {
 	PATIENT *ORS_O06_PATIENT `hl7:"false,PATIENT"`
 	ORDER   []ORS_O06_ORDER  `hl7:"true,ORDER"`
@@ -12092,8 +12092,8 @@ func (s *ORS_O06_RESPONSE) MessageTypeSubStructName() string {
 	return "ORS_O06_RESPONSE"
 }
 
-//  ORS_O06_RSPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.4
+// ORS_O06_RSPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.4
 type ORS_O06_RSPONSE struct {
 	PATIENT *ORS_O06_PATIENT `hl7:"false,PATIENT"`
 	ORDER   []ORS_O06_ORDER  `hl7:"true,ORDER"`
@@ -12104,8 +12104,8 @@ func (s *ORS_O06_RSPONSE) MessageTypeSubStructName() string {
 	return "ORS_O06_RSPONSE"
 }
 
-//  ORS_O06_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORS_O06_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORS_O06_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -12116,8 +12116,8 @@ func (s *ORS_O06_TIMING) MessageTypeSubStructName() string {
 	return "ORS_O06_TIMING"
 }
 
-//  ORU_R01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORU_R01 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORU_R01 struct {
 	MSH            *MSH                     `hl7:"true,MSH"`
 	SFT            []SFT                    `hl7:"false,SFT"`
@@ -12130,8 +12130,8 @@ func (s *ORU_R01) MessageTypeName() string {
 	return "ORU_R01"
 }
 
-//  ORU_R01_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORU_R01_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORU_R01_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -12142,8 +12142,8 @@ func (s *ORU_R01_OBSERVATION) MessageTypeSubStructName() string {
 	return "ORU_R01_OBSERVATION"
 }
 
-//  ORU_R01_ORDER_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORU_R01_ORDER_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORU_R01_ORDER_OBSERVATION struct {
 	ORC         *ORC                  `hl7:"false,ORC"`
 	OBR         *OBR                  `hl7:"true,OBR"`
@@ -12161,8 +12161,8 @@ func (s *ORU_R01_ORDER_OBSERVATION) MessageTypeSubStructName() string {
 	return "ORU_R01_ORDER_OBSERVATION"
 }
 
-//  ORU_R01_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORU_R01_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORU_R01_PATIENT struct {
 	PID   *PID           `hl7:"true,PID"`
 	PD1   *PD1           `hl7:"false,PD1"`
@@ -12176,8 +12176,8 @@ func (s *ORU_R01_PATIENT) MessageTypeSubStructName() string {
 	return "ORU_R01_PATIENT"
 }
 
-//  ORU_R01_PATIENT_RESULT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORU_R01_PATIENT_RESULT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORU_R01_PATIENT_RESULT struct {
 	PATIENT           *ORU_R01_PATIENT            `hl7:"false,PATIENT"`
 	ORDER_OBSERVATION []ORU_R01_ORDER_OBSERVATION `hl7:"true,ORDER_OBSERVATION"`
@@ -12188,8 +12188,8 @@ func (s *ORU_R01_PATIENT_RESULT) MessageTypeSubStructName() string {
 	return "ORU_R01_PATIENT_RESULT"
 }
 
-//  ORU_R01_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.3
+// ORU_R01_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.3
 type ORU_R01_RESPONSE struct {
 	PATIENT           *ORU_R01_PATIENT            `hl7:"false,PATIENT"`
 	ORDER_OBSERVATION []ORU_R01_ORDER_OBSERVATION `hl7:"true,ORDER_OBSERVATION"`
@@ -12200,8 +12200,8 @@ func (s *ORU_R01_RESPONSE) MessageTypeSubStructName() string {
 	return "ORU_R01_RESPONSE"
 }
 
-//  ORU_R01_SPECIMEN represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORU_R01_SPECIMEN represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORU_R01_SPECIMEN struct {
 	SPM   *SPM  `hl7:"true,SPM"`
 	OBX   []OBX `hl7:"false,OBX"`
@@ -12212,8 +12212,8 @@ func (s *ORU_R01_SPECIMEN) MessageTypeSubStructName() string {
 	return "ORU_R01_SPECIMEN"
 }
 
-//  ORU_R01_TIMING_QTY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORU_R01_TIMING_QTY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORU_R01_TIMING_QTY struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -12224,8 +12224,8 @@ func (s *ORU_R01_TIMING_QTY) MessageTypeSubStructName() string {
 	return "ORU_R01_TIMING_QTY"
 }
 
-//  ORU_R01_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORU_R01_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORU_R01_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -12236,8 +12236,8 @@ func (s *ORU_R01_VISIT) MessageTypeSubStructName() string {
 	return "ORU_R01_VISIT"
 }
 
-//  ORU_R03 represents the corresponding HL7 message type.
-//  Definition from HL7 2.1
+// ORU_R03 represents the corresponding HL7 message type.
+// Definition from HL7 2.1
 type ORU_R03 struct {
 	MSH            *MSH                     `hl7:"true,MSH"`
 	PATIENT_RESULT []ORU_R03_PATIENT_RESULT `hl7:"true,PATIENT_RESULT"`
@@ -12249,8 +12249,8 @@ func (s *ORU_R03) MessageTypeName() string {
 	return "ORU_R03"
 }
 
-//  ORU_R03_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.1
+// ORU_R03_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.1
 type ORU_R03_OBSERVATION struct {
 	OBX   *OBX  `hl7:"false,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -12261,8 +12261,8 @@ func (s *ORU_R03_OBSERVATION) MessageTypeSubStructName() string {
 	return "ORU_R03_OBSERVATION"
 }
 
-//  ORU_R03_ORDER_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.1
+// ORU_R03_ORDER_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.1
 type ORU_R03_ORDER_OBSERVATION struct {
 	ORC         *ORC                  `hl7:"false,ORC"`
 	OBR         *OBR                  `hl7:"true,OBR"`
@@ -12275,8 +12275,8 @@ func (s *ORU_R03_ORDER_OBSERVATION) MessageTypeSubStructName() string {
 	return "ORU_R03_ORDER_OBSERVATION"
 }
 
-//  ORU_R03_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.1
+// ORU_R03_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.1
 type ORU_R03_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -12288,8 +12288,8 @@ func (s *ORU_R03_PATIENT) MessageTypeSubStructName() string {
 	return "ORU_R03_PATIENT"
 }
 
-//  ORU_R03_PATIENT_RESULT represents the corresponding HL7 message type.
-//  Definition from HL7 2.1
+// ORU_R03_PATIENT_RESULT represents the corresponding HL7 message type.
+// Definition from HL7 2.1
 type ORU_R03_PATIENT_RESULT struct {
 	PATIENT           *ORU_R03_PATIENT            `hl7:"false,PATIENT"`
 	ORDER_OBSERVATION []ORU_R03_ORDER_OBSERVATION `hl7:"true,ORDER_OBSERVATION"`
@@ -12300,8 +12300,8 @@ func (s *ORU_R03_PATIENT_RESULT) MessageTypeSubStructName() string {
 	return "ORU_R03_PATIENT_RESULT"
 }
 
-//  ORU_R30 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORU_R30 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORU_R30 struct {
 	MSH         *MSH                  `hl7:"true,MSH"`
 	SFT         []SFT                 `hl7:"false,SFT"`
@@ -12320,8 +12320,8 @@ func (s *ORU_R30) MessageTypeName() string {
 	return "ORU_R30"
 }
 
-//  ORU_R30_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORU_R30_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORU_R30_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -12332,8 +12332,8 @@ func (s *ORU_R30_OBSERVATION) MessageTypeSubStructName() string {
 	return "ORU_R30_OBSERVATION"
 }
 
-//  ORU_R30_TIMING_QTY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORU_R30_TIMING_QTY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORU_R30_TIMING_QTY struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -12344,8 +12344,8 @@ func (s *ORU_R30_TIMING_QTY) MessageTypeSubStructName() string {
 	return "ORU_R30_TIMING_QTY"
 }
 
-//  ORU_R30_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ORU_R30_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ORU_R30_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -12356,8 +12356,8 @@ func (s *ORU_R30_VISIT) MessageTypeSubStructName() string {
 	return "ORU_R30_VISIT"
 }
 
-//  ORU_R32 represents the corresponding HL7 message type.
-//  Definition from HL7 SYNTHETIC
+// ORU_R32 represents the corresponding HL7 message type.
+// Definition from HL7 SYNTHETIC
 type ORU_R32 struct {
 	MSH            *MSH                     `hl7:"true,MSH"`
 	PATIENT_RESULT []ORU_R32_PATIENT_RESULT `hl7:"true,PATIENT_RESULT"`
@@ -12369,8 +12369,8 @@ func (s *ORU_R32) MessageTypeName() string {
 	return "ORU_R32"
 }
 
-//  ORU_R32_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 SYNTHETIC
+// ORU_R32_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 SYNTHETIC
 type ORU_R32_OBSERVATION struct {
 	OBX   *OBX  `hl7:"false,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -12381,8 +12381,8 @@ func (s *ORU_R32_OBSERVATION) MessageTypeSubStructName() string {
 	return "ORU_R32_OBSERVATION"
 }
 
-//  ORU_R32_ORDER_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 SYNTHETIC
+// ORU_R32_ORDER_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 SYNTHETIC
 type ORU_R32_ORDER_OBSERVATION struct {
 	ORC         *ORC                  `hl7:"false,ORC"`
 	OBR         *OBR                  `hl7:"true,OBR"`
@@ -12396,8 +12396,8 @@ func (s *ORU_R32_ORDER_OBSERVATION) MessageTypeSubStructName() string {
 	return "ORU_R32_ORDER_OBSERVATION"
 }
 
-//  ORU_R32_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 SYNTHETIC
+// ORU_R32_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 SYNTHETIC
 type ORU_R32_PATIENT struct {
 	PID   *PID           `hl7:"true,PID"`
 	PD1   *PD1           `hl7:"false,PD1"`
@@ -12411,8 +12411,8 @@ func (s *ORU_R32_PATIENT) MessageTypeSubStructName() string {
 	return "ORU_R32_PATIENT"
 }
 
-//  ORU_R32_PATIENT_RESULT represents the corresponding HL7 message type.
-//  Definition from HL7 SYNTHETIC
+// ORU_R32_PATIENT_RESULT represents the corresponding HL7 message type.
+// Definition from HL7 SYNTHETIC
 type ORU_R32_PATIENT_RESULT struct {
 	PATIENT           *ORU_R32_PATIENT            `hl7:"false,PATIENT"`
 	ORDER_OBSERVATION []ORU_R32_ORDER_OBSERVATION `hl7:"true,ORDER_OBSERVATION"`
@@ -12423,8 +12423,8 @@ func (s *ORU_R32_PATIENT_RESULT) MessageTypeSubStructName() string {
 	return "ORU_R32_PATIENT_RESULT"
 }
 
-//  ORU_R32_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 SYNTHETIC
+// ORU_R32_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 SYNTHETIC
 type ORU_R32_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -12435,8 +12435,8 @@ func (s *ORU_R32_VISIT) MessageTypeSubStructName() string {
 	return "ORU_R32_VISIT"
 }
 
-//  OSQ_Q06 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OSQ_Q06 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OSQ_Q06 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -12450,10 +12450,10 @@ func (s *OSQ_Q06) MessageTypeName() string {
 	return "OSQ_Q06"
 }
 
-//  OSR_Q06_CHOICE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5
+// OSR_Q06_CHOICE represents the corresponding HL7 message type.
+// Definition from HL7 2.5
 type OSR_Q06_CHOICE struct {
-	//  Only one of the following fields will be set.
+	// Only one of the following fields will be set.
 	OBR   *OBR `hl7:"true,OBR"`
 	RQD   *RQD `hl7:"true,RQD"`
 	RQ1   *RQ1 `hl7:"true,RQ1"`
@@ -12467,8 +12467,8 @@ func (s *OSR_Q06_CHOICE) MessageTypeSubStructName() string {
 	return "OSR_Q06_CHOICE"
 }
 
-//  OSR_Q06 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OSR_Q06 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OSR_Q06 struct {
 	MSH      *MSH              `hl7:"true,MSH"`
 	MSA      *MSA              `hl7:"true,MSA"`
@@ -12486,8 +12486,8 @@ func (s *OSR_Q06) MessageTypeName() string {
 	return "OSR_Q06"
 }
 
-//  OSR_Q06_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// OSR_Q06_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type OSR_Q06_OBSERVATION struct {
 	ORC    *ORC            `hl7:"true,ORC"`
 	CHOICE *OSR_Q06_CHOICE `hl7:"true,CHOICE"`
@@ -12500,8 +12500,8 @@ func (s *OSR_Q06_OBSERVATION) MessageTypeSubStructName() string {
 	return "OSR_Q06_OBSERVATION"
 }
 
-//  OSR_Q06_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OSR_Q06_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OSR_Q06_ORDER struct {
 	ORC                  *ORC                          `hl7:"true,ORC"`
 	TIMING               []OSR_Q06_TIMING              `hl7:"false,TIMING"`
@@ -12515,10 +12515,10 @@ func (s *OSR_Q06_ORDER) MessageTypeSubStructName() string {
 	return "OSR_Q06_ORDER"
 }
 
-//  OSR_Q06_ORDER_DETAIL_SEGMENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OSR_Q06_ORDER_DETAIL_SEGMENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OSR_Q06_ORDER_DETAIL_SEGMENT struct {
-	//  Only one of the following fields will be set.
+	// Only one of the following fields will be set.
 	OBR   *OBR `hl7:"true,OBR"`
 	RQD   *RQD `hl7:"true,RQD"`
 	RQ1   *RQ1 `hl7:"true,RQ1"`
@@ -12532,8 +12532,8 @@ func (s *OSR_Q06_ORDER_DETAIL_SEGMENT) MessageTypeSubStructName() string {
 	return "OSR_Q06_ORDER_DETAIL_SEGMENT"
 }
 
-//  OSR_Q06_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OSR_Q06_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OSR_Q06_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -12544,8 +12544,8 @@ func (s *OSR_Q06_PATIENT) MessageTypeSubStructName() string {
 	return "OSR_Q06_PATIENT"
 }
 
-//  OSR_Q06_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OSR_Q06_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OSR_Q06_RESPONSE struct {
 	PATIENT *OSR_Q06_PATIENT `hl7:"false,PATIENT"`
 	ORDER   []OSR_Q06_ORDER  `hl7:"true,ORDER"`
@@ -12556,8 +12556,8 @@ func (s *OSR_Q06_RESPONSE) MessageTypeSubStructName() string {
 	return "OSR_Q06_RESPONSE"
 }
 
-//  OSR_Q06_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OSR_Q06_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OSR_Q06_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -12568,8 +12568,8 @@ func (s *OSR_Q06_TIMING) MessageTypeSubStructName() string {
 	return "OSR_Q06_TIMING"
 }
 
-//  OUL_R21_CONTAINER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OUL_R21_CONTAINER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OUL_R21_CONTAINER struct {
 	SAC   *SAC `hl7:"true,SAC"`
 	SID   *SID `hl7:"false,SID"`
@@ -12580,8 +12580,8 @@ func (s *OUL_R21_CONTAINER) MessageTypeSubStructName() string {
 	return "OUL_R21_CONTAINER"
 }
 
-//  OUL_R21 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OUL_R21 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OUL_R21 struct {
 	MSH               *MSH                        `hl7:"true,MSH"`
 	SFT               []SFT                       `hl7:"false,SFT"`
@@ -12597,8 +12597,8 @@ func (s *OUL_R21) MessageTypeName() string {
 	return "OUL_R21"
 }
 
-//  OUL_R21_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OUL_R21_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OUL_R21_OBSERVATION struct {
 	OBX   *OBX  `hl7:"false,OBX"`
 	TCD   *TCD  `hl7:"false,TCD"`
@@ -12611,8 +12611,8 @@ func (s *OUL_R21_OBSERVATION) MessageTypeSubStructName() string {
 	return "OUL_R21_OBSERVATION"
 }
 
-//  OUL_R21_ORDER_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OUL_R21_ORDER_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OUL_R21_ORDER_OBSERVATION struct {
 	CONTAINER   *OUL_R21_CONTAINER    `hl7:"false,CONTAINER"`
 	ORC         *ORC                  `hl7:"false,ORC"`
@@ -12628,8 +12628,8 @@ func (s *OUL_R21_ORDER_OBSERVATION) MessageTypeSubStructName() string {
 	return "OUL_R21_ORDER_OBSERVATION"
 }
 
-//  OUL_R21_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OUL_R21_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OUL_R21_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	PD1   *PD1  `hl7:"false,PD1"`
@@ -12641,8 +12641,8 @@ func (s *OUL_R21_PATIENT) MessageTypeSubStructName() string {
 	return "OUL_R21_PATIENT"
 }
 
-//  OUL_R21_TIMING_QTY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OUL_R21_TIMING_QTY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OUL_R21_TIMING_QTY struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -12653,8 +12653,8 @@ func (s *OUL_R21_TIMING_QTY) MessageTypeSubStructName() string {
 	return "OUL_R21_TIMING_QTY"
 }
 
-//  OUL_R21_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OUL_R21_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OUL_R21_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -12665,8 +12665,8 @@ func (s *OUL_R21_VISIT) MessageTypeSubStructName() string {
 	return "OUL_R21_VISIT"
 }
 
-//  OUL_R22_CONTAINER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OUL_R22_CONTAINER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OUL_R22_CONTAINER struct {
 	SAC   *SAC `hl7:"true,SAC"`
 	INV   *INV `hl7:"false,INV"`
@@ -12677,8 +12677,8 @@ func (s *OUL_R22_CONTAINER) MessageTypeSubStructName() string {
 	return "OUL_R22_CONTAINER"
 }
 
-//  OUL_R22 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OUL_R22 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OUL_R22 struct {
 	MSH      *MSH               `hl7:"true,MSH"`
 	SFT      []SFT              `hl7:"false,SFT"`
@@ -12694,8 +12694,8 @@ func (s *OUL_R22) MessageTypeName() string {
 	return "OUL_R22"
 }
 
-//  OUL_R22_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OUL_R22_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OUL_R22_ORDER struct {
 	OBR        *OBR                 `hl7:"true,OBR"`
 	ORC        *ORC                 `hl7:"false,ORC"`
@@ -12710,8 +12710,8 @@ func (s *OUL_R22_ORDER) MessageTypeSubStructName() string {
 	return "OUL_R22_ORDER"
 }
 
-//  OUL_R22_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OUL_R22_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OUL_R22_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	PD1   *PD1  `hl7:"false,PD1"`
@@ -12723,8 +12723,8 @@ func (s *OUL_R22_PATIENT) MessageTypeSubStructName() string {
 	return "OUL_R22_PATIENT"
 }
 
-//  OUL_R22_RESULT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OUL_R22_RESULT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OUL_R22_RESULT struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	TCD   *TCD  `hl7:"false,TCD"`
@@ -12737,8 +12737,8 @@ func (s *OUL_R22_RESULT) MessageTypeSubStructName() string {
 	return "OUL_R22_RESULT"
 }
 
-//  OUL_R22_SPECIMEN represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OUL_R22_SPECIMEN represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OUL_R22_SPECIMEN struct {
 	SPM       *SPM                `hl7:"true,SPM"`
 	OBX       []OBX               `hl7:"false,OBX"`
@@ -12751,8 +12751,8 @@ func (s *OUL_R22_SPECIMEN) MessageTypeSubStructName() string {
 	return "OUL_R22_SPECIMEN"
 }
 
-//  OUL_R22_TIMING_QTY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OUL_R22_TIMING_QTY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OUL_R22_TIMING_QTY struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -12763,8 +12763,8 @@ func (s *OUL_R22_TIMING_QTY) MessageTypeSubStructName() string {
 	return "OUL_R22_TIMING_QTY"
 }
 
-//  OUL_R22_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OUL_R22_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OUL_R22_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -12775,8 +12775,8 @@ func (s *OUL_R22_VISIT) MessageTypeSubStructName() string {
 	return "OUL_R22_VISIT"
 }
 
-//  OUL_R23_CONTAINER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OUL_R23_CONTAINER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OUL_R23_CONTAINER struct {
 	SAC   *SAC            `hl7:"true,SAC"`
 	INV   *INV            `hl7:"false,INV"`
@@ -12788,8 +12788,8 @@ func (s *OUL_R23_CONTAINER) MessageTypeSubStructName() string {
 	return "OUL_R23_CONTAINER"
 }
 
-//  OUL_R23 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OUL_R23 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OUL_R23 struct {
 	MSH      *MSH               `hl7:"true,MSH"`
 	SFT      []SFT              `hl7:"false,SFT"`
@@ -12805,8 +12805,8 @@ func (s *OUL_R23) MessageTypeName() string {
 	return "OUL_R23"
 }
 
-//  OUL_R23_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OUL_R23_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OUL_R23_ORDER struct {
 	OBR        *OBR                 `hl7:"true,OBR"`
 	ORC        *ORC                 `hl7:"false,ORC"`
@@ -12821,8 +12821,8 @@ func (s *OUL_R23_ORDER) MessageTypeSubStructName() string {
 	return "OUL_R23_ORDER"
 }
 
-//  OUL_R23_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OUL_R23_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OUL_R23_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	PD1   *PD1  `hl7:"false,PD1"`
@@ -12834,8 +12834,8 @@ func (s *OUL_R23_PATIENT) MessageTypeSubStructName() string {
 	return "OUL_R23_PATIENT"
 }
 
-//  OUL_R23_RESULT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OUL_R23_RESULT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OUL_R23_RESULT struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	TCD   *TCD  `hl7:"false,TCD"`
@@ -12848,8 +12848,8 @@ func (s *OUL_R23_RESULT) MessageTypeSubStructName() string {
 	return "OUL_R23_RESULT"
 }
 
-//  OUL_R23_SPECIMEN represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OUL_R23_SPECIMEN represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OUL_R23_SPECIMEN struct {
 	SPM       *SPM                `hl7:"true,SPM"`
 	OBX       []OBX               `hl7:"false,OBX"`
@@ -12861,8 +12861,8 @@ func (s *OUL_R23_SPECIMEN) MessageTypeSubStructName() string {
 	return "OUL_R23_SPECIMEN"
 }
 
-//  OUL_R23_TIMING_QTY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OUL_R23_TIMING_QTY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OUL_R23_TIMING_QTY struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -12873,8 +12873,8 @@ func (s *OUL_R23_TIMING_QTY) MessageTypeSubStructName() string {
 	return "OUL_R23_TIMING_QTY"
 }
 
-//  OUL_R23_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OUL_R23_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OUL_R23_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -12885,8 +12885,8 @@ func (s *OUL_R23_VISIT) MessageTypeSubStructName() string {
 	return "OUL_R23_VISIT"
 }
 
-//  OUL_R24_CONTAINER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OUL_R24_CONTAINER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OUL_R24_CONTAINER struct {
 	SAC   *SAC `hl7:"true,SAC"`
 	INV   *INV `hl7:"false,INV"`
@@ -12897,8 +12897,8 @@ func (s *OUL_R24_CONTAINER) MessageTypeSubStructName() string {
 	return "OUL_R24_CONTAINER"
 }
 
-//  OUL_R24 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OUL_R24 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OUL_R24 struct {
 	MSH     *MSH             `hl7:"true,MSH"`
 	SFT     []SFT            `hl7:"false,SFT"`
@@ -12914,8 +12914,8 @@ func (s *OUL_R24) MessageTypeName() string {
 	return "OUL_R24"
 }
 
-//  OUL_R24_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OUL_R24_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OUL_R24_ORDER struct {
 	OBR        *OBR                 `hl7:"true,OBR"`
 	ORC        *ORC                 `hl7:"false,ORC"`
@@ -12931,8 +12931,8 @@ func (s *OUL_R24_ORDER) MessageTypeSubStructName() string {
 	return "OUL_R24_ORDER"
 }
 
-//  OUL_R24_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OUL_R24_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OUL_R24_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	PD1   *PD1  `hl7:"false,PD1"`
@@ -12944,8 +12944,8 @@ func (s *OUL_R24_PATIENT) MessageTypeSubStructName() string {
 	return "OUL_R24_PATIENT"
 }
 
-//  OUL_R24_RESULT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OUL_R24_RESULT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OUL_R24_RESULT struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	TCD   *TCD  `hl7:"false,TCD"`
@@ -12958,8 +12958,8 @@ func (s *OUL_R24_RESULT) MessageTypeSubStructName() string {
 	return "OUL_R24_RESULT"
 }
 
-//  OUL_R24_SPECIMEN represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OUL_R24_SPECIMEN represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OUL_R24_SPECIMEN struct {
 	SPM       *SPM                `hl7:"true,SPM"`
 	OBX       []OBX               `hl7:"false,OBX"`
@@ -12971,8 +12971,8 @@ func (s *OUL_R24_SPECIMEN) MessageTypeSubStructName() string {
 	return "OUL_R24_SPECIMEN"
 }
 
-//  OUL_R24_TIMING_QTY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OUL_R24_TIMING_QTY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OUL_R24_TIMING_QTY struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -12983,8 +12983,8 @@ func (s *OUL_R24_TIMING_QTY) MessageTypeSubStructName() string {
 	return "OUL_R24_TIMING_QTY"
 }
 
-//  OUL_R24_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// OUL_R24_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type OUL_R24_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -12995,8 +12995,8 @@ func (s *OUL_R24_VISIT) MessageTypeSubStructName() string {
 	return "OUL_R24_VISIT"
 }
 
-//  PEX_P07_ASSOCIATED_PERSON represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PEX_P07_ASSOCIATED_PERSON represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PEX_P07_ASSOCIATED_PERSON struct {
 	NK1                 *NK1                          `hl7:"true,NK1"`
 	ASSOCIATED_RX_ORDER *PEX_P07_ASSOCIATED_RX_ORDER  `hl7:"false,ASSOCIATED_RX_ORDER"`
@@ -13010,8 +13010,8 @@ func (s *PEX_P07_ASSOCIATED_PERSON) MessageTypeSubStructName() string {
 	return "PEX_P07_ASSOCIATED_PERSON"
 }
 
-//  PEX_P07_ASSOCIATED_RX_ADMIN represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PEX_P07_ASSOCIATED_RX_ADMIN represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PEX_P07_ASSOCIATED_RX_ADMIN struct {
 	RXA   *RXA `hl7:"true,RXA"`
 	RXR   *RXR `hl7:"false,RXR"`
@@ -13022,8 +13022,8 @@ func (s *PEX_P07_ASSOCIATED_RX_ADMIN) MessageTypeSubStructName() string {
 	return "PEX_P07_ASSOCIATED_RX_ADMIN"
 }
 
-//  PEX_P07_ASSOCIATED_RX_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PEX_P07_ASSOCIATED_RX_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PEX_P07_ASSOCIATED_RX_ORDER struct {
 	RXE            *RXE                     `hl7:"true,RXE"`
 	NK1_TIMING_QTY []PEX_P07_NK1_TIMING_QTY `hl7:"true,NK1_TIMING_QTY"`
@@ -13035,8 +13035,8 @@ func (s *PEX_P07_ASSOCIATED_RX_ORDER) MessageTypeSubStructName() string {
 	return "PEX_P07_ASSOCIATED_RX_ORDER"
 }
 
-//  PEX_P07 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PEX_P07 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PEX_P07 struct {
 	MSH        *MSH                 `hl7:"true,MSH"`
 	SFT        []SFT                `hl7:"false,SFT"`
@@ -13053,8 +13053,8 @@ func (s *PEX_P07) MessageTypeName() string {
 	return "PEX_P07"
 }
 
-//  PEX_P07_EXPERIENCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PEX_P07_EXPERIENCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PEX_P07_EXPERIENCE struct {
 	PES             *PES                      `hl7:"true,PES"`
 	PEX_OBSERVATION []PEX_P07_PEX_OBSERVATION `hl7:"true,PEX_OBSERVATION"`
@@ -13065,8 +13065,8 @@ func (s *PEX_P07_EXPERIENCE) MessageTypeSubStructName() string {
 	return "PEX_P07_EXPERIENCE"
 }
 
-//  PEX_P07_NK1_TIMING_QTY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PEX_P07_NK1_TIMING_QTY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PEX_P07_NK1_TIMING_QTY struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -13077,8 +13077,8 @@ func (s *PEX_P07_NK1_TIMING_QTY) MessageTypeSubStructName() string {
 	return "PEX_P07_NK1_TIMING_QTY"
 }
 
-//  PEX_P07_PEX_CAUSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PEX_P07_PEX_CAUSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PEX_P07_PEX_CAUSE struct {
 	PCR               *PCR                        `hl7:"true,PCR"`
 	RX_ORDER          *PEX_P07_RX_ORDER           `hl7:"false,RX_ORDER"`
@@ -13095,8 +13095,8 @@ func (s *PEX_P07_PEX_CAUSE) MessageTypeSubStructName() string {
 	return "PEX_P07_PEX_CAUSE"
 }
 
-//  PEX_P07_PEX_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PEX_P07_PEX_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PEX_P07_PEX_OBSERVATION struct {
 	PEO       *PEO                `hl7:"true,PEO"`
 	PEX_CAUSE []PEX_P07_PEX_CAUSE `hl7:"true,PEX_CAUSE"`
@@ -13107,8 +13107,8 @@ func (s *PEX_P07_PEX_OBSERVATION) MessageTypeSubStructName() string {
 	return "PEX_P07_PEX_OBSERVATION"
 }
 
-//  PEX_P07_RX_ADMINISTRATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PEX_P07_RX_ADMINISTRATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PEX_P07_RX_ADMINISTRATION struct {
 	RXA   *RXA `hl7:"true,RXA"`
 	RXR   *RXR `hl7:"false,RXR"`
@@ -13119,8 +13119,8 @@ func (s *PEX_P07_RX_ADMINISTRATION) MessageTypeSubStructName() string {
 	return "PEX_P07_RX_ADMINISTRATION"
 }
 
-//  PEX_P07_RX_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PEX_P07_RX_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PEX_P07_RX_ORDER struct {
 	RXE        *RXE                 `hl7:"true,RXE"`
 	TIMING_QTY []PEX_P07_TIMING_QTY `hl7:"true,TIMING_QTY"`
@@ -13132,8 +13132,8 @@ func (s *PEX_P07_RX_ORDER) MessageTypeSubStructName() string {
 	return "PEX_P07_RX_ORDER"
 }
 
-//  PEX_P07_STUDY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PEX_P07_STUDY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PEX_P07_STUDY struct {
 	CSR   *CSR  `hl7:"true,CSR"`
 	CSP   []CSP `hl7:"false,CSP"`
@@ -13144,8 +13144,8 @@ func (s *PEX_P07_STUDY) MessageTypeSubStructName() string {
 	return "PEX_P07_STUDY"
 }
 
-//  PEX_P07_TIMING_QTY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PEX_P07_TIMING_QTY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PEX_P07_TIMING_QTY struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -13156,8 +13156,8 @@ func (s *PEX_P07_TIMING_QTY) MessageTypeSubStructName() string {
 	return "PEX_P07_TIMING_QTY"
 }
 
-//  PEX_P07_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PEX_P07_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PEX_P07_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -13168,12 +13168,12 @@ func (s *PEX_P07_VISIT) MessageTypeSubStructName() string {
 	return "PEX_P07_VISIT"
 }
 
-//  PGL_PC6_CHOICE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5
+// PGL_PC6_CHOICE represents the corresponding HL7 message type.
+// Definition from HL7 2.5
 type PGL_PC6_CHOICE struct {
-	//  Only one of the following fields will be set.
+	// Only one of the following fields will be set.
 	OBR *OBR `hl7:"true,OBR"`
-	//  Missing: anyHL7Segment
+	// Missing: anyHL7Segment
 	Other []interface{}
 }
 
@@ -13181,8 +13181,8 @@ func (s *PGL_PC6_CHOICE) MessageTypeSubStructName() string {
 	return "PGL_PC6_CHOICE"
 }
 
-//  PGL_PC6 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PGL_PC6 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PGL_PC6 struct {
 	MSH           *MSH                   `hl7:"true,MSH"`
 	SFT           []SFT                  `hl7:"false,SFT"`
@@ -13196,8 +13196,8 @@ func (s *PGL_PC6) MessageTypeName() string {
 	return "PGL_PC6"
 }
 
-//  PGL_PC6_GOAL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PGL_PC6_GOAL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PGL_PC6_GOAL struct {
 	GOL         *GOL                  `hl7:"true,GOL"`
 	NTE         []NTE                 `hl7:"false,NTE"`
@@ -13214,8 +13214,8 @@ func (s *PGL_PC6_GOAL) MessageTypeSubStructName() string {
 	return "PGL_PC6_GOAL"
 }
 
-//  PGL_PC6_GOAL_ROLE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PGL_PC6_GOAL_ROLE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PGL_PC6_GOAL_ROLE struct {
 	ROL   *ROL  `hl7:"true,ROL"`
 	VAR   []VAR `hl7:"false,VAR"`
@@ -13226,8 +13226,8 @@ func (s *PGL_PC6_GOAL_ROLE) MessageTypeSubStructName() string {
 	return "PGL_PC6_GOAL_ROLE"
 }
 
-//  PGL_PC6_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PGL_PC6_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PGL_PC6_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -13238,8 +13238,8 @@ func (s *PGL_PC6_OBSERVATION) MessageTypeSubStructName() string {
 	return "PGL_PC6_OBSERVATION"
 }
 
-//  PGL_PC6_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PGL_PC6_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PGL_PC6_ORDER struct {
 	ORC          *ORC                  `hl7:"true,ORC"`
 	ORDER_DETAIL *PGL_PC6_ORDER_DETAIL `hl7:"false,ORDER_DETAIL"`
@@ -13250,8 +13250,8 @@ func (s *PGL_PC6_ORDER) MessageTypeSubStructName() string {
 	return "PGL_PC6_ORDER"
 }
 
-//  PGL_PC6_ORDER_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PGL_PC6_ORDER_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PGL_PC6_ORDER_DETAIL struct {
 	ORDER_DETAIL_SEGMENT *PGL_PC6_ORDER_DETAIL_SEGMENT `hl7:"true,ORDER_DETAIL_SEGMENT"`
 	NTE                  []NTE                         `hl7:"false,NTE"`
@@ -13264,12 +13264,12 @@ func (s *PGL_PC6_ORDER_DETAIL) MessageTypeSubStructName() string {
 	return "PGL_PC6_ORDER_DETAIL"
 }
 
-//  PGL_PC6_ORDER_DETAIL_SEGMENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PGL_PC6_ORDER_DETAIL_SEGMENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PGL_PC6_ORDER_DETAIL_SEGMENT struct {
-	//  Only one of the following fields will be set.
+	// Only one of the following fields will be set.
 	OBR *OBR `hl7:"true,OBR"`
-	//  Missing: anyHL7Segment
+	// Missing: anyHL7Segment
 	Other []interface{}
 }
 
@@ -13277,8 +13277,8 @@ func (s *PGL_PC6_ORDER_DETAIL_SEGMENT) MessageTypeSubStructName() string {
 	return "PGL_PC6_ORDER_DETAIL_SEGMENT"
 }
 
-//  PGL_PC6_ORDER_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PGL_PC6_ORDER_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PGL_PC6_ORDER_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -13290,8 +13290,8 @@ func (s *PGL_PC6_ORDER_OBSERVATION) MessageTypeSubStructName() string {
 	return "PGL_PC6_ORDER_OBSERVATION"
 }
 
-//  PGL_PC6_PATHWAY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PGL_PC6_PATHWAY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PGL_PC6_PATHWAY struct {
 	PTH   *PTH  `hl7:"true,PTH"`
 	VAR   []VAR `hl7:"false,VAR"`
@@ -13302,8 +13302,8 @@ func (s *PGL_PC6_PATHWAY) MessageTypeSubStructName() string {
 	return "PGL_PC6_PATHWAY"
 }
 
-//  PGL_PC6_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PGL_PC6_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PGL_PC6_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -13314,8 +13314,8 @@ func (s *PGL_PC6_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "PGL_PC6_PATIENT_VISIT"
 }
 
-//  PGL_PC6_PROBLEM represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PGL_PC6_PROBLEM represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PGL_PC6_PROBLEM struct {
 	PRB                 *PRB                          `hl7:"true,PRB"`
 	NTE                 []NTE                         `hl7:"false,NTE"`
@@ -13329,8 +13329,8 @@ func (s *PGL_PC6_PROBLEM) MessageTypeSubStructName() string {
 	return "PGL_PC6_PROBLEM"
 }
 
-//  PGL_PC6_PROBLEM_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PGL_PC6_PROBLEM_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PGL_PC6_PROBLEM_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -13341,8 +13341,8 @@ func (s *PGL_PC6_PROBLEM_OBSERVATION) MessageTypeSubStructName() string {
 	return "PGL_PC6_PROBLEM_OBSERVATION"
 }
 
-//  PGL_PC6_PROBLEM_ROLE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PGL_PC6_PROBLEM_ROLE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PGL_PC6_PROBLEM_ROLE struct {
 	ROL   *ROL  `hl7:"true,ROL"`
 	VAR   []VAR `hl7:"false,VAR"`
@@ -13353,8 +13353,8 @@ func (s *PGL_PC6_PROBLEM_ROLE) MessageTypeSubStructName() string {
 	return "PGL_PC6_PROBLEM_ROLE"
 }
 
-//  PIN_I07 represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// PIN_I07 represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type PIN_I07 struct {
 	MSH                 *MSH                         `hl7:"true,MSH"`
 	PROVIDER            []PIN_I07_PROVIDER           `hl7:"true,PROVIDER"`
@@ -13369,8 +13369,8 @@ func (s *PIN_I07) MessageTypeName() string {
 	return "PIN_I07"
 }
 
-//  PIN_I07_GUARANTOR_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// PIN_I07_GUARANTOR_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type PIN_I07_GUARANTOR_INSURANCE struct {
 	GT1       []GT1               `hl7:"false,GT1"`
 	INSURANCE []PIN_I07_INSURANCE `hl7:"true,INSURANCE"`
@@ -13381,8 +13381,8 @@ func (s *PIN_I07_GUARANTOR_INSURANCE) MessageTypeSubStructName() string {
 	return "PIN_I07_GUARANTOR_INSURANCE"
 }
 
-//  PIN_I07_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// PIN_I07_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type PIN_I07_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -13394,8 +13394,8 @@ func (s *PIN_I07_INSURANCE) MessageTypeSubStructName() string {
 	return "PIN_I07_INSURANCE"
 }
 
-//  PIN_I07_PROVIDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// PIN_I07_PROVIDER represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type PIN_I07_PROVIDER struct {
 	PRD   *PRD  `hl7:"true,PRD"`
 	CTD   []CTD `hl7:"false,CTD"`
@@ -13406,8 +13406,8 @@ func (s *PIN_I07_PROVIDER) MessageTypeSubStructName() string {
 	return "PIN_I07_PROVIDER"
 }
 
-//  PMU_B01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PMU_B01 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PMU_B01 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -13426,8 +13426,8 @@ func (s *PMU_B01) MessageTypeName() string {
 	return "PMU_B01"
 }
 
-//  PMU_B03 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PMU_B03 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PMU_B03 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -13440,8 +13440,8 @@ func (s *PMU_B03) MessageTypeName() string {
 	return "PMU_B03"
 }
 
-//  PMU_B04 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PMU_B04 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PMU_B04 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -13456,8 +13456,8 @@ func (s *PMU_B04) MessageTypeName() string {
 	return "PMU_B04"
 }
 
-//  PMU_B07_CERTIFICATE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PMU_B07_CERTIFICATE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PMU_B07_CERTIFICATE struct {
 	CER   *CER  `hl7:"true,CER"`
 	ROL   []ROL `hl7:"false,ROL"`
@@ -13468,8 +13468,8 @@ func (s *PMU_B07_CERTIFICATE) MessageTypeSubStructName() string {
 	return "PMU_B07_CERTIFICATE"
 }
 
-//  PMU_B07 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PMU_B07 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PMU_B07 struct {
 	MSH         *MSH                  `hl7:"true,MSH"`
 	SFT         []SFT                 `hl7:"false,SFT"`
@@ -13484,8 +13484,8 @@ func (s *PMU_B07) MessageTypeName() string {
 	return "PMU_B07"
 }
 
-//  PMU_B08 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PMU_B08 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PMU_B08 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -13500,12 +13500,12 @@ func (s *PMU_B08) MessageTypeName() string {
 	return "PMU_B08"
 }
 
-//  PPG_PCG_CHOICE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5
+// PPG_PCG_CHOICE represents the corresponding HL7 message type.
+// Definition from HL7 2.5
 type PPG_PCG_CHOICE struct {
-	//  Only one of the following fields will be set.
+	// Only one of the following fields will be set.
 	OBR *OBR `hl7:"true,OBR"`
-	//  Missing: anyHL7Segment
+	// Missing: anyHL7Segment
 	Other []interface{}
 }
 
@@ -13513,8 +13513,8 @@ func (s *PPG_PCG_CHOICE) MessageTypeSubStructName() string {
 	return "PPG_PCG_CHOICE"
 }
 
-//  PPG_PCG represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPG_PCG represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPG_PCG struct {
 	MSH           *MSH                   `hl7:"true,MSH"`
 	SFT           []SFT                  `hl7:"false,SFT"`
@@ -13528,8 +13528,8 @@ func (s *PPG_PCG) MessageTypeName() string {
 	return "PPG_PCG"
 }
 
-//  PPG_PCG_GOAL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPG_PCG_GOAL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPG_PCG_GOAL struct {
 	GOL              *GOL                       `hl7:"true,GOL"`
 	NTE              []NTE                      `hl7:"false,NTE"`
@@ -13545,8 +13545,8 @@ func (s *PPG_PCG_GOAL) MessageTypeSubStructName() string {
 	return "PPG_PCG_GOAL"
 }
 
-//  PPG_PCG_GOAL_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPG_PCG_GOAL_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPG_PCG_GOAL_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -13557,8 +13557,8 @@ func (s *PPG_PCG_GOAL_OBSERVATION) MessageTypeSubStructName() string {
 	return "PPG_PCG_GOAL_OBSERVATION"
 }
 
-//  PPG_PCG_GOAL_ROLE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPG_PCG_GOAL_ROLE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPG_PCG_GOAL_ROLE struct {
 	ROL   *ROL  `hl7:"true,ROL"`
 	VAR   []VAR `hl7:"false,VAR"`
@@ -13569,8 +13569,8 @@ func (s *PPG_PCG_GOAL_ROLE) MessageTypeSubStructName() string {
 	return "PPG_PCG_GOAL_ROLE"
 }
 
-//  PPG_PCG_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPG_PCG_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPG_PCG_ORDER struct {
 	ORC          *ORC                  `hl7:"true,ORC"`
 	ORDER_DETAIL *PPG_PCG_ORDER_DETAIL `hl7:"false,ORDER_DETAIL"`
@@ -13581,8 +13581,8 @@ func (s *PPG_PCG_ORDER) MessageTypeSubStructName() string {
 	return "PPG_PCG_ORDER"
 }
 
-//  PPG_PCG_ORDER_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPG_PCG_ORDER_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPG_PCG_ORDER_DETAIL struct {
 	ORDER_DETAIL_SEGMENT *PPG_PCG_ORDER_DETAIL_SEGMENT `hl7:"true,ORDER_DETAIL_SEGMENT"`
 	NTE                  []NTE                         `hl7:"false,NTE"`
@@ -13595,12 +13595,12 @@ func (s *PPG_PCG_ORDER_DETAIL) MessageTypeSubStructName() string {
 	return "PPG_PCG_ORDER_DETAIL"
 }
 
-//  PPG_PCG_ORDER_DETAIL_SEGMENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPG_PCG_ORDER_DETAIL_SEGMENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPG_PCG_ORDER_DETAIL_SEGMENT struct {
-	//  Only one of the following fields will be set.
+	// Only one of the following fields will be set.
 	OBR *OBR `hl7:"true,OBR"`
-	//  Missing: anyHL7Segment
+	// Missing: anyHL7Segment
 	Other []interface{}
 }
 
@@ -13608,8 +13608,8 @@ func (s *PPG_PCG_ORDER_DETAIL_SEGMENT) MessageTypeSubStructName() string {
 	return "PPG_PCG_ORDER_DETAIL_SEGMENT"
 }
 
-//  PPG_PCG_ORDER_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPG_PCG_ORDER_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPG_PCG_ORDER_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -13621,8 +13621,8 @@ func (s *PPG_PCG_ORDER_OBSERVATION) MessageTypeSubStructName() string {
 	return "PPG_PCG_ORDER_OBSERVATION"
 }
 
-//  PPG_PCG_PATHWAY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPG_PCG_PATHWAY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPG_PCG_PATHWAY struct {
 	PTH          *PTH                   `hl7:"true,PTH"`
 	NTE          []NTE                  `hl7:"false,NTE"`
@@ -13636,8 +13636,8 @@ func (s *PPG_PCG_PATHWAY) MessageTypeSubStructName() string {
 	return "PPG_PCG_PATHWAY"
 }
 
-//  PPG_PCG_PATHWAY_ROLE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPG_PCG_PATHWAY_ROLE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPG_PCG_PATHWAY_ROLE struct {
 	ROL   *ROL  `hl7:"true,ROL"`
 	VAR   []VAR `hl7:"false,VAR"`
@@ -13648,8 +13648,8 @@ func (s *PPG_PCG_PATHWAY_ROLE) MessageTypeSubStructName() string {
 	return "PPG_PCG_PATHWAY_ROLE"
 }
 
-//  PPG_PCG_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPG_PCG_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPG_PCG_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -13660,8 +13660,8 @@ func (s *PPG_PCG_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "PPG_PCG_PATIENT_VISIT"
 }
 
-//  PPG_PCG_PROBLEM represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPG_PCG_PROBLEM represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPG_PCG_PROBLEM struct {
 	PRB                 *PRB                          `hl7:"true,PRB"`
 	NTE                 []NTE                         `hl7:"false,NTE"`
@@ -13675,8 +13675,8 @@ func (s *PPG_PCG_PROBLEM) MessageTypeSubStructName() string {
 	return "PPG_PCG_PROBLEM"
 }
 
-//  PPG_PCG_PROBLEM_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPG_PCG_PROBLEM_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPG_PCG_PROBLEM_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -13687,8 +13687,8 @@ func (s *PPG_PCG_PROBLEM_OBSERVATION) MessageTypeSubStructName() string {
 	return "PPG_PCG_PROBLEM_OBSERVATION"
 }
 
-//  PPG_PCG_PROBLEM_ROLE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPG_PCG_PROBLEM_ROLE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPG_PCG_PROBLEM_ROLE struct {
 	ROL   *ROL  `hl7:"true,ROL"`
 	VAR   []VAR `hl7:"false,VAR"`
@@ -13699,12 +13699,12 @@ func (s *PPG_PCG_PROBLEM_ROLE) MessageTypeSubStructName() string {
 	return "PPG_PCG_PROBLEM_ROLE"
 }
 
-//  PPP_PCB_CHOICE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5
+// PPP_PCB_CHOICE represents the corresponding HL7 message type.
+// Definition from HL7 2.5
 type PPP_PCB_CHOICE struct {
-	//  Only one of the following fields will be set.
+	// Only one of the following fields will be set.
 	OBR *OBR `hl7:"true,OBR"`
-	//  Missing: anyHL7Segment
+	// Missing: anyHL7Segment
 	Other []interface{}
 }
 
@@ -13712,8 +13712,8 @@ func (s *PPP_PCB_CHOICE) MessageTypeSubStructName() string {
 	return "PPP_PCB_CHOICE"
 }
 
-//  PPP_PCB represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPP_PCB represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPP_PCB struct {
 	MSH           *MSH                   `hl7:"true,MSH"`
 	SFT           []SFT                  `hl7:"false,SFT"`
@@ -13727,8 +13727,8 @@ func (s *PPP_PCB) MessageTypeName() string {
 	return "PPP_PCB"
 }
 
-//  PPP_PCB_GOAL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPP_PCB_GOAL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPP_PCB_GOAL struct {
 	GOL              *GOL                       `hl7:"true,GOL"`
 	NTE              []NTE                      `hl7:"false,NTE"`
@@ -13742,8 +13742,8 @@ func (s *PPP_PCB_GOAL) MessageTypeSubStructName() string {
 	return "PPP_PCB_GOAL"
 }
 
-//  PPP_PCB_GOAL_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPP_PCB_GOAL_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPP_PCB_GOAL_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -13754,8 +13754,8 @@ func (s *PPP_PCB_GOAL_OBSERVATION) MessageTypeSubStructName() string {
 	return "PPP_PCB_GOAL_OBSERVATION"
 }
 
-//  PPP_PCB_GOAL_ROLE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPP_PCB_GOAL_ROLE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPP_PCB_GOAL_ROLE struct {
 	ROL   *ROL  `hl7:"true,ROL"`
 	VAR   []VAR `hl7:"false,VAR"`
@@ -13766,8 +13766,8 @@ func (s *PPP_PCB_GOAL_ROLE) MessageTypeSubStructName() string {
 	return "PPP_PCB_GOAL_ROLE"
 }
 
-//  PPP_PCB_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPP_PCB_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPP_PCB_ORDER struct {
 	ORC          *ORC                  `hl7:"true,ORC"`
 	ORDER_DETAIL *PPP_PCB_ORDER_DETAIL `hl7:"false,ORDER_DETAIL"`
@@ -13778,8 +13778,8 @@ func (s *PPP_PCB_ORDER) MessageTypeSubStructName() string {
 	return "PPP_PCB_ORDER"
 }
 
-//  PPP_PCB_ORDER_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPP_PCB_ORDER_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPP_PCB_ORDER_DETAIL struct {
 	ORDER_DETAIL_SEGMENT *PPP_PCB_ORDER_DETAIL_SEGMENT `hl7:"true,ORDER_DETAIL_SEGMENT"`
 	NTE                  []NTE                         `hl7:"false,NTE"`
@@ -13792,12 +13792,12 @@ func (s *PPP_PCB_ORDER_DETAIL) MessageTypeSubStructName() string {
 	return "PPP_PCB_ORDER_DETAIL"
 }
 
-//  PPP_PCB_ORDER_DETAIL_SEGMENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPP_PCB_ORDER_DETAIL_SEGMENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPP_PCB_ORDER_DETAIL_SEGMENT struct {
-	//  Only one of the following fields will be set.
+	// Only one of the following fields will be set.
 	OBR *OBR `hl7:"true,OBR"`
-	//  Missing: anyHL7Segment
+	// Missing: anyHL7Segment
 	Other []interface{}
 }
 
@@ -13805,8 +13805,8 @@ func (s *PPP_PCB_ORDER_DETAIL_SEGMENT) MessageTypeSubStructName() string {
 	return "PPP_PCB_ORDER_DETAIL_SEGMENT"
 }
 
-//  PPP_PCB_ORDER_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPP_PCB_ORDER_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPP_PCB_ORDER_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -13818,8 +13818,8 @@ func (s *PPP_PCB_ORDER_OBSERVATION) MessageTypeSubStructName() string {
 	return "PPP_PCB_ORDER_OBSERVATION"
 }
 
-//  PPP_PCB_PATHWAY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPP_PCB_PATHWAY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPP_PCB_PATHWAY struct {
 	PTH          *PTH                   `hl7:"true,PTH"`
 	NTE          []NTE                  `hl7:"false,NTE"`
@@ -13833,8 +13833,8 @@ func (s *PPP_PCB_PATHWAY) MessageTypeSubStructName() string {
 	return "PPP_PCB_PATHWAY"
 }
 
-//  PPP_PCB_PATHWAY_ROLE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPP_PCB_PATHWAY_ROLE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPP_PCB_PATHWAY_ROLE struct {
 	ROL   *ROL  `hl7:"true,ROL"`
 	VAR   []VAR `hl7:"false,VAR"`
@@ -13845,8 +13845,8 @@ func (s *PPP_PCB_PATHWAY_ROLE) MessageTypeSubStructName() string {
 	return "PPP_PCB_PATHWAY_ROLE"
 }
 
-//  PPP_PCB_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPP_PCB_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPP_PCB_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -13857,8 +13857,8 @@ func (s *PPP_PCB_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "PPP_PCB_PATIENT_VISIT"
 }
 
-//  PPP_PCB_PROBLEM represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPP_PCB_PROBLEM represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPP_PCB_PROBLEM struct {
 	PRB                 *PRB                          `hl7:"true,PRB"`
 	NTE                 []NTE                         `hl7:"false,NTE"`
@@ -13874,8 +13874,8 @@ func (s *PPP_PCB_PROBLEM) MessageTypeSubStructName() string {
 	return "PPP_PCB_PROBLEM"
 }
 
-//  PPP_PCB_PROBLEM_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPP_PCB_PROBLEM_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPP_PCB_PROBLEM_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -13886,8 +13886,8 @@ func (s *PPP_PCB_PROBLEM_OBSERVATION) MessageTypeSubStructName() string {
 	return "PPP_PCB_PROBLEM_OBSERVATION"
 }
 
-//  PPP_PCB_PROBLEM_ROLE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPP_PCB_PROBLEM_ROLE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPP_PCB_PROBLEM_ROLE struct {
 	ROL   *ROL  `hl7:"true,ROL"`
 	VAR   []VAR `hl7:"false,VAR"`
@@ -13898,12 +13898,12 @@ func (s *PPP_PCB_PROBLEM_ROLE) MessageTypeSubStructName() string {
 	return "PPP_PCB_PROBLEM_ROLE"
 }
 
-//  PPR_PC1_CHOICE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5
+// PPR_PC1_CHOICE represents the corresponding HL7 message type.
+// Definition from HL7 2.5
 type PPR_PC1_CHOICE struct {
-	//  Only one of the following fields will be set.
+	// Only one of the following fields will be set.
 	OBR *OBR `hl7:"true,OBR"`
-	//  Missing: anyHL7Segment
+	// Missing: anyHL7Segment
 	Other []interface{}
 }
 
@@ -13911,8 +13911,8 @@ func (s *PPR_PC1_CHOICE) MessageTypeSubStructName() string {
 	return "PPR_PC1_CHOICE"
 }
 
-//  PPR_PC1 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPR_PC1 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPR_PC1 struct {
 	MSH           *MSH                   `hl7:"true,MSH"`
 	SFT           []SFT                  `hl7:"false,SFT"`
@@ -13926,8 +13926,8 @@ func (s *PPR_PC1) MessageTypeName() string {
 	return "PPR_PC1"
 }
 
-//  PPR_PC1_GOAL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPR_PC1_GOAL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPR_PC1_GOAL struct {
 	GOL              *GOL                       `hl7:"true,GOL"`
 	NTE              []NTE                      `hl7:"false,NTE"`
@@ -13941,8 +13941,8 @@ func (s *PPR_PC1_GOAL) MessageTypeSubStructName() string {
 	return "PPR_PC1_GOAL"
 }
 
-//  PPR_PC1_GOAL_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPR_PC1_GOAL_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPR_PC1_GOAL_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -13953,8 +13953,8 @@ func (s *PPR_PC1_GOAL_OBSERVATION) MessageTypeSubStructName() string {
 	return "PPR_PC1_GOAL_OBSERVATION"
 }
 
-//  PPR_PC1_GOAL_ROLE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPR_PC1_GOAL_ROLE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPR_PC1_GOAL_ROLE struct {
 	ROL   *ROL  `hl7:"true,ROL"`
 	VAR   []VAR `hl7:"false,VAR"`
@@ -13965,8 +13965,8 @@ func (s *PPR_PC1_GOAL_ROLE) MessageTypeSubStructName() string {
 	return "PPR_PC1_GOAL_ROLE"
 }
 
-//  PPR_PC1_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPR_PC1_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPR_PC1_ORDER struct {
 	ORC          *ORC                  `hl7:"true,ORC"`
 	ORDER_DETAIL *PPR_PC1_ORDER_DETAIL `hl7:"false,ORDER_DETAIL"`
@@ -13977,8 +13977,8 @@ func (s *PPR_PC1_ORDER) MessageTypeSubStructName() string {
 	return "PPR_PC1_ORDER"
 }
 
-//  PPR_PC1_ORDER_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPR_PC1_ORDER_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPR_PC1_ORDER_DETAIL struct {
 	ORDER_DETAIL_SEGMENT *PPR_PC1_ORDER_DETAIL_SEGMENT `hl7:"true,ORDER_DETAIL_SEGMENT"`
 	NTE                  []NTE                         `hl7:"false,NTE"`
@@ -13991,12 +13991,12 @@ func (s *PPR_PC1_ORDER_DETAIL) MessageTypeSubStructName() string {
 	return "PPR_PC1_ORDER_DETAIL"
 }
 
-//  PPR_PC1_ORDER_DETAIL_SEGMENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPR_PC1_ORDER_DETAIL_SEGMENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPR_PC1_ORDER_DETAIL_SEGMENT struct {
-	//  Only one of the following fields will be set.
+	// Only one of the following fields will be set.
 	OBR *OBR `hl7:"true,OBR"`
-	//  Missing: anyHL7Segment
+	// Missing: anyHL7Segment
 	Other []interface{}
 }
 
@@ -14004,8 +14004,8 @@ func (s *PPR_PC1_ORDER_DETAIL_SEGMENT) MessageTypeSubStructName() string {
 	return "PPR_PC1_ORDER_DETAIL_SEGMENT"
 }
 
-//  PPR_PC1_ORDER_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPR_PC1_ORDER_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPR_PC1_ORDER_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -14017,8 +14017,8 @@ func (s *PPR_PC1_ORDER_OBSERVATION) MessageTypeSubStructName() string {
 	return "PPR_PC1_ORDER_OBSERVATION"
 }
 
-//  PPR_PC1_PATHWAY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPR_PC1_PATHWAY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPR_PC1_PATHWAY struct {
 	PTH   *PTH  `hl7:"true,PTH"`
 	VAR   []VAR `hl7:"false,VAR"`
@@ -14029,8 +14029,8 @@ func (s *PPR_PC1_PATHWAY) MessageTypeSubStructName() string {
 	return "PPR_PC1_PATHWAY"
 }
 
-//  PPR_PC1_PATHWAY_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// PPR_PC1_PATHWAY_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type PPR_PC1_PATHWAY_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -14041,8 +14041,8 @@ func (s *PPR_PC1_PATHWAY_OBSERVATION) MessageTypeSubStructName() string {
 	return "PPR_PC1_PATHWAY_OBSERVATION"
 }
 
-//  PPR_PC1_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPR_PC1_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPR_PC1_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -14053,8 +14053,8 @@ func (s *PPR_PC1_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "PPR_PC1_PATIENT_VISIT"
 }
 
-//  PPR_PC1_PROBLEM represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPR_PC1_PROBLEM represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPR_PC1_PROBLEM struct {
 	PRB                 *PRB                          `hl7:"true,PRB"`
 	NTE                 []NTE                         `hl7:"false,NTE"`
@@ -14071,8 +14071,8 @@ func (s *PPR_PC1_PROBLEM) MessageTypeSubStructName() string {
 	return "PPR_PC1_PROBLEM"
 }
 
-//  PPR_PC1_PROBLEM_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPR_PC1_PROBLEM_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPR_PC1_PROBLEM_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -14083,8 +14083,8 @@ func (s *PPR_PC1_PROBLEM_OBSERVATION) MessageTypeSubStructName() string {
 	return "PPR_PC1_PROBLEM_OBSERVATION"
 }
 
-//  PPR_PC1_PROBLEM_ROLE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPR_PC1_PROBLEM_ROLE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPR_PC1_PROBLEM_ROLE struct {
 	ROL   *ROL  `hl7:"true,ROL"`
 	VAR   []VAR `hl7:"false,VAR"`
@@ -14095,12 +14095,12 @@ func (s *PPR_PC1_PROBLEM_ROLE) MessageTypeSubStructName() string {
 	return "PPR_PC1_PROBLEM_ROLE"
 }
 
-//  PPT_PCL_CHOICE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5
+// PPT_PCL_CHOICE represents the corresponding HL7 message type.
+// Definition from HL7 2.5
 type PPT_PCL_CHOICE struct {
-	//  Only one of the following fields will be set.
+	// Only one of the following fields will be set.
 	OBR *OBR `hl7:"true,OBR"`
-	//  Missing: anyHL7Segment
+	// Missing: anyHL7Segment
 	Other []interface{}
 }
 
@@ -14108,8 +14108,8 @@ func (s *PPT_PCL_CHOICE) MessageTypeSubStructName() string {
 	return "PPT_PCL_CHOICE"
 }
 
-//  PPT_PCL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPT_PCL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPT_PCL struct {
 	MSH     *MSH              `hl7:"true,MSH"`
 	SFT     []SFT             `hl7:"false,SFT"`
@@ -14125,8 +14125,8 @@ func (s *PPT_PCL) MessageTypeName() string {
 	return "PPT_PCL"
 }
 
-//  PPT_PCL_GOAL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPT_PCL_GOAL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPT_PCL_GOAL struct {
 	GOL              *GOL                       `hl7:"true,GOL"`
 	NTE              []NTE                      `hl7:"false,NTE"`
@@ -14142,8 +14142,8 @@ func (s *PPT_PCL_GOAL) MessageTypeSubStructName() string {
 	return "PPT_PCL_GOAL"
 }
 
-//  PPT_PCL_GOAL_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPT_PCL_GOAL_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPT_PCL_GOAL_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -14154,8 +14154,8 @@ func (s *PPT_PCL_GOAL_OBSERVATION) MessageTypeSubStructName() string {
 	return "PPT_PCL_GOAL_OBSERVATION"
 }
 
-//  PPT_PCL_GOAL_ROLE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPT_PCL_GOAL_ROLE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPT_PCL_GOAL_ROLE struct {
 	ROL   *ROL  `hl7:"true,ROL"`
 	VAR   []VAR `hl7:"false,VAR"`
@@ -14166,8 +14166,8 @@ func (s *PPT_PCL_GOAL_ROLE) MessageTypeSubStructName() string {
 	return "PPT_PCL_GOAL_ROLE"
 }
 
-//  PPT_PCL_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPT_PCL_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPT_PCL_ORDER struct {
 	ORC          *ORC                  `hl7:"true,ORC"`
 	ORDER_DETAIL *PPT_PCL_ORDER_DETAIL `hl7:"false,ORDER_DETAIL"`
@@ -14178,8 +14178,8 @@ func (s *PPT_PCL_ORDER) MessageTypeSubStructName() string {
 	return "PPT_PCL_ORDER"
 }
 
-//  PPT_PCL_ORDER_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPT_PCL_ORDER_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPT_PCL_ORDER_DETAIL struct {
 	ORDER_DETAIL_SEGMENT *PPT_PCL_ORDER_DETAIL_SEGMENT `hl7:"true,ORDER_DETAIL_SEGMENT"`
 	NTE                  []NTE                         `hl7:"false,NTE"`
@@ -14192,12 +14192,12 @@ func (s *PPT_PCL_ORDER_DETAIL) MessageTypeSubStructName() string {
 	return "PPT_PCL_ORDER_DETAIL"
 }
 
-//  PPT_PCL_ORDER_DETAIL_SEGMENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPT_PCL_ORDER_DETAIL_SEGMENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPT_PCL_ORDER_DETAIL_SEGMENT struct {
-	//  Only one of the following fields will be set.
+	// Only one of the following fields will be set.
 	OBR *OBR `hl7:"true,OBR"`
-	//  Missing: anyHL7Segment
+	// Missing: anyHL7Segment
 	Other []interface{}
 }
 
@@ -14205,8 +14205,8 @@ func (s *PPT_PCL_ORDER_DETAIL_SEGMENT) MessageTypeSubStructName() string {
 	return "PPT_PCL_ORDER_DETAIL_SEGMENT"
 }
 
-//  PPT_PCL_ORDER_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPT_PCL_ORDER_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPT_PCL_ORDER_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -14218,8 +14218,8 @@ func (s *PPT_PCL_ORDER_OBSERVATION) MessageTypeSubStructName() string {
 	return "PPT_PCL_ORDER_OBSERVATION"
 }
 
-//  PPT_PCL_PATHWAY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPT_PCL_PATHWAY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPT_PCL_PATHWAY struct {
 	PTH          *PTH                   `hl7:"true,PTH"`
 	NTE          []NTE                  `hl7:"false,NTE"`
@@ -14233,8 +14233,8 @@ func (s *PPT_PCL_PATHWAY) MessageTypeSubStructName() string {
 	return "PPT_PCL_PATHWAY"
 }
 
-//  PPT_PCL_PATHWAY_ROLE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPT_PCL_PATHWAY_ROLE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPT_PCL_PATHWAY_ROLE struct {
 	ROL   *ROL  `hl7:"true,ROL"`
 	VAR   []VAR `hl7:"false,VAR"`
@@ -14245,8 +14245,8 @@ func (s *PPT_PCL_PATHWAY_ROLE) MessageTypeSubStructName() string {
 	return "PPT_PCL_PATHWAY_ROLE"
 }
 
-//  PPT_PCL_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPT_PCL_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPT_PCL_PATIENT struct {
 	PID           *PID                   `hl7:"true,PID"`
 	PATIENT_VISIT *PPT_PCL_PATIENT_VISIT `hl7:"false,PATIENT_VISIT"`
@@ -14258,8 +14258,8 @@ func (s *PPT_PCL_PATIENT) MessageTypeSubStructName() string {
 	return "PPT_PCL_PATIENT"
 }
 
-//  PPT_PCL_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPT_PCL_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPT_PCL_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -14270,8 +14270,8 @@ func (s *PPT_PCL_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "PPT_PCL_PATIENT_VISIT"
 }
 
-//  PPT_PCL_PROBLEM represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPT_PCL_PROBLEM represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPT_PCL_PROBLEM struct {
 	PRB                 *PRB                          `hl7:"true,PRB"`
 	NTE                 []NTE                         `hl7:"false,NTE"`
@@ -14285,8 +14285,8 @@ func (s *PPT_PCL_PROBLEM) MessageTypeSubStructName() string {
 	return "PPT_PCL_PROBLEM"
 }
 
-//  PPT_PCL_PROBLEM_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPT_PCL_PROBLEM_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPT_PCL_PROBLEM_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -14297,8 +14297,8 @@ func (s *PPT_PCL_PROBLEM_OBSERVATION) MessageTypeSubStructName() string {
 	return "PPT_PCL_PROBLEM_OBSERVATION"
 }
 
-//  PPT_PCL_PROBLEM_ROLE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPT_PCL_PROBLEM_ROLE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPT_PCL_PROBLEM_ROLE struct {
 	ROL   *ROL  `hl7:"true,ROL"`
 	VAR   []VAR `hl7:"false,VAR"`
@@ -14309,10 +14309,10 @@ func (s *PPT_PCL_PROBLEM_ROLE) MessageTypeSubStructName() string {
 	return "PPT_PCL_PROBLEM_ROLE"
 }
 
-//  PPV_PCA_CHOICE represents the corresponding HL7 message type.
-//  Definition from HL7 2.4
+// PPV_PCA_CHOICE represents the corresponding HL7 message type.
+// Definition from HL7 2.4
 type PPV_PCA_CHOICE struct {
-	//  Only one of the following fields will be set.
+	// Only one of the following fields will be set.
 	OBR   *OBR `hl7:"true,OBR"`
 	RXO   *RXO `hl7:"true,RXO"`
 	Other []interface{}
@@ -14322,8 +14322,8 @@ func (s *PPV_PCA_CHOICE) MessageTypeSubStructName() string {
 	return "PPV_PCA_CHOICE"
 }
 
-//  PPV_PCA represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPV_PCA represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPV_PCA struct {
 	MSH     *MSH              `hl7:"true,MSH"`
 	SFT     []SFT             `hl7:"false,SFT"`
@@ -14339,8 +14339,8 @@ func (s *PPV_PCA) MessageTypeName() string {
 	return "PPV_PCA"
 }
 
-//  PPV_PCA_GOAL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPV_PCA_GOAL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPV_PCA_GOAL struct {
 	GOL              *GOL                       `hl7:"true,GOL"`
 	NTE              []NTE                      `hl7:"false,NTE"`
@@ -14357,8 +14357,8 @@ func (s *PPV_PCA_GOAL) MessageTypeSubStructName() string {
 	return "PPV_PCA_GOAL"
 }
 
-//  PPV_PCA_GOAL_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPV_PCA_GOAL_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPV_PCA_GOAL_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -14369,8 +14369,8 @@ func (s *PPV_PCA_GOAL_OBSERVATION) MessageTypeSubStructName() string {
 	return "PPV_PCA_GOAL_OBSERVATION"
 }
 
-//  PPV_PCA_GOAL_PATHWAY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPV_PCA_GOAL_PATHWAY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPV_PCA_GOAL_PATHWAY struct {
 	PTH   *PTH  `hl7:"true,PTH"`
 	VAR   []VAR `hl7:"false,VAR"`
@@ -14381,8 +14381,8 @@ func (s *PPV_PCA_GOAL_PATHWAY) MessageTypeSubStructName() string {
 	return "PPV_PCA_GOAL_PATHWAY"
 }
 
-//  PPV_PCA_GOAL_ROLE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPV_PCA_GOAL_ROLE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPV_PCA_GOAL_ROLE struct {
 	ROL   *ROL  `hl7:"true,ROL"`
 	VAR   []VAR `hl7:"false,VAR"`
@@ -14393,8 +14393,8 @@ func (s *PPV_PCA_GOAL_ROLE) MessageTypeSubStructName() string {
 	return "PPV_PCA_GOAL_ROLE"
 }
 
-//  PPV_PCA_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPV_PCA_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPV_PCA_ORDER struct {
 	ORC          *ORC                  `hl7:"true,ORC"`
 	ORDER_DETAIL *PPV_PCA_ORDER_DETAIL `hl7:"false,ORDER_DETAIL"`
@@ -14405,12 +14405,12 @@ func (s *PPV_PCA_ORDER) MessageTypeSubStructName() string {
 	return "PPV_PCA_ORDER"
 }
 
-//  PPV_PCA_ORDER_CHOICE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPV_PCA_ORDER_CHOICE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPV_PCA_ORDER_CHOICE struct {
-	//  Only one of the following fields will be set.
+	// Only one of the following fields will be set.
 	OBR *OBR `hl7:"true,OBR"`
-	//  Missing: anyHL7Segment
+	// Missing: anyHL7Segment
 	Other []interface{}
 }
 
@@ -14418,8 +14418,8 @@ func (s *PPV_PCA_ORDER_CHOICE) MessageTypeSubStructName() string {
 	return "PPV_PCA_ORDER_CHOICE"
 }
 
-//  PPV_PCA_ORDER_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPV_PCA_ORDER_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPV_PCA_ORDER_DETAIL struct {
 	ORDER_CHOICE      *PPV_PCA_ORDER_CHOICE       `hl7:"true,ORDER_CHOICE"`
 	NTE               []NTE                       `hl7:"false,NTE"`
@@ -14432,8 +14432,8 @@ func (s *PPV_PCA_ORDER_DETAIL) MessageTypeSubStructName() string {
 	return "PPV_PCA_ORDER_DETAIL"
 }
 
-//  PPV_PCA_ORDER_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPV_PCA_ORDER_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPV_PCA_ORDER_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -14445,8 +14445,8 @@ func (s *PPV_PCA_ORDER_OBSERVATION) MessageTypeSubStructName() string {
 	return "PPV_PCA_ORDER_OBSERVATION"
 }
 
-//  PPV_PCA_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPV_PCA_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPV_PCA_PATIENT struct {
 	PID           *PID                   `hl7:"true,PID"`
 	PATIENT_VISIT *PPV_PCA_PATIENT_VISIT `hl7:"false,PATIENT_VISIT"`
@@ -14458,8 +14458,8 @@ func (s *PPV_PCA_PATIENT) MessageTypeSubStructName() string {
 	return "PPV_PCA_PATIENT"
 }
 
-//  PPV_PCA_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPV_PCA_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPV_PCA_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -14470,8 +14470,8 @@ func (s *PPV_PCA_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "PPV_PCA_PATIENT_VISIT"
 }
 
-//  PPV_PCA_PROBLEM represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPV_PCA_PROBLEM represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPV_PCA_PROBLEM struct {
 	PRB                 *PRB                          `hl7:"true,PRB"`
 	NTE                 []NTE                         `hl7:"false,NTE"`
@@ -14485,8 +14485,8 @@ func (s *PPV_PCA_PROBLEM) MessageTypeSubStructName() string {
 	return "PPV_PCA_PROBLEM"
 }
 
-//  PPV_PCA_PROBLEM_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPV_PCA_PROBLEM_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPV_PCA_PROBLEM_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -14497,8 +14497,8 @@ func (s *PPV_PCA_PROBLEM_OBSERVATION) MessageTypeSubStructName() string {
 	return "PPV_PCA_PROBLEM_OBSERVATION"
 }
 
-//  PPV_PCA_PROBLEM_ROLE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PPV_PCA_PROBLEM_ROLE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PPV_PCA_PROBLEM_ROLE struct {
 	ROL   *ROL  `hl7:"true,ROL"`
 	VAR   []VAR `hl7:"false,VAR"`
@@ -14509,12 +14509,12 @@ func (s *PPV_PCA_PROBLEM_ROLE) MessageTypeSubStructName() string {
 	return "PPV_PCA_PROBLEM_ROLE"
 }
 
-//  PRR_PC5_CHOICE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5
+// PRR_PC5_CHOICE represents the corresponding HL7 message type.
+// Definition from HL7 2.5
 type PRR_PC5_CHOICE struct {
-	//  Only one of the following fields will be set.
+	// Only one of the following fields will be set.
 	OBR *OBR `hl7:"true,OBR"`
-	//  Missing: anyHL7Segment
+	// Missing: anyHL7Segment
 	Other []interface{}
 }
 
@@ -14522,8 +14522,8 @@ func (s *PRR_PC5_CHOICE) MessageTypeSubStructName() string {
 	return "PRR_PC5_CHOICE"
 }
 
-//  PRR_PC5 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PRR_PC5 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PRR_PC5 struct {
 	MSH     *MSH              `hl7:"true,MSH"`
 	SFT     []SFT             `hl7:"false,SFT"`
@@ -14539,8 +14539,8 @@ func (s *PRR_PC5) MessageTypeName() string {
 	return "PRR_PC5"
 }
 
-//  PRR_PC5_GOAL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PRR_PC5_GOAL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PRR_PC5_GOAL struct {
 	GOL              *GOL                       `hl7:"true,GOL"`
 	NTE              []NTE                      `hl7:"false,NTE"`
@@ -14554,8 +14554,8 @@ func (s *PRR_PC5_GOAL) MessageTypeSubStructName() string {
 	return "PRR_PC5_GOAL"
 }
 
-//  PRR_PC5_GOAL_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PRR_PC5_GOAL_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PRR_PC5_GOAL_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -14566,8 +14566,8 @@ func (s *PRR_PC5_GOAL_OBSERVATION) MessageTypeSubStructName() string {
 	return "PRR_PC5_GOAL_OBSERVATION"
 }
 
-//  PRR_PC5_GOAL_ROLE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PRR_PC5_GOAL_ROLE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PRR_PC5_GOAL_ROLE struct {
 	ROL   *ROL  `hl7:"true,ROL"`
 	VAR   []VAR `hl7:"false,VAR"`
@@ -14578,8 +14578,8 @@ func (s *PRR_PC5_GOAL_ROLE) MessageTypeSubStructName() string {
 	return "PRR_PC5_GOAL_ROLE"
 }
 
-//  PRR_PC5_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PRR_PC5_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PRR_PC5_ORDER struct {
 	ORC          *ORC                  `hl7:"true,ORC"`
 	ORDER_DETAIL *PRR_PC5_ORDER_DETAIL `hl7:"false,ORDER_DETAIL"`
@@ -14590,8 +14590,8 @@ func (s *PRR_PC5_ORDER) MessageTypeSubStructName() string {
 	return "PRR_PC5_ORDER"
 }
 
-//  PRR_PC5_ORDER_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PRR_PC5_ORDER_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PRR_PC5_ORDER_DETAIL struct {
 	ORDER_DETAIL_SEGMENT *PRR_PC5_ORDER_DETAIL_SEGMENT `hl7:"true,ORDER_DETAIL_SEGMENT"`
 	NTE                  []NTE                         `hl7:"false,NTE"`
@@ -14604,12 +14604,12 @@ func (s *PRR_PC5_ORDER_DETAIL) MessageTypeSubStructName() string {
 	return "PRR_PC5_ORDER_DETAIL"
 }
 
-//  PRR_PC5_ORDER_DETAIL_SEGMENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PRR_PC5_ORDER_DETAIL_SEGMENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PRR_PC5_ORDER_DETAIL_SEGMENT struct {
-	//  Only one of the following fields will be set.
+	// Only one of the following fields will be set.
 	OBR *OBR `hl7:"true,OBR"`
-	//  Missing: anyHL7Segment
+	// Missing: anyHL7Segment
 	Other []interface{}
 }
 
@@ -14617,8 +14617,8 @@ func (s *PRR_PC5_ORDER_DETAIL_SEGMENT) MessageTypeSubStructName() string {
 	return "PRR_PC5_ORDER_DETAIL_SEGMENT"
 }
 
-//  PRR_PC5_ORDER_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PRR_PC5_ORDER_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PRR_PC5_ORDER_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -14630,8 +14630,8 @@ func (s *PRR_PC5_ORDER_OBSERVATION) MessageTypeSubStructName() string {
 	return "PRR_PC5_ORDER_OBSERVATION"
 }
 
-//  PRR_PC5_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PRR_PC5_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PRR_PC5_PATIENT struct {
 	PID           *PID                   `hl7:"true,PID"`
 	PATIENT_VISIT *PRR_PC5_PATIENT_VISIT `hl7:"false,PATIENT_VISIT"`
@@ -14643,8 +14643,8 @@ func (s *PRR_PC5_PATIENT) MessageTypeSubStructName() string {
 	return "PRR_PC5_PATIENT"
 }
 
-//  PRR_PC5_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PRR_PC5_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PRR_PC5_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -14655,8 +14655,8 @@ func (s *PRR_PC5_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "PRR_PC5_PATIENT_VISIT"
 }
 
-//  PRR_PC5_PROBLEM represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PRR_PC5_PROBLEM represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PRR_PC5_PROBLEM struct {
 	PRB                 *PRB                          `hl7:"true,PRB"`
 	NTE                 []NTE                         `hl7:"false,NTE"`
@@ -14673,8 +14673,8 @@ func (s *PRR_PC5_PROBLEM) MessageTypeSubStructName() string {
 	return "PRR_PC5_PROBLEM"
 }
 
-//  PRR_PC5_PROBLEM_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PRR_PC5_PROBLEM_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PRR_PC5_PROBLEM_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -14685,8 +14685,8 @@ func (s *PRR_PC5_PROBLEM_OBSERVATION) MessageTypeSubStructName() string {
 	return "PRR_PC5_PROBLEM_OBSERVATION"
 }
 
-//  PRR_PC5_PROBLEM_PATHWAY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PRR_PC5_PROBLEM_PATHWAY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PRR_PC5_PROBLEM_PATHWAY struct {
 	PTH   *PTH  `hl7:"true,PTH"`
 	VAR   []VAR `hl7:"false,VAR"`
@@ -14697,8 +14697,8 @@ func (s *PRR_PC5_PROBLEM_PATHWAY) MessageTypeSubStructName() string {
 	return "PRR_PC5_PROBLEM_PATHWAY"
 }
 
-//  PRR_PC5_PROBLEM_ROLE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PRR_PC5_PROBLEM_ROLE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PRR_PC5_PROBLEM_ROLE struct {
 	ROL   *ROL  `hl7:"true,ROL"`
 	VAR   []VAR `hl7:"false,VAR"`
@@ -14709,12 +14709,12 @@ func (s *PRR_PC5_PROBLEM_ROLE) MessageTypeSubStructName() string {
 	return "PRR_PC5_PROBLEM_ROLE"
 }
 
-//  PTR_PCF_CHOICE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5
+// PTR_PCF_CHOICE represents the corresponding HL7 message type.
+// Definition from HL7 2.5
 type PTR_PCF_CHOICE struct {
-	//  Only one of the following fields will be set.
+	// Only one of the following fields will be set.
 	OBR *OBR `hl7:"true,OBR"`
-	//  Missing: anyHL7Segment
+	// Missing: anyHL7Segment
 	Other []interface{}
 }
 
@@ -14722,8 +14722,8 @@ func (s *PTR_PCF_CHOICE) MessageTypeSubStructName() string {
 	return "PTR_PCF_CHOICE"
 }
 
-//  PTR_PCF represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PTR_PCF represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PTR_PCF struct {
 	MSH     *MSH              `hl7:"true,MSH"`
 	SFT     []SFT             `hl7:"false,SFT"`
@@ -14739,8 +14739,8 @@ func (s *PTR_PCF) MessageTypeName() string {
 	return "PTR_PCF"
 }
 
-//  PTR_PCF_GOAL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PTR_PCF_GOAL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PTR_PCF_GOAL struct {
 	GOL              *GOL                       `hl7:"true,GOL"`
 	NTE              []NTE                      `hl7:"false,NTE"`
@@ -14754,8 +14754,8 @@ func (s *PTR_PCF_GOAL) MessageTypeSubStructName() string {
 	return "PTR_PCF_GOAL"
 }
 
-//  PTR_PCF_GOAL_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PTR_PCF_GOAL_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PTR_PCF_GOAL_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -14766,8 +14766,8 @@ func (s *PTR_PCF_GOAL_OBSERVATION) MessageTypeSubStructName() string {
 	return "PTR_PCF_GOAL_OBSERVATION"
 }
 
-//  PTR_PCF_GOAL_ROLE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PTR_PCF_GOAL_ROLE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PTR_PCF_GOAL_ROLE struct {
 	ROL   *ROL  `hl7:"true,ROL"`
 	VAR   []VAR `hl7:"false,VAR"`
@@ -14778,8 +14778,8 @@ func (s *PTR_PCF_GOAL_ROLE) MessageTypeSubStructName() string {
 	return "PTR_PCF_GOAL_ROLE"
 }
 
-//  PTR_PCF_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PTR_PCF_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PTR_PCF_ORDER struct {
 	ORC          *ORC                  `hl7:"true,ORC"`
 	ORDER_DETAIL *PTR_PCF_ORDER_DETAIL `hl7:"false,ORDER_DETAIL"`
@@ -14790,8 +14790,8 @@ func (s *PTR_PCF_ORDER) MessageTypeSubStructName() string {
 	return "PTR_PCF_ORDER"
 }
 
-//  PTR_PCF_ORDER_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PTR_PCF_ORDER_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PTR_PCF_ORDER_DETAIL struct {
 	ORDER_DETAIL_SEGMENT *PTR_PCF_ORDER_DETAIL_SEGMENT `hl7:"true,ORDER_DETAIL_SEGMENT"`
 	NTE                  []NTE                         `hl7:"false,NTE"`
@@ -14804,12 +14804,12 @@ func (s *PTR_PCF_ORDER_DETAIL) MessageTypeSubStructName() string {
 	return "PTR_PCF_ORDER_DETAIL"
 }
 
-//  PTR_PCF_ORDER_DETAIL_SEGMENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PTR_PCF_ORDER_DETAIL_SEGMENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PTR_PCF_ORDER_DETAIL_SEGMENT struct {
-	//  Only one of the following fields will be set.
+	// Only one of the following fields will be set.
 	OBR *OBR `hl7:"true,OBR"`
-	//  Missing: anyHL7Segment
+	// Missing: anyHL7Segment
 	Other []interface{}
 }
 
@@ -14817,8 +14817,8 @@ func (s *PTR_PCF_ORDER_DETAIL_SEGMENT) MessageTypeSubStructName() string {
 	return "PTR_PCF_ORDER_DETAIL_SEGMENT"
 }
 
-//  PTR_PCF_ORDER_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PTR_PCF_ORDER_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PTR_PCF_ORDER_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -14830,8 +14830,8 @@ func (s *PTR_PCF_ORDER_OBSERVATION) MessageTypeSubStructName() string {
 	return "PTR_PCF_ORDER_OBSERVATION"
 }
 
-//  PTR_PCF_PATHWAY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PTR_PCF_PATHWAY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PTR_PCF_PATHWAY struct {
 	PTH          *PTH                   `hl7:"true,PTH"`
 	NTE          []NTE                  `hl7:"false,NTE"`
@@ -14845,8 +14845,8 @@ func (s *PTR_PCF_PATHWAY) MessageTypeSubStructName() string {
 	return "PTR_PCF_PATHWAY"
 }
 
-//  PTR_PCF_PATHWAY_ROLE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PTR_PCF_PATHWAY_ROLE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PTR_PCF_PATHWAY_ROLE struct {
 	ROL   *ROL  `hl7:"true,ROL"`
 	VAR   []VAR `hl7:"false,VAR"`
@@ -14857,8 +14857,8 @@ func (s *PTR_PCF_PATHWAY_ROLE) MessageTypeSubStructName() string {
 	return "PTR_PCF_PATHWAY_ROLE"
 }
 
-//  PTR_PCF_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PTR_PCF_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PTR_PCF_PATIENT struct {
 	PID           *PID                   `hl7:"true,PID"`
 	PATIENT_VISIT *PTR_PCF_PATIENT_VISIT `hl7:"false,PATIENT_VISIT"`
@@ -14870,8 +14870,8 @@ func (s *PTR_PCF_PATIENT) MessageTypeSubStructName() string {
 	return "PTR_PCF_PATIENT"
 }
 
-//  PTR_PCF_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PTR_PCF_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PTR_PCF_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -14882,8 +14882,8 @@ func (s *PTR_PCF_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "PTR_PCF_PATIENT_VISIT"
 }
 
-//  PTR_PCF_PROBLEM represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PTR_PCF_PROBLEM represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PTR_PCF_PROBLEM struct {
 	PRB                 *PRB                          `hl7:"true,PRB"`
 	NTE                 []NTE                         `hl7:"false,NTE"`
@@ -14899,8 +14899,8 @@ func (s *PTR_PCF_PROBLEM) MessageTypeSubStructName() string {
 	return "PTR_PCF_PROBLEM"
 }
 
-//  PTR_PCF_PROBLEM_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PTR_PCF_PROBLEM_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PTR_PCF_PROBLEM_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -14911,8 +14911,8 @@ func (s *PTR_PCF_PROBLEM_OBSERVATION) MessageTypeSubStructName() string {
 	return "PTR_PCF_PROBLEM_OBSERVATION"
 }
 
-//  PTR_PCF_PROBLEM_ROLE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// PTR_PCF_PROBLEM_ROLE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type PTR_PCF_PROBLEM_ROLE struct {
 	ROL   *ROL  `hl7:"true,ROL"`
 	VAR   []VAR `hl7:"false,VAR"`
@@ -14923,8 +14923,8 @@ func (s *PTR_PCF_PROBLEM_ROLE) MessageTypeSubStructName() string {
 	return "PTR_PCF_PROBLEM_ROLE"
 }
 
-//  QBP_K13 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5
+// QBP_K13 represents the corresponding HL7 message type.
+// Definition from HL7 2.5
 type QBP_K13 struct {
 	MSH            *MSH                    `hl7:"true,MSH"`
 	MSA            *MSA                    `hl7:"true,MSA"`
@@ -14940,8 +14940,8 @@ func (s *QBP_K13) MessageTypeName() string {
 	return "QBP_K13"
 }
 
-//  QBP_K13_ROW_DEFINITION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5
+// QBP_K13_ROW_DEFINITION represents the corresponding HL7 message type.
+// Definition from HL7 2.5
 type QBP_K13_ROW_DEFINITION struct {
 	RDF   *RDF  `hl7:"true,RDF"`
 	RDT   []RDT `hl7:"false,RDT"`
@@ -14952,8 +14952,8 @@ func (s *QBP_K13_ROW_DEFINITION) MessageTypeSubStructName() string {
 	return "QBP_K13_ROW_DEFINITION"
 }
 
-//  QBP_Q11 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// QBP_Q11 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type QBP_Q11 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -14967,8 +14967,8 @@ func (s *QBP_Q11) MessageTypeName() string {
 	return "QBP_Q11"
 }
 
-//  QBP_Q13 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// QBP_Q13 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type QBP_Q13 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -14983,10 +14983,10 @@ func (s *QBP_Q13) MessageTypeName() string {
 	return "QBP_Q13"
 }
 
-//  QBP_Q13_QBP represents the corresponding HL7 message type.
-//  Definition from HL7 2.4
+// QBP_Q13_QBP represents the corresponding HL7 message type.
+// Definition from HL7 2.4
 type QBP_Q13_QBP struct {
-	//  Missing: anyZSegment
+	// Missing: anyZSegment
 	Other []interface{}
 }
 
@@ -14994,8 +14994,8 @@ func (s *QBP_Q13_QBP) MessageTypeSubStructName() string {
 	return "QBP_Q13_QBP"
 }
 
-//  QBP_Q15 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// QBP_Q15 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type QBP_Q15 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -15009,8 +15009,8 @@ func (s *QBP_Q15) MessageTypeName() string {
 	return "QBP_Q15"
 }
 
-//  QBP_Q21 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// QBP_Q21 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type QBP_Q21 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -15024,8 +15024,8 @@ func (s *QBP_Q21) MessageTypeName() string {
 	return "QBP_Q21"
 }
 
-//  QBP_Qnn represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// QBP_Qnn represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type QBP_Qnn struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -15040,8 +15040,8 @@ func (s *QBP_Qnn) MessageTypeName() string {
 	return "QBP_Qnn"
 }
 
-//  QBP_Z73 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// QBP_Z73 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type QBP_Z73 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -15054,8 +15054,8 @@ func (s *QBP_Z73) MessageTypeName() string {
 	return "QBP_Z73"
 }
 
-//  QCK_Q02 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// QCK_Q02 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type QCK_Q02 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -15069,8 +15069,8 @@ func (s *QCK_Q02) MessageTypeName() string {
 	return "QCK_Q02"
 }
 
-//  QCN_J01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// QCN_J01 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type QCN_J01 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -15082,8 +15082,8 @@ func (s *QCN_J01) MessageTypeName() string {
 	return "QCN_J01"
 }
 
-//  QRY_A19 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// QRY_A19 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type QRY_A19 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -15096,8 +15096,8 @@ func (s *QRY_A19) MessageTypeName() string {
 	return "QRY_A19"
 }
 
-//  QRY_P04 represents the corresponding HL7 message type.
-//  Definition from HL7 2.2
+// QRY_P04 represents the corresponding HL7 message type.
+// Definition from HL7 2.2
 type QRY_P04 struct {
 	MSH   *MSH `hl7:"true,MSH"`
 	QRD   *QRD `hl7:"true,QRD"`
@@ -15110,8 +15110,8 @@ func (s *QRY_P04) MessageTypeName() string {
 	return "QRY_P04"
 }
 
-//  QRY_PC4 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// QRY_PC4 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type QRY_PC4 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -15124,8 +15124,8 @@ func (s *QRY_PC4) MessageTypeName() string {
 	return "QRY_PC4"
 }
 
-//  QRY_Q01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// QRY_Q01 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type QRY_Q01 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -15139,8 +15139,8 @@ func (s *QRY_Q01) MessageTypeName() string {
 	return "QRY_Q01"
 }
 
-//  QRY_Q02 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5
+// QRY_Q02 represents the corresponding HL7 message type.
+// Definition from HL7 2.5
 type QRY_Q02 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -15154,8 +15154,8 @@ func (s *QRY_Q02) MessageTypeName() string {
 	return "QRY_Q02"
 }
 
-//  QRY_R02 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// QRY_R02 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type QRY_R02 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -15168,8 +15168,8 @@ func (s *QRY_R02) MessageTypeName() string {
 	return "QRY_R02"
 }
 
-//  QRY_T12 represents the corresponding HL7 message type.
-//  Definition from HL7 2.4
+// QRY_T12 represents the corresponding HL7 message type.
+// Definition from HL7 2.4
 type QRY_T12 struct {
 	MSH   *MSH `hl7:"true,MSH"`
 	QRD   *QRD `hl7:"true,QRD"`
@@ -15181,8 +15181,8 @@ func (s *QRY_T12) MessageTypeName() string {
 	return "QRY_T12"
 }
 
-//  QSB_Q16 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// QSB_Q16 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type QSB_Q16 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -15196,8 +15196,8 @@ func (s *QSB_Q16) MessageTypeName() string {
 	return "QSB_Q16"
 }
 
-//  QVR_Q17 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// QVR_Q17 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type QVR_Q17 struct {
 	MSH   *MSH         `hl7:"true,MSH"`
 	SFT   []SFT        `hl7:"false,SFT"`
@@ -15212,10 +15212,10 @@ func (s *QVR_Q17) MessageTypeName() string {
 	return "QVR_Q17"
 }
 
-//  QVR_Q17_QBP represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// QVR_Q17_QBP represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type QVR_Q17_QBP struct {
-	//  Missing: anyHL7Segment
+	// Missing: anyHL7Segment
 	Other []interface{}
 }
 
@@ -15223,8 +15223,8 @@ func (s *QVR_Q17_QBP) MessageTypeSubStructName() string {
 	return "QVR_Q17_QBP"
 }
 
-//  RAR_RAR represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RAR_RAR represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RAR_RAR struct {
 	MSH        *MSH                 `hl7:"true,MSH"`
 	MSA        *MSA                 `hl7:"true,MSA"`
@@ -15239,8 +15239,8 @@ func (s *RAR_RAR) MessageTypeName() string {
 	return "RAR_RAR"
 }
 
-//  RAR_RAR_DEFINITION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RAR_RAR_DEFINITION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RAR_RAR_DEFINITION struct {
 	QRD     *QRD             `hl7:"true,QRD"`
 	QRF     *QRF             `hl7:"false,QRF"`
@@ -15253,8 +15253,8 @@ func (s *RAR_RAR_DEFINITION) MessageTypeSubStructName() string {
 	return "RAR_RAR_DEFINITION"
 }
 
-//  RAR_RAR_ENCODING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RAR_RAR_ENCODING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RAR_RAR_ENCODING struct {
 	RXE   *RXE  `hl7:"true,RXE"`
 	RXR   []RXR `hl7:"true,RXR"`
@@ -15266,8 +15266,8 @@ func (s *RAR_RAR_ENCODING) MessageTypeSubStructName() string {
 	return "RAR_RAR_ENCODING"
 }
 
-//  RAR_RAR_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RAR_RAR_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RAR_RAR_ORDER struct {
 	ORC      *ORC              `hl7:"true,ORC"`
 	ENCODING *RAR_RAR_ENCODING `hl7:"false,ENCODING"`
@@ -15280,8 +15280,8 @@ func (s *RAR_RAR_ORDER) MessageTypeSubStructName() string {
 	return "RAR_RAR_ORDER"
 }
 
-//  RAR_RAR_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RAR_RAR_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RAR_RAR_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -15292,8 +15292,8 @@ func (s *RAR_RAR_PATIENT) MessageTypeSubStructName() string {
 	return "RAR_RAR_PATIENT"
 }
 
-//  RAS_O01_COMPONENTS represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RAS_O01_COMPONENTS represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RAS_O01_COMPONENTS struct {
 	RXC   []RXC `hl7:"true,RXC"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -15304,8 +15304,8 @@ func (s *RAS_O01_COMPONENTS) MessageTypeSubStructName() string {
 	return "RAS_O01_COMPONENTS"
 }
 
-//  RAS_O01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RAS_O01 represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RAS_O01 struct {
 	MSH     *MSH             `hl7:"true,MSH"`
 	NTE     []NTE            `hl7:"false,NTE"`
@@ -15318,8 +15318,8 @@ func (s *RAS_O01) MessageTypeName() string {
 	return "RAS_O01"
 }
 
-//  RAS_O01_ENCODING represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RAS_O01_ENCODING represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RAS_O01_ENCODING struct {
 	RXE   *RXE  `hl7:"true,RXE"`
 	RXR   []RXR `hl7:"true,RXR"`
@@ -15331,8 +15331,8 @@ func (s *RAS_O01_ENCODING) MessageTypeSubStructName() string {
 	return "RAS_O01_ENCODING"
 }
 
-//  RAS_O01_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RAS_O01_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RAS_O01_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -15343,8 +15343,8 @@ func (s *RAS_O01_OBSERVATION) MessageTypeSubStructName() string {
 	return "RAS_O01_OBSERVATION"
 }
 
-//  RAS_O01_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RAS_O01_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RAS_O01_ORDER struct {
 	ORC          *ORC                  `hl7:"true,ORC"`
 	ORDER_DETAIL *RAS_O01_ORDER_DETAIL `hl7:"false,ORDER_DETAIL"`
@@ -15360,8 +15360,8 @@ func (s *RAS_O01_ORDER) MessageTypeSubStructName() string {
 	return "RAS_O01_ORDER"
 }
 
-//  RAS_O01_ORDER_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RAS_O01_ORDER_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RAS_O01_ORDER_DETAIL struct {
 	RXO                     *RXO                             `hl7:"true,RXO"`
 	ORDER_DETAIL_SUPPLEMENT *RAS_O01_ORDER_DETAIL_SUPPLEMENT `hl7:"false,ORDER_DETAIL_SUPPLEMENT"`
@@ -15372,8 +15372,8 @@ func (s *RAS_O01_ORDER_DETAIL) MessageTypeSubStructName() string {
 	return "RAS_O01_ORDER_DETAIL"
 }
 
-//  RAS_O01_ORDER_DETAIL_SUPPLEMENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RAS_O01_ORDER_DETAIL_SUPPLEMENT represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RAS_O01_ORDER_DETAIL_SUPPLEMENT struct {
 	NTE        []NTE               `hl7:"true,NTE"`
 	RXR        []RXR               `hl7:"true,RXR"`
@@ -15385,8 +15385,8 @@ func (s *RAS_O01_ORDER_DETAIL_SUPPLEMENT) MessageTypeSubStructName() string {
 	return "RAS_O01_ORDER_DETAIL_SUPPLEMENT"
 }
 
-//  RAS_O01_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RAS_O01_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RAS_O01_PATIENT struct {
 	PID           *PID                   `hl7:"true,PID"`
 	PD1           *PD1                   `hl7:"false,PD1"`
@@ -15400,8 +15400,8 @@ func (s *RAS_O01_PATIENT) MessageTypeSubStructName() string {
 	return "RAS_O01_PATIENT"
 }
 
-//  RAS_O01_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RAS_O01_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RAS_O01_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -15412,8 +15412,8 @@ func (s *RAS_O01_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "RAS_O01_PATIENT_VISIT"
 }
 
-//  RAS_O17_ADMINISTRATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RAS_O17_ADMINISTRATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RAS_O17_ADMINISTRATION struct {
 	RXA         []RXA                 `hl7:"true,RXA"`
 	RXR         *RXR                  `hl7:"true,RXR"`
@@ -15425,8 +15425,8 @@ func (s *RAS_O17_ADMINISTRATION) MessageTypeSubStructName() string {
 	return "RAS_O17_ADMINISTRATION"
 }
 
-//  RAS_O17_COMPONENTS represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RAS_O17_COMPONENTS represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RAS_O17_COMPONENTS struct {
 	RXC   *RXC  `hl7:"true,RXC"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -15437,8 +15437,8 @@ func (s *RAS_O17_COMPONENTS) MessageTypeSubStructName() string {
 	return "RAS_O17_COMPONENTS"
 }
 
-//  RAS_O17 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RAS_O17 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RAS_O17 struct {
 	MSH     *MSH             `hl7:"true,MSH"`
 	SFT     []SFT            `hl7:"false,SFT"`
@@ -15452,8 +15452,8 @@ func (s *RAS_O17) MessageTypeName() string {
 	return "RAS_O17"
 }
 
-//  RAS_O17_ENCODING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RAS_O17_ENCODING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RAS_O17_ENCODING struct {
 	RXE            *RXE                     `hl7:"true,RXE"`
 	TIMING_ENCODED []RAS_O17_TIMING_ENCODED `hl7:"true,TIMING_ENCODED"`
@@ -15466,8 +15466,8 @@ func (s *RAS_O17_ENCODING) MessageTypeSubStructName() string {
 	return "RAS_O17_ENCODING"
 }
 
-//  RAS_O17_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RAS_O17_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RAS_O17_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -15478,8 +15478,8 @@ func (s *RAS_O17_OBSERVATION) MessageTypeSubStructName() string {
 	return "RAS_O17_OBSERVATION"
 }
 
-//  RAS_O17_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RAS_O17_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RAS_O17_ORDER struct {
 	ORC            *ORC                     `hl7:"true,ORC"`
 	TIMING         []RAS_O17_TIMING         `hl7:"false,TIMING"`
@@ -15494,8 +15494,8 @@ func (s *RAS_O17_ORDER) MessageTypeSubStructName() string {
 	return "RAS_O17_ORDER"
 }
 
-//  RAS_O17_ORDER_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RAS_O17_ORDER_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RAS_O17_ORDER_DETAIL struct {
 	RXO                     *RXO                             `hl7:"true,RXO"`
 	ORDER_DETAIL_SUPPLEMENT *RAS_O17_ORDER_DETAIL_SUPPLEMENT `hl7:"false,ORDER_DETAIL_SUPPLEMENT"`
@@ -15506,8 +15506,8 @@ func (s *RAS_O17_ORDER_DETAIL) MessageTypeSubStructName() string {
 	return "RAS_O17_ORDER_DETAIL"
 }
 
-//  RAS_O17_ORDER_DETAIL_SUPPLEMENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RAS_O17_ORDER_DETAIL_SUPPLEMENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RAS_O17_ORDER_DETAIL_SUPPLEMENT struct {
 	NTE        []NTE                `hl7:"true,NTE"`
 	RXR        []RXR                `hl7:"true,RXR"`
@@ -15519,8 +15519,8 @@ func (s *RAS_O17_ORDER_DETAIL_SUPPLEMENT) MessageTypeSubStructName() string {
 	return "RAS_O17_ORDER_DETAIL_SUPPLEMENT"
 }
 
-//  RAS_O17_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RAS_O17_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RAS_O17_PATIENT struct {
 	PID           *PID                   `hl7:"true,PID"`
 	PD1           *PD1                   `hl7:"false,PD1"`
@@ -15534,8 +15534,8 @@ func (s *RAS_O17_PATIENT) MessageTypeSubStructName() string {
 	return "RAS_O17_PATIENT"
 }
 
-//  RAS_O17_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RAS_O17_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RAS_O17_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -15546,8 +15546,8 @@ func (s *RAS_O17_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "RAS_O17_PATIENT_VISIT"
 }
 
-//  RAS_O17_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RAS_O17_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RAS_O17_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -15558,8 +15558,8 @@ func (s *RAS_O17_TIMING) MessageTypeSubStructName() string {
 	return "RAS_O17_TIMING"
 }
 
-//  RAS_O17_TIMING_ENCODED represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RAS_O17_TIMING_ENCODED represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RAS_O17_TIMING_ENCODED struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -15570,8 +15570,8 @@ func (s *RAS_O17_TIMING_ENCODED) MessageTypeSubStructName() string {
 	return "RAS_O17_TIMING_ENCODED"
 }
 
-//  RCI_I05 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RCI_I05 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RCI_I05 struct {
 	MSH         *MSH                  `hl7:"true,MSH"`
 	SFT         []SFT                 `hl7:"false,SFT"`
@@ -15592,8 +15592,8 @@ func (s *RCI_I05) MessageTypeName() string {
 	return "RCI_I05"
 }
 
-//  RCI_I05_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RCI_I05_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RCI_I05_OBSERVATION struct {
 	OBR     *OBR              `hl7:"true,OBR"`
 	NTE     []NTE             `hl7:"false,NTE"`
@@ -15605,8 +15605,8 @@ func (s *RCI_I05_OBSERVATION) MessageTypeSubStructName() string {
 	return "RCI_I05_OBSERVATION"
 }
 
-//  RCI_I05_PROVIDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RCI_I05_PROVIDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RCI_I05_PROVIDER struct {
 	PRD   *PRD  `hl7:"true,PRD"`
 	CTD   []CTD `hl7:"false,CTD"`
@@ -15617,8 +15617,8 @@ func (s *RCI_I05_PROVIDER) MessageTypeSubStructName() string {
 	return "RCI_I05_PROVIDER"
 }
 
-//  RCI_I05_RESULTS represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RCI_I05_RESULTS represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RCI_I05_RESULTS struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -15629,8 +15629,8 @@ func (s *RCI_I05_RESULTS) MessageTypeSubStructName() string {
 	return "RCI_I05_RESULTS"
 }
 
-//  RCL_I06 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RCL_I06 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RCL_I06 struct {
 	MSH      *MSH               `hl7:"true,MSH"`
 	SFT      []SFT              `hl7:"false,SFT"`
@@ -15652,8 +15652,8 @@ func (s *RCL_I06) MessageTypeName() string {
 	return "RCL_I06"
 }
 
-//  RCL_I06_PROVIDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RCL_I06_PROVIDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RCL_I06_PROVIDER struct {
 	PRD   *PRD  `hl7:"true,PRD"`
 	CTD   []CTD `hl7:"false,CTD"`
@@ -15664,8 +15664,8 @@ func (s *RCL_I06_PROVIDER) MessageTypeSubStructName() string {
 	return "RCL_I06_PROVIDER"
 }
 
-//  RDE_O01_COMPONENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RDE_O01_COMPONENT represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RDE_O01_COMPONENT struct {
 	RXC   []RXC `hl7:"true,RXC"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -15676,8 +15676,8 @@ func (s *RDE_O01_COMPONENT) MessageTypeSubStructName() string {
 	return "RDE_O01_COMPONENT"
 }
 
-//  RDE_O01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RDE_O01 represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RDE_O01 struct {
 	MSH     *MSH             `hl7:"true,MSH"`
 	NTE     []NTE            `hl7:"false,NTE"`
@@ -15690,8 +15690,8 @@ func (s *RDE_O01) MessageTypeName() string {
 	return "RDE_O01"
 }
 
-//  RDE_O01_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RDE_O01_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RDE_O01_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -15703,8 +15703,8 @@ func (s *RDE_O01_INSURANCE) MessageTypeSubStructName() string {
 	return "RDE_O01_INSURANCE"
 }
 
-//  RDE_O01_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RDE_O01_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RDE_O01_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -15715,8 +15715,8 @@ func (s *RDE_O01_OBSERVATION) MessageTypeSubStructName() string {
 	return "RDE_O01_OBSERVATION"
 }
 
-//  RDE_O01_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RDE_O01_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RDE_O01_ORDER struct {
 	ORC          *ORC                  `hl7:"true,ORC"`
 	ORDER_DETAIL *RDE_O01_ORDER_DETAIL `hl7:"false,ORDER_DETAIL"`
@@ -15732,8 +15732,8 @@ func (s *RDE_O01_ORDER) MessageTypeSubStructName() string {
 	return "RDE_O01_ORDER"
 }
 
-//  RDE_O01_ORDER_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RDE_O01_ORDER_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RDE_O01_ORDER_DETAIL struct {
 	RXO       *RXO               `hl7:"true,RXO"`
 	NTE       []NTE              `hl7:"false,NTE"`
@@ -15746,8 +15746,8 @@ func (s *RDE_O01_ORDER_DETAIL) MessageTypeSubStructName() string {
 	return "RDE_O01_ORDER_DETAIL"
 }
 
-//  RDE_O01_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RDE_O01_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RDE_O01_PATIENT struct {
 	PID           *PID                   `hl7:"true,PID"`
 	PD1           *PD1                   `hl7:"false,PD1"`
@@ -15763,8 +15763,8 @@ func (s *RDE_O01_PATIENT) MessageTypeSubStructName() string {
 	return "RDE_O01_PATIENT"
 }
 
-//  RDE_O01_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RDE_O01_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RDE_O01_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -15775,8 +15775,8 @@ func (s *RDE_O01_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "RDE_O01_PATIENT_VISIT"
 }
 
-//  RDE_O11_COMPONENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RDE_O11_COMPONENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RDE_O11_COMPONENT struct {
 	RXC   *RXC  `hl7:"true,RXC"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -15787,8 +15787,8 @@ func (s *RDE_O11_COMPONENT) MessageTypeSubStructName() string {
 	return "RDE_O11_COMPONENT"
 }
 
-//  RDE_O11 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RDE_O11 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RDE_O11 struct {
 	MSH     *MSH             `hl7:"true,MSH"`
 	SFT     []SFT            `hl7:"false,SFT"`
@@ -15802,8 +15802,8 @@ func (s *RDE_O11) MessageTypeName() string {
 	return "RDE_O11"
 }
 
-//  RDE_O11_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RDE_O11_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RDE_O11_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -15815,8 +15815,8 @@ func (s *RDE_O11_INSURANCE) MessageTypeSubStructName() string {
 	return "RDE_O11_INSURANCE"
 }
 
-//  RDE_O11_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RDE_O11_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RDE_O11_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -15827,8 +15827,8 @@ func (s *RDE_O11_OBSERVATION) MessageTypeSubStructName() string {
 	return "RDE_O11_OBSERVATION"
 }
 
-//  RDE_O11_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RDE_O11_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RDE_O11_ORDER struct {
 	ORC            *ORC                     `hl7:"true,ORC"`
 	TIMING         []RDE_O11_TIMING         `hl7:"false,TIMING"`
@@ -15849,8 +15849,8 @@ func (s *RDE_O11_ORDER) MessageTypeSubStructName() string {
 	return "RDE_O11_ORDER"
 }
 
-//  RDE_O11_ORDER_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RDE_O11_ORDER_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RDE_O11_ORDER_DETAIL struct {
 	RXO       *RXO                `hl7:"true,RXO"`
 	NTE       []NTE               `hl7:"false,NTE"`
@@ -15863,8 +15863,8 @@ func (s *RDE_O11_ORDER_DETAIL) MessageTypeSubStructName() string {
 	return "RDE_O11_ORDER_DETAIL"
 }
 
-//  RDE_O11_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RDE_O11_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RDE_O11_PATIENT struct {
 	PID           *PID                   `hl7:"true,PID"`
 	PD1           *PD1                   `hl7:"false,PD1"`
@@ -15880,8 +15880,8 @@ func (s *RDE_O11_PATIENT) MessageTypeSubStructName() string {
 	return "RDE_O11_PATIENT"
 }
 
-//  RDE_O11_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RDE_O11_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RDE_O11_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -15892,8 +15892,8 @@ func (s *RDE_O11_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "RDE_O11_PATIENT_VISIT"
 }
 
-//  RDE_O11_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RDE_O11_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RDE_O11_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -15904,8 +15904,8 @@ func (s *RDE_O11_TIMING) MessageTypeSubStructName() string {
 	return "RDE_O11_TIMING"
 }
 
-//  RDE_O11_TIMING_ENCODED represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RDE_O11_TIMING_ENCODED represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RDE_O11_TIMING_ENCODED struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -15916,8 +15916,8 @@ func (s *RDE_O11_TIMING_ENCODED) MessageTypeSubStructName() string {
 	return "RDE_O11_TIMING_ENCODED"
 }
 
-//  RDO_O01_COMPONENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RDO_O01_COMPONENT represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RDO_O01_COMPONENT struct {
 	RXC   []RXC `hl7:"true,RXC"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -15928,8 +15928,8 @@ func (s *RDO_O01_COMPONENT) MessageTypeSubStructName() string {
 	return "RDO_O01_COMPONENT"
 }
 
-//  RDO_O01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RDO_O01 represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RDO_O01 struct {
 	MSH     *MSH             `hl7:"true,MSH"`
 	NTE     []NTE            `hl7:"false,NTE"`
@@ -15942,8 +15942,8 @@ func (s *RDO_O01) MessageTypeName() string {
 	return "RDO_O01"
 }
 
-//  RDO_O01_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RDO_O01_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RDO_O01_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -15955,8 +15955,8 @@ func (s *RDO_O01_INSURANCE) MessageTypeSubStructName() string {
 	return "RDO_O01_INSURANCE"
 }
 
-//  RDO_O01_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RDO_O01_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RDO_O01_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -15967,8 +15967,8 @@ func (s *RDO_O01_OBSERVATION) MessageTypeSubStructName() string {
 	return "RDO_O01_OBSERVATION"
 }
 
-//  RDO_O01_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RDO_O01_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RDO_O01_ORDER struct {
 	ORC          *ORC                  `hl7:"true,ORC"`
 	ORDER_DETAIL *RDO_O01_ORDER_DETAIL `hl7:"false,ORDER_DETAIL"`
@@ -15980,8 +15980,8 @@ func (s *RDO_O01_ORDER) MessageTypeSubStructName() string {
 	return "RDO_O01_ORDER"
 }
 
-//  RDO_O01_ORDER_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RDO_O01_ORDER_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RDO_O01_ORDER_DETAIL struct {
 	RXO         *RXO                  `hl7:"true,RXO"`
 	NTE         []NTE                 `hl7:"false,NTE"`
@@ -15995,8 +15995,8 @@ func (s *RDO_O01_ORDER_DETAIL) MessageTypeSubStructName() string {
 	return "RDO_O01_ORDER_DETAIL"
 }
 
-//  RDO_O01_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RDO_O01_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RDO_O01_PATIENT struct {
 	PID           *PID                   `hl7:"true,PID"`
 	PD1           *PD1                   `hl7:"false,PD1"`
@@ -16012,8 +16012,8 @@ func (s *RDO_O01_PATIENT) MessageTypeSubStructName() string {
 	return "RDO_O01_PATIENT"
 }
 
-//  RDO_O01_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RDO_O01_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RDO_O01_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -16024,8 +16024,8 @@ func (s *RDO_O01_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "RDO_O01_PATIENT_VISIT"
 }
 
-//  RDR_RDR represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RDR_RDR represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RDR_RDR struct {
 	MSH        *MSH                 `hl7:"true,MSH"`
 	MSA        *MSA                 `hl7:"true,MSA"`
@@ -16040,8 +16040,8 @@ func (s *RDR_RDR) MessageTypeName() string {
 	return "RDR_RDR"
 }
 
-//  RDR_RDR_DEFINITION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RDR_RDR_DEFINITION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RDR_RDR_DEFINITION struct {
 	QRD     *QRD             `hl7:"true,QRD"`
 	QRF     *QRF             `hl7:"false,QRF"`
@@ -16054,8 +16054,8 @@ func (s *RDR_RDR_DEFINITION) MessageTypeSubStructName() string {
 	return "RDR_RDR_DEFINITION"
 }
 
-//  RDR_RDR_DISPENSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RDR_RDR_DISPENSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RDR_RDR_DISPENSE struct {
 	RXD   *RXD  `hl7:"true,RXD"`
 	RXR   []RXR `hl7:"true,RXR"`
@@ -16067,8 +16067,8 @@ func (s *RDR_RDR_DISPENSE) MessageTypeSubStructName() string {
 	return "RDR_RDR_DISPENSE"
 }
 
-//  RDR_RDR_ENCODING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RDR_RDR_ENCODING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RDR_RDR_ENCODING struct {
 	RXE   *RXE  `hl7:"true,RXE"`
 	RXR   []RXR `hl7:"true,RXR"`
@@ -16080,8 +16080,8 @@ func (s *RDR_RDR_ENCODING) MessageTypeSubStructName() string {
 	return "RDR_RDR_ENCODING"
 }
 
-//  RDR_RDR_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RDR_RDR_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RDR_RDR_ORDER struct {
 	ORC      *ORC               `hl7:"true,ORC"`
 	ENCODING *RDR_RDR_ENCODING  `hl7:"false,ENCODING"`
@@ -16093,8 +16093,8 @@ func (s *RDR_RDR_ORDER) MessageTypeSubStructName() string {
 	return "RDR_RDR_ORDER"
 }
 
-//  RDR_RDR_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RDR_RDR_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RDR_RDR_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -16105,8 +16105,8 @@ func (s *RDR_RDR_PATIENT) MessageTypeSubStructName() string {
 	return "RDR_RDR_PATIENT"
 }
 
-//  RDS_O01_COMPONENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RDS_O01_COMPONENT represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RDS_O01_COMPONENT struct {
 	RXC   []RXC `hl7:"true,RXC"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -16117,8 +16117,8 @@ func (s *RDS_O01_COMPONENT) MessageTypeSubStructName() string {
 	return "RDS_O01_COMPONENT"
 }
 
-//  RDS_O01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RDS_O01 represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RDS_O01 struct {
 	MSH     *MSH             `hl7:"true,MSH"`
 	NTE     []NTE            `hl7:"false,NTE"`
@@ -16131,8 +16131,8 @@ func (s *RDS_O01) MessageTypeName() string {
 	return "RDS_O01"
 }
 
-//  RDS_O01_ENCODING represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RDS_O01_ENCODING represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RDS_O01_ENCODING struct {
 	RXE   *RXE  `hl7:"true,RXE"`
 	RXR   []RXR `hl7:"true,RXR"`
@@ -16144,8 +16144,8 @@ func (s *RDS_O01_ENCODING) MessageTypeSubStructName() string {
 	return "RDS_O01_ENCODING"
 }
 
-//  RDS_O01_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RDS_O01_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RDS_O01_OBSERVATION struct {
 	OBX   *OBX  `hl7:"false,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -16156,8 +16156,8 @@ func (s *RDS_O01_OBSERVATION) MessageTypeSubStructName() string {
 	return "RDS_O01_OBSERVATION"
 }
 
-//  RDS_O01_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RDS_O01_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RDS_O01_ORDER struct {
 	ORC          *ORC                  `hl7:"true,ORC"`
 	ORDER_DETAIL *RDS_O01_ORDER_DETAIL `hl7:"false,ORDER_DETAIL"`
@@ -16173,8 +16173,8 @@ func (s *RDS_O01_ORDER) MessageTypeSubStructName() string {
 	return "RDS_O01_ORDER"
 }
 
-//  RDS_O01_ORDER_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RDS_O01_ORDER_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RDS_O01_ORDER_DETAIL struct {
 	RXO                     *RXO                             `hl7:"true,RXO"`
 	ORDER_DETAIL_SUPPLEMENT *RDS_O01_ORDER_DETAIL_SUPPLEMENT `hl7:"false,ORDER_DETAIL_SUPPLEMENT"`
@@ -16185,8 +16185,8 @@ func (s *RDS_O01_ORDER_DETAIL) MessageTypeSubStructName() string {
 	return "RDS_O01_ORDER_DETAIL"
 }
 
-//  RDS_O01_ORDER_DETAIL_SUPPLEMENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RDS_O01_ORDER_DETAIL_SUPPLEMENT represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RDS_O01_ORDER_DETAIL_SUPPLEMENT struct {
 	NTE       []NTE              `hl7:"true,NTE"`
 	RXR       []RXR              `hl7:"true,RXR"`
@@ -16198,8 +16198,8 @@ func (s *RDS_O01_ORDER_DETAIL_SUPPLEMENT) MessageTypeSubStructName() string {
 	return "RDS_O01_ORDER_DETAIL_SUPPLEMENT"
 }
 
-//  RDS_O01_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RDS_O01_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RDS_O01_PATIENT struct {
 	PID           *PID                   `hl7:"true,PID"`
 	PD1           *PD1                   `hl7:"false,PD1"`
@@ -16213,8 +16213,8 @@ func (s *RDS_O01_PATIENT) MessageTypeSubStructName() string {
 	return "RDS_O01_PATIENT"
 }
 
-//  RDS_O01_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RDS_O01_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RDS_O01_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -16225,8 +16225,8 @@ func (s *RDS_O01_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "RDS_O01_PATIENT_VISIT"
 }
 
-//  RDS_O13_COMPONENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RDS_O13_COMPONENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RDS_O13_COMPONENT struct {
 	RXC   *RXC  `hl7:"true,RXC"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -16237,8 +16237,8 @@ func (s *RDS_O13_COMPONENT) MessageTypeSubStructName() string {
 	return "RDS_O13_COMPONENT"
 }
 
-//  RDS_O13 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RDS_O13 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RDS_O13 struct {
 	MSH     *MSH             `hl7:"true,MSH"`
 	SFT     []SFT            `hl7:"false,SFT"`
@@ -16252,8 +16252,8 @@ func (s *RDS_O13) MessageTypeName() string {
 	return "RDS_O13"
 }
 
-//  RDS_O13_ENCODING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RDS_O13_ENCODING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RDS_O13_ENCODING struct {
 	RXE            *RXE                     `hl7:"true,RXE"`
 	NTE            []NTE                    `hl7:"false,NTE"`
@@ -16267,8 +16267,8 @@ func (s *RDS_O13_ENCODING) MessageTypeSubStructName() string {
 	return "RDS_O13_ENCODING"
 }
 
-//  RDS_O13_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RDS_O13_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RDS_O13_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -16279,8 +16279,8 @@ func (s *RDS_O13_OBSERVATION) MessageTypeSubStructName() string {
 	return "RDS_O13_OBSERVATION"
 }
 
-//  RDS_O13_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RDS_O13_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RDS_O13_ORDER struct {
 	ORC          *ORC                  `hl7:"true,ORC"`
 	TIMING       []RDS_O13_TIMING      `hl7:"false,TIMING"`
@@ -16299,8 +16299,8 @@ func (s *RDS_O13_ORDER) MessageTypeSubStructName() string {
 	return "RDS_O13_ORDER"
 }
 
-//  RDS_O13_ORDER_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RDS_O13_ORDER_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RDS_O13_ORDER_DETAIL struct {
 	RXO                     *RXO                             `hl7:"true,RXO"`
 	ORDER_DETAIL_SUPPLEMENT *RDS_O13_ORDER_DETAIL_SUPPLEMENT `hl7:"false,ORDER_DETAIL_SUPPLEMENT"`
@@ -16311,8 +16311,8 @@ func (s *RDS_O13_ORDER_DETAIL) MessageTypeSubStructName() string {
 	return "RDS_O13_ORDER_DETAIL"
 }
 
-//  RDS_O13_ORDER_DETAIL_SUPPLEMENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RDS_O13_ORDER_DETAIL_SUPPLEMENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RDS_O13_ORDER_DETAIL_SUPPLEMENT struct {
 	NTE       []NTE               `hl7:"true,NTE"`
 	RXR       []RXR               `hl7:"true,RXR"`
@@ -16324,8 +16324,8 @@ func (s *RDS_O13_ORDER_DETAIL_SUPPLEMENT) MessageTypeSubStructName() string {
 	return "RDS_O13_ORDER_DETAIL_SUPPLEMENT"
 }
 
-//  RDS_O13_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RDS_O13_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RDS_O13_PATIENT struct {
 	PID           *PID                   `hl7:"true,PID"`
 	PD1           *PD1                   `hl7:"false,PD1"`
@@ -16339,8 +16339,8 @@ func (s *RDS_O13_PATIENT) MessageTypeSubStructName() string {
 	return "RDS_O13_PATIENT"
 }
 
-//  RDS_O13_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RDS_O13_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RDS_O13_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -16351,8 +16351,8 @@ func (s *RDS_O13_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "RDS_O13_PATIENT_VISIT"
 }
 
-//  RDS_O13_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RDS_O13_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RDS_O13_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -16363,8 +16363,8 @@ func (s *RDS_O13_TIMING) MessageTypeSubStructName() string {
 	return "RDS_O13_TIMING"
 }
 
-//  RDS_O13_TIMING_ENCODED represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RDS_O13_TIMING_ENCODED represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RDS_O13_TIMING_ENCODED struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -16375,8 +16375,8 @@ func (s *RDS_O13_TIMING_ENCODED) MessageTypeSubStructName() string {
 	return "RDS_O13_TIMING_ENCODED"
 }
 
-//  RDY_K15 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RDY_K15 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RDY_K15 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -16393,8 +16393,8 @@ func (s *RDY_K15) MessageTypeName() string {
 	return "RDY_K15"
 }
 
-//  REF_I12_AUTHORIZATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.3
+// REF_I12_AUTHORIZATION represents the corresponding HL7 message type.
+// Definition from HL7 2.3
 type REF_I12_AUTHORIZATION struct {
 	AUT   *AUT `hl7:"true,AUT"`
 	CTD   *CTD `hl7:"false,CTD"`
@@ -16405,8 +16405,8 @@ func (s *REF_I12_AUTHORIZATION) MessageTypeSubStructName() string {
 	return "REF_I12_AUTHORIZATION"
 }
 
-//  REF_I12_AUTHORIZATION_CONTACT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// REF_I12_AUTHORIZATION_CONTACT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type REF_I12_AUTHORIZATION_CONTACT struct {
 	AUT   *AUT `hl7:"true,AUT"`
 	CTD   *CTD `hl7:"false,CTD"`
@@ -16417,8 +16417,8 @@ func (s *REF_I12_AUTHORIZATION_CONTACT) MessageTypeSubStructName() string {
 	return "REF_I12_AUTHORIZATION_CONTACT"
 }
 
-//  REF_I12 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// REF_I12 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type REF_I12 struct {
 	MSH                   *MSH                           `hl7:"true,MSH"`
 	SFT                   []SFT                          `hl7:"false,SFT"`
@@ -16444,8 +16444,8 @@ func (s *REF_I12) MessageTypeName() string {
 	return "REF_I12"
 }
 
-//  REF_I12_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// REF_I12_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type REF_I12_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -16457,8 +16457,8 @@ func (s *REF_I12_INSURANCE) MessageTypeSubStructName() string {
 	return "REF_I12_INSURANCE"
 }
 
-//  REF_I12_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// REF_I12_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type REF_I12_OBSERVATION struct {
 	OBR           *OBR                    `hl7:"true,OBR"`
 	NTE           []NTE                   `hl7:"false,NTE"`
@@ -16470,8 +16470,8 @@ func (s *REF_I12_OBSERVATION) MessageTypeSubStructName() string {
 	return "REF_I12_OBSERVATION"
 }
 
-//  REF_I12_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// REF_I12_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type REF_I12_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -16482,8 +16482,8 @@ func (s *REF_I12_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "REF_I12_PATIENT_VISIT"
 }
 
-//  REF_I12_PROCEDURE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// REF_I12_PROCEDURE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type REF_I12_PROCEDURE struct {
 	PR1                   *PR1                           `hl7:"true,PR1"`
 	AUTHORIZATION_CONTACT *REF_I12_AUTHORIZATION_CONTACT `hl7:"false,AUTHORIZATION_CONTACT"`
@@ -16494,8 +16494,8 @@ func (s *REF_I12_PROCEDURE) MessageTypeSubStructName() string {
 	return "REF_I12_PROCEDURE"
 }
 
-//  REF_I12_PROVIDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// REF_I12_PROVIDER represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type REF_I12_PROVIDER struct {
 	PRD   *PRD  `hl7:"true,PRD"`
 	CTD   []CTD `hl7:"false,CTD"`
@@ -16506,8 +16506,8 @@ func (s *REF_I12_PROVIDER) MessageTypeSubStructName() string {
 	return "REF_I12_PROVIDER"
 }
 
-//  REF_I12_PROVIDER_CONTACT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// REF_I12_PROVIDER_CONTACT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type REF_I12_PROVIDER_CONTACT struct {
 	PRD   *PRD  `hl7:"true,PRD"`
 	CTD   []CTD `hl7:"false,CTD"`
@@ -16518,8 +16518,8 @@ func (s *REF_I12_PROVIDER_CONTACT) MessageTypeSubStructName() string {
 	return "REF_I12_PROVIDER_CONTACT"
 }
 
-//  REF_I12_RESULTS represents the corresponding HL7 message type.
-//  Definition from HL7 2.3
+// REF_I12_RESULTS represents the corresponding HL7 message type.
+// Definition from HL7 2.3
 type REF_I12_RESULTS struct {
 	OBR         *OBR                  `hl7:"true,OBR"`
 	NTE         []NTE                 `hl7:"false,NTE"`
@@ -16531,8 +16531,8 @@ func (s *REF_I12_RESULTS) MessageTypeSubStructName() string {
 	return "REF_I12_RESULTS"
 }
 
-//  REF_I12_RESULTS_NOTES represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// REF_I12_RESULTS_NOTES represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type REF_I12_RESULTS_NOTES struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -16543,8 +16543,8 @@ func (s *REF_I12_RESULTS_NOTES) MessageTypeSubStructName() string {
 	return "REF_I12_RESULTS_NOTES"
 }
 
-//  REF_I12_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3
+// REF_I12_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.3
 type REF_I12_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -16555,8 +16555,8 @@ func (s *REF_I12_VISIT) MessageTypeSubStructName() string {
 	return "REF_I12_VISIT"
 }
 
-//  RER_RER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RER_RER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RER_RER struct {
 	MSH        *MSH                 `hl7:"true,MSH"`
 	MSA        *MSA                 `hl7:"true,MSA"`
@@ -16571,8 +16571,8 @@ func (s *RER_RER) MessageTypeName() string {
 	return "RER_RER"
 }
 
-//  RER_RER_DEFINITION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RER_RER_DEFINITION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RER_RER_DEFINITION struct {
 	QRD     *QRD             `hl7:"true,QRD"`
 	QRF     *QRF             `hl7:"false,QRF"`
@@ -16585,8 +16585,8 @@ func (s *RER_RER_DEFINITION) MessageTypeSubStructName() string {
 	return "RER_RER_DEFINITION"
 }
 
-//  RER_RER_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RER_RER_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RER_RER_ORDER struct {
 	ORC   *ORC  `hl7:"true,ORC"`
 	RXE   *RXE  `hl7:"true,RXE"`
@@ -16599,8 +16599,8 @@ func (s *RER_RER_ORDER) MessageTypeSubStructName() string {
 	return "RER_RER_ORDER"
 }
 
-//  RER_RER_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RER_RER_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RER_RER_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -16611,8 +16611,8 @@ func (s *RER_RER_PATIENT) MessageTypeSubStructName() string {
 	return "RER_RER_PATIENT"
 }
 
-//  RGR_RGR represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RGR_RGR represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RGR_RGR struct {
 	MSH        *MSH                 `hl7:"true,MSH"`
 	MSA        *MSA                 `hl7:"true,MSA"`
@@ -16627,8 +16627,8 @@ func (s *RGR_RGR) MessageTypeName() string {
 	return "RGR_RGR"
 }
 
-//  RGR_RGR_DEFINITION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RGR_RGR_DEFINITION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RGR_RGR_DEFINITION struct {
 	QRD     *QRD             `hl7:"true,QRD"`
 	QRF     *QRF             `hl7:"false,QRF"`
@@ -16641,8 +16641,8 @@ func (s *RGR_RGR_DEFINITION) MessageTypeSubStructName() string {
 	return "RGR_RGR_DEFINITION"
 }
 
-//  RGR_RGR_DEFINTION represents the corresponding HL7 message type.
-//  Definition from HL7 2.4
+// RGR_RGR_DEFINTION represents the corresponding HL7 message type.
+// Definition from HL7 2.4
 type RGR_RGR_DEFINTION struct {
 	QRD     *QRD             `hl7:"true,QRD"`
 	QRF     *QRF             `hl7:"false,QRF"`
@@ -16655,8 +16655,8 @@ func (s *RGR_RGR_DEFINTION) MessageTypeSubStructName() string {
 	return "RGR_RGR_DEFINTION"
 }
 
-//  RGR_RGR_ENCODING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RGR_RGR_ENCODING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RGR_RGR_ENCODING struct {
 	RXE   *RXE  `hl7:"true,RXE"`
 	RXR   []RXR `hl7:"true,RXR"`
@@ -16668,8 +16668,8 @@ func (s *RGR_RGR_ENCODING) MessageTypeSubStructName() string {
 	return "RGR_RGR_ENCODING"
 }
 
-//  RGR_RGR_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RGR_RGR_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RGR_RGR_ORDER struct {
 	ORC      *ORC              `hl7:"true,ORC"`
 	ENCODING *RGR_RGR_ENCODING `hl7:"false,ENCODING"`
@@ -16683,8 +16683,8 @@ func (s *RGR_RGR_ORDER) MessageTypeSubStructName() string {
 	return "RGR_RGR_ORDER"
 }
 
-//  RGR_RGR_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RGR_RGR_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RGR_RGR_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -16695,8 +16695,8 @@ func (s *RGR_RGR_PATIENT) MessageTypeSubStructName() string {
 	return "RGR_RGR_PATIENT"
 }
 
-//  RGV_O01_COMPONENTS represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RGV_O01_COMPONENTS represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RGV_O01_COMPONENTS struct {
 	RXC   []RXC `hl7:"true,RXC"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -16707,8 +16707,8 @@ func (s *RGV_O01_COMPONENTS) MessageTypeSubStructName() string {
 	return "RGV_O01_COMPONENTS"
 }
 
-//  RGV_O01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RGV_O01 represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RGV_O01 struct {
 	MSH     *MSH             `hl7:"true,MSH"`
 	NTE     []NTE            `hl7:"false,NTE"`
@@ -16721,8 +16721,8 @@ func (s *RGV_O01) MessageTypeName() string {
 	return "RGV_O01"
 }
 
-//  RGV_O01_ENCODING represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RGV_O01_ENCODING represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RGV_O01_ENCODING struct {
 	RXE   *RXE  `hl7:"true,RXE"`
 	RXR   []RXR `hl7:"true,RXR"`
@@ -16734,8 +16734,8 @@ func (s *RGV_O01_ENCODING) MessageTypeSubStructName() string {
 	return "RGV_O01_ENCODING"
 }
 
-//  RGV_O01_GIVE represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RGV_O01_GIVE represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RGV_O01_GIVE struct {
 	RXG         *RXG                  `hl7:"true,RXG"`
 	RXR         []RXR                 `hl7:"true,RXR"`
@@ -16748,8 +16748,8 @@ func (s *RGV_O01_GIVE) MessageTypeSubStructName() string {
 	return "RGV_O01_GIVE"
 }
 
-//  RGV_O01_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RGV_O01_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RGV_O01_OBSERVATION struct {
 	OBX   *OBX  `hl7:"false,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -16760,8 +16760,8 @@ func (s *RGV_O01_OBSERVATION) MessageTypeSubStructName() string {
 	return "RGV_O01_OBSERVATION"
 }
 
-//  RGV_O01_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RGV_O01_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RGV_O01_ORDER struct {
 	ORC          *ORC                  `hl7:"true,ORC"`
 	ORDER_DETAIL *RGV_O01_ORDER_DETAIL `hl7:"false,ORDER_DETAIL"`
@@ -16774,8 +16774,8 @@ func (s *RGV_O01_ORDER) MessageTypeSubStructName() string {
 	return "RGV_O01_ORDER"
 }
 
-//  RGV_O01_ORDER_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RGV_O01_ORDER_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RGV_O01_ORDER_DETAIL struct {
 	RXO                     *RXO                             `hl7:"true,RXO"`
 	ORDER_DETAIL_SUPPLEMENT *RGV_O01_ORDER_DETAIL_SUPPLEMENT `hl7:"false,ORDER_DETAIL_SUPPLEMENT"`
@@ -16786,8 +16786,8 @@ func (s *RGV_O01_ORDER_DETAIL) MessageTypeSubStructName() string {
 	return "RGV_O01_ORDER_DETAIL"
 }
 
-//  RGV_O01_ORDER_DETAIL_SUPPLEMENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RGV_O01_ORDER_DETAIL_SUPPLEMENT represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RGV_O01_ORDER_DETAIL_SUPPLEMENT struct {
 	NTE        []NTE               `hl7:"true,NTE"`
 	RXR        []RXR               `hl7:"true,RXR"`
@@ -16799,8 +16799,8 @@ func (s *RGV_O01_ORDER_DETAIL_SUPPLEMENT) MessageTypeSubStructName() string {
 	return "RGV_O01_ORDER_DETAIL_SUPPLEMENT"
 }
 
-//  RGV_O01_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RGV_O01_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RGV_O01_PATIENT struct {
 	PID           *PID                   `hl7:"true,PID"`
 	NTE           []NTE                  `hl7:"false,NTE"`
@@ -16813,8 +16813,8 @@ func (s *RGV_O01_PATIENT) MessageTypeSubStructName() string {
 	return "RGV_O01_PATIENT"
 }
 
-//  RGV_O01_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RGV_O01_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RGV_O01_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -16825,8 +16825,8 @@ func (s *RGV_O01_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "RGV_O01_PATIENT_VISIT"
 }
 
-//  RGV_O15_COMPONENTS represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RGV_O15_COMPONENTS represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RGV_O15_COMPONENTS struct {
 	RXC   *RXC  `hl7:"true,RXC"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -16837,8 +16837,8 @@ func (s *RGV_O15_COMPONENTS) MessageTypeSubStructName() string {
 	return "RGV_O15_COMPONENTS"
 }
 
-//  RGV_O15 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RGV_O15 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RGV_O15 struct {
 	MSH     *MSH             `hl7:"true,MSH"`
 	SFT     []SFT            `hl7:"false,SFT"`
@@ -16852,8 +16852,8 @@ func (s *RGV_O15) MessageTypeName() string {
 	return "RGV_O15"
 }
 
-//  RGV_O15_ENCODING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RGV_O15_ENCODING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RGV_O15_ENCODING struct {
 	RXE            *RXE                     `hl7:"true,RXE"`
 	TIMING_ENCODED []RGV_O15_TIMING_ENCODED `hl7:"true,TIMING_ENCODED"`
@@ -16866,8 +16866,8 @@ func (s *RGV_O15_ENCODING) MessageTypeSubStructName() string {
 	return "RGV_O15_ENCODING"
 }
 
-//  RGV_O15_GIVE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RGV_O15_GIVE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RGV_O15_GIVE struct {
 	RXG         *RXG                  `hl7:"true,RXG"`
 	TIMING_GIVE []RGV_O15_TIMING_GIVE `hl7:"true,TIMING_GIVE"`
@@ -16881,8 +16881,8 @@ func (s *RGV_O15_GIVE) MessageTypeSubStructName() string {
 	return "RGV_O15_GIVE"
 }
 
-//  RGV_O15_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RGV_O15_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RGV_O15_OBSERVATION struct {
 	OBX   *OBX  `hl7:"false,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -16893,8 +16893,8 @@ func (s *RGV_O15_OBSERVATION) MessageTypeSubStructName() string {
 	return "RGV_O15_OBSERVATION"
 }
 
-//  RGV_O15_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RGV_O15_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RGV_O15_ORDER struct {
 	ORC          *ORC                  `hl7:"true,ORC"`
 	TIMING       []RGV_O15_TIMING      `hl7:"false,TIMING"`
@@ -16908,8 +16908,8 @@ func (s *RGV_O15_ORDER) MessageTypeSubStructName() string {
 	return "RGV_O15_ORDER"
 }
 
-//  RGV_O15_ORDER_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RGV_O15_ORDER_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RGV_O15_ORDER_DETAIL struct {
 	RXO                     *RXO                             `hl7:"true,RXO"`
 	ORDER_DETAIL_SUPPLEMENT *RGV_O15_ORDER_DETAIL_SUPPLEMENT `hl7:"false,ORDER_DETAIL_SUPPLEMENT"`
@@ -16920,8 +16920,8 @@ func (s *RGV_O15_ORDER_DETAIL) MessageTypeSubStructName() string {
 	return "RGV_O15_ORDER_DETAIL"
 }
 
-//  RGV_O15_ORDER_DETAIL_SUPPLEMENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RGV_O15_ORDER_DETAIL_SUPPLEMENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RGV_O15_ORDER_DETAIL_SUPPLEMENT struct {
 	NTE        []NTE                `hl7:"true,NTE"`
 	RXR        []RXR                `hl7:"true,RXR"`
@@ -16933,8 +16933,8 @@ func (s *RGV_O15_ORDER_DETAIL_SUPPLEMENT) MessageTypeSubStructName() string {
 	return "RGV_O15_ORDER_DETAIL_SUPPLEMENT"
 }
 
-//  RGV_O15_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RGV_O15_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RGV_O15_PATIENT struct {
 	PID           *PID                   `hl7:"true,PID"`
 	NTE           []NTE                  `hl7:"false,NTE"`
@@ -16947,8 +16947,8 @@ func (s *RGV_O15_PATIENT) MessageTypeSubStructName() string {
 	return "RGV_O15_PATIENT"
 }
 
-//  RGV_O15_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RGV_O15_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RGV_O15_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -16959,8 +16959,8 @@ func (s *RGV_O15_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "RGV_O15_PATIENT_VISIT"
 }
 
-//  RGV_O15_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RGV_O15_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RGV_O15_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -16971,8 +16971,8 @@ func (s *RGV_O15_TIMING) MessageTypeSubStructName() string {
 	return "RGV_O15_TIMING"
 }
 
-//  RGV_O15_TIMING_ENCODED represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RGV_O15_TIMING_ENCODED represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RGV_O15_TIMING_ENCODED struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -16983,8 +16983,8 @@ func (s *RGV_O15_TIMING_ENCODED) MessageTypeSubStructName() string {
 	return "RGV_O15_TIMING_ENCODED"
 }
 
-//  RGV_O15_TIMING_GIVE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RGV_O15_TIMING_GIVE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RGV_O15_TIMING_GIVE struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -16995,8 +16995,8 @@ func (s *RGV_O15_TIMING_GIVE) MessageTypeSubStructName() string {
 	return "RGV_O15_TIMING_GIVE"
 }
 
-//  ROR_ROR represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ROR_ROR represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ROR_ROR struct {
 	MSH        *MSH                 `hl7:"true,MSH"`
 	MSA        *MSA                 `hl7:"true,MSA"`
@@ -17011,8 +17011,8 @@ func (s *ROR_ROR) MessageTypeName() string {
 	return "ROR_ROR"
 }
 
-//  ROR_ROR_DEFINITION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ROR_ROR_DEFINITION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ROR_ROR_DEFINITION struct {
 	QRD     *QRD             `hl7:"true,QRD"`
 	QRF     *QRF             `hl7:"false,QRF"`
@@ -17025,8 +17025,8 @@ func (s *ROR_ROR_DEFINITION) MessageTypeSubStructName() string {
 	return "ROR_ROR_DEFINITION"
 }
 
-//  ROR_ROR_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ROR_ROR_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ROR_ROR_ORDER struct {
 	ORC   *ORC  `hl7:"true,ORC"`
 	RXO   *RXO  `hl7:"true,RXO"`
@@ -17039,8 +17039,8 @@ func (s *ROR_ROR_ORDER) MessageTypeSubStructName() string {
 	return "ROR_ROR_ORDER"
 }
 
-//  ROR_ROR_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// ROR_ROR_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type ROR_ROR_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -17051,8 +17051,8 @@ func (s *ROR_ROR_PATIENT) MessageTypeSubStructName() string {
 	return "ROR_ROR_PATIENT"
 }
 
-//  RPA_I08_AUTHORIZATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RPA_I08_AUTHORIZATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RPA_I08_AUTHORIZATION struct {
 	AUT   *AUT `hl7:"true,AUT"`
 	CTD   *CTD `hl7:"false,CTD"`
@@ -17063,8 +17063,8 @@ func (s *RPA_I08_AUTHORIZATION) MessageTypeSubStructName() string {
 	return "RPA_I08_AUTHORIZATION"
 }
 
-//  RPA_I08_AUTHORIZATION_1 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5
+// RPA_I08_AUTHORIZATION_1 represents the corresponding HL7 message type.
+// Definition from HL7 2.5
 type RPA_I08_AUTHORIZATION_1 struct {
 	AUT   *AUT `hl7:"true,AUT"`
 	CTD   *CTD `hl7:"false,CTD"`
@@ -17075,8 +17075,8 @@ func (s *RPA_I08_AUTHORIZATION_1) MessageTypeSubStructName() string {
 	return "RPA_I08_AUTHORIZATION_1"
 }
 
-//  RPA_I08_AUTHORIZATION_2 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5
+// RPA_I08_AUTHORIZATION_2 represents the corresponding HL7 message type.
+// Definition from HL7 2.5
 type RPA_I08_AUTHORIZATION_2 struct {
 	AUT   *AUT `hl7:"true,AUT"`
 	CTD   *CTD `hl7:"false,CTD"`
@@ -17087,8 +17087,8 @@ func (s *RPA_I08_AUTHORIZATION_2) MessageTypeSubStructName() string {
 	return "RPA_I08_AUTHORIZATION_2"
 }
 
-//  RPA_I08 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RPA_I08 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RPA_I08 struct {
 	MSH           *MSH                   `hl7:"true,MSH"`
 	SFT           []SFT                  `hl7:"false,SFT"`
@@ -17115,8 +17115,8 @@ func (s *RPA_I08) MessageTypeName() string {
 	return "RPA_I08"
 }
 
-//  RPA_I08_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RPA_I08_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RPA_I08_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -17128,8 +17128,8 @@ func (s *RPA_I08_INSURANCE) MessageTypeSubStructName() string {
 	return "RPA_I08_INSURANCE"
 }
 
-//  RPA_I08_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RPA_I08_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RPA_I08_OBSERVATION struct {
 	OBR     *OBR              `hl7:"true,OBR"`
 	NTE     []NTE             `hl7:"false,NTE"`
@@ -17141,8 +17141,8 @@ func (s *RPA_I08_OBSERVATION) MessageTypeSubStructName() string {
 	return "RPA_I08_OBSERVATION"
 }
 
-//  RPA_I08_PROCEDURE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RPA_I08_PROCEDURE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RPA_I08_PROCEDURE struct {
 	PR1           *PR1                   `hl7:"true,PR1"`
 	AUTHORIZATION *RPA_I08_AUTHORIZATION `hl7:"false,AUTHORIZATION"`
@@ -17153,8 +17153,8 @@ func (s *RPA_I08_PROCEDURE) MessageTypeSubStructName() string {
 	return "RPA_I08_PROCEDURE"
 }
 
-//  RPA_I08_PROVIDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RPA_I08_PROVIDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RPA_I08_PROVIDER struct {
 	PRD   *PRD  `hl7:"true,PRD"`
 	CTD   []CTD `hl7:"false,CTD"`
@@ -17165,8 +17165,8 @@ func (s *RPA_I08_PROVIDER) MessageTypeSubStructName() string {
 	return "RPA_I08_PROVIDER"
 }
 
-//  RPA_I08_RESULTS represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RPA_I08_RESULTS represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RPA_I08_RESULTS struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -17177,8 +17177,8 @@ func (s *RPA_I08_RESULTS) MessageTypeSubStructName() string {
 	return "RPA_I08_RESULTS"
 }
 
-//  RPA_I08_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RPA_I08_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RPA_I08_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -17189,8 +17189,8 @@ func (s *RPA_I08_VISIT) MessageTypeSubStructName() string {
 	return "RPA_I08_VISIT"
 }
 
-//  RPI_I01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RPI_I01 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RPI_I01 struct {
 	MSH                 *MSH                         `hl7:"true,MSH"`
 	SFT                 []SFT                        `hl7:"false,SFT"`
@@ -17207,8 +17207,8 @@ func (s *RPI_I01) MessageTypeName() string {
 	return "RPI_I01"
 }
 
-//  RPI_I01_GUARANTOR_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RPI_I01_GUARANTOR_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RPI_I01_GUARANTOR_INSURANCE struct {
 	GT1       []GT1               `hl7:"false,GT1"`
 	INSURANCE []RPI_I01_INSURANCE `hl7:"true,INSURANCE"`
@@ -17219,8 +17219,8 @@ func (s *RPI_I01_GUARANTOR_INSURANCE) MessageTypeSubStructName() string {
 	return "RPI_I01_GUARANTOR_INSURANCE"
 }
 
-//  RPI_I01_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RPI_I01_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RPI_I01_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -17232,8 +17232,8 @@ func (s *RPI_I01_INSURANCE) MessageTypeSubStructName() string {
 	return "RPI_I01_INSURANCE"
 }
 
-//  RPI_I01_PROVIDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RPI_I01_PROVIDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RPI_I01_PROVIDER struct {
 	PRD   *PRD  `hl7:"true,PRD"`
 	CTD   []CTD `hl7:"false,CTD"`
@@ -17244,8 +17244,8 @@ func (s *RPI_I01_PROVIDER) MessageTypeSubStructName() string {
 	return "RPI_I01_PROVIDER"
 }
 
-//  RPI_I04 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RPI_I04 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RPI_I04 struct {
 	MSH                 *MSH                         `hl7:"true,MSH"`
 	SFT                 []SFT                        `hl7:"false,SFT"`
@@ -17262,8 +17262,8 @@ func (s *RPI_I04) MessageTypeName() string {
 	return "RPI_I04"
 }
 
-//  RPI_I04_GUARANTOR_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RPI_I04_GUARANTOR_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RPI_I04_GUARANTOR_INSURANCE struct {
 	GT1       []GT1               `hl7:"false,GT1"`
 	INSURANCE []RPI_I04_INSURANCE `hl7:"true,INSURANCE"`
@@ -17274,8 +17274,8 @@ func (s *RPI_I04_GUARANTOR_INSURANCE) MessageTypeSubStructName() string {
 	return "RPI_I04_GUARANTOR_INSURANCE"
 }
 
-//  RPI_I04_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RPI_I04_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RPI_I04_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -17287,8 +17287,8 @@ func (s *RPI_I04_INSURANCE) MessageTypeSubStructName() string {
 	return "RPI_I04_INSURANCE"
 }
 
-//  RPI_I04_PROVIDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RPI_I04_PROVIDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RPI_I04_PROVIDER struct {
 	PRD   *PRD  `hl7:"true,PRD"`
 	CTD   []CTD `hl7:"false,CTD"`
@@ -17299,8 +17299,8 @@ func (s *RPI_I04_PROVIDER) MessageTypeSubStructName() string {
 	return "RPI_I04_PROVIDER"
 }
 
-//  RPL_I02 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RPL_I02 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RPL_I02 struct {
 	MSH      *MSH               `hl7:"true,MSH"`
 	SFT      []SFT              `hl7:"false,SFT"`
@@ -17316,8 +17316,8 @@ func (s *RPL_I02) MessageTypeName() string {
 	return "RPL_I02"
 }
 
-//  RPL_I02_PROVIDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RPL_I02_PROVIDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RPL_I02_PROVIDER struct {
 	PRD   *PRD  `hl7:"true,PRD"`
 	CTD   []CTD `hl7:"false,CTD"`
@@ -17328,8 +17328,8 @@ func (s *RPL_I02_PROVIDER) MessageTypeSubStructName() string {
 	return "RPL_I02_PROVIDER"
 }
 
-//  RPR_I03 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RPR_I03 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RPR_I03 struct {
 	MSH      *MSH               `hl7:"true,MSH"`
 	SFT      []SFT              `hl7:"false,SFT"`
@@ -17344,8 +17344,8 @@ func (s *RPR_I03) MessageTypeName() string {
 	return "RPR_I03"
 }
 
-//  RPR_I03_PROVIDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RPR_I03_PROVIDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RPR_I03_PROVIDER struct {
 	PRD   *PRD  `hl7:"true,PRD"`
 	CTD   []CTD `hl7:"false,CTD"`
@@ -17356,8 +17356,8 @@ func (s *RPR_I03_PROVIDER) MessageTypeSubStructName() string {
 	return "RPR_I03_PROVIDER"
 }
 
-//  RQA_I08_AUTHORIZATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RQA_I08_AUTHORIZATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RQA_I08_AUTHORIZATION struct {
 	AUT   *AUT `hl7:"true,AUT"`
 	CTD   *CTD `hl7:"false,CTD"`
@@ -17368,8 +17368,8 @@ func (s *RQA_I08_AUTHORIZATION) MessageTypeSubStructName() string {
 	return "RQA_I08_AUTHORIZATION"
 }
 
-//  RQA_I08 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RQA_I08 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RQA_I08 struct {
 	MSH                 *MSH                         `hl7:"true,MSH"`
 	SFT                 []SFT                        `hl7:"false,SFT"`
@@ -17394,8 +17394,8 @@ func (s *RQA_I08) MessageTypeName() string {
 	return "RQA_I08"
 }
 
-//  RQA_I08_GUARANTOR_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RQA_I08_GUARANTOR_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RQA_I08_GUARANTOR_INSURANCE struct {
 	GT1       []GT1               `hl7:"false,GT1"`
 	INSURANCE []RQA_I08_INSURANCE `hl7:"true,INSURANCE"`
@@ -17406,8 +17406,8 @@ func (s *RQA_I08_GUARANTOR_INSURANCE) MessageTypeSubStructName() string {
 	return "RQA_I08_GUARANTOR_INSURANCE"
 }
 
-//  RQA_I08_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RQA_I08_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RQA_I08_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -17419,8 +17419,8 @@ func (s *RQA_I08_INSURANCE) MessageTypeSubStructName() string {
 	return "RQA_I08_INSURANCE"
 }
 
-//  RQA_I08_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RQA_I08_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RQA_I08_OBSERVATION struct {
 	OBR     *OBR              `hl7:"true,OBR"`
 	NTE     []NTE             `hl7:"false,NTE"`
@@ -17432,8 +17432,8 @@ func (s *RQA_I08_OBSERVATION) MessageTypeSubStructName() string {
 	return "RQA_I08_OBSERVATION"
 }
 
-//  RQA_I08_PROCEDURE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RQA_I08_PROCEDURE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RQA_I08_PROCEDURE struct {
 	PR1           *PR1                   `hl7:"true,PR1"`
 	AUTHORIZATION *RQA_I08_AUTHORIZATION `hl7:"false,AUTHORIZATION"`
@@ -17444,8 +17444,8 @@ func (s *RQA_I08_PROCEDURE) MessageTypeSubStructName() string {
 	return "RQA_I08_PROCEDURE"
 }
 
-//  RQA_I08_PROVIDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RQA_I08_PROVIDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RQA_I08_PROVIDER struct {
 	PRD   *PRD  `hl7:"true,PRD"`
 	CTD   []CTD `hl7:"false,CTD"`
@@ -17456,8 +17456,8 @@ func (s *RQA_I08_PROVIDER) MessageTypeSubStructName() string {
 	return "RQA_I08_PROVIDER"
 }
 
-//  RQA_I08_RESULTS represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RQA_I08_RESULTS represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RQA_I08_RESULTS struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -17468,8 +17468,8 @@ func (s *RQA_I08_RESULTS) MessageTypeSubStructName() string {
 	return "RQA_I08_RESULTS"
 }
 
-//  RQA_I08_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RQA_I08_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RQA_I08_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -17480,8 +17480,8 @@ func (s *RQA_I08_VISIT) MessageTypeSubStructName() string {
 	return "RQA_I08_VISIT"
 }
 
-//  RQC_I05 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RQC_I05 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RQC_I05 struct {
 	MSH      *MSH               `hl7:"true,MSH"`
 	SFT      []SFT              `hl7:"false,SFT"`
@@ -17499,8 +17499,8 @@ func (s *RQC_I05) MessageTypeName() string {
 	return "RQC_I05"
 }
 
-//  RQC_I05_PROVIDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RQC_I05_PROVIDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RQC_I05_PROVIDER struct {
 	PRD   *PRD  `hl7:"true,PRD"`
 	CTD   []CTD `hl7:"false,CTD"`
@@ -17511,8 +17511,8 @@ func (s *RQC_I05_PROVIDER) MessageTypeSubStructName() string {
 	return "RQC_I05_PROVIDER"
 }
 
-//  RQC_I06 represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RQC_I06 represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RQC_I06 struct {
 	MSH      *MSH               `hl7:"true,MSH"`
 	QRD      *QRD               `hl7:"true,QRD"`
@@ -17529,8 +17529,8 @@ func (s *RQC_I06) MessageTypeName() string {
 	return "RQC_I06"
 }
 
-//  RQC_I06_PROVIDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RQC_I06_PROVIDER represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RQC_I06_PROVIDER struct {
 	PRD   *PRD  `hl7:"true,PRD"`
 	CTD   []CTD `hl7:"false,CTD"`
@@ -17541,8 +17541,8 @@ func (s *RQC_I06_PROVIDER) MessageTypeSubStructName() string {
 	return "RQC_I06_PROVIDER"
 }
 
-//  RQI_I01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RQI_I01 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RQI_I01 struct {
 	MSH                 *MSH                         `hl7:"true,MSH"`
 	SFT                 []SFT                        `hl7:"false,SFT"`
@@ -17558,8 +17558,8 @@ func (s *RQI_I01) MessageTypeName() string {
 	return "RQI_I01"
 }
 
-//  RQI_I01_GUARANTOR_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RQI_I01_GUARANTOR_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RQI_I01_GUARANTOR_INSURANCE struct {
 	GT1       []GT1               `hl7:"false,GT1"`
 	INSURANCE []RQI_I01_INSURANCE `hl7:"true,INSURANCE"`
@@ -17570,8 +17570,8 @@ func (s *RQI_I01_GUARANTOR_INSURANCE) MessageTypeSubStructName() string {
 	return "RQI_I01_GUARANTOR_INSURANCE"
 }
 
-//  RQI_I01_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RQI_I01_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RQI_I01_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -17583,8 +17583,8 @@ func (s *RQI_I01_INSURANCE) MessageTypeSubStructName() string {
 	return "RQI_I01_INSURANCE"
 }
 
-//  RQI_I01_PROVIDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RQI_I01_PROVIDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RQI_I01_PROVIDER struct {
 	PRD   *PRD  `hl7:"true,PRD"`
 	CTD   []CTD `hl7:"false,CTD"`
@@ -17595,8 +17595,8 @@ func (s *RQI_I01_PROVIDER) MessageTypeSubStructName() string {
 	return "RQI_I01_PROVIDER"
 }
 
-//  RQP_I04 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RQP_I04 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RQP_I04 struct {
 	MSH      *MSH               `hl7:"true,MSH"`
 	SFT      []SFT              `hl7:"false,SFT"`
@@ -17612,8 +17612,8 @@ func (s *RQP_I04) MessageTypeName() string {
 	return "RQP_I04"
 }
 
-//  RQP_I04_PROVIDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RQP_I04_PROVIDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RQP_I04_PROVIDER struct {
 	PRD   *PRD  `hl7:"true,PRD"`
 	CTD   []CTD `hl7:"false,CTD"`
@@ -17624,8 +17624,8 @@ func (s *RQP_I04_PROVIDER) MessageTypeSubStructName() string {
 	return "RQP_I04_PROVIDER"
 }
 
-//  RQQ_Q01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.3
+// RQQ_Q01 represents the corresponding HL7 message type.
+// Definition from HL7 2.3
 type RQQ_Q01 struct {
 	MSH   *MSH `hl7:"true,MSH"`
 	ERQ   *ERQ `hl7:"true,ERQ"`
@@ -17637,8 +17637,8 @@ func (s *RQQ_Q01) MessageTypeName() string {
 	return "RQQ_Q01"
 }
 
-//  RQQ_Q09 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RQQ_Q09 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RQQ_Q09 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -17651,8 +17651,8 @@ func (s *RQQ_Q09) MessageTypeName() string {
 	return "RQQ_Q09"
 }
 
-//  RRA_O02_ADMINISTRATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RRA_O02_ADMINISTRATION represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RRA_O02_ADMINISTRATION struct {
 	RXA   []RXA `hl7:"true,RXA"`
 	RXR   *RXR  `hl7:"true,RXR"`
@@ -17663,8 +17663,8 @@ func (s *RRA_O02_ADMINISTRATION) MessageTypeSubStructName() string {
 	return "RRA_O02_ADMINISTRATION"
 }
 
-//  RRA_O02 represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RRA_O02 represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RRA_O02 struct {
 	MSH      *MSH              `hl7:"true,MSH"`
 	MSA      *MSA              `hl7:"true,MSA"`
@@ -17678,8 +17678,8 @@ func (s *RRA_O02) MessageTypeName() string {
 	return "RRA_O02"
 }
 
-//  RRA_O02_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RRA_O02_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RRA_O02_ORDER struct {
 	ORC            *ORC                    `hl7:"true,ORC"`
 	ADMINISTRATION *RRA_O02_ADMINISTRATION `hl7:"false,ADMINISTRATION"`
@@ -17690,8 +17690,8 @@ func (s *RRA_O02_ORDER) MessageTypeSubStructName() string {
 	return "RRA_O02_ORDER"
 }
 
-//  RRA_O02_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RRA_O02_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RRA_O02_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -17702,8 +17702,8 @@ func (s *RRA_O02_PATIENT) MessageTypeSubStructName() string {
 	return "RRA_O02_PATIENT"
 }
 
-//  RRA_O02_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RRA_O02_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RRA_O02_RESPONSE struct {
 	PATIENT *RRA_O02_PATIENT `hl7:"false,PATIENT"`
 	ORDER   []RRA_O02_ORDER  `hl7:"true,ORDER"`
@@ -17714,8 +17714,8 @@ func (s *RRA_O02_RESPONSE) MessageTypeSubStructName() string {
 	return "RRA_O02_RESPONSE"
 }
 
-//  RRA_O18_ADMINISTRATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRA_O18_ADMINISTRATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRA_O18_ADMINISTRATION struct {
 	RXA   []RXA `hl7:"true,RXA"`
 	RXR   *RXR  `hl7:"true,RXR"`
@@ -17726,8 +17726,8 @@ func (s *RRA_O18_ADMINISTRATION) MessageTypeSubStructName() string {
 	return "RRA_O18_ADMINISTRATION"
 }
 
-//  RRA_O18 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRA_O18 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRA_O18 struct {
 	MSH      *MSH              `hl7:"true,MSH"`
 	MSA      *MSA              `hl7:"true,MSA"`
@@ -17742,8 +17742,8 @@ func (s *RRA_O18) MessageTypeName() string {
 	return "RRA_O18"
 }
 
-//  RRA_O18_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRA_O18_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRA_O18_ORDER struct {
 	ORC            *ORC                    `hl7:"true,ORC"`
 	TIMING         []RRA_O18_TIMING        `hl7:"false,TIMING"`
@@ -17755,8 +17755,8 @@ func (s *RRA_O18_ORDER) MessageTypeSubStructName() string {
 	return "RRA_O18_ORDER"
 }
 
-//  RRA_O18_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRA_O18_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRA_O18_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -17767,8 +17767,8 @@ func (s *RRA_O18_PATIENT) MessageTypeSubStructName() string {
 	return "RRA_O18_PATIENT"
 }
 
-//  RRA_O18_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRA_O18_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRA_O18_RESPONSE struct {
 	PATIENT *RRA_O18_PATIENT `hl7:"false,PATIENT"`
 	ORDER   []RRA_O18_ORDER  `hl7:"true,ORDER"`
@@ -17779,8 +17779,8 @@ func (s *RRA_O18_RESPONSE) MessageTypeSubStructName() string {
 	return "RRA_O18_RESPONSE"
 }
 
-//  RRA_O18_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRA_O18_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRA_O18_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -17791,8 +17791,8 @@ func (s *RRA_O18_TIMING) MessageTypeSubStructName() string {
 	return "RRA_O18_TIMING"
 }
 
-//  RRD_O02 represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RRD_O02 represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RRD_O02 struct {
 	MSH      *MSH              `hl7:"true,MSH"`
 	MSA      *MSA              `hl7:"true,MSA"`
@@ -17806,8 +17806,8 @@ func (s *RRD_O02) MessageTypeName() string {
 	return "RRD_O02"
 }
 
-//  RRD_O02_DISPENSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RRD_O02_DISPENSE represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RRD_O02_DISPENSE struct {
 	RXD   *RXD  `hl7:"true,RXD"`
 	RXR   []RXR `hl7:"true,RXR"`
@@ -17819,8 +17819,8 @@ func (s *RRD_O02_DISPENSE) MessageTypeSubStructName() string {
 	return "RRD_O02_DISPENSE"
 }
 
-//  RRD_O02_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RRD_O02_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RRD_O02_ORDER struct {
 	ORC      *ORC              `hl7:"true,ORC"`
 	DISPENSE *RRD_O02_DISPENSE `hl7:"false,DISPENSE"`
@@ -17831,8 +17831,8 @@ func (s *RRD_O02_ORDER) MessageTypeSubStructName() string {
 	return "RRD_O02_ORDER"
 }
 
-//  RRD_O02_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RRD_O02_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RRD_O02_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -17843,8 +17843,8 @@ func (s *RRD_O02_PATIENT) MessageTypeSubStructName() string {
 	return "RRD_O02_PATIENT"
 }
 
-//  RRD_O02_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RRD_O02_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RRD_O02_RESPONSE struct {
 	PATIENT *RRD_O02_PATIENT `hl7:"false,PATIENT"`
 	ORDER   []RRD_O02_ORDER  `hl7:"true,ORDER"`
@@ -17855,8 +17855,8 @@ func (s *RRD_O02_RESPONSE) MessageTypeSubStructName() string {
 	return "RRD_O02_RESPONSE"
 }
 
-//  RRD_O14 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRD_O14 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRD_O14 struct {
 	MSH      *MSH              `hl7:"true,MSH"`
 	MSA      *MSA              `hl7:"true,MSA"`
@@ -17871,8 +17871,8 @@ func (s *RRD_O14) MessageTypeName() string {
 	return "RRD_O14"
 }
 
-//  RRD_O14_DISPENSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRD_O14_DISPENSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRD_O14_DISPENSE struct {
 	RXD   *RXD  `hl7:"true,RXD"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -17885,8 +17885,8 @@ func (s *RRD_O14_DISPENSE) MessageTypeSubStructName() string {
 	return "RRD_O14_DISPENSE"
 }
 
-//  RRD_O14_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRD_O14_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRD_O14_ORDER struct {
 	ORC      *ORC              `hl7:"true,ORC"`
 	TIMING   []RRD_O14_TIMING  `hl7:"false,TIMING"`
@@ -17898,8 +17898,8 @@ func (s *RRD_O14_ORDER) MessageTypeSubStructName() string {
 	return "RRD_O14_ORDER"
 }
 
-//  RRD_O14_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRD_O14_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRD_O14_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -17910,8 +17910,8 @@ func (s *RRD_O14_PATIENT) MessageTypeSubStructName() string {
 	return "RRD_O14_PATIENT"
 }
 
-//  RRD_O14_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRD_O14_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRD_O14_RESPONSE struct {
 	PATIENT *RRD_O14_PATIENT `hl7:"false,PATIENT"`
 	ORDER   []RRD_O14_ORDER  `hl7:"true,ORDER"`
@@ -17922,8 +17922,8 @@ func (s *RRD_O14_RESPONSE) MessageTypeSubStructName() string {
 	return "RRD_O14_RESPONSE"
 }
 
-//  RRD_O14_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRD_O14_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRD_O14_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -17934,8 +17934,8 @@ func (s *RRD_O14_TIMING) MessageTypeSubStructName() string {
 	return "RRD_O14_TIMING"
 }
 
-//  RRE_O02 represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RRE_O02 represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RRE_O02 struct {
 	MSH      *MSH              `hl7:"true,MSH"`
 	MSA      *MSA              `hl7:"true,MSA"`
@@ -17949,8 +17949,8 @@ func (s *RRE_O02) MessageTypeName() string {
 	return "RRE_O02"
 }
 
-//  RRE_O02_ENCODING represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RRE_O02_ENCODING represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RRE_O02_ENCODING struct {
 	RXE   *RXE  `hl7:"true,RXE"`
 	RXR   []RXR `hl7:"true,RXR"`
@@ -17962,8 +17962,8 @@ func (s *RRE_O02_ENCODING) MessageTypeSubStructName() string {
 	return "RRE_O02_ENCODING"
 }
 
-//  RRE_O02_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RRE_O02_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RRE_O02_ORDER struct {
 	ORC      *ORC              `hl7:"true,ORC"`
 	ENCODING *RRE_O02_ENCODING `hl7:"false,ENCODING"`
@@ -17974,8 +17974,8 @@ func (s *RRE_O02_ORDER) MessageTypeSubStructName() string {
 	return "RRE_O02_ORDER"
 }
 
-//  RRE_O02_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RRE_O02_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RRE_O02_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -17986,8 +17986,8 @@ func (s *RRE_O02_PATIENT) MessageTypeSubStructName() string {
 	return "RRE_O02_PATIENT"
 }
 
-//  RRE_O02_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RRE_O02_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RRE_O02_RESPONSE struct {
 	PATIENT *RRE_O02_PATIENT `hl7:"false,PATIENT"`
 	ORDER   []RRE_O02_ORDER  `hl7:"true,ORDER"`
@@ -17998,8 +17998,8 @@ func (s *RRE_O02_RESPONSE) MessageTypeSubStructName() string {
 	return "RRE_O02_RESPONSE"
 }
 
-//  RRE_O12 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRE_O12 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRE_O12 struct {
 	MSH      *MSH              `hl7:"true,MSH"`
 	MSA      *MSA              `hl7:"true,MSA"`
@@ -18014,8 +18014,8 @@ func (s *RRE_O12) MessageTypeName() string {
 	return "RRE_O12"
 }
 
-//  RRE_O12_ENCODING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRE_O12_ENCODING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRE_O12_ENCODING struct {
 	RXE            *RXE                     `hl7:"true,RXE"`
 	TIMING_ENCODED []RRE_O12_TIMING_ENCODED `hl7:"true,TIMING_ENCODED"`
@@ -18028,8 +18028,8 @@ func (s *RRE_O12_ENCODING) MessageTypeSubStructName() string {
 	return "RRE_O12_ENCODING"
 }
 
-//  RRE_O12_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRE_O12_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRE_O12_ORDER struct {
 	ORC      *ORC              `hl7:"true,ORC"`
 	TIMING   []RRE_O12_TIMING  `hl7:"false,TIMING"`
@@ -18041,8 +18041,8 @@ func (s *RRE_O12_ORDER) MessageTypeSubStructName() string {
 	return "RRE_O12_ORDER"
 }
 
-//  RRE_O12_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRE_O12_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRE_O12_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -18053,8 +18053,8 @@ func (s *RRE_O12_PATIENT) MessageTypeSubStructName() string {
 	return "RRE_O12_PATIENT"
 }
 
-//  RRE_O12_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRE_O12_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRE_O12_RESPONSE struct {
 	PATIENT *RRE_O12_PATIENT `hl7:"false,PATIENT"`
 	ORDER   []RRE_O12_ORDER  `hl7:"true,ORDER"`
@@ -18065,8 +18065,8 @@ func (s *RRE_O12_RESPONSE) MessageTypeSubStructName() string {
 	return "RRE_O12_RESPONSE"
 }
 
-//  RRE_O12_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRE_O12_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRE_O12_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -18077,8 +18077,8 @@ func (s *RRE_O12_TIMING) MessageTypeSubStructName() string {
 	return "RRE_O12_TIMING"
 }
 
-//  RRE_O12_TIMING_ENCODED represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRE_O12_TIMING_ENCODED represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRE_O12_TIMING_ENCODED struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -18089,8 +18089,8 @@ func (s *RRE_O12_TIMING_ENCODED) MessageTypeSubStructName() string {
 	return "RRE_O12_TIMING_ENCODED"
 }
 
-//  RRG_O02 represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RRG_O02 represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RRG_O02 struct {
 	MSH      *MSH              `hl7:"true,MSH"`
 	MSA      *MSA              `hl7:"true,MSA"`
@@ -18104,8 +18104,8 @@ func (s *RRG_O02) MessageTypeName() string {
 	return "RRG_O02"
 }
 
-//  RRG_O02_GIVE represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RRG_O02_GIVE represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RRG_O02_GIVE struct {
 	RXG   *RXG  `hl7:"true,RXG"`
 	RXR   []RXR `hl7:"true,RXR"`
@@ -18117,8 +18117,8 @@ func (s *RRG_O02_GIVE) MessageTypeSubStructName() string {
 	return "RRG_O02_GIVE"
 }
 
-//  RRG_O02_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RRG_O02_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RRG_O02_ORDER struct {
 	ORC   *ORC          `hl7:"true,ORC"`
 	GIVE  *RRG_O02_GIVE `hl7:"false,GIVE"`
@@ -18129,8 +18129,8 @@ func (s *RRG_O02_ORDER) MessageTypeSubStructName() string {
 	return "RRG_O02_ORDER"
 }
 
-//  RRG_O02_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RRG_O02_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RRG_O02_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -18141,8 +18141,8 @@ func (s *RRG_O02_PATIENT) MessageTypeSubStructName() string {
 	return "RRG_O02_PATIENT"
 }
 
-//  RRG_O02_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RRG_O02_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RRG_O02_RESPONSE struct {
 	PATIENT *RRG_O02_PATIENT `hl7:"false,PATIENT"`
 	ORDER   []RRG_O02_ORDER  `hl7:"true,ORDER"`
@@ -18153,8 +18153,8 @@ func (s *RRG_O02_RESPONSE) MessageTypeSubStructName() string {
 	return "RRG_O02_RESPONSE"
 }
 
-//  RRG_O16 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRG_O16 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRG_O16 struct {
 	MSH      *MSH              `hl7:"true,MSH"`
 	MSA      *MSA              `hl7:"true,MSA"`
@@ -18169,8 +18169,8 @@ func (s *RRG_O16) MessageTypeName() string {
 	return "RRG_O16"
 }
 
-//  RRG_O16_GIVE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRG_O16_GIVE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRG_O16_GIVE struct {
 	RXG         *RXG                  `hl7:"true,RXG"`
 	TIMING_GIVE []RRG_O16_TIMING_GIVE `hl7:"true,TIMING_GIVE"`
@@ -18183,8 +18183,8 @@ func (s *RRG_O16_GIVE) MessageTypeSubStructName() string {
 	return "RRG_O16_GIVE"
 }
 
-//  RRG_O16_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRG_O16_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRG_O16_ORDER struct {
 	ORC    *ORC             `hl7:"true,ORC"`
 	TIMING []RRG_O16_TIMING `hl7:"false,TIMING"`
@@ -18196,8 +18196,8 @@ func (s *RRG_O16_ORDER) MessageTypeSubStructName() string {
 	return "RRG_O16_ORDER"
 }
 
-//  RRG_O16_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRG_O16_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRG_O16_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -18208,8 +18208,8 @@ func (s *RRG_O16_PATIENT) MessageTypeSubStructName() string {
 	return "RRG_O16_PATIENT"
 }
 
-//  RRG_O16_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRG_O16_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRG_O16_RESPONSE struct {
 	PATIENT *RRG_O16_PATIENT `hl7:"false,PATIENT"`
 	ORDER   []RRG_O16_ORDER  `hl7:"true,ORDER"`
@@ -18220,8 +18220,8 @@ func (s *RRG_O16_RESPONSE) MessageTypeSubStructName() string {
 	return "RRG_O16_RESPONSE"
 }
 
-//  RRG_O16_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRG_O16_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRG_O16_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -18232,8 +18232,8 @@ func (s *RRG_O16_TIMING) MessageTypeSubStructName() string {
 	return "RRG_O16_TIMING"
 }
 
-//  RRG_O16_TIMING_GIVE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRG_O16_TIMING_GIVE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRG_O16_TIMING_GIVE struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -18244,8 +18244,8 @@ func (s *RRG_O16_TIMING_GIVE) MessageTypeSubStructName() string {
 	return "RRG_O16_TIMING_GIVE"
 }
 
-//  RRI_I12_AUTHORIZATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.3
+// RRI_I12_AUTHORIZATION represents the corresponding HL7 message type.
+// Definition from HL7 2.3
 type RRI_I12_AUTHORIZATION struct {
 	AUT   *AUT `hl7:"true,AUT"`
 	CTD   *CTD `hl7:"false,CTD"`
@@ -18256,8 +18256,8 @@ func (s *RRI_I12_AUTHORIZATION) MessageTypeSubStructName() string {
 	return "RRI_I12_AUTHORIZATION"
 }
 
-//  RRI_I12_AUTHORIZATION_CONTACT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRI_I12_AUTHORIZATION_CONTACT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRI_I12_AUTHORIZATION_CONTACT struct {
 	AUT   *AUT `hl7:"true,AUT"`
 	CTD   *CTD `hl7:"false,CTD"`
@@ -18268,8 +18268,8 @@ func (s *RRI_I12_AUTHORIZATION_CONTACT) MessageTypeSubStructName() string {
 	return "RRI_I12_AUTHORIZATION_CONTACT"
 }
 
-//  RRI_I12 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRI_I12 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRI_I12 struct {
 	MSH                   *MSH                           `hl7:"true,MSH"`
 	SFT                   []SFT                          `hl7:"false,SFT"`
@@ -18293,8 +18293,8 @@ func (s *RRI_I12) MessageTypeName() string {
 	return "RRI_I12"
 }
 
-//  RRI_I12_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRI_I12_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRI_I12_OBSERVATION struct {
 	OBR           *OBR                    `hl7:"true,OBR"`
 	NTE           []NTE                   `hl7:"false,NTE"`
@@ -18306,8 +18306,8 @@ func (s *RRI_I12_OBSERVATION) MessageTypeSubStructName() string {
 	return "RRI_I12_OBSERVATION"
 }
 
-//  RRI_I12_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRI_I12_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRI_I12_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -18318,8 +18318,8 @@ func (s *RRI_I12_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "RRI_I12_PATIENT_VISIT"
 }
 
-//  RRI_I12_PROCEDURE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRI_I12_PROCEDURE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRI_I12_PROCEDURE struct {
 	PR1                   *PR1                           `hl7:"true,PR1"`
 	AUTHORIZATION_CONTACT *RRI_I12_AUTHORIZATION_CONTACT `hl7:"false,AUTHORIZATION_CONTACT"`
@@ -18330,8 +18330,8 @@ func (s *RRI_I12_PROCEDURE) MessageTypeSubStructName() string {
 	return "RRI_I12_PROCEDURE"
 }
 
-//  RRI_I12_PROVIDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.3
+// RRI_I12_PROVIDER represents the corresponding HL7 message type.
+// Definition from HL7 2.3
 type RRI_I12_PROVIDER struct {
 	PRD   *PRD  `hl7:"true,PRD"`
 	CTD   []CTD `hl7:"false,CTD"`
@@ -18342,8 +18342,8 @@ func (s *RRI_I12_PROVIDER) MessageTypeSubStructName() string {
 	return "RRI_I12_PROVIDER"
 }
 
-//  RRI_I12_PROVIDER_CONTACT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRI_I12_PROVIDER_CONTACT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRI_I12_PROVIDER_CONTACT struct {
 	PRD   *PRD  `hl7:"true,PRD"`
 	CTD   []CTD `hl7:"false,CTD"`
@@ -18354,8 +18354,8 @@ func (s *RRI_I12_PROVIDER_CONTACT) MessageTypeSubStructName() string {
 	return "RRI_I12_PROVIDER_CONTACT"
 }
 
-//  RRI_I12_RESULTS represents the corresponding HL7 message type.
-//  Definition from HL7 2.3
+// RRI_I12_RESULTS represents the corresponding HL7 message type.
+// Definition from HL7 2.3
 type RRI_I12_RESULTS struct {
 	OBR         *OBR                  `hl7:"true,OBR"`
 	NTE         []NTE                 `hl7:"false,NTE"`
@@ -18367,8 +18367,8 @@ func (s *RRI_I12_RESULTS) MessageTypeSubStructName() string {
 	return "RRI_I12_RESULTS"
 }
 
-//  RRI_I12_RESULTS_NOTES represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RRI_I12_RESULTS_NOTES represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RRI_I12_RESULTS_NOTES struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -18379,8 +18379,8 @@ func (s *RRI_I12_RESULTS_NOTES) MessageTypeSubStructName() string {
 	return "RRI_I12_RESULTS_NOTES"
 }
 
-//  RRI_I12_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3
+// RRI_I12_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.3
 type RRI_I12_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -18391,8 +18391,8 @@ func (s *RRI_I12_VISIT) MessageTypeSubStructName() string {
 	return "RRI_I12_VISIT"
 }
 
-//  RRO_O02 represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RRO_O02 represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RRO_O02 struct {
 	MSH      *MSH              `hl7:"true,MSH"`
 	MSA      *MSA              `hl7:"true,MSA"`
@@ -18406,8 +18406,8 @@ func (s *RRO_O02) MessageTypeName() string {
 	return "RRO_O02"
 }
 
-//  RRO_O02_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RRO_O02_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RRO_O02_ORDER struct {
 	ORC          *ORC                  `hl7:"true,ORC"`
 	ORDER_DETAIL *RRO_O02_ORDER_DETAIL `hl7:"false,ORDER_DETAIL"`
@@ -18418,8 +18418,8 @@ func (s *RRO_O02_ORDER) MessageTypeSubStructName() string {
 	return "RRO_O02_ORDER"
 }
 
-//  RRO_O02_ORDER_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RRO_O02_ORDER_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RRO_O02_ORDER_DETAIL struct {
 	RXO   *RXO  `hl7:"true,RXO"`
 	NTE1  []NTE `hl7:"false,NTE1"`
@@ -18433,8 +18433,8 @@ func (s *RRO_O02_ORDER_DETAIL) MessageTypeSubStructName() string {
 	return "RRO_O02_ORDER_DETAIL"
 }
 
-//  RRO_O02_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RRO_O02_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RRO_O02_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -18445,8 +18445,8 @@ func (s *RRO_O02_PATIENT) MessageTypeSubStructName() string {
 	return "RRO_O02_PATIENT"
 }
 
-//  RRO_O02_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.3.1
+// RRO_O02_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.3.1
 type RRO_O02_RESPONSE struct {
 	PATIENT *RRO_O02_PATIENT `hl7:"false,PATIENT"`
 	ORDER   []RRO_O02_ORDER  `hl7:"true,ORDER"`
@@ -18457,8 +18457,8 @@ func (s *RRO_O02_RESPONSE) MessageTypeSubStructName() string {
 	return "RRO_O02_RESPONSE"
 }
 
-//  RSP_K11 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_K11 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_K11 struct {
 	MSH            *MSH                    `hl7:"true,MSH"`
 	SFT            []SFT                   `hl7:"false,SFT"`
@@ -18475,8 +18475,8 @@ func (s *RSP_K11) MessageTypeName() string {
 	return "RSP_K11"
 }
 
-//  RSP_K11_ROW_DEFINITION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_K11_ROW_DEFINITION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_K11_ROW_DEFINITION struct {
 	RDF   *RDF  `hl7:"true,RDF"`
 	RDT   []RDT `hl7:"false,RDT"`
@@ -18487,8 +18487,8 @@ func (s *RSP_K11_ROW_DEFINITION) MessageTypeSubStructName() string {
 	return "RSP_K11_ROW_DEFINITION"
 }
 
-//  RSP_K13 represents the corresponding HL7 message type.
-//  Definition from HL7 2.4
+// RSP_K13 represents the corresponding HL7 message type.
+// Definition from HL7 2.4
 type RSP_K13 struct {
 	MSH            *MSH                    `hl7:"true,MSH"`
 	MSA            *MSA                    `hl7:"true,MSA"`
@@ -18504,8 +18504,8 @@ func (s *RSP_K13) MessageTypeName() string {
 	return "RSP_K13"
 }
 
-//  RSP_K13_ROW_DEFINITION represents the corresponding HL7 message type.
-//  Definition from HL7 2.4
+// RSP_K13_ROW_DEFINITION represents the corresponding HL7 message type.
+// Definition from HL7 2.4
 type RSP_K13_ROW_DEFINITION struct {
 	RDF   *RDF  `hl7:"true,RDF"`
 	RDT   []RDT `hl7:"false,RDT"`
@@ -18516,8 +18516,8 @@ func (s *RSP_K13_ROW_DEFINITION) MessageTypeSubStructName() string {
 	return "RSP_K13_ROW_DEFINITION"
 }
 
-//  RSP_K15 represents the corresponding HL7 message type.
-//  Definition from HL7 2.4
+// RSP_K15 represents the corresponding HL7 message type.
+// Definition from HL7 2.4
 type RSP_K15 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	MSA   *MSA  `hl7:"true,MSA"`
@@ -18533,8 +18533,8 @@ func (s *RSP_K15) MessageTypeName() string {
 	return "RSP_K15"
 }
 
-//  RSP_K21 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_K21 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_K21 struct {
 	MSH            *MSH                    `hl7:"true,MSH"`
 	SFT            []SFT                   `hl7:"false,SFT"`
@@ -18551,8 +18551,8 @@ func (s *RSP_K21) MessageTypeName() string {
 	return "RSP_K21"
 }
 
-//  RSP_K21_QUERY_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_K21_QUERY_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_K21_QUERY_RESPONSE struct {
 	PID   *PID  `hl7:"true,PID"`
 	PD1   *PD1  `hl7:"false,PD1"`
@@ -18565,8 +18565,8 @@ func (s *RSP_K21_QUERY_RESPONSE) MessageTypeSubStructName() string {
 	return "RSP_K21_QUERY_RESPONSE"
 }
 
-//  RSP_K22 represents the corresponding HL7 message type.
-//  Definition from HL7 2.4
+// RSP_K22 represents the corresponding HL7 message type.
+// Definition from HL7 2.4
 type RSP_K22 struct {
 	MSH            *MSH                     `hl7:"true,MSH"`
 	MSA            *MSA                     `hl7:"true,MSA"`
@@ -18582,8 +18582,8 @@ func (s *RSP_K22) MessageTypeName() string {
 	return "RSP_K22"
 }
 
-//  RSP_K22_QUERY_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.4
+// RSP_K22_QUERY_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.4
 type RSP_K22_QUERY_RESPONSE struct {
 	PID   *PID `hl7:"true,PID"`
 	PD1   *PD1 `hl7:"false,PD1"`
@@ -18595,8 +18595,8 @@ func (s *RSP_K22_QUERY_RESPONSE) MessageTypeSubStructName() string {
 	return "RSP_K22_QUERY_RESPONSE"
 }
 
-//  RSP_K23 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_K23 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_K23 struct {
 	MSH            *MSH                    `hl7:"true,MSH"`
 	SFT            []SFT                   `hl7:"false,SFT"`
@@ -18613,8 +18613,8 @@ func (s *RSP_K23) MessageTypeName() string {
 	return "RSP_K23"
 }
 
-//  RSP_K23_QUERY_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_K23_QUERY_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_K23_QUERY_RESPONSE struct {
 	PID   *PID `hl7:"true,PID"`
 	Other []interface{}
@@ -18624,8 +18624,8 @@ func (s *RSP_K23_QUERY_RESPONSE) MessageTypeSubStructName() string {
 	return "RSP_K23_QUERY_RESPONSE"
 }
 
-//  RSP_K24 represents the corresponding HL7 message type.
-//  Definition from HL7 2.4
+// RSP_K24 represents the corresponding HL7 message type.
+// Definition from HL7 2.4
 type RSP_K24 struct {
 	MSH   *MSH `hl7:"true,MSH"`
 	MSA   *MSA `hl7:"true,MSA"`
@@ -18641,8 +18641,8 @@ func (s *RSP_K24) MessageTypeName() string {
 	return "RSP_K24"
 }
 
-//  RSP_K25 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_K25 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_K25 struct {
 	MSH   *MSH            `hl7:"true,MSH"`
 	SFT   []SFT           `hl7:"false,SFT"`
@@ -18660,8 +18660,8 @@ func (s *RSP_K25) MessageTypeName() string {
 	return "RSP_K25"
 }
 
-//  RSP_K25_STAFF represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_K25_STAFF represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_K25_STAFF struct {
 	STF   *STF  `hl7:"true,STF"`
 	PRA   []PRA `hl7:"false,PRA"`
@@ -18677,8 +18677,8 @@ func (s *RSP_K25_STAFF) MessageTypeSubStructName() string {
 	return "RSP_K25_STAFF"
 }
 
-//  RSP_K31_COMPONENTS represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_K31_COMPONENTS represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_K31_COMPONENTS struct {
 	RXC   *RXC  `hl7:"true,RXC"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -18689,8 +18689,8 @@ func (s *RSP_K31_COMPONENTS) MessageTypeSubStructName() string {
 	return "RSP_K31_COMPONENTS"
 }
 
-//  RSP_K31 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_K31 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_K31 struct {
 	MSH      *MSH               `hl7:"true,MSH"`
 	MSA      *MSA               `hl7:"true,MSA"`
@@ -18708,8 +18708,8 @@ func (s *RSP_K31) MessageTypeName() string {
 	return "RSP_K31"
 }
 
-//  RSP_K31_ENCODING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_K31_ENCODING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_K31_ENCODING struct {
 	RXE            *RXE                     `hl7:"true,RXE"`
 	TIMING_ENCODED []RSP_K31_TIMING_ENCODED `hl7:"true,TIMING_ENCODED"`
@@ -18722,8 +18722,8 @@ func (s *RSP_K31_ENCODING) MessageTypeSubStructName() string {
 	return "RSP_K31_ENCODING"
 }
 
-//  RSP_K31_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_K31_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_K31_OBSERVATION struct {
 	OBX   *OBX  `hl7:"false,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -18734,8 +18734,8 @@ func (s *RSP_K31_OBSERVATION) MessageTypeSubStructName() string {
 	return "RSP_K31_OBSERVATION"
 }
 
-//  RSP_K31_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_K31_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_K31_ORDER struct {
 	ORC          *ORC                  `hl7:"true,ORC"`
 	TIMING       []RSP_K31_TIMING      `hl7:"false,TIMING"`
@@ -18752,8 +18752,8 @@ func (s *RSP_K31_ORDER) MessageTypeSubStructName() string {
 	return "RSP_K31_ORDER"
 }
 
-//  RSP_K31_ORDER_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_K31_ORDER_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_K31_ORDER_DETAIL struct {
 	RXO        *RXO                 `hl7:"true,RXO"`
 	NTE        []NTE                `hl7:"false,NTE"`
@@ -18766,8 +18766,8 @@ func (s *RSP_K31_ORDER_DETAIL) MessageTypeSubStructName() string {
 	return "RSP_K31_ORDER_DETAIL"
 }
 
-//  RSP_K31_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_K31_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_K31_PATIENT struct {
 	PID           *PID                   `hl7:"true,PID"`
 	PD1           *PD1                   `hl7:"false,PD1"`
@@ -18781,8 +18781,8 @@ func (s *RSP_K31_PATIENT) MessageTypeSubStructName() string {
 	return "RSP_K31_PATIENT"
 }
 
-//  RSP_K31_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_K31_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_K31_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -18793,8 +18793,8 @@ func (s *RSP_K31_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "RSP_K31_PATIENT_VISIT"
 }
 
-//  RSP_K31_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_K31_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_K31_RESPONSE struct {
 	PATIENT *RSP_K31_PATIENT `hl7:"false,PATIENT"`
 	ORDER   []RSP_K31_ORDER  `hl7:"true,ORDER"`
@@ -18805,8 +18805,8 @@ func (s *RSP_K31_RESPONSE) MessageTypeSubStructName() string {
 	return "RSP_K31_RESPONSE"
 }
 
-//  RSP_K31_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_K31_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_K31_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -18817,8 +18817,8 @@ func (s *RSP_K31_TIMING) MessageTypeSubStructName() string {
 	return "RSP_K31_TIMING"
 }
 
-//  RSP_K31_TIMING_ENCODED represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_K31_TIMING_ENCODED represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_K31_TIMING_ENCODED struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -18829,8 +18829,8 @@ func (s *RSP_K31_TIMING_ENCODED) MessageTypeSubStructName() string {
 	return "RSP_K31_TIMING_ENCODED"
 }
 
-//  RSP_Q11 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Q11 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Q11 struct {
 	MSH                  *MSH                          `hl7:"true,MSH"`
 	SFT                  []SFT                         `hl7:"false,SFT"`
@@ -18847,8 +18847,8 @@ func (s *RSP_Q11) MessageTypeName() string {
 	return "RSP_Q11"
 }
 
-//  RSP_Q11_MF_LOC_DEPT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Q11_MF_LOC_DEPT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Q11_MF_LOC_DEPT struct {
 	LDP   *LDP  `hl7:"true,LDP"`
 	LCH   []LCH `hl7:"false,LCH"`
@@ -18860,8 +18860,8 @@ func (s *RSP_Q11_MF_LOC_DEPT) MessageTypeSubStructName() string {
 	return "RSP_Q11_MF_LOC_DEPT"
 }
 
-//  RSP_Q11_QUERY_RESULT_CLUSTER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Q11_QUERY_RESULT_CLUSTER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Q11_QUERY_RESULT_CLUSTER struct {
 	MFE         *MFE                  `hl7:"true,MFE"`
 	LOC         *LOC                  `hl7:"true,LOC"`
@@ -18875,8 +18875,8 @@ func (s *RSP_Q11_QUERY_RESULT_CLUSTER) MessageTypeSubStructName() string {
 	return "RSP_Q11_QUERY_RESULT_CLUSTER"
 }
 
-//  RSP_Z82_COMMON_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z82_COMMON_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z82_COMMON_ORDER struct {
 	ORC           *ORC                   `hl7:"true,ORC"`
 	TIMING        []RSP_Z82_TIMING       `hl7:"false,TIMING"`
@@ -18893,8 +18893,8 @@ func (s *RSP_Z82_COMMON_ORDER) MessageTypeSubStructName() string {
 	return "RSP_Z82_COMMON_ORDER"
 }
 
-//  RSP_Z82 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z82 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z82 struct {
 	MSH            *MSH                     `hl7:"true,MSH"`
 	SFT            []SFT                    `hl7:"false,SFT"`
@@ -18912,8 +18912,8 @@ func (s *RSP_Z82) MessageTypeName() string {
 	return "RSP_Z82"
 }
 
-//  RSP_Z82_ENCODED_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z82_ENCODED_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z82_ENCODED_ORDER struct {
 	RXE            *RXE                     `hl7:"true,RXE"`
 	TIMING_ENCODED []RSP_Z82_TIMING_ENCODED `hl7:"false,TIMING_ENCODED"`
@@ -18926,8 +18926,8 @@ func (s *RSP_Z82_ENCODED_ORDER) MessageTypeSubStructName() string {
 	return "RSP_Z82_ENCODED_ORDER"
 }
 
-//  RSP_Z82_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z82_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z82_OBSERVATION struct {
 	OBX   *OBX  `hl7:"false,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -18938,8 +18938,8 @@ func (s *RSP_Z82_OBSERVATION) MessageTypeSubStructName() string {
 	return "RSP_Z82_OBSERVATION"
 }
 
-//  RSP_Z82_ORDER_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z82_ORDER_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z82_ORDER_DETAIL struct {
 	RXO       *RXO               `hl7:"true,RXO"`
 	NTE       []NTE              `hl7:"false,NTE"`
@@ -18952,8 +18952,8 @@ func (s *RSP_Z82_ORDER_DETAIL) MessageTypeSubStructName() string {
 	return "RSP_Z82_ORDER_DETAIL"
 }
 
-//  RSP_Z82_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z82_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z82_PATIENT struct {
 	PID   *PID           `hl7:"true,PID"`
 	PD1   *PD1           `hl7:"false,PD1"`
@@ -18966,8 +18966,8 @@ func (s *RSP_Z82_PATIENT) MessageTypeSubStructName() string {
 	return "RSP_Z82_PATIENT"
 }
 
-//  RSP_Z82_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.4
+// RSP_Z82_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.4
 type RSP_Z82_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -18978,8 +18978,8 @@ func (s *RSP_Z82_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "RSP_Z82_PATIENT_VISIT"
 }
 
-//  RSP_Z82_QUERY_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z82_QUERY_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z82_QUERY_RESPONSE struct {
 	PATIENT      *RSP_Z82_PATIENT       `hl7:"false,PATIENT"`
 	COMMON_ORDER []RSP_Z82_COMMON_ORDER `hl7:"true,COMMON_ORDER"`
@@ -18990,8 +18990,8 @@ func (s *RSP_Z82_QUERY_RESPONSE) MessageTypeSubStructName() string {
 	return "RSP_Z82_QUERY_RESPONSE"
 }
 
-//  RSP_Z82_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z82_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z82_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -19002,8 +19002,8 @@ func (s *RSP_Z82_TIMING) MessageTypeSubStructName() string {
 	return "RSP_Z82_TIMING"
 }
 
-//  RSP_Z82_TIMING_ENCODED represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z82_TIMING_ENCODED represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z82_TIMING_ENCODED struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -19014,8 +19014,8 @@ func (s *RSP_Z82_TIMING_ENCODED) MessageTypeSubStructName() string {
 	return "RSP_Z82_TIMING_ENCODED"
 }
 
-//  RSP_Z82_TREATMENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z82_TREATMENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z82_TREATMENT struct {
 	RXC   []RXC `hl7:"true,RXC"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -19026,8 +19026,8 @@ func (s *RSP_Z82_TREATMENT) MessageTypeSubStructName() string {
 	return "RSP_Z82_TREATMENT"
 }
 
-//  RSP_Z82_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z82_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z82_VISIT struct {
 	AL1   []AL1 `hl7:"true,AL1"`
 	PV1   *PV1  `hl7:"true,PV1"`
@@ -19039,8 +19039,8 @@ func (s *RSP_Z82_VISIT) MessageTypeSubStructName() string {
 	return "RSP_Z82_VISIT"
 }
 
-//  RSP_Z86_ADMINISTRATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z86_ADMINISTRATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z86_ADMINISTRATION struct {
 	RXA   *RXA  `hl7:"true,RXA"`
 	RXR   []RXR `hl7:"true,RXR"`
@@ -19052,8 +19052,8 @@ func (s *RSP_Z86_ADMINISTRATION) MessageTypeSubStructName() string {
 	return "RSP_Z86_ADMINISTRATION"
 }
 
-//  RSP_Z86_COMMON_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z86_COMMON_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z86_COMMON_ORDER struct {
 	ORC            *ORC                    `hl7:"true,ORC"`
 	TIMING         []RSP_Z86_TIMING        `hl7:"false,TIMING"`
@@ -19070,8 +19070,8 @@ func (s *RSP_Z86_COMMON_ORDER) MessageTypeSubStructName() string {
 	return "RSP_Z86_COMMON_ORDER"
 }
 
-//  RSP_Z86 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z86 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z86 struct {
 	MSH            *MSH                     `hl7:"true,MSH"`
 	SFT            []SFT                    `hl7:"false,SFT"`
@@ -19088,8 +19088,8 @@ func (s *RSP_Z86) MessageTypeName() string {
 	return "RSP_Z86"
 }
 
-//  RSP_Z86_DISPENSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z86_DISPENSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z86_DISPENSE struct {
 	RXD   *RXD  `hl7:"true,RXD"`
 	RXR   []RXR `hl7:"true,RXR"`
@@ -19101,8 +19101,8 @@ func (s *RSP_Z86_DISPENSE) MessageTypeSubStructName() string {
 	return "RSP_Z86_DISPENSE"
 }
 
-//  RSP_Z86_ENCODED_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z86_ENCODED_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z86_ENCODED_ORDER struct {
 	RXE            *RXE                     `hl7:"true,RXE"`
 	TIMING_ENCODED []RSP_Z86_TIMING_ENCODED `hl7:"false,TIMING_ENCODED"`
@@ -19115,8 +19115,8 @@ func (s *RSP_Z86_ENCODED_ORDER) MessageTypeSubStructName() string {
 	return "RSP_Z86_ENCODED_ORDER"
 }
 
-//  RSP_Z86_GIVE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z86_GIVE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z86_GIVE struct {
 	RXG   *RXG  `hl7:"true,RXG"`
 	RXR   []RXR `hl7:"true,RXR"`
@@ -19128,8 +19128,8 @@ func (s *RSP_Z86_GIVE) MessageTypeSubStructName() string {
 	return "RSP_Z86_GIVE"
 }
 
-//  RSP_Z86_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z86_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z86_OBSERVATION struct {
 	OBX   *OBX  `hl7:"false,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -19140,8 +19140,8 @@ func (s *RSP_Z86_OBSERVATION) MessageTypeSubStructName() string {
 	return "RSP_Z86_OBSERVATION"
 }
 
-//  RSP_Z86_ORDER_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z86_ORDER_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z86_ORDER_DETAIL struct {
 	RXO   *RXO  `hl7:"true,RXO"`
 	RXR   []RXR `hl7:"true,RXR"`
@@ -19153,8 +19153,8 @@ func (s *RSP_Z86_ORDER_DETAIL) MessageTypeSubStructName() string {
 	return "RSP_Z86_ORDER_DETAIL"
 }
 
-//  RSP_Z86_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z86_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z86_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	PD1   *PD1  `hl7:"false,PD1"`
@@ -19167,8 +19167,8 @@ func (s *RSP_Z86_PATIENT) MessageTypeSubStructName() string {
 	return "RSP_Z86_PATIENT"
 }
 
-//  RSP_Z86_QUERY_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z86_QUERY_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z86_QUERY_RESPONSE struct {
 	PATIENT      *RSP_Z86_PATIENT       `hl7:"false,PATIENT"`
 	COMMON_ORDER []RSP_Z86_COMMON_ORDER `hl7:"true,COMMON_ORDER"`
@@ -19179,8 +19179,8 @@ func (s *RSP_Z86_QUERY_RESPONSE) MessageTypeSubStructName() string {
 	return "RSP_Z86_QUERY_RESPONSE"
 }
 
-//  RSP_Z86_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z86_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z86_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -19191,8 +19191,8 @@ func (s *RSP_Z86_TIMING) MessageTypeSubStructName() string {
 	return "RSP_Z86_TIMING"
 }
 
-//  RSP_Z86_TIMING_ENCODED represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z86_TIMING_ENCODED represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z86_TIMING_ENCODED struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -19203,8 +19203,8 @@ func (s *RSP_Z86_TIMING_ENCODED) MessageTypeSubStructName() string {
 	return "RSP_Z86_TIMING_ENCODED"
 }
 
-//  RSP_Z88_ALLERGY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z88_ALLERGY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z88_ALLERGY struct {
 	AL1   []AL1          `hl7:"true,AL1"`
 	VISIT *RSP_Z88_VISIT `hl7:"false,VISIT"`
@@ -19215,8 +19215,8 @@ func (s *RSP_Z88_ALLERGY) MessageTypeSubStructName() string {
 	return "RSP_Z88_ALLERGY"
 }
 
-//  RSP_Z88_COMMON_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z88_COMMON_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z88_COMMON_ORDER struct {
 	ORC           *ORC                   `hl7:"true,ORC"`
 	TIMING        []RSP_Z88_TIMING       `hl7:"false,TIMING"`
@@ -19233,8 +19233,8 @@ func (s *RSP_Z88_COMMON_ORDER) MessageTypeSubStructName() string {
 	return "RSP_Z88_COMMON_ORDER"
 }
 
-//  RSP_Z88_COMPONENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z88_COMPONENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z88_COMPONENT struct {
 	RXC   []RXC `hl7:"true,RXC"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -19245,8 +19245,8 @@ func (s *RSP_Z88_COMPONENT) MessageTypeSubStructName() string {
 	return "RSP_Z88_COMPONENT"
 }
 
-//  RSP_Z88 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z88 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z88 struct {
 	MSH            *MSH                     `hl7:"true,MSH"`
 	SFT            []SFT                    `hl7:"false,SFT"`
@@ -19264,8 +19264,8 @@ func (s *RSP_Z88) MessageTypeName() string {
 	return "RSP_Z88"
 }
 
-//  RSP_Z88_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z88_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z88_OBSERVATION struct {
 	OBX   *OBX  `hl7:"false,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -19276,8 +19276,8 @@ func (s *RSP_Z88_OBSERVATION) MessageTypeSubStructName() string {
 	return "RSP_Z88_OBSERVATION"
 }
 
-//  RSP_Z88_ORDER_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z88_ORDER_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z88_ORDER_DETAIL struct {
 	RXO       *RXO               `hl7:"true,RXO"`
 	NTE       []NTE              `hl7:"false,NTE"`
@@ -19290,8 +19290,8 @@ func (s *RSP_Z88_ORDER_DETAIL) MessageTypeSubStructName() string {
 	return "RSP_Z88_ORDER_DETAIL"
 }
 
-//  RSP_Z88_ORDER_ENCODED represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z88_ORDER_ENCODED represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z88_ORDER_ENCODED struct {
 	RXE            *RXE                     `hl7:"true,RXE"`
 	TIMING_ENCODED []RSP_Z88_TIMING_ENCODED `hl7:"false,TIMING_ENCODED"`
@@ -19304,8 +19304,8 @@ func (s *RSP_Z88_ORDER_ENCODED) MessageTypeSubStructName() string {
 	return "RSP_Z88_ORDER_ENCODED"
 }
 
-//  RSP_Z88_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z88_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z88_PATIENT struct {
 	PID     *PID             `hl7:"true,PID"`
 	PD1     *PD1             `hl7:"false,PD1"`
@@ -19318,8 +19318,8 @@ func (s *RSP_Z88_PATIENT) MessageTypeSubStructName() string {
 	return "RSP_Z88_PATIENT"
 }
 
-//  RSP_Z88_QUERY_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z88_QUERY_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z88_QUERY_RESPONSE struct {
 	PATIENT      *RSP_Z88_PATIENT       `hl7:"false,PATIENT"`
 	COMMON_ORDER []RSP_Z88_COMMON_ORDER `hl7:"true,COMMON_ORDER"`
@@ -19330,8 +19330,8 @@ func (s *RSP_Z88_QUERY_RESPONSE) MessageTypeSubStructName() string {
 	return "RSP_Z88_QUERY_RESPONSE"
 }
 
-//  RSP_Z88_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z88_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z88_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -19342,8 +19342,8 @@ func (s *RSP_Z88_TIMING) MessageTypeSubStructName() string {
 	return "RSP_Z88_TIMING"
 }
 
-//  RSP_Z88_TIMING_ENCODED represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z88_TIMING_ENCODED represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z88_TIMING_ENCODED struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -19354,8 +19354,8 @@ func (s *RSP_Z88_TIMING_ENCODED) MessageTypeSubStructName() string {
 	return "RSP_Z88_TIMING_ENCODED"
 }
 
-//  RSP_Z88_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z88_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z88_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -19366,8 +19366,8 @@ func (s *RSP_Z88_VISIT) MessageTypeSubStructName() string {
 	return "RSP_Z88_VISIT"
 }
 
-//  RSP_Z90_COMMON_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z90_COMMON_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z90_COMMON_ORDER struct {
 	ORC         *ORC                  `hl7:"true,ORC"`
 	TIMING      []RSP_Z90_TIMING      `hl7:"false,TIMING"`
@@ -19382,8 +19382,8 @@ func (s *RSP_Z90_COMMON_ORDER) MessageTypeSubStructName() string {
 	return "RSP_Z90_COMMON_ORDER"
 }
 
-//  RSP_Z90 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z90 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z90 struct {
 	MSH            *MSH                     `hl7:"true,MSH"`
 	SFT            []SFT                    `hl7:"false,SFT"`
@@ -19401,8 +19401,8 @@ func (s *RSP_Z90) MessageTypeName() string {
 	return "RSP_Z90"
 }
 
-//  RSP_Z90_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z90_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z90_OBSERVATION struct {
 	OBX   *OBX  `hl7:"false,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -19413,8 +19413,8 @@ func (s *RSP_Z90_OBSERVATION) MessageTypeSubStructName() string {
 	return "RSP_Z90_OBSERVATION"
 }
 
-//  RSP_Z90_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z90_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z90_PATIENT struct {
 	PID   *PID           `hl7:"true,PID"`
 	PD1   *PD1           `hl7:"false,PD1"`
@@ -19428,8 +19428,8 @@ func (s *RSP_Z90_PATIENT) MessageTypeSubStructName() string {
 	return "RSP_Z90_PATIENT"
 }
 
-//  RSP_Z90_QUERY_RESPONSE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z90_QUERY_RESPONSE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z90_QUERY_RESPONSE struct {
 	PATIENT      *RSP_Z90_PATIENT       `hl7:"false,PATIENT"`
 	COMMON_ORDER []RSP_Z90_COMMON_ORDER `hl7:"true,COMMON_ORDER"`
@@ -19441,8 +19441,8 @@ func (s *RSP_Z90_QUERY_RESPONSE) MessageTypeSubStructName() string {
 	return "RSP_Z90_QUERY_RESPONSE"
 }
 
-//  RSP_Z90_SPECIMEN represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z90_SPECIMEN represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z90_SPECIMEN struct {
 	SPM   *SPM  `hl7:"true,SPM"`
 	OBX   []OBX `hl7:"false,OBX"`
@@ -19453,8 +19453,8 @@ func (s *RSP_Z90_SPECIMEN) MessageTypeSubStructName() string {
 	return "RSP_Z90_SPECIMEN"
 }
 
-//  RSP_Z90_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z90_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z90_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -19465,8 +19465,8 @@ func (s *RSP_Z90_TIMING) MessageTypeSubStructName() string {
 	return "RSP_Z90_TIMING"
 }
 
-//  RSP_Z90_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RSP_Z90_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RSP_Z90_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -19477,8 +19477,8 @@ func (s *RSP_Z90_VISIT) MessageTypeSubStructName() string {
 	return "RSP_Z90_VISIT"
 }
 
-//  RTB_K13 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RTB_K13 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RTB_K13 struct {
 	MSH            *MSH                    `hl7:"true,MSH"`
 	SFT            []SFT                   `hl7:"false,SFT"`
@@ -19495,8 +19495,8 @@ func (s *RTB_K13) MessageTypeName() string {
 	return "RTB_K13"
 }
 
-//  RTB_K13_ROW_DEFINITION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RTB_K13_ROW_DEFINITION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RTB_K13_ROW_DEFINITION struct {
 	RDF   *RDF  `hl7:"true,RDF"`
 	RDT   []RDT `hl7:"false,RDT"`
@@ -19507,8 +19507,8 @@ func (s *RTB_K13_ROW_DEFINITION) MessageTypeSubStructName() string {
 	return "RTB_K13_ROW_DEFINITION"
 }
 
-//  RTB_Knn represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RTB_Knn represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RTB_Knn struct {
 	MSH *MSH  `hl7:"true,MSH"`
 	SFT []SFT `hl7:"false,SFT"`
@@ -19516,8 +19516,8 @@ type RTB_Knn struct {
 	ERR *ERR  `hl7:"false,ERR"`
 	QAK *QAK  `hl7:"true,QAK"`
 	QPD *QPD  `hl7:"true,QPD"`
-	//  Missing: anyHL7Segment
-	//  Missing: anyHL7Segment
+	// Missing: anyHL7Segment
+	// Missing: anyHL7Segment
 	DSC   *DSC `hl7:"false,DSC"`
 	Other []interface{}
 }
@@ -19526,8 +19526,8 @@ func (s *RTB_Knn) MessageTypeName() string {
 	return "RTB_Knn"
 }
 
-//  RTB_Q13 represents the corresponding HL7 message type.
-//  Definition from HL7 2.4
+// RTB_Q13 represents the corresponding HL7 message type.
+// Definition from HL7 2.4
 type RTB_Q13 struct {
 	MSH            *MSH                    `hl7:"true,MSH"`
 	MSA            *MSA                    `hl7:"true,MSA"`
@@ -19543,8 +19543,8 @@ func (s *RTB_Q13) MessageTypeName() string {
 	return "RTB_Q13"
 }
 
-//  RTB_Q13_ROW_DEFINITION represents the corresponding HL7 message type.
-//  Definition from HL7 2.4
+// RTB_Q13_ROW_DEFINITION represents the corresponding HL7 message type.
+// Definition from HL7 2.4
 type RTB_Q13_ROW_DEFINITION struct {
 	RDF   *RDF  `hl7:"true,RDF"`
 	RDT   []RDT `hl7:"false,RDT"`
@@ -19555,8 +19555,8 @@ func (s *RTB_Q13_ROW_DEFINITION) MessageTypeSubStructName() string {
 	return "RTB_Q13_ROW_DEFINITION"
 }
 
-//  RTB_Z74 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RTB_Z74 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RTB_Z74 struct {
 	MSH            *MSH                    `hl7:"true,MSH"`
 	MSA            *MSA                    `hl7:"true,MSA"`
@@ -19573,8 +19573,8 @@ func (s *RTB_Z74) MessageTypeName() string {
 	return "RTB_Z74"
 }
 
-//  RTB_Z74_ROW_DEFINITION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// RTB_Z74_ROW_DEFINITION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type RTB_Z74_ROW_DEFINITION struct {
 	RDF   *RDF  `hl7:"true,RDF"`
 	RDT   []RDT `hl7:"false,RDT"`
@@ -19585,8 +19585,8 @@ func (s *RTB_Z74_ROW_DEFINITION) MessageTypeSubStructName() string {
 	return "RTB_Z74_ROW_DEFINITION"
 }
 
-//  SIU_S12 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SIU_S12 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SIU_S12 struct {
 	MSH       *MSH                `hl7:"true,MSH"`
 	SCH       *SCH                `hl7:"true,SCH"`
@@ -19601,8 +19601,8 @@ func (s *SIU_S12) MessageTypeName() string {
 	return "SIU_S12"
 }
 
-//  SIU_S12_GENERAL_RESOURCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SIU_S12_GENERAL_RESOURCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SIU_S12_GENERAL_RESOURCE struct {
 	AIG   *AIG  `hl7:"true,AIG"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -19613,8 +19613,8 @@ func (s *SIU_S12_GENERAL_RESOURCE) MessageTypeSubStructName() string {
 	return "SIU_S12_GENERAL_RESOURCE"
 }
 
-//  SIU_S12_LOCATION_RESOURCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SIU_S12_LOCATION_RESOURCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SIU_S12_LOCATION_RESOURCE struct {
 	AIL   *AIL  `hl7:"true,AIL"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -19625,8 +19625,8 @@ func (s *SIU_S12_LOCATION_RESOURCE) MessageTypeSubStructName() string {
 	return "SIU_S12_LOCATION_RESOURCE"
 }
 
-//  SIU_S12_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SIU_S12_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SIU_S12_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	PD1   *PD1  `hl7:"false,PD1"`
@@ -19641,8 +19641,8 @@ func (s *SIU_S12_PATIENT) MessageTypeSubStructName() string {
 	return "SIU_S12_PATIENT"
 }
 
-//  SIU_S12_PERSONNEL_RESOURCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SIU_S12_PERSONNEL_RESOURCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SIU_S12_PERSONNEL_RESOURCE struct {
 	AIP   *AIP  `hl7:"true,AIP"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -19653,8 +19653,8 @@ func (s *SIU_S12_PERSONNEL_RESOURCE) MessageTypeSubStructName() string {
 	return "SIU_S12_PERSONNEL_RESOURCE"
 }
 
-//  SIU_S12_RESOURCES represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SIU_S12_RESOURCES represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SIU_S12_RESOURCES struct {
 	RGS                *RGS                         `hl7:"true,RGS"`
 	SERVICE            []SIU_S12_SERVICE            `hl7:"false,SERVICE"`
@@ -19668,8 +19668,8 @@ func (s *SIU_S12_RESOURCES) MessageTypeSubStructName() string {
 	return "SIU_S12_RESOURCES"
 }
 
-//  SIU_S12_SERVICE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SIU_S12_SERVICE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SIU_S12_SERVICE struct {
 	AIS   *AIS  `hl7:"true,AIS"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -19680,8 +19680,8 @@ func (s *SIU_S12_SERVICE) MessageTypeSubStructName() string {
 	return "SIU_S12_SERVICE"
 }
 
-//  SPQ_Q01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.3
+// SPQ_Q01 represents the corresponding HL7 message type.
+// Definition from HL7 2.3
 type SPQ_Q01 struct {
 	MSH   *MSH `hl7:"true,MSH"`
 	SPR   *SPR `hl7:"true,SPR"`
@@ -19694,8 +19694,8 @@ func (s *SPQ_Q01) MessageTypeName() string {
 	return "SPQ_Q01"
 }
 
-//  SPQ_Q08 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SPQ_Q08 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SPQ_Q08 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -19709,8 +19709,8 @@ func (s *SPQ_Q08) MessageTypeName() string {
 	return "SPQ_Q08"
 }
 
-//  SQM_S25 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SQM_S25 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SQM_S25 struct {
 	MSH     *MSH             `hl7:"true,MSH"`
 	QRD     *QRD             `hl7:"true,QRD"`
@@ -19724,8 +19724,8 @@ func (s *SQM_S25) MessageTypeName() string {
 	return "SQM_S25"
 }
 
-//  SQM_S25_GENERAL_RESOURCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SQM_S25_GENERAL_RESOURCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SQM_S25_GENERAL_RESOURCE struct {
 	AIG   *AIG `hl7:"true,AIG"`
 	APR   *APR `hl7:"false,APR"`
@@ -19736,8 +19736,8 @@ func (s *SQM_S25_GENERAL_RESOURCE) MessageTypeSubStructName() string {
 	return "SQM_S25_GENERAL_RESOURCE"
 }
 
-//  SQM_S25_LOCATION_RESOURCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SQM_S25_LOCATION_RESOURCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SQM_S25_LOCATION_RESOURCE struct {
 	AIL   *AIL `hl7:"true,AIL"`
 	APR   *APR `hl7:"false,APR"`
@@ -19748,8 +19748,8 @@ func (s *SQM_S25_LOCATION_RESOURCE) MessageTypeSubStructName() string {
 	return "SQM_S25_LOCATION_RESOURCE"
 }
 
-//  SQM_S25_PERSONNEL_RESOURCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SQM_S25_PERSONNEL_RESOURCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SQM_S25_PERSONNEL_RESOURCE struct {
 	AIP   *AIP `hl7:"true,AIP"`
 	APR   *APR `hl7:"false,APR"`
@@ -19760,8 +19760,8 @@ func (s *SQM_S25_PERSONNEL_RESOURCE) MessageTypeSubStructName() string {
 	return "SQM_S25_PERSONNEL_RESOURCE"
 }
 
-//  SQM_S25_REQUEST represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SQM_S25_REQUEST represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SQM_S25_REQUEST struct {
 	ARQ       *ARQ                `hl7:"true,ARQ"`
 	APR       *APR                `hl7:"false,APR"`
@@ -19774,8 +19774,8 @@ func (s *SQM_S25_REQUEST) MessageTypeSubStructName() string {
 	return "SQM_S25_REQUEST"
 }
 
-//  SQM_S25_RESOURCES represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SQM_S25_RESOURCES represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SQM_S25_RESOURCES struct {
 	RGS                *RGS                         `hl7:"true,RGS"`
 	SERVICE            []SQM_S25_SERVICE            `hl7:"false,SERVICE"`
@@ -19789,8 +19789,8 @@ func (s *SQM_S25_RESOURCES) MessageTypeSubStructName() string {
 	return "SQM_S25_RESOURCES"
 }
 
-//  SQM_S25_SERVICE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SQM_S25_SERVICE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SQM_S25_SERVICE struct {
 	AIS   *AIS `hl7:"true,AIS"`
 	APR   *APR `hl7:"false,APR"`
@@ -19801,8 +19801,8 @@ func (s *SQM_S25_SERVICE) MessageTypeSubStructName() string {
 	return "SQM_S25_SERVICE"
 }
 
-//  SQR_S25 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SQR_S25 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SQR_S25 struct {
 	MSH      *MSH               `hl7:"true,MSH"`
 	MSA      *MSA               `hl7:"true,MSA"`
@@ -19817,8 +19817,8 @@ func (s *SQR_S25) MessageTypeName() string {
 	return "SQR_S25"
 }
 
-//  SQR_S25_GENERAL_RESOURCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SQR_S25_GENERAL_RESOURCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SQR_S25_GENERAL_RESOURCE struct {
 	AIG   *AIG  `hl7:"true,AIG"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -19829,8 +19829,8 @@ func (s *SQR_S25_GENERAL_RESOURCE) MessageTypeSubStructName() string {
 	return "SQR_S25_GENERAL_RESOURCE"
 }
 
-//  SQR_S25_LOCATION_RESOURCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SQR_S25_LOCATION_RESOURCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SQR_S25_LOCATION_RESOURCE struct {
 	AIL   *AIL  `hl7:"true,AIL"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -19841,8 +19841,8 @@ func (s *SQR_S25_LOCATION_RESOURCE) MessageTypeSubStructName() string {
 	return "SQR_S25_LOCATION_RESOURCE"
 }
 
-//  SQR_S25_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SQR_S25_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SQR_S25_PATIENT struct {
 	PID   *PID `hl7:"true,PID"`
 	PV1   *PV1 `hl7:"false,PV1"`
@@ -19855,8 +19855,8 @@ func (s *SQR_S25_PATIENT) MessageTypeSubStructName() string {
 	return "SQR_S25_PATIENT"
 }
 
-//  SQR_S25_PERSONNEL_RESOURCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SQR_S25_PERSONNEL_RESOURCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SQR_S25_PERSONNEL_RESOURCE struct {
 	AIP   *AIP  `hl7:"true,AIP"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -19867,8 +19867,8 @@ func (s *SQR_S25_PERSONNEL_RESOURCE) MessageTypeSubStructName() string {
 	return "SQR_S25_PERSONNEL_RESOURCE"
 }
 
-//  SQR_S25_RESOURCES represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SQR_S25_RESOURCES represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SQR_S25_RESOURCES struct {
 	RGS                *RGS                         `hl7:"true,RGS"`
 	SERVICE            []SQR_S25_SERVICE            `hl7:"false,SERVICE"`
@@ -19882,8 +19882,8 @@ func (s *SQR_S25_RESOURCES) MessageTypeSubStructName() string {
 	return "SQR_S25_RESOURCES"
 }
 
-//  SQR_S25_SCHEDULE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SQR_S25_SCHEDULE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SQR_S25_SCHEDULE struct {
 	SCH       *SCH                `hl7:"true,SCH"`
 	TQ1       []TQ1               `hl7:"false,TQ1"`
@@ -19897,8 +19897,8 @@ func (s *SQR_S25_SCHEDULE) MessageTypeSubStructName() string {
 	return "SQR_S25_SCHEDULE"
 }
 
-//  SQR_S25_SERVICE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SQR_S25_SERVICE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SQR_S25_SERVICE struct {
 	AIS   *AIS  `hl7:"true,AIS"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -19909,8 +19909,8 @@ func (s *SQR_S25_SERVICE) MessageTypeSubStructName() string {
 	return "SQR_S25_SERVICE"
 }
 
-//  SRM_S01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SRM_S01 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SRM_S01 struct {
 	MSH       *MSH                `hl7:"true,MSH"`
 	ARQ       *ARQ                `hl7:"true,ARQ"`
@@ -19925,8 +19925,8 @@ func (s *SRM_S01) MessageTypeName() string {
 	return "SRM_S01"
 }
 
-//  SRM_S01_GENERAL_RESOURCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SRM_S01_GENERAL_RESOURCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SRM_S01_GENERAL_RESOURCE struct {
 	AIG   *AIG  `hl7:"true,AIG"`
 	APR   *APR  `hl7:"false,APR"`
@@ -19938,8 +19938,8 @@ func (s *SRM_S01_GENERAL_RESOURCE) MessageTypeSubStructName() string {
 	return "SRM_S01_GENERAL_RESOURCE"
 }
 
-//  SRM_S01_LOCATION_RESOURCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SRM_S01_LOCATION_RESOURCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SRM_S01_LOCATION_RESOURCE struct {
 	AIL   *AIL  `hl7:"true,AIL"`
 	APR   *APR  `hl7:"false,APR"`
@@ -19951,8 +19951,8 @@ func (s *SRM_S01_LOCATION_RESOURCE) MessageTypeSubStructName() string {
 	return "SRM_S01_LOCATION_RESOURCE"
 }
 
-//  SRM_S01_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SRM_S01_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SRM_S01_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	PV1   *PV1  `hl7:"false,PV1"`
@@ -19966,8 +19966,8 @@ func (s *SRM_S01_PATIENT) MessageTypeSubStructName() string {
 	return "SRM_S01_PATIENT"
 }
 
-//  SRM_S01_PERSONNEL_RESOURCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SRM_S01_PERSONNEL_RESOURCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SRM_S01_PERSONNEL_RESOURCE struct {
 	AIP   *AIP  `hl7:"true,AIP"`
 	APR   *APR  `hl7:"false,APR"`
@@ -19979,8 +19979,8 @@ func (s *SRM_S01_PERSONNEL_RESOURCE) MessageTypeSubStructName() string {
 	return "SRM_S01_PERSONNEL_RESOURCE"
 }
 
-//  SRM_S01_RESOURCES represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SRM_S01_RESOURCES represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SRM_S01_RESOURCES struct {
 	RGS                *RGS                         `hl7:"true,RGS"`
 	SERVICE            []SRM_S01_SERVICE            `hl7:"false,SERVICE"`
@@ -19994,8 +19994,8 @@ func (s *SRM_S01_RESOURCES) MessageTypeSubStructName() string {
 	return "SRM_S01_RESOURCES"
 }
 
-//  SRM_S01_SERVICE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SRM_S01_SERVICE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SRM_S01_SERVICE struct {
 	AIS   *AIS  `hl7:"true,AIS"`
 	APR   *APR  `hl7:"false,APR"`
@@ -20007,8 +20007,8 @@ func (s *SRM_S01_SERVICE) MessageTypeSubStructName() string {
 	return "SRM_S01_SERVICE"
 }
 
-//  SRR_S01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SRR_S01 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SRR_S01 struct {
 	MSH      *MSH              `hl7:"true,MSH"`
 	MSA      *MSA              `hl7:"true,MSA"`
@@ -20021,8 +20021,8 @@ func (s *SRR_S01) MessageTypeName() string {
 	return "SRR_S01"
 }
 
-//  SRR_S01_GENERAL_RESOURCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SRR_S01_GENERAL_RESOURCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SRR_S01_GENERAL_RESOURCE struct {
 	AIG   *AIG  `hl7:"true,AIG"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -20033,8 +20033,8 @@ func (s *SRR_S01_GENERAL_RESOURCE) MessageTypeSubStructName() string {
 	return "SRR_S01_GENERAL_RESOURCE"
 }
 
-//  SRR_S01_LOCATION_RESOURCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SRR_S01_LOCATION_RESOURCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SRR_S01_LOCATION_RESOURCE struct {
 	AIL   *AIL  `hl7:"true,AIL"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -20045,8 +20045,8 @@ func (s *SRR_S01_LOCATION_RESOURCE) MessageTypeSubStructName() string {
 	return "SRR_S01_LOCATION_RESOURCE"
 }
 
-//  SRR_S01_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SRR_S01_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SRR_S01_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	PV1   *PV1  `hl7:"false,PV1"`
@@ -20059,8 +20059,8 @@ func (s *SRR_S01_PATIENT) MessageTypeSubStructName() string {
 	return "SRR_S01_PATIENT"
 }
 
-//  SRR_S01_PERSONNEL_RESOURCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SRR_S01_PERSONNEL_RESOURCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SRR_S01_PERSONNEL_RESOURCE struct {
 	AIP   *AIP  `hl7:"true,AIP"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -20071,8 +20071,8 @@ func (s *SRR_S01_PERSONNEL_RESOURCE) MessageTypeSubStructName() string {
 	return "SRR_S01_PERSONNEL_RESOURCE"
 }
 
-//  SRR_S01_RESOURCES represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SRR_S01_RESOURCES represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SRR_S01_RESOURCES struct {
 	RGS                *RGS                         `hl7:"true,RGS"`
 	SERVICE            []SRR_S01_SERVICE            `hl7:"false,SERVICE"`
@@ -20086,8 +20086,8 @@ func (s *SRR_S01_RESOURCES) MessageTypeSubStructName() string {
 	return "SRR_S01_RESOURCES"
 }
 
-//  SRR_S01_SCHEDULE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SRR_S01_SCHEDULE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SRR_S01_SCHEDULE struct {
 	SCH       *SCH                `hl7:"true,SCH"`
 	TQ1       []TQ1               `hl7:"false,TQ1"`
@@ -20101,8 +20101,8 @@ func (s *SRR_S01_SCHEDULE) MessageTypeSubStructName() string {
 	return "SRR_S01_SCHEDULE"
 }
 
-//  SRR_S01_SERVICE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SRR_S01_SERVICE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SRR_S01_SERVICE struct {
 	AIS   *AIS  `hl7:"true,AIS"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -20113,8 +20113,8 @@ func (s *SRR_S01_SERVICE) MessageTypeSubStructName() string {
 	return "SRR_S01_SERVICE"
 }
 
-//  SSR_U04 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SSR_U04 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SSR_U04 struct {
 	MSH                *MSH                         `hl7:"true,MSH"`
 	SFT                []SFT                        `hl7:"false,SFT"`
@@ -20128,8 +20128,8 @@ func (s *SSR_U04) MessageTypeName() string {
 	return "SSR_U04"
 }
 
-//  SSR_U04_SPECIMEN_CONTAINER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SSR_U04_SPECIMEN_CONTAINER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SSR_U04_SPECIMEN_CONTAINER struct {
 	SAC   *SAC  `hl7:"true,SAC"`
 	SPM   []SPM `hl7:"false,SPM"`
@@ -20140,8 +20140,8 @@ func (s *SSR_U04_SPECIMEN_CONTAINER) MessageTypeSubStructName() string {
 	return "SSR_U04_SPECIMEN_CONTAINER"
 }
 
-//  SSU_U03 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SSU_U03 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SSU_U03 struct {
 	MSH                *MSH                         `hl7:"true,MSH"`
 	SFT                []SFT                        `hl7:"false,SFT"`
@@ -20155,8 +20155,8 @@ func (s *SSU_U03) MessageTypeName() string {
 	return "SSU_U03"
 }
 
-//  SSU_U03_SPECIMEN represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SSU_U03_SPECIMEN represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SSU_U03_SPECIMEN struct {
 	SPM   *SPM  `hl7:"true,SPM"`
 	OBX   []OBX `hl7:"false,OBX"`
@@ -20167,8 +20167,8 @@ func (s *SSU_U03_SPECIMEN) MessageTypeSubStructName() string {
 	return "SSU_U03_SPECIMEN"
 }
 
-//  SSU_U03_SPECIMEN_CONTAINER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SSU_U03_SPECIMEN_CONTAINER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SSU_U03_SPECIMEN_CONTAINER struct {
 	SAC      *SAC               `hl7:"true,SAC"`
 	OBX      []OBX              `hl7:"false,OBX"`
@@ -20180,8 +20180,8 @@ func (s *SSU_U03_SPECIMEN_CONTAINER) MessageTypeSubStructName() string {
 	return "SSU_U03_SPECIMEN_CONTAINER"
 }
 
-//  SUR_P09 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SUR_P09 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SUR_P09 struct {
 	MSH      *MSH               `hl7:"true,MSH"`
 	FACILITY []SUR_P09_FACILITY `hl7:"true,FACILITY"`
@@ -20192,14 +20192,14 @@ func (s *SUR_P09) MessageTypeName() string {
 	return "SUR_P09"
 }
 
-//  SUR_P09_FACILITY represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SUR_P09_FACILITY represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SUR_P09_FACILITY struct {
 	FAC             *FAC                      `hl7:"true,FAC"`
 	PRODUCT         []SUR_P09_PRODUCT         `hl7:"true,PRODUCT"`
 	PSH             *PSH                      `hl7:"true,PSH"`
 	FACILITY_DETAIL []SUR_P09_FACILITY_DETAIL `hl7:"true,FACILITY_DETAIL"`
-	//  Missing: ED
+	// Missing: ED
 	Other []interface{}
 }
 
@@ -20207,8 +20207,8 @@ func (s *SUR_P09_FACILITY) MessageTypeSubStructName() string {
 	return "SUR_P09_FACILITY"
 }
 
-//  SUR_P09_FACILITY_DETAIL represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SUR_P09_FACILITY_DETAIL represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SUR_P09_FACILITY_DETAIL struct {
 	FAC   *FAC `hl7:"true,FAC"`
 	PDC   *PDC `hl7:"true,PDC"`
@@ -20220,8 +20220,8 @@ func (s *SUR_P09_FACILITY_DETAIL) MessageTypeSubStructName() string {
 	return "SUR_P09_FACILITY_DETAIL"
 }
 
-//  SUR_P09_PRODUCT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// SUR_P09_PRODUCT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type SUR_P09_PRODUCT struct {
 	PSH   *PSH `hl7:"true,PSH"`
 	PDC   *PDC `hl7:"true,PDC"`
@@ -20232,8 +20232,8 @@ func (s *SUR_P09_PRODUCT) MessageTypeSubStructName() string {
 	return "SUR_P09_PRODUCT"
 }
 
-//  TBR_Q01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.3
+// TBR_Q01 represents the corresponding HL7 message type.
+// Definition from HL7 2.3
 type TBR_Q01 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	MSA   *MSA  `hl7:"true,MSA"`
@@ -20249,8 +20249,8 @@ func (s *TBR_Q01) MessageTypeName() string {
 	return "TBR_Q01"
 }
 
-//  TBR_R08 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// TBR_R08 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type TBR_R08 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -20267,8 +20267,8 @@ func (s *TBR_R08) MessageTypeName() string {
 	return "TBR_R08"
 }
 
-//  TCU_U10 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// TCU_U10 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type TCU_U10 struct {
 	MSH                *MSH                         `hl7:"true,MSH"`
 	SFT                []SFT                        `hl7:"false,SFT"`
@@ -20282,8 +20282,8 @@ func (s *TCU_U10) MessageTypeName() string {
 	return "TCU_U10"
 }
 
-//  TCU_U10_TEST_CONFIGURATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// TCU_U10_TEST_CONFIGURATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type TCU_U10_TEST_CONFIGURATION struct {
 	SPM   *SPM  `hl7:"false,SPM"`
 	TCC   []TCC `hl7:"true,TCC"`
@@ -20294,8 +20294,8 @@ func (s *TCU_U10_TEST_CONFIGURATION) MessageTypeSubStructName() string {
 	return "TCU_U10_TEST_CONFIGURATION"
 }
 
-//  UDM_Q05 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// UDM_Q05 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type UDM_Q05 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -20310,8 +20310,8 @@ func (s *UDM_Q05) MessageTypeName() string {
 	return "UDM_Q05"
 }
 
-//  VQQ_Q01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.3
+// VQQ_Q01 represents the corresponding HL7 message type.
+// Definition from HL7 2.3
 type VQQ_Q01 struct {
 	MSH   *MSH `hl7:"true,MSH"`
 	VTQ   *VTQ `hl7:"true,VTQ"`
@@ -20324,8 +20324,8 @@ func (s *VQQ_Q01) MessageTypeName() string {
 	return "VQQ_Q01"
 }
 
-//  VQQ_Q07 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// VQQ_Q07 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type VQQ_Q07 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -20339,8 +20339,8 @@ func (s *VQQ_Q07) MessageTypeName() string {
 	return "VQQ_Q07"
 }
 
-//  VXQ_V01 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// VXQ_V01 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type VXQ_V01 struct {
 	MSH   *MSH  `hl7:"true,MSH"`
 	SFT   []SFT `hl7:"false,SFT"`
@@ -20353,8 +20353,8 @@ func (s *VXQ_V01) MessageTypeName() string {
 	return "VXQ_V01"
 }
 
-//  VXR_V03 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// VXR_V03 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type VXR_V03 struct {
 	MSH           *MSH                   `hl7:"true,MSH"`
 	MSA           *MSA                   `hl7:"true,MSA"`
@@ -20375,8 +20375,8 @@ func (s *VXR_V03) MessageTypeName() string {
 	return "VXR_V03"
 }
 
-//  VXR_V03_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// VXR_V03_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type VXR_V03_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -20388,8 +20388,8 @@ func (s *VXR_V03_INSURANCE) MessageTypeSubStructName() string {
 	return "VXR_V03_INSURANCE"
 }
 
-//  VXR_V03_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// VXR_V03_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type VXR_V03_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -20400,8 +20400,8 @@ func (s *VXR_V03_OBSERVATION) MessageTypeSubStructName() string {
 	return "VXR_V03_OBSERVATION"
 }
 
-//  VXR_V03_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// VXR_V03_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type VXR_V03_ORDER struct {
 	ORC         *ORC                  `hl7:"true,ORC"`
 	TIMING      []VXR_V03_TIMING      `hl7:"false,TIMING"`
@@ -20415,8 +20415,8 @@ func (s *VXR_V03_ORDER) MessageTypeSubStructName() string {
 	return "VXR_V03_ORDER"
 }
 
-//  VXR_V03_PATIENT_VISIT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// VXR_V03_PATIENT_VISIT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type VXR_V03_PATIENT_VISIT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -20427,8 +20427,8 @@ func (s *VXR_V03_PATIENT_VISIT) MessageTypeSubStructName() string {
 	return "VXR_V03_PATIENT_VISIT"
 }
 
-//  VXR_V03_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// VXR_V03_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type VXR_V03_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -20439,8 +20439,8 @@ func (s *VXR_V03_TIMING) MessageTypeSubStructName() string {
 	return "VXR_V03_TIMING"
 }
 
-//  VXU_V04 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// VXU_V04 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type VXU_V04 struct {
 	MSH       *MSH                `hl7:"true,MSH"`
 	SFT       []SFT               `hl7:"false,SFT"`
@@ -20458,8 +20458,8 @@ func (s *VXU_V04) MessageTypeName() string {
 	return "VXU_V04"
 }
 
-//  VXU_V04_INSURANCE represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// VXU_V04_INSURANCE represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type VXU_V04_INSURANCE struct {
 	IN1   *IN1 `hl7:"true,IN1"`
 	IN2   *IN2 `hl7:"false,IN2"`
@@ -20471,8 +20471,8 @@ func (s *VXU_V04_INSURANCE) MessageTypeSubStructName() string {
 	return "VXU_V04_INSURANCE"
 }
 
-//  VXU_V04_OBSERVATION represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// VXU_V04_OBSERVATION represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type VXU_V04_OBSERVATION struct {
 	OBX   *OBX  `hl7:"true,OBX"`
 	NTE   []NTE `hl7:"false,NTE"`
@@ -20483,8 +20483,8 @@ func (s *VXU_V04_OBSERVATION) MessageTypeSubStructName() string {
 	return "VXU_V04_OBSERVATION"
 }
 
-//  VXU_V04_ORDER represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// VXU_V04_ORDER represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type VXU_V04_ORDER struct {
 	ORC         *ORC                  `hl7:"true,ORC"`
 	TIMING      []VXU_V04_TIMING      `hl7:"false,TIMING"`
@@ -20498,8 +20498,8 @@ func (s *VXU_V04_ORDER) MessageTypeSubStructName() string {
 	return "VXU_V04_ORDER"
 }
 
-//  VXU_V04_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// VXU_V04_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type VXU_V04_PATIENT struct {
 	PV1   *PV1 `hl7:"true,PV1"`
 	PV2   *PV2 `hl7:"false,PV2"`
@@ -20510,8 +20510,8 @@ func (s *VXU_V04_PATIENT) MessageTypeSubStructName() string {
 	return "VXU_V04_PATIENT"
 }
 
-//  VXU_V04_TIMING represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// VXU_V04_TIMING represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type VXU_V04_TIMING struct {
 	TQ1   *TQ1  `hl7:"true,TQ1"`
 	TQ2   []TQ2 `hl7:"false,TQ2"`
@@ -20522,8 +20522,8 @@ func (s *VXU_V04_TIMING) MessageTypeSubStructName() string {
 	return "VXU_V04_TIMING"
 }
 
-//  VXX_V02 represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// VXX_V02 represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type VXX_V02 struct {
 	MSH     *MSH              `hl7:"true,MSH"`
 	MSA     *MSA              `hl7:"true,MSA"`
@@ -20538,8 +20538,8 @@ func (s *VXX_V02) MessageTypeName() string {
 	return "VXX_V02"
 }
 
-//  VXX_V02_PATIENT represents the corresponding HL7 message type.
-//  Definition from HL7 2.5.1
+// VXX_V02_PATIENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5.1
 type VXX_V02_PATIENT struct {
 	PID   *PID  `hl7:"true,PID"`
 	NK1   []NK1 `hl7:"false,NK1"`
@@ -20550,7 +20550,7 @@ func (s *VXX_V02_PATIENT) MessageTypeSubStructName() string {
 	return "VXX_V02_PATIENT"
 }
 
-//  GenericHL7Segment represents the corresponding HL7 segment type.
+// GenericHL7Segment represents the corresponding HL7 segment type.
 type GenericHL7Segment struct {
 	segment []byte
 }
@@ -20559,7 +20559,7 @@ func (s *GenericHL7Segment) SegmentName() string {
 	return "GenericHL7Segment"
 }
 
-//  ABS returns the first ABS segment within the message, or nil if there isn't one.
+// ABS returns the first ABS segment within the message, or nil if there isn't one.
 func (m *Message) ABS() (*ABS, error) {
 	ps, err := m.Parse("ABS")
 	pst, ok := ps.(*ABS)
@@ -20569,7 +20569,7 @@ func (m *Message) ABS() (*ABS, error) {
 	return nil, err
 }
 
-//  ACC returns the first ACC segment within the message, or nil if there isn't one.
+// ACC returns the first ACC segment within the message, or nil if there isn't one.
 func (m *Message) ACC() (*ACC, error) {
 	ps, err := m.Parse("ACC")
 	pst, ok := ps.(*ACC)
@@ -20579,7 +20579,7 @@ func (m *Message) ACC() (*ACC, error) {
 	return nil, err
 }
 
-//  ADD returns the first ADD segment within the message, or nil if there isn't one.
+// ADD returns the first ADD segment within the message, or nil if there isn't one.
 func (m *Message) ADD() (*ADD, error) {
 	ps, err := m.Parse("ADD")
 	pst, ok := ps.(*ADD)
@@ -20589,7 +20589,7 @@ func (m *Message) ADD() (*ADD, error) {
 	return nil, err
 }
 
-//  AFF returns the first AFF segment within the message, or nil if there isn't one.
+// AFF returns the first AFF segment within the message, or nil if there isn't one.
 func (m *Message) AFF() (*AFF, error) {
 	ps, err := m.Parse("AFF")
 	pst, ok := ps.(*AFF)
@@ -20599,7 +20599,7 @@ func (m *Message) AFF() (*AFF, error) {
 	return nil, err
 }
 
-//  AIG returns the first AIG segment within the message, or nil if there isn't one.
+// AIG returns the first AIG segment within the message, or nil if there isn't one.
 func (m *Message) AIG() (*AIG, error) {
 	ps, err := m.Parse("AIG")
 	pst, ok := ps.(*AIG)
@@ -20609,7 +20609,7 @@ func (m *Message) AIG() (*AIG, error) {
 	return nil, err
 }
 
-//  AIL returns the first AIL segment within the message, or nil if there isn't one.
+// AIL returns the first AIL segment within the message, or nil if there isn't one.
 func (m *Message) AIL() (*AIL, error) {
 	ps, err := m.Parse("AIL")
 	pst, ok := ps.(*AIL)
@@ -20619,7 +20619,7 @@ func (m *Message) AIL() (*AIL, error) {
 	return nil, err
 }
 
-//  AIP returns the first AIP segment within the message, or nil if there isn't one.
+// AIP returns the first AIP segment within the message, or nil if there isn't one.
 func (m *Message) AIP() (*AIP, error) {
 	ps, err := m.Parse("AIP")
 	pst, ok := ps.(*AIP)
@@ -20629,7 +20629,7 @@ func (m *Message) AIP() (*AIP, error) {
 	return nil, err
 }
 
-//  AIS returns the first AIS segment within the message, or nil if there isn't one.
+// AIS returns the first AIS segment within the message, or nil if there isn't one.
 func (m *Message) AIS() (*AIS, error) {
 	ps, err := m.Parse("AIS")
 	pst, ok := ps.(*AIS)
@@ -20639,7 +20639,7 @@ func (m *Message) AIS() (*AIS, error) {
 	return nil, err
 }
 
-//  AL1 returns the first AL1 segment within the message, or nil if there isn't one.
+// AL1 returns the first AL1 segment within the message, or nil if there isn't one.
 func (m *Message) AL1() (*AL1, error) {
 	ps, err := m.Parse("AL1")
 	pst, ok := ps.(*AL1)
@@ -20649,7 +20649,7 @@ func (m *Message) AL1() (*AL1, error) {
 	return nil, err
 }
 
-//  APR returns the first APR segment within the message, or nil if there isn't one.
+// APR returns the first APR segment within the message, or nil if there isn't one.
 func (m *Message) APR() (*APR, error) {
 	ps, err := m.Parse("APR")
 	pst, ok := ps.(*APR)
@@ -20659,7 +20659,7 @@ func (m *Message) APR() (*APR, error) {
 	return nil, err
 }
 
-//  ARQ returns the first ARQ segment within the message, or nil if there isn't one.
+// ARQ returns the first ARQ segment within the message, or nil if there isn't one.
 func (m *Message) ARQ() (*ARQ, error) {
 	ps, err := m.Parse("ARQ")
 	pst, ok := ps.(*ARQ)
@@ -20669,7 +20669,7 @@ func (m *Message) ARQ() (*ARQ, error) {
 	return nil, err
 }
 
-//  AUT returns the first AUT segment within the message, or nil if there isn't one.
+// AUT returns the first AUT segment within the message, or nil if there isn't one.
 func (m *Message) AUT() (*AUT, error) {
 	ps, err := m.Parse("AUT")
 	pst, ok := ps.(*AUT)
@@ -20679,7 +20679,7 @@ func (m *Message) AUT() (*AUT, error) {
 	return nil, err
 }
 
-//  BHS returns the first BHS segment within the message, or nil if there isn't one.
+// BHS returns the first BHS segment within the message, or nil if there isn't one.
 func (m *Message) BHS() (*BHS, error) {
 	ps, err := m.Parse("BHS")
 	pst, ok := ps.(*BHS)
@@ -20689,7 +20689,7 @@ func (m *Message) BHS() (*BHS, error) {
 	return nil, err
 }
 
-//  BLC returns the first BLC segment within the message, or nil if there isn't one.
+// BLC returns the first BLC segment within the message, or nil if there isn't one.
 func (m *Message) BLC() (*BLC, error) {
 	ps, err := m.Parse("BLC")
 	pst, ok := ps.(*BLC)
@@ -20699,7 +20699,7 @@ func (m *Message) BLC() (*BLC, error) {
 	return nil, err
 }
 
-//  BLG returns the first BLG segment within the message, or nil if there isn't one.
+// BLG returns the first BLG segment within the message, or nil if there isn't one.
 func (m *Message) BLG() (*BLG, error) {
 	ps, err := m.Parse("BLG")
 	pst, ok := ps.(*BLG)
@@ -20709,7 +20709,7 @@ func (m *Message) BLG() (*BLG, error) {
 	return nil, err
 }
 
-//  BPO returns the first BPO segment within the message, or nil if there isn't one.
+// BPO returns the first BPO segment within the message, or nil if there isn't one.
 func (m *Message) BPO() (*BPO, error) {
 	ps, err := m.Parse("BPO")
 	pst, ok := ps.(*BPO)
@@ -20719,7 +20719,7 @@ func (m *Message) BPO() (*BPO, error) {
 	return nil, err
 }
 
-//  BPX returns the first BPX segment within the message, or nil if there isn't one.
+// BPX returns the first BPX segment within the message, or nil if there isn't one.
 func (m *Message) BPX() (*BPX, error) {
 	ps, err := m.Parse("BPX")
 	pst, ok := ps.(*BPX)
@@ -20729,7 +20729,7 @@ func (m *Message) BPX() (*BPX, error) {
 	return nil, err
 }
 
-//  BTS returns the first BTS segment within the message, or nil if there isn't one.
+// BTS returns the first BTS segment within the message, or nil if there isn't one.
 func (m *Message) BTS() (*BTS, error) {
 	ps, err := m.Parse("BTS")
 	pst, ok := ps.(*BTS)
@@ -20739,7 +20739,7 @@ func (m *Message) BTS() (*BTS, error) {
 	return nil, err
 }
 
-//  BTX returns the first BTX segment within the message, or nil if there isn't one.
+// BTX returns the first BTX segment within the message, or nil if there isn't one.
 func (m *Message) BTX() (*BTX, error) {
 	ps, err := m.Parse("BTX")
 	pst, ok := ps.(*BTX)
@@ -20749,7 +20749,7 @@ func (m *Message) BTX() (*BTX, error) {
 	return nil, err
 }
 
-//  CDM returns the first CDM segment within the message, or nil if there isn't one.
+// CDM returns the first CDM segment within the message, or nil if there isn't one.
 func (m *Message) CDM() (*CDM, error) {
 	ps, err := m.Parse("CDM")
 	pst, ok := ps.(*CDM)
@@ -20759,7 +20759,7 @@ func (m *Message) CDM() (*CDM, error) {
 	return nil, err
 }
 
-//  CER returns the first CER segment within the message, or nil if there isn't one.
+// CER returns the first CER segment within the message, or nil if there isn't one.
 func (m *Message) CER() (*CER, error) {
 	ps, err := m.Parse("CER")
 	pst, ok := ps.(*CER)
@@ -20769,7 +20769,7 @@ func (m *Message) CER() (*CER, error) {
 	return nil, err
 }
 
-//  CM0 returns the first CM0 segment within the message, or nil if there isn't one.
+// CM0 returns the first CM0 segment within the message, or nil if there isn't one.
 func (m *Message) CM0() (*CM0, error) {
 	ps, err := m.Parse("CM0")
 	pst, ok := ps.(*CM0)
@@ -20779,7 +20779,7 @@ func (m *Message) CM0() (*CM0, error) {
 	return nil, err
 }
 
-//  CM1 returns the first CM1 segment within the message, or nil if there isn't one.
+// CM1 returns the first CM1 segment within the message, or nil if there isn't one.
 func (m *Message) CM1() (*CM1, error) {
 	ps, err := m.Parse("CM1")
 	pst, ok := ps.(*CM1)
@@ -20789,7 +20789,7 @@ func (m *Message) CM1() (*CM1, error) {
 	return nil, err
 }
 
-//  CM2 returns the first CM2 segment within the message, or nil if there isn't one.
+// CM2 returns the first CM2 segment within the message, or nil if there isn't one.
 func (m *Message) CM2() (*CM2, error) {
 	ps, err := m.Parse("CM2")
 	pst, ok := ps.(*CM2)
@@ -20799,7 +20799,7 @@ func (m *Message) CM2() (*CM2, error) {
 	return nil, err
 }
 
-//  CNS returns the first CNS segment within the message, or nil if there isn't one.
+// CNS returns the first CNS segment within the message, or nil if there isn't one.
 func (m *Message) CNS() (*CNS, error) {
 	ps, err := m.Parse("CNS")
 	pst, ok := ps.(*CNS)
@@ -20809,7 +20809,7 @@ func (m *Message) CNS() (*CNS, error) {
 	return nil, err
 }
 
-//  CON returns the first CON segment within the message, or nil if there isn't one.
+// CON returns the first CON segment within the message, or nil if there isn't one.
 func (m *Message) CON() (*CON, error) {
 	ps, err := m.Parse("CON")
 	pst, ok := ps.(*CON)
@@ -20819,7 +20819,7 @@ func (m *Message) CON() (*CON, error) {
 	return nil, err
 }
 
-//  CSP returns the first CSP segment within the message, or nil if there isn't one.
+// CSP returns the first CSP segment within the message, or nil if there isn't one.
 func (m *Message) CSP() (*CSP, error) {
 	ps, err := m.Parse("CSP")
 	pst, ok := ps.(*CSP)
@@ -20829,7 +20829,7 @@ func (m *Message) CSP() (*CSP, error) {
 	return nil, err
 }
 
-//  CSR returns the first CSR segment within the message, or nil if there isn't one.
+// CSR returns the first CSR segment within the message, or nil if there isn't one.
 func (m *Message) CSR() (*CSR, error) {
 	ps, err := m.Parse("CSR")
 	pst, ok := ps.(*CSR)
@@ -20839,7 +20839,7 @@ func (m *Message) CSR() (*CSR, error) {
 	return nil, err
 }
 
-//  CSS returns the first CSS segment within the message, or nil if there isn't one.
+// CSS returns the first CSS segment within the message, or nil if there isn't one.
 func (m *Message) CSS() (*CSS, error) {
 	ps, err := m.Parse("CSS")
 	pst, ok := ps.(*CSS)
@@ -20849,7 +20849,7 @@ func (m *Message) CSS() (*CSS, error) {
 	return nil, err
 }
 
-//  CTD returns the first CTD segment within the message, or nil if there isn't one.
+// CTD returns the first CTD segment within the message, or nil if there isn't one.
 func (m *Message) CTD() (*CTD, error) {
 	ps, err := m.Parse("CTD")
 	pst, ok := ps.(*CTD)
@@ -20859,7 +20859,7 @@ func (m *Message) CTD() (*CTD, error) {
 	return nil, err
 }
 
-//  CTI returns the first CTI segment within the message, or nil if there isn't one.
+// CTI returns the first CTI segment within the message, or nil if there isn't one.
 func (m *Message) CTI() (*CTI, error) {
 	ps, err := m.Parse("CTI")
 	pst, ok := ps.(*CTI)
@@ -20869,7 +20869,7 @@ func (m *Message) CTI() (*CTI, error) {
 	return nil, err
 }
 
-//  DB1 returns the first DB1 segment within the message, or nil if there isn't one.
+// DB1 returns the first DB1 segment within the message, or nil if there isn't one.
 func (m *Message) DB1() (*DB1, error) {
 	ps, err := m.Parse("DB1")
 	pst, ok := ps.(*DB1)
@@ -20879,7 +20879,7 @@ func (m *Message) DB1() (*DB1, error) {
 	return nil, err
 }
 
-//  DG1 returns the first DG1 segment within the message, or nil if there isn't one.
+// DG1 returns the first DG1 segment within the message, or nil if there isn't one.
 func (m *Message) DG1() (*DG1, error) {
 	ps, err := m.Parse("DG1")
 	pst, ok := ps.(*DG1)
@@ -20889,7 +20889,7 @@ func (m *Message) DG1() (*DG1, error) {
 	return nil, err
 }
 
-//  DRG returns the first DRG segment within the message, or nil if there isn't one.
+// DRG returns the first DRG segment within the message, or nil if there isn't one.
 func (m *Message) DRG() (*DRG, error) {
 	ps, err := m.Parse("DRG")
 	pst, ok := ps.(*DRG)
@@ -20899,7 +20899,7 @@ func (m *Message) DRG() (*DRG, error) {
 	return nil, err
 }
 
-//  DSC returns the first DSC segment within the message, or nil if there isn't one.
+// DSC returns the first DSC segment within the message, or nil if there isn't one.
 func (m *Message) DSC() (*DSC, error) {
 	ps, err := m.Parse("DSC")
 	pst, ok := ps.(*DSC)
@@ -20909,7 +20909,7 @@ func (m *Message) DSC() (*DSC, error) {
 	return nil, err
 }
 
-//  DSP returns the first DSP segment within the message, or nil if there isn't one.
+// DSP returns the first DSP segment within the message, or nil if there isn't one.
 func (m *Message) DSP() (*DSP, error) {
 	ps, err := m.Parse("DSP")
 	pst, ok := ps.(*DSP)
@@ -20919,7 +20919,7 @@ func (m *Message) DSP() (*DSP, error) {
 	return nil, err
 }
 
-//  ECD returns the first ECD segment within the message, or nil if there isn't one.
+// ECD returns the first ECD segment within the message, or nil if there isn't one.
 func (m *Message) ECD() (*ECD, error) {
 	ps, err := m.Parse("ECD")
 	pst, ok := ps.(*ECD)
@@ -20929,7 +20929,7 @@ func (m *Message) ECD() (*ECD, error) {
 	return nil, err
 }
 
-//  ECR returns the first ECR segment within the message, or nil if there isn't one.
+// ECR returns the first ECR segment within the message, or nil if there isn't one.
 func (m *Message) ECR() (*ECR, error) {
 	ps, err := m.Parse("ECR")
 	pst, ok := ps.(*ECR)
@@ -20939,7 +20939,7 @@ func (m *Message) ECR() (*ECR, error) {
 	return nil, err
 }
 
-//  EDU returns the first EDU segment within the message, or nil if there isn't one.
+// EDU returns the first EDU segment within the message, or nil if there isn't one.
 func (m *Message) EDU() (*EDU, error) {
 	ps, err := m.Parse("EDU")
 	pst, ok := ps.(*EDU)
@@ -20949,7 +20949,7 @@ func (m *Message) EDU() (*EDU, error) {
 	return nil, err
 }
 
-//  EQL returns the first EQL segment within the message, or nil if there isn't one.
+// EQL returns the first EQL segment within the message, or nil if there isn't one.
 func (m *Message) EQL() (*EQL, error) {
 	ps, err := m.Parse("EQL")
 	pst, ok := ps.(*EQL)
@@ -20959,7 +20959,7 @@ func (m *Message) EQL() (*EQL, error) {
 	return nil, err
 }
 
-//  EQP returns the first EQP segment within the message, or nil if there isn't one.
+// EQP returns the first EQP segment within the message, or nil if there isn't one.
 func (m *Message) EQP() (*EQP, error) {
 	ps, err := m.Parse("EQP")
 	pst, ok := ps.(*EQP)
@@ -20969,7 +20969,7 @@ func (m *Message) EQP() (*EQP, error) {
 	return nil, err
 }
 
-//  EQU returns the first EQU segment within the message, or nil if there isn't one.
+// EQU returns the first EQU segment within the message, or nil if there isn't one.
 func (m *Message) EQU() (*EQU, error) {
 	ps, err := m.Parse("EQU")
 	pst, ok := ps.(*EQU)
@@ -20979,7 +20979,7 @@ func (m *Message) EQU() (*EQU, error) {
 	return nil, err
 }
 
-//  ERQ returns the first ERQ segment within the message, or nil if there isn't one.
+// ERQ returns the first ERQ segment within the message, or nil if there isn't one.
 func (m *Message) ERQ() (*ERQ, error) {
 	ps, err := m.Parse("ERQ")
 	pst, ok := ps.(*ERQ)
@@ -20989,7 +20989,7 @@ func (m *Message) ERQ() (*ERQ, error) {
 	return nil, err
 }
 
-//  ERR returns the first ERR segment within the message, or nil if there isn't one.
+// ERR returns the first ERR segment within the message, or nil if there isn't one.
 func (m *Message) ERR() (*ERR, error) {
 	ps, err := m.Parse("ERR")
 	pst, ok := ps.(*ERR)
@@ -20999,7 +20999,7 @@ func (m *Message) ERR() (*ERR, error) {
 	return nil, err
 }
 
-//  EVN returns the first EVN segment within the message, or nil if there isn't one.
+// EVN returns the first EVN segment within the message, or nil if there isn't one.
 func (m *Message) EVN() (*EVN, error) {
 	ps, err := m.Parse("EVN")
 	pst, ok := ps.(*EVN)
@@ -21009,7 +21009,7 @@ func (m *Message) EVN() (*EVN, error) {
 	return nil, err
 }
 
-//  FAC returns the first FAC segment within the message, or nil if there isn't one.
+// FAC returns the first FAC segment within the message, or nil if there isn't one.
 func (m *Message) FAC() (*FAC, error) {
 	ps, err := m.Parse("FAC")
 	pst, ok := ps.(*FAC)
@@ -21019,7 +21019,7 @@ func (m *Message) FAC() (*FAC, error) {
 	return nil, err
 }
 
-//  FHS returns the first FHS segment within the message, or nil if there isn't one.
+// FHS returns the first FHS segment within the message, or nil if there isn't one.
 func (m *Message) FHS() (*FHS, error) {
 	ps, err := m.Parse("FHS")
 	pst, ok := ps.(*FHS)
@@ -21029,7 +21029,7 @@ func (m *Message) FHS() (*FHS, error) {
 	return nil, err
 }
 
-//  FT1 returns the first FT1 segment within the message, or nil if there isn't one.
+// FT1 returns the first FT1 segment within the message, or nil if there isn't one.
 func (m *Message) FT1() (*FT1, error) {
 	ps, err := m.Parse("FT1")
 	pst, ok := ps.(*FT1)
@@ -21039,7 +21039,7 @@ func (m *Message) FT1() (*FT1, error) {
 	return nil, err
 }
 
-//  FTS returns the first FTS segment within the message, or nil if there isn't one.
+// FTS returns the first FTS segment within the message, or nil if there isn't one.
 func (m *Message) FTS() (*FTS, error) {
 	ps, err := m.Parse("FTS")
 	pst, ok := ps.(*FTS)
@@ -21049,7 +21049,7 @@ func (m *Message) FTS() (*FTS, error) {
 	return nil, err
 }
 
-//  GOL returns the first GOL segment within the message, or nil if there isn't one.
+// GOL returns the first GOL segment within the message, or nil if there isn't one.
 func (m *Message) GOL() (*GOL, error) {
 	ps, err := m.Parse("GOL")
 	pst, ok := ps.(*GOL)
@@ -21059,7 +21059,7 @@ func (m *Message) GOL() (*GOL, error) {
 	return nil, err
 }
 
-//  GP1 returns the first GP1 segment within the message, or nil if there isn't one.
+// GP1 returns the first GP1 segment within the message, or nil if there isn't one.
 func (m *Message) GP1() (*GP1, error) {
 	ps, err := m.Parse("GP1")
 	pst, ok := ps.(*GP1)
@@ -21069,7 +21069,7 @@ func (m *Message) GP1() (*GP1, error) {
 	return nil, err
 }
 
-//  GP2 returns the first GP2 segment within the message, or nil if there isn't one.
+// GP2 returns the first GP2 segment within the message, or nil if there isn't one.
 func (m *Message) GP2() (*GP2, error) {
 	ps, err := m.Parse("GP2")
 	pst, ok := ps.(*GP2)
@@ -21079,7 +21079,7 @@ func (m *Message) GP2() (*GP2, error) {
 	return nil, err
 }
 
-//  GT1 returns the first GT1 segment within the message, or nil if there isn't one.
+// GT1 returns the first GT1 segment within the message, or nil if there isn't one.
 func (m *Message) GT1() (*GT1, error) {
 	ps, err := m.Parse("GT1")
 	pst, ok := ps.(*GT1)
@@ -21089,7 +21089,7 @@ func (m *Message) GT1() (*GT1, error) {
 	return nil, err
 }
 
-//  IAM returns the first IAM segment within the message, or nil if there isn't one.
+// IAM returns the first IAM segment within the message, or nil if there isn't one.
 func (m *Message) IAM() (*IAM, error) {
 	ps, err := m.Parse("IAM")
 	pst, ok := ps.(*IAM)
@@ -21099,7 +21099,7 @@ func (m *Message) IAM() (*IAM, error) {
 	return nil, err
 }
 
-//  IIM returns the first IIM segment within the message, or nil if there isn't one.
+// IIM returns the first IIM segment within the message, or nil if there isn't one.
 func (m *Message) IIM() (*IIM, error) {
 	ps, err := m.Parse("IIM")
 	pst, ok := ps.(*IIM)
@@ -21109,7 +21109,7 @@ func (m *Message) IIM() (*IIM, error) {
 	return nil, err
 }
 
-//  IN1 returns the first IN1 segment within the message, or nil if there isn't one.
+// IN1 returns the first IN1 segment within the message, or nil if there isn't one.
 func (m *Message) IN1() (*IN1, error) {
 	ps, err := m.Parse("IN1")
 	pst, ok := ps.(*IN1)
@@ -21119,7 +21119,7 @@ func (m *Message) IN1() (*IN1, error) {
 	return nil, err
 }
 
-//  IN2 returns the first IN2 segment within the message, or nil if there isn't one.
+// IN2 returns the first IN2 segment within the message, or nil if there isn't one.
 func (m *Message) IN2() (*IN2, error) {
 	ps, err := m.Parse("IN2")
 	pst, ok := ps.(*IN2)
@@ -21129,7 +21129,7 @@ func (m *Message) IN2() (*IN2, error) {
 	return nil, err
 }
 
-//  IN3 returns the first IN3 segment within the message, or nil if there isn't one.
+// IN3 returns the first IN3 segment within the message, or nil if there isn't one.
 func (m *Message) IN3() (*IN3, error) {
 	ps, err := m.Parse("IN3")
 	pst, ok := ps.(*IN3)
@@ -21139,7 +21139,7 @@ func (m *Message) IN3() (*IN3, error) {
 	return nil, err
 }
 
-//  INV returns the first INV segment within the message, or nil if there isn't one.
+// INV returns the first INV segment within the message, or nil if there isn't one.
 func (m *Message) INV() (*INV, error) {
 	ps, err := m.Parse("INV")
 	pst, ok := ps.(*INV)
@@ -21149,7 +21149,7 @@ func (m *Message) INV() (*INV, error) {
 	return nil, err
 }
 
-//  IPC returns the first IPC segment within the message, or nil if there isn't one.
+// IPC returns the first IPC segment within the message, or nil if there isn't one.
 func (m *Message) IPC() (*IPC, error) {
 	ps, err := m.Parse("IPC")
 	pst, ok := ps.(*IPC)
@@ -21159,7 +21159,7 @@ func (m *Message) IPC() (*IPC, error) {
 	return nil, err
 }
 
-//  ISD returns the first ISD segment within the message, or nil if there isn't one.
+// ISD returns the first ISD segment within the message, or nil if there isn't one.
 func (m *Message) ISD() (*ISD, error) {
 	ps, err := m.Parse("ISD")
 	pst, ok := ps.(*ISD)
@@ -21169,7 +21169,7 @@ func (m *Message) ISD() (*ISD, error) {
 	return nil, err
 }
 
-//  LAN returns the first LAN segment within the message, or nil if there isn't one.
+// LAN returns the first LAN segment within the message, or nil if there isn't one.
 func (m *Message) LAN() (*LAN, error) {
 	ps, err := m.Parse("LAN")
 	pst, ok := ps.(*LAN)
@@ -21179,7 +21179,7 @@ func (m *Message) LAN() (*LAN, error) {
 	return nil, err
 }
 
-//  LCC returns the first LCC segment within the message, or nil if there isn't one.
+// LCC returns the first LCC segment within the message, or nil if there isn't one.
 func (m *Message) LCC() (*LCC, error) {
 	ps, err := m.Parse("LCC")
 	pst, ok := ps.(*LCC)
@@ -21189,7 +21189,7 @@ func (m *Message) LCC() (*LCC, error) {
 	return nil, err
 }
 
-//  LCH returns the first LCH segment within the message, or nil if there isn't one.
+// LCH returns the first LCH segment within the message, or nil if there isn't one.
 func (m *Message) LCH() (*LCH, error) {
 	ps, err := m.Parse("LCH")
 	pst, ok := ps.(*LCH)
@@ -21199,7 +21199,7 @@ func (m *Message) LCH() (*LCH, error) {
 	return nil, err
 }
 
-//  LDP returns the first LDP segment within the message, or nil if there isn't one.
+// LDP returns the first LDP segment within the message, or nil if there isn't one.
 func (m *Message) LDP() (*LDP, error) {
 	ps, err := m.Parse("LDP")
 	pst, ok := ps.(*LDP)
@@ -21209,7 +21209,7 @@ func (m *Message) LDP() (*LDP, error) {
 	return nil, err
 }
 
-//  LOC returns the first LOC segment within the message, or nil if there isn't one.
+// LOC returns the first LOC segment within the message, or nil if there isn't one.
 func (m *Message) LOC() (*LOC, error) {
 	ps, err := m.Parse("LOC")
 	pst, ok := ps.(*LOC)
@@ -21219,7 +21219,7 @@ func (m *Message) LOC() (*LOC, error) {
 	return nil, err
 }
 
-//  LRL returns the first LRL segment within the message, or nil if there isn't one.
+// LRL returns the first LRL segment within the message, or nil if there isn't one.
 func (m *Message) LRL() (*LRL, error) {
 	ps, err := m.Parse("LRL")
 	pst, ok := ps.(*LRL)
@@ -21229,7 +21229,7 @@ func (m *Message) LRL() (*LRL, error) {
 	return nil, err
 }
 
-//  MFA returns the first MFA segment within the message, or nil if there isn't one.
+// MFA returns the first MFA segment within the message, or nil if there isn't one.
 func (m *Message) MFA() (*MFA, error) {
 	ps, err := m.Parse("MFA")
 	pst, ok := ps.(*MFA)
@@ -21239,7 +21239,7 @@ func (m *Message) MFA() (*MFA, error) {
 	return nil, err
 }
 
-//  MFE returns the first MFE segment within the message, or nil if there isn't one.
+// MFE returns the first MFE segment within the message, or nil if there isn't one.
 func (m *Message) MFE() (*MFE, error) {
 	ps, err := m.Parse("MFE")
 	pst, ok := ps.(*MFE)
@@ -21249,7 +21249,7 @@ func (m *Message) MFE() (*MFE, error) {
 	return nil, err
 }
 
-//  MFI returns the first MFI segment within the message, or nil if there isn't one.
+// MFI returns the first MFI segment within the message, or nil if there isn't one.
 func (m *Message) MFI() (*MFI, error) {
 	ps, err := m.Parse("MFI")
 	pst, ok := ps.(*MFI)
@@ -21259,7 +21259,7 @@ func (m *Message) MFI() (*MFI, error) {
 	return nil, err
 }
 
-//  MRG returns the first MRG segment within the message, or nil if there isn't one.
+// MRG returns the first MRG segment within the message, or nil if there isn't one.
 func (m *Message) MRG() (*MRG, error) {
 	ps, err := m.Parse("MRG")
 	pst, ok := ps.(*MRG)
@@ -21269,7 +21269,7 @@ func (m *Message) MRG() (*MRG, error) {
 	return nil, err
 }
 
-//  MSA returns the first MSA segment within the message, or nil if there isn't one.
+// MSA returns the first MSA segment within the message, or nil if there isn't one.
 func (m *Message) MSA() (*MSA, error) {
 	ps, err := m.Parse("MSA")
 	pst, ok := ps.(*MSA)
@@ -21279,7 +21279,7 @@ func (m *Message) MSA() (*MSA, error) {
 	return nil, err
 }
 
-//  MSH returns the first MSH segment within the message, or nil if there isn't one.
+// MSH returns the first MSH segment within the message, or nil if there isn't one.
 func (m *Message) MSH() (*MSH, error) {
 	ps, err := m.Parse("MSH")
 	pst, ok := ps.(*MSH)
@@ -21289,7 +21289,7 @@ func (m *Message) MSH() (*MSH, error) {
 	return nil, err
 }
 
-//  NCK returns the first NCK segment within the message, or nil if there isn't one.
+// NCK returns the first NCK segment within the message, or nil if there isn't one.
 func (m *Message) NCK() (*NCK, error) {
 	ps, err := m.Parse("NCK")
 	pst, ok := ps.(*NCK)
@@ -21299,7 +21299,7 @@ func (m *Message) NCK() (*NCK, error) {
 	return nil, err
 }
 
-//  NDS returns the first NDS segment within the message, or nil if there isn't one.
+// NDS returns the first NDS segment within the message, or nil if there isn't one.
 func (m *Message) NDS() (*NDS, error) {
 	ps, err := m.Parse("NDS")
 	pst, ok := ps.(*NDS)
@@ -21309,7 +21309,7 @@ func (m *Message) NDS() (*NDS, error) {
 	return nil, err
 }
 
-//  NK1 returns the first NK1 segment within the message, or nil if there isn't one.
+// NK1 returns the first NK1 segment within the message, or nil if there isn't one.
 func (m *Message) NK1() (*NK1, error) {
 	ps, err := m.Parse("NK1")
 	pst, ok := ps.(*NK1)
@@ -21319,7 +21319,7 @@ func (m *Message) NK1() (*NK1, error) {
 	return nil, err
 }
 
-//  NPU returns the first NPU segment within the message, or nil if there isn't one.
+// NPU returns the first NPU segment within the message, or nil if there isn't one.
 func (m *Message) NPU() (*NPU, error) {
 	ps, err := m.Parse("NPU")
 	pst, ok := ps.(*NPU)
@@ -21329,7 +21329,7 @@ func (m *Message) NPU() (*NPU, error) {
 	return nil, err
 }
 
-//  NSC returns the first NSC segment within the message, or nil if there isn't one.
+// NSC returns the first NSC segment within the message, or nil if there isn't one.
 func (m *Message) NSC() (*NSC, error) {
 	ps, err := m.Parse("NSC")
 	pst, ok := ps.(*NSC)
@@ -21339,7 +21339,7 @@ func (m *Message) NSC() (*NSC, error) {
 	return nil, err
 }
 
-//  NST returns the first NST segment within the message, or nil if there isn't one.
+// NST returns the first NST segment within the message, or nil if there isn't one.
 func (m *Message) NST() (*NST, error) {
 	ps, err := m.Parse("NST")
 	pst, ok := ps.(*NST)
@@ -21349,7 +21349,7 @@ func (m *Message) NST() (*NST, error) {
 	return nil, err
 }
 
-//  NTE returns the first NTE segment within the message, or nil if there isn't one.
+// NTE returns the first NTE segment within the message, or nil if there isn't one.
 func (m *Message) NTE() (*NTE, error) {
 	ps, err := m.Parse("NTE")
 	pst, ok := ps.(*NTE)
@@ -21359,7 +21359,7 @@ func (m *Message) NTE() (*NTE, error) {
 	return nil, err
 }
 
-//  OBR returns the first OBR segment within the message, or nil if there isn't one.
+// OBR returns the first OBR segment within the message, or nil if there isn't one.
 func (m *Message) OBR() (*OBR, error) {
 	ps, err := m.Parse("OBR")
 	pst, ok := ps.(*OBR)
@@ -21369,7 +21369,7 @@ func (m *Message) OBR() (*OBR, error) {
 	return nil, err
 }
 
-//  OBX returns the first OBX segment within the message, or nil if there isn't one.
+// OBX returns the first OBX segment within the message, or nil if there isn't one.
 func (m *Message) OBX() (*OBX, error) {
 	ps, err := m.Parse("OBX")
 	pst, ok := ps.(*OBX)
@@ -21379,7 +21379,7 @@ func (m *Message) OBX() (*OBX, error) {
 	return nil, err
 }
 
-//  ODS returns the first ODS segment within the message, or nil if there isn't one.
+// ODS returns the first ODS segment within the message, or nil if there isn't one.
 func (m *Message) ODS() (*ODS, error) {
 	ps, err := m.Parse("ODS")
 	pst, ok := ps.(*ODS)
@@ -21389,7 +21389,7 @@ func (m *Message) ODS() (*ODS, error) {
 	return nil, err
 }
 
-//  ODT returns the first ODT segment within the message, or nil if there isn't one.
+// ODT returns the first ODT segment within the message, or nil if there isn't one.
 func (m *Message) ODT() (*ODT, error) {
 	ps, err := m.Parse("ODT")
 	pst, ok := ps.(*ODT)
@@ -21399,7 +21399,7 @@ func (m *Message) ODT() (*ODT, error) {
 	return nil, err
 }
 
-//  OM1 returns the first OM1 segment within the message, or nil if there isn't one.
+// OM1 returns the first OM1 segment within the message, or nil if there isn't one.
 func (m *Message) OM1() (*OM1, error) {
 	ps, err := m.Parse("OM1")
 	pst, ok := ps.(*OM1)
@@ -21409,7 +21409,7 @@ func (m *Message) OM1() (*OM1, error) {
 	return nil, err
 }
 
-//  OM2 returns the first OM2 segment within the message, or nil if there isn't one.
+// OM2 returns the first OM2 segment within the message, or nil if there isn't one.
 func (m *Message) OM2() (*OM2, error) {
 	ps, err := m.Parse("OM2")
 	pst, ok := ps.(*OM2)
@@ -21419,7 +21419,7 @@ func (m *Message) OM2() (*OM2, error) {
 	return nil, err
 }
 
-//  OM3 returns the first OM3 segment within the message, or nil if there isn't one.
+// OM3 returns the first OM3 segment within the message, or nil if there isn't one.
 func (m *Message) OM3() (*OM3, error) {
 	ps, err := m.Parse("OM3")
 	pst, ok := ps.(*OM3)
@@ -21429,7 +21429,7 @@ func (m *Message) OM3() (*OM3, error) {
 	return nil, err
 }
 
-//  OM4 returns the first OM4 segment within the message, or nil if there isn't one.
+// OM4 returns the first OM4 segment within the message, or nil if there isn't one.
 func (m *Message) OM4() (*OM4, error) {
 	ps, err := m.Parse("OM4")
 	pst, ok := ps.(*OM4)
@@ -21439,7 +21439,7 @@ func (m *Message) OM4() (*OM4, error) {
 	return nil, err
 }
 
-//  OM5 returns the first OM5 segment within the message, or nil if there isn't one.
+// OM5 returns the first OM5 segment within the message, or nil if there isn't one.
 func (m *Message) OM5() (*OM5, error) {
 	ps, err := m.Parse("OM5")
 	pst, ok := ps.(*OM5)
@@ -21449,7 +21449,7 @@ func (m *Message) OM5() (*OM5, error) {
 	return nil, err
 }
 
-//  OM6 returns the first OM6 segment within the message, or nil if there isn't one.
+// OM6 returns the first OM6 segment within the message, or nil if there isn't one.
 func (m *Message) OM6() (*OM6, error) {
 	ps, err := m.Parse("OM6")
 	pst, ok := ps.(*OM6)
@@ -21459,7 +21459,7 @@ func (m *Message) OM6() (*OM6, error) {
 	return nil, err
 }
 
-//  OM7 returns the first OM7 segment within the message, or nil if there isn't one.
+// OM7 returns the first OM7 segment within the message, or nil if there isn't one.
 func (m *Message) OM7() (*OM7, error) {
 	ps, err := m.Parse("OM7")
 	pst, ok := ps.(*OM7)
@@ -21469,7 +21469,7 @@ func (m *Message) OM7() (*OM7, error) {
 	return nil, err
 }
 
-//  ORC returns the first ORC segment within the message, or nil if there isn't one.
+// ORC returns the first ORC segment within the message, or nil if there isn't one.
 func (m *Message) ORC() (*ORC, error) {
 	ps, err := m.Parse("ORC")
 	pst, ok := ps.(*ORC)
@@ -21479,7 +21479,7 @@ func (m *Message) ORC() (*ORC, error) {
 	return nil, err
 }
 
-//  ORG returns the first ORG segment within the message, or nil if there isn't one.
+// ORG returns the first ORG segment within the message, or nil if there isn't one.
 func (m *Message) ORG() (*ORG, error) {
 	ps, err := m.Parse("ORG")
 	pst, ok := ps.(*ORG)
@@ -21489,7 +21489,7 @@ func (m *Message) ORG() (*ORG, error) {
 	return nil, err
 }
 
-//  ORO returns the first ORO segment within the message, or nil if there isn't one.
+// ORO returns the first ORO segment within the message, or nil if there isn't one.
 func (m *Message) ORO() (*ORO, error) {
 	ps, err := m.Parse("ORO")
 	pst, ok := ps.(*ORO)
@@ -21499,7 +21499,7 @@ func (m *Message) ORO() (*ORO, error) {
 	return nil, err
 }
 
-//  OVR returns the first OVR segment within the message, or nil if there isn't one.
+// OVR returns the first OVR segment within the message, or nil if there isn't one.
 func (m *Message) OVR() (*OVR, error) {
 	ps, err := m.Parse("OVR")
 	pst, ok := ps.(*OVR)
@@ -21509,7 +21509,7 @@ func (m *Message) OVR() (*OVR, error) {
 	return nil, err
 }
 
-//  PCR returns the first PCR segment within the message, or nil if there isn't one.
+// PCR returns the first PCR segment within the message, or nil if there isn't one.
 func (m *Message) PCR() (*PCR, error) {
 	ps, err := m.Parse("PCR")
 	pst, ok := ps.(*PCR)
@@ -21519,7 +21519,7 @@ func (m *Message) PCR() (*PCR, error) {
 	return nil, err
 }
 
-//  PD1 returns the first PD1 segment within the message, or nil if there isn't one.
+// PD1 returns the first PD1 segment within the message, or nil if there isn't one.
 func (m *Message) PD1() (*PD1, error) {
 	ps, err := m.Parse("PD1")
 	pst, ok := ps.(*PD1)
@@ -21529,7 +21529,7 @@ func (m *Message) PD1() (*PD1, error) {
 	return nil, err
 }
 
-//  PDA returns the first PDA segment within the message, or nil if there isn't one.
+// PDA returns the first PDA segment within the message, or nil if there isn't one.
 func (m *Message) PDA() (*PDA, error) {
 	ps, err := m.Parse("PDA")
 	pst, ok := ps.(*PDA)
@@ -21539,7 +21539,7 @@ func (m *Message) PDA() (*PDA, error) {
 	return nil, err
 }
 
-//  PDC returns the first PDC segment within the message, or nil if there isn't one.
+// PDC returns the first PDC segment within the message, or nil if there isn't one.
 func (m *Message) PDC() (*PDC, error) {
 	ps, err := m.Parse("PDC")
 	pst, ok := ps.(*PDC)
@@ -21549,7 +21549,7 @@ func (m *Message) PDC() (*PDC, error) {
 	return nil, err
 }
 
-//  PEO returns the first PEO segment within the message, or nil if there isn't one.
+// PEO returns the first PEO segment within the message, or nil if there isn't one.
 func (m *Message) PEO() (*PEO, error) {
 	ps, err := m.Parse("PEO")
 	pst, ok := ps.(*PEO)
@@ -21559,7 +21559,7 @@ func (m *Message) PEO() (*PEO, error) {
 	return nil, err
 }
 
-//  PES returns the first PES segment within the message, or nil if there isn't one.
+// PES returns the first PES segment within the message, or nil if there isn't one.
 func (m *Message) PES() (*PES, error) {
 	ps, err := m.Parse("PES")
 	pst, ok := ps.(*PES)
@@ -21569,7 +21569,7 @@ func (m *Message) PES() (*PES, error) {
 	return nil, err
 }
 
-//  PID returns the first PID segment within the message, or nil if there isn't one.
+// PID returns the first PID segment within the message, or nil if there isn't one.
 func (m *Message) PID() (*PID, error) {
 	ps, err := m.Parse("PID")
 	pst, ok := ps.(*PID)
@@ -21579,7 +21579,7 @@ func (m *Message) PID() (*PID, error) {
 	return nil, err
 }
 
-//  PR1 returns the first PR1 segment within the message, or nil if there isn't one.
+// PR1 returns the first PR1 segment within the message, or nil if there isn't one.
 func (m *Message) PR1() (*PR1, error) {
 	ps, err := m.Parse("PR1")
 	pst, ok := ps.(*PR1)
@@ -21589,7 +21589,7 @@ func (m *Message) PR1() (*PR1, error) {
 	return nil, err
 }
 
-//  PRA returns the first PRA segment within the message, or nil if there isn't one.
+// PRA returns the first PRA segment within the message, or nil if there isn't one.
 func (m *Message) PRA() (*PRA, error) {
 	ps, err := m.Parse("PRA")
 	pst, ok := ps.(*PRA)
@@ -21599,7 +21599,7 @@ func (m *Message) PRA() (*PRA, error) {
 	return nil, err
 }
 
-//  PRB returns the first PRB segment within the message, or nil if there isn't one.
+// PRB returns the first PRB segment within the message, or nil if there isn't one.
 func (m *Message) PRB() (*PRB, error) {
 	ps, err := m.Parse("PRB")
 	pst, ok := ps.(*PRB)
@@ -21609,7 +21609,7 @@ func (m *Message) PRB() (*PRB, error) {
 	return nil, err
 }
 
-//  PRC returns the first PRC segment within the message, or nil if there isn't one.
+// PRC returns the first PRC segment within the message, or nil if there isn't one.
 func (m *Message) PRC() (*PRC, error) {
 	ps, err := m.Parse("PRC")
 	pst, ok := ps.(*PRC)
@@ -21619,7 +21619,7 @@ func (m *Message) PRC() (*PRC, error) {
 	return nil, err
 }
 
-//  PRD returns the first PRD segment within the message, or nil if there isn't one.
+// PRD returns the first PRD segment within the message, or nil if there isn't one.
 func (m *Message) PRD() (*PRD, error) {
 	ps, err := m.Parse("PRD")
 	pst, ok := ps.(*PRD)
@@ -21629,7 +21629,7 @@ func (m *Message) PRD() (*PRD, error) {
 	return nil, err
 }
 
-//  PSH returns the first PSH segment within the message, or nil if there isn't one.
+// PSH returns the first PSH segment within the message, or nil if there isn't one.
 func (m *Message) PSH() (*PSH, error) {
 	ps, err := m.Parse("PSH")
 	pst, ok := ps.(*PSH)
@@ -21639,7 +21639,7 @@ func (m *Message) PSH() (*PSH, error) {
 	return nil, err
 }
 
-//  PTH returns the first PTH segment within the message, or nil if there isn't one.
+// PTH returns the first PTH segment within the message, or nil if there isn't one.
 func (m *Message) PTH() (*PTH, error) {
 	ps, err := m.Parse("PTH")
 	pst, ok := ps.(*PTH)
@@ -21649,7 +21649,7 @@ func (m *Message) PTH() (*PTH, error) {
 	return nil, err
 }
 
-//  PV1 returns the first PV1 segment within the message, or nil if there isn't one.
+// PV1 returns the first PV1 segment within the message, or nil if there isn't one.
 func (m *Message) PV1() (*PV1, error) {
 	ps, err := m.Parse("PV1")
 	pst, ok := ps.(*PV1)
@@ -21659,7 +21659,7 @@ func (m *Message) PV1() (*PV1, error) {
 	return nil, err
 }
 
-//  PV2 returns the first PV2 segment within the message, or nil if there isn't one.
+// PV2 returns the first PV2 segment within the message, or nil if there isn't one.
 func (m *Message) PV2() (*PV2, error) {
 	ps, err := m.Parse("PV2")
 	pst, ok := ps.(*PV2)
@@ -21669,7 +21669,7 @@ func (m *Message) PV2() (*PV2, error) {
 	return nil, err
 }
 
-//  QAK returns the first QAK segment within the message, or nil if there isn't one.
+// QAK returns the first QAK segment within the message, or nil if there isn't one.
 func (m *Message) QAK() (*QAK, error) {
 	ps, err := m.Parse("QAK")
 	pst, ok := ps.(*QAK)
@@ -21679,7 +21679,7 @@ func (m *Message) QAK() (*QAK, error) {
 	return nil, err
 }
 
-//  QID returns the first QID segment within the message, or nil if there isn't one.
+// QID returns the first QID segment within the message, or nil if there isn't one.
 func (m *Message) QID() (*QID, error) {
 	ps, err := m.Parse("QID")
 	pst, ok := ps.(*QID)
@@ -21689,7 +21689,7 @@ func (m *Message) QID() (*QID, error) {
 	return nil, err
 }
 
-//  QPD returns the first QPD segment within the message, or nil if there isn't one.
+// QPD returns the first QPD segment within the message, or nil if there isn't one.
 func (m *Message) QPD() (*QPD, error) {
 	ps, err := m.Parse("QPD")
 	pst, ok := ps.(*QPD)
@@ -21699,7 +21699,7 @@ func (m *Message) QPD() (*QPD, error) {
 	return nil, err
 }
 
-//  QRD returns the first QRD segment within the message, or nil if there isn't one.
+// QRD returns the first QRD segment within the message, or nil if there isn't one.
 func (m *Message) QRD() (*QRD, error) {
 	ps, err := m.Parse("QRD")
 	pst, ok := ps.(*QRD)
@@ -21709,7 +21709,7 @@ func (m *Message) QRD() (*QRD, error) {
 	return nil, err
 }
 
-//  QRF returns the first QRF segment within the message, or nil if there isn't one.
+// QRF returns the first QRF segment within the message, or nil if there isn't one.
 func (m *Message) QRF() (*QRF, error) {
 	ps, err := m.Parse("QRF")
 	pst, ok := ps.(*QRF)
@@ -21719,7 +21719,7 @@ func (m *Message) QRF() (*QRF, error) {
 	return nil, err
 }
 
-//  QRI returns the first QRI segment within the message, or nil if there isn't one.
+// QRI returns the first QRI segment within the message, or nil if there isn't one.
 func (m *Message) QRI() (*QRI, error) {
 	ps, err := m.Parse("QRI")
 	pst, ok := ps.(*QRI)
@@ -21729,7 +21729,7 @@ func (m *Message) QRI() (*QRI, error) {
 	return nil, err
 }
 
-//  RCP returns the first RCP segment within the message, or nil if there isn't one.
+// RCP returns the first RCP segment within the message, or nil if there isn't one.
 func (m *Message) RCP() (*RCP, error) {
 	ps, err := m.Parse("RCP")
 	pst, ok := ps.(*RCP)
@@ -21739,7 +21739,7 @@ func (m *Message) RCP() (*RCP, error) {
 	return nil, err
 }
 
-//  RDF returns the first RDF segment within the message, or nil if there isn't one.
+// RDF returns the first RDF segment within the message, or nil if there isn't one.
 func (m *Message) RDF() (*RDF, error) {
 	ps, err := m.Parse("RDF")
 	pst, ok := ps.(*RDF)
@@ -21749,7 +21749,7 @@ func (m *Message) RDF() (*RDF, error) {
 	return nil, err
 }
 
-//  RDT returns the first RDT segment within the message, or nil if there isn't one.
+// RDT returns the first RDT segment within the message, or nil if there isn't one.
 func (m *Message) RDT() (*RDT, error) {
 	ps, err := m.Parse("RDT")
 	pst, ok := ps.(*RDT)
@@ -21759,7 +21759,7 @@ func (m *Message) RDT() (*RDT, error) {
 	return nil, err
 }
 
-//  RF1 returns the first RF1 segment within the message, or nil if there isn't one.
+// RF1 returns the first RF1 segment within the message, or nil if there isn't one.
 func (m *Message) RF1() (*RF1, error) {
 	ps, err := m.Parse("RF1")
 	pst, ok := ps.(*RF1)
@@ -21769,7 +21769,7 @@ func (m *Message) RF1() (*RF1, error) {
 	return nil, err
 }
 
-//  RGS returns the first RGS segment within the message, or nil if there isn't one.
+// RGS returns the first RGS segment within the message, or nil if there isn't one.
 func (m *Message) RGS() (*RGS, error) {
 	ps, err := m.Parse("RGS")
 	pst, ok := ps.(*RGS)
@@ -21779,7 +21779,7 @@ func (m *Message) RGS() (*RGS, error) {
 	return nil, err
 }
 
-//  RMI returns the first RMI segment within the message, or nil if there isn't one.
+// RMI returns the first RMI segment within the message, or nil if there isn't one.
 func (m *Message) RMI() (*RMI, error) {
 	ps, err := m.Parse("RMI")
 	pst, ok := ps.(*RMI)
@@ -21789,7 +21789,7 @@ func (m *Message) RMI() (*RMI, error) {
 	return nil, err
 }
 
-//  ROL returns the first ROL segment within the message, or nil if there isn't one.
+// ROL returns the first ROL segment within the message, or nil if there isn't one.
 func (m *Message) ROL() (*ROL, error) {
 	ps, err := m.Parse("ROL")
 	pst, ok := ps.(*ROL)
@@ -21799,7 +21799,7 @@ func (m *Message) ROL() (*ROL, error) {
 	return nil, err
 }
 
-//  RQ1 returns the first RQ1 segment within the message, or nil if there isn't one.
+// RQ1 returns the first RQ1 segment within the message, or nil if there isn't one.
 func (m *Message) RQ1() (*RQ1, error) {
 	ps, err := m.Parse("RQ1")
 	pst, ok := ps.(*RQ1)
@@ -21809,7 +21809,7 @@ func (m *Message) RQ1() (*RQ1, error) {
 	return nil, err
 }
 
-//  RQD returns the first RQD segment within the message, or nil if there isn't one.
+// RQD returns the first RQD segment within the message, or nil if there isn't one.
 func (m *Message) RQD() (*RQD, error) {
 	ps, err := m.Parse("RQD")
 	pst, ok := ps.(*RQD)
@@ -21819,7 +21819,7 @@ func (m *Message) RQD() (*RQD, error) {
 	return nil, err
 }
 
-//  RX1 returns the first RX1 segment within the message, or nil if there isn't one.
+// RX1 returns the first RX1 segment within the message, or nil if there isn't one.
 func (m *Message) RX1() (*RX1, error) {
 	ps, err := m.Parse("RX1")
 	pst, ok := ps.(*RX1)
@@ -21829,7 +21829,7 @@ func (m *Message) RX1() (*RX1, error) {
 	return nil, err
 }
 
-//  RXA returns the first RXA segment within the message, or nil if there isn't one.
+// RXA returns the first RXA segment within the message, or nil if there isn't one.
 func (m *Message) RXA() (*RXA, error) {
 	ps, err := m.Parse("RXA")
 	pst, ok := ps.(*RXA)
@@ -21839,7 +21839,7 @@ func (m *Message) RXA() (*RXA, error) {
 	return nil, err
 }
 
-//  RXC returns the first RXC segment within the message, or nil if there isn't one.
+// RXC returns the first RXC segment within the message, or nil if there isn't one.
 func (m *Message) RXC() (*RXC, error) {
 	ps, err := m.Parse("RXC")
 	pst, ok := ps.(*RXC)
@@ -21849,7 +21849,7 @@ func (m *Message) RXC() (*RXC, error) {
 	return nil, err
 }
 
-//  RXD returns the first RXD segment within the message, or nil if there isn't one.
+// RXD returns the first RXD segment within the message, or nil if there isn't one.
 func (m *Message) RXD() (*RXD, error) {
 	ps, err := m.Parse("RXD")
 	pst, ok := ps.(*RXD)
@@ -21859,7 +21859,7 @@ func (m *Message) RXD() (*RXD, error) {
 	return nil, err
 }
 
-//  RXE returns the first RXE segment within the message, or nil if there isn't one.
+// RXE returns the first RXE segment within the message, or nil if there isn't one.
 func (m *Message) RXE() (*RXE, error) {
 	ps, err := m.Parse("RXE")
 	pst, ok := ps.(*RXE)
@@ -21869,7 +21869,7 @@ func (m *Message) RXE() (*RXE, error) {
 	return nil, err
 }
 
-//  RXG returns the first RXG segment within the message, or nil if there isn't one.
+// RXG returns the first RXG segment within the message, or nil if there isn't one.
 func (m *Message) RXG() (*RXG, error) {
 	ps, err := m.Parse("RXG")
 	pst, ok := ps.(*RXG)
@@ -21879,7 +21879,7 @@ func (m *Message) RXG() (*RXG, error) {
 	return nil, err
 }
 
-//  RXO returns the first RXO segment within the message, or nil if there isn't one.
+// RXO returns the first RXO segment within the message, or nil if there isn't one.
 func (m *Message) RXO() (*RXO, error) {
 	ps, err := m.Parse("RXO")
 	pst, ok := ps.(*RXO)
@@ -21889,7 +21889,7 @@ func (m *Message) RXO() (*RXO, error) {
 	return nil, err
 }
 
-//  RXR returns the first RXR segment within the message, or nil if there isn't one.
+// RXR returns the first RXR segment within the message, or nil if there isn't one.
 func (m *Message) RXR() (*RXR, error) {
 	ps, err := m.Parse("RXR")
 	pst, ok := ps.(*RXR)
@@ -21899,7 +21899,7 @@ func (m *Message) RXR() (*RXR, error) {
 	return nil, err
 }
 
-//  SAC returns the first SAC segment within the message, or nil if there isn't one.
+// SAC returns the first SAC segment within the message, or nil if there isn't one.
 func (m *Message) SAC() (*SAC, error) {
 	ps, err := m.Parse("SAC")
 	pst, ok := ps.(*SAC)
@@ -21909,7 +21909,7 @@ func (m *Message) SAC() (*SAC, error) {
 	return nil, err
 }
 
-//  SCH returns the first SCH segment within the message, or nil if there isn't one.
+// SCH returns the first SCH segment within the message, or nil if there isn't one.
 func (m *Message) SCH() (*SCH, error) {
 	ps, err := m.Parse("SCH")
 	pst, ok := ps.(*SCH)
@@ -21919,7 +21919,7 @@ func (m *Message) SCH() (*SCH, error) {
 	return nil, err
 }
 
-//  SFT returns the first SFT segment within the message, or nil if there isn't one.
+// SFT returns the first SFT segment within the message, or nil if there isn't one.
 func (m *Message) SFT() (*SFT, error) {
 	ps, err := m.Parse("SFT")
 	pst, ok := ps.(*SFT)
@@ -21929,7 +21929,7 @@ func (m *Message) SFT() (*SFT, error) {
 	return nil, err
 }
 
-//  SID returns the first SID segment within the message, or nil if there isn't one.
+// SID returns the first SID segment within the message, or nil if there isn't one.
 func (m *Message) SID() (*SID, error) {
 	ps, err := m.Parse("SID")
 	pst, ok := ps.(*SID)
@@ -21939,7 +21939,7 @@ func (m *Message) SID() (*SID, error) {
 	return nil, err
 }
 
-//  SPM returns the first SPM segment within the message, or nil if there isn't one.
+// SPM returns the first SPM segment within the message, or nil if there isn't one.
 func (m *Message) SPM() (*SPM, error) {
 	ps, err := m.Parse("SPM")
 	pst, ok := ps.(*SPM)
@@ -21949,7 +21949,7 @@ func (m *Message) SPM() (*SPM, error) {
 	return nil, err
 }
 
-//  SPR returns the first SPR segment within the message, or nil if there isn't one.
+// SPR returns the first SPR segment within the message, or nil if there isn't one.
 func (m *Message) SPR() (*SPR, error) {
 	ps, err := m.Parse("SPR")
 	pst, ok := ps.(*SPR)
@@ -21959,7 +21959,7 @@ func (m *Message) SPR() (*SPR, error) {
 	return nil, err
 }
 
-//  STF returns the first STF segment within the message, or nil if there isn't one.
+// STF returns the first STF segment within the message, or nil if there isn't one.
 func (m *Message) STF() (*STF, error) {
 	ps, err := m.Parse("STF")
 	pst, ok := ps.(*STF)
@@ -21969,7 +21969,7 @@ func (m *Message) STF() (*STF, error) {
 	return nil, err
 }
 
-//  TCC returns the first TCC segment within the message, or nil if there isn't one.
+// TCC returns the first TCC segment within the message, or nil if there isn't one.
 func (m *Message) TCC() (*TCC, error) {
 	ps, err := m.Parse("TCC")
 	pst, ok := ps.(*TCC)
@@ -21979,7 +21979,7 @@ func (m *Message) TCC() (*TCC, error) {
 	return nil, err
 }
 
-//  TCD returns the first TCD segment within the message, or nil if there isn't one.
+// TCD returns the first TCD segment within the message, or nil if there isn't one.
 func (m *Message) TCD() (*TCD, error) {
 	ps, err := m.Parse("TCD")
 	pst, ok := ps.(*TCD)
@@ -21989,7 +21989,7 @@ func (m *Message) TCD() (*TCD, error) {
 	return nil, err
 }
 
-//  TQ1 returns the first TQ1 segment within the message, or nil if there isn't one.
+// TQ1 returns the first TQ1 segment within the message, or nil if there isn't one.
 func (m *Message) TQ1() (*TQ1, error) {
 	ps, err := m.Parse("TQ1")
 	pst, ok := ps.(*TQ1)
@@ -21999,7 +21999,7 @@ func (m *Message) TQ1() (*TQ1, error) {
 	return nil, err
 }
 
-//  TQ2 returns the first TQ2 segment within the message, or nil if there isn't one.
+// TQ2 returns the first TQ2 segment within the message, or nil if there isn't one.
 func (m *Message) TQ2() (*TQ2, error) {
 	ps, err := m.Parse("TQ2")
 	pst, ok := ps.(*TQ2)
@@ -22009,7 +22009,7 @@ func (m *Message) TQ2() (*TQ2, error) {
 	return nil, err
 }
 
-//  TXA returns the first TXA segment within the message, or nil if there isn't one.
+// TXA returns the first TXA segment within the message, or nil if there isn't one.
 func (m *Message) TXA() (*TXA, error) {
 	ps, err := m.Parse("TXA")
 	pst, ok := ps.(*TXA)
@@ -22019,7 +22019,7 @@ func (m *Message) TXA() (*TXA, error) {
 	return nil, err
 }
 
-//  UB1 returns the first UB1 segment within the message, or nil if there isn't one.
+// UB1 returns the first UB1 segment within the message, or nil if there isn't one.
 func (m *Message) UB1() (*UB1, error) {
 	ps, err := m.Parse("UB1")
 	pst, ok := ps.(*UB1)
@@ -22029,7 +22029,7 @@ func (m *Message) UB1() (*UB1, error) {
 	return nil, err
 }
 
-//  UB2 returns the first UB2 segment within the message, or nil if there isn't one.
+// UB2 returns the first UB2 segment within the message, or nil if there isn't one.
 func (m *Message) UB2() (*UB2, error) {
 	ps, err := m.Parse("UB2")
 	pst, ok := ps.(*UB2)
@@ -22039,7 +22039,7 @@ func (m *Message) UB2() (*UB2, error) {
 	return nil, err
 }
 
-//  URD returns the first URD segment within the message, or nil if there isn't one.
+// URD returns the first URD segment within the message, or nil if there isn't one.
 func (m *Message) URD() (*URD, error) {
 	ps, err := m.Parse("URD")
 	pst, ok := ps.(*URD)
@@ -22049,7 +22049,7 @@ func (m *Message) URD() (*URD, error) {
 	return nil, err
 }
 
-//  URS returns the first URS segment within the message, or nil if there isn't one.
+// URS returns the first URS segment within the message, or nil if there isn't one.
 func (m *Message) URS() (*URS, error) {
 	ps, err := m.Parse("URS")
 	pst, ok := ps.(*URS)
@@ -22059,7 +22059,7 @@ func (m *Message) URS() (*URS, error) {
 	return nil, err
 }
 
-//  VAR returns the first VAR segment within the message, or nil if there isn't one.
+// VAR returns the first VAR segment within the message, or nil if there isn't one.
 func (m *Message) VAR() (*VAR, error) {
 	ps, err := m.Parse("VAR")
 	pst, ok := ps.(*VAR)
@@ -22069,7 +22069,7 @@ func (m *Message) VAR() (*VAR, error) {
 	return nil, err
 }
 
-//  VTQ returns the first VTQ segment within the message, or nil if there isn't one.
+// VTQ returns the first VTQ segment within the message, or nil if there isn't one.
 func (m *Message) VTQ() (*VTQ, error) {
 	ps, err := m.Parse("VTQ")
 	pst, ok := ps.(*VTQ)
@@ -22079,1071 +22079,1071 @@ func (m *Message) VTQ() (*VTQ, error) {
 	return nil, err
 }
 
-//  AllABS returns a slice containing all ABS segments within the message,
-//  or an empty slice if there aren't any.
+// AllABS returns a slice containing all ABS segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllABS() ([]*ABS, error) {
 	pss, err := m.ParseAll("ABS")
 	return pss.([]*ABS), err
 }
 
-//  AllACC returns a slice containing all ACC segments within the message,
-//  or an empty slice if there aren't any.
+// AllACC returns a slice containing all ACC segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllACC() ([]*ACC, error) {
 	pss, err := m.ParseAll("ACC")
 	return pss.([]*ACC), err
 }
 
-//  AllADD returns a slice containing all ADD segments within the message,
-//  or an empty slice if there aren't any.
+// AllADD returns a slice containing all ADD segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllADD() ([]*ADD, error) {
 	pss, err := m.ParseAll("ADD")
 	return pss.([]*ADD), err
 }
 
-//  AllAFF returns a slice containing all AFF segments within the message,
-//  or an empty slice if there aren't any.
+// AllAFF returns a slice containing all AFF segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllAFF() ([]*AFF, error) {
 	pss, err := m.ParseAll("AFF")
 	return pss.([]*AFF), err
 }
 
-//  AllAIG returns a slice containing all AIG segments within the message,
-//  or an empty slice if there aren't any.
+// AllAIG returns a slice containing all AIG segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllAIG() ([]*AIG, error) {
 	pss, err := m.ParseAll("AIG")
 	return pss.([]*AIG), err
 }
 
-//  AllAIL returns a slice containing all AIL segments within the message,
-//  or an empty slice if there aren't any.
+// AllAIL returns a slice containing all AIL segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllAIL() ([]*AIL, error) {
 	pss, err := m.ParseAll("AIL")
 	return pss.([]*AIL), err
 }
 
-//  AllAIP returns a slice containing all AIP segments within the message,
-//  or an empty slice if there aren't any.
+// AllAIP returns a slice containing all AIP segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllAIP() ([]*AIP, error) {
 	pss, err := m.ParseAll("AIP")
 	return pss.([]*AIP), err
 }
 
-//  AllAIS returns a slice containing all AIS segments within the message,
-//  or an empty slice if there aren't any.
+// AllAIS returns a slice containing all AIS segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllAIS() ([]*AIS, error) {
 	pss, err := m.ParseAll("AIS")
 	return pss.([]*AIS), err
 }
 
-//  AllAL1 returns a slice containing all AL1 segments within the message,
-//  or an empty slice if there aren't any.
+// AllAL1 returns a slice containing all AL1 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllAL1() ([]*AL1, error) {
 	pss, err := m.ParseAll("AL1")
 	return pss.([]*AL1), err
 }
 
-//  AllAPR returns a slice containing all APR segments within the message,
-//  or an empty slice if there aren't any.
+// AllAPR returns a slice containing all APR segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllAPR() ([]*APR, error) {
 	pss, err := m.ParseAll("APR")
 	return pss.([]*APR), err
 }
 
-//  AllARQ returns a slice containing all ARQ segments within the message,
-//  or an empty slice if there aren't any.
+// AllARQ returns a slice containing all ARQ segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllARQ() ([]*ARQ, error) {
 	pss, err := m.ParseAll("ARQ")
 	return pss.([]*ARQ), err
 }
 
-//  AllAUT returns a slice containing all AUT segments within the message,
-//  or an empty slice if there aren't any.
+// AllAUT returns a slice containing all AUT segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllAUT() ([]*AUT, error) {
 	pss, err := m.ParseAll("AUT")
 	return pss.([]*AUT), err
 }
 
-//  AllBHS returns a slice containing all BHS segments within the message,
-//  or an empty slice if there aren't any.
+// AllBHS returns a slice containing all BHS segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllBHS() ([]*BHS, error) {
 	pss, err := m.ParseAll("BHS")
 	return pss.([]*BHS), err
 }
 
-//  AllBLC returns a slice containing all BLC segments within the message,
-//  or an empty slice if there aren't any.
+// AllBLC returns a slice containing all BLC segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllBLC() ([]*BLC, error) {
 	pss, err := m.ParseAll("BLC")
 	return pss.([]*BLC), err
 }
 
-//  AllBLG returns a slice containing all BLG segments within the message,
-//  or an empty slice if there aren't any.
+// AllBLG returns a slice containing all BLG segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllBLG() ([]*BLG, error) {
 	pss, err := m.ParseAll("BLG")
 	return pss.([]*BLG), err
 }
 
-//  AllBPO returns a slice containing all BPO segments within the message,
-//  or an empty slice if there aren't any.
+// AllBPO returns a slice containing all BPO segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllBPO() ([]*BPO, error) {
 	pss, err := m.ParseAll("BPO")
 	return pss.([]*BPO), err
 }
 
-//  AllBPX returns a slice containing all BPX segments within the message,
-//  or an empty slice if there aren't any.
+// AllBPX returns a slice containing all BPX segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllBPX() ([]*BPX, error) {
 	pss, err := m.ParseAll("BPX")
 	return pss.([]*BPX), err
 }
 
-//  AllBTS returns a slice containing all BTS segments within the message,
-//  or an empty slice if there aren't any.
+// AllBTS returns a slice containing all BTS segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllBTS() ([]*BTS, error) {
 	pss, err := m.ParseAll("BTS")
 	return pss.([]*BTS), err
 }
 
-//  AllBTX returns a slice containing all BTX segments within the message,
-//  or an empty slice if there aren't any.
+// AllBTX returns a slice containing all BTX segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllBTX() ([]*BTX, error) {
 	pss, err := m.ParseAll("BTX")
 	return pss.([]*BTX), err
 }
 
-//  AllCDM returns a slice containing all CDM segments within the message,
-//  or an empty slice if there aren't any.
+// AllCDM returns a slice containing all CDM segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllCDM() ([]*CDM, error) {
 	pss, err := m.ParseAll("CDM")
 	return pss.([]*CDM), err
 }
 
-//  AllCER returns a slice containing all CER segments within the message,
-//  or an empty slice if there aren't any.
+// AllCER returns a slice containing all CER segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllCER() ([]*CER, error) {
 	pss, err := m.ParseAll("CER")
 	return pss.([]*CER), err
 }
 
-//  AllCM0 returns a slice containing all CM0 segments within the message,
-//  or an empty slice if there aren't any.
+// AllCM0 returns a slice containing all CM0 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllCM0() ([]*CM0, error) {
 	pss, err := m.ParseAll("CM0")
 	return pss.([]*CM0), err
 }
 
-//  AllCM1 returns a slice containing all CM1 segments within the message,
-//  or an empty slice if there aren't any.
+// AllCM1 returns a slice containing all CM1 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllCM1() ([]*CM1, error) {
 	pss, err := m.ParseAll("CM1")
 	return pss.([]*CM1), err
 }
 
-//  AllCM2 returns a slice containing all CM2 segments within the message,
-//  or an empty slice if there aren't any.
+// AllCM2 returns a slice containing all CM2 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllCM2() ([]*CM2, error) {
 	pss, err := m.ParseAll("CM2")
 	return pss.([]*CM2), err
 }
 
-//  AllCNS returns a slice containing all CNS segments within the message,
-//  or an empty slice if there aren't any.
+// AllCNS returns a slice containing all CNS segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllCNS() ([]*CNS, error) {
 	pss, err := m.ParseAll("CNS")
 	return pss.([]*CNS), err
 }
 
-//  AllCON returns a slice containing all CON segments within the message,
-//  or an empty slice if there aren't any.
+// AllCON returns a slice containing all CON segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllCON() ([]*CON, error) {
 	pss, err := m.ParseAll("CON")
 	return pss.([]*CON), err
 }
 
-//  AllCSP returns a slice containing all CSP segments within the message,
-//  or an empty slice if there aren't any.
+// AllCSP returns a slice containing all CSP segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllCSP() ([]*CSP, error) {
 	pss, err := m.ParseAll("CSP")
 	return pss.([]*CSP), err
 }
 
-//  AllCSR returns a slice containing all CSR segments within the message,
-//  or an empty slice if there aren't any.
+// AllCSR returns a slice containing all CSR segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllCSR() ([]*CSR, error) {
 	pss, err := m.ParseAll("CSR")
 	return pss.([]*CSR), err
 }
 
-//  AllCSS returns a slice containing all CSS segments within the message,
-//  or an empty slice if there aren't any.
+// AllCSS returns a slice containing all CSS segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllCSS() ([]*CSS, error) {
 	pss, err := m.ParseAll("CSS")
 	return pss.([]*CSS), err
 }
 
-//  AllCTD returns a slice containing all CTD segments within the message,
-//  or an empty slice if there aren't any.
+// AllCTD returns a slice containing all CTD segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllCTD() ([]*CTD, error) {
 	pss, err := m.ParseAll("CTD")
 	return pss.([]*CTD), err
 }
 
-//  AllCTI returns a slice containing all CTI segments within the message,
-//  or an empty slice if there aren't any.
+// AllCTI returns a slice containing all CTI segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllCTI() ([]*CTI, error) {
 	pss, err := m.ParseAll("CTI")
 	return pss.([]*CTI), err
 }
 
-//  AllDB1 returns a slice containing all DB1 segments within the message,
-//  or an empty slice if there aren't any.
+// AllDB1 returns a slice containing all DB1 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllDB1() ([]*DB1, error) {
 	pss, err := m.ParseAll("DB1")
 	return pss.([]*DB1), err
 }
 
-//  AllDG1 returns a slice containing all DG1 segments within the message,
-//  or an empty slice if there aren't any.
+// AllDG1 returns a slice containing all DG1 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllDG1() ([]*DG1, error) {
 	pss, err := m.ParseAll("DG1")
 	return pss.([]*DG1), err
 }
 
-//  AllDRG returns a slice containing all DRG segments within the message,
-//  or an empty slice if there aren't any.
+// AllDRG returns a slice containing all DRG segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllDRG() ([]*DRG, error) {
 	pss, err := m.ParseAll("DRG")
 	return pss.([]*DRG), err
 }
 
-//  AllDSC returns a slice containing all DSC segments within the message,
-//  or an empty slice if there aren't any.
+// AllDSC returns a slice containing all DSC segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllDSC() ([]*DSC, error) {
 	pss, err := m.ParseAll("DSC")
 	return pss.([]*DSC), err
 }
 
-//  AllDSP returns a slice containing all DSP segments within the message,
-//  or an empty slice if there aren't any.
+// AllDSP returns a slice containing all DSP segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllDSP() ([]*DSP, error) {
 	pss, err := m.ParseAll("DSP")
 	return pss.([]*DSP), err
 }
 
-//  AllECD returns a slice containing all ECD segments within the message,
-//  or an empty slice if there aren't any.
+// AllECD returns a slice containing all ECD segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllECD() ([]*ECD, error) {
 	pss, err := m.ParseAll("ECD")
 	return pss.([]*ECD), err
 }
 
-//  AllECR returns a slice containing all ECR segments within the message,
-//  or an empty slice if there aren't any.
+// AllECR returns a slice containing all ECR segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllECR() ([]*ECR, error) {
 	pss, err := m.ParseAll("ECR")
 	return pss.([]*ECR), err
 }
 
-//  AllEDU returns a slice containing all EDU segments within the message,
-//  or an empty slice if there aren't any.
+// AllEDU returns a slice containing all EDU segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllEDU() ([]*EDU, error) {
 	pss, err := m.ParseAll("EDU")
 	return pss.([]*EDU), err
 }
 
-//  AllEQL returns a slice containing all EQL segments within the message,
-//  or an empty slice if there aren't any.
+// AllEQL returns a slice containing all EQL segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllEQL() ([]*EQL, error) {
 	pss, err := m.ParseAll("EQL")
 	return pss.([]*EQL), err
 }
 
-//  AllEQP returns a slice containing all EQP segments within the message,
-//  or an empty slice if there aren't any.
+// AllEQP returns a slice containing all EQP segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllEQP() ([]*EQP, error) {
 	pss, err := m.ParseAll("EQP")
 	return pss.([]*EQP), err
 }
 
-//  AllEQU returns a slice containing all EQU segments within the message,
-//  or an empty slice if there aren't any.
+// AllEQU returns a slice containing all EQU segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllEQU() ([]*EQU, error) {
 	pss, err := m.ParseAll("EQU")
 	return pss.([]*EQU), err
 }
 
-//  AllERQ returns a slice containing all ERQ segments within the message,
-//  or an empty slice if there aren't any.
+// AllERQ returns a slice containing all ERQ segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllERQ() ([]*ERQ, error) {
 	pss, err := m.ParseAll("ERQ")
 	return pss.([]*ERQ), err
 }
 
-//  AllERR returns a slice containing all ERR segments within the message,
-//  or an empty slice if there aren't any.
+// AllERR returns a slice containing all ERR segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllERR() ([]*ERR, error) {
 	pss, err := m.ParseAll("ERR")
 	return pss.([]*ERR), err
 }
 
-//  AllEVN returns a slice containing all EVN segments within the message,
-//  or an empty slice if there aren't any.
+// AllEVN returns a slice containing all EVN segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllEVN() ([]*EVN, error) {
 	pss, err := m.ParseAll("EVN")
 	return pss.([]*EVN), err
 }
 
-//  AllFAC returns a slice containing all FAC segments within the message,
-//  or an empty slice if there aren't any.
+// AllFAC returns a slice containing all FAC segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllFAC() ([]*FAC, error) {
 	pss, err := m.ParseAll("FAC")
 	return pss.([]*FAC), err
 }
 
-//  AllFHS returns a slice containing all FHS segments within the message,
-//  or an empty slice if there aren't any.
+// AllFHS returns a slice containing all FHS segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllFHS() ([]*FHS, error) {
 	pss, err := m.ParseAll("FHS")
 	return pss.([]*FHS), err
 }
 
-//  AllFT1 returns a slice containing all FT1 segments within the message,
-//  or an empty slice if there aren't any.
+// AllFT1 returns a slice containing all FT1 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllFT1() ([]*FT1, error) {
 	pss, err := m.ParseAll("FT1")
 	return pss.([]*FT1), err
 }
 
-//  AllFTS returns a slice containing all FTS segments within the message,
-//  or an empty slice if there aren't any.
+// AllFTS returns a slice containing all FTS segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllFTS() ([]*FTS, error) {
 	pss, err := m.ParseAll("FTS")
 	return pss.([]*FTS), err
 }
 
-//  AllGOL returns a slice containing all GOL segments within the message,
-//  or an empty slice if there aren't any.
+// AllGOL returns a slice containing all GOL segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllGOL() ([]*GOL, error) {
 	pss, err := m.ParseAll("GOL")
 	return pss.([]*GOL), err
 }
 
-//  AllGP1 returns a slice containing all GP1 segments within the message,
-//  or an empty slice if there aren't any.
+// AllGP1 returns a slice containing all GP1 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllGP1() ([]*GP1, error) {
 	pss, err := m.ParseAll("GP1")
 	return pss.([]*GP1), err
 }
 
-//  AllGP2 returns a slice containing all GP2 segments within the message,
-//  or an empty slice if there aren't any.
+// AllGP2 returns a slice containing all GP2 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllGP2() ([]*GP2, error) {
 	pss, err := m.ParseAll("GP2")
 	return pss.([]*GP2), err
 }
 
-//  AllGT1 returns a slice containing all GT1 segments within the message,
-//  or an empty slice if there aren't any.
+// AllGT1 returns a slice containing all GT1 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllGT1() ([]*GT1, error) {
 	pss, err := m.ParseAll("GT1")
 	return pss.([]*GT1), err
 }
 
-//  AllIAM returns a slice containing all IAM segments within the message,
-//  or an empty slice if there aren't any.
+// AllIAM returns a slice containing all IAM segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllIAM() ([]*IAM, error) {
 	pss, err := m.ParseAll("IAM")
 	return pss.([]*IAM), err
 }
 
-//  AllIIM returns a slice containing all IIM segments within the message,
-//  or an empty slice if there aren't any.
+// AllIIM returns a slice containing all IIM segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllIIM() ([]*IIM, error) {
 	pss, err := m.ParseAll("IIM")
 	return pss.([]*IIM), err
 }
 
-//  AllIN1 returns a slice containing all IN1 segments within the message,
-//  or an empty slice if there aren't any.
+// AllIN1 returns a slice containing all IN1 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllIN1() ([]*IN1, error) {
 	pss, err := m.ParseAll("IN1")
 	return pss.([]*IN1), err
 }
 
-//  AllIN2 returns a slice containing all IN2 segments within the message,
-//  or an empty slice if there aren't any.
+// AllIN2 returns a slice containing all IN2 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllIN2() ([]*IN2, error) {
 	pss, err := m.ParseAll("IN2")
 	return pss.([]*IN2), err
 }
 
-//  AllIN3 returns a slice containing all IN3 segments within the message,
-//  or an empty slice if there aren't any.
+// AllIN3 returns a slice containing all IN3 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllIN3() ([]*IN3, error) {
 	pss, err := m.ParseAll("IN3")
 	return pss.([]*IN3), err
 }
 
-//  AllINV returns a slice containing all INV segments within the message,
-//  or an empty slice if there aren't any.
+// AllINV returns a slice containing all INV segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllINV() ([]*INV, error) {
 	pss, err := m.ParseAll("INV")
 	return pss.([]*INV), err
 }
 
-//  AllIPC returns a slice containing all IPC segments within the message,
-//  or an empty slice if there aren't any.
+// AllIPC returns a slice containing all IPC segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllIPC() ([]*IPC, error) {
 	pss, err := m.ParseAll("IPC")
 	return pss.([]*IPC), err
 }
 
-//  AllISD returns a slice containing all ISD segments within the message,
-//  or an empty slice if there aren't any.
+// AllISD returns a slice containing all ISD segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllISD() ([]*ISD, error) {
 	pss, err := m.ParseAll("ISD")
 	return pss.([]*ISD), err
 }
 
-//  AllLAN returns a slice containing all LAN segments within the message,
-//  or an empty slice if there aren't any.
+// AllLAN returns a slice containing all LAN segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllLAN() ([]*LAN, error) {
 	pss, err := m.ParseAll("LAN")
 	return pss.([]*LAN), err
 }
 
-//  AllLCC returns a slice containing all LCC segments within the message,
-//  or an empty slice if there aren't any.
+// AllLCC returns a slice containing all LCC segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllLCC() ([]*LCC, error) {
 	pss, err := m.ParseAll("LCC")
 	return pss.([]*LCC), err
 }
 
-//  AllLCH returns a slice containing all LCH segments within the message,
-//  or an empty slice if there aren't any.
+// AllLCH returns a slice containing all LCH segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllLCH() ([]*LCH, error) {
 	pss, err := m.ParseAll("LCH")
 	return pss.([]*LCH), err
 }
 
-//  AllLDP returns a slice containing all LDP segments within the message,
-//  or an empty slice if there aren't any.
+// AllLDP returns a slice containing all LDP segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllLDP() ([]*LDP, error) {
 	pss, err := m.ParseAll("LDP")
 	return pss.([]*LDP), err
 }
 
-//  AllLOC returns a slice containing all LOC segments within the message,
-//  or an empty slice if there aren't any.
+// AllLOC returns a slice containing all LOC segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllLOC() ([]*LOC, error) {
 	pss, err := m.ParseAll("LOC")
 	return pss.([]*LOC), err
 }
 
-//  AllLRL returns a slice containing all LRL segments within the message,
-//  or an empty slice if there aren't any.
+// AllLRL returns a slice containing all LRL segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllLRL() ([]*LRL, error) {
 	pss, err := m.ParseAll("LRL")
 	return pss.([]*LRL), err
 }
 
-//  AllMFA returns a slice containing all MFA segments within the message,
-//  or an empty slice if there aren't any.
+// AllMFA returns a slice containing all MFA segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllMFA() ([]*MFA, error) {
 	pss, err := m.ParseAll("MFA")
 	return pss.([]*MFA), err
 }
 
-//  AllMFE returns a slice containing all MFE segments within the message,
-//  or an empty slice if there aren't any.
+// AllMFE returns a slice containing all MFE segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllMFE() ([]*MFE, error) {
 	pss, err := m.ParseAll("MFE")
 	return pss.([]*MFE), err
 }
 
-//  AllMFI returns a slice containing all MFI segments within the message,
-//  or an empty slice if there aren't any.
+// AllMFI returns a slice containing all MFI segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllMFI() ([]*MFI, error) {
 	pss, err := m.ParseAll("MFI")
 	return pss.([]*MFI), err
 }
 
-//  AllMRG returns a slice containing all MRG segments within the message,
-//  or an empty slice if there aren't any.
+// AllMRG returns a slice containing all MRG segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllMRG() ([]*MRG, error) {
 	pss, err := m.ParseAll("MRG")
 	return pss.([]*MRG), err
 }
 
-//  AllMSA returns a slice containing all MSA segments within the message,
-//  or an empty slice if there aren't any.
+// AllMSA returns a slice containing all MSA segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllMSA() ([]*MSA, error) {
 	pss, err := m.ParseAll("MSA")
 	return pss.([]*MSA), err
 }
 
-//  AllMSH returns a slice containing all MSH segments within the message,
-//  or an empty slice if there aren't any.
+// AllMSH returns a slice containing all MSH segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllMSH() ([]*MSH, error) {
 	pss, err := m.ParseAll("MSH")
 	return pss.([]*MSH), err
 }
 
-//  AllNCK returns a slice containing all NCK segments within the message,
-//  or an empty slice if there aren't any.
+// AllNCK returns a slice containing all NCK segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllNCK() ([]*NCK, error) {
 	pss, err := m.ParseAll("NCK")
 	return pss.([]*NCK), err
 }
 
-//  AllNDS returns a slice containing all NDS segments within the message,
-//  or an empty slice if there aren't any.
+// AllNDS returns a slice containing all NDS segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllNDS() ([]*NDS, error) {
 	pss, err := m.ParseAll("NDS")
 	return pss.([]*NDS), err
 }
 
-//  AllNK1 returns a slice containing all NK1 segments within the message,
-//  or an empty slice if there aren't any.
+// AllNK1 returns a slice containing all NK1 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllNK1() ([]*NK1, error) {
 	pss, err := m.ParseAll("NK1")
 	return pss.([]*NK1), err
 }
 
-//  AllNPU returns a slice containing all NPU segments within the message,
-//  or an empty slice if there aren't any.
+// AllNPU returns a slice containing all NPU segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllNPU() ([]*NPU, error) {
 	pss, err := m.ParseAll("NPU")
 	return pss.([]*NPU), err
 }
 
-//  AllNSC returns a slice containing all NSC segments within the message,
-//  or an empty slice if there aren't any.
+// AllNSC returns a slice containing all NSC segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllNSC() ([]*NSC, error) {
 	pss, err := m.ParseAll("NSC")
 	return pss.([]*NSC), err
 }
 
-//  AllNST returns a slice containing all NST segments within the message,
-//  or an empty slice if there aren't any.
+// AllNST returns a slice containing all NST segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllNST() ([]*NST, error) {
 	pss, err := m.ParseAll("NST")
 	return pss.([]*NST), err
 }
 
-//  AllNTE returns a slice containing all NTE segments within the message,
-//  or an empty slice if there aren't any.
+// AllNTE returns a slice containing all NTE segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllNTE() ([]*NTE, error) {
 	pss, err := m.ParseAll("NTE")
 	return pss.([]*NTE), err
 }
 
-//  AllOBR returns a slice containing all OBR segments within the message,
-//  or an empty slice if there aren't any.
+// AllOBR returns a slice containing all OBR segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllOBR() ([]*OBR, error) {
 	pss, err := m.ParseAll("OBR")
 	return pss.([]*OBR), err
 }
 
-//  AllOBX returns a slice containing all OBX segments within the message,
-//  or an empty slice if there aren't any.
+// AllOBX returns a slice containing all OBX segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllOBX() ([]*OBX, error) {
 	pss, err := m.ParseAll("OBX")
 	return pss.([]*OBX), err
 }
 
-//  AllODS returns a slice containing all ODS segments within the message,
-//  or an empty slice if there aren't any.
+// AllODS returns a slice containing all ODS segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllODS() ([]*ODS, error) {
 	pss, err := m.ParseAll("ODS")
 	return pss.([]*ODS), err
 }
 
-//  AllODT returns a slice containing all ODT segments within the message,
-//  or an empty slice if there aren't any.
+// AllODT returns a slice containing all ODT segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllODT() ([]*ODT, error) {
 	pss, err := m.ParseAll("ODT")
 	return pss.([]*ODT), err
 }
 
-//  AllOM1 returns a slice containing all OM1 segments within the message,
-//  or an empty slice if there aren't any.
+// AllOM1 returns a slice containing all OM1 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllOM1() ([]*OM1, error) {
 	pss, err := m.ParseAll("OM1")
 	return pss.([]*OM1), err
 }
 
-//  AllOM2 returns a slice containing all OM2 segments within the message,
-//  or an empty slice if there aren't any.
+// AllOM2 returns a slice containing all OM2 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllOM2() ([]*OM2, error) {
 	pss, err := m.ParseAll("OM2")
 	return pss.([]*OM2), err
 }
 
-//  AllOM3 returns a slice containing all OM3 segments within the message,
-//  or an empty slice if there aren't any.
+// AllOM3 returns a slice containing all OM3 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllOM3() ([]*OM3, error) {
 	pss, err := m.ParseAll("OM3")
 	return pss.([]*OM3), err
 }
 
-//  AllOM4 returns a slice containing all OM4 segments within the message,
-//  or an empty slice if there aren't any.
+// AllOM4 returns a slice containing all OM4 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllOM4() ([]*OM4, error) {
 	pss, err := m.ParseAll("OM4")
 	return pss.([]*OM4), err
 }
 
-//  AllOM5 returns a slice containing all OM5 segments within the message,
-//  or an empty slice if there aren't any.
+// AllOM5 returns a slice containing all OM5 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllOM5() ([]*OM5, error) {
 	pss, err := m.ParseAll("OM5")
 	return pss.([]*OM5), err
 }
 
-//  AllOM6 returns a slice containing all OM6 segments within the message,
-//  or an empty slice if there aren't any.
+// AllOM6 returns a slice containing all OM6 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllOM6() ([]*OM6, error) {
 	pss, err := m.ParseAll("OM6")
 	return pss.([]*OM6), err
 }
 
-//  AllOM7 returns a slice containing all OM7 segments within the message,
-//  or an empty slice if there aren't any.
+// AllOM7 returns a slice containing all OM7 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllOM7() ([]*OM7, error) {
 	pss, err := m.ParseAll("OM7")
 	return pss.([]*OM7), err
 }
 
-//  AllORC returns a slice containing all ORC segments within the message,
-//  or an empty slice if there aren't any.
+// AllORC returns a slice containing all ORC segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllORC() ([]*ORC, error) {
 	pss, err := m.ParseAll("ORC")
 	return pss.([]*ORC), err
 }
 
-//  AllORG returns a slice containing all ORG segments within the message,
-//  or an empty slice if there aren't any.
+// AllORG returns a slice containing all ORG segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllORG() ([]*ORG, error) {
 	pss, err := m.ParseAll("ORG")
 	return pss.([]*ORG), err
 }
 
-//  AllORO returns a slice containing all ORO segments within the message,
-//  or an empty slice if there aren't any.
+// AllORO returns a slice containing all ORO segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllORO() ([]*ORO, error) {
 	pss, err := m.ParseAll("ORO")
 	return pss.([]*ORO), err
 }
 
-//  AllOVR returns a slice containing all OVR segments within the message,
-//  or an empty slice if there aren't any.
+// AllOVR returns a slice containing all OVR segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllOVR() ([]*OVR, error) {
 	pss, err := m.ParseAll("OVR")
 	return pss.([]*OVR), err
 }
 
-//  AllPCR returns a slice containing all PCR segments within the message,
-//  or an empty slice if there aren't any.
+// AllPCR returns a slice containing all PCR segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllPCR() ([]*PCR, error) {
 	pss, err := m.ParseAll("PCR")
 	return pss.([]*PCR), err
 }
 
-//  AllPD1 returns a slice containing all PD1 segments within the message,
-//  or an empty slice if there aren't any.
+// AllPD1 returns a slice containing all PD1 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllPD1() ([]*PD1, error) {
 	pss, err := m.ParseAll("PD1")
 	return pss.([]*PD1), err
 }
 
-//  AllPDA returns a slice containing all PDA segments within the message,
-//  or an empty slice if there aren't any.
+// AllPDA returns a slice containing all PDA segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllPDA() ([]*PDA, error) {
 	pss, err := m.ParseAll("PDA")
 	return pss.([]*PDA), err
 }
 
-//  AllPDC returns a slice containing all PDC segments within the message,
-//  or an empty slice if there aren't any.
+// AllPDC returns a slice containing all PDC segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllPDC() ([]*PDC, error) {
 	pss, err := m.ParseAll("PDC")
 	return pss.([]*PDC), err
 }
 
-//  AllPEO returns a slice containing all PEO segments within the message,
-//  or an empty slice if there aren't any.
+// AllPEO returns a slice containing all PEO segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllPEO() ([]*PEO, error) {
 	pss, err := m.ParseAll("PEO")
 	return pss.([]*PEO), err
 }
 
-//  AllPES returns a slice containing all PES segments within the message,
-//  or an empty slice if there aren't any.
+// AllPES returns a slice containing all PES segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllPES() ([]*PES, error) {
 	pss, err := m.ParseAll("PES")
 	return pss.([]*PES), err
 }
 
-//  AllPID returns a slice containing all PID segments within the message,
-//  or an empty slice if there aren't any.
+// AllPID returns a slice containing all PID segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllPID() ([]*PID, error) {
 	pss, err := m.ParseAll("PID")
 	return pss.([]*PID), err
 }
 
-//  AllPR1 returns a slice containing all PR1 segments within the message,
-//  or an empty slice if there aren't any.
+// AllPR1 returns a slice containing all PR1 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllPR1() ([]*PR1, error) {
 	pss, err := m.ParseAll("PR1")
 	return pss.([]*PR1), err
 }
 
-//  AllPRA returns a slice containing all PRA segments within the message,
-//  or an empty slice if there aren't any.
+// AllPRA returns a slice containing all PRA segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllPRA() ([]*PRA, error) {
 	pss, err := m.ParseAll("PRA")
 	return pss.([]*PRA), err
 }
 
-//  AllPRB returns a slice containing all PRB segments within the message,
-//  or an empty slice if there aren't any.
+// AllPRB returns a slice containing all PRB segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllPRB() ([]*PRB, error) {
 	pss, err := m.ParseAll("PRB")
 	return pss.([]*PRB), err
 }
 
-//  AllPRC returns a slice containing all PRC segments within the message,
-//  or an empty slice if there aren't any.
+// AllPRC returns a slice containing all PRC segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllPRC() ([]*PRC, error) {
 	pss, err := m.ParseAll("PRC")
 	return pss.([]*PRC), err
 }
 
-//  AllPRD returns a slice containing all PRD segments within the message,
-//  or an empty slice if there aren't any.
+// AllPRD returns a slice containing all PRD segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllPRD() ([]*PRD, error) {
 	pss, err := m.ParseAll("PRD")
 	return pss.([]*PRD), err
 }
 
-//  AllPSH returns a slice containing all PSH segments within the message,
-//  or an empty slice if there aren't any.
+// AllPSH returns a slice containing all PSH segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllPSH() ([]*PSH, error) {
 	pss, err := m.ParseAll("PSH")
 	return pss.([]*PSH), err
 }
 
-//  AllPTH returns a slice containing all PTH segments within the message,
-//  or an empty slice if there aren't any.
+// AllPTH returns a slice containing all PTH segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllPTH() ([]*PTH, error) {
 	pss, err := m.ParseAll("PTH")
 	return pss.([]*PTH), err
 }
 
-//  AllPV1 returns a slice containing all PV1 segments within the message,
-//  or an empty slice if there aren't any.
+// AllPV1 returns a slice containing all PV1 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllPV1() ([]*PV1, error) {
 	pss, err := m.ParseAll("PV1")
 	return pss.([]*PV1), err
 }
 
-//  AllPV2 returns a slice containing all PV2 segments within the message,
-//  or an empty slice if there aren't any.
+// AllPV2 returns a slice containing all PV2 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllPV2() ([]*PV2, error) {
 	pss, err := m.ParseAll("PV2")
 	return pss.([]*PV2), err
 }
 
-//  AllQAK returns a slice containing all QAK segments within the message,
-//  or an empty slice if there aren't any.
+// AllQAK returns a slice containing all QAK segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllQAK() ([]*QAK, error) {
 	pss, err := m.ParseAll("QAK")
 	return pss.([]*QAK), err
 }
 
-//  AllQID returns a slice containing all QID segments within the message,
-//  or an empty slice if there aren't any.
+// AllQID returns a slice containing all QID segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllQID() ([]*QID, error) {
 	pss, err := m.ParseAll("QID")
 	return pss.([]*QID), err
 }
 
-//  AllQPD returns a slice containing all QPD segments within the message,
-//  or an empty slice if there aren't any.
+// AllQPD returns a slice containing all QPD segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllQPD() ([]*QPD, error) {
 	pss, err := m.ParseAll("QPD")
 	return pss.([]*QPD), err
 }
 
-//  AllQRD returns a slice containing all QRD segments within the message,
-//  or an empty slice if there aren't any.
+// AllQRD returns a slice containing all QRD segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllQRD() ([]*QRD, error) {
 	pss, err := m.ParseAll("QRD")
 	return pss.([]*QRD), err
 }
 
-//  AllQRF returns a slice containing all QRF segments within the message,
-//  or an empty slice if there aren't any.
+// AllQRF returns a slice containing all QRF segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllQRF() ([]*QRF, error) {
 	pss, err := m.ParseAll("QRF")
 	return pss.([]*QRF), err
 }
 
-//  AllQRI returns a slice containing all QRI segments within the message,
-//  or an empty slice if there aren't any.
+// AllQRI returns a slice containing all QRI segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllQRI() ([]*QRI, error) {
 	pss, err := m.ParseAll("QRI")
 	return pss.([]*QRI), err
 }
 
-//  AllRCP returns a slice containing all RCP segments within the message,
-//  or an empty slice if there aren't any.
+// AllRCP returns a slice containing all RCP segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllRCP() ([]*RCP, error) {
 	pss, err := m.ParseAll("RCP")
 	return pss.([]*RCP), err
 }
 
-//  AllRDF returns a slice containing all RDF segments within the message,
-//  or an empty slice if there aren't any.
+// AllRDF returns a slice containing all RDF segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllRDF() ([]*RDF, error) {
 	pss, err := m.ParseAll("RDF")
 	return pss.([]*RDF), err
 }
 
-//  AllRDT returns a slice containing all RDT segments within the message,
-//  or an empty slice if there aren't any.
+// AllRDT returns a slice containing all RDT segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllRDT() ([]*RDT, error) {
 	pss, err := m.ParseAll("RDT")
 	return pss.([]*RDT), err
 }
 
-//  AllRF1 returns a slice containing all RF1 segments within the message,
-//  or an empty slice if there aren't any.
+// AllRF1 returns a slice containing all RF1 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllRF1() ([]*RF1, error) {
 	pss, err := m.ParseAll("RF1")
 	return pss.([]*RF1), err
 }
 
-//  AllRGS returns a slice containing all RGS segments within the message,
-//  or an empty slice if there aren't any.
+// AllRGS returns a slice containing all RGS segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllRGS() ([]*RGS, error) {
 	pss, err := m.ParseAll("RGS")
 	return pss.([]*RGS), err
 }
 
-//  AllRMI returns a slice containing all RMI segments within the message,
-//  or an empty slice if there aren't any.
+// AllRMI returns a slice containing all RMI segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllRMI() ([]*RMI, error) {
 	pss, err := m.ParseAll("RMI")
 	return pss.([]*RMI), err
 }
 
-//  AllROL returns a slice containing all ROL segments within the message,
-//  or an empty slice if there aren't any.
+// AllROL returns a slice containing all ROL segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllROL() ([]*ROL, error) {
 	pss, err := m.ParseAll("ROL")
 	return pss.([]*ROL), err
 }
 
-//  AllRQ1 returns a slice containing all RQ1 segments within the message,
-//  or an empty slice if there aren't any.
+// AllRQ1 returns a slice containing all RQ1 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllRQ1() ([]*RQ1, error) {
 	pss, err := m.ParseAll("RQ1")
 	return pss.([]*RQ1), err
 }
 
-//  AllRQD returns a slice containing all RQD segments within the message,
-//  or an empty slice if there aren't any.
+// AllRQD returns a slice containing all RQD segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllRQD() ([]*RQD, error) {
 	pss, err := m.ParseAll("RQD")
 	return pss.([]*RQD), err
 }
 
-//  AllRX1 returns a slice containing all RX1 segments within the message,
-//  or an empty slice if there aren't any.
+// AllRX1 returns a slice containing all RX1 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllRX1() ([]*RX1, error) {
 	pss, err := m.ParseAll("RX1")
 	return pss.([]*RX1), err
 }
 
-//  AllRXA returns a slice containing all RXA segments within the message,
-//  or an empty slice if there aren't any.
+// AllRXA returns a slice containing all RXA segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllRXA() ([]*RXA, error) {
 	pss, err := m.ParseAll("RXA")
 	return pss.([]*RXA), err
 }
 
-//  AllRXC returns a slice containing all RXC segments within the message,
-//  or an empty slice if there aren't any.
+// AllRXC returns a slice containing all RXC segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllRXC() ([]*RXC, error) {
 	pss, err := m.ParseAll("RXC")
 	return pss.([]*RXC), err
 }
 
-//  AllRXD returns a slice containing all RXD segments within the message,
-//  or an empty slice if there aren't any.
+// AllRXD returns a slice containing all RXD segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllRXD() ([]*RXD, error) {
 	pss, err := m.ParseAll("RXD")
 	return pss.([]*RXD), err
 }
 
-//  AllRXE returns a slice containing all RXE segments within the message,
-//  or an empty slice if there aren't any.
+// AllRXE returns a slice containing all RXE segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllRXE() ([]*RXE, error) {
 	pss, err := m.ParseAll("RXE")
 	return pss.([]*RXE), err
 }
 
-//  AllRXG returns a slice containing all RXG segments within the message,
-//  or an empty slice if there aren't any.
+// AllRXG returns a slice containing all RXG segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllRXG() ([]*RXG, error) {
 	pss, err := m.ParseAll("RXG")
 	return pss.([]*RXG), err
 }
 
-//  AllRXO returns a slice containing all RXO segments within the message,
-//  or an empty slice if there aren't any.
+// AllRXO returns a slice containing all RXO segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllRXO() ([]*RXO, error) {
 	pss, err := m.ParseAll("RXO")
 	return pss.([]*RXO), err
 }
 
-//  AllRXR returns a slice containing all RXR segments within the message,
-//  or an empty slice if there aren't any.
+// AllRXR returns a slice containing all RXR segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllRXR() ([]*RXR, error) {
 	pss, err := m.ParseAll("RXR")
 	return pss.([]*RXR), err
 }
 
-//  AllSAC returns a slice containing all SAC segments within the message,
-//  or an empty slice if there aren't any.
+// AllSAC returns a slice containing all SAC segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllSAC() ([]*SAC, error) {
 	pss, err := m.ParseAll("SAC")
 	return pss.([]*SAC), err
 }
 
-//  AllSCH returns a slice containing all SCH segments within the message,
-//  or an empty slice if there aren't any.
+// AllSCH returns a slice containing all SCH segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllSCH() ([]*SCH, error) {
 	pss, err := m.ParseAll("SCH")
 	return pss.([]*SCH), err
 }
 
-//  AllSFT returns a slice containing all SFT segments within the message,
-//  or an empty slice if there aren't any.
+// AllSFT returns a slice containing all SFT segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllSFT() ([]*SFT, error) {
 	pss, err := m.ParseAll("SFT")
 	return pss.([]*SFT), err
 }
 
-//  AllSID returns a slice containing all SID segments within the message,
-//  or an empty slice if there aren't any.
+// AllSID returns a slice containing all SID segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllSID() ([]*SID, error) {
 	pss, err := m.ParseAll("SID")
 	return pss.([]*SID), err
 }
 
-//  AllSPM returns a slice containing all SPM segments within the message,
-//  or an empty slice if there aren't any.
+// AllSPM returns a slice containing all SPM segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllSPM() ([]*SPM, error) {
 	pss, err := m.ParseAll("SPM")
 	return pss.([]*SPM), err
 }
 
-//  AllSPR returns a slice containing all SPR segments within the message,
-//  or an empty slice if there aren't any.
+// AllSPR returns a slice containing all SPR segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllSPR() ([]*SPR, error) {
 	pss, err := m.ParseAll("SPR")
 	return pss.([]*SPR), err
 }
 
-//  AllSTF returns a slice containing all STF segments within the message,
-//  or an empty slice if there aren't any.
+// AllSTF returns a slice containing all STF segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllSTF() ([]*STF, error) {
 	pss, err := m.ParseAll("STF")
 	return pss.([]*STF), err
 }
 
-//  AllTCC returns a slice containing all TCC segments within the message,
-//  or an empty slice if there aren't any.
+// AllTCC returns a slice containing all TCC segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllTCC() ([]*TCC, error) {
 	pss, err := m.ParseAll("TCC")
 	return pss.([]*TCC), err
 }
 
-//  AllTCD returns a slice containing all TCD segments within the message,
-//  or an empty slice if there aren't any.
+// AllTCD returns a slice containing all TCD segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllTCD() ([]*TCD, error) {
 	pss, err := m.ParseAll("TCD")
 	return pss.([]*TCD), err
 }
 
-//  AllTQ1 returns a slice containing all TQ1 segments within the message,
-//  or an empty slice if there aren't any.
+// AllTQ1 returns a slice containing all TQ1 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllTQ1() ([]*TQ1, error) {
 	pss, err := m.ParseAll("TQ1")
 	return pss.([]*TQ1), err
 }
 
-//  AllTQ2 returns a slice containing all TQ2 segments within the message,
-//  or an empty slice if there aren't any.
+// AllTQ2 returns a slice containing all TQ2 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllTQ2() ([]*TQ2, error) {
 	pss, err := m.ParseAll("TQ2")
 	return pss.([]*TQ2), err
 }
 
-//  AllTXA returns a slice containing all TXA segments within the message,
-//  or an empty slice if there aren't any.
+// AllTXA returns a slice containing all TXA segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllTXA() ([]*TXA, error) {
 	pss, err := m.ParseAll("TXA")
 	return pss.([]*TXA), err
 }
 
-//  AllUB1 returns a slice containing all UB1 segments within the message,
-//  or an empty slice if there aren't any.
+// AllUB1 returns a slice containing all UB1 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllUB1() ([]*UB1, error) {
 	pss, err := m.ParseAll("UB1")
 	return pss.([]*UB1), err
 }
 
-//  AllUB2 returns a slice containing all UB2 segments within the message,
-//  or an empty slice if there aren't any.
+// AllUB2 returns a slice containing all UB2 segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllUB2() ([]*UB2, error) {
 	pss, err := m.ParseAll("UB2")
 	return pss.([]*UB2), err
 }
 
-//  AllURD returns a slice containing all URD segments within the message,
-//  or an empty slice if there aren't any.
+// AllURD returns a slice containing all URD segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllURD() ([]*URD, error) {
 	pss, err := m.ParseAll("URD")
 	return pss.([]*URD), err
 }
 
-//  AllURS returns a slice containing all URS segments within the message,
-//  or an empty slice if there aren't any.
+// AllURS returns a slice containing all URS segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllURS() ([]*URS, error) {
 	pss, err := m.ParseAll("URS")
 	return pss.([]*URS), err
 }
 
-//  AllVAR returns a slice containing all VAR segments within the message,
-//  or an empty slice if there aren't any.
+// AllVAR returns a slice containing all VAR segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllVAR() ([]*VAR, error) {
 	pss, err := m.ParseAll("VAR")
 	return pss.([]*VAR), err
 }
 
-//  AllVTQ returns a slice containing all VTQ segments within the message,
-//  or an empty slice if there aren't any.
+// AllVTQ returns a slice containing all VTQ segments within the message,
+// or an empty slice if there aren't any.
 func (m *Message) AllVTQ() ([]*VTQ, error) {
 	pss, err := m.ParseAll("VTQ")
 	return pss.([]*VTQ), err
 }
 
-//  v2 API
+// v2 API
 type ACKv2 struct {
 	msh *MSH // Required
 	sft []*SFT
@@ -54994,8 +54994,8 @@ func (m VXX_V02_PIDv2) MarshalYAML() (interface{}, error) {
 	}, nil
 }
 
-//  Types maps the name of an HL7 segment or message type to the type of the struct that
-//  represents that segment or message type.
+// Types maps the name of an HL7 segment or message type to the type of the struct that
+// represents that segment or message type.
 var Types = map[string]reflect.Type{}
 
 func init() {
