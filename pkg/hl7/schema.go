@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// This file contains the schemas for HL7 messages, segments and values.
+// This file contains the schemas for HL7 messages, segments and values for HL7v2 version 2.5.1.
 // It has been auto-generated from the HL7v2 schemas.
 
 package hl7
@@ -14307,6 +14307,19 @@ type PPT_PCL_PROBLEM_ROLE struct {
 
 func (s *PPT_PCL_PROBLEM_ROLE) MessageTypeSubStructName() string {
 	return "PPT_PCL_PROBLEM_ROLE"
+}
+
+// PPV_PCA_ORDER_DETAIL_SEGMENT represents the corresponding HL7 message type.
+// Definition from HL7 2.5
+type PPV_PCA_ORDER_DETAIL_SEGMENT struct {
+	// Only one of the following fields will be set.
+	OBR *OBR `hl7:"true,OBR"`
+	// Missing: anyHL7Segment
+	Other []interface{}
+}
+
+func (s *PPV_PCA_ORDER_DETAIL_SEGMENT) MessageTypeSubStructName() string {
+	return "PPV_PCA_ORDER_DETAIL_SEGMENT"
 }
 
 // PPV_PCA_CHOICE represents the corresponding HL7 message type.
@@ -55820,6 +55833,7 @@ func init() {
 	Types["PPT_PCL_PROBLEM"] = reflect.TypeOf(PPT_PCL_PROBLEM{})
 	Types["PPT_PCL_PROBLEM_OBSERVATION"] = reflect.TypeOf(PPT_PCL_PROBLEM_OBSERVATION{})
 	Types["PPT_PCL_PROBLEM_ROLE"] = reflect.TypeOf(PPT_PCL_PROBLEM_ROLE{})
+	Types["PPV_PCA_ORDER_DETAIL_SEGMENT"] = reflect.TypeOf(PPV_PCA_ORDER_DETAIL_SEGMENT{})
 	Types["PPV_PCA_CHOICE"] = reflect.TypeOf(PPV_PCA_CHOICE{})
 	Types["PPV_PCA"] = reflect.TypeOf(PPV_PCA{})
 	Types["PPV_PCA_GOAL"] = reflect.TypeOf(PPV_PCA_GOAL{})
