@@ -22,8 +22,8 @@ package(
 go_library(
     name = "go_default_library",
     srcs = [
-        "hl7.go",
         "parser.go",
+        "sender.go",
     ],
     importpath = "github.com/google/simhospital/pkg/test/testhl7",
     deps = ["//pkg/hl7:go_default_library"],
