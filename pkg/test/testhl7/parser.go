@@ -275,7 +275,7 @@ func MRG(t *testing.T, message string) *hl7.MRG {
 		t.Fatalf("MRG() failed with %v", err)
 	}
 	if mrg == nil {
-		t.Fatal("MRG() got nil ORC segment, want non nil")
+		t.Fatal("MRG() got nil MRG segment, want non nil")
 	}
 	return mrg
 }
@@ -406,7 +406,7 @@ func EventDateTime(t *testing.T, message string) time.Time {
 	return evn.RecordedDateTime.Time.UTC()
 }
 
-// FirstName returns the patient first name from the message.
+// FirstName returns the patient's first name from the message.
 func FirstName(t *testing.T, message string) string {
 	t.Helper()
 	pid := PID(t, message)
@@ -417,7 +417,10 @@ func FirstName(t *testing.T, message string) string {
 func MRN(t *testing.T, message string) string {
 	t.Helper()
 	pid := PID(t, message)
-	return pid.PatientID.IDNumber.String()
+	if len(pid.PatientIdentifierList) == 0 {
+		return ""
+	}
+	return pid.PatientIdentifierList[0].IDNumber.String()
 }
 
 // PriorPatientIdentifierList returns the PriorPatientIdentifierList from the MRG segment.
