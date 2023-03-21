@@ -130,6 +130,61 @@ func TestPrimitive(t *testing.T) {
 		want: &TS{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 35, 123400000, time.UTC), Precision: TenThousandthSecondPrecision},
 		got:  &TS{IsHL7Null: true},
 	}, {
+		name: "DTM_YearPrecision",
+		p:    &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 0, time.UTC), Precision: YearPrecision},
+		want: &DTM{IsHL7Null: false, Time: time.Date(2020, 01, 01, 0, 0, 0, 0, time.UTC), Precision: YearPrecision},
+		got:  &DTM{IsHL7Null: true},
+	}, {
+		name: "DTM_MonthPrecision",
+		p:    &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 0, time.UTC), Precision: MonthPrecision},
+		want: &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 01, 0, 0, 0, 0, time.UTC), Precision: MonthPrecision},
+		got:  &DTM{IsHL7Null: true},
+	}, {
+		name: "DTM_DayPrecision",
+		p:    &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 0, time.UTC), Precision: DayPrecision},
+		want: &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 24, 0, 0, 0, 0, time.UTC), Precision: DayPrecision},
+		got:  &DTM{IsHL7Null: true},
+	}, {
+		name: "DTM_HourPrecision",
+		p:    &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 0, time.UTC), Precision: HourPrecision},
+		want: &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 0, 0, 0, time.UTC), Precision: HourPrecision},
+		got:  &DTM{IsHL7Null: true},
+	}, {
+		name: "DTM_MinutePrecision",
+		p:    &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 0, time.UTC), Precision: MinutePrecision},
+		want: &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 0, 0, time.UTC), Precision: MinutePrecision},
+		got:  &DTM{IsHL7Null: true},
+	}, {
+		name: "DTM_SecondPrecision",
+		p:    &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 0, time.UTC), Precision: SecondPrecision},
+		want: &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 0, time.UTC), Precision: SecondPrecision},
+		got:  &DTM{IsHL7Null: true},
+	}, {
+		name: "DTM_SecondPrecision_WithNanoseconds",
+		p:    &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 5123456789, time.UTC), Precision: SecondPrecision},
+		want: &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 35, 0, time.UTC), Precision: SecondPrecision},
+		got:  &DTM{IsHL7Null: true},
+	}, {
+		name: "DTM_TenthSecondPrecision",
+		p:    &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 5123456789, time.UTC), Precision: TenthSecondPrecision},
+		want: &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 35, 100000000, time.UTC), Precision: TenthSecondPrecision},
+		got:  &DTM{IsHL7Null: true},
+	}, {
+		name: "DTM_HundredthSecondPrecision",
+		p:    &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 5123456789, time.UTC), Precision: HundredthSecondPrecision},
+		want: &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 35, 120000000, time.UTC), Precision: HundredthSecondPrecision},
+		got:  &DTM{IsHL7Null: true},
+	}, {
+		name: "DTM_ThousandthSecondPrecision",
+		p:    &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 5123456789, time.UTC), Precision: ThousandthSecondPrecision},
+		want: &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 35, 123000000, time.UTC), Precision: ThousandthSecondPrecision},
+		got:  &DTM{IsHL7Null: true},
+	}, {
+		name: "DTM_TenThousandthSecondPrecision",
+		p:    &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 5123456789, time.UTC), Precision: TenThousandthSecondPrecision},
+		want: &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 35, 123400000, time.UTC), Precision: TenThousandthSecondPrecision},
+		got:  &DTM{IsHL7Null: true},
+	}, {
 		name: "TN",
 		p:    NewTN("value"),
 		want: NewTN("value"),
@@ -145,6 +200,11 @@ func TestPrimitive(t *testing.T) {
 		want: NewTX("value"),
 		got:  NewTX(""),
 	}, {
+		name: "SNM",
+		p:    NewSNM("1234567"),
+		want: NewSNM("1234567"),
+		got:  NewSNM(""),
+	}, {
 		name: "CM",
 		p:    NewCM([]byte("value")),
 		want: NewCM([]byte("value")),
@@ -154,6 +214,11 @@ func TestPrimitive(t *testing.T) {
 		p:    NewAny([]byte("value")),
 		want: NewAny([]byte("value")),
 		got:  NewAny([]byte{}),
+	}, {
+		name: "NUL",
+		p:    NewNUL("value"),
+		want: NewNUL("value"),
+		got:  NewNUL(""),
 	}}
 
 	for _, tc := range cases {
@@ -229,6 +294,7 @@ func TestEmpty(t *testing.T) {
 		{name: "ST", f: func(s string) empty { return NewST(ST(s)) }},
 		{name: "ID", f: func(s string) empty { return NewID(ID(s)) }},
 		{name: "IS", f: func(s string) empty { return NewIS(IS(s)) }},
+		{name: "SNM", f: func(s string) empty { return NewSNM(SNM(s)) }},
 	}
 
 	for _, tc := range cases {
@@ -250,6 +316,7 @@ func TestEmptyNilEmpty(t *testing.T) {
 		{name: "ST", e: new(ST)},
 		{name: "ID", e: new(ID)},
 		{name: "IS", e: new(IS)},
+		{name: "SNM", e: new(SNM)},
 	}
 
 	for _, tc := range cases {
@@ -268,6 +335,8 @@ func TestParseTS(t *testing.T) {
 		outPrecision TSPrecision
 	}{
 		{"20141128001635", "2014-11-28T00:16:35Z", SecondPrecision},
+		// The precision specified in the second component ("^M" = Minute) overrides the precision
+		// implicitly specified in the first component (Second).
 		{"20141128001635^M", "2014-11-28T00:16:35Z", MinutePrecision},
 		{"20141128001635.1", "2014-11-28T00:16:35.1Z", TenthSecondPrecision},
 		{"20141128001635.12", "2014-11-28T00:16:35.12Z", HundredthSecondPrecision},
@@ -292,6 +361,41 @@ func TestParseTS(t *testing.T) {
 			}
 			if diff := cmp.Diff(tt.outPrecision, ts.Precision); diff != "" {
 				t.Errorf("ParseTS(%q).Precision mismatch (-want, +got)=\n%s", tt.in, diff)
+			}
+		})
+	}
+}
+
+func TestParseDTM(t *testing.T) {
+	tests := []struct {
+		in           string
+		outTime      string
+		outPrecision TSPrecision
+	}{
+		{"20141128001635", "2014-11-28T00:16:35Z", SecondPrecision},
+		{"20141128001635.1", "2014-11-28T00:16:35.1Z", TenthSecondPrecision},
+		{"20141128001635.12", "2014-11-28T00:16:35.12Z", HundredthSecondPrecision},
+		{"20141128001635.123", "2014-11-28T00:16:35.123Z", ThousandthSecondPrecision},
+		{"20141128001635.1234", "2014-11-28T00:16:35.1234Z", TenThousandthSecondPrecision},
+		// The following examples are from the HL7 specification
+		{"19760704010159-0600", "1976-07-04T01:01:59-06:00", SecondPrecision},
+		{"19760704010159-0500", "1976-07-04T01:01:59-05:00", SecondPrecision},
+		{"198807050000", "1988-07-04T23:00:00Z", MinutePrecision},
+		{"19880705", "1988-07-05T00:00:00Z", DayPrecision},
+	}
+	for _, tt := range tests {
+		t.Run(tt.in, func(t *testing.T) {
+			var dtm DTM
+			err := dtm.Unmarshal([]byte(tt.in), testContext)
+			if err != nil {
+				t.Errorf("ParseDTM(%q) got error %v, want err=<nil>", tt.in, err)
+			}
+			want, _ := time.Parse(time.RFC3339Nano, tt.outTime)
+			if !want.Equal(dtm.Time) {
+				t.Errorf("ParseDTM(%q).Time got %v, want %v", tt.in, dtm.Time, want)
+			}
+			if diff := cmp.Diff(tt.outPrecision, dtm.Precision); diff != "" {
+				t.Errorf("ParseDTM(%q).Precision mismatch (-want, +got)=\n%s", tt.in, diff)
 			}
 		})
 	}
@@ -359,6 +463,68 @@ func TestMarshalTS(t *testing.T) {
 	}
 }
 
+func TestMarshalDTM(t *testing.T) {
+	for _, tt := range []struct {
+		name string
+		in   *DTM
+		want string
+	}{{
+		name: "YearPrecision",
+		in:   &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 0, testLocation), Precision: YearPrecision},
+		want: "2020",
+	}, {
+		name: "MonthPrecision",
+		in:   &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 0, testLocation), Precision: MonthPrecision},
+		want: "202002",
+	}, {
+		name: "DayPrecision",
+		in:   &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 0, testLocation), Precision: DayPrecision},
+		want: "20200224",
+	}, {
+		name: "HourPrecision",
+		in:   &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 0, testLocation), Precision: HourPrecision},
+		want: "2020022412",
+	}, {
+		name: "MinutePrecision",
+		in:   &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 0, testLocation), Precision: MinutePrecision},
+		want: "202002241255",
+	}, {
+		name: "SecondPrecision",
+		in:   &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 0, testLocation), Precision: SecondPrecision},
+		want: "20200224125530",
+	}, {
+		name: "SecondPrecision_WithNanoseconds",
+		in:   &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 5123456789, testLocation), Precision: SecondPrecision},
+		want: "20200224125535",
+	}, {
+		name: "TenthSecondPrecision",
+		in:   &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 5123456789, testLocation), Precision: TenthSecondPrecision},
+		want: "20200224125535.1",
+	}, {
+		name: "HundredthSecondPrecision",
+		in:   &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 5123456789, testLocation), Precision: HundredthSecondPrecision},
+		want: "20200224125535.12",
+	}, {
+		name: "ThousandthSecondPrecision",
+		in:   &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 5123456789, testLocation), Precision: ThousandthSecondPrecision},
+		want: "20200224125535.123",
+	}, {
+		name: "TenThousandthSecondPrecision",
+		in:   &DTM{IsHL7Null: false, Time: time.Date(2020, 02, 24, 12, 55, 30, 5123456789, testLocation), Precision: TenThousandthSecondPrecision},
+		want: "20200224125535.1234",
+	}} {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := tt.in.Marshal(testContext)
+			if err != nil {
+				t.Fatalf("[%+v].Marshal(%+v) failed with %+v", tt.in, testContext, err)
+			}
+			if got, want := string(got), tt.want; got != want {
+				t.Errorf("[%+v].Marshal(%+v)=%q, want %q", tt.in, testContext, got, want)
+			}
+		})
+	}
+}
+
 func TestParseTS_ClearField(t *testing.T) {
 	var ts TS
 	if err := ts.Unmarshal([]byte("\"\""), testContext); err != nil {
@@ -366,6 +532,16 @@ func TestParseTS_ClearField(t *testing.T) {
 	}
 	if !ts.Time.IsZero() {
 		t.Error("ts.Time.IsZero() is false, want true")
+	}
+}
+
+func TestParseDTM_ClearField(t *testing.T) {
+	var dtm DTM
+	if err := dtm.Unmarshal([]byte("\"\""), testContext); err != nil {
+		t.Fatalf("Unmarshal('') failed with %v", err)
+	}
+	if !dtm.Time.IsZero() {
+		t.Error("dtm.Time.IsZero() is false, want true")
 	}
 }
 
@@ -388,6 +564,31 @@ func TestParseTS_Error(t *testing.T) {
 		var ts TS
 		if err := ts.Unmarshal([]byte(tt), testContext); err == nil {
 			t.Errorf("Unmarshal(%q) got err=<nil>, want error", tt)
+		}
+	}
+}
+
+func TestParseDTM_Error(t *testing.T) {
+	tests := []string{
+		// The empty string
+		"",
+		// A two digit year
+		"20",
+		// Fractions of a second with seconds
+		"201411280016.12",
+		// More precision than thousandths of a second
+		"20141128001635.12345",
+		// A unknown (legacy) precision value
+		"20141128001635^T",
+		// A timezone without the correct number of digits
+		"201411280016+010",
+		// Precision specified in a second component. This is supported in TS values, but not in DTM.
+		"20141128001635^M",
+	}
+	for _, tt := range tests {
+		var dtm DTM
+		if err := dtm.Unmarshal([]byte(tt), testContext); err == nil {
+			t.Errorf("Unmarshal(%s) got err=<nil>, want error", tt)
 		}
 	}
 }

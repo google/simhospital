@@ -296,6 +296,41 @@ func (p TSPrecision) formatString() string {
 	}[p]
 }
 
+// DTM represents a HL7 DTM value (Date/Time).
+// DTM was added in 2.6.
+// Format: YYYY[MM[DD[HH[MM[SS[.S[S[S[S]]]]]]]]][+/-ZZZZ].
+type DTM struct {
+	IsHL7Null bool
+	Time      time.Time
+	Precision TSPrecision
+}
+
+var _ Primitive = (*DTM)(nil)
+
+// Marshal marshals a DTM value.
+func (dtm *DTM) Marshal(c *Context) ([]byte, error) {
+	time := dtm.Time.In(c.TimezoneLoc)
+	format := dtm.Precision.formatString()
+	return []byte(time.Format(format)), nil
+}
+
+// Unmarshal unmarshals a DTM value.
+func (dtm *DTM) Unmarshal(field []byte, c *Context) error {
+	// Use a TS value for unmarshalling, since both types are very similar. The only meaningful difference
+	// in unmarshalling is that TS values support an optional second component for the precision
+	// (see "^<degree of precision>"), which DTM values do not have.
+	// We throw an error for simplicity; this avoids having to handle potential inconsistencies
+	// between the precision specified by the string and the additional optional precision.
+	var ts TS
+	if err := ts.unmarshal(field, c, false /*allowPrecisionInExtraComponent=false*/); err != nil {
+		return err
+	}
+	dtm.Time = ts.Time
+	dtm.Precision = ts.Precision
+	dtm.IsHL7Null = ts.IsHL7Null
+	return nil
+}
+
 // TS represents a HL7 TS value (Timestamp).
 type TS struct {
 	IsHL7Null     bool
@@ -328,6 +363,10 @@ func (ts *TS) Marshal(c *Context) ([]byte, error) {
 // degree of precision of the time stamp. This optional second
 // component is retained only for purposes of backward compatibility.
 func (ts *TS) Unmarshal(field []byte, c *Context) error {
+	return ts.unmarshal(field, c, true /*allowPrecisionInExtraComponent=true*/)
+}
+
+func (ts *TS) unmarshal(field []byte, c *Context, allowPrecisionInExtraComponent bool) error {
 	// Because TS is actually a composite type, we need to use the appropriate delimiter, based
 	// on the nesting level in the context.
 
@@ -379,6 +418,9 @@ func (ts *TS) Unmarshal(field []byte, c *Context) error {
 		return errors.New("bad TS value: invalid length")
 	}
 	if len(components) > 1 {
+		if !allowPrecisionInExtraComponent {
+			return errors.New("bad TS value: explicit precision not allowed")
+		}
 		switch string(components[1].Value) {
 		case "Y":
 			ts.Precision = YearPrecision
@@ -410,6 +452,44 @@ func (ts *TS) Unmarshal(field []byte, c *Context) error {
 	// See: https://golang.org/pkg/time/#Parse
 	ts.Time, err = time.Parse(format+"-0700", string(components[0].Value))
 	return err
+}
+
+// SNM represents a HL7 SNM value (String Of Telephone Number Digits).
+// SNM was added in HL7v2 2.6.
+// From https://hl7-definition.caristix.com/v2/HL7v2.7/DataTypes/SNM:
+// A string whose characters are limited to "+" and/or the decimal digits 0 through 9.
+// As a string, leading zeros are always considered significant.
+// TODO: We currently treat an SNM value as a simple string. Add validation.
+type SNM string
+
+var _ Primitive = (*SNM)(nil)
+
+// NewSNM returns a new SNM.
+func NewSNM(snm SNM) *SNM {
+	return &snm
+}
+
+// Marshal marshals the SNM value.
+func (snm *SNM) Marshal(_ *Context) ([]byte, error) {
+	return []byte(string(*snm)), nil
+}
+
+// Unmarshal unmarshals the SNM value.
+func (snm *SNM) Unmarshal(field []byte, _ *Context) error {
+	*snm = SNM(field)
+	return nil
+}
+
+func (snm *SNM) String() string {
+	if snm == nil {
+		return ""
+	}
+	return string(*snm)
+}
+
+// Empty returns whether SNM is nil or empty.
+func (snm *SNM) Empty() bool {
+	return snm == nil || *snm == ""
 }
 
 // TN represents a HL7 TN value (Telephone number).
@@ -553,6 +633,11 @@ func (gts *GTS) Unmarshal(field []byte, _ *Context) error {
 type NUL string
 
 var _ Primitive = (*NUL)(nil)
+
+// NewNUL returns a new NUL.
+func NewNUL(nul NUL) *NUL {
+	return &nul
+}
 
 // Marshal a NUL value.
 func (nul *NUL) Marshal(_ *Context) ([]byte, error) {
