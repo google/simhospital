@@ -201,9 +201,9 @@ func TestPrimitive(t *testing.T) {
 		got:  NewTX(""),
 	}, {
 		name: "SNM",
-		p:    NewSNM("1234567"),
-		want: NewSNM("1234567"),
-		got:  NewSNM(""),
+		p:    &SNM{Value: "1234567"},
+		want: &SNM{Value: "1234567", Valid: true},
+		got:  &SNM{Valid: false},
 	}, {
 		name: "CM",
 		p:    NewCM([]byte("value")),
@@ -294,7 +294,7 @@ func TestEmpty(t *testing.T) {
 		{name: "ST", f: func(s string) empty { return NewST(ST(s)) }},
 		{name: "ID", f: func(s string) empty { return NewID(ID(s)) }},
 		{name: "IS", f: func(s string) empty { return NewIS(IS(s)) }},
-		{name: "SNM", f: func(s string) empty { return NewSNM(SNM(s)) }},
+		{name: "SNM", f: func(s string) empty { return &SNM{Value: s, Valid: true} }},
 	}
 
 	for _, tc := range cases {
@@ -671,6 +671,51 @@ func TestParseNM_Error(t *testing.T) {
 		var nm NM
 		if err := nm.Unmarshal([]byte(tt), testContext); err == nil {
 			t.Errorf("ParseNM(%q) got err=<nil>, want error", tt)
+		}
+	}
+}
+
+func TestParseSNM(t *testing.T) {
+	tests := []struct {
+		in  string
+		out SNM
+	}{
+		{"1234", SNM{Value: "1234", Valid: true}},
+		{"00012345", SNM{Value: "00012345", Valid: true}},
+		{"+0012345", SNM{Value: "+0012345", Valid: true}},
+		{"123 456", SNM{Value: "123 456", Valid: true}},
+		{"+1 123 456", SNM{Value: "+1 123 456", Valid: true}},
+		{"  +1 123 456  ", SNM{Value: "+1 123 456", Valid: true}},
+		{"+00 123 456", SNM{Value: "+00 123 456", Valid: true}},
+		{`""`, SNM{Valid: false}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.in, func(t *testing.T) {
+			var snm SNM
+			if err := snm.Unmarshal([]byte(tt.in), testContext); err != nil {
+				t.Errorf("Unmarshal(%q) failed with %v", tt.in, err)
+			}
+			if diff := cmp.Diff(SNM(tt.out), snm); diff != "" {
+				t.Errorf("Unmarshal(%q) mismatch (-want, +got)=\n%s", tt.in, diff)
+			}
+		})
+	}
+}
+
+func TestParseSNM_Error(t *testing.T) {
+	tests := []string{
+		"a string",
+		"-",
+		"-0",
+		"1.5",
+		"+44+32789",
+		"+44 +32 789",
+		"+  123 456",
+	}
+	for _, tt := range tests {
+		var snm SNM
+		if err := snm.Unmarshal([]byte(tt), testContext); err == nil {
+			t.Errorf("Unmarshal(%q) got err=<nil>, want error", tt)
 		}
 	}
 }

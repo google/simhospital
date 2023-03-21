@@ -18,7 +18,9 @@ import (
 	"bytes"
 	"errors"
 	"reflect"
+	"regexp"
 	"strconv"
+	"strings"
 	"time"
 
 	"golang.org/x/text/encoding/unicode"
@@ -459,24 +461,33 @@ func (ts *TS) unmarshal(field []byte, c *Context, allowPrecisionInExtraComponent
 // From https://hl7-definition.caristix.com/v2/HL7v2.7/DataTypes/SNM:
 // A string whose characters are limited to "+" and/or the decimal digits 0 through 9.
 // As a string, leading zeros are always considered significant.
-// TODO: We currently treat an SNM value as a simple string. Add validation.
-type SNM string
+type SNM struct {
+	Value string
+	Valid bool // "false" if the SNM is an HL7 null.
+}
 
 var _ Primitive = (*SNM)(nil)
 
-// NewSNM returns a new SNM.
-func NewSNM(snm SNM) *SNM {
-	return &snm
-}
-
 // Marshal marshals the SNM value.
 func (snm *SNM) Marshal(_ *Context) ([]byte, error) {
-	return []byte(string(*snm)), nil
+	return []byte(snm.Value), nil
 }
+
+// Digits or spaces, prefixed by an optional "+".
+// The first element (after the optional "+", if present) must be a digit.
+var snmRegex = regexp.MustCompile(`^\+?[\d]+[\s\d]*$`)
 
 // Unmarshal unmarshals the SNM value.
 func (snm *SNM) Unmarshal(field []byte, _ *Context) error {
-	*snm = SNM(field)
+	snm.Valid = !isHL7Null(field)
+	if !snm.Valid {
+		return nil
+	}
+	f := strings.TrimSpace(string(field))
+	if !snmRegex.MatchString(f) {
+		return ErrBadValue
+	}
+	snm.Value = f
 	return nil
 }
 
@@ -484,12 +495,12 @@ func (snm *SNM) String() string {
 	if snm == nil {
 		return ""
 	}
-	return string(*snm)
+	return string(snm.Value)
 }
 
 // Empty returns whether SNM is nil or empty.
 func (snm *SNM) Empty() bool {
-	return snm == nil || *snm == ""
+	return snm == nil || snm.Value == ""
 }
 
 // TN represents a HL7 TN value (Telephone number).
@@ -648,6 +659,13 @@ func (nul *NUL) Marshal(_ *Context) ([]byte, error) {
 func (nul *NUL) Unmarshal(field []byte, _ *Context) error {
 	*nul = NUL(field)
 	return nil
+}
+
+func (nul *NUL) String() string {
+	if nul == nil {
+		return ""
+	}
+	return string(*nul)
 }
 
 // Any represents any potential HL7 field type.
