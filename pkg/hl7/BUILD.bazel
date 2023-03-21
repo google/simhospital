@@ -23,6 +23,7 @@ go_library(
     name = "go_default_library",
     srcs = [
         "data_types.go",
+        "example_custom_segment.go",
         "mllp.go",
         "parser.go",
         "parserv2.go",
