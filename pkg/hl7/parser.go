@@ -88,8 +88,8 @@ var (
 		"UNICODE":       encoding.Nop, // Legacy charmap retained for v2.5 compatibility
 		"UNICODE UTF-8": encoding.Nop, // Backport from v2.8
 	}
-	// null is a "null" value as defined in HL7 spec, ie: two double quotes without content.
-	null = []byte(`""`)
+	// Null is a "null" value as defined in HL7 spec, ie: two double quotes without content.
+	Null = []byte(`""`)
 
 	// segmentTypeRegex is a regex to parse the main type for a segment.
 	segmentTypeRegex = regexp.MustCompile(`^[a-zA-Z0-9]{3}$`)
@@ -584,8 +584,9 @@ func parseRepeatedValue(input Token, c *Context, v reflect.Value) error {
 	return errs
 }
 
-func isHL7Null(field []byte) bool {
-	return bytes.Equal(field, null)
+// IsHL7Null returns whether a field is a HL7 null.
+func IsHL7Null(field []byte) bool {
+	return bytes.Equal(field, Null)
 }
 
 func parseValue(input Token, c *Context, v reflect.Value) error {
@@ -660,7 +661,7 @@ func segmentName(segment Token, d *Delimiters) (string, *ParseError) {
 	return string(segment.Value[:3]), nil
 }
 
-func isSegment(s Token, expected string, d *Delimiters) bool {
+func isExpectedSegment(s Token, expected string, d *Delimiters) bool {
 	name, err := segmentName(s, d)
 	return err == nil && name == expected
 }
@@ -677,7 +678,7 @@ func (m *Message) parse(name string) (interface{}, error) {
 		return nil, &BadSegmentError{name}
 	}
 	for _, s := range m.Segments {
-		if !isSegment(s, name, m.Context.Delimiters) {
+		if !isExpectedSegment(s, name, m.Context.Delimiters) {
 			continue
 		}
 		ps := reflect.New(t)
@@ -699,7 +700,7 @@ func (m *Message) ParseAll(name string) (interface{}, error) {
 	v := reflect.MakeSlice(reflect.SliceOf(reflect.PtrTo(t)), 0, 1)
 	errs := ParseErrors{}
 	for _, s := range m.Segments {
-		if !isSegment(s, name, m.Context.Delimiters) {
+		if !isExpectedSegment(s, name, m.Context.Delimiters) {
 			continue
 		}
 		ps := reflect.New(t)
@@ -934,7 +935,7 @@ func parseText(field []byte, c *Context, isST bool) (string, error) {
 	if c.Decoder == nil {
 		panic("nil decoder")
 	}
-	unescaped, err := unescapeText(field, c.Delimiters, isST)
+	unescaped, err := UnescapeText(field, c.Delimiters, isST)
 	if err != nil {
 		return "", err
 	}

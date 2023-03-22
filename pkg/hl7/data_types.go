@@ -55,7 +55,7 @@ func (st *ST) Unmarshal(field []byte, c *Context) error {
 // SanitizeString sanitizes the provided string value.
 // SanitizeString returns an empty string if the value is a HL7 NULL e.g. '""', else it is a no-op.
 func SanitizeString(s string) string {
-	if isHL7Null([]byte(s)) {
+	if IsHL7Null([]byte(s)) {
 		return ""
 	}
 	return s
@@ -138,7 +138,7 @@ func (si *SI) Marshal(_ *Context) ([]byte, error) {
 
 // Unmarshal unmarshals the SI value.
 func (si *SI) Unmarshal(field []byte, _ *Context) error {
-	si.Valid = !isHL7Null(field)
+	si.Valid = !IsHL7Null(field)
 	if !si.Valid {
 		return nil
 	}
@@ -173,7 +173,7 @@ func (nm *NM) Marshal(_ *Context) ([]byte, error) {
 
 // Unmarshal unmarshals the NM value.
 func (nm *NM) Unmarshal(field []byte, _ *Context) error {
-	nm.Valid = !isHL7Null(field)
+	nm.Valid = !IsHL7Null(field)
 	if !nm.Valid {
 		return nil
 	}
@@ -372,7 +372,7 @@ func (ts *TS) unmarshal(field []byte, c *Context, allowPrecisionInExtraComponent
 	// Because TS is actually a composite type, we need to use the appropriate delimiter, based
 	// on the nesting level in the context.
 
-	ts.IsHL7Null = isHL7Null(field)
+	ts.IsHL7Null = IsHL7Null(field)
 	if ts.IsHL7Null {
 		return nil
 	}
@@ -479,7 +479,7 @@ var snmRegex = regexp.MustCompile(`^\+?[\d]+[\s\d]*$`)
 
 // Unmarshal unmarshals the SNM value.
 func (snm *SNM) Unmarshal(field []byte, _ *Context) error {
-	snm.Valid = !isHL7Null(field)
+	snm.Valid = !IsHL7Null(field)
 	if !snm.Valid {
 		return nil
 	}

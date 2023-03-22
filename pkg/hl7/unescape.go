@@ -53,13 +53,13 @@ func unescapeSP(escape string) ([]byte, error) {
 	return r, nil
 }
 
-// unescapeText unescapes the text field src using the rules from section 2.9.1 of the
+// UnescapeText unescapes the text field src using the rules from section 2.9.1 of the
 // specification, eg \F\ for the field separator (usually |).
 // Unknown escape sequences cause an ErrUnrecognizedEscapeSequence.
 // TX, FT and CF fields can include any of the escape sequences defined in section 2.9.1.
 // ST fields can include only a subset. If the parameter `isST` is set, only such subset is
 // considered valid.
-func unescapeText(src []byte, d *Delimiters, isST bool) ([]byte, error) {
+func UnescapeText(src []byte, d *Delimiters, isST bool) ([]byte, error) {
 	dst := make([]byte, 0, len(src))
 	// Index of the start of the current escape sequence, -1 if not currently
 	// within an escape sequence.
