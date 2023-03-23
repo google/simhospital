@@ -26,6 +26,7 @@ import (
 	"github.com/google/simhospital/pkg/constants"
 	"github.com/google/simhospital/pkg/doctor"
 	"github.com/google/simhospital/pkg/generator/id"
+	"github.com/google/simhospital/pkg/hl7tofhir"
 	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/logging"
 	"github.com/google/simhospital/pkg/message"
@@ -206,9 +207,10 @@ func (g Generator) setOrderDates(o *ir.Order, r *pathway.Results, eventTime time
 
 // setOrderResults sets results of the given order based on the pathway.Results.
 // If the results are defined for an existing Order Profile, then:
-// - if the results are explicitly specified in the pathway, only those are included,
-// - if the results are not specified explicitly, then random result from the normal range
-//   is included for each test type specified in the Order Profile.
+//   - if the results are explicitly specified in the pathway, only those are included,
+//   - if the results are not specified explicitly, then random result from the normal range
+//     is included for each test type specified in the Order Profile.
+//
 // Otherwise, if the results are defined for non-existing order profile, then
 // only results specified explicitly are included.
 func (g Generator) setOrderResults(o *ir.Order, r *pathway.Results) error {
@@ -420,21 +422,21 @@ func (g Generator) setValueSpecifiedInThePathway(result *ir.Result, pathwayResul
 
 // Convertor converts between the HL7 and FHIR representations of a result status.
 type Convertor struct {
-	hl7ToFHIRMapping map[string]cpb.ObservationStatusCode_Value
+	hl7ToFHIR *hl7tofhir.Convertor
 }
 
 // NewConvertor returns a new result status Convertor based on the HL7Config.
 // Full set of codes can be found at https://www.hl7.org/fhir/codesystem-observation-status.html.
 func NewConvertor(c *config.HL7Config) Convertor {
-	return Convertor{
-		hl7ToFHIRMapping: map[string]cpb.ObservationStatusCode_Value{
+	return Convertor{hl7ToFHIR: &hl7tofhir.Convertor{
+		ObservationStatusCodeMap: map[string]cpb.ObservationStatusCode_Value{
 			c.ResultStatus.Final:     cpb.ObservationStatusCode_FINAL,
 			c.ResultStatus.Corrected: cpb.ObservationStatusCode_AMENDED,
 		},
-	}
+	}}
 }
 
 // HL7ToFHIR returns the FHIR representation for the given HL7 result status.
 func (c Convertor) HL7ToFHIR(status string) cpb.ObservationStatusCode_Value {
-	return c.hl7ToFHIRMapping[status]
+	return c.hl7ToFHIR.ObservationStatusCode(status)
 }

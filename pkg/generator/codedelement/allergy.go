@@ -21,6 +21,7 @@ import (
 
 	"github.com/google/simhospital/pkg/clock"
 	"github.com/google/simhospital/pkg/config"
+	"github.com/google/simhospital/pkg/hl7tofhir"
 	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/pathway"
 
@@ -108,18 +109,17 @@ func NewAllergyGenerator(hc *config.HL7Config, d *config.Data, c clock.Clock, dg
 // AllergyConvertor converts between the HL7 and FHIR representations of codes pertaining to
 // allergies.
 type AllergyConvertor struct {
-	severityHL7ToFHIRMapping map[string]cpb.AllergyIntoleranceSeverityCode_Value
-	typeHL7ToFHIRMapping     map[string]cpb.AllergyIntoleranceCategoryCode_Value
+	hl7ToFHIR *hl7tofhir.Convertor
 }
 
 // SeverityHL7ToFHIR returns the FHIR representation for the given HL7 severity.
 func (c AllergyConvertor) SeverityHL7ToFHIR(severity string) cpb.AllergyIntoleranceSeverityCode_Value {
-	return c.severityHL7ToFHIRMapping[severity]
+	return c.hl7ToFHIR.AllergyIntoleranceSeverityCode(severity)
 }
 
 // TypeHL7ToFHIR returns the FHIR representation for the given HL7 type.
 func (c AllergyConvertor) TypeHL7ToFHIR(allergyType string) cpb.AllergyIntoleranceCategoryCode_Value {
-	return c.typeHL7ToFHIRMapping[allergyType]
+	return c.hl7ToFHIR.AllergyIntoleranceCategoryCode(allergyType)
 }
 
 // NewAllergyConvertor returns a new allergy convertor based on the HL7Config.
@@ -133,8 +133,10 @@ func NewAllergyConvertor(hc *config.HL7Config) (AllergyConvertor, error) {
 		return AllergyConvertor{}, err
 	}
 	return AllergyConvertor{
-		severityHL7ToFHIRMapping: severityMap,
-		typeHL7ToFHIRMapping:     typeMap,
+		hl7ToFHIR: &hl7tofhir.Convertor{
+			AllergyIntoleranceSeverityCodeMap: severityMap,
+			AllergyIntoleranceCategoryCodeMap: typeMap,
+		},
 	}, nil
 }
 
@@ -142,15 +144,14 @@ func NewAllergyConvertor(hc *config.HL7Config) (AllergyConvertor, error) {
 // configuration to the AllergyIntoleranceSeverity value set.
 func newSeverityMap(severities map[string][]string) (map[string]cpb.AllergyIntoleranceSeverityCode_Value, error) {
 	m := make(map[string]cpb.AllergyIntoleranceSeverityCode_Value)
-	fhirKeys := keys(cpb.AllergyIntoleranceSeverityCode_Value_value)
 
 	for k, vs := range severities {
-		fhirKeyValue, ok := cpb.AllergyIntoleranceSeverityCode_Value_value[strings.ToUpper(k)]
+		c, ok := hl7tofhir.DefaultAllergyIntoleranceSeverityCodeMap[strings.ToUpper(k)]
 		if !ok {
-			return nil, fmt.Errorf("invalid allergy severity %q, needs to be a value in %v (case-insensitive)", k, fhirKeys)
+			return nil, fmt.Errorf("invalid allergy severity %q, needs to be a value in %v (case-insensitive)", k, keys(cpb.AllergyIntoleranceSeverityCode_Value_value))
 		}
 		for _, v := range vs {
-			m[v] = cpb.AllergyIntoleranceSeverityCode_Value(fhirKeyValue)
+			m[v] = c
 		}
 	}
 	return m, nil
@@ -159,15 +160,14 @@ func newSeverityMap(severities map[string][]string) (map[string]cpb.AllergyIntol
 // newTypeMap is similar to newSeverityMap.
 func newTypeMap(types map[string][]string) (map[string]cpb.AllergyIntoleranceCategoryCode_Value, error) {
 	m := make(map[string]cpb.AllergyIntoleranceCategoryCode_Value)
-	fhirKeys := keys(cpb.AllergyIntoleranceCategoryCode_Value_value)
 
 	for k, vs := range types {
-		fhirKeyValue, ok := cpb.AllergyIntoleranceCategoryCode_Value_value[strings.ToUpper(k)]
+		c, ok := hl7tofhir.DefaultAllergyIntoleranceCategoryCodeMap[strings.ToUpper(k)]
 		if !ok {
-			return nil, fmt.Errorf("invalid allergy type %q, needs to be a value in %v (case-insensitive)", k, fhirKeys)
+			return nil, fmt.Errorf("invalid allergy type %q, needs to be a value in %v (case-insensitive)", k, keys(cpb.AllergyIntoleranceCategoryCode_Value_value))
 		}
 		for _, v := range vs {
-			m[v] = cpb.AllergyIntoleranceCategoryCode_Value(fhirKeyValue)
+			m[v] = c
 		}
 	}
 	return m, nil
