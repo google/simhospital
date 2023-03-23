@@ -43,15 +43,15 @@ type entry struct {
 
 type resource struct {
 	ID               string
-	Identifier       []identifier
+	Identifier       []testidentifier
 	Name             []name
 	DeceasedDateTime string
 	Gender           caseInsensitiveString
 	ResourceType     caseInsensitiveString
-	Telecom          []telecom
+	Telecom          []testtelecom
 }
 
-type identifier struct {
+type testidentifier struct {
 	Value string
 }
 
@@ -61,7 +61,7 @@ type name struct {
 	Suffix []string
 }
 
-type telecom struct {
+type testtelecom struct {
 	System caseInsensitiveString
 	Use    caseInsensitiveString
 	Value  string
@@ -78,7 +78,7 @@ func TestJSONMarshaller(t *testing.T) {
 		Entry: []entry{{
 			Resource: resource{
 				ID: "1",
-				Identifier: []identifier{{
+				Identifier: []testidentifier{{
 					Value: "1234",
 				}},
 				Name: []name{{
@@ -88,7 +88,7 @@ func TestJSONMarshaller(t *testing.T) {
 				}},
 				DeceasedDateTime: "2018-02-12T00:00:00+00:00",
 				Gender:           "male",
-				Telecom: []telecom{{
+				Telecom: []testtelecom{{
 					System: "phone",
 					Use:    "home",
 					Value:  "01234567890",

@@ -202,7 +202,7 @@ func (w *FHIRWriter) bundle(p *ir.PatientInfo) *r4pb.Bundle {
 		for _, lh := range ec.LocationHistory {
 			location, locationRef := w.location(lh.Location)
 			addEntry(bundle, location)
-			e.Location = append(e.Location, w.encounterLocation(locationRef, lh.Start, lh.End))
+			e.Location = append(e.Location, encounterLocation(locationRef, lh.Start, lh.End))
 		}
 
 		for _, pr := range ec.Procedures {
@@ -211,7 +211,7 @@ func (w *FHIRWriter) bundle(p *ir.PatientInfo) *r4pb.Bundle {
 
 			procedure, procedureRef := w.procedure(pr, patientRef, practitionerRef, encounterRef)
 			addEntry(bundle, procedure)
-			e.Diagnosis = append(e.Diagnosis, w.encounterDiagnosis(procedureRef))
+			e.Diagnosis = append(e.Diagnosis, encounterDiagnosis(procedureRef))
 		}
 
 		for _, d := range ec.Diagnoses {
@@ -220,7 +220,7 @@ func (w *FHIRWriter) bundle(p *ir.PatientInfo) *r4pb.Bundle {
 
 			condition, conditionRef := w.condition(d, patientRef, practitionerRef, encounterRef)
 			addEntry(bundle, condition)
-			e.Diagnosis = append(e.Diagnosis, w.encounterDiagnosis(conditionRef))
+			e.Diagnosis = append(e.Diagnosis, encounterDiagnosis(conditionRef))
 		}
 		addEntry(bundle, encounter)
 
@@ -249,15 +249,15 @@ func (w *FHIRWriter) patient(person *ir.Person) (*r4pb.Bundle_Entry, *dpb.Refere
 			OneofResource: &r4pb.ContainedResource_Patient{
 				&patientpb.Patient{
 					Id:         &dpb.Id{Value: id},
-					Identifier: w.identifier(person.MRN),
-					Name:       w.humanName(person),
-					Address:    w.address(person.Address),
-					Deceased:   w.deceased(person),
-					Telecom:    w.telecom(person.PhoneNumber),
+					Identifier: identifier(person.MRN),
+					Name:       humanName(person),
+					Address:    address(person.Address),
+					Deceased:   deceased(person),
+					Telecom:    telecom(person.PhoneNumber),
 					Gender: &patientpb.Patient_GenderCode{
 						Value: w.gc.HL7ToFHIR(person.Gender),
 					},
-					Text: w.narrative(person.Text()),
+					Text: narrative(person.Text()),
 				},
 			},
 		},
@@ -306,7 +306,7 @@ func (w *FHIRWriter) allergies(allergies []*ir.Allergy, patientRef *dpb.Referenc
 							},
 						}},
 						Code:         w.codeableConcept(a.Description),
-						RecordedDate: w.dateTime(a.IdentificationDateTime),
+						RecordedDate: dateTime(a.IdentificationDateTime),
 						Patient:      patientRef,
 					},
 				},
@@ -328,11 +328,11 @@ func (w *FHIRWriter) codeableConcept(c ir.CodedElement) *dpb.CodeableConcept {
 	}
 }
 
-func (w *FHIRWriter) identifier(identifier string) []*dpb.Identifier {
+func identifier(identifier string) []*dpb.Identifier {
 	return []*dpb.Identifier{{Value: &dpb.String{Value: identifier}}}
 }
 
-func (w *FHIRWriter) humanName(pe *ir.Person) []*dpb.HumanName {
+func humanName(pe *ir.Person) []*dpb.HumanName {
 	n := &dpb.HumanName{
 		Family: &dpb.String{Value: pe.Surname},
 		Given:  []*dpb.String{{Value: pe.FirstName}},
@@ -349,7 +349,7 @@ func (w *FHIRWriter) humanName(pe *ir.Person) []*dpb.HumanName {
 	return []*dpb.HumanName{n}
 }
 
-func (w *FHIRWriter) telecom(phone string) []*dpb.ContactPoint {
+func telecom(phone string) []*dpb.ContactPoint {
 	if phone == "" {
 		return nil
 	}
@@ -360,11 +360,11 @@ func (w *FHIRWriter) telecom(phone string) []*dpb.ContactPoint {
 	}}
 }
 
-func (w *FHIRWriter) deceased(pe *ir.Person) *patientpb.Patient_DeceasedX {
+func deceased(pe *ir.Person) *patientpb.Patient_DeceasedX {
 	if pe.DateOfDeath.Valid {
 		return &patientpb.Patient_DeceasedX{
 			Choice: &patientpb.Patient_DeceasedX_DateTime{
-				DateTime: w.dateTime(pe.DateOfDeath),
+				DateTime: dateTime(pe.DateOfDeath),
 			},
 		}
 	}
@@ -375,7 +375,7 @@ func (w *FHIRWriter) deceased(pe *ir.Person) *patientpb.Patient_DeceasedX {
 	}
 }
 
-func (w *FHIRWriter) address(address *ir.Address) []*dpb.Address {
+func address(address *ir.Address) []*dpb.Address {
 	a := &dpb.Address{
 		// Confusingly, Simulated Hospital's concept of "Type" maps to FHIR's concept of "Use", *not* "Type".
 		Use: &dpb.Address_UseCode{Value: internalToFHIRAddressType[address.Type]},
@@ -400,7 +400,7 @@ func (w *FHIRWriter) encounter(encounter *ir.Encounter, class string) (*r4pb.Bun
 			OneofResource: &r4pb.ContainedResource_Encounter{
 				&encounterpb.Encounter{
 					Id:   &dpb.Id{Value: id},
-					Text: w.narrative(encounter.Text()),
+					Text: narrative(encounter.Text()),
 					ClassValue: &dpb.Coding{
 						Code: &dpb.Code{Value: class},
 					},
@@ -408,10 +408,10 @@ func (w *FHIRWriter) encounter(encounter *ir.Encounter, class string) (*r4pb.Bun
 						Value: internalToFHIREncounterStatus[encounter.Status],
 					},
 					Period: &dpb.Period{
-						Start: w.dateTime(encounter.Start),
-						End:   w.dateTime(encounter.End),
+						Start: dateTime(encounter.Start),
+						End:   dateTime(encounter.End),
 					},
-					StatusHistory: w.statusHistory(encounter.StatusHistory),
+					StatusHistory: statusHistory(encounter.StatusHistory),
 				},
 			},
 		},
@@ -424,12 +424,12 @@ func (w *FHIRWriter) encounter(encounter *ir.Encounter, class string) (*r4pb.Bun
 	return w.addURL(entry, id, "Encounter"), ref
 }
 
-func (w *FHIRWriter) encounterLocation(locationRef *dpb.Reference, start ir.NullTime, end ir.NullTime) *encounterpb.Encounter_Location {
+func encounterLocation(locationRef *dpb.Reference, start ir.NullTime, end ir.NullTime) *encounterpb.Encounter_Location {
 	return &encounterpb.Encounter_Location{
 		Location: locationRef,
 		Period: &dpb.Period{
-			Start: w.dateTime(start),
-			End:   w.dateTime(end),
+			Start: dateTime(start),
+			End:   dateTime(end),
 		},
 	}
 }
@@ -437,13 +437,13 @@ func (w *FHIRWriter) encounterLocation(locationRef *dpb.Reference, start ir.Null
 // encounterDiagnosis constructs the `Encounter.Diagnosis` field. `ref` must be a reference to
 // either a condition or procedure.
 // Reference: https://www.hl7.org/fhir/encounter-definitions.html#Encounter.diagnosis.condition
-func (w *FHIRWriter) encounterDiagnosis(ref *dpb.Reference) *encounterpb.Encounter_Diagnosis {
+func encounterDiagnosis(ref *dpb.Reference) *encounterpb.Encounter_Diagnosis {
 	return &encounterpb.Encounter_Diagnosis{
 		Condition: ref,
 	}
 }
 
-func (w *FHIRWriter) statusHistory(statusHistory []*ir.StatusHistory) []*encounterpb.Encounter_StatusHistory {
+func statusHistory(statusHistory []*ir.StatusHistory) []*encounterpb.Encounter_StatusHistory {
 	var sh []*encounterpb.Encounter_StatusHistory
 	for _, s := range statusHistory {
 		h := &encounterpb.Encounter_StatusHistory{
@@ -451,8 +451,8 @@ func (w *FHIRWriter) statusHistory(statusHistory []*ir.StatusHistory) []*encount
 				Value: internalToFHIREncounterStatus[s.Status],
 			},
 			Period: &dpb.Period{
-				Start: w.dateTime(s.Start),
-				End:   w.dateTime(s.End),
+				Start: dateTime(s.Start),
+				End:   dateTime(s.End),
 			},
 		}
 		sh = append(sh, h)
@@ -472,10 +472,10 @@ func (w *FHIRWriter) observations(encounterRef *dpb.Reference, patientRef *dpb.R
 			Status: &observationpb.Observation_StatusCode{
 				Value: w.oc.HL7ToFHIR(r.Status),
 			},
-			Text: w.narrative(r.Text(), strings.Join(r.Notes, "; ")),
+			Text: narrative(r.Text(), strings.Join(r.Notes, "; ")),
 			Effective: &observationpb.Observation_EffectiveX{
 				Choice: &observationpb.Observation_EffectiveX_DateTime{
-					DateTime: w.dateTime(order.OrderDateTime),
+					DateTime: dateTime(order.OrderDateTime),
 				},
 			},
 			Value: &observationpb.Observation_ValueX{
@@ -503,7 +503,7 @@ func (w *FHIRWriter) observations(encounterRef *dpb.Reference, patientRef *dpb.R
 	return observations
 }
 
-func (w *FHIRWriter) narrative(paragraphs ...string) *dpb.Narrative {
+func narrative(paragraphs ...string) *dpb.Narrative {
 	var sb strings.Builder
 	sb.WriteString("<div>")
 	for _, p := range paragraphs {
@@ -538,7 +538,7 @@ func (w *FHIRWriter) location(location *ir.PatientLocation) (*r4pb.Bundle_Entry,
 				&locationpb.Location{
 					Id:   &dpb.Id{Value: id},
 					Name: &dpb.String{Value: name},
-					Text: w.narrative(name),
+					Text: narrative(name),
 				},
 			},
 		},
@@ -565,7 +565,7 @@ func (w *FHIRWriter) notes(notes []string) []*dpb.Annotation {
 	return annotations
 }
 
-func (w *FHIRWriter) dateTime(t ir.NullTime) *dpb.DateTime {
+func dateTime(t ir.NullTime) *dpb.DateTime {
 	if !t.Valid {
 		return nil
 	}
@@ -578,7 +578,7 @@ func (w *FHIRWriter) procedure(procedure *ir.DiagnosisOrProcedure, patientRef *d
 		Id: &dpb.Id{Value: id},
 		Performed: &procedurepb.Procedure_PerformedX{
 			Choice: &procedurepb.Procedure_PerformedX_DateTime{
-				w.dateTime(procedure.DateTime),
+				dateTime(procedure.DateTime),
 			},
 		},
 		Status: &procedurepb.Procedure_StatusCode{Value: cpb.EventStatusCode_COMPLETED},
@@ -589,7 +589,7 @@ func (w *FHIRWriter) procedure(procedure *ir.DiagnosisOrProcedure, patientRef *d
 		Performer: []*procedurepb.Procedure_Performer{{
 			Actor: practitionerRef,
 		}},
-		Text:    w.narrative(procedure.Text()),
+		Text:    narrative(procedure.Text()),
 		Subject: patientRef,
 	}
 
@@ -618,10 +618,10 @@ func (w *FHIRWriter) condition(diagnosis *ir.DiagnosisOrProcedure, patientRef *d
 
 	d := &conditionpb.Condition{
 		Id:           &dpb.Id{Value: id},
-		RecordedDate: w.dateTime(diagnosis.DateTime),
+		RecordedDate: dateTime(diagnosis.DateTime),
 		Recorder:     practitionerRef,
 		Encounter:    encounterRef,
-		Text:         w.narrative(diagnosis.Text()),
+		Text:         narrative(diagnosis.Text()),
 		Subject:      patientRef,
 	}
 
@@ -665,9 +665,9 @@ func (w *FHIRWriter) practitioner(doctor *ir.Doctor) (*r4pb.Bundle_Entry, *dpb.R
 			OneofResource: &r4pb.ContainedResource_Practitioner{
 				&practitionerpb.Practitioner{
 					Id:         &dpb.Id{Value: id},
-					Identifier: w.identifier(doctor.ID),
-					Name:       w.humanName(person),
-					Text:       w.narrative(person.Text()),
+					Identifier: identifier(doctor.ID),
+					Name:       humanName(person),
+					Text:       narrative(person.Text()),
 				},
 			},
 		},
@@ -691,13 +691,13 @@ func (w *FHIRWriter) practitioner(doctor *ir.Doctor) (*r4pb.Bundle_Entry, *dpb.R
 // methods where `entry` has already been constructed via a struct literal.
 func (w *FHIRWriter) addURL(entry *r4pb.Bundle_Entry, id, url string) *r4pb.Bundle_Entry {
 	if w.bundleTypeCode == cpb.BundleTypeCode_BATCH {
-		entry.Request = w.request(url)
+		entry.Request = request(url)
 	}
 	entry.FullUrl = &dpb.Uri{Value: fmt.Sprintf("%s/%s", url, id)}
 	return entry
 }
 
-func (w *FHIRWriter) request(url string) *r4pb.Bundle_Entry_Request {
+func request(url string) *r4pb.Bundle_Entry_Request {
 	return &r4pb.Bundle_Entry_Request{
 		Url: &dpb.Uri{Value: url},
 		// Currently, we only support the creation of resources (POST).
