@@ -19,22 +19,20 @@ import (
 	"io"
 	"os"
 	"path"
-	"strings"
 
 	"github.com/pkg/errors"
-	"github.com/google/simhospital/pkg/ir"
 )
 
-// Output defines an object which returns a writer that resource are written to.
+// Output defines an object which returns a writer that resources are written to.
 type Output interface {
-	New(*ir.PatientInfo) (io.WriteCloser, error)
+	New(string) (io.WriteCloser, error)
 }
 
 // StdOutput is a resource output that wraps stdout.
 type StdOutput struct{}
 
 // New just returns os.Stdout.
-func (o *StdOutput) New(*ir.PatientInfo) (io.WriteCloser, error) {
+func (o *StdOutput) New(_ string) (io.WriteCloser, error) {
 	return os.Stdout, nil
 }
 
@@ -46,17 +44,12 @@ type DirectoryOutput struct {
 	count map[string]int
 }
 
-// New returns a new file as a writer for the given patient. It generates filenames as the
-// concatenation of the person's full name and MRN (to avoid the slim possibility of collisions).
-// If resources are generated more than once for the same Patient, a suffix is added. Consecutive
-// writes will append to the file.
-func (o *DirectoryOutput) New(p *ir.PatientInfo) (io.WriteCloser, error) {
-	pe := p.Person
-	filename := strings.Join([]string{pe.FirstName, pe.MiddleName, pe.Surname, pe.MRN}, "_")
+// New returns a new file as a writer with the given name.
+// Name collisions are avoided by appending a suffix if needed.
+func (o *DirectoryOutput) New(filename string) (io.WriteCloser, error) {
 	path := path.Join(o.path, filename)
 
 	// Avoid name collisions when generating resources multiple times for the same person.
-
 	if c := o.count[filename]; c > 0 {
 		path = fmt.Sprintf("%s_%d", path, c)
 	}

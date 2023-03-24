@@ -17,6 +17,7 @@ package resource
 import (
 	"os"
 	"path"
+	"strings"
 	"testing"
 
 	"github.com/google/simhospital/pkg/ir"
@@ -49,19 +50,21 @@ func TestDirectoryOutput(t *testing.T) {
 		},
 	}
 
-	w1, err := o.New(p)
+	pe := p.Person
+	filename := strings.Join([]string{pe.FirstName, pe.MiddleName, pe.Surname, pe.MRN}, "_")
+	w1, err := o.New(filename)
 	if err != nil {
-		t.Fatalf("o.New(%v) failed with: %v", p, err)
+		t.Fatalf("o.New(%v) failed with: %v", filename, err)
 	}
 	w1.Close()
 
 	if !fileExists(t, wantPath1) {
-		t.Errorf("o.New(%v) did not create the wanted file %s", p, wantPath1)
+		t.Errorf("o.New(%v) did not create the wanted file %s", filename, wantPath1)
 	}
 
-	w2, err := o.New(p)
+	w2, err := o.New(filename)
 	if err != nil {
-		t.Fatalf("o.New(%v) (second call) failed with: %v", p, err)
+		t.Fatalf("o.New(%v) (second call) failed with: %v", filename, err)
 	}
 	w2.Close()
 

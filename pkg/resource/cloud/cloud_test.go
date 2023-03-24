@@ -71,9 +71,9 @@ func TestOutputWrite(t *testing.T) {
 				t.Fatalf("NewOutput(%v, %s, %s, %s, %s, %v) failed with %v", ctx, project, location, dataset, store, opts, err)
 			}
 
-			writer, err := output.New(nil)
+			writer, err := output.New("irrelevant")
 			if err != nil {
-				t.Fatalf("%T.New(%v) failed with %v", output, nil, err)
+				t.Fatalf("%T.New(%v) failed with %v", output, "irrelevant", err)
 			}
 			defer writer.Close()
 

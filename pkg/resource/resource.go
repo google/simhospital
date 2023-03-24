@@ -160,7 +160,10 @@ func (w *FHIRWriter) Generate(p *ir.PatientInfo) error {
 	if err != nil {
 		return err
 	}
-	f, err := w.output.New(p)
+	pe := p.Person
+	filename := strings.Join([]string{pe.FirstName, pe.MiddleName, pe.Surname, pe.MRN}, "_")
+
+	f, err := w.output.New(filename)
 	if err != nil {
 		return err
 	}

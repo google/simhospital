@@ -25,7 +25,6 @@ import (
 	"github.com/pkg/errors"
 	"google.golang.org/api/healthcare/v1"
 	"google.golang.org/api/option"
-	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/logging"
 )
 
@@ -40,7 +39,7 @@ type Output struct {
 }
 
 // New creates a new cloud WriterCloser.
-func (o *Output) New(*ir.PatientInfo) (io.WriteCloser, error) {
+func (o *Output) New(_ string) (io.WriteCloser, error) {
 	return &WriterCloser{svc: o.svc, parent: o.parent}, nil
 }
 

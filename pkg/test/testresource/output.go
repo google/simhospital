@@ -18,8 +18,6 @@ import (
 	"bytes"
 	"errors"
 	"io"
-
-	"github.com/google/simhospital/pkg/ir"
 )
 
 // ByteOutput is a resource output that writes to a byte buffer.
@@ -28,7 +26,7 @@ type ByteOutput struct {
 }
 
 // New returns the ByteWriteCloser.
-func (o *ByteOutput) New(p *ir.PatientInfo) (io.WriteCloser, error) {
+func (o *ByteOutput) New(_ string) (io.WriteCloser, error) {
 	if o.Bytes == nil {
 		return nil, errors.New("nil byte buffer")
 	}
