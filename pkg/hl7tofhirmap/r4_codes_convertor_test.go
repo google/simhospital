@@ -21,28 +21,28 @@ import (
 	cpb "github.com/google/fhir/go/proto/google/fhir/proto/r4/core/codes_go_proto"
 )
 
-func TestConvertor_AbstractTypeCode_Default(t *testing.T) {
+func TestConvertor_Default(t *testing.T) {
 	c := &Convertor{}
 	if got, want := c.AbstractTypeCode("TYPE"), cpb.AbstractTypeCode_TYPE; got != want {
 		t.Errorf(`AbstractTypeCode("TYPE") got %s, want %s`, got, want)
 	}
 }
 
-func TestConvertor_AbstractTypeCode_Default_NotExists(t *testing.T) {
+func TestConvertor_Default_NotExists(t *testing.T) {
 	c := &Convertor{}
 	if got, want := c.AbstractTypeCode("non-existent"), cpb.AbstractTypeCode_INVALID_UNINITIALIZED; got != want {
 		t.Errorf(`AbstractTypeCode("non-existent") got %s, want %s`, got, want)
 	}
 }
 
-func TestConvertor_AccountStatusCode_Default_NotExistsButHasUnknown(t *testing.T) {
+func TestConvertor_Default_NotExistsButHasUnknown(t *testing.T) {
 	c := &Convertor{}
-	if got, want := c.AccountStatusCode("non-existent"), cpb.AccountStatusCode_INVALID_UNINITIALIZED; got != want {
-		t.Errorf(`AccountStatusCode("non-existent") got %s, want %s`, got, want)
+	if got, want := c.AdministrativeGenderCode("non-existent"), cpb.AdministrativeGenderCode_INVALID_UNINITIALIZED; got != want {
+		t.Errorf(`AdministrativeGenderCode("non-existent") got %s, want %s`, got, want)
 	}
 }
 
-func TestConvertor_AbstractTypeCode_WithMapOverride(t *testing.T) {
+func TestConvertor_WithMapOverride(t *testing.T) {
 	c := &Convertor{AbstractTypeCodeMap: map[string]cpb.AbstractTypeCode_Value{
 		"ANOTHER_TYPE": cpb.AbstractTypeCode_TYPE,
 	}}

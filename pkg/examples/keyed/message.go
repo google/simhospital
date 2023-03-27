@@ -115,8 +115,8 @@ func (k Message) SafeGetPID() *hl7.PID {
 
 // SafeGetZCM returns the ZCM segment. Keyed Messages have a present and parsable ZCM segment.
 func (k Message) SafeGetZCM() *hl7.ZCM {
-	zdm, _ := k.ZCM()
-	return zdm
+	zcm, _ := k.ZCM()
+	return zcm
 }
 
 // SafeGetPV1 returns the PV1 segment. Keyed Messages have a parsable PV1 segment, so errors

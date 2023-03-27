@@ -404,12 +404,12 @@ func TestSanitizeMessage_ZCMIsAppended(t *testing.T) {
 	if err != nil {
 		t.Fatalf("SanitizeMessage() failed with %v", err)
 	}
-	zdm, err := m.ZCM()
+	zcm, err := m.ZCM()
 	if err != nil {
 		t.Fatalf("ZCM() failed with %v", err)
 	}
-	if zdm == nil {
-		t.Error("zdm is <nil>, want non nil")
+	if zcm == nil {
+		t.Error("zcm is <nil>, want non nil")
 	}
 }
 
@@ -638,13 +638,13 @@ func TestSanitizeMessage_MalformedGP(t *testing.T) {
 	if err != nil {
 		t.Errorf("Unexpected error, err=%q.", err)
 	}
-	zdm, err := m.ZCM()
+	zcm, err := m.ZCM()
 	if err != nil {
 		t.Fatalf("ZCM() failed with %v", err)
 	}
 
-	if zdm.PatientPrimaryFacilityIDNumber.String() != "V81999" {
-		t.Errorf("Got %v, want %v.", zdm.PatientPrimaryFacilityIDNumber.String(), "V81999")
+	if zcm.PatientPrimaryFacilityIDNumber.String() != "V81999" {
+		t.Errorf("Got %v, want %v.", zcm.PatientPrimaryFacilityIDNumber.String(), "V81999")
 	}
 	if parsedPD1.PatientPrimaryFacility[0].IDNumber != nil {
 		t.Errorf("parsedPD1.PatientPrimaryFacility[0].IDNumber is %v, want <nil>.", parsedPD1.PatientPrimaryFacility[0].IDNumber)
@@ -671,13 +671,13 @@ func TestSanitizeMessage_MalformedGP(t *testing.T) {
 	if err != nil {
 		t.Errorf("Unexpected error, err=%q.", err)
 	}
-	zdm, err = m.ZCM()
+	zcm, err = m.ZCM()
 	if err != nil {
 		t.Fatalf("ZCM() failed with %v", err)
 	}
 
-	if zdm.PatientPrimaryFacilityIDNumber.String() != "V81999" {
-		t.Errorf("Got %v, want %v.", zdm.PatientPrimaryFacilityIDNumber.String(), "V81999")
+	if zcm.PatientPrimaryFacilityIDNumber.String() != "V81999" {
+		t.Errorf("Got %v, want %v.", zcm.PatientPrimaryFacilityIDNumber.String(), "V81999")
 	}
 	if parsedPD1.PatientPrimaryFacility[0].IDNumber != nil {
 		t.Errorf("parsedPD1.PatientPrimaryFacility[0].IDNumber is %v, want <nil>.", parsedPD1.PatientPrimaryFacility[0].IDNumber)

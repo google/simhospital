@@ -140,14 +140,14 @@ type Message struct{ Message string }
 // An error of type MESSAGE_SANITIZATION_FAILURE means that something went wrong while sanitizing;
 // any other error indicates a problem with the message.
 func (s MessageSanitizer) SanitizeMessage(ctx context.Context, m *Message) (*hl7.Message, error) {
-	zdm, err := hl7.MarshalSegment(defaultZCM, hl7.DefaultContextWithoutLocation)
+	zcm, err := hl7.MarshalSegment(defaultZCM, hl7.DefaultContextWithoutLocation)
 	if err != nil {
 		return nil, &Error{
 			E:    errors.Wrap(err, "could not marshal ZCM segment"),
 			Name: "MESSAGE_SANITIZATION_FAILURE",
 		}
 	}
-	m.Message = fmt.Sprintf("%s\r%s", m.Message, string(zdm))
+	m.Message = fmt.Sprintf("%s\r%s", m.Message, string(zcm))
 
 	if err = doBasicValidation(m.Message); err != nil {
 		return nil, err
@@ -611,7 +611,7 @@ func rewritePatientIdentifiers(rewriteMRN bool, fromLocations ...string) hl7.Rew
 
 		var keyword string
 		switch {
-		case nhsNumberIsValid(value):
+		case NHSNumberIsValid(value):
 			keyword = "NHSNMBR"
 		case value != "" && rewriteMRN:
 			keyword = "MRN"
@@ -625,7 +625,7 @@ func rewritePatientIdentifiers(rewriteMRN bool, fromLocations ...string) hl7.Rew
 }
 
 // TODO: Extract this function to a common place; this is used in the person generator too.
-func nhsNumberIsValid(nhs string) bool {
+func NHSNumberIsValid(nhs string) bool {
 	if len(nhs) != 10 {
 		return false
 	}
