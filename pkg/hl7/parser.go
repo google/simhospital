@@ -118,6 +118,12 @@ var (
 		Rewrite:    []Rewrite{NopRewrite},
 		Nesting:    0,
 	}
+	defaultContextWithLocation = &Context{
+		Decoder:    unicode.UTF8.NewDecoder(),
+		Delimiters: DefaultDelimiters,
+		Rewrite:    []Rewrite{NopRewrite},
+		Nesting:    0,
+	}
 )
 
 // TimezoneAndLocation sets the Timezone and Location based on tz provided.
@@ -129,6 +135,7 @@ func TimezoneAndLocation(tz string) error {
 	}
 	Timezone = tz
 	Location = loc
+	defaultContextWithLocation.TimezoneLoc = loc
 	return nil
 }
 

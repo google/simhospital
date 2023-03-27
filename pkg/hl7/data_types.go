@@ -368,6 +368,10 @@ func (ts *TS) Unmarshal(field []byte, c *Context) error {
 	return ts.unmarshal(field, c, true /*allowPrecisionInExtraComponent=true*/)
 }
 
+func (ts *TS) UnmarshalWithDefaultContext(field []byte) error {
+	return ts.Unmarshal(field, defaultContextWithLocation)
+}
+
 func (ts *TS) unmarshal(field []byte, c *Context, allowPrecisionInExtraComponent bool) error {
 	// Because TS is actually a composite type, we need to use the appropriate delimiter, based
 	// on the nesting level in the context.
