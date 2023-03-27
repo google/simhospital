@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-load("@io_bazel_rules_go//go:def.bzl", "go_library")
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 
 package(
     default_visibility = ["//visibility:public"],
@@ -22,14 +22,30 @@ package(
 go_library(
     name = "go_default_library",
     srcs = [
+        "data_types.go",
         "extension.go",
-        "output.go",
+        "identifier.go",
         "reference.go",
-        "resource.go",
     ],
-    importpath = "github.com/google/simhospital/pkg/test/testfhir",
+    importpath = "github.com/google/simhospital/pkg/fhircore",
     deps = [
-        "//pkg/ir:go_default_library",
+        "@com_google_fhir//proto/google/fhir/proto/r4/core:codes_go_proto",
         "@com_google_fhir//proto/google/fhir/proto/r4/core:datatypes_go_proto",
+        "@org_golang_google_protobuf//proto:go_default_library",
+    ],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "data_types_test.go",
+        "extension_test.go",
+        "identifier_test.go",
+    ],
+    embed = [":go_default_library"],
+    deps = [
+        "@com_github_google_go_cmp//cmp:go_default_library",
+        "@com_google_fhir//proto/google/fhir/proto/r4/core:datatypes_go_proto",
+        "@org_golang_google_protobuf//testing/protocmp:go_default_library",
     ],
 )

@@ -29,6 +29,7 @@ go_library(
     deps = [
         "//pkg/config:go_default_library",
         "//pkg/constants:go_default_library",
+        "//pkg/fhircore:go_default_library",
         "//pkg/gender:go_default_library",
         "//pkg/generator/codedelement:go_default_library",
         "//pkg/generator/id:go_default_library",

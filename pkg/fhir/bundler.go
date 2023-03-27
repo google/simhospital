@@ -20,6 +20,7 @@ import (
 	"strings"
 
 	"github.com/google/simhospital/pkg/constants"
+	fhircore "github.com/google/simhospital/pkg/fhircore"
 	"github.com/google/simhospital/pkg/ir"
 
 	cpb "github.com/google/fhir/go/proto/google/fhir/proto/r4/core/codes_go_proto"
@@ -171,10 +172,8 @@ func (b *Bundler) patient(person *ir.Person) (*r4pb.Bundle_Entry, *dpb.Reference
 		},
 	}
 
-	ref := &dpb.Reference{
-		Reference: &dpb.Reference_PatientId{&dpb.ReferenceId{Value: id}},
-		Display:   &dpb.String{Value: person.AlternateText()},
-	}
+	ref := fhircore.PatientRef(id)
+	ref.Display = fhircore.String(person.AlternateText())
 
 	return b.addURL(entry, id, "Patient"), ref
 }
@@ -325,9 +324,7 @@ func (b *Bundler) encounter(encounter *ir.Encounter, class string) (*r4pb.Bundle
 		},
 	}
 
-	ref := &dpb.Reference{
-		Reference: &dpb.Reference_EncounterId{&dpb.ReferenceId{Value: id}},
-	}
+	ref := fhircore.EncounterRef(id)
 
 	return b.addURL(entry, id, "Encounter"), ref
 }
@@ -452,12 +449,8 @@ func (b *Bundler) location(location *ir.PatientLocation) (*r4pb.Bundle_Entry, *d
 		},
 	}
 
-	ref := &dpb.Reference{
-		Reference: &dpb.Reference_LocationId{
-			&dpb.ReferenceId{Value: id},
-		},
-		Display: &dpb.String{Value: name},
-	}
+	ref := fhircore.LocationRef(id)
+	ref.Display = fhircore.String(name)
 
 	b.locations[*location] = ref
 
@@ -511,12 +504,8 @@ func (b *Bundler) procedure(procedure *ir.DiagnosisOrProcedure, patientRef *dpb.
 		},
 	}
 
-	ref := &dpb.Reference{
-		Reference: &dpb.Reference_ProcedureId{
-			&dpb.ReferenceId{Value: id},
-		},
-		Display: &dpb.String{Value: procedure.Text()},
-	}
+	ref := fhircore.ProcedureRef(id)
+	ref.Display = fhircore.String(procedure.Text())
 
 	return b.addURL(entry, id, "Procedure"), ref
 }
@@ -543,12 +532,8 @@ func (b *Bundler) condition(diagnosis *ir.DiagnosisOrProcedure, patientRef *dpb.
 		},
 	}
 
-	ref := &dpb.Reference{
-		Reference: &dpb.Reference_ConditionId{
-			&dpb.ReferenceId{Value: id},
-		},
-		Display: &dpb.String{Value: diagnosis.Text()},
-	}
+	ref := fhircore.ConditionRef(id)
+	ref.Display = fhircore.String(diagnosis.Text())
 
 	return b.addURL(entry, id, "Condition"), ref
 }
@@ -581,12 +566,8 @@ func (b *Bundler) practitioner(doctor *ir.Doctor) (*r4pb.Bundle_Entry, *dpb.Refe
 		},
 	}
 
-	ref := &dpb.Reference{
-		Reference: &dpb.Reference_PractitionerId{
-			&dpb.ReferenceId{Value: id},
-		},
-		Display: &dpb.String{Value: person.AlternateText()},
-	}
+	ref := fhircore.PractitionerRef(id)
+	ref.Display = fhircore.String(person.AlternateText())
 
 	b.doctors[*doctor] = ref
 
