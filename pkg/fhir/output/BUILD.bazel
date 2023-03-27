@@ -1,4 +1,4 @@
-# Copyright 2023 Google LLC
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,22 +22,24 @@ package(
 go_library(
     name = "go_default_library",
     srcs = [
-        "r4_codes_convertor.go",
-        "r4_default_mappings.go",
+        "output.go",
     ],
-    importpath = "github.com/google/simhospital/pkg/hl7tofhir",
+    importpath = "github.com/google/simhospital/pkg/fhir/output",
     deps = [
-        "@com_google_fhir//proto/google/fhir/proto/r4/core:codes_go_proto",
+        "@com_github_pkg_errors//:go_default_library",
     ],
 )
 
 go_test(
     name = "go_default_test",
     srcs = [
-        "r4_codes_covertor_test.go",
+        "marshaller_test.go",
+        "output_test.go",
+        "resource_test.go",
     ],
     embed = [":go_default_library"],
     deps = [
-        "@com_google_fhir//proto/google/fhir/proto/r4/core:codes_go_proto",
+        "//pkg/ir:go_default_library",
+        "//pkg/test/testwrite:go_default_library",
     ],
 )

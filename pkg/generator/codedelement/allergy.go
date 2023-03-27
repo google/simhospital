@@ -21,7 +21,7 @@ import (
 
 	"github.com/google/simhospital/pkg/clock"
 	"github.com/google/simhospital/pkg/config"
-	"github.com/google/simhospital/pkg/hl7tofhir"
+	"github.com/google/simhospital/pkg/hl7tofhirmap"
 	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/pathway"
 
@@ -109,7 +109,7 @@ func NewAllergyGenerator(hc *config.HL7Config, d *config.Data, c clock.Clock, dg
 // AllergyConvertor converts between the HL7 and FHIR representations of codes pertaining to
 // allergies.
 type AllergyConvertor struct {
-	hl7ToFHIR *hl7tofhir.Convertor
+	hl7ToFHIR *hl7tofhirmap.Convertor
 }
 
 // SeverityHL7ToFHIR returns the FHIR representation for the given HL7 severity.
@@ -133,7 +133,7 @@ func NewAllergyConvertor(hc *config.HL7Config) (AllergyConvertor, error) {
 		return AllergyConvertor{}, err
 	}
 	return AllergyConvertor{
-		hl7ToFHIR: &hl7tofhir.Convertor{
+		hl7ToFHIR: &hl7tofhirmap.Convertor{
 			AllergyIntoleranceSeverityCodeMap: severityMap,
 			AllergyIntoleranceCategoryCodeMap: typeMap,
 		},
@@ -146,7 +146,7 @@ func newSeverityMap(severities map[string][]string) (map[string]cpb.AllergyIntol
 	m := make(map[string]cpb.AllergyIntoleranceSeverityCode_Value)
 
 	for k, vs := range severities {
-		c, ok := hl7tofhir.DefaultAllergyIntoleranceSeverityCodeMap[strings.ToUpper(k)]
+		c, ok := hl7tofhirmap.DefaultAllergyIntoleranceSeverityCodeMap[strings.ToUpper(k)]
 		if !ok {
 			return nil, fmt.Errorf("invalid allergy severity %q, needs to be a value in %v (case-insensitive)", k, keys(cpb.AllergyIntoleranceSeverityCode_Value_value))
 		}
@@ -162,7 +162,7 @@ func newTypeMap(types map[string][]string) (map[string]cpb.AllergyIntoleranceCat
 	m := make(map[string]cpb.AllergyIntoleranceCategoryCode_Value)
 
 	for k, vs := range types {
-		c, ok := hl7tofhir.DefaultAllergyIntoleranceCategoryCodeMap[strings.ToUpper(k)]
+		c, ok := hl7tofhirmap.DefaultAllergyIntoleranceCategoryCodeMap[strings.ToUpper(k)]
 		if !ok {
 			return nil, fmt.Errorf("invalid allergy type %q, needs to be a value in %v (case-insensitive)", k, keys(cpb.AllergyIntoleranceCategoryCode_Value_value))
 		}

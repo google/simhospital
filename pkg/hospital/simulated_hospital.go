@@ -25,6 +25,10 @@ import (
 	"github.com/google/simhospital/pkg/clock"
 	"github.com/google/simhospital/pkg/config"
 	"github.com/google/simhospital/pkg/doctor"
+	"github.com/google/simhospital/pkg/fhir/cloud"
+	"github.com/google/simhospital/pkg/fhir"
+	fhirmarshaller "github.com/google/simhospital/pkg/fhir/marshaller"
+	fhiroutput "github.com/google/simhospital/pkg/fhir/output"
 	"github.com/google/simhospital/pkg/generator"
 	"github.com/google/simhospital/pkg/generator/header"
 	"github.com/google/simhospital/pkg/generator/id"
@@ -39,8 +43,6 @@ import (
 	"github.com/google/simhospital/pkg/orderprofile"
 	"github.com/google/simhospital/pkg/pathway"
 	"github.com/google/simhospital/pkg/processor"
-	"github.com/google/simhospital/pkg/resource/cloud"
-	"github.com/google/simhospital/pkg/resource"
 	"github.com/google/simhospital/pkg/state/persist"
 	"github.com/google/simhospital/pkg/state"
 )
@@ -383,29 +385,29 @@ func DefaultConfig(ctx context.Context, arguments Arguments) (Config, error) {
 func resourceWriter(ctx context.Context, arguments ResourceArguments, hl7Config *config.HL7Config) (ResourceWriter, error) {
 	output, err := resourceOutput(ctx, arguments)
 	if err != nil {
-		return nil, errors.Wrap(err, "cannot create resource output")
+		return nil, errors.Wrap(err, "cannot create fhir resource output")
 	}
 	marshaller, err := resourceMarshaller(arguments)
 	if err != nil {
-		return nil, errors.Wrap(err, "cannot create resource marshaller")
+		return nil, errors.Wrap(err, "cannot create fhir resource marshaller")
 	}
 
-	cfg := resource.GeneratorConfig{
+	cfg := fhir.GeneratorConfig{
 		HL7Config:   hl7Config,
 		IDGenerator: &id.UUIDGenerator{},
 		Output:      output,
 		Marshaller:  marshaller,
 	}
 
-	return resource.NewFHIRWriter(cfg)
+	return fhir.NewWriter(cfg)
 }
 
-func resourceOutput(ctx context.Context, arguments ResourceArguments) (resource.Output, error) {
+func resourceOutput(ctx context.Context, arguments ResourceArguments) (fhir.Output, error) {
 	switch arguments.Output {
 	case "stdout":
-		return &resource.StdOutput{}, nil
+		return &fhiroutput.StdOutput{}, nil
 	case "file":
-		return resource.NewDirectoryOutput(arguments.OutputDir)
+		return fhiroutput.NewDirectoryOutput(arguments.OutputDir)
 	case "cloud":
 		return cloud.NewOutput(ctx, arguments.CloudProjectID, arguments.CloudLocation, arguments.CloudDataset, arguments.CloudDatastore)
 	default:
@@ -413,10 +415,10 @@ func resourceOutput(ctx context.Context, arguments ResourceArguments) (resource.
 	}
 }
 
-func resourceMarshaller(arguments ResourceArguments) (resource.Marshaller, error) {
+func resourceMarshaller(arguments ResourceArguments) (fhir.Marshaller, error) {
 	switch arguments.Format {
 	case "json":
-		return resource.NewJSONMarshaller()
+		return fhirmarshaller.NewJSONMarshaller()
 	case "proto":
 		return prototext.MarshalOptions{Multiline: true, Indent: "  "}, nil
 	default:
@@ -748,7 +750,7 @@ func (h *Hospital) Close() error {
 		return errors.Wrap(err, "error closing sender")
 	}
 	if err := h.resourceWriter.Close(); err != nil {
-		return errors.Wrap(err, "error closing resource writer")
+		return errors.Wrap(err, "error closing fhir resource writer")
 	}
 	return nil
 }

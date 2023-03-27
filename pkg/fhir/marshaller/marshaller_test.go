@@ -12,19 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package resource
+package marshaller
 
 import (
 	"encoding/json"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/google/simhospital/pkg/ir"
 
 	cpb "github.com/google/fhir/go/proto/google/fhir/proto/r4/core/codes_go_proto"
 	dpb "github.com/google/fhir/go/proto/google/fhir/proto/r4/core/datatypes_go_proto"
 	r4pb "github.com/google/fhir/go/proto/google/fhir/proto/r4/core/resources/bundle_and_contained_resource_go_proto"
 	patientpb "github.com/google/fhir/go/proto/google/fhir/proto/r4/core/resources/patient_go_proto"
+)
+
+var (
+	delay     = time.Hour * 5
+	now       = ir.NewValidTime(time.Date(2018, 2, 12, 0, 0, 0, 0, time.UTC))
+	later     = ir.NewValidTime(now.Add(delay))
+	nowMicros = now.UnixNano() / 1000
 )
 
 type caseInsensitiveString string

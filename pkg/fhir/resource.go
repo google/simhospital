@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Package resource contains functionality for generating resources from PatientInfo.
-package resource
+// Package fhir contains functionality for generating FHIR resources from PatientInfo.
+package fhir
 
 import (
 	"errors"
@@ -88,6 +88,11 @@ type Marshaller interface {
 	Marshal(proto.Message) ([]byte, error)
 }
 
+// Output defines an object which returns a writer that resources are written to.
+type Output interface {
+	New(string) (io.WriteCloser, error)
+}
+
 // GeneratorConfig is the configuration for resource generators.
 type GeneratorConfig struct {
 	Writer      io.Writer
@@ -99,8 +104,8 @@ type GeneratorConfig struct {
 	BundleType string
 }
 
-// NewFHIRWriter constructs and returns a new FHIRWriter.
-func NewFHIRWriter(cfg GeneratorConfig) (*FHIRWriter, error) {
+// NewWriter constructs and returns a new FHIRWriter.
+func NewWriter(cfg GeneratorConfig) (*Writer, error) {
 	ac, err := codedelement.NewAllergyConvertor(cfg.HL7Config)
 	if err != nil {
 		return nil, err
@@ -111,7 +116,7 @@ func NewFHIRWriter(cfg GeneratorConfig) (*FHIRWriter, error) {
 		return nil, err
 	}
 
-	return &FHIRWriter{
+	return &Writer{
 		gc:             gender.NewConvertor(cfg.HL7Config),
 		oc:             order.NewConvertor(cfg.HL7Config),
 		ac:             ac,
@@ -133,8 +138,8 @@ func bundleType(bundleType string) (cpb.BundleTypeCode_Value, error) {
 		fmt.Errorf("invalid bundle type, expected one of %+v", keys(bundleTypes))
 }
 
-// FHIRWriter generates FHIR resources as protocol buffers, and writes them to writer.
-type FHIRWriter struct {
+// Writer generates FHIR resources as protocol buffers, and writes them to writer.
+type Writer struct {
 	gc          gender.Convertor
 	oc          order.Convertor
 	ac          codedelement.AllergyConvertor
@@ -151,7 +156,7 @@ type FHIRWriter struct {
 }
 
 // Generate generates FHIR resources from PatientInfo.
-func (w *FHIRWriter) Generate(p *ir.PatientInfo) error {
+func (w *Writer) Generate(p *ir.PatientInfo) error {
 	if p == nil {
 		return errors.New("cannot generate resources from nil PatientInfo")
 	}
@@ -175,15 +180,15 @@ func (w *FHIRWriter) Generate(p *ir.PatientInfo) error {
 	return nil
 }
 
-// Close closes the FHIRWriter.
-func (w *FHIRWriter) Close() error {
-	log.Infof("Resources successfully written by the FHIRWriter: %d", w.count)
+// Close closes the Writer.
+func (w *Writer) Close() error {
+	log.Infof("FHIR Resources successfully written by the FHIR Writer: %d", w.count)
 	return nil
 }
 
 // bundle converts PatientInfo into FHIR and returns an R4 Bundle. Bundle is the top-level
 // record encapsulating a patient's medical history.
-func (w *FHIRWriter) bundle(p *ir.PatientInfo) *r4pb.Bundle {
+func (w *Writer) bundle(p *ir.PatientInfo) *r4pb.Bundle {
 	bundle := &r4pb.Bundle{
 		Type: &r4pb.Bundle_TypeCode{
 			Value: cpb.BundleTypeCode_BATCH,
@@ -244,7 +249,7 @@ func addEntry(bundle *r4pb.Bundle, entries ...*r4pb.Bundle_Entry) {
 	}
 }
 
-func (w *FHIRWriter) patient(person *ir.Person) (*r4pb.Bundle_Entry, *dpb.Reference) {
+func (w *Writer) patient(person *ir.Person) (*r4pb.Bundle_Entry, *dpb.Reference) {
 	id := w.idGenerator.NewID()
 
 	entry := &r4pb.Bundle_Entry{
@@ -274,7 +279,7 @@ func (w *FHIRWriter) patient(person *ir.Person) (*r4pb.Bundle_Entry, *dpb.Refere
 	return w.addURL(entry, id, "Patient"), ref
 }
 
-func (w *FHIRWriter) allergies(allergies []*ir.Allergy, patientRef *dpb.Reference) []*r4pb.Bundle_Entry {
+func (w *Writer) allergies(allergies []*ir.Allergy, patientRef *dpb.Reference) []*r4pb.Bundle_Entry {
 	var entries []*r4pb.Bundle_Entry
 	for _, a := range allergies {
 		id := w.idGenerator.NewID()
@@ -320,7 +325,7 @@ func (w *FHIRWriter) allergies(allergies []*ir.Allergy, patientRef *dpb.Referenc
 	return entries
 }
 
-func (w *FHIRWriter) codeableConcept(c ir.CodedElement) *dpb.CodeableConcept {
+func (w *Writer) codeableConcept(c ir.CodedElement) *dpb.CodeableConcept {
 	return &dpb.CodeableConcept{
 		// The Text field should only be used if the code and coding system are unknown.
 		Coding: []*dpb.Coding{{
@@ -395,7 +400,7 @@ func address(address *ir.Address) []*dpb.Address {
 	return []*dpb.Address{a}
 }
 
-func (w *FHIRWriter) encounter(encounter *ir.Encounter, class string) (*r4pb.Bundle_Entry, *dpb.Reference) {
+func (w *Writer) encounter(encounter *ir.Encounter, class string) (*r4pb.Bundle_Entry, *dpb.Reference) {
 	id := w.idGenerator.NewID()
 
 	entry := &r4pb.Bundle_Entry{
@@ -463,7 +468,7 @@ func statusHistory(statusHistory []*ir.StatusHistory) []*encounterpb.Encounter_S
 	return sh
 }
 
-func (w *FHIRWriter) observations(encounterRef *dpb.Reference, patientRef *dpb.Reference, order *ir.Order) []*r4pb.Bundle_Entry {
+func (w *Writer) observations(encounterRef *dpb.Reference, patientRef *dpb.Reference, order *ir.Order) []*r4pb.Bundle_Entry {
 	var observations []*r4pb.Bundle_Entry
 	for _, r := range order.Results {
 		id := w.idGenerator.NewID()
@@ -524,7 +529,7 @@ func narrative(paragraphs ...string) *dpb.Narrative {
 	}
 }
 
-func (w *FHIRWriter) location(location *ir.PatientLocation) (*r4pb.Bundle_Entry, *dpb.Reference) {
+func (w *Writer) location(location *ir.PatientLocation) (*r4pb.Bundle_Entry, *dpb.Reference) {
 	if location == nil {
 		return nil, nil
 	}
@@ -559,7 +564,7 @@ func (w *FHIRWriter) location(location *ir.PatientLocation) (*r4pb.Bundle_Entry,
 	return w.addURL(entry, id, "Location"), ref
 }
 
-func (w *FHIRWriter) notes(notes []string) []*dpb.Annotation {
+func (w *Writer) notes(notes []string) []*dpb.Annotation {
 	var annotations []*dpb.Annotation
 	for _, n := range notes {
 		a := &dpb.Annotation{Text: &dpb.Markdown{Value: n}}
@@ -575,7 +580,7 @@ func dateTime(t ir.NullTime) *dpb.DateTime {
 	return &dpb.DateTime{ValueUs: unixMicro(t.Time), Precision: dpb.DateTime_SECOND}
 }
 
-func (w *FHIRWriter) procedure(procedure *ir.DiagnosisOrProcedure, patientRef *dpb.Reference, practitionerRef *dpb.Reference, encounterRef *dpb.Reference) (*r4pb.Bundle_Entry, *dpb.Reference) {
+func (w *Writer) procedure(procedure *ir.DiagnosisOrProcedure, patientRef *dpb.Reference, practitionerRef *dpb.Reference, encounterRef *dpb.Reference) (*r4pb.Bundle_Entry, *dpb.Reference) {
 	id := w.idGenerator.NewID()
 	p := &procedurepb.Procedure{
 		Id: &dpb.Id{Value: id},
@@ -616,7 +621,7 @@ func (w *FHIRWriter) procedure(procedure *ir.DiagnosisOrProcedure, patientRef *d
 	return w.addURL(entry, id, "Procedure"), ref
 }
 
-func (w *FHIRWriter) condition(diagnosis *ir.DiagnosisOrProcedure, patientRef *dpb.Reference, practitionerRef *dpb.Reference, encounterRef *dpb.Reference) (*r4pb.Bundle_Entry, *dpb.Reference) {
+func (w *Writer) condition(diagnosis *ir.DiagnosisOrProcedure, patientRef *dpb.Reference, practitionerRef *dpb.Reference, encounterRef *dpb.Reference) (*r4pb.Bundle_Entry, *dpb.Reference) {
 	id := w.idGenerator.NewID()
 
 	d := &conditionpb.Condition{
@@ -648,7 +653,7 @@ func (w *FHIRWriter) condition(diagnosis *ir.DiagnosisOrProcedure, patientRef *d
 	return w.addURL(entry, id, "Condition"), ref
 }
 
-func (w *FHIRWriter) practitioner(doctor *ir.Doctor) (*r4pb.Bundle_Entry, *dpb.Reference) {
+func (w *Writer) practitioner(doctor *ir.Doctor) (*r4pb.Bundle_Entry, *dpb.Reference) {
 	if doctor == nil {
 		return nil, nil
 	}
@@ -692,7 +697,7 @@ func (w *FHIRWriter) practitioner(doctor *ir.Doctor) (*r4pb.Bundle_Entry, *dpb.R
 // Request field is also set to provide execution information for the server. `url` is the HTTP URL
 // for the resource, and is usually the resource type. addURL should only be called from internal
 // methods where `entry` has already been constructed via a struct literal.
-func (w *FHIRWriter) addURL(entry *r4pb.Bundle_Entry, id, url string) *r4pb.Bundle_Entry {
+func (w *Writer) addURL(entry *r4pb.Bundle_Entry, id, url string) *r4pb.Bundle_Entry {
 	if w.bundleTypeCode == cpb.BundleTypeCode_BATCH {
 		entry.Request = request(url)
 	}

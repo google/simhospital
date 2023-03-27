@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Package hl7tofhir contains utility functions to convert HL7v2 to FHIR.
-package hl7tofhir
+// Package hl7tofhirmap contains utility functions to convert HL7v2 to FHIR.
+package hl7tofhirmap
 
 import (
 	"testing"

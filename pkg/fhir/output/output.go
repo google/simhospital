@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package resource
+package output
 
 import (
 	"fmt"
@@ -22,11 +22,6 @@ import (
 
 	"github.com/pkg/errors"
 )
-
-// Output defines an object which returns a writer that resources are written to.
-type Output interface {
-	New(string) (io.WriteCloser, error)
-}
 
 // StdOutput is a resource output that wraps stdout.
 type StdOutput struct{}

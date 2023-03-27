@@ -26,7 +26,7 @@ import (
 	"github.com/google/simhospital/pkg/constants"
 	"github.com/google/simhospital/pkg/doctor"
 	"github.com/google/simhospital/pkg/generator/id"
-	"github.com/google/simhospital/pkg/hl7tofhir"
+	"github.com/google/simhospital/pkg/hl7tofhirmap"
 	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/logging"
 	"github.com/google/simhospital/pkg/message"
@@ -422,13 +422,13 @@ func (g Generator) setValueSpecifiedInThePathway(result *ir.Result, pathwayResul
 
 // Convertor converts between the HL7 and FHIR representations of a result status.
 type Convertor struct {
-	hl7ToFHIR *hl7tofhir.Convertor
+	hl7ToFHIR *hl7tofhirmap.Convertor
 }
 
 // NewConvertor returns a new result status Convertor based on the HL7Config.
 // Full set of codes can be found at https://www.hl7.org/fhir/codesystem-observation-status.html.
 func NewConvertor(c *config.HL7Config) Convertor {
-	return Convertor{hl7ToFHIR: &hl7tofhir.Convertor{
+	return Convertor{hl7ToFHIR: &hl7tofhirmap.Convertor{
 		ObservationStatusCodeMap: map[string]cpb.ObservationStatusCode_Value{
 			c.ResultStatus.Final:     cpb.ObservationStatusCode_FINAL,
 			c.ResultStatus.Corrected: cpb.ObservationStatusCode_AMENDED,

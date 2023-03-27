@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package resource
+package fhir
 
 import (
 	"bytes"
@@ -908,7 +908,7 @@ func TestGenerate(t *testing.T) {
 				BundleType:  tc.bundleType,
 			}
 
-			w, err := NewFHIRWriter(cfg)
+			w, err := NewWriter(cfg)
 			if err != nil {
 				t.Fatalf("NewFHIRWriter(%v) failed with: %v", cfg, err)
 			}

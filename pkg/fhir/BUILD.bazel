@@ -22,11 +22,9 @@ package(
 go_library(
     name = "go_default_library",
     srcs = [
-        "marshaller.go",
-        "output.go",
         "resource.go",
     ],
-    importpath = "github.com/google/simhospital/pkg/resource",
+    importpath = "github.com/google/simhospital/pkg/fhir",
     deps = [
         "//pkg/config:go_default_library",
         "//pkg/constants:go_default_library",
@@ -36,9 +34,6 @@ go_library(
         "//pkg/generator/order:go_default_library",
         "//pkg/ir:go_default_library",
         "//pkg/logging:go_default_library",
-        "@com_github_pkg_errors//:go_default_library",
-        "@com_google_fhir//go/fhirversion",
-        "@com_google_fhir//go/jsonformat",
         "@com_google_fhir//proto/google/fhir/proto/r4/core:codes_go_proto",
         "@com_google_fhir//proto/google/fhir/proto/r4/core:datatypes_go_proto",
         "@com_google_fhir//proto/google/fhir/proto/r4/core/resources:allergy_intolerance_go_proto",
@@ -57,8 +52,6 @@ go_library(
 go_test(
     name = "go_default_test",
     srcs = [
-        "marshaller_test.go",
-        "output_test.go",
         "resource_test.go",
     ],
     embed = [":go_default_library"],
@@ -68,7 +61,6 @@ go_test(
         "//pkg/ir:go_default_library",
         "//pkg/test/testid:go_default_library",
         "//pkg/test/testresource:go_default_library",
-        "//pkg/test/testwrite:go_default_library",
         "@com_github_google_go_cmp//cmp:go_default_library",
         "@com_google_fhir//proto/google/fhir/proto/r4/core:codes_go_proto",
         "@com_google_fhir//proto/google/fhir/proto/r4/core:datatypes_go_proto",
