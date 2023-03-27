@@ -31,8 +31,8 @@ go_library(
         "//pkg/test:go_default_library",
         "//pkg/test/testaddress:go_default_library",
         "//pkg/test/testclock:go_default_library",
+        "//pkg/test/testfhir:go_default_library",
         "//pkg/test/testhl7:go_default_library",
         "//pkg/test/testid:go_default_library",
-        "//pkg/test/testresource:go_default_library",
     ],
 )

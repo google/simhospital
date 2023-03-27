@@ -25,6 +25,6 @@ go_library(
         "output.go",
         "resource.go",
     ],
-    importpath = "github.com/google/simhospital/pkg/test/testresource",
+    importpath = "github.com/google/simhospital/pkg/test/testfhir",
     deps = ["//pkg/ir:go_default_library"],
 )

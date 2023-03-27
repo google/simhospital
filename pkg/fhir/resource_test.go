@@ -25,8 +25,8 @@ import (
 	"github.com/google/simhospital/pkg/config"
 	"github.com/google/simhospital/pkg/constants"
 	"github.com/google/simhospital/pkg/ir"
+	"github.com/google/simhospital/pkg/test/testfhir"
 	"github.com/google/simhospital/pkg/test/testid"
-	"github.com/google/simhospital/pkg/test/testresource"
 
 	cpb "github.com/google/fhir/go/proto/google/fhir/proto/r4/core/codes_go_proto"
 	dpb "github.com/google/fhir/go/proto/google/fhir/proto/r4/core/datatypes_go_proto"
@@ -876,7 +876,7 @@ func TestGenerate(t *testing.T) {
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
 			var b bytes.Buffer
-			cfg := GeneratorConfig{
+			cfg := BundlerConfig{
 				HL7Config: &config.HL7Config{
 					Gender: config.Gender{Male: "M", Female: "F"},
 					ResultStatus: config.ResultStatus{
@@ -903,14 +903,16 @@ func TestGenerate(t *testing.T) {
 					},
 				},
 				IDGenerator: &testid.Generator{},
-				Output:      &testresource.ByteOutput{Bytes: &b},
-				Marshaller:  prototext.MarshalOptions{},
 				BundleType:  tc.bundleType,
 			}
-
-			w, err := NewWriter(cfg)
+			bundler, err := NewBundler(cfg)
 			if err != nil {
-				t.Fatalf("NewFHIRWriter(%v) failed with: %v", cfg, err)
+				t.Fatalf("NewBundler(%v) failed with: %v", cfg, err)
+			}
+			w := &Writer{
+				Bundler:    bundler,
+				Output:     &testfhir.ByteOutput{Bytes: &b},
+				Marshaller: prototext.MarshalOptions{},
 			}
 			if err := w.Generate(tc.patientInfo); err != nil {
 				t.Fatalf("w.Generate(%v) failed with: %v", tc.patientInfo, err)

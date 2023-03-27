@@ -107,9 +107,9 @@ type MessageProcessor interface {
 	Matches(*state.HL7Message) bool
 }
 
-// ResourceWriter defines an object which can produce resources from a patient record.
+// ResourceWriter defines an object which can produce resources.
 type ResourceWriter interface {
-	// Generate generates resources from the given PatientInfo.
+	// Generate generates resources from the given info.
 	Generate(*ir.PatientInfo) error
 	Close() error
 }
@@ -392,14 +392,20 @@ func resourceWriter(ctx context.Context, arguments ResourceArguments, hl7Config 
 		return nil, errors.Wrap(err, "cannot create fhir resource marshaller")
 	}
 
-	cfg := fhir.GeneratorConfig{
+	cfg := fhir.BundlerConfig{
 		HL7Config:   hl7Config,
 		IDGenerator: &id.UUIDGenerator{},
-		Output:      output,
-		Marshaller:  marshaller,
+	}
+	bundler, err := fhir.NewBundler(cfg)
+	if err != nil {
+		return nil, errors.Wrap(err, "cannot create fhir resource bundler")
 	}
 
-	return fhir.NewWriter(cfg)
+	return &fhir.Writer{
+		Bundler:    bundler,
+		Output:     output,
+		Marshaller: marshaller,
+	}, nil
 }
 
 func resourceOutput(ctx context.Context, arguments ResourceArguments) (fhir.Output, error) {

@@ -28,9 +28,9 @@ import (
 	"github.com/google/simhospital/pkg/test"
 	"github.com/google/simhospital/pkg/test/testaddress"
 	"github.com/google/simhospital/pkg/test/testclock"
+	"github.com/google/simhospital/pkg/test/testfhir"
 	"github.com/google/simhospital/pkg/test/testhl7"
 	"github.com/google/simhospital/pkg/test/testid"
-	"github.com/google/simhospital/pkg/test/testresource"
 )
 
 const defaultClockTick = time.Second
@@ -126,7 +126,7 @@ func WithTime(ctx context.Context, t *testing.T, cfg Config, now time.Time) *Hos
 	if cfg.ResourceWriter != nil {
 		c.ResourceWriter = cfg.ResourceWriter
 	} else {
-		c.ResourceWriter = testresource.NewWriter()
+		c.ResourceWriter = testfhir.NewWriter()
 	}
 
 	c.AdditionalConfig = cfg.AdditionalConfig
@@ -162,16 +162,17 @@ func (h *Hospital) ConsumeQueues(ctx context.Context, t *testing.T) (events int,
 // ConsumeQueuesWithLimit consumes limit events and their corresponding messages, and returns the number of events that were run
 // and the messages that were sent.
 // Parameters:
-// * limit is the maximum number of events to run. All messages relevant to those events will be sent.
-//   If there are less than limit events in the queue, this method consumes the events in the queue and returns. Set <1 for no limit.
-// * 'failIfError' specifies whether errors running events or sending messages should make the method fail.
+//   - limit is the maximum number of events to run. All messages relevant to those events will be sent.
+//     If there are less than limit events in the queue, this method consumes the events in the queue and returns. Set <1 for no limit.
+//   - 'failIfError' specifies whether errors running events or sending messages should make the method fail.
+//
 // The order in which events and messages are processed is the following:
-// 1. Run all events that are due at the current time.
-// 2. Send all messages that are due at the current time.
-// 3. If there were no events due, advance the clock, and process any messages for that time so that we give priority
-//    to the existing messages before running new events.
-// 4. If there are still events in the queue, go back to step 1.
-// 5. After all events are consumed, process all of the remaining messages advancing the clock if needed.
+//  1. Run all events that are due at the current time.
+//  2. Send all messages that are due at the current time.
+//  3. If there were no events due, advance the clock, and process any messages for that time so that we give priority
+//     to the existing messages before running new events.
+//  4. If there are still events in the queue, go back to step 1.
+//  5. After all events are consumed, process all of the remaining messages advancing the clock if needed.
 func (h *Hospital) ConsumeQueuesWithLimit(ctx context.Context, t *testing.T, limit int, failIfError bool) (events int, messages []string) {
 	t.Helper()
 	for h.HasEvents() {

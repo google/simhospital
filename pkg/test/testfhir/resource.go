@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Package testresource contains utilities for testing with resources.
-package testresource
+// Package testfhir contains utilities for testing with FHIR resources.
+package testfhir
 
 import (
 	"bytes"

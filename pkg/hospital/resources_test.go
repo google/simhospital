@@ -25,7 +25,7 @@ import (
 	. "github.com/google/simhospital/pkg/hospital"
 	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/pathway"
-	"github.com/google/simhospital/pkg/test/testresource"
+	"github.com/google/simhospital/pkg/test/testfhir"
 )
 
 // TestGenerateResources verifies the interaction between the `GenerateResources`
@@ -109,7 +109,7 @@ func TestGenerateResources(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			rw := testresource.NewWriter()
+			rw := testfhir.NewWriter()
 
 			pathways := map[string]pathway.Pathway{
 				testPathwayName: tc.pathway,
@@ -451,7 +451,7 @@ func TestEncounters(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			rw := testresource.NewWriter()
+			rw := testfhir.NewWriter()
 
 			pathways := map[string]pathway.Pathway{
 				testPathwayName: tc.pathway,
