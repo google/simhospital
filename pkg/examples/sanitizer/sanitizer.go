@@ -21,7 +21,6 @@ import (
 	"context"
 	"fmt"
 	"regexp"
-	"strconv"
 	"strings"
 
 	"github.com/google/go-cmp/cmp"
@@ -30,6 +29,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/google/simhospital/pkg/hl7"
+	"github.com/google/simhospital/pkg/hl7ids"
 	"github.com/google/simhospital/pkg/logging"
 	"github.com/google/simhospital/pkg/monitoring"
 )
@@ -440,7 +440,7 @@ func (s MessageSanitizer) squashOBXes(ctx context.Context, m *hl7.Message) hl7.R
 
 // compareOBXesForRadiologySquash compares two OBXes ignoring SetID and ObservationValue.
 func compareOBXesForRadiologySquash(o1, o2 *hl7.OBX) bool {
-	return cmp.Diff(o1, o2, cmpopts.IgnoreFields(hl7.OBX{}, "SetIDOBX", "ObservationValue")) == ""
+	return cmp.Equal(o1, o2, cmpopts.IgnoreFields(hl7.OBX{}, "SetIDOBX", "ObservationValue"))
 }
 
 // rewritePatientPrimaryFacility removes the IDNumber of the XON field in PD1.3 (Patient Primary
@@ -611,7 +611,7 @@ func rewritePatientIdentifiers(rewriteMRN bool, fromLocations ...string) hl7.Rew
 
 		var keyword string
 		switch {
-		case NHSNumberIsValid(value):
+		case hl7ids.NHSNumberIsValid(value):
 			keyword = "NHSNMBR"
 		case value != "" && rewriteMRN:
 			keyword = "MRN"
@@ -622,29 +622,6 @@ func rewritePatientIdentifiers(rewriteMRN bool, fromLocations ...string) hl7.Rew
 		returnVal := strings.Join([]string{value, joinDelimiter, joinDelimiter, joinDelimiter, joinDelimiter, keyword}, "")
 		return hl7.RewriteResultReplaceValue([]byte(returnVal))
 	}
-}
-
-// TODO: Extract this function to a common place; this is used in the person generator too.
-func NHSNumberIsValid(nhs string) bool {
-	if len(nhs) != 10 {
-		return false
-	}
-	nhsNumber, err := strconv.Atoi(nhs)
-	if err != nil {
-		return false
-	}
-	sum := 0
-	leadingDigits := nhsNumber / 10
-	for i := 2; i <= 10; i++ {
-		sum += (leadingDigits % 10) * i
-		leadingDigits /= 10
-	}
-	remainder := sum % 11
-	expectedCheckDigit := (11 - remainder) % 11
-	if nhsNumber%10 != expectedCheckDigit {
-		return false
-	}
-	return true
 }
 
 // rewriteRemoveLeadingZerosFromMRN will rewrite the PID-2, PID-3 and PID-4 fields. It will remove 0's from

@@ -14,6 +14,10 @@
 
 package testhl7
 
+import (
+	"fmt"
+)
+
 const (
 	// https://corepointhealth.com/resource-center/hl7-resources/hl7-msh-message-header
 	// The message type field here is set to a placerholder "%s". Users should set this type based
@@ -179,3 +183,6 @@ const (
 	//                 ┌ Order discipline
 	SegmentZCM = "ZCM|1|discipline||||"
 )
+
+// SegmentMSH is an arbitrary MSH segment, for when the type does not matter.
+var SegmentMSH = fmt.Sprintf(TemplateMSH, "ADT^A01")

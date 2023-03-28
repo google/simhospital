@@ -23,6 +23,7 @@ import (
 	"github.com/google/simhospital/pkg/hl7"
 )
 
+
 // Parse parses the given message.
 func Parse(t *testing.T, message string) *hl7.Message {
 	t.Helper()
