@@ -157,6 +157,19 @@ func NewConvertor() *Convertor {
 	aiSeverity["MEDIUM"] = cpb.AllergyIntoleranceSeverityCode_MODERATE
 	aiSeverity["HIGH"] = cpb.AllergyIntoleranceSeverityCode_SEVERE
 
+	encounterStatusCode := map[string]cpb.EncounterStatusCode_Value{}
+	for k, v := range hl7tofhirmap.DefaultEncounterStatusCodeMap {
+		encounterStatusCode[k] = v
+	}
+	encounterStatusCode["ACTIVE"] = cpb.EncounterStatusCode_IN_PROGRESS
+
+	docRefStatus := map[string]cpb.DocumentReferenceStatusCode_Value{}
+	for k, v := range hl7tofhirmap.DefaultDocumentReferenceStatusCodeMap {
+		docRefStatus[k] = v
+	}
+	docRefStatus["AUTHVRF"] = cpb.DocumentReferenceStatusCode_CURRENT
+	docRefStatus["MOD"] = cpb.DocumentReferenceStatusCode_SUPERSEDED
+
 	return &Convertor{
 		Convertor: &hl7tofhirmap.Convertor{
 			NameUseCodeMap:                    nameUseCodeMap,
@@ -168,6 +181,8 @@ func NewConvertor() *Convertor {
 			RequestPriorityCodeMap:            reqPriorityCode,
 			AllergyIntoleranceSeverityCodeMap: aiSeverity,
 			AllergyIntoleranceCategoryCodeMap: aiCategory,
+			EncounterStatusCodeMap:            encounterStatusCode,
+			DocumentReferenceStatusCodeMap:    docRefStatus,
 		},
 		DeceasedMap: map[string]bool{
 			"YES":      true,
