@@ -492,7 +492,7 @@ func outputMessageTypeMap(p *Printer, spec *Specification) {
 	}
 }
 
-func parseXML(name string, v any) error {
+func parseXML(name string, v interface{}) error {
 	f, err := os.Open(name)
 	if err != nil {
 		return err
@@ -1118,7 +1118,7 @@ func (p *Printer) Out() {
 
 // P prints a formatted line to the output stream, indenting it by the current indentation level
 // using tab characters.
-func (p *Printer) P(format string, a ...any) error {
+func (p *Printer) P(format string, a ...interface{}) error {
 	var err error
 
 	if strings.HasPrefix(format, "// ") {

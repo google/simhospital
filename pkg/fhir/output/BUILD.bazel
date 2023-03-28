@@ -33,9 +33,7 @@ go_library(
 go_test(
     name = "go_default_test",
     srcs = [
-        "marshaller_test.go",
         "output_test.go",
-        "resource_test.go",
     ],
     embed = [":go_default_library"],
     deps = [

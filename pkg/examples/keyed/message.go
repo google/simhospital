@@ -54,7 +54,7 @@ type Message struct {
 	// The message's key from the database.
 	Key []byte
 
-	ParsedMessage any
+	ParsedMessage interface{}
 
 	// Trigger event for this message, A01, A02, R01 etc
 	TriggerEvent string

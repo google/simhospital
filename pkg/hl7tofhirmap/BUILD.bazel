@@ -34,7 +34,7 @@ go_library(
 go_test(
     name = "go_default_test",
     srcs = [
-        "r4_codes_covertor_test.go",
+        "r4_codes_convertor_test.go",
     ],
     embed = [":go_default_library"],
     deps = [
