@@ -243,7 +243,7 @@ John.
 
 See the package `config` for the format.
 
-TODO: Write documentation instead of referring to the package.
+TODO(carmrui): Write documentation instead of referring to the package.
 
 `-diagnoses_file` (string)
 :   Path to a CSV file containing the diagnoses and how often they occur.
