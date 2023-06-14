@@ -1,7 +1,5 @@
 # Simulated Hospital
 
-
-
 -   [Overview](#overview)
 -   [Basic Concepts](#basic-concepts)
     *   [Pathways](#pathways)

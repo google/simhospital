@@ -1,7 +1,5 @@
 # Command-line arguments
 
-
-
 -   [Message destination](#message-destination)
 -   [Resource destination](#resource-destination)
 -   [Data configuration](#data-configuration)
