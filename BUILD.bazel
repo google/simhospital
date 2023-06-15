@@ -137,7 +137,6 @@ container_image(
         ":web_stylesheets_layer",
         ":web_index_layer",
     ],
-    stamp = True,
 )
 
 docker_push(
@@ -145,5 +144,6 @@ docker_push(
     image = ":simhospital_container_image",
     registry = "gcr.io",
     repository = "<your_repository_here>/simhospital",
+    stamp = "@io_bazel_rules_docker//stamp:always",
     tag = "latest",
 )
