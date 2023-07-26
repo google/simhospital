@@ -777,7 +777,7 @@ func (h *Hospital) trackArrival(e *state.Event, logLocal *logging.SimulatedHospi
 func (h *Hospital) hardcodedMessage(e *state.Event, logLocal *logging.SimulatedHospitalLogger, now time.Time) error {
 	patientInfo := h.patients.Get(e.PatientMRN).PatientInfo
 	toIncludeRegex := e.Step.HardcodedMessage.Regex
-	msg, err := h.hardcodedMessageManager.Message(toIncludeRegex, patientInfo.Person, now)
+	msg, err := h.hardcodedMessageManager.Message(toIncludeRegex, patientInfo, now)
 	if err != nil {
 		return errors.Wrap(err, "cannot process HardcodedMessage event")
 	}

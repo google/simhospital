@@ -84,9 +84,26 @@ const (
     - "PID_SEGMENT_PLACEHOLDER"
     - "PD1|||Test Primary Facility^^123|"
     - "PV1|1|PREADMIT||28b|||id-1^surname-1^firstname-1^^^prefix-1^^^DRNBR^PRSNL^^^ORGDR|||specialty-1||||||||PREADMIT|3448412528941593955^^^^visitid||||||||||||||||||||||FINISHED|||20180212000000|20180212000000|"`
+
+	defaultDoctorID        = "216865551019"
+	defaultDoctorSurname   = "Osman"
+	defaultDoctorFirstName = "Arthur"
+	defaultDoctorPrefix    = "Dr"
 )
 
-var arbitraryTime = time.Date(2018, 2, 12, 0, 0, 0, 0, time.UTC)
+var (
+	arbitraryTime = time.Date(2018, 2, 12, 0, 0, 0, 0, time.UTC)
+	defaultAdmissionDate         = time.Date(2017, 1, 26, 15, 24, 21, 0, time.UTC)
+	defaultDischargeDate         = time.Date(2018, 2, 26, 15, 24, 21, 0, time.UTC)
+	defaultTransferDate          = time.Date(2018, 4, 28, 22, 38, 13, 0, time.UTC)
+	defaultExpectedAdmissionDate = time.Date(2017, 1, 26, 15, 24, 22, 0, time.UTC)
+	defaultExpectedDischargeDate = time.Date(2017, 1, 26, 15, 24, 23, 0, time.UTC)
+	defaultExpectedTransferDate  = time.Date(2017, 1, 26, 15, 24, 24, 0, time.UTC)
+	defaultDiagnoseDate          = time.Date(2017, 1, 28, 15, 24, 24, 0, time.UTC)
+	defaultProcedureDate         = time.Date(2017, 1, 29, 15, 24, 24, 0, time.UTC)
+	defaultDateOfDeath           = time.Date(2020, 5, 26, 19, 28, 28, 0, time.UTC)
+	defaultProcedureDateTime     = time.Date(2017, 1, 29, 15, 24, 24, 0, time.UTC)
+)
 
 func TestMain(m *testing.M) {
 	hl7.TimezoneAndLocation("Europe/London")
@@ -223,7 +240,7 @@ func TestMessage(t *testing.T) {
 			if err != nil {
 				t.Fatalf("NewManager(%s, %v) failed with %v", tc.yml, mcg, err)
 			}
-			p := testPerson()
+			p := testPatientInfo()
 			got, err := mgr.Message(tc.toInclude, p, arbitraryTime)
 			if err != nil {
 				t.Fatalf("Message(%q, %v, %v) failed with %v", tc.toInclude, p, arbitraryTime, err)
@@ -244,7 +261,7 @@ func TestMessageReturnsUniqueMessages(t *testing.T) {
 		t.Fatalf("NewManager(%s, %v) failed with %v", missingPIDYml, mcg, err)
 	}
 
-	p := testPerson()
+	p := testPatientInfo()
 	msg1, err := mgr.Message(missingPIDName, p, arbitraryTime)
 	if err != nil {
 		t.Fatalf("Message(%q, %v, %v) failed with %v", missingPIDName, p, arbitraryTime, err)
@@ -299,7 +316,7 @@ func TestMessageErrors(t *testing.T) {
 				t.Fatalf("NewManager(%s, %v) failed with %v", tc.yml, mcg, err)
 			}
 
-			p := testPerson()
+			p := testPatientInfo()
 			if _, err := mgr.Message(tc.toInclude, p, arbitraryTime); err == nil {
 				t.Errorf("Message(%q, %v, %v) got nil error, want non-nil", tc.toInclude, p, arbitraryTime)
 			}
@@ -311,6 +328,65 @@ func writeYmlToFile(t *testing.T, ymls ...string) string {
 	t.Helper()
 	yml := strings.Join(ymls, "\r")
 	return testwrite.BytesToDir(t, []byte(yml), "hardcoded_messages.yml")
+}
+
+func testPatientInfo() *ir.PatientInfo {
+	ap := &ir.AssociatedParty{
+		Person: &ir.Person{
+			Prefix:     "Mr",
+			FirstName:  "John",
+			MiddleName: "George",
+			Surname:    "Smiths",
+			Suffix:     "Senior",
+			Gender:     "M",
+			Address: &ir.Address{
+				FirstLine:  "5 Goodwill Hunting Road",
+				City:       "London",
+				PostalCode: "N1D 4AG",
+				Country:    "GBR",
+				Type:       "HOME",
+			},
+			PhoneNumber: "020 7031 4000",
+			MRN:         "21124992125291505",
+			NHS:         "3338933381",
+		},
+		Relationship: &ir.CodedElement{ID: "S", Text: "SPOUSE"},
+		ContactRole:  &ir.CodedElement{ID: "F", Text: "FAMILYMEM"},
+	}
+	p := testPerson()
+	patientInfo := &ir.PatientInfo{
+		Person:          p,
+		Class:           "INPATIENT",
+		Type:            "EMERGENCY",
+		VisitID:         12341234,
+		HospitalService: "180",
+		Location: &ir.PatientLocation{
+			Poc:          "RAL 12 West",
+			Room:         "Bay01",
+			Bed:          "Bed10",
+			Facility:     "RAL RF",
+			LocationType: "BED",
+			Building:     "RFH",
+		},
+		PriorLocation: &ir.PatientLocation{
+			Poc:          "RAL 12 East",
+			Room:         "Bay02",
+			Bed:          "Bed11",
+			Facility:     "RAL RF",
+			LocationType: "BED",
+			Building:     "RFH",
+		},
+		AttendingDoctor:           testDoctor(),
+		AdmissionDate:             ir.NewValidTime(defaultAdmissionDate),
+		DischargeDate:             ir.NewValidTime(defaultDischargeDate),
+		TransferDate:              ir.NewValidTime(defaultTransferDate),
+		ExpectedAdmitDateTime:     ir.NewValidTime(defaultExpectedAdmissionDate),
+		ExpectedDischargeDateTime: ir.NewValidTime(defaultExpectedDischargeDate),
+		ExpectedTransferDateTime:  ir.NewValidTime(defaultExpectedTransferDate),
+		AssociatedParties:         []*ir.AssociatedParty{ap},
+		AdmitReason:               "Eye problems",
+	}
+	return patientInfo
 }
 
 func testPerson() *ir.Person {
@@ -330,3 +406,13 @@ func testPerson() *ir.Person {
 		Gender: "1",
 	}
 }
+
+func testDoctor() *ir.Doctor {
+	return &ir.Doctor{
+		ID:        defaultDoctorID,
+		Surname:   defaultDoctorSurname,
+		FirstName: defaultDoctorFirstName,
+		Prefix:    defaultDoctorPrefix,
+	}
+}
+

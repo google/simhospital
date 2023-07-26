@@ -43,6 +43,10 @@ import (
 // should be filled in when the message is returned by this class.
 const pidSegmentPlaceholder = "PID_SEGMENT_PLACEHOLDER"
 
+// pv1SegmentPlaceholder defines a placeholder for the PV1 segments, which
+// should be filled in when the message is returned by this class.
+const pv1SegmentPlaceholder = "PV1_SEGMENT_PLACEHOLDER"
+
 // validExtensions defines which file extensions are valid for hardcoded messages.
 var validExtensions = []string{".yml", ".yaml"}
 
@@ -126,7 +130,7 @@ func parseFile(ctx context.Context, file files.File) (map[string]string, error) 
 // will be left as it is. If there aren't any messages that match the provided
 // regular expression or if the regular expression is malformed, this method
 // returns an error.
-func (m Manager) Message(toIncludeRegex string, p *ir.Person, t time.Time) (*message.HL7Message, error) {
+func (m Manager) Message(toIncludeRegex string, p *ir.PatientInfo, t time.Time) (*message.HL7Message, error) {
 	filtered := m.filterMessages(toIncludeRegex)
 	if len(filtered) == 0 {
 		return nil, fmt.Errorf("cannot get hardcoded message: no messages match the regular expression %q", toIncludeRegex)
@@ -177,12 +181,17 @@ func (m Manager) filterMessages(toIncludeRegex string) []string {
 	return filtered
 }
 
-func (m Manager) buildMessage(msg string, p *ir.Person, t time.Time) (*message.HL7Message, error) {
-	pid, err := message.BuildPID(p)
+func (m Manager) buildMessage(msg string, p *ir.PatientInfo, t time.Time) (*message.HL7Message, error) {
+	pid, err := message.BuildPID(p.Person)
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot build PID segment")
 	}
 	msg = strings.Replace(msg, pidSegmentPlaceholder, pid, 1)
+	pv1, err := message.BuildPV1(p)
+	if err != nil {
+		return nil, errors.Wrap(err, "cannot build PV1 segment")
+	}
+	msg = strings.Replace(msg, pv1SegmentPlaceholder, pv1, 1)
 	d, err := message.ToHL7Date(t)
 	if err != nil {
 		return nil, errors.Wrapf(err, "cannot convert %t to HL7 date", t)
