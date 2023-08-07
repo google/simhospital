@@ -24,7 +24,7 @@ import (
 	"strings"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/google/go-cmp/cmp/cmpopts"
+	"github.com/google/go-cmp/cmp/cmpopts/cmpopts"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 	"github.com/prometheus/client_golang/prometheus"
