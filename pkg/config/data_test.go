@@ -20,7 +20,7 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/google/go-cmp/cmp/cmpopts/cmpopts"
+	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/google/simhospital/pkg/ir"
 	"github.com/google/simhospital/pkg/sample"
 	"github.com/google/simhospital/pkg/test/testwrite"

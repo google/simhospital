@@ -24,7 +24,7 @@ import (
 	"time"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/google/go-cmp/cmp/cmpopts/cmpopts"
+	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/google/simhospital/pkg/test/testclock"
 	"github.com/google/simhospital/pkg/test/testlocation"
 	"github.com/google/simhospital/pkg/test/testwrite"
