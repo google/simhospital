@@ -22,9 +22,10 @@ again.
 
 ## Code reviews
 
-We don't accept submissions yet (we're hoping to change this soon) but we're
-happy to hear about any issues, feature requests or general feedback you might
-have on simulated-hospital-discuss@googlegroups.com.
+All submissions, including submissions by project members, require review. We
+use GitHub pull requests for this purpose. Consult
+[GitHub Help](https://help.github.com/articles/about-pull-requests/) for more
+information on using pull requests.
 
 ## Community Guidelines
 
