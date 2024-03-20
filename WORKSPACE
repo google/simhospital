@@ -131,6 +131,13 @@ go_repository(
 )
 
 go_repository(
+    name = "org_golang_x_sys",
+    importpath = "golang.org/x/sys",
+    sum = "h1:Af8nKPmuFypiUBjVoU9V20FiaFXOcuZI21p0ycVYYGE=",
+    version = "v0.16.0",
+)
+
+go_repository(
     name = "org_golang_x_net",
     importpath = "golang.org/x/net",
     sum = "h1:GuSPYbZzB5/dcLNCwLQLsg3obCJtX9IJhpXkvY7kzk0=",

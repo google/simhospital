@@ -5,7 +5,7 @@ steps:
   args: ['run', ':simhospital_container_image']
 # Re-tag the image to the public image tag.
 - name: gcr.io/cloud-builders/docker
-  args: ['tag', 'bazel:simhospital_container_image', 'eu.gcr.io/$PROJECT_ID/simhospital:latest']
+  args: ['tag', 'bazel:simhospital_container_image', 'us-central1-docker.pkg.dev/unity-ai-treehouse/treehouse-docker/simhospital-unityai:latest']
 # Push the image.
-images: ['eu.gcr.io/$PROJECT_ID/simhospital:latest']
+images: ['us-central1-docker.pkg.dev/unity-ai-treehouse/treehouse-docker/simhospital-unityai:latest']
 timeout: 1800s
